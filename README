@@ -15,3 +15,12 @@ This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0 to 3.1 escalatingly
 * There are some points where Object-Oriented model is corrupted. They should be fixed.
 * There are some places where hard-coded Japanese characters.
 
+== License
+
+MIT License.
+http://opensource.org/licenses/mit-license.php
+
+== Copyright
+
+Copyright (c) 2007-2011 Kazuya NUMATA.
+
