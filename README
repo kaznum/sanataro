@@ -12,8 +12,9 @@ This is built with Ruby on Rails 3.1.
 This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0 to 3.1 escalatingly, so there are lots of points to be fixed.
 * This depends on Prototype.js but jQuery is now defact standard in Rails, so want to adopt jQuery.
 * Now replacing test-unit codes with rspec/cucumber codes. There have been already replaced a lot of test-unit codes but there are still remainings.
-* There are some points where Object-Oriented model is corrupted. They should be fixed.
+* There are some points where Object-Oriented model is corrupted. They should be fixed.(especially, entities_controller.rb)
 * There are some places where hard-coded Japanese characters.
+* There are lots of old-fassion Rails2 ways which want to be changed to new-fassion ones.
 
 == License
 
