@@ -2499,94 +2499,127 @@ describe EntriesController do
 
         end
 
-        
-        pending("#update for item specに未変換")
-        it "test_update_item" do
 
-          old_item1 = items(:item1)
-          old_item11 = items(:item11)
-          old_adj2 = items(:adjustment2)
-          old_adj4 = items(:adjustment4)
-          old_adj6 = items(:adjustment6)
-          old_pl200712 = monthly_profit_losses(:bank1200712)
-          old_pl200801 = monthly_profit_losses(:bank1200801)
-          old_pl200802 = monthly_profit_losses(:bank1200802)
-          old_pl200803 = monthly_profit_losses(:bank1200803)
-          old_pl200712_out = monthly_profit_losses(:outgo3200712)
-          old_pl200801_out = monthly_profit_losses(:outgo3200801)
-          old_pl200802_out = monthly_profit_losses(:outgo3200802)
-          #old_pl200803_out = monthly_profit_losses(:outgo3200803)  # nil 存在しない
-          old_pl200803_out = nil
+        describe "update without change month" do
+          let(:old_item1) { items(:item1) }
+          context "when there are adjustment in the same and future month," do
+            let(:old_action_date) { old_item1.action_date }
+            before do 
+              @action = lambda { xhr :put, :update, :id => old_item1.id, :item_name => 'テスト10', :action_year => old_item1.action_date.year.to_s, :action_month => old_item1.action_date.month.to_s, :action_day => '18', :amount => "100000", :from => accounts(:bank1).id.to_s, :to => accounts(:outgo3).id.to_s, :year => 2008, :month => 2 }
+            end
 
-          today = Date.today
+            describe "response" do
+              before do
+                @action.call
+              end
+              subject {response}
+              it { should be_success }
+            end
 
-          # regular (action_date's month is not changed and future and same month's adjustment exists)
-          xhr :put, :update, :id=>items(:item1).id, :item_name=>'テスト10', :action_year=>old_item1.action_date.year.to_s, :action_month=>old_item1.action_date.month.to_s, :action_day=>'18', :amount=>"100000", :from=>accounts(:bank1).id.to_s, :to=>accounts(:outgo3).id.to_s, :year => 2008, :month => 2
-          assert_select_rjs :replace_html, :items, ''
-          assert_select_rjs :insert_html, :bottom, :items
-          assert_select_rjs :replace_html, :warning, 'Item was changed successfully.' + ' ' + Date.new(old_item1.action_date.year,old_item1.action_date.month,18).strftime("%Y/%m/%d") + ' ' + 'テスト10' + ' ' + CommonUtil.separate_by_comma(100000) + 'yen'
-          #assert_select_rjs :visual_effect, :highlight, 'item_' + items(:item1).id.to_s, :duration=>'1.0'
+            describe "updated item" do
+              before do
+                @action.call
+              end
+              subject { Item.find(old_item1.id)}
+              its(:name) { should == 'テスト10'}
+              its(:action_date) {should == Date.new(old_action_date.year, old_action_date.month, 18)}
+              its(:amount) { should == 100000 }
+              its(:from_account_id) { should == accounts(:bank1).id}
+              its(:to_account_id) { should == accounts(:outgo3).id}
+              it {should_not be_confirmation_required }
+            end
 
-          # データの整合性チェック
-          new1_item1 = Item.find(items(:item1).id)
-          new1_adj2 = Item.find(items(:adjustment2).id)
-          new1_adj4 = Item.find(items(:adjustment4).id)
-          new1_adj6 = Item.find(items(:adjustment6).id)
-          new1_pl200712 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200712).id)
-          new1_pl200801 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id)
-          new1_pl200802 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id)
-          new1_pl200803 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id)
-          new1_pl200712_out = MonthlyProfitLoss.find(monthly_profit_losses(:outgo3200712).id)
-          new1_pl200801_out = MonthlyProfitLoss.find(monthly_profit_losses(:outgo3200801).id)
-          new1_pl200802_out = MonthlyProfitLoss.find(monthly_profit_losses(:outgo3200802).id)
-          new1_pl200803_out = MonthlyProfitLoss.find(:first,
-                                                     :conditions=>["user_id = ? and account_id = ? and month = ?",
-                                                                   users(:user1).id, accounts(:outgo3).id,
-                                                                   Date.new(2008,3,1)])  # nil 存在しないはず
+            describe "adjustment which is in the same month" do 
+              let(:adj_id) { items(:adjustment2).id }
+              specify {
+                expect { @action.call }.should change{ Item.find(adj_id).amount }.by(100000 - old_item1.amount)
+              }
+            end
 
+            describe "adjustment which is in the next month or after" do 
+              let(:id4) { items(:adjustment4).id }
+              let(:id6) { items(:adjustment6).id }
+              specify {
+                expect { @action.call }.should_not change{ Item.find(id4).amount}
+              }
+              specify {
+                expect { @action.call }.should_not change{ Item.find(id6).amount}
+              }
+              
+            end
 
-          assert_equal 'テスト10', new1_item1.name
-          assert_equal Date.new(old_item1.action_date.year,old_item1.action_date.month,18), new1_item1.action_date
-          assert_equal 100000, new1_item1.amount
-          assert_equal accounts(:bank1).id, new1_item1.from_account_id
-          assert_equal accounts(:outgo3).id, new1_item1.to_account_id
-          assert (not new1_item1.confirmation_required?)
+            describe "profit losses of the months before the updated item" do
+              let(:in200712_id) { monthly_profit_losses(:bank1200712).id }
+              let(:in200801_id) { monthly_profit_losses(:bank1200801).id }
+              let(:out200712_id) { monthly_profit_losses(:outgo3200712).id }
+              let(:out200801_id) { monthly_profit_losses(:outgo3200801).id }
+              specify {
+                expect { @action.call }.should_not change{ MonthlyProfitLoss.find(in200712_id).amount}
+              }
+              specify {
+                expect { @action.call }.should_not change{ MonthlyProfitLoss.find(in200801_id).amount}
+              }
+              specify {
+                expect { @action.call }.should_not change{ MonthlyProfitLoss.find(out200712_id).amount}
+              }
+              specify {
+                expect { @action.call }.should_not change{ MonthlyProfitLoss.find(out200801_id).amount}
+              }
+            end
 
-          assert_equal old_adj2.amount - old_item1.amount + new1_item1.amount, new1_adj2.amount
-          assert_equal old_adj4.amount, new1_adj4.amount
-          assert_equal old_adj6.amount, new1_adj6.amount
-          assert_equal old_pl200712.amount, new1_pl200712.amount
-          assert_equal old_pl200801.amount, new1_pl200801.amount
-          assert_equal old_pl200802.amount, new1_pl200802.amount
-          assert_equal old_pl200803.amount, new1_pl200803.amount
-          assert_equal old_pl200712_out.amount, new1_pl200712_out.amount
-          assert_equal old_pl200801_out.amount, new1_pl200801_out.amount
-          assert_equal old_pl200802_out.amount - old_item1.amount + new1_item1.amount, new1_pl200802_out.amount
-          assert_nil new1_pl200803_out
+            describe "profit loss whose account has some adjustments in the same month (> day) as the updated item" do
+              let(:in200802_id) { monthly_profit_losses(:bank1200802).id }
+              specify {
+                expect { @action.call }.should_not change{ MonthlyProfitLoss.find(in200802_id).amount}
+              }
+            end
+          
+            describe "profit loss of the future months" do
+              context "when profit loss exists," do 
+                let(:in200803_id) { monthly_profit_losses(:bank1200803).id }
+                specify {
+                  expect { @action.call }.should_not change{ MonthlyProfitLoss.find(in200803_id).amount}
+                }
+              end
 
+              describe "when profit loss doesnot exist" do
+                before do
+                  @action.call
+                end
 
-          # regular (confirmation_required == true)
-          xhr :put, :update, :id=>items(:item1).id, :item_name=>'テスト10', :action_year=>old_item1.action_date.year.to_s, :action_month=>old_item1.action_date.month.to_s, :action_day=>'18', :amount=>"100000", :from=>accounts(:bank1).id.to_s, :to=>accounts(:outgo3).id.to_s, :confirmation_required => 'true', :year => 2008, :month => 2
-          item_confirm_required = Item.find_by_id(items(:item1).id)
-          assert item_confirm_required.confirmation_required?
+                subject { MonthlyProfitLoss.where(user_id: users(:user1).id, account_id: accounts(:outgo3).id, month: Date.new(2008,3,1)).first}
+                it { should be_nil }
+              end
+            end
+          end
 
-          # regular (タグにゅうりょく)
-          xhr :put, :update, :id=>items(:item1).id, :item_name=>'テスト10', :action_year=>old_item1.action_date.year.to_s, :action_month=>old_item1.action_date.month.to_s, :action_day=>'18', :amount=>"100000", :from=>accounts(:bank1).id.to_s, :to=>accounts(:outgo3).id.to_s, :confirmation_required => 'true', :tag_list => 'hoge fuga', :year => 2008, :month => 2
-          item_confirm_required = Item.find_by_id(items(:item1).id)
-          assert item_confirm_required.confirmation_required?
-          assert_equal 'hoge fuga'.split(" ").sort.join(" "), item_confirm_required.tag_list
-          tags = Tag.find_all_by_name('hoge')
-          assert_equal 1, tags.size
-          tags.each do |t|
-            taggings = Tagging.find_all_by_tag_id(t.id)
-            assert_equal 1, taggings.size
-            taggings.each do |tgg|
-              assert_equal users(:user1).id, tgg.user_id
-              assert_equal 'Item', tgg.taggable_type
+          context "when confirmation is true in HTML form," do 
+            before do 
+              @action = lambda { xhr :put, :update, :id=>old_item1.id, :item_name=>'テスト10', :action_year=>old_item1.action_date.year.to_s, :action_month=>old_item1.action_date.month.to_s, :action_day=>'18', :amount=>"100000", :from=>accounts(:bank1).id.to_s, :to=>accounts(:outgo3).id.to_s, :confirmation_required => 'true', :year => 2008, :month => 2
+                }
+            end
+
+            subject { Item.find_by_id(items(:item1).id) }
+            it { should be_confirmation_required }
+          end
+
+          describe "when tags are input," do
+            before do
+              @action = lambda { xhr :put, :update, :id=>old_item1.id, :item_name=>'テスト10', :action_year=>old_item1.action_date.year.to_s, :action_month=>old_item1.action_date.month.to_s, :action_day=>'18', :amount=>"100000", :from=>accounts(:bank1).id.to_s, :to=>accounts(:outgo3).id.to_s, :confirmation_required => 'true', :tag_list => 'hoge fuga', :year => 2008, :month => 2 }
+            end
+
+            describe "tags" do
+              before do
+                @action.call
+              end
+
+              subject { Item.find(old_item1.id)}
+              its(:tag_list) { should == 'fuga hoge'}
             end
           end
         end
         
+        pending("#update for item specに未変換")
         # regular (action_date's month is not changed, but day is changed from before-adj to after-adj
         # and future-same month's adjustment DOES NOT exists)
         it "test_update_item_from_before_adj2_to_after_adj4" do
