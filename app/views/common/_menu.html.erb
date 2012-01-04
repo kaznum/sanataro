@@ -1,0 +1,15 @@
+<% if params[:year].blank? || params[:month].blank? 
+      e_path = current_entries_path
+      pl_path = current_profit_losses_path
+      bs_path = current_balance_sheets_path
+   else 
+      e_path = entries_path(params[:year], params[:month]) 
+      pl_path = profit_losses_path(params[:year], params[:month]) 
+      bs_path = balance_sheets_path(params[:year], params[:month]) 
+   end -%>
+<%= params[:controller] == 'entries' ? link_to(_('items'), e_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(_('items'),e_path) -%>
+<%= params[:controller] == 'profit_losses' ? link_to(_('Profit/Loss'), pl_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(_('Profit/Loss'),pl_path) -%>
+<%= params[:controller] == 'balance_sheets' ? link_to(_('Balance'), bs_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(_('Balance'), bs_path)  -%>
+<%= link_to _('Configuration'), settings_accounts_path -%>
+<%= link_to _('Simple Input'), new_current_entry_path(:entry_type=>'simple') -%>
+<%= link_to _('Logout'), logout_path, {:confirm=>_('Do you really logout now?')} -%>

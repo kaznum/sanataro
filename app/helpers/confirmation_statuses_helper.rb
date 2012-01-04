@@ -1,0 +1,2 @@
+module ConfirmationStatusesHelper
+end

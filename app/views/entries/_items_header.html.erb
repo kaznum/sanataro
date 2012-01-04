@@ -1,0 +1,20 @@
+<%
+all_acnts = Array.new
+(@separated_accounts[:outgo_ids] + @separated_accounts[:account_ids] + @separated_accounts[:income_ids]).each do |a|
+	all_acnts.push [@separated_accounts[:all_accounts][a], a]
+end
+
+if params[:year].blank? || params[:month].blank?
+  year = today.year
+  month = today.month
+else
+  year = params[:year].to_i
+  month = params[:month].to_i
+end
+%>
+<div class="item_date item_date_header">日付</div>
+<div class="item_name item_name_header">説明</div>
+<div class="item_from_to_header">出金 =&gt; 入金<% unless @tag -%><br/><%= select_tag('filter_account_id', options_for_select([[_("-- No Filter --"), '']] + all_acnts, session[:filter_account_id]), :onchange=>remote_function(:url => entries_path(:year => year, :month => month), :method => :get, :with=> "'filter_account_id='+escape($F('filter_account_id'))")) %><% end -%></div>
+<div class="item_amount item_amount_header">金額</div>
+<div class="item_operation item_operation_header">操作</div>
+<div class="reset"></div>

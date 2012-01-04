@@ -1,0 +1,494 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: version 0.0.1\n"
+"POT-Creation-Date: 2011-04-14 12:23+0900\n"
+"PO-Revision-Date: 2009-01-05 23:17-0800\n"
+"Last-Translator: Admin <kaz@nu-chon.org>\n"
+"Language-Team: Japanese <kaz@nu-chon.org>\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: app/models/user.rb:20
+msgid "%{fn[:attribute]} has already been used. Input another UserID."
+msgstr "%{fn}はすでに使用されています。別のユーザ名を入力してください。"
+
+#: app/models/user.rb:28
+msgid "%{fn[:password_plain]} is not same."
+msgstr "%{fn}は同じ値でなければなりません。"
+
+#: app/models/user.rb:46
+msgid "(unknown)"
+msgstr "(不明)"
+
+#: app/views/entries/_items_header.html.erb:17
+msgid "-- No Filter --"
+msgstr "-- フィルタなし --"
+
+#: app/views/entries/_remains_link.html.erb:3
+#: app/views/entries/_remains_link.html.erb:5
+#: app/views/entries/_remains_link.html.erb:7
+msgid ">> Show All"
+msgstr ">> すべて表示する"
+
+#: locale/model_attributes.rb:18
+msgid "Account|Account type"
+msgstr ""
+
+#: locale/model_attributes.rb:20
+msgid "Account|Bgcolor"
+msgstr "背景色"
+
+#: locale/model_attributes.rb:17
+msgid "Account|Is active"
+msgstr "有効"
+
+#: locale/model_attributes.rb:16
+msgid "Account|Name"
+msgstr "項目名"
+
+#: locale/model_attributes.rb:19
+msgid "Account|Order no"
+msgstr "並順"
+
+#: app/controllers/entries_controller.rb:312
+#: app/controllers/entries_controller.rb:437
+#: app/controllers/entries_controller.rb:649
+#: app/views/entries/_add_adjustment.html.erb:1
+msgid "Adjustment"
+msgstr "残高調整"
+
+#: app/controllers/entries_controller.rb:263
+#: app/controllers/entries_controller.rb:363
+#: app/controllers/entries_controller.rb:540
+#: app/controllers/entries_controller.rb:707
+msgid "Amount is invalid."
+msgstr "金額が不正です。"
+
+#: app/views/entries/_add_item.html.erb:6
+msgid "Amount:"
+msgstr "金額:"
+
+#: locale/model_attributes.rb:14
+msgid "AutologinKey|Enc autologin key"
+msgstr ""
+
+#: app/views/settings/_config_menu.html.erb:6
+msgid "Back"
+msgstr "家計簿に戻る"
+
+#: app/views/common/_menu.html.erb:12
+msgid "Balance"
+msgstr "口座残高"
+
+#: app/views/entries/_add_adjustment.html.erb:4
+msgid "Balance:"
+msgstr "残高:"
+
+#: app/views/settings/_config_menu.html.erb:1
+msgid "Bank Account"
+msgstr "銀行口座"
+
+#: app/controllers/stat_controller.rb:324
+msgid "Benefit of the month"
+msgstr "月間利益/損失"
+
+#: app/views/settings/users/show.html.erb:14
+msgid "Change"
+msgstr "変更"
+
+#: app/views/login/login.html.erb:17
+msgid "Click here to create a user account."
+msgstr "ユーザアカウントを作成するにはこちらをクリックしてください。"
+
+#: app/views/common/_menu.html.erb:13
+msgid "Configuration"
+msgstr "設定"
+
+#: app/views/login/confirmation.html.erb:1
+msgid "Congraturations! Your account has been activated."
+msgstr "おめでとうございます! アカウントが有効になりました。"
+
+#: app/views/entry_candidates/_candidate.html.erb:1
+msgid "Copy"
+msgstr "コピー"
+
+#: app/views/login/create_user.html.erb:14
+msgid "Create"
+msgstr "作成"
+
+#: app/views/settings/_config_menu.html.erb:4
+msgid "Credit Card Payment"
+msgstr "クレジットカード設定"
+
+#: locale/model_attributes.rb:33
+msgid "CreditRelation|Payment day"
+msgstr "引き落とし日"
+
+#: locale/model_attributes.rb:32
+msgid "CreditRelation|Payment month"
+msgstr "引き落とし日"
+
+#: locale/model_attributes.rb:31
+msgid "CreditRelation|Settlement day"
+msgstr "締日"
+
+#: app/models/item.rb:47
+msgid "Date has to be after the year 2006."
+msgstr "日付は2006年以降でなければなりません。"
+
+#: app/views/entries/_add_item.html.erb:3
+msgid "Day"
+msgstr "日付"
+
+#: app/views/common/_menu.html.erb:15
+#: app/views/settings/_config_menu.html.erb:7
+msgid "Do you really logout now?"
+msgstr "本当にログアウトしますか?"
+
+#: app/views/login/create_user.html.erb:11
+#: app/views/settings/users/show.html.erb:9
+msgid "Email"
+msgstr ""
+
+#: app/views/login/confirmation.html.erb:2
+msgid "Go to Login Page to login!"
+msgstr "ログインページへお進みください!"
+
+#: app/views/settings/_config_menu.html.erb:2
+msgid "Income"
+msgstr "収入"
+
+#: app/views/entries/_add_item.html.erb:3
+msgid "Input explanation"
+msgstr "説明を入力"
+
+#: app/views/settings/users/show.html.erb:7
+msgid "Input new password and the same password in confirmation field."
+msgstr ""
+"新パスワードを入力してください。「新パスワード(確認)」には同じパスワードを入"
+"力してください。"
+
+#: app/controllers/entries_controller.rb:328
+#: app/controllers/entries_controller.rb:407
+#: app/controllers/settings/users_controller.rb:29
+msgid "Input value is incorrect"
+msgstr "入力値が不正です。"
+
+#: app/controllers/entries_controller.rb:657
+#: app/controllers/entries_controller.rb:828
+msgid "Input value is incorrect."
+msgstr "入力値が不正です。"
+
+#: app/views/layouts/entries.html.erb:39
+msgid ""
+"It seems that Cookie is not accepted by your browser.<br/>This site has to "
+"be used with Coocie-Acceptable web browser.<br/>Please make the browser "
+"accept Cookie. Thank you."
+msgstr ""
+"あなたがご利用のブラウザは、現在Cookieを受け付けない設定になっています。<br/>"
+"本サイトをご利用いただくにはブラウザ設定でCookieを受け付けるよう設定してくだ"
+"さい。"
+
+#: app/views/layouts/entries.html.erb:44
+msgid ""
+"It seems that JavaScript function is off in your browser configuration.<br/"
+">This site has to be used with JavaScript-enabled web browser.<br/>Please "
+"make JavaScript enabled. Thank you."
+msgstr ""
+"あなたがご利用のブラウザは、現在JavaScriptが無効になっています。<br/>本サイト"
+"をご利用いただくにはブラウザ設定でJavaScriptを有効にしてください。"
+
+#: app/controllers/entries_controller.rb:312
+#: app/controllers/entries_controller.rb:376
+#: app/controllers/entries_controller.rb:387
+msgid "Item was added successfully."
+msgstr "項目が登録されました。"
+
+#: app/controllers/entries_controller.rb:648
+#: app/controllers/entries_controller.rb:792
+#: app/controllers/entries_controller.rb:813
+msgid "Item was changed successfully."
+msgstr "項目が変更されました。"
+
+#: app/controllers/entries_controller.rb:436
+#: app/controllers/entries_controller.rb:472
+msgid "Item was deleted successfully."
+msgstr "項目が削除されました。"
+
+#: locale/model_attributes.rb:6
+msgid "Item|Action date"
+msgstr "日付"
+
+#: locale/model_attributes.rb:8
+msgid "Item|Adjustment amount"
+msgstr "調整金額"
+
+#: locale/model_attributes.rb:5
+msgid "Item|Amount"
+msgstr "金額"
+
+#: locale/model_attributes.rb:9
+msgid "Item|Confirmation required"
+msgstr "要確認"
+
+#: locale/model_attributes.rb:4
+msgid "Item|Currency"
+msgstr "通貨"
+
+#: app/models/item.rb:16
+msgid "Item|Day"
+msgstr "日"
+
+#: locale/model_attributes.rb:7
+msgid "Item|Is adjustment"
+msgstr "調整"
+
+#: app/models/item.rb:15
+msgid "Item|Month"
+msgstr "月"
+
+#: locale/model_attributes.rb:3
+msgid "Item|Name"
+msgstr "説明"
+
+#: app/models/item.rb:14
+msgid "Item|Year"
+msgstr "年"
+
+#: app/views/login/login.html.erb:19
+msgid "Let's try!"
+msgstr "さぁ! 試してみよう!"
+
+#: app/views/entries/index.html.erb:18
+#: app/views/entries/index_with_mark.html.erb:8
+#: app/views/entries/index_with_tag.html.erb:8
+msgid "List of Income/Outgo"
+msgstr "収支一覧"
+
+#: app/views/login/login.html.erb:1 app/views/login/login.html.erb:11
+msgid "Login"
+msgstr "ログイン"
+
+#: app/views/login/login.html.erb:9
+msgid "Login automatically next time"
+msgstr "次回から自動ログインする"
+
+#: app/views/common/_menu.html.erb:15
+#: app/views/settings/_config_menu.html.erb:7
+msgid "Logout"
+msgstr "ログアウト"
+
+#: locale/model_attributes.rb:29
+msgid "MonthlyProfitLoss|Amount"
+msgstr "金額"
+
+#: locale/model_attributes.rb:28
+msgid "MonthlyProfitLoss|Month"
+msgstr "月"
+
+#: app/views/settings/users/show.html.erb:10
+msgid "New Password"
+msgstr "新パスワード"
+
+#: app/views/settings/users/show.html.erb:11
+msgid "New Password(Confirmation)"
+msgstr "新パスワード(確認)"
+
+#: app/views/login/confirmation_error.html.erb:1
+msgid "Oops! Something is wrong."
+msgstr "何かがおかしいです。"
+
+#: app/views/settings/_config_menu.html.erb:3
+msgid "Outgo"
+msgstr "支出"
+
+#: app/views/login/create_user.html.erb:9 app/views/login/login.html.erb:6
+msgid "Password"
+msgstr "パスワード"
+
+#: app/views/login/create_user.html.erb:10
+msgid "Password Confirmation"
+msgstr "パスワード(確認)"
+
+#: app/views/common/_menu.html.erb:11
+msgid "Profit/Loss"
+msgstr "収支集計"
+
+#: app/views/entries/_add_adjustment.html.erb:5
+#: app/views/entries/_add_item.html.erb:7
+msgid "Register"
+msgstr "登録"
+
+#: app/views/entries/_add_item.html.erb:1
+msgid "Register Adjustment"
+msgstr "残高調整の登録"
+
+#: app/views/entries/_add_adjustment.html.erb:1
+#: app/views/entries/_add_item.html.erb:1
+msgid "Register Income/Outgo"
+msgstr "収入/支出の登録"
+
+#: app/views/entries/_add_adjustment.html.erb:3
+msgid "Select an account to adjust amount."
+msgstr "残高調整する口座を選択してください。"
+
+#: app/views/login/login.html.erb:10
+msgid "Show simple input form"
+msgstr "簡易入力フォームを表示(iPhone/iPod touch/PDA向け)"
+
+#: app/views/common/_menu.html.erb:14
+msgid "Simple Input"
+msgstr "簡易入力"
+
+#: locale/model_attributes.rb:35
+msgid "Tagging|Taggable type"
+msgstr ""
+
+#: locale/model_attributes.rb:11
+msgid "Tag|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:12
+msgid "Tag|Taggings count"
+msgstr ""
+
+#: app/views/login/login.html.erb:16
+msgid "To one who does not have a user account."
+msgstr "ユーザアカウントをお持ちでない方"
+
+#: app/controllers/stat_controller.rb:329
+msgid "Total of Income"
+msgstr "収入合計"
+
+#: app/controllers/stat_controller.rb:334
+msgid "Total of Outgo"
+msgstr "支出合計"
+
+#: app/controllers/stat_controller.rb:319
+msgid "Unknown"
+msgstr "不明"
+
+#: app/controllers/stat_controller.rb:47
+msgid "Unknown Income"
+msgstr "不明収入"
+
+#: app/controllers/stat_controller.rb:82
+msgid "Unknown Outgo"
+msgstr "不明支出"
+
+#: app/views/login/create_user.html.erb:8 app/views/login/login.html.erb:5
+msgid "User"
+msgstr "ユーザ"
+
+#: app/views/settings/_config_menu.html.erb:5
+msgid "User Info"
+msgstr "ユーザ情報"
+
+#: app/controllers/login_controller.rb:22
+msgid "UserID or Password is incorrect."
+msgstr "ユーザID、もしくは、パスワードが正しくありません。"
+
+#: locale/model_attributes.rb:26
+msgid "User|Confirmation"
+msgstr "確認"
+
+#: locale/model_attributes.rb:25
+msgid "User|Email"
+msgstr "Eメール"
+
+#: locale/model_attributes.rb:24
+msgid "User|Is active"
+msgstr "有効フラグ"
+
+#: locale/model_attributes.rb:22
+msgid "User|Login"
+msgstr "ログインID"
+
+#: locale/model_attributes.rb:23
+msgid "User|Password"
+msgstr "パスワード"
+
+#: app/models/user.rb:10
+msgid "User|Password confirmation"
+msgstr "パスワード(確認)"
+
+#: app/models/user.rb:9
+msgid "User|Password plain"
+msgstr "パスワード"
+
+#: app/views/login/login.html.erb:20
+msgid "You can login as demo user. <br/>User: demo Password: demo123"
+msgstr ""
+"デモユーザを御用意しました。<br>ユーザ: demo パスワード: demo123 でお試しいた"
+"だけます。"
+
+#: app/views/login/confirmation_error.html.erb:2
+msgid ""
+"Your account has not been activated.<br/>Please check the email sent by this "
+"system"
+msgstr ""
+"まだアカウントが有効になっていません。<br/>本システムより送信されたEメールを"
+"チェックしてください。"
+
+#: locale/model_attributes.rb:15
+msgid "account"
+msgstr "項目"
+
+#: app/views/entries/_add_item.html.erb:6
+msgid "amount"
+msgstr "金額"
+
+#: locale/model_attributes.rb:13
+msgid "autologin key"
+msgstr ""
+
+#: locale/model_attributes.rb:30
+msgid "credit relation"
+msgstr ""
+
+#: locale/model_attributes.rb:2
+msgid "item"
+msgstr "収支名"
+
+#: app/views/common/_menu.html.erb:10
+msgid "items"
+msgstr "収支入力"
+
+#: locale/model_attributes.rb:27
+msgid "monthly profit loss"
+msgstr "月別収支"
+
+#: locale/model_attributes.rb:10
+msgid "tag"
+msgstr ""
+
+#: locale/model_attributes.rb:34
+msgid "tagging"
+msgstr ""
+
+#: locale/model_attributes.rb:21
+msgid "user"
+msgstr "ユーザ"
+
+#: app/controllers/entries_controller.rb:312
+#: app/controllers/entries_controller.rb:376
+#: app/controllers/entries_controller.rb:387
+#: app/controllers/entries_controller.rb:438
+#: app/controllers/entries_controller.rb:474
+#: app/controllers/entries_controller.rb:650
+#: app/controllers/entries_controller.rb:794
+#: app/controllers/entries_controller.rb:813
+#: app/views/entries/_add_adjustment.html.erb:4
+#: app/views/entries/_add_item.html.erb:6
+msgid "yen"
+msgstr "円"
+

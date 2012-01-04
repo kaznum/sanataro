@@ -1,0 +1,1 @@
+page.replace_html :input_item_area, :partial => 'add_adjustment', :locals=> { :date => @action_date }

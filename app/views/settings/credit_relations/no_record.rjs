@@ -1,0 +1,5 @@
+page.replace_html :warning, ''
+page.replace_html :credit_relations, ''
+@credit_relations.each do |cr|
+  page.insert_html :bottom, :credit_relations, :partial => 'show', :locals => { :cr => cr }
+end

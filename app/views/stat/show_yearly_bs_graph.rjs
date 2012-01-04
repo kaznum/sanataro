@@ -1,0 +1,3 @@
+page.replace :account_history, :partial => "yearly_bs_graph", :locals => { :url => @url, :graph_id => @graph_id }
+page.hide "account_yearly_history_img_#{@graph_id}"
+page.visual_effect :appear, "account_yearly_history_img_#{@graph_id}", :duration => '0.3'

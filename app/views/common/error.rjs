@@ -1,0 +1,21 @@
+id = @error_rjs_params[:id]
+errors = @error_rjs_params[:errors]
+default_msg = @error_rjs_params[:default_message]
+before = @error_rjs_params[:before]
+after = @error_rjs_params[:after]
+
+page << before if before
+
+page[id].set_style :color => 'red'
+if errors.nil? || errors.empty?
+  page.replace_html id, default_msg
+else
+  error_str = ''
+  errors.to_a.each do |msg|
+    error_str.concat msg + '<br/>'
+  end
+  page.replace_html id, error_str
+end
+page.visual_effect :pulsate, id, :duration => PULSATE_DURATION
+
+page << after if after

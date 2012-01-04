@@ -1,0 +1,65 @@
+converter = lambda { |page, q, inblock=false|
+
+  args = []
+  if q[:command] == :set_style
+    page[q[:id]].set_style :color => q[:color]
+  elsif q[:command] == :plain
+    page << q[:body]
+  else
+    case q[:command]
+    when :replace_html
+      if q[:body]
+        args = [:replace_html, q[:id], q[:body]]
+      elsif q[:partial]
+        if q[:locals]
+          args = [:replace_html, q[:id], :partial => q[:partial], :locals => q[:locals]]
+        else
+          args = [:replace_html, q[:id], :partial => q[:partial]]
+        end
+      end
+    when :visual_effect
+      args = [:visual_effect, q[:effect], q[:id], :duration => q[:duration]]
+    when :remove
+      args = [:remove, q[:id]]
+    when :replace
+      if q[:body]
+        args = [:replace,  q[:id], q[:body]]
+      elsif q[:partial]
+        if q[:locals]
+          args = [:replace, q[:id], :partial => q[:partial], :locals => q[:locals]]
+        else
+          args = [:replace, q[:id], :partial => q[:partial]]
+        end
+      end
+    when :insert_html
+      if q[:body]
+        args = [:insert_html, q[:position], q[:id], q[:body]]
+      elsif q[:partial]
+        if q[:locals]
+          args = [:insert_html, q[:position], q[:id], :partial => q[:partial], :locals => q[:locals]]
+        else
+          args = [:insert_html, q[:position], q[:id], :partial => q[:partial]]
+        end
+      end
+    end
+    args.delete(:id) if inblock
+    page.__send__(*args)
+  end
+}
+
+@renderer_queues.each do |q|
+  if q[:delay]
+    page.delay(q[:delay].seconds) do
+      converter.call(page, q, false)
+    end
+  elsif q[:command] == :select
+    page.select(q[:id]).each do |subpage|
+      q[:blocks].each do |child|
+        converter.call(subpage, child, true)
+      end
+    end
+  else
+    converter.call(page, q, false)
+  end
+end
+

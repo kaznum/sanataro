@@ -1,0 +1,5 @@
+if @item.is_adjustment
+  page.replace 'item_' + @item.id.to_s, :partial => 'edit_adjustment', :locals => {:item => @item }
+else
+  page.replace 'item_' + @item.id.to_s, :partial => 'edit_item', :locals => {:item => @item }
+end

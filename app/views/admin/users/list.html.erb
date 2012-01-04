@@ -1,0 +1,19 @@
+<h1><%=h PRODUCT_NAME %> users list</h1>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>login</th>
+    <th>created</th>
+    <th>updated</th>
+    <th>active</th>
+  </tr>
+  <% @users.each do |u| -%>
+    <tr>
+      <td><%=h u.id %></td>
+      <td><%=h u.login %></td>
+      <td><%=h u.created_at.nil? ? '' : u.created_at.strftime("%Y/%m/%d %H:%M:%S") %></td>
+      <td><%=h u.updated_at.nil? ? '' : u.updated_at.strftime("%Y/%m/%d %H:%M:%S") %></td>
+      <td><%=h u.is_active? %></td>
+    </tr>
+  <% end -%>
+</table>

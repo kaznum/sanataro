@@ -1,0 +1,11 @@
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/**/*
+coverage
+app/assets/stylesheets/.sass-cache
+.sass-cache
+Capfile
+config/deploy.rb
+config/database.yml
+.rspec

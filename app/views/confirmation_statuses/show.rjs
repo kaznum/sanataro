@@ -1,0 +1,2 @@
+page.replace_html :confirmation_status, :partial => 'show'
+page.visual_effect :slide_down, :confirmation_status_body, :duration => '0.2'

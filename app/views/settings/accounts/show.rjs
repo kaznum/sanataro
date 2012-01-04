@@ -1,0 +1,2 @@
+page << "cp_#{@account.id}.close();"
+page.replace "account_#{@account.id}", :partial=>'show', :locals => { :account => @account }

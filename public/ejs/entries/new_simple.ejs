@@ -1,0 +1,17 @@
+<div><img src="/assets/logo-s.gif" alt="家計簿 さな太郎" /></div>
+<div>
+<div id="add_item_only_input">
+<form action="/main/do_add_item" id="do_add_item" method="post" onsubmit="$('new_add_button').disabled = true; new Ajax.Request('/entries', {asynchronous:true, evalScripts:true, method:'post', onComplete:function(request){$('new_add_button').disabled = false}, parameters:Form.serialize(this)}); return false;">
+<div class="vl"><input id="year" name="action_year" type="text" value="<%= year %>"  placeholder="年"/>年<input id="month" name="action_month"  type="text" value="<%= month %>"  placeholder="月"/>月<input id="day" name="action_day" placeholder="日"  type="text" value="<%= day %>" />日</div><div class="reset"></div>
+<div class="vl"><input id="item_name" name="item_name" placeholder="説明を入力" type="text" /><div id="candidates"></div></div><div class="reset"></div>
+<div class="vl"><%= select_tag('from', null, from_accounts) %><br/>▽▽▽<br/><%= select_tag('to', null, to_accounts) %></div><div class="reset"></div>
+<div class="vl"><input id="amount" name="amount" placeholder="金額" style="text-align: right;" type="text" />円 <input id="confirmation_required" name="confirmation_required" type="checkbox" value="true" />要確認</div><div class="reset"></div>
+<input id="only_add" name="only_add" type="hidden" value="true" />
+<input id="authenticity_token" name="authenticity_token" type="hidden" value="<%= authenticity_token %>" />
+<div id="warning" class="w"></div>
+<div class="plain"><input id="new_add_button" name="commit" type="submit" value="登録" /></div>
+</form>
+</div>
+</div>
+<div class="m"><a href="/entries">収支一覧</a> | <a href="/logout">ログアウト</a></div>
+<div class="f">Copyright &copy; 2007-2008 nu-chon.org. All rights are reserved.</div>

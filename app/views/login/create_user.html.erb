@@ -1,0 +1,16 @@
+<div id="warning"></div>
+<div id="inputarea">
+<p>作成するユーザ名とパスワードを入力してください。</p>
+<p>ユーザ名は3文字以上10文字以下、パスワードは6文字以上10文字以下でなければなりません。</p>
+<p>使用できる文字は、半角英数字、-, _です。</p>
+<%= form_tag url_for(:action => 'do_create_user'), :remote => true, :before=>"$('create_button').disabled = true", :complete=>"$('create_button').disabled = false" do -%>
+<table>
+<tr><th><%= _('User') %></th><td><%= text_field_tag 'login' %></td></tr>
+<tr><th><%= _('Password') %></th><td><%= password_field_tag 'password_plain' %></td></tr>
+<tr><th><%= _('Password Confirmation') %></th><td><%= password_field_tag 'password_confirmation' %></td></tr>
+<tr><th><%= _('Email') %></th><td><%= text_field_tag 'email' %></td></tr>
+</table>
+<br/>
+<%= submit_tag _('Create'), :id=>'create_button' %>
+<% end -%>
+</div>

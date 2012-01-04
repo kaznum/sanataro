@@ -1,0 +1,5 @@
+<%= form_tag settings_accounts_path, :remote => true, :method => :post, :before=>"$('submit_button').disabled = true", :complete=>"$('submit_button').disabled = false" do -%>
+<%= '口座名' if @account_type == 'account' %><%= '支出項目名' if @account_type == 'outgo' %><%= '収入項目名' if @account_type == 'income' %>:<%= text_field_tag :account_name, nil, :size=>20 %> 並順:<%= text_field_tag :order_no, nil, :size=>3 %><%= hidden_field_tag :account_type, @account_type -%>
+<%= submit_tag '登録', :id=>"submit_button"  %>
+<% end -%>
+<div id="add_warning" class="warning"></div>

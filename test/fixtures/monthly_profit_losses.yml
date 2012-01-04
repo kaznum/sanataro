@@ -1,0 +1,85 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+bank1200712:
+  id: 1
+  user_id: 1
+  month: 2007/12/01
+  account_id: 1
+  amount: 5000
+
+bank1200801:
+  id: 2
+  user_id: 1
+  month: 2008/01/01
+  account_id: 1
+  amount: 3000
+
+bank1200802:
+  id: 3
+  user_id: 1
+  month: 2008/02/01
+  account_id: 1
+  amount: 5900
+
+bank1200803:
+  id: 4
+  user_id: 1
+  month: 2008/03/01
+  account_id: 1
+  amount: -1000
+
+outgo3200712:
+  id: 11
+  user_id: 1
+  month: 2007/12/1
+  account_id: 3
+  amount: 300
+
+outgo3200801:
+  id: 12
+  user_id: 1
+  month: 2008/01/01
+  account_id: 3
+  amount: 3000
+
+outgo3200802:
+  id: 13
+  user_id: 1
+  month: 2008/02/01
+  account_id: 3
+  amount: 15100
+
+#outgo3200803:
+#  id: 14
+#  user_id: 1
+#  month: 2008/03/01
+#  account_id: 3
+#  amount: 0
+
+outgo3200804:
+  id: 15
+  user_id: 1
+  month: 2008/04/01
+  account_id: 3
+  amount: 500
+
+bank1200804:
+  id: 16
+  user_id: 1
+  month: 2008/04/01
+  account_id: 1
+  amount: -500
+
+bank1200802-2:
+  id: 51
+  user_id: 2
+  month: 2008/02/01
+  account_id: 51
+  amount: 5900
+
+outgo3200802-2:
+  id: 61
+  user_id: 2
+  month: 2008/02/01
+  account_id: 51
+  amount: 5900
+

@@ -1,0 +1,104 @@
+<%
+  if params[:year].blank? || params[:month].blank?
+     cur_year = today.year
+     cur_month = today.month
+   else
+     cur_year = params[:year].to_i
+     cur_month = params[:month].to_i
+   end
+-%>
+<%= javascript_include_tag "piechart" %>
+<script type="text/javascript">
+  window.onload = function() {
+    jQuery.ajax({
+      url: "<%=raw api_asset_path(:id => sprintf("%04d%02d", cur_year, cur_month), :format => :json) %>",
+      type: "GET",
+      dataType: "json",
+      success: function(data){ pieChart("asset_chart", data); }
+    });
+    jQuery.ajax({
+      url: "<%=raw api_asset_path(:id => sprintf("%04d%02d", cur_year, cur_month), :asset_type => 'debt', :format => :json) %>",
+      type: "GET",
+      dataType: "json",
+      success: function(data){ pieChart("debt_chart", data); }
+    });
+  };
+</script>
+<div id='monthlist'>
+<%
+   calendar_from_date = calendar_from(@user)
+   calendar_to_date = calendar_to(@user)
+-%><%= monthlist(calendar_from_date.year, calendar_from_date.month, calendar_to_date.year, calendar_to_date.month,cur_year, cur_month,'index') %>
+</div>
+
+<div id='menu'>
+<%= render :partial => 'common/menu' %>
+</div>
+
+<div id="bslist">
+  <table>
+    <tr>
+      <td style="vertical-align:top">
+	<table>
+	  <tr>
+	    <td style="vertical-align:top" style="vertical-align:top">
+	      <table width="300">
+		<tr><th class="table_header">口座</th><th class="table_header">金額</th><th>%</th></tr>
+		<tr><th  class="table_header" colspan="3"><%=h @this_month.year %>年<%=h @this_month.month %>月資産の部</th></tr>
+		<% @plus.each do |a, amount| %>
+		  <tr>
+		    <td class="title"><%=h a.name %> [<%= link_to '出納帳', (params[:year].blank? || params[:month].blank?) ? current_balance_sheet_path(a.id) : balance_sheet_path(params[:year], params[:month], a.id), :method => :get, :remote => true %>][<%= link_to '推移', {:controller => 'stat', :action=>'show_yearly_bs_graph', :account_id=>a.id, :year => @this_month.year, :month => @this_month.month}, :remote => true %>]</td>
+		    <td class="money"><%= CommonUtil.separate_by_comma(amount) %>円</td>
+		    <td class="percent"><%= (@total_plus == 0) ? '*' : amount * 100 / @total_plus %>%</td>
+		  </tr>
+		<% end %>
+		<tr>
+		  <td class="total">資産合計</td><td class="total money"><%=h CommonUtil.separate_by_comma(@total_plus) %>円</td>
+		  <td class="percent">100%</td>
+		</tr>
+	      </table>
+	    </td>
+	    <td style="vertical-align:top">
+	      <table width="300">	
+		<tr><th class="table_header">口座</th><th class="table_header">金額</th><th>%</th></tr>
+		<tr><th class="table_header" colspan="3"><%=h @this_month.year %>年<%=h @this_month.month %>月負債の部</th></tr>
+		<% @minus.each do |a, amount| %>
+		  <tr>
+		    <td class="title"><%=h a.name %> [<%= link_to '出納帳', url_for((params[:year].blank? || params[:month].blank?) ? current_balance_sheet_path(a.id) : balance_sheet_path(params[:year], params[:month], a.id)), :method => :get, :remote => true %>][<%= link_to '推移', url_for(:controller => 'stat', :action=>'show_yearly_bs_graph', :account_id=>a.id, :year => @this_month.year, :month => @this_month.month), :remote => true %>]</td>
+		    <td class="money"><%=h CommonUtil.separate_by_comma((-1)*amount) %>円</td>
+		    <td class="percent"><%=h (@total_minus == 0) ? '*' :amount * 100 / @total_minus %>%</td>
+		  </tr>
+		<% end %>
+		<tr>
+		  <td class="total">負債合計</td>
+		  <td class="total money"><%=h CommonUtil.separate_by_comma((-1)*@total_minus) %>円</td><td class="money">100%</td></tr>
+		<tr>
+		  <th class="table_header" colspan="3"><%=h @this_month.year %>年<%=h @this_month.month %>月資本の部</th>
+		</tr>
+		<tr>
+		  <td class="total">資本合計 [<%= link_to '推移', url_for(:controller => 'stat', :action=>'show_yearly_bs_graph', :type => 'total', :year => @this_month.year, :month => @this_month.month), :remote => true %>]</td>
+		  <td class="total money"><%=h CommonUtil.separate_by_comma(@total_plus + @total_minus) %>円</td>
+		  <td class="percent">100%</td>
+		</tr>
+	      </table>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td class="total_capital">総資産: <%=h CommonUtil.separate_by_comma(@total_plus) %>円</td>
+	    <td class="total_capital">総資本: <%=h CommonUtil.separate_by_comma(@total_plus) %>円</td>
+	  </tr>
+	</table>
+	<div id="account_history"></div>
+      </td>
+      <td style="vertical-align:top">
+	<div id="asset_graph">
+	  <div class="chart_title">■資産 <span id="asset_chart_hover"></span></div>
+	  <div id="asset_chart" class="graph" style="width: 300px; height: 200px"></div>
+	  <div class="spacer">&nbsp;</div>
+	  <div class="chart_title">■負債 <span id="debt_chart_hover"></span></div>
+	  <div id="debt_chart" class="graph" style="width: 300px; height: 200px"></div>
+	</div>
+      </td>
+    </tr>
+  </table>
+</div><!-- bslist -->

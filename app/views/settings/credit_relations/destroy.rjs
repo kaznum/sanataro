@@ -1,0 +1,2 @@
+page.replace_html :warning, ''
+page.replace_html "credit_relation_#{@destroyed_id}", ''

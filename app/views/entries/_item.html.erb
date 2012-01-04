@@ -1,0 +1,91 @@
+<div id="item_<%= event_item.id %>" class="item">
+
+<% if event_item.is_adjustment? %>
+
+<div class="item_date item_adjustment"><%=h event_item.action_date.strftime("%Y/%m/%d") %></div>
+<div class="item_name item_adjustment">残高調整 <%=h CommonUtil.separate_by_comma(event_item.adjustment_amount) %>円
+<% if event_item.tags.size > 0 %>
+[ <%  event_item.tags.each do |tag|
+%><%= link_to_tag(tag) %> <%
+  end
+%>]<%
+end
+%>
+</div>
+<div class="item_from item_adjustment"><%= (event_item.amount < 0) ? colored_account_name(event_item.to_account_id) : '(調整)'%></div>
+<div class="item_to item_adjustment"><%= (event_item.amount >= 0) ? colored_account_name(event_item.to_account_id) : '(調整)'%></div>
+<div class="item_amount item_adjustment"><%=h CommonUtil.separate_by_comma(event_item.amount.abs) %>円</div>
+<div class="item_operation item_adjustment"><span id="navi_<%=h event_item.id %>"><% if @tag || @mark %><%= link_to "表示", entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}" %><% else %><%= link_to "編集", edit_entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :method => :get, :remote => true %><br/><%= link_to "削除", entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :method => :delete, :remote => true, :confirm => '本当に削除しますか?' %><% end %></span><span id="loading_<%=h event_item.id %>"  style="display: none;"><%= image_tag "loading.gif", :alt => "loading..." %></span></div>
+
+<% elsif not event_item.parent_id.nil? %>
+
+<div class="item_date item_move"><%= event_item.action_date.strftime("%Y/%m/%d") %></div>
+<div class="item_name item_move"><%= event_item.parent_item.confirmation_required? ? link_to('★', entry_confirmation_required_path(event_item.id, :confirmation_required => 'false'), :remote => true, :method => 'put', :class => 'item_confirmation_required') : link_to('☆', entry_confirmation_required_path(event_item.id, :confirmation_required => 'true'), :remote => true, :method => 'put', :class => 'item_confirmation_not_required') %>入金 (<%= link_to event_item.parent_item.action_date.strftime("%y/%m/%d") + ' ' + event_item.parent_item.name, url_for(:controller => 'main', :action=>'show_parent_child_item', :id=>event_item.id, :type=>'parent'), :remote => true %>)
+<% if event_item.tags.size > 0 %>
+[ <%  event_item.tags.each do |tag|
+%><%= link_to_tag(tag) %> <%
+  end
+%>]<%
+end
+%>
+</div>
+<div class="item_from item_move"><%= colored_account_name(event_item.from_account_id) %></div>
+<div class="item_to item_move"><%= colored_account_name(event_item.to_account_id) %></div>
+<div class="item_amount item_move"><%=h CommonUtil.separate_by_comma(event_item.amount) %>円</div>
+<div class="item_operation item_move"></div>
+
+<% elsif not event_item.child_id.nil? %>
+
+<%
+if (@separated_accounts[:income_ids]).include?(event_item.from_account_id)
+        item_css_class = " item_income"
+elsif @separated_accounts[:account_ids].include?(event_item.from_account_id) && @separated_accounts[:account_ids].include?(event_item.to_account_id)
+        item_css_class = " item_move"
+else
+        item_css_class = ""
+end
+%>
+<div class="item_date<%= item_css_class %>"><%= event_item.action_date.strftime("%Y/%m/%d") %></div>
+<div class="item_name<%= item_css_class %>"><%= event_item.confirmation_required? ? link_to('★', entry_confirmation_required_path(event_item.id, :confirmation_required => 'false'), :remote => true, :method => 'put', :class => 'item_confirmation_required') : link_to('☆', entry_confirmation_required_path(event_item.id, :confirmation_required => 'true'), :remote => true, :method => 'put', :class => 'item_confirmation_not_required') %><%=h event_item.name %> (<%= link_to event_item.child_item.action_date.strftime("%y/%m/%d") + ' 入金', url_for(:controller => 'main', :action=>'show_parent_child_item', :id=>event_item.id, :type=>'child'), :remote => true %>)
+<% if event_item.tags.size > 0 %>
+[ <%  event_item.tags.each do |tag|
+%><%= link_to_tag(tag) %> <%
+  end
+%>]<%
+end
+%>
+</div>
+<div class="item_from<%= item_css_class %>"><%= colored_account_name(event_item.from_account_id) %></div>
+<div class="item_to<%= item_css_class %>"><%= colored_account_name(event_item.to_account_id) %></div>
+<div class="item_amount<%= item_css_class %>"><%= CommonUtil.separate_by_comma(event_item.amount) %>円</div>
+<div class="item_operation<%= item_css_class %>"><span id="navi_<%=h event_item.id %>"><% if @tag || @mark %><%= link_to "表示", entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}" %><% else %><%= link_to "編集", edit_entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :get %> <%= link_to "削除", entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :delete, :confirm => '本当に削除しますか?' %><% end %></span><span id="loading_<%=h event_item.id %>"  style="display: none;"><%= image_tag "loading.gif", :alt => "loading..." %></span></div>
+
+<% else %>
+<%
+  if (@separated_accounts[:income_ids]).include?(event_item.from_account_id)
+    item_css_class = " item_income"
+  elsif @separated_accounts[:account_ids].include?(event_item.from_account_id) && @separated_accounts[:account_ids].include?(event_item.to_account_id)
+    item_css_class = " item_move"
+  else
+    item_css_class = ""
+  end
+%>
+<div class="item_date<%= item_css_class %>"><%= event_item.action_date.strftime("%Y/%m/%d") %></div>
+<div class="item_name<%= item_css_class %>"><%= event_item.confirmation_required? ? link_to('★', entry_confirmation_required_path(event_item.id, :confirmation_required => 'false'), :remote => true, :method => 'put', :class => 'item_confirmation_required') : link_to('☆', entry_confirmation_required_path(event_item.id, :confirmation_required => 'true'), :remote => true, :method => 'put', :class => 'item_confirmation_not_required') %><%= event_item.name %>
+<% if event_item.tags.size > 0 %>
+[ <%  event_item.tags.each do |tag|
+%><%= link_to_tag(tag) %> <%
+  end
+%>]<%
+end
+%>
+</div>
+<div class="item_from<%= item_css_class %>"><%= colored_account_name(event_item.from_account_id) %></div>
+<div class="item_to<%= item_css_class %>"><%= colored_account_name(event_item.to_account_id) %></div>
+<div class="item_amount<%= item_css_class %>"><%=h CommonUtil.separate_by_comma(event_item.amount) %>円</div>
+<div class="item_operation<%= item_css_class %>"><span id="navi_<%=h event_item.id %>"><% if @tag || @mark %><%= link_to "表示", entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}" %><% else %><%= link_to "編集", edit_entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :get %><br/><%= link_to "削除", entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :delete, :confirm => '本当に削除しますか?' %><% end %></span><span id="loading_<%=h event_item.id %>"  style="display: none;"><%= image_tag "loading.gif", :alt => "loading..." %></span></div>
+
+<% end %>
+
+</div>
+<div class="reset"></div>

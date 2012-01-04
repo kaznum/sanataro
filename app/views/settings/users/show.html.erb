@@ -1,0 +1,19 @@
+<div id='menu'>
+<%= render :partial=>'settings/config_menu' %>
+</div>
+<% if  @user.login != 'demo' %>
+<div id='input_area'>
+<%= form_tag settings_user_path, :remote => true, :method => :put, :before=>"$('change_button').disabled = true" do -%>
+<p><%= _("Input new password and the same password in confirmation field.") %></p>
+<table>
+<tr><th><%= _('Email') %></th><td><%= text_field_tag 'email', @user.email %></td></tr>
+<tr><th><%= _('New Password') %></th><td><%= password_field_tag 'password_plain', nil %></td></tr>
+<tr><th><%= _('New Password(Confirmation)') %></th><td><%= password_field_tag 'password_confirmation', nil %></td></tr>
+</table>
+<p><span id="warning" class="warning"></span></p>
+<%= submit_tag _('Change'), :id=>'change_button' %>
+<% end -%>
+<% else %>
+This function is not available for the demo users.
+<% end -%>
+</div>

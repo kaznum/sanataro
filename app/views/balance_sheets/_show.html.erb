@@ -1,0 +1,32 @@
+<div id="account_history"></div>
+<div id="account_history_<%=h @account_id %>">
+<table width="600">
+<tr><th colspan="5"><%=h @separated_accounts[:all_accounts][@account_id] %>の出納帳 (<%= link_to_function '隠す', "new Effect.Fade('account_history_#{ @account_id }', {duration: 0.3}); setTimeout(function() { Element.remove('account_history_#{@account_id}');}, 3000);" %>)</th></tr>
+<tr>
+<th colspan="4">前月(<%=h (@from_date - 1).strftime("%Y/%m") %>)からの繰越</th>
+<th class="money"><%= CommonUtil.separate_by_comma(@remain_amount) %> 円</th>
+</tr>
+<tr>
+<th width="80px">日付</th><th>種別</th><th>項目</th><th width="80px">増減</th><th width="80px">残高</th></tr>
+<% @items.each do |it|
+	if it.from_account_id == @account_id
+		amount = it.amount * (-1)
+		related_account = @separated_accounts[:all_accounts][it.to_account_id]
+	else
+		amount = it.amount
+		related_account = @separated_accounts[:all_accounts][it.from_account_id]
+	end
+	@remain_amount += amount
+	
+%>
+<tr>
+<td width="80px"><%=h it.action_date.strftime("%Y/%m/%d") %></td>
+<td><%=h related_account %></td>
+<td><%=h (it.is_adjustment) ? '残高調整 ' + CommonUtil.separate_by_comma(it.adjustment_amount) + ' 円' : it.name %></td>
+<td class="money" width="80px"><%=h CommonUtil.separate_by_comma(amount) %> 円</td>
+<td class="money" width="80px"><%=h CommonUtil.separate_by_comma(@remain_amount) %> 円</td></tr>
+<% end %>
+<tr><th colspan="4">次月(<%=h (@from_date.end_of_month + 1).strftime("%Y/%m") %>)への繰越</th>
+<th align="right"><%= CommonUtil.separate_by_comma(@remain_amount) %> 円</th></tr>
+</table>
+</div>

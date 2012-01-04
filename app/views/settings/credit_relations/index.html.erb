@@ -1,0 +1,38 @@
+<div id='menu'>
+<%= render :partial=>'settings/config_menu' %>
+</div>
+<div class="cfg_credit_relation_list">
+  <p>登録</p>
+  <div>
+    <%= form_tag settings_credit_relations_path, {:remote => true, :method => :post, :before => "$('add_button').disabled = true", :complete => "$('add_button').disabled = false", :id => 'add_form'} do %>
+    <table>
+      <tr>
+	<th>クレジットカード</th><th>引き落とし口座</th><th>締め日</th><th>引き落とし日</th><th>操作</th>
+      </tr>
+      <tr>
+	<td><%= select_tag 'credit_account_id', options_for_select(@separated_accounts[:bank_accounts]) %></td>
+	<td><%= select_tag 'payment_account_id', options_for_select(@separated_accounts[:bank_accounts]) %></td>
+	<td>毎月 <%= select_tag 'settlement_day', options_for_select(CREDIT_RELATION_SETTLEMENT_DAYS) %>日</td>
+	<td><%= select_tag 'payment_month', options_for_select(CREDIT_RELATION_PAYMENT_MONTHS) %> <%= select_tag 'payment_day', options_for_select(CREDIT_RELATION_PAYMENT_DAYS) %>日</td>
+	<td><%= submit_tag '登録', :id=>'add_button' %></td>
+      </tr>
+    </table>
+    <% end %>
+  </div>
+
+  <div id="warning" class="warning"></div>
+  <p>一覧/変更/削除</p>
+  <div id="credit_relations_headers">
+    <div class="cfg_credit_relation_name cfg_credit_relation_header">クレジットカード</div>
+    <div class="cfg_payment_relation_name cfg_credit_relation_header">引き落とし口座</div>
+    <div class="cfg_settlement_day cfg_credit_relation_header">締め日</div>
+    <div class="cfg_payment_date cfg_credit_relation_header">引き落とし日</div>
+    <div class="cfg_credit_relation_operation cfg_credit_relation_header">操作</div>
+  </div>
+  <div class="reset"></div>
+  <div id="credit_relations">
+    <% @credit_relations.each do |cr| %>
+      <%= render :partial=> 'show', :locals => {:cr => cr} %>
+    <% end %>
+  </div>
+</div>

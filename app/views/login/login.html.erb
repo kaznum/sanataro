@@ -1,0 +1,21 @@
+<h2><%= _("Login") %></h2>
+<div>
+<%= form_tag url_for(:action => 'do_login'), :remote => true, :before=>"$('login_button').disabled = true" do -%>
+<table>
+<tr><th><%= _('User') %></th><td><%= text_field_tag 'login', nil, { :tabindex=>1 } %></td></tr>
+<tr><th><%= _('Password') %></th><td><%= password_field_tag 'password', nil, { :tabindex=>2} %></td></tr>
+</table>
+<p><span id="warning" class="warning"></span></p>
+<p><span><%= check_box_tag 'autologin', 1, false, { :tabindex=>3 } %> <%= _('Login automatically next time') %></span></p>
+<p><span><%= check_box_tag 'only_add', 1, false, { :tabindex=>4 } %> <%= _('Show simple input form') %></span></p>
+<%= submit_tag _('Login'), :id=>'login_button',  :tabindex=>5  %>
+<% end -%>
+
+</div>
+
+<h2><%= _('To one who does not have a user account.') %></h2>
+<p><%= link_to _('Click here to create a user account.'), :action=>'create_user' %></p>
+
+<h2><%= _("Let's try!") %></h2>
+<p><%=raw _("You can login as demo user. <br/>User: demo Password: demo123") %></p>
+

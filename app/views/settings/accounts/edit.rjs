@@ -1,0 +1,2 @@
+page.replace 'account_' + @account.id.to_s, :partial=>'edit'
+page << "cp_#{@account.id} = new Control.ColorPicker('colorfield_#{@account.id}', { 'swatch' : 'colorbox_#{@account.id}' });"

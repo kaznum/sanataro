@@ -1,0 +1,166 @@
+require 'spec_helper'
+
+describe ProfitLossesController do
+  include FakedUser
+  
+  fixtures :items, :accounts, :monthly_profit_losses, :credit_relations
+
+  describe "index" do
+    context "not logged in" do
+      before do
+        get :index
+      end
+
+      it_should_behave_like "Unauthenticated Access"
+    end
+
+    context "when logged in" do
+      before do
+        login
+      end
+      context "when month is not specified" do 
+        before do
+          get :index
+        end
+
+        describe "response" do
+          subject {response}
+          it { should be_success }
+          it { should render_template('index') }
+        end
+
+        describe "instance varriables" do
+          subject { assigns }
+          its([:from_date]) { should == Date.today.beginning_of_month }
+          its([:m_pls]) { should_not be_nil }
+          its([:account_incomes]) { should_not be_nil }
+          its([:total_income]) { should_not be_nil }
+          its([:account_outgos]) { should_not be_nil }
+          its([:total_outgo]) { should_not be_nil }
+        end
+      end
+      
+      context "when month is invalid" do 
+        before do
+          get :index, :year => '2008', :month => '13'
+        end
+
+        describe "response" do
+          subject { response }
+          it { should redirect_to current_entries_url }
+        end
+      end
+
+      context "when valid month is specified" do
+        before do
+          get :index, :year => '2008', :month => '2'
+        end
+
+        describe "response" do
+          subject { response}
+          it { should be_success }
+          it { should render_template('index')}
+        end
+
+        describe "assigned variables" do
+          subject { assigns }
+          its([:from_date]) { should_not be_nil}
+          its([:m_pls]) { should_not be_nil}
+          its([:account_incomes]) { should_not be_nil}
+          its([:total_income]) { should_not be_nil}
+          its([:account_outgos]) { should_not be_nil}
+          its([:total_outgo]) { should_not be_nil}
+        end
+      end
+    end
+  end
+
+  describe "show" do
+    context "when not logged in" do
+      before do
+        xhr :get, :show, :id => accounts(:bank1).id, :year => '2008', :month => '2'
+      end
+      
+      describe "response" do 
+        subject { response }
+        it { should render_template("common/redirect") }
+      end
+    end
+
+    context "when logged in" do
+      before do 
+        login
+      end
+      context "when without id"  do
+        before do
+          xhr :post, :change_month, :year=>'2008', :month=>'2', :current_action => :index
+          xhr :get, :show, :year=>'2008', :month=>'2'
+        end
+        describe "response" do
+          subject { response }
+          it { should render_template("common/redirect") }
+        end
+      end
+
+      context "when correct id is specified" do
+        context "when year, month are specified" do 
+          before do 
+            xhr :post, :change_month, :year=>'2008', :month=>'2', :current_action => :index
+            xhr :get, :show, :id=>accounts(:outgo3).id.to_s, :year=>'2008', :month=>'2'
+          end
+          describe "response" do
+            subject { response }
+            it {should render_template "show"}
+          end
+
+          describe "assigned variables" do
+            subject { assigns }
+            its([:items]) {should_not be_nil}
+            its([:account_id]) {should_not be_nil}
+            its([:account_id]) { should be accounts(:outgo3).id }
+            its([:separated_accounts]) { should_not be_nil }
+
+            describe "items" do
+              subject { assigns[:items] }
+              specify do
+                subject.each do |item|
+                  item.to_account_id.should be(accounts(:outgo3).id)
+                  item.action_date.should be_between(Date.new(2008, 2), Date.new(2008,2).end_of_month)
+                end
+              end
+            end
+          end
+        end
+        
+        context "when year, month are not specified" do
+          before do
+            xhr :get, :show, :id=>accounts(:outgo3).id.to_s
+          end
+
+          describe "response" do
+            subject { response }
+            it { should be_success }
+            it { should render_template "show" }
+          end
+          describe "assigned variables" do
+            subject { assigns }
+            its([:items]) { should_not be_nil }
+            its([:account_id]) { should_not be_nil }
+            its([:account_id]) { should be accounts(:outgo3).id }
+            its([:separated_accounts]) { should_not be_nil }
+
+            describe "items" do
+              subject { assigns(:items)}
+              specify do
+                subject.each do |item|
+                  item.to_account_id.should be accounts(:outgo3).id
+                  item.action_date.should be_between(Date.today.beginning_of_month, Date.today.end_of_month)
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+end

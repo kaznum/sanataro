@@ -1,0 +1,5 @@
+page.replace_html :items, ''
+@items.each do |item|
+  page.insert_html :bottom, :items, :partial => "item", :locals => { :event_item => item }
+end
+page.insert_html :bottom, :items, :partial=>'remains_link'

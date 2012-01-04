@@ -1,0 +1,2 @@
+page.visual_effect :slide_up, :tag_status_body, :duration => '0.2'
+page.delay(0.2) { page.replace_html :tag_status, :partial => 'show_blank' }

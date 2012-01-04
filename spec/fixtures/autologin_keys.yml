@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+autologin_key1:
+  id: 1
+  user_id: 1
+  enc_autologin_key: <%= Digest::SHA1.hexdigest('user1' + '1234567') %>
+  created_at: <%= (Time.now - 10.days).to_s(:db) %>
+  updated_at: <%= (Time.now - 10.days).to_s(:db) %>
+autologin_key2:
+  id: 2
+  user_id: 1
+  enc_autologin_key: bbbbb
+  created_at: 2008/01/03 10:11:12
+  updated_at: 2008/01/03 10:11:12

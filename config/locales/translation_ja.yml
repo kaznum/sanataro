@@ -1,0 +1,59 @@
+ja:
+  activerecord:
+    models:
+      account: "アカウント"  #g
+      autologin_key: "自動ログインキー"  #g
+      credit_relation: "クレジット関係"  #g
+      item: "アイテム"  #g
+      monthly_profit_loss: "毎月の利益の損失"  #g
+      user: "ユーザー"  #g
+
+    attributes:
+      account:
+        name: "名"  #g
+        is_active: "アクティブになっています"  #g
+        account_type: "アカウントの種類"  #g
+        order_no: "注文番号"  #g
+        bgcolor: "bgcolorは"  #g
+        user: "ユーザー"  #g
+        accounts: "アカウント"  #g
+
+      autologin_key:
+        enc_autologin_key: "encは自動ログインキー"  #g
+
+      credit_relation:
+        settlement_day: "決済日"  #g
+        payment_month: "お支払い月"  #g
+        payment_day: "支払日"  #g
+
+      item:
+        name: "名"  #g
+        currency: "通貨"  #g
+        amount: "量"  #g
+        action_date: "アクション日"  #g
+        is_adjustment: "調整は、"  #g
+        adjustment_amount: "調整量"  #g
+        confirmation_required: "確認が必要です"  #g
+        user: "ユーザー"  #g
+        parent_item: "親項目"  #g
+        child_item: "子項目"  #g
+        tags: "タグ"  #g
+        taggings: Taggings  #g
+
+      monthly_profit_loss:
+        month: "月"  #g
+        amount: "量"  #g
+        user: "ユーザー"  #g
+
+      user:
+        login: "ログイン"  #g
+        password: "パスワード"  #g
+        is_active: "アクティブになっています"  #g
+        email: "Eメール"  #g
+        confirmation: "確認"  #g
+        accounts: "アカウント"  #g
+        items: "アイテム"  #g
+        credit_relations: "クレジットカードでの関係"  #g
+        tags: "タグ"  #g
+        monthly_profit_losses: "毎月の利益の損失"  #g
+        taggings: Taggings  #g
