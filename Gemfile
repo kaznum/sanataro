@@ -75,13 +75,8 @@ gem "gruff"
 gem 'prototype-rails', '3.1.0'
 
 group :assets do
-  gem 'sass-rails', "  ~> 3.1.0"
+  gem 'sass-rails', '3.1.4'
   gem 'coffee-rails', "~> 3.1.0"
   gem 'uglifier'
 end
 
-group :heroku do
-  gem 'pg' # only for heroku
-end
-
-gem "yaml_db"
