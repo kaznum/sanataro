@@ -25,14 +25,3 @@ guard 'cucumber',:cli => "--drb --no-profile --color --format progress --strict"
   watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'features' }
 end
 
-#guard 'rails-assets' do
-#  watch(%r{^.*/assets/.+$})
-#  watch('config/application.rb')
-#end
-#spec_location = "spec/javascripts/%s_spec"
-#guard 'jasmine-headless-webkit' do
-#  watch(%r{^app/views/.*\.jst$})
-#  watch(%r{^public/javascripts/(.*)\.js$}) { |m| newest_js_file(spec_location % m[1]) }
-#  watch(%r{^.*/assets/javascripts/(.*)\.(js|coffee)$}) { |m| newest_js_file(spec_location % m[1]) }
-#  watch(%r{^spec/javascripts/(.*)_spec\..*}) { |m| newest_js_file(spec_location % m[1]) }
-#end
