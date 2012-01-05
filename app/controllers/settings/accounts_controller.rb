@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 class Settings::AccountsController < ApplicationController
   before_filter :required_login
-
  
   def index
     @account_type = params[:account_type].presence || 'account'

@@ -4,5 +4,4 @@ class ConfirmationStatusesController < ApplicationController
   def show
     @entries = @user.items.confirmation_required.order_for_entries_list
   end
-  
 end
