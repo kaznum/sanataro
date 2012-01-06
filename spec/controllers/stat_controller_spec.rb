@@ -113,23 +113,21 @@ describe StatController do
         it_should_behave_like "Unauthenticated Access"
       end
 
-      pending("Ruby1.9 & rmagick do not work", :if => RUBY_VERSION >= "1.9") do 
-        context "with type == 'total'" do
-          before do
-            get :yearly_bs_graph, :type=>'total', :year => 2008, :month => 2
-          end
-
-          subject {response}
-          it {should be_success}
+      context "with type == 'total'" do
+        before do
+          get :yearly_bs_graph, :type=>'total', :year => 2008, :month => 2
         end
 
-        context "with valid account_id" do
-          before do
-            get :yearly_bs_graph, :account_id=>accounts(:bank1).id.to_s, :year => 2008, :month => 2
-          end
-          subject {response}
-          it {should be_success}
+        subject {response}
+        it {should be_success}
+      end
+
+      context "with valid account_id" do
+        before do
+          get :yearly_bs_graph, :account_id=>accounts(:bank1).id.to_s, :year => 2008, :month => 2
         end
+        subject {response}
+        it {should be_success}
       end
     end
   end
@@ -240,41 +238,39 @@ describe StatController do
         it_should_behave_like "Unauthenticated Access" 
       end
 
-      pending("Ruby1.9 & rmagick do not work", :if => RUBY_VERSION >= "1.9") do 
-        context "with type == 'total'" do
-          before do
-            get :yearly_pl_graph, :type=>'total', :year => 2008, :month => 2
-          end
-
-          subject {response}
-          it {should be_success}
+      context "with type == 'total'" do
+        before do
+          get :yearly_pl_graph, :type=>'total', :year => 2008, :month => 2
         end
 
-        context "with type == 'income_total'" do
-          before do
-            get :yearly_pl_graph, :type=>'income_total', :year => 2008, :month => 2
-          end
+        subject {response}
+        it {should be_success}
+      end
 
-          subject {response}
-          it {should be_success}
+      context "with type == 'income_total'" do
+        before do
+          get :yearly_pl_graph, :type=>'income_total', :year => 2008, :month => 2
         end
 
-        context "with type == 'outgo_total'" do
-          before do
-            get :yearly_pl_graph, :type=>'outgo_total', :year => 2008, :month => 2
-          end
+        subject {response}
+        it {should be_success}
+      end
 
-          subject {response}
-          it {should be_success}
+      context "with type == 'outgo_total'" do
+        before do
+          get :yearly_pl_graph, :type=>'outgo_total', :year => 2008, :month => 2
         end
 
-        context "with valid account_id" do
-          before do
-            get :yearly_pl_graph, :account_id=>accounts(:outgo3).id.to_s, :year => 2008, :month => 2
-          end
-          subject {response}
-          it {should be_success}
+        subject {response}
+        it {should be_success}
+      end
+
+      context "with valid account_id" do
+        before do
+          get :yearly_pl_graph, :account_id=>accounts(:outgo3).id.to_s, :year => 2008, :month => 2
         end
+        subject {response}
+        it {should be_success}
       end
     end
   end
