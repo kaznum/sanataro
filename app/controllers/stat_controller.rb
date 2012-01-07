@@ -176,25 +176,13 @@ class StatController < ApplicationController
     graph_to = date.beginning_of_month
 
     if account_id == -1
-      account = Account.new
-      account.id = -1
-      account.name = _('Unknown')
-      account.account_type = 'unknown'
+      account = Account.new(id: -1, name: _('Unknown'), account_type: 'unknown')
     elsif type == "total"
-      account = Account.new
-      account.id = nil
-      account.name = _('Benefit of the month')
-      account.account_type = 'total'
+      account = Account.new(name: _('Benefit of the month'), account_type: 'total')
     elsif type == "income_total"
-      account = Account.new
-      account.id = nil
-      account.name = _('Total of Income')
-      account.account_type = 'income_total'
+      account = Account.new(name: _('Total of Income'), account_type: 'income_total')
     elsif type == "outgo_total"
-      account = Account.new
-      account.id = nil
-      account.name = _('Total of Outgo')
-      account.account_type = 'outgo_total'
+      account = Account.new(name: _('Total of Outgo'), account_type: 'outgo_total')
     else
       account = @user.accounts.find_by_id(account_id)
     end
