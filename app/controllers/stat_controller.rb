@@ -172,16 +172,16 @@ class StatController < ApplicationController
       account_id = params[:account_id].to_i
     end
 
-    date = Date.new(params[:year].to_i, params[:month].to_i)
-
-    graph_since = date.months_ago(11).beginning_of_month
-    graph_to = date.beginning_of_month
-
     account = _new_virtual_account(@user, type, account_id)
     if account.nil?
       redirect_to login_url
       return
     end
+
+    date = Date.new(params[:year].to_i, params[:month].to_i)
+
+    graph_since = date.months_ago(11).beginning_of_month
+    graph_to = date.beginning_of_month
 
     if total_types.include?(type)
       account_ids = all_account_ids_by_total_type(type)
