@@ -36,7 +36,6 @@ class StatController < ApplicationController
   # generate bs line graph 
   #
   def yearly_bs_graph
-    
     if params[:year].blank? || params[:month].blank? 
       redirect_to login_url
       return
@@ -50,37 +49,29 @@ class StatController < ApplicationController
       end
       account_id = params[:account_id].to_i
     end
-    
-    date = Date.new(params[:year].to_i, params[:month].to_i)
 
-    graph_since = date.months_ago(11).beginning_of_month
-    graph_to = date.beginning_of_month
-
-    if type == 'total'
-      account = Account.new(name: "資本合計")
-    else
-      account = @user.accounts.find_by_id(account_id)
-    end
-
+    account = type == 'total' ? Account.new(name: "資本合計") : @user.accounts.find_by_id(account_id)
     if account.nil?
       redirect_to login_url
       return
     end
+    
+    date = Date.new(params[:year].to_i, params[:month].to_i)
+    graph_since = date.months_ago(11).beginning_of_month
+    graph_to = date.beginning_of_month
 
     if type == "total"
       bank_accounts = @user.accounts.where(account_type: 'account')
       bank_ids = bank_accounts.map{|ba| ba.id }
-      scoped_pls = @user.monthly_profit_losses.where(account_id: bank_ids)
-      initial_total = scoped_pls.where("month < ?", graph_since).sum(:amount)
-      tmp_pls = scoped_pls.where(month: graph_since..graph_to).order(:month)
+      initial_total = total_balance_before(graph_since, bank_ids)
+
+      tmp_pls = @user.monthly_profit_losses.where(account_id: bank_ids, month: graph_since..graph_to).order(:month)
       pls = []
       total_pl = nil
       tmp_pls.each do |tpl|
         if total_pl.nil? || total_pl.month != tpl.month
-          pls.push total_pl unless total_pl.nil?
-          total_pl = MonthlyProfitLoss.new
-          total_pl.month = tpl.month
-          total_pl.amount = tpl.amount
+          pls << total_pl unless total_pl.nil?
+          total_pl = MonthlyProfitLoss.new(month: tpl.month, amount: tpl.amount)
         else
           total_pl.amount += tpl.amount
         end
@@ -88,33 +79,26 @@ class StatController < ApplicationController
       # ループの最後は配列にpushされていないので、ここで追加
       pls << total_pl
     else
-      initial_total = @user.monthly_profit_losses.scoped_by_account_id(account_id).where("month < ?", graph_since).sum(:amount)
-      pls = @user.monthly_profit_losses.scoped_by_month(graph_since..graph_to).scoped_by_account_id(account_id).order(:month)
+      initial_total = total_balance_before(graph_since, account_id)
+      pls = @user.monthly_profit_losses.where(month: graph_since..graph_to, account_id: account_id).order(:month)
     end
 
     amounts = []
     pl = nil
-    total = initial_total.nil? ? 0 : initial_total
+    total = initial_total
 
     (0..11).each do |i|
       pl = pls.shift if pl.nil?
-      if pl.nil?
-        amounts.push total
-      else
-        if pl.month == graph_since.months_since(i).beginning_of_month
-          total += pl.amount
-          amounts.push total
-          pl = nil
-        else
-          amounts.push total
-        end
+      if !pl.nil? && pl.month == graph_since.months_since(i).beginning_of_month
+        total += pl.amount
+        pl = nil
       end
+      amounts << total
     end
     
     title = "#{account.name} の推移"
     g = generate_yearly_graph(title, account, amounts, graph_since)
     send_data g.to_blob, :type => 'image/png', :disposition => 'inline', :stream => false
-
   end
 
   #
@@ -201,6 +185,10 @@ class StatController < ApplicationController
   end
 
   private
+  def total_balance_before(date, account_ids)
+    @user.monthly_profit_losses.where(account_id: account_ids).where("month < ?", graph_since).sum(:amount)
+  end
+  
   def get_monthly_amounts_for_a_year_to(date, type, account_id)
     graph_since = date.months_ago(11).beginning_of_month
     graph_to = date.beginning_of_month
