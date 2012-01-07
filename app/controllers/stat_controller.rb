@@ -179,9 +179,10 @@ class StatController < ApplicationController
     end
 
     date = Date.new(params[:year].to_i, params[:month].to_i)
-    amounts = get_monthly_amounts_for_a_year_since(date, type, account_id)
+    amounts = get_monthly_amounts_for_a_year_to(date, type, account_id)
 
     title = "#{account.name} の推移"
+    graph_since = date.months_ago(11).beginning_of_month
     g = generate_yearly_graph(title, account, amounts, graph_since)
     send_data g.to_blob, :type => 'image/png', :disposition => 'inline', :stream => false
   end
@@ -206,7 +207,7 @@ class StatController < ApplicationController
   end
 
   private
-  def get_monthly_amounts_for_a_year_since(date, type, account_id)
+  def get_monthly_amounts_for_a_year_to(date, type, account_id)
     graph_since = date.months_ago(11).beginning_of_month
     graph_to = date.beginning_of_month
 
@@ -232,7 +233,7 @@ class StatController < ApplicationController
       end
     end
 
-    amount
+    amounts
   end
 
   def total_typed_account_profit_losses(type, since, to)
