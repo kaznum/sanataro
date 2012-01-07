@@ -73,8 +73,9 @@ class StatController < ApplicationController
       bank_accounts.each do |ba|
         bank_ids.push ba.id
       end
-      initial_total = @user.monthly_profit_losses.where("month < ? and account_id IN (?)", graph_since, bank_ids).sum(:amount)
-      tmp_pls = @user.monthly_profit_losses.where("month between ? and ? and account_id IN (?)", graph_since, graph_to, bank_ids).order(:month)
+      scoped_pls = @user.monthly_profit_losses.where(account_id: bank_ids)
+      initial_total = scoped_pls.where("month < ?", graph_since).sum(:amount)
+      tmp_pls = scoped_pls.where(month: graph_since..graph_to).order(:month)
       pls = []
       total_pl = nil
       tmp_pls.each do |tpl|
