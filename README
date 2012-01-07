@@ -8,6 +8,12 @@ This is built with Ruby on Rails 3.1.
 * This is simple kakeibo application on Web.
 * Multi-User Support. (But doesn't support collaboration each other)
 
+== Requirement
+* Ruby: MRI (>= 1.9.2)
+* Rails: Rails 3.1
+* DB: MySQL or PostgreSQL (heroku available)
+
+
 == FIXME / TODO
 This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0 to 3.1 escalatingly, so there are lots of points to be fixed.
 * This depends on Prototype.js but jQuery is now defact standard in Rails, so want to adopt jQuery.
