@@ -27,15 +27,12 @@ class Account < ActiveRecord::Base
 
     # 今月のassetの変化を算出
     if my_item.nil?
-      outgo = user.items.action_date_between(date.beginning_of_month, date).where(:from_account_id => account_id).sum(:amount)
-      income = user.items.action_date_between(date.beginning_of_month, date).where(:to_account_id => account_id).sum(:amount)
-      asset += income - outgo
+      asset += self.asset_to_item_of_this_month(user, account_id, date)
+    elsif my_item.action_date == date
+      asset += self.asset_to_item_of_this_month_except_self(user, account_id, my_id, date)
     else
-      if  my_item.action_date == date
-        asset += self.asset_to_item_of_this_month_except_self(user, account_id, my_id, date)
-      else # 日付が変更になった場合
-        asset += self.asset_to_date_of_this_month_except_self(user, account_id, my_id, date)
-      end
+      # 更新により日付が変更になった場合
+      asset += self.asset_to_date_of_this_month_except_self(user, account_id, my_id, date)
     end
 
     return asset
@@ -71,4 +68,12 @@ class Account < ActiveRecord::Base
     income = items_scope.where(to_account_id: account_id).sum(:amount)
     income - outgo
   end
+
+  def self.asset_to_item_of_this_month(user, account_id, date)
+    items_scope = user.items.action_date_between(date.beginning_of_month, date)
+    outgo = items_scope.where(from_account_id: account_id).sum(:amount)
+    income = items_scope.where(to_account_id: account_id).sum(:amount)
+    income - outgo
+  end
+
 end
