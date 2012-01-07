@@ -42,7 +42,6 @@ class StatController < ApplicationController
     
     type = params[:type]
     if type != "total"
-
       if params[:account_id].blank?
         redirect_to login_url
         return
@@ -50,15 +49,13 @@ class StatController < ApplicationController
       account_id = params[:account_id].to_i
     end
     
-    
     date = Date.new(params[:year].to_i, params[:month].to_i)
 
     graph_since = date.months_ago(11).beginning_of_month
     graph_to = date.beginning_of_month
 
     if type == 'total'
-      account = Account.new
-      account.name = "資本合計"
+      account = Account.new(name: "資本合計")
     else
       account = @user.accounts.find_by_id(account_id)
     end
