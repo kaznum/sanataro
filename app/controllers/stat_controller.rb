@@ -2,6 +2,8 @@
 class StatController < ApplicationController
   before_filter :required_login
 
+  TOTAL_TYPES = ["total", "income_total", "outgo_total"]
+
   def index
     redirect_to current_entries_url
   end
@@ -161,10 +163,8 @@ class StatController < ApplicationController
         return
     end
 
-    total_types = ["total", "income_total", "outgo_total"]
-    
     type = params[:type]
-    unless total_types.include?(type)
+    unless TOTAL_TYPES.include?(type)
       if params[:account_id].blank?
         redirect_to login_url
         return
@@ -172,72 +172,20 @@ class StatController < ApplicationController
       account_id = params[:account_id].to_i
     end
 
-    account = _new_virtual_account(@user, type, account_id)
+    account = _find_or_new_virtual_account(@user, type, account_id)
     if account.nil?
       redirect_to login_url
       return
     end
 
     date = Date.new(params[:year].to_i, params[:month].to_i)
-
-    graph_since = date.months_ago(11).beginning_of_month
-    graph_to = date.beginning_of_month
-
-    if total_types.include?(type)
-      account_ids = all_account_ids_by_total_type(type)
-      tmp_pls = account_ids.size == 0 ? [] : @user.monthly_profit_losses.scoped_by_month(graph_since..graph_to).scoped_by_account_id(account_ids).order(:month)
-
-      pls = []
-      tmp_pl = nil
-      tmp_pls.each do |tpl|
-        if tmp_pl && tpl.month != tmp_pl.month  # ループの一番最初以外で、monthが異なる場合
-          pls << tmp_pl
-        end
-        tmp_pl = MonthlyProfitLoss.new(:user_id => tpl.user_id, :month => tpl.month, :amount => 0)
-
-        if type == "income_total"
-          # 不明支出以外
-          unless tpl.account_id == -1 && tpl.amount > 0
-            # amountの正負はincome、outgoにかかわらず不定であるため、absは使わない
-            tmp_pl.amount += tpl.amount * (-1)
-          end
-        elsif type == "outgo_total"
-          # 不明収入以外
-          unless tpl.account_id == -1 && tpl.amount < 0
-            # amountの正負はincome、outgoにかかわらず不定であるため、absは使わない
-            tmp_pl.amount += tpl.amount
-          end
-        else # type == total
-          # すべての正負を含めたtotalを計算するので、absは使わない
-          tmp_pl.amount += tpl.amount
-        end
-      end
-      pls << tmp_pl unless tmp_pl.nil? # ループの最後だけ配列に登録されていないため、ループの後に登録
-    else
-      pls = @user.monthly_profit_losses.scoped_by_month(graph_since..graph_to).scoped_by_account_id(account_id).order(:month)
-    end
-
-    amounts = []
-    pl = nil
-    (0..11).each do |i|
-      pl = pls.shift if pl.nil?
-      if pl.nil?
-        amounts << 0
-      else
-        if graph_since.months_since(i).beginning_of_month == pl.month.beginning_of_month
-          amounts << pl.amount.abs
-          pl = nil
-        else
-          amounts << 0
-        end
-      end
-    end
+    amounts = get_monthly_amounts_for_a_year_since(date, type, account_id)
 
     title = "#{account.name} の推移"
     g = generate_yearly_graph(title, account, amounts, graph_since)
     send_data g.to_blob, :type => 'image/png', :disposition => 'inline', :stream => false
   end
-
+  
   #
   # yearly line graph
   #
@@ -258,6 +206,69 @@ class StatController < ApplicationController
   end
 
   private
+  def get_monthly_amounts_for_a_year_since(date, type, account_id)
+    graph_since = date.months_ago(11).beginning_of_month
+    graph_to = date.beginning_of_month
+
+    if TOTAL_TYPES.include?(type)
+      pls = total_typed_account_profit_losses(type, graph_since, graph_to)
+    else
+      pls = @user.monthly_profit_losses.scoped_by_month(graph_since..graph_to).scoped_by_account_id(account_id).order(:month)
+    end
+    
+    amounts = []
+    pl = nil
+    (0..11).each do |i|
+      pl = pls.shift if pl.nil?
+      if pl.nil?
+        amounts << 0
+      else
+        if graph_since.months_since(i).beginning_of_month == pl.month.beginning_of_month
+          amounts << pl.amount.abs
+          pl = nil
+        else
+          amounts << 0
+        end
+      end
+    end
+
+    amount
+  end
+
+  def total_typed_account_profit_losses(type, since, to)
+    account_ids = all_account_ids_by_total_type(type)
+    pls = account_ids.size == 0 ? [] : @user.monthly_profit_losses.scoped_by_month(since..to).scoped_by_account_id(account_ids).order(:month)
+
+    total_pls = []
+    total_pl = nil
+    pls.each do |tpl|
+      if total_pl && tpl.month != total_pl.month
+        # ループの一番最初以外で、monthが異なる場合
+        total_pls << total_pl
+      end
+      total_pl = MonthlyProfitLoss.new(:user_id => tpl.user_id, :month => tpl.month, :amount => 0)
+
+      if type == "income_total"
+        # 不明支出以外
+        unless tpl.account_id == -1 && tpl.amount > 0
+          # amountの正負はincome、outgoにかかわらず不定であるため、absは使わない
+          total_pl.amount += tpl.amount * (-1)
+        end
+      elsif type == "outgo_total"
+        # 不明収入以外
+        unless tpl.account_id == -1 && tpl.amount < 0
+          # amountの正負はincome、outgoにかかわらず不定であるため、absは使わない
+          total_pl.amount += tpl.amount
+        end
+      else # type == total
+        # すべての正負を含めたtotalを計算するので、absは使わない
+        total_pl.amount += tpl.amount
+      end
+    end
+    total_pls << total_pl unless total_pl.nil? # ループの最後だけ配列に登録されていないため、ループの後に登録
+    total_pls
+  end
+  
   def all_account_ids_by_total_type(type)
     case type
     when "total"
@@ -272,7 +283,7 @@ class StatController < ApplicationController
     account_ids
   end
 
-  def _new_virtual_account(user, type, account_id)
+  def _find_or_new_virtual_account(user, type, account_id)
     if account_id == -1
       account = Account.new(id: -1, name: _('Unknown'), account_type: 'unknown')
     elsif type == "total"
