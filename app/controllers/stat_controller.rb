@@ -67,13 +67,13 @@ class StatController < ApplicationController
     if type == "total"
 
       bank_accounts = @user.accounts.where(:account_type => 'account')
-      bank_ids = Array.new
+      bank_ids = []
       bank_accounts.each do |ba|
         bank_ids.push ba.id
       end
       initial_total = @user.monthly_profit_losses.where("month < ? and account_id IN (?)", graph_since, bank_ids).sum(:amount)
       tmp_pls = @user.monthly_profit_losses.where("month between ? and ? and account_id IN (?)", graph_since, graph_to, bank_ids).order(:month)
-      pls = Array.new
+      pls = []
       total_pl = nil
       tmp_pls.each do |tpl|
         if total_pl.nil? || total_pl.month != tpl.month
@@ -93,7 +93,7 @@ class StatController < ApplicationController
       pls = @user.monthly_profit_losses.scoped_by_month(graph_since..graph_to).scoped_by_account_id(account_id).order(:month)
     end
 
-    amounts = Array.new
+    amounts = []
     pl = nil
     total = initial_total.nil? ? 0 : initial_total
 
@@ -211,7 +211,7 @@ class StatController < ApplicationController
       else # type == "outgo_total"
         accounts = @user.accounts.find_all_by_account_type('outgo')
       end
-      account_ids = Array.new
+      account_ids = []
       accounts.each do |acct|
         account_ids.push acct.id
       end
@@ -224,7 +224,7 @@ class StatController < ApplicationController
 
       tmp_pls = account_ids.size == 0 ? [] : @user.monthly_profit_losses.scoped_by_month(graph_since..graph_to).scoped_by_account_id(account_ids).order(:month)
 
-      pls = Array.new
+      pls = []
       tmp_pl = nil
       tmp_pls.each do |tpl|
         if tmp_pl && tpl.month != tmp_pl.month  # ループの一番最初以外で、monthが異なる場合
@@ -259,7 +259,7 @@ class StatController < ApplicationController
       pls = @user.monthly_profit_losses.scoped_by_month(graph_since..graph_to).scoped_by_account_id(account_id).order(:month)
     end
 
-    amounts = Array.new
+    amounts = []
     pl = nil
     (0..11).each do |i|
       pl = pls.shift if pl.nil?
