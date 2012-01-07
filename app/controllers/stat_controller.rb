@@ -66,13 +66,10 @@ class StatController < ApplicationController
       redirect_to login_url
       return
     end
-    if type == "total"
 
-      bank_accounts = @user.accounts.where(:account_type => 'account')
-      bank_ids = []
-      bank_accounts.each do |ba|
-        bank_ids.push ba.id
-      end
+    if type == "total"
+      bank_accounts = @user.accounts.where(account_type: 'account')
+      bank_ids = bank_accounts.map{|ba| ba.id }
       scoped_pls = @user.monthly_profit_losses.where(account_id: bank_ids)
       initial_total = scoped_pls.where("month < ?", graph_since).sum(:amount)
       tmp_pls = scoped_pls.where(month: graph_since..graph_to).order(:month)
@@ -89,8 +86,7 @@ class StatController < ApplicationController
         end
       end
       # ループの最後は配列にpushされていないので、ここで追加
-      pls.push total_pl
-
+      pls << total_pl
     else
       initial_total = @user.monthly_profit_losses.scoped_by_account_id(account_id).where("month < ?", graph_since).sum(:amount)
       pls = @user.monthly_profit_losses.scoped_by_month(graph_since..graph_to).scoped_by_account_id(account_id).order(:month)
@@ -101,9 +97,7 @@ class StatController < ApplicationController
     total = initial_total.nil? ? 0 : initial_total
 
     (0..11).each do |i|
-
       pl = pls.shift if pl.nil?
-
       if pl.nil?
         amounts.push total
       else
@@ -118,7 +112,6 @@ class StatController < ApplicationController
     end
     
     title = "#{account.name} の推移"
-
     g = generate_yearly_graph(title, account, amounts, graph_since)
     send_data g.to_blob, :type => 'image/png', :disposition => 'inline', :stream => false
 
@@ -217,7 +210,6 @@ class StatController < ApplicationController
     else
       pls = @user.monthly_profit_losses.scoped_by_month(graph_since..graph_to).scoped_by_account_id(account_id).order(:month)
     end
-    
     amounts = []
     pl = nil
     (0..11).each do |i|
@@ -233,7 +225,6 @@ class StatController < ApplicationController
         end
       end
     end
-
     amounts
   end
 
