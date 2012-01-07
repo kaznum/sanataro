@@ -24,7 +24,6 @@ class Account < ActiveRecord::Base
     # amountの算出
     # 前月までのassetを算出
     asset = self.asset_to_last_month_except_self(user, account_id, my_item, date)
-
     # 今月のassetの変化を算出
     if my_item.nil?
       asset += self.asset_to_item_of_this_month(user, account_id, date)
@@ -43,8 +42,7 @@ class Account < ActiveRecord::Base
     #
     # 今月以前はplから抽出してしまうため、SQLではmy_item.amountを除外できない
     #
-    user.monthly_profit_losses.where(account_id: account_id).months_before(date.beginning_of_month).sum(:amount) +
-      self.correlate_for_self(account_id, item, date.beginning_of_month)
+    user.monthly_profit_losses.where(account_id: account_id).months_before(date.beginning_of_month).sum(:amount) + self.correlate_for_self(account_id, item, date.beginning_of_month)
   end
   
   def self.correlate_for_self(account_id, item, this_month)

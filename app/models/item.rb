@@ -131,11 +131,11 @@ class Item < ActiveRecord::Base
     return if account_id == -1
 
     if item_id.nil?
-      item_adj = user.items.order("action_date, id").where(:to_account_id => account_id, :is_adjustment => true).where("action_date > ?", action_date).first
+      item_adj = user.items.order("action_date, id").where(to_account_id: account_id, is_adjustment: true).where("action_date > ?", action_date).first
     else
-      item_adj = user.items.where(:to_account_id => account_id,
-                                   :is_adjustment => true).where("action_date > ? OR (action_date = ? AND id > ?)",
-                                                                 action_date, action_date, item_id).order("action_date, id").first
+      item_adj = user.items.where(to_account_id: account_id,
+                                   is_adjustment: true).where("(action_date > ? AND id <> ?) OR (action_date = ? AND id > ?)",
+                                                                 action_date, item_id, action_date, item_id).order("action_date, id").first
     end
     unless item_adj.nil?
       item_adj.amount += amount

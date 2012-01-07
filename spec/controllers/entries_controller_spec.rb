@@ -2233,7 +2233,7 @@ describe EntriesController do
           end
         end
       
-        context "when change to_account_id and date," do
+        context "when change date," do
           before do
             @init_adj2 = items(:adjustment2)
             @date = date = items(:adjustment4).action_date - 1
@@ -2366,36 +2366,71 @@ describe EntriesController do
           end
         end
 
-        pending("#update for adjustment specに未変換")
-        it "test_update_adjustment_change_date_to_next_month" do
-          # 日付、金額を変更
-          old_adj2 = items(:adjustment2)
-          old_adj4 = items(:adjustment4)
-          old_adj6 = items(:adjustment6)
-          old_m_pl_bank1_200802 = monthly_profit_losses(:bank1200802)
-          old_m_pl_bank1_200803 = monthly_profit_losses(:bank1200803)
+        context "when action_date is changed to the next month and before adjustment," do
+          let(:date) { items(:adjustment6).action_date - 1 }
+          before do
+            @action = lambda { xhr :put, :update, :entry_type => 'adjustment', :id => items(:adjustment2).id, :action_year => date.year, :action_month => date.month, :action_day => date.day, :adjustment_amount => '3,000', :to => items(:adjustment2).to_account_id, :year => date.year, :month => date.month
+}
+          end
 
+          describe "response" do
+            before { @action.call }
+            subject { response }
+            it { should be_success }
+          end
 
-          date = items(:adjustment6).action_date - 1
+          describe "updated adjustment" do
+            before { @action.call }
+            subject { Item.find(items(:adjustment2).id) }
+            its(:adjustment_amount) { should == 3000 }
+            it { should be_is_adjustment }
+            its(:action_date) { should == date }
+            its(:amount) { should == 3000 - Account.asset(users(:user1), items(:adjustment2).to_account_id, date, items(:adjustment2).id )}
+          end
 
-          xhr :put, :update, :entry_type => 'adjustment', :id=>items(:adjustment2).id, :action_year=>date.year, :action_month=>date.month, :action_day=>date.day, :adjustment_amount=>'3,000', :to=>items(:adjustment2).to_account_id, :year => date.year, :month => date.month
-          assert_select_rjs :replace_html, :items, ''
-          assert_select_rjs :insert_html, :bottom, :items
-          assert_select_rjs :replace_html, :warning, 'Item was changed successfully.' + ' ' + date.strftime("%Y/%m/%d") + ' ' + 'Adjustment' + ' ' +
-            CommonUtil.separate_by_comma(3000) + 'yen'
+          describe "other adjustments" do
+            describe "adjustment4" do
+              specify {
+                old_adj2 = items(:adjustment2)
+                expect { @action.call }.to change { Item.find(items(:adjustment4).id).amount }.by(old_adj2.amount)
+              }
+            end
 
-          new_adj2 = Item.find(items(:adjustment2).id)
-          assert_equal 3000, new_adj2.adjustment_amount
-          assert_equal old_adj6.action_date - 1, new_adj2.action_date
-          assert new_adj2.is_adjustment?
+            describe "adjustment6" do
+              specify {
+                old_adj6 = items(:adjustment6)
+                expect{ @action.call }.to change{ Item.find(items(:adjustment6).id).amount }.to(old_adj6.adjustment_amount - 3000)
+              }
+            end
+          end
 
-          assert_equal new_adj2.adjustment_amount - (13900 - 22000), new_adj2.amount
-          assert_equal old_adj4.amount + old_adj2.amount, Item.find(items(:adjustment4).id).amount
-          assert_equal old_adj6.amount - new_adj2.amount, Item.find(items(:adjustment6).id).amount
-          assert_equal old_m_pl_bank1_200802.amount, MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount
-          assert_equal old_m_pl_bank1_200803.amount, MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount
+          describe "balance" do
+            specify {
+              expect {@action.call}.not_to change { Account.asset(users(:user1), items(:adjustment2).to_account_id, items(:adjustment4).action_date)}
+            }
+            
+            specify {
+              expect {@action.call}.not_to change { Account.asset(users(:user1), items(:adjustment2).to_account_id, items(:adjustment6).action_date)}
+            }
+
+            describe "balance at new adjustment2 date" do
+              before { @action.call }
+              subject { Account.asset(users(:user1), items(:adjustment2).to_account_id, date) }
+              it { should == 3000 }
+            end
+          end
+
+          describe "profit losses" do
+            specify {
+              expect {@action.call}.not_to change { MonthlyProfitLoss.where(month: Date.new(2008,2), account_id: items(:adjustment2).to_account_id).first.amount }
+            }
+            specify {
+              expect {@action.call}.not_to change { MonthlyProfitLoss.where(month: Date.new(2008,3), account_id: items(:adjustment2).to_account_id).first.amount }
+            }
+          end
         end
-
+        
+        pending("#update for adjustment specに未変換")
         it "test_update_adjustment_change_date_to_next_month_no_future_adj" do 
           # 日付、金額を変更
           old_adj2 = items(:adjustment2)
@@ -2419,7 +2454,7 @@ describe EntriesController do
           assert_equal old_adj6.action_date + 1, new_adj2.action_date
           assert new_adj2.is_adjustment?
 
-          assert_equal new_adj2.adjustment_amount - (12900 - 22000), new_adj2.amount
+          assert_equal 3000 - old_adj6.adjustment_amount, new_adj2.amount
           assert_equal old_adj4.amount + old_adj2.amount, Item.find(items(:adjustment4).id).amount
           assert_equal old_adj6.amount, Item.find(items(:adjustment6).id).amount
           assert_equal old_m_pl_bank1_200802.amount, MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount

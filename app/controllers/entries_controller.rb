@@ -528,7 +528,7 @@ class EntriesController < ApplicationController
       render_rjs_error(:id => "item_warning_#{item.id}", :errors => item.errors, :default_message => _("Input value is incorrect."))
       return
     end
-    
+
     Item.transaction do
       # 古い情報に基づいたMonthlyPLを一度消す
       MonthlyProfitLoss.reflect_relatively(@user,
@@ -536,17 +536,16 @@ class EntriesController < ApplicationController
                          -1,
                          old_to_id,
                          old_amount * (-1))
-      # 未来の残高調整を行なう
-      old_future_adj = Item.adjust_future_balance(@user, old_to_id, old_amount, old_action_date, item.id)
-
-      # amountの算出
-      # 前月までのassetを算出
-      asset = @user.accounts.asset(@user, item.to_account_id, item.action_date, item.id)
-
-      item.amount = item.adjustment_amount - asset
-
-      @item = item
+      # 未来の残高調整を行なう。
+      # 残高調整のため、一度、amountを0にする。
+      item.amount = 0
       item.save!
+      old_future_adj = Item.adjust_future_balance(@user, old_to_id, old_amount, old_action_date, item.id)
+      # amountの算出
+      asset = @user.accounts.asset(@user, item.to_account_id, item.action_date, item.id)
+      item.amount = item.adjustment_amount - asset
+      item.save!
+      @item = item
       MonthlyProfitLoss.reflect_relatively(@user,
                                            item.action_date.beginning_of_month,
                                            -1,
