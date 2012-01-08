@@ -110,6 +110,7 @@ Kakeibo3::Application.routes.draw do
   namespace(:api) do
     resources :assets
     resources :budgets
+    resources :yearly_budgets
     scope ':year_month' do
       resources :entries
     end
