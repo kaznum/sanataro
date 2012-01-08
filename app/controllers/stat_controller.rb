@@ -101,69 +101,6 @@ class StatController < ApplicationController
     send_data g.to_blob, :type => 'image/png', :disposition => 'inline', :stream => false
   end
 
-  #
-  # line graph for yearly profit loss of a account
-  #
-  def show_yearly_pl_graph
-    if params[:year].blank? || params[:month].blank? ||
-        ((not (params[:type] == 'total' ||
-               params[:type] == 'income_total' ||
-               params[:type] == 'outgo_total')
-          ) && params[:account_id].blank?)
-      redirect_rjs_to login_url
-      return
-    end
-
-    account_id = params[:account_id].to_i
-    type = params[:type]
-
-    if type == 'total' || type == 'income_total' || type == 'outgo_total'
-      @graph_id = type
-      @url = url_for(:action => "yearly_pl_graph",
-                      :type => type,
-                      :year => params[:year].to_i,
-                      :month => params[:month].to_i)
-    else
-      @graph_id = account_id
-      @url = url_for(:action=>"yearly_pl_graph",
-                      :account_id=>account_id,
-                      :year => params[:year].to_i,
-                      :month => params[:month].to_i)
-    end
-  end
-
-  #
-  # pl line graph
-  #
-  def yearly_pl_graph
-    if params[:year].blank? || params[:month].blank?
-        redirect_to login_url
-        return
-    end
-
-    type = params[:type]
-    unless TOTAL_TYPES.include?(type)
-      if params[:account_id].blank?
-        redirect_to login_url
-        return
-      end
-      account_id = params[:account_id].to_i
-    end
-
-    account = _find_or_new_virtual_account(@user, type, account_id)
-    if account.nil?
-      redirect_to login_url
-      return
-    end
-
-    date = Date.new(params[:year].to_i, params[:month].to_i)
-    amounts = get_monthly_amounts_for_a_year_to(date, type, account_id)
-
-    title = "#{account.name} の推移"
-    graph_since = date.months_ago(11).beginning_of_month
-    g = generate_yearly_graph(title, account, amounts, graph_since)
-    send_data g.to_blob, :type => 'image/png', :disposition => 'inline', :stream => false
-  end
   
   #
   # yearly line graph
@@ -263,19 +200,4 @@ class StatController < ApplicationController
     account_ids << -1 if type == "income_total" || type == "outgo_total"
     account_ids
   end
-
-  def _find_or_new_virtual_account(user, type, account_id)
-    if account_id == -1
-      account = Account.new(id: -1, name: _('Unknown'), account_type: 'unknown')
-    elsif type == "total"
-      account = Account.new(name: _('Benefit of the month'), account_type: 'total')
-    elsif type == "income_total"
-      account = Account.new(name: _('Total of Income'), account_type: 'income_total')
-    elsif type == "outgo_total"
-      account = Account.new(name: _('Total of Outgo'), account_type: 'outgo_total')
-    else
-      account = user.accounts.find_by_id(account_id)
-    end
-  end
-
 end
