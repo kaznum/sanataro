@@ -186,7 +186,7 @@ class StatController < ApplicationController
 
   private
   def total_balance_before(date, account_ids)
-    @user.monthly_profit_losses.where(account_id: account_ids).where("month < ?", graph_since).sum(:amount)
+    @user.monthly_profit_losses.where(account_id: account_ids).where("month < ?", date.beginning_of_month).sum(:amount)
   end
   
   def get_monthly_amounts_for_a_year_to(date, type, account_id)
