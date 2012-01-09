@@ -9,36 +9,8 @@ class Api::YearlyAssetsController < ApplicationController
     year, month = CommonUtil.get_year_month_from_combined(params[:id])
     date_to = Date.new(year.to_i, month.to_i)
     date_since = date_to.months_ago(11)
-
     accounts = @user.accounts.where(account_type: "account").order(:order_no)
-    amounts = {}
-    accounts.each do |a|
-      amounts["account_#{a.id}"] = []
-      (0..11).inject(Account.asset(@user, a.id, date_since.yesterday)) do |amount, i|
-        month = date_since.months_since(i)
-        mpl = @user.monthly_profit_losses.where(account_id: a.id, month: month).first
-        amount += mpl ? mpl.amount : 0
-        amounts["account_#{a.id}"] << [month.to_time.to_i * 1000, amount]
-        amount
-      end
-    end
-
-    results = accounts.inject({}) { |data, a|
-      data["account_#{a.id}"] = { "label" => a.name, "data" => amounts["account_#{a.id}"] }
-      data
-    }
-
-    # total
-    initial_total = MonthlyProfitLoss.where(account_id: accounts.map{|a| a.id}).where("month < ?", date_since).sum(:amount)
-    results["total"] = { "label" => "合計" }
-    ignored, results["total"]["data"] = (0..11).inject([initial_total, []]) do |total_data, i|
-      month = date_since.months_since(i)
-      total_data[0] += MonthlyProfitLoss.where(account_id: accounts.map{|a| a.id}, month: month).sum(:amount)
-      total_data[1] << [month.to_time.to_i * 1000, total_data[0]]
-      total_data
-    end
-    
-    respond_with results
+    respond_with _json_assets(accounts, date_since)
   end
   
   private
@@ -50,4 +22,40 @@ class Api::YearlyAssetsController < ApplicationController
     true
   end
 
+  def _json_assets(accounts, date_since)
+    results = accounts.inject({}) { |data, a|
+      data["account_#{a.id}"] = { "label" => a.name, "data" => _json_account_assets(a.id, date_since)}
+      data
+    }
+
+    results["total"] = { label: "合計",
+      data: _json_total_assets(accounts.map{|a| a.id}, date_since) }
+
+    results
+  end
+  
+  def _json_account_assets(account_id, date_since)
+    json_data = []
+    (0..11).inject(Account.asset_of_month(@user, account_id, date_since.months_ago(1))) do |amount, i|
+      month = date_since.months_since(i)
+      mpl = @user.monthly_profit_losses.where(account_id: account_id, month: month).first
+      amount += mpl ? mpl.amount : 0
+      json_data << [json_date_format(month), amount]
+      amount
+    end
+    json_data
+  end
+  
+  def _json_total_assets(account_ids, date_since)
+    initial_total = Account.asset_of_month(@user, account_ids, date_since.months_ago(1))
+    ignored, data = (0..11).inject([initial_total, []]) do |total_data, i|
+      total = total_data[0]
+      data = total_data[1]
+      month = date_since.months_since(i)
+      total += MonthlyProfitLoss.where(account_id: account_ids, month: month).sum(:amount)
+      data << [json_date_format(month), total]
+      [total, data]
+    end
+    data
+  end
 end

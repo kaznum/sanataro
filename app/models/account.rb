@@ -37,12 +37,17 @@ class Account < ActiveRecord::Base
     return asset
   end
 
+  def self.asset_of_month(user, account_ids, month)
+    user.monthly_profit_losses.where(account_id: account_ids).where("month <= ?", month.beginning_of_month).sum(:amount)
+  end
+  
   private
   def self.asset_to_last_month_except_self(user, account_id, item, date)
     #
     # 今月以前はplから抽出してしまうため、SQLではmy_item.amountを除外できない
     #
-    user.monthly_profit_losses.where(account_id: account_id).months_before(date.beginning_of_month).sum(:amount) + self.correlate_for_self(account_id, item, date.beginning_of_month)
+    asset_of_month(user, account_id, date.beginning_of_month.months_ago(1)) +
+      correlate_for_self(account_id, item, date.beginning_of_month)
   end
   
   def self.correlate_for_self(account_id, item, this_month)

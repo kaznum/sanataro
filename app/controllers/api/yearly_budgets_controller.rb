@@ -53,7 +53,7 @@ class Api::YearlyBudgetsController < ApplicationController
             amount = amount > 0 ? amount : 0
           end
         end
-        [_json_date_format(date_since.months_since(i)), amount.abs]
+        [json_date_format(date_since.months_since(i)), amount.abs]
       }
       ret["account_#{acc.id}"] = { :label => acc.name, :data  => amounts }
       ret
@@ -68,7 +68,7 @@ class Api::YearlyBudgetsController < ApplicationController
     results = (0..11).inject({incomes: [], outgos: [], totals: []}) { |ret, i|
       month = date_since.months_since(i)
       totals = _monthly_total(month, outgo_ids, income_ids)
-      json_date = _json_date_format(month)
+      json_date = json_date_format(month)
       ret[:incomes] << [json_date, totals[:income].abs]
       ret[:outgos] << [json_date, totals[:outgo].abs]
 
@@ -97,7 +97,4 @@ class Api::YearlyBudgetsController < ApplicationController
     { income: income_amount, outgo: outgo_amount, total: total_amount }
   end
 
-  def _json_date_format(date)
-    date.to_time.to_i * 1000
-  end
 end

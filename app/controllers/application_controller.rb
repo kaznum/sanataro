@@ -84,7 +84,6 @@ class ApplicationController < ActionController::Base
       end
     end
   end
-
   
   def render_rjs_error(args)
     @error_rjs_params = args
@@ -93,5 +92,9 @@ class ApplicationController < ActionController::Base
 
   def today
     @application_cached_today ||= Date.today
+  end
+
+  def json_date_format(date)
+    date.to_time.to_i * 1000
   end
 end
