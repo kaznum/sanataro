@@ -54,7 +54,7 @@
 		<tr><th  class="table_header" colspan="3"><%=h @this_month.year %>年<%=h @this_month.month %>月資産の部</th></tr>
 		<% @plus.each do |a, amount| %>
 		  <tr>
-		    <td class="title"><%=h a.name %> [<%= link_to '出納帳', (params[:year].blank? || params[:month].blank?) ? current_balance_sheet_path(a.id) : balance_sheet_path(params[:year], params[:month], a.id), :method => :get, :remote => true %>][<%= link_to '推移', {:controller => 'stat', :action=>'show_yearly_bs_graph', :account_id=>a.id, :year => @this_month.year, :month => @this_month.month}, :remote => true %>]</td>
+		    <td class="title"><%=h a.name %> [<%= link_to '出納帳', (params[:year].blank? || params[:month].blank?) ? current_balance_sheet_path(a.id) : balance_sheet_path(params[:year], params[:month], a.id), :method => :get, :remote => true %>]</td>
 		    <td class="money"><%= CommonUtil.separate_by_comma(amount) %>円</td>
 		    <td class="percent"><%= (@total_plus == 0) ? '*' : amount * 100 / @total_plus %>%</td>
 		  </tr>
@@ -71,7 +71,7 @@
 		<tr><th class="table_header" colspan="3"><%=h @this_month.year %>年<%=h @this_month.month %>月負債の部</th></tr>
 		<% @minus.each do |a, amount| %>
 		  <tr>
-		    <td class="title"><%=h a.name %> [<%= link_to '出納帳', url_for((params[:year].blank? || params[:month].blank?) ? current_balance_sheet_path(a.id) : balance_sheet_path(params[:year], params[:month], a.id)), :method => :get, :remote => true %>][<%= link_to '推移', url_for(:controller => 'stat', :action=>'show_yearly_bs_graph', :account_id=>a.id, :year => @this_month.year, :month => @this_month.month), :remote => true %>]</td>
+		    <td class="title"><%=h a.name %> [<%= link_to '出納帳', url_for((params[:year].blank? || params[:month].blank?) ? current_balance_sheet_path(a.id) : balance_sheet_path(params[:year], params[:month], a.id)), :method => :get, :remote => true %>]</td>
 		    <td class="money"><%=h CommonUtil.separate_by_comma((-1)*amount) %>円</td>
 		    <td class="percent"><%=h (@total_minus == 0) ? '*' :amount * 100 / @total_minus %>%</td>
 		  </tr>
@@ -83,7 +83,7 @@
 		  <th class="table_header" colspan="3"><%=h @this_month.year %>年<%=h @this_month.month %>月資本の部</th>
 		</tr>
 		<tr>
-		  <td class="total">資本合計 [<%= link_to '推移', url_for(:controller => 'stat', :action=>'show_yearly_bs_graph', :type => 'total', :year => @this_month.year, :month => @this_month.month), :remote => true %>]</td>
+		  <td class="total">資本合計 </td>
 		  <td class="total money"><%=h CommonUtil.separate_by_comma(@total_plus + @total_minus) %>円</td>
 		  <td class="percent">100%</td>
 		</tr>
