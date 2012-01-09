@@ -65,13 +65,10 @@ gem "fast_gettext"
 gem "gettext_i18n_rails"
 if defined?(JRUBY_VERSION)
   gem "jruby-openssl"
-  gem "rmagick4j", :require => false
   gem "activerecord-jdbcmysql-adapter"
 else
-  gem "rmagick", :require => false
   gem "mysql2", '~> 0.3'
 end
-gem "gruff"
 gem 'prototype-rails', '3.1.0'
 
 group :assets do

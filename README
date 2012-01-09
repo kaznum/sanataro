@@ -22,7 +22,6 @@ This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0 to 3.1 escalatingly
 * There are some places where hard-coded Japanese characters.
 * There are lots of old-fassion Rails2 ways which want to be changed to new-fassion ones.
 * Fixture dependency should be removed and replaced with other framework(FactoryGirl, Fabrication, etc)
-* RMagick codes should be removed and replaced with flot js graph API.
 * Now, there is no view specs and cucumber senarios.
 
 == License
