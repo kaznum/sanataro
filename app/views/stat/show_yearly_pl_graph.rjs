@@ -1,4 +1,0 @@
-page.replace :pl_history, :partial=>'yearly_pl_graph', :locals=>{:graph_id => @graph_id,
-  :url => @url}
-page.hide "pl_yearly_history_img_#{@graph_id}"
-page.visual_effect :appear, "pl_yearly_history_img_#{@graph_id}", :duration => '0.3'
