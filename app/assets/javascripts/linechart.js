@@ -7,18 +7,34 @@
 	});
 	
 	var choiceContainer = jQuery(choices_id);
+	var all_check_id = "all_" + choices_id.replace(/#/gi,'');
+	var check_prefix = "id" + choices_id.replace(/#/gi,'');
+        choiceContainer.append('<input type="checkbox" name="' + all_check_id
+			       + '" checked="checked" rel="all">'
+			       + '<label for="' + all_check_id
+			       + '">ALL</label> ');
+
 	jQuery.each(datasets, function(key, val) {
+	    id = check_prefix + key;
             choiceContainer.append('<input type="checkbox" name="' + key +
-				   '" checked="checked" id="id' + key + '">' +
-				   '<label for="id' + key + '">'
+				   '" checked="checked" id="' + id + '">' +
+				   '<label for="' + id + '">'
                                    + val.label + '</label> ');
 	});
-	choiceContainer.find("input").click(plotAccordingToChoices);
+	
+	choiceContainer.find("input[rel!=all]").bind("change", plotAccordingToChoices);
+	choiceContainer.find("input[rel=all]").bind("change", function() {
+	    checked = jQuery(this).attr("checked");
+            choiceContainer.find("input[rel!=all]").each(function () {
+		jQuery(this).attr("checked", checked);
+		plotAccordingToChoices();
+	    });
+	});
 
 	function plotAccordingToChoices() {
             var data = [];
 
-            choiceContainer.find("input:checked").each(function () {
+            choiceContainer.find("input:checked[rel!=all]").each(function () {
 		var key = jQuery(this).attr("name");
 		if (key && datasets[key])
                     data.push(datasets[key]);
