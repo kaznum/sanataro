@@ -8,6 +8,7 @@
    end
 -%>
 <%= javascript_include_tag "piechart" %>
+<%= javascript_include_tag "linechart" %>
 <script type="text/javascript">
   window.onload = function() {
     jQuery.ajax({
@@ -21,6 +22,12 @@
       type: "GET",
       dataType: "json",
       success: function(data){ pieChart("debt_chart", data); }
+    });
+    jQuery.ajax({
+      url: "<%=raw api_yearly_asset_path(:id => sprintf("%04d%02d", cur_year, cur_month), :format => :json) %>",
+      type: "GET",
+      dataType: "json",
+      success: function(data){ lineChart("#yearly_chart", "#yearly_chart_choices" , data); }
     });
   };
 </script>
@@ -88,6 +95,11 @@
 	    <td class="total_capital">総資本: <%=h CommonUtil.separate_by_comma(@total_plus) %>円</td>
 	  </tr>
 	</table>
+	<div class="yearly_balance_graph">
+	  <div class="chart_title">■推移 <span id="income_chart_hover"></span></div>
+	  <div id="yearly_chart_choices"></div>
+	  <div id="yearly_chart" class="graph" style="width: 600px; height: 200px;"></div>
+	</div>
 	<div id="account_history"></div>
       </td>
       <td style="vertical-align:top">
