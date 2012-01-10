@@ -118,6 +118,7 @@ describe Api::YearlyBudgetsController do
           context "there is no data to send," do 
             before do
               Account.destroy_all
+              MonthlyProfitLoss.destroy_all
               get :show, id: "200802", budget_type: "income", format: :json
             end
             describe "response" do
@@ -188,6 +189,7 @@ describe Api::YearlyBudgetsController do
           context "there is no data to send," do 
             before do
               Account.destroy_all
+              MonthlyProfitLoss.destroy_all
               get :show, id: "200802", budget_type: "total", format: :json
             end
             describe "response" do
