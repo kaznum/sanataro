@@ -899,10 +899,11 @@ class EntriesController < ApplicationController
       cr = @user.credit_relations.find_by_credit_account_id(from_id)
       unless cr.nil?
         payment_date = _credit_payment_date(from_id, Date.new(year,month,day))
-        credit_item, ignore, ignore = _do_add_item(name,
-                                                   cr.payment_account_id, from_id,
-                                                   amount, payment_date.year, payment_date.month, payment_date.day,
-                                                   item.id)
+        credit_item, ignore, ignore =
+          _do_add_item(name,
+                       cr.payment_account_id, from_id,
+                       amount, payment_date.year, payment_date.month, payment_date.day,
+                       item.id)
         unless credit_item.nil?
           item.child_id = credit_item.id
           item.save!
@@ -917,27 +918,7 @@ class EntriesController < ApplicationController
   # params: date (決済日)
   #
   def _credit_payment_date(account_id, date)
-    year = date.year
-    month = date.month
-    day = date.day
-
-    cr = @user.credit_relations.find_by_credit_account_id(account_id)
-      unless cr.nil?
-        if day <= cr.settlement_day
-          payment_month_time = date.beginning_of_month.months_since(cr.payment_month)
-        else
-          payment_month_time = date.beginning_of_month.months_since(cr.payment_month + 1)
-        end
-
-        if cr.payment_day == 99
-          payment_time = payment_month_time.end_of_month
-        else
-          payment_time = Date.new(payment_month_time.year, payment_month_time.month, cr.payment_day)
-        end
-      else
-        return nil
-      end
-    return payment_time
+    @user.accounts.where(id: account_id).first.credit_due_date(date)
   end
 
   #

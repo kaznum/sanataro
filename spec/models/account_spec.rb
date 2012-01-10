@@ -185,4 +185,65 @@ describe Account do
       it { should be 13900 }
     end
   end
+
+  describe "#credit_due_date" do
+    before do
+      @credit_params = {
+        user_id: 1,
+        name: "credit",
+        account_type: "account",
+        order_no: 1
+      }
+
+      @bank_params = {
+        user_id: 1,
+        name: "bank",
+        account_type: "account",
+        order_no: 10,
+      }
+
+      @relation_params = {
+        settlement_day: 10,
+        payment_month: 2,
+        payment_day: 4,
+        user_id: 1,
+      }
+
+      @credit = Account.create!(@credit_params)
+      @bank = Account.create!(@bank_params)
+      @relation = CreditRelation.create!(@relation_params.merge(credit_account_id: @credit.id, payment_account_id: @bank.id))
+    end
+
+    context "when action_date is before the settlemnt_date," do
+      subject { @credit.credit_due_date(Date.new(2011,2, 5)) }
+      it { should == Date.new(2011,4,4) }
+    end
+    
+    context "when action_date is after the settlemnt_date," do
+      subject { @credit.credit_due_date(Date.new(2011,2, 15)) }
+      it { should == Date.new(2011,5,4) }
+    end
+
+    context "when payment_day is 99" do
+      before do 
+        @relation.update_attributes!(@relation_params.merge(credit_account_id: @credit.id, payment_account_id: @bank.id, payment_day: 99))
+      end
+
+      context "when the action_date is before the settlement_date 5," do
+        subject { @credit.credit_due_date(Date.new(2011,7, 5)) }
+        it { should == Date.new(2011,9,30) }
+      end
+    
+      context "when end_of_month is 31," do
+        subject { @credit.credit_due_date(Date.new(2011,7, 31)) }
+        it { should == Date.new(2011,10,31) }
+      end
+    
+      context "when end_of_month is 28," do
+        subject { @credit.credit_due_date(Date.new(2011,2, 28)) }
+        it { should == Date.new(2011,5,31) }
+      end
+    end
+  end
+  
 end

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 class Account < ActiveRecord::Base
   belongs_to :user
-  has_many :accounts
+  has_one :payment_relation, foreign_key: :credit_account_id, class_name: "CreditRelation"
+  has_many :credit_relations, foreign_key: :payment_account_id, class_name: "CreditRelation"
   
   validates_presence_of :name
   validates_length_of :name, :in =>1..255
@@ -40,6 +41,17 @@ class Account < ActiveRecord::Base
   def self.asset_of_month(user, account_ids, month)
     user.monthly_profit_losses.where(account_id: account_ids).where("month <= ?", month.beginning_of_month).sum(:amount)
   end
+
+  def credit_due_date(action_date)
+    cr = payment_relation
+    unless cr.nil?
+      earliest_month = action_date.beginning_of_month.months_since(cr.payment_month)
+      due_month = action_date.day <= cr.settlement_day ? earliest_month : earliest_month.months_since(1)
+      due_date = cr.payment_day == 99 ? due_month.end_of_month : Date.new(due_month.year, due_month.month, cr.payment_day)
+    end
+    return due_date
+  end
+  
   
   private
   def self.asset_to_last_month_except_self(user, account_id, item, date)
