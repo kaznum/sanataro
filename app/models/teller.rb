@@ -10,13 +10,15 @@ class Teller
     affected_items = []
     ActiveRecord::Base.transaction do 
       item.save!
+
+      MonthlyProfitLoss.correct(user, item.from_account_id, item.action_date.beginning_of_month)
+      MonthlyProfitLoss.correct(user, item.to_account_id, item.action_date.beginning_of_month)
       
-      from_item_adj = Item.adjust_future_balance(user, item.from_account_id, item.amount, item.action_date, item.id)
-      to_item_adj = Item.adjust_future_balance(user, item.to_account_id, item.amount * (-1), item.action_date, item.id)
-      affected_items << from_item_adj unless from_item_adj.nil?
-      affected_items << to_item_adj unless to_item_adj.nil?
+      from_item_adj = Item.update_future_balance(user, item.action_date, item.from_account_id, item.id)
+      to_item_adj = Item.update_future_balance(user, item.action_date, item.to_account_id, item.id)
+      affected_items << from_item_adj if from_item_adj
+      affected_items << to_item_adj if to_item_adj
       
-      MonthlyProfitLoss.reflect_relatively(user, item.action_date.beginning_of_month, item.from_account_id, item.to_account_id, item.amount)
 
       #
       # クレジットカードの処理

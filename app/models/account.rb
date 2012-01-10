@@ -37,7 +37,7 @@ class Account < ActiveRecord::Base
 
     return asset
   end
-
+  
   def self.asset_of_month(user, account_ids, month)
     user.monthly_profit_losses.where(account_id: account_ids).where("month <= ?", month.beginning_of_month).sum(:amount)
   end

@@ -122,6 +122,24 @@ class Item < ActiveRecord::Base
 
   end
 
+  def self.update_future_balance(user, action_date, account_id, item_id)
+    return if account_id == -1
+    
+    item_adj = user.items.where(to_account_id: account_id,
+                                is_adjustment: true).where("(action_date > ? AND id <> ?) OR (action_date = ? AND id > ?)",
+                                                           action_date, item_id, action_date, item_id).order("action_date, id").first
+    if item_adj
+      amount_to_adj = Account.asset(user, account_id, item_adj.action_date, item_adj.id)
+      item_adj.amount = item_adj.adjustment_amount - amount_to_adj
+      item_adj.save!
+
+      MonthlyProfitLoss.correct(user, account_id, item_adj.action_date.beginning_of_month)
+      MonthlyProfitLoss.correct(user, -1, item_adj.action_date.beginning_of_month)
+    end
+
+    item_adj
+  end
+  
   #
   # 残高調整内部処理
   # 直近の未来の残高調整アイテムを1件取得し、amountの分だけ、金額に追加することにより、残高調整による不明金調整を行なう
@@ -134,8 +152,8 @@ class Item < ActiveRecord::Base
       item_adj = user.items.order("action_date, id").where(to_account_id: account_id, is_adjustment: true).where("action_date > ?", action_date).first
     else
       item_adj = user.items.where(to_account_id: account_id,
-                                   is_adjustment: true).where("(action_date > ? AND id <> ?) OR (action_date = ? AND id > ?)",
-                                                                 action_date, item_id, action_date, item_id).order("action_date, id").first
+                                  is_adjustment: true).where("(action_date > ? AND id <> ?) OR (action_date = ? AND id > ?)",
+                                                             action_date, item_id, action_date, item_id).order("action_date, id").first
     end
     unless item_adj.nil?
       item_adj.amount += amount
