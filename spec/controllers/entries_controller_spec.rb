@@ -718,18 +718,13 @@ describe EntriesController do
                 @init_adj6 = Item.find(items(:adjustment6).id)
                 @init_bank_2_pl = monthly_profit_losses(:bank1200802)
                 @init_bank_3_pl = monthly_profit_losses(:bank1200803)
-                @init_unknown_2_pl = MonthlyProfitLoss.new
-                @init_unknown_2_pl.month = Date.new(2008,2)
-                @init_unknown_2_pl.account_id = -1
-                @init_unknown_2_pl.amount = 100
-                @init_unknown_2_pl.user_id = users(:user1).id
-                @init_unknown_2_pl.save!
-                @init_unknown_3_pl = MonthlyProfitLoss.new
-                @init_unknown_3_pl.month = Date.new(2008,3)
-                @init_unknown_3_pl.account_id = -1
-                @init_unknown_3_pl.amount = 311
-                @init_unknown_3_pl.user_id = users(:user1).id
-                @init_unknown_3_pl.save!
+                @init_unknown_2_pl = monthly_profit_losses(:unknown200802)
+                @init_unknown_3_pl = MonthlyProfitLoss.create! { |pl|
+                  pl.month = Date.new(2008,3)
+                  pl.account_id = -1
+                  pl.amount = 311
+                  pl.user_id = users(:user1).id
+                }
 
                 # 正常処理 (adj4を削除。影響をうけるのはadj6と,200802, 200803のm_pl)
                 xhr :delete, :destroy, :id => items(:adjustment4).id, :year => 2008, :month => 2

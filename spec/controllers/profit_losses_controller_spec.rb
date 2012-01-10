@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'spec_helper'
 
 describe ProfitLossesController do
@@ -51,25 +52,51 @@ describe ProfitLossesController do
         end
       end
 
-      context "when valid month is specified" do
-        before do
-          get :index, :year => '2008', :month => '2'
-        end
+      context "when valid month is specified," do
+        context "and with common condition," do
+          before do
+            get :index, :year => '2008', :month => '2'
+          end
+          describe "response" do
+            subject { response}
+            it { should be_success }
+            it { should render_template('index')}
+          end
 
-        describe "response" do
-          subject { response}
-          it { should be_success }
-          it { should render_template('index')}
+          describe "assigned variables" do
+            subject { assigns }
+            its([:from_date]) { should_not be_nil}
+            its([:m_pls]) { should_not be_nil}
+            its([:account_incomes]) { should_not be_nil}
+            its([:total_income]) { should_not be_nil}
+            its([:account_outgos]) { should_not be_nil}
+            its([:total_outgo]) { should_not be_nil}
+          end
         end
+        
+        context "and Unknown accounts amount < 0," do
+          before do
+            get :index, :year => '2008', :month => '2'
+          end
 
-        describe "assigned variables" do
-          subject { assigns }
-          its([:from_date]) { should_not be_nil}
-          its([:m_pls]) { should_not be_nil}
-          its([:account_incomes]) { should_not be_nil}
-          its([:total_income]) { should_not be_nil}
-          its([:account_outgos]) { should_not be_nil}
-          its([:total_outgo]) { should_not be_nil}
+          describe "unknown account in assigned variables" do
+            subject { assigns[:account_incomes] }
+            it { should be_any { |a| a.id == -1 } }
+            specify { subject.find{ |a| a.id == -1 }.name.should == "不明収入" }
+          end
+        end
+        
+        context "and Unknown accounts amount > 0," do
+          before do
+            MonthlyProfitLoss.find(ActiveRecord::Fixtures.identify(:unknown200802)).update_attributes(amount: 5000)
+            get :index, :year => '2008', :month => '2'
+          end
+
+          describe "unknown account in assigned variables" do
+            subject { assigns[:account_outgos] }
+            it { should be_any { |a| a.id == -1 } }
+            specify { subject.find{ |a| a.id == -1 }.name.should == "不明支出" }
+          end
         end
       end
     end
