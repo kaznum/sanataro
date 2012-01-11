@@ -8,9 +8,9 @@
     \=&gt;#{select_tag 'to', options_for_select(@separated_accounts[:to_accounts], item.to_account_id.to_s)} 金額:#{text_field_tag 'amount', item.amount, :size=>10, :style=>"text-align: right;"}円
     %br/
     タグ #{text_field_tag 'tag_list', item.tag_list(@user)}
-    %span{:id => "item_operation_#{h item.id}"}
+    %span{:id => "item_operation_#{item.id}"}
       = submit_tag '変更', :id=>'edit_button_' + item.id.to_s
       = link_to 'キャンセル', entry_path(params[:year].to_i, params[:month].to_i, item.id), :remote => true, :method => :get, :before => "$('item_operation_#{item.id}').hide();$('item_operation_loading_#{item.id}').show();"
-    %span{:id => "item_operation_loading_#{h item.id}", :style => "display:none;"}= image_tag "loading.gif", :alt => "loading..."
+    %span{:id => "item_operation_loading_#{item.id}", :style => "display:none;"}= image_tag "loading.gif", :alt => "loading..."
   %br/
   %span.warning{:id => "item_warning_#{item.id}"}

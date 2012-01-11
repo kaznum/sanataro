@@ -47,12 +47,12 @@
                   %th %
                 %tr
                   %th.table_header{:colspan => "3"}
-                    = h @this_month.year
-                    年#{h @this_month.month}月資産の部
+                    = @this_month.year
+                    年#{@this_month.month}月資産の部
                 - @plus.each do |a, amount|
                   %tr
                     %td.title
-                      = h a.name
+                      = a.name
                       [#{link_to '出納帳', (params[:year].blank? || params[:month].blank?) ? current_balance_sheet_path(a.id) : balance_sheet_path(params[:year], params[:month], a.id), :method => :get, :remote => true}]
                     %td.money
                       = CommonUtil.separate_by_comma(amount)
@@ -63,7 +63,7 @@
                 %tr
                   %td.total 資産合計
                   %td.total.money
-                    = h CommonUtil.separate_by_comma(@total_plus)
+                    = CommonUtil.separate_by_comma(@total_plus)
                     円
                   %td.percent 100%
             %td{:style => "vertical-align:top"}
@@ -74,40 +74,40 @@
                   %th %
                 %tr
                   %th.table_header{:colspan => "3"}
-                    = h @this_month.year
-                    年#{h @this_month.month}月負債の部
+                    = @this_month.year
+                    年#{@this_month.month}月負債の部
                 - @minus.each do |a, amount|
                   %tr
                     %td.title
-                      = h a.name
+                      = a.name
                       [#{link_to '出納帳', url_for((params[:year].blank? || params[:month].blank?) ? current_balance_sheet_path(a.id) : balance_sheet_path(params[:year], params[:month], a.id)), :method => :get, :remote => true}]
                     %td.money
-                      = h CommonUtil.separate_by_comma((-1)*amount)
+                      = CommonUtil.separate_by_comma((-1)*amount)
                       円
                     %td.percent
-                      = h (@total_minus == 0) ? '*' :amount * 100 / @total_minus
+                      = (@total_minus == 0) ? '*' :amount * 100 / @total_minus
                       \%
                 %tr
                   %td.total 負債合計
                   %td.total.money
-                    = h CommonUtil.separate_by_comma((-1)*@total_minus)
+                    = CommonUtil.separate_by_comma((-1)*@total_minus)
                     円
                   %td.money 100%
                 %tr
                   %th.table_header{:colspan => "3"}
-                    = h @this_month.year
-                    年#{h @this_month.month}月資本の部
+                    = @this_month.year
+                    年#{@this_month.month}月資本の部
                 %tr
                   %td.total 資本合計
                   %td.total.money
-                    = h CommonUtil.separate_by_comma(@total_plus + @total_minus)
+                    = CommonUtil.separate_by_comma(@total_plus + @total_minus)
                     円
                   %td.percent 100%
           %tr
             %td.total_capital
-              総資産: #{h CommonUtil.separate_by_comma(@total_plus)}円
+              総資産: #{CommonUtil.separate_by_comma(@total_plus)}円
             %td.total_capital
-              総資本: #{h CommonUtil.separate_by_comma(@total_plus)}円
+              総資本: #{CommonUtil.separate_by_comma(@total_plus)}円
         .yearly_balance_graph
           .chart_title
             ■推移

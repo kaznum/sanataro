@@ -1,9 +1,9 @@
 .cfg_account{:id => "account_#{account.id.to_s}"}
   .cfg_account_name
     - if account.bgcolor.blank?
-      = h account.name
+      = account.name
     - else
-      %span{:style => "background-color: ##{h account.bgcolor};"}= h account.name
+      %span{:style => "background-color: ##{account.bgcolor};"}= account.name
   .cfg_account_order= account.order_no
   .cfg_account_operation
     = link_to '編集', edit_settings_account_path(account.id), :method => :get, :remote => true

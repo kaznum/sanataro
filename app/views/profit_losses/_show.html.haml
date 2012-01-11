@@ -1,9 +1,9 @@
 #pl_history
-%div{:id => "pl_history_#{h @account_id}"}
+%div{:id => "pl_history_#{@account_id}"}
   %table{:width => "600"}
     %tr
       %th{:colspan => "5"}
-        = h @separated_accounts[:all_accounts][@account_id]
+        = @separated_accounts[:all_accounts][@account_id]
         の出納帳 (#{link_to_function '隠す', "new Effect.Fade('pl_history_#{ @account_id }', {duration: 0.3}); setTimeout(function() { Element.remove('pl_history_#{@account_id}');}, 3000);"})
     %tr
       %th{:width => "80px"} 日付
@@ -17,14 +17,14 @@
     - related_account = @separated_accounts[:all_accounts][it.from_account_id]
     - total += amount
       %tr
-        %td{:width => "80px"}= h it.action_date.strftime("%Y/%m/%d")
-        %td= h related_account
-        %td= h (it.is_adjustment) ? '残高調整 ' + CommonUtil.separate_by_comma(it.adjustment_amount) + ' 円' : it.name
+        %td{:width => "80px"}= it.action_date.strftime("%Y/%m/%d")
+        %td= related_account
+        %td= (it.is_adjustment) ? '残高調整 ' + CommonUtil.separate_by_comma(it.adjustment_amount) + ' 円' : it.name
         %td{:align => "right", :width => "80px"}
-          = h CommonUtil.separate_by_comma(amount)
+          = CommonUtil.separate_by_comma(amount)
           円
         %td{:align => "right", :width => "80px"}
-          = h CommonUtil.separate_by_comma(total)
+          = CommonUtil.separate_by_comma(total)
           円
     %tr
       %th{:colspan => "4"} 合計

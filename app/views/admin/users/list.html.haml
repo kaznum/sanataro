@@ -1,5 +1,5 @@
 %h1
-  = h PRODUCT_NAME
+  = PRODUCT_NAME
   users list
 %table
   %tr
@@ -10,8 +10,8 @@
     %th active
   - @users.each do |u|
     %tr
-      %td= h u.id
-      %td= h u.login
-      %td= h u.created_at.nil? ? '' : u.created_at.strftime("%Y/%m/%d %H:%M:%S")
-      %td= h u.updated_at.nil? ? '' : u.updated_at.strftime("%Y/%m/%d %H:%M:%S")
-      %td= h u.is_active?
+      %td= u.id
+      %td= u.login
+      %td= u.created_at.nil? ? '' : u.created_at.strftime("%Y/%m/%d %H:%M:%S")
+      %td= u.updated_at.nil? ? '' : u.updated_at.strftime("%Y/%m/%d %H:%M:%S")
+      %td= u.is_active?
