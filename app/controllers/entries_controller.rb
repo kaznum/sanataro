@@ -671,28 +671,19 @@ class EntriesController < ApplicationController
       
       Item.transaction do
         item.save!
-
-        MonthlyProfitLoss.reflect_relatively(@user,
-                                             old_action_date,
-                                             old_from_id,
-                                             old_to_id,
-                                             old_amount * (-1))
-        MonthlyProfitLoss.reflect_relatively(@user,
-                                             item.action_date,
-                                             item.from_account_id,
-                                             item.to_account_id,
-                                             item.amount)
-        # 残高調整
-        if  old_amount != item.amount ||
-            old_from_id != item.from_account_id ||
-            old_to_id != item.to_account_id ||
-            old_action_date != item.action_date
-
-          old_from_item_adj = Item.adjust_future_balance(@user, old_from_id, old_amount * (-1), old_action_date, item.id)
-          old_to_item_adj = Item.adjust_future_balance(@user, old_to_id, old_amount, old_action_date, item.id)
-          from_item_adj = Item.adjust_future_balance(@user, item.from_account_id, item.amount, item.action_date, item.id)
-          to_item_adj = Item.adjust_future_balance(@user, item.to_account_id, item.amount * (-1), item.action_date, item.id)
-        end
+        MonthlyProfitLoss.correct(@user, old_from_id, old_action_date.beginning_of_month)
+        MonthlyProfitLoss.correct(@user, old_to_id, old_action_date.beginning_of_month)
+        MonthlyProfitLoss.correct(@user, item.from_account_id, item.action_date.beginning_of_month)
+        MonthlyProfitLoss.correct(@user, item.to_account_id, item.action_date.beginning_of_month)
+        
+        old_from_item_adj = Item.update_future_balance(@user, old_action_date,
+                                                       old_from_id, item.id)
+        old_to_item_adj = Item.update_future_balance(@user, old_action_date,
+                                                     old_to_id, item.id)
+        from_item_adj = Item.update_future_balance(@user, item.action_date,
+                                                   item.from_account_id, item.id)
+        to_item_adj = Item.update_future_balance(@user, item.action_date,
+                                                item.to_account_id, item.id)
 
         # クレジットカードの処理
         # 一旦古い情報を削除し、再度追加の必要がある場合のみ追加する
@@ -704,19 +695,19 @@ class EntriesController < ApplicationController
         else
           payment_account_id = cr.payment_account_id
         end
-        unless payment_account_id.nil?
+        if payment_account_id
           paydate = _credit_payment_date(item.from_account_id, item.action_date)
 
           credit_item, ignore, ignore = _do_add_item(item.name, payment_account_id, item.from_account_id,
                                                      item.amount, paydate.year, paydate.month, paydate.day, item.id)
-          unless credit_item.nil?
+          if credit_item
             item.child_id = credit_item.id
           end
         end
 
         # child_id が異なる場合は、保存しなおす
         if credit_item.nil?
-          unless old_child_id.nil?
+          if old_child_id
             item.child_id = nil
             item.save!
           end
@@ -869,6 +860,7 @@ class EntriesController < ApplicationController
     end
   end
 
+  # (obsolete)
   def _do_add_item(name, from_id, to_id, amount, year, month, day, parent_id=nil, confirmation_required=nil, tag_list=nil)
     item = Item.new do |itm|
       itm.user = @user

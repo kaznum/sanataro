@@ -140,7 +140,7 @@ class Item < ActiveRecord::Base
     item_adj
   end
   
-  #
+  #(obsolete self.update_future_balance(user, action_date, account_id, item_id)で置き換え)
   # 残高調整内部処理
   # 直近の未来の残高調整アイテムを1件取得し、amountの分だけ、金額に追加することにより、残高調整による不明金調整を行なう
   #
