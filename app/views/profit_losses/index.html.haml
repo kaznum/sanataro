@@ -52,8 +52,8 @@
         %table{:width => "300px"}
           %tr
             %th{:colspan => "3"}
-              = @from_date.year
-              年#{@from_date.month}月収入の部
+              = h @from_date.year
+              年#{h @from_date.month}月収入の部
           %tr
             %th 項目名
             %th 金額
@@ -61,24 +61,24 @@
           - @account_incomes.each do |ai|
             %tr
               %td
-                = ai.name
+                = h ai.name
                 [#{link_to '出納帳', (params[:year].blank? || params[:month].blank?) ? current_profit_loss_path(ai.id) : profit_loss_path(params[:year], params[:month], ai.id), :remote => true, :method => :get}]
               %td{:align => "right"}
-                = CommonUtil.separate_by_comma((-1) * @m_pls[ai.id])
+                = h CommonUtil.separate_by_comma((-1) * @m_pls[ai.id])
                 円
               %td{:align => "right"}
-                = (@total_income == 0) ? '*' : @m_pls[ai.id] * (-100) / @total_income
+                = h (@total_income == 0) ? '*' : @m_pls[ai.id] * (-100) / @total_income
                 \%
           %tr
             %td.total 収入合計
             %td.total{:align => "right"}
-              = CommonUtil.separate_by_comma(@total_income)
+              = h CommonUtil.separate_by_comma(@total_income)
               円
             %td{:align => "right"} 100%
           %tr
             %th{:colspan => "3"}
-              = @from_date.year
-              年#{@from_date.month}月支出の部
+              = h @from_date.year
+              年#{h @from_date.month}月支出の部
           %tr
             %th 項目名
             %th 金額
@@ -86,30 +86,30 @@
           - @account_outgos.each do |og|
             %tr
               %td
-                = og.name
+                = h og.name
                 [#{link_to '出納帳', (params[:year].blank? || params[:month].blank?) ? current_profit_loss_path(og.id) : profit_loss_path(params[:year], params[:month], og.id), :remote => true, :method => :get}]
               %td{:align => "right"}
                 = CommonUtil.separate_by_comma(@m_pls[og.id])
                 円
               %td{:align => "right"}
-                = (@total_outgo == 0) ? '*' :@m_pls[og.id] * 100 / @total_outgo
+                = h (@total_outgo == 0) ? '*' :@m_pls[og.id] * 100 / @total_outgo
                 \%
           %tr
             %td.total 支出合計
             %td.total{:align => "right"}
-              = CommonUtil.separate_by_comma(@total_outgo)
+              = h CommonUtil.separate_by_comma(@total_outgo)
               円
             %td{:align => "right"} 100%
           %tr
             %td.space{:colspan => "3"}
           %tr
             %td.all_total
-              = @from_date.year
-              年#{@from_date.month}月
+              = h @from_date.year
+              年#{h @from_date.month}月
               %br/
               収益(損失)合計
             %td.all_total{:align => "right"}
-              = CommonUtil.separate_by_comma(@total_income - @total_outgo)
+              = h CommonUtil.separate_by_comma(@total_income - @total_outgo)
               円
             %td{:align => "center"} -
       %td{:valign => "top"}

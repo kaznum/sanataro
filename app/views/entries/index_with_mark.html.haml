@@ -6,11 +6,14 @@
     #itemlistarea
       %p#list_item_explain
         = _("List of Income/Outgo")
-        (mark: #{@mark == 'confirmation_required' ? '要確認' : '(不明)'})
+        (mark: #{h (@mark == 'confirmation_required') ? '要確認' : '(不明)'})
       = render :partial => 'items_header'
       #items
         = raw @items.collect{|it| render_item(it)}.join
         = render :partial=>'remains_link'
+      / items
+    / itemlistarea
+  / left_area
   #right_area
     #account_status.status_drawer
       = render :partial => 'account_status_blank'
@@ -20,3 +23,5 @@
       = render :partial => 'tag_statuses/show_blank'
     #ad
       = render :partial => 'common/left_ad'
+  / right area
+/ wrapper

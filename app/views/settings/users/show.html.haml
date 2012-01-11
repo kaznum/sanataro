@@ -1,6 +1,6 @@
 #menu
   = render :partial=>'settings/config_menu'
-- if @user.login != 'demo'
+- if  @user.login != 'demo'
   #input_area
     = form_tag settings_user_path, :remote => true, :method => :put, :before=>"$('change_button').disabled = true" do
       %p= _("Input new password and the same password in confirmation field.")

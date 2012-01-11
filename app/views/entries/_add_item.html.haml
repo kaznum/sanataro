@@ -11,4 +11,6 @@
   %br/
   タグ #{text_field_tag 'tag_list'} #{submit_tag _('Register'), :id=>'new_add_button'}
   :javascript
+    //
     new Form.Element.Observer('item_name', 1, function(element, value) {new Ajax.Updater('candidates', '#{entry_candidates_path}', {asynchronous:true, evalScripts:true, method:'get', parameters:'item_name=' + encodeURIComponent(value)})})
+    //

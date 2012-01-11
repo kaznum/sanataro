@@ -2,7 +2,7 @@
   .cfg_credit_relation_name= @separated_accounts[:all_accounts][cr.credit_account_id]
   .cfg_payment_relation_name= @separated_accounts[:all_accounts][cr.payment_account_id]
   .cfg_settlement_day
-    毎月 #{(cr.settlement_day == 99) ? '末日' : cr.settlement_day.to_s + '日'}
+    毎月 #{h (cr.settlement_day == 99) ? '末日' : cr.settlement_day.to_s + '日'}
   .cfg_payment_date
     - if cr.payment_month == 0 
       = '同月'
