@@ -1,0 +1,29 @@
+!!!
+%html{:xmlns => "http://www.w3.org/1999/xhtml"}
+  %head
+    %meta{:content => "width=175px", :name => "viewport"}/
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title= PRODUCT_NAME
+    :css
+      body{color:#333;font-size:12px;background-color:#e6e6e6;}
+      .hdr,.vl{border:1px solid #b8b8b8;margin:1px;padding:1px;}
+      .hdr{float:left;background:#c9c9c9 url(/assets/header-bg.gif) repeat-x scroll 0 0;width:11em;font-weight:bold;}
+      .vl{float:left;width:12em;text-align:center;}
+      .plain{float:left;width:12em;text-align:center;}
+      .reset{clear:left;}
+      .f,.m{font-size:11px;color:white;clear:both;width:170px;}
+      .m{padding-top:5px;}
+      .w{color:red;padding-top:5px;}
+      #new_add_button{width:12em;height:30px;}
+      #item_name{width:10em;}
+      #amount{width:3.5em;}
+      #year{width:2.5em;}
+      #month,#day{width:1.5em;}
+        = javascript_include_tag 'application'
+    = javascript_include_tag 'ejs'
+    = javascript_include_tag 'view'
+  %body
+    #replaced_area
+  :javascript
+    new EJS({url: '/ejs/entries/new_simple.ejs?2011041401'}).update("replaced_area",#{@data.to_json});
+    observerAddItemOnlyInput('#{@data[:authenticity_token]}');

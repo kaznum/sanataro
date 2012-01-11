@@ -71,7 +71,7 @@ end
   end
 %>
 <div class="item_date<%= item_css_class %>"><%= event_item.action_date.strftime("%Y/%m/%d") %></div>
-<div class="item_name<%= item_css_class %>"><%= event_item.confirmation_required? ? link_to('★', entry_confirmation_required_path(event_item.id, :confirmation_required => 'false'), :remote => true, :method => 'put', :class => 'item_confirmation_required') : link_to('☆', entry_confirmation_required_path(event_item.id, :confirmation_required => 'true'), :remote => true, :method => 'put', :class => 'item_confirmation_not_required') %><%= event_item.name %>
+<div class="item_name<%= item_css_class %>"><%= event_item.confirmation_required? ? link_to('★', entry_confirmation_required_path(event_item.id, :confirmation_required => 'false'), :remote => true, :method => 'put', :class => 'item_confirmation_required') : link_to('☆', entry_confirmation_required_path(event_item.id, :confirmation_required => 'true'), :remote => true, :method => 'put', :class => 'item_confirmation_not_required') %><%=h event_item.name %>
 <% if event_item.tags.size > 0 %>
 [ <%  event_item.tags.each do |tag|
 %><%= link_to_tag(tag) %> <%
