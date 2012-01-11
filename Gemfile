@@ -37,7 +37,7 @@ group :development, :test do
   gem "fabrication"
 end
 
-gem 'haml'
+gem 'haml-rails'
 
 group :watchr do
 #  gem "watchr"
