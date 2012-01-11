@@ -36,7 +36,13 @@
       - else
         = image_tag "logo.gif", :alt => PRODUCT_NAME
       :javascript
-                %noscript
+        var coo = "cookietest=ok";
+        document.cookie = coo + "\;";
+        coo = document.cookie;
+        if( !coo ){
+          document.write("<div class=\"warning\">#{_("It seems that Cookie is not accepted by your browser.<br/>This site has to be used with Coocie-Acceptable web browser.<br/>Please make the browser accept Cookie. Thank you.")}</div>");
+        }
+      %noscript
         .warning= _("It seems that JavaScript function is off in your browser configuration.<br/>This site has to be used with JavaScript-enabled web browser.<br/>Please make JavaScript enabled. Thank you.")
     .main
       = yield
