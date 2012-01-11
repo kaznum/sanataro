@@ -24,7 +24,8 @@
     = javascript_include_tag "application"
     = stylesheet_link_tag "application"
     = stylesheet_link_tag "colorPicker"
-    /[if lte IE 8] <haml:loud> javascript_include_tag &amp;quot;flot/excanvas.min.js&amp;quot; </haml:loud>
+    /[if lte IE 8] 
+      = javascript_include_tag "flot/excanvas.min.js"
     = javascript_include_tag "flot"
     :javascript
       jQuery.noConflict();
