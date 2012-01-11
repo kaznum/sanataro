@@ -1,0 +1,13 @@
+%p#add_item_explain
+  = _('Adjustment')
+  %span{:style => "font-weight: normal;font-size: 12px;"}= link_to _('Register Income/Outgo'), new_entry_path(:year => date.year, :month => date.month), :remote => true, :method => :get
+= form_tag entries_path(date.year, date.month), :remote => true, :method => :post, :before=>"$('new_add_button').disabled = true", :complete=>"$('do_add_item').adjustment_amount.value = '';$('new_add_button').disabled = false", :id=>'do_add_item' do
+  = text_field_tag :action_year, date.year, :size=>5
+  \/#{text_field_tag :action_month, date.month, :size=>3}/#{text_field_tag :action_day, (today.year == date.year && today.month == date.month) ? today.day : nil, :size=>3} #{_("Select an account to adjust amount.")}
+  %br/
+  = select_tag 'to', options_for_select(@separated_accounts[:bank_accounts])
+  = _('Balance:')
+  = text_field_tag 'adjustment_amount', nil, :size=>10, :style=>"text-align: right;"
+  = _("yen")
+  %br/
+  タグ #{text_field_tag 'tag_list'} #{submit_tag _('Register'), :id=>'new_add_button'}#{hidden_field_tag 'entry_type', 'adjustment'}

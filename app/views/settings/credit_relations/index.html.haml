@@ -1,0 +1,35 @@
+#menu
+  = render :partial=>'settings/config_menu'
+.cfg_credit_relation_list
+  %p 登録
+  %div
+    = form_tag settings_credit_relations_path, {:remote => true, :method => :post, :before => "$('add_button').disabled = true", :complete => "$('add_button').disabled = false", :id => 'add_form'} do
+      %table
+        %tr
+          %th クレジットカード
+          %th 引き落とし口座
+          %th 締め日
+          %th 引き落とし日
+          %th 操作
+        %tr
+          %td= select_tag 'credit_account_id', options_for_select(@separated_accounts[:bank_accounts])
+          %td= select_tag 'payment_account_id', options_for_select(@separated_accounts[:bank_accounts])
+          %td
+            毎月 #{select_tag 'settlement_day', options_for_select(CREDIT_RELATION_SETTLEMENT_DAYS)}日
+          %td
+            = select_tag 'payment_month', options_for_select(CREDIT_RELATION_PAYMENT_MONTHS)
+            = select_tag 'payment_day', options_for_select(CREDIT_RELATION_PAYMENT_DAYS)
+            日
+          %td= submit_tag '登録', :id=>'add_button'
+  #warning.warning
+  %p 一覧/変更/削除
+  #credit_relations_headers
+    .cfg_credit_relation_name.cfg_credit_relation_header クレジットカード
+    .cfg_payment_relation_name.cfg_credit_relation_header 引き落とし口座
+    .cfg_settlement_day.cfg_credit_relation_header 締め日
+    .cfg_payment_date.cfg_credit_relation_header 引き落とし日
+    .cfg_credit_relation_operation.cfg_credit_relation_header 操作
+  .reset
+  #credit_relations
+    - @credit_relations.each do |cr|
+      = render :partial=> 'show', :locals => {:cr => cr}

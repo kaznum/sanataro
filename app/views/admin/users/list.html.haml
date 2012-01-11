@@ -1,0 +1,17 @@
+%h1
+  = h PRODUCT_NAME
+  users list
+%table
+  %tr
+    %th ID
+    %th login
+    %th created
+    %th updated
+    %th active
+  - @users.each do |u|
+    %tr
+      %td= h u.id
+      %td= h u.login
+      %td= h u.created_at.nil? ? '' : u.created_at.strftime("%Y/%m/%d %H:%M:%S")
+      %td= h u.updated_at.nil? ? '' : u.updated_at.strftime("%Y/%m/%d %H:%M:%S")
+      %td= h u.is_active?

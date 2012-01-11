@@ -1,6 +1,0 @@
-<div id="account_<%= account.id.to_s %>" class="cfg_account">
-<div class="cfg_account_name"><% if account.bgcolor.blank? %><%=h account.name %><% else %><span style="background-color: #<%=h account.bgcolor %>;"><%=h account.name %></span><% end %></div>
-<div class="cfg_account_order"><%= account.order_no %></div>
-<div class="cfg_account_operation"><%= link_to '編集', edit_settings_account_path(account.id), :method => :get, :remote => true %> <%= link_to '削除', settings_account_path(account.id), :method => :delete, :confirm=>'本当に削除しますか?', :remote => true %></div>
-</div>
-<div class="reset"></div>

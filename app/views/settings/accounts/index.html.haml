@@ -1,0 +1,22 @@
+= javascript_include_tag 'builder'
+= javascript_include_tag 'dragdrop'
+= javascript_include_tag 'slider'
+= javascript_include_tag 'yahoo.color'
+= javascript_include_tag 'colorPicker'
+= stylesheet_link_tag 'colorPicker'
+#menu
+  = render :partial=>'settings/config_menu'
+.cfg_account_list
+  #input_add
+    = render :partial=>'add'
+  #accounts
+    .cfg_account
+      .cfg_account_name.cfg_account_header
+        = '口座名' if @account_type == 'account'
+        = '支出項目名' if @account_type == 'outgo'
+        = '収入項目名' if @account_type == 'income'
+      .cfg_account_order.cfg_account_header 並順
+      .cfg_account_operation.cfg_account_header &nbsp;
+    .reset
+    - @accounts.each do |account|
+      = render :partial=>'show', :locals => {:account => account}

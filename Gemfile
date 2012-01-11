@@ -37,6 +37,8 @@ group :development, :test do
   gem "fabrication"
 end
 
+gem 'haml'
+
 group :watchr do
 #  gem "watchr"
 #  gem "rev" if RUBY_PLATFORM.downcase =~ /linux/

@@ -1,5 +1,0 @@
-<div id="account_<%= @account.id.to_s %>">
-<%= form_tag settings_account_path(@account.id), :method => :put, :remote => true,  :before=>"$('edit_button_#{@account.id.to_s}').disabled = true" do -%><%= text_field_tag :account_name, @account.name, :size=>20 %><%= text_field_tag :order_no, @account.order_no, :size=>3 %><%= submit_tag '保存', :id=>"edit_button_#{@account.id.to_s}" %> <%= link_to 'キャンセル', settings_account_path(@account.id), :remote => true, :method => :get -%>
-<br/>背景色を利用<%= check_box_tag :use_bgcolor, '1', (not @account.bgcolor.nil?), :id => "use_bgcolor_#{@account.id.to_s}", :onchange => "if ($('use_bgcolor_#{@account.id.to_s}').checked) { $('colorbox_#{@account.id.to_s}').disabled = false;} else { $('colorbox_#{@account.id.to_s}').disabled = true;}" %><%= hidden_field_tag :bgcolor, @account.bgcolor.nil? ? '#ffffff' : @account.bgcolor, :id => "colorfield_#{@account.id}" %><button style="width: 1.5em; height: 1.2em; border: 1px outset #666;" id="colorbox_<%= @account.id.to_s %>" class="colorbox"></button><% end -%>
-<br/><span id="account_<%= @account.id.to_s %>_warning" class="warning"></span>
-</div>

@@ -1,0 +1,17 @@
+.item{:id => "item_#{item.id}"}
+  = form_tag entry_path(params[:year].to_i, params[:month].to_i, item.id), :remote => true, :method => :put,  :before=>"$('edit_button_#{item.id.to_s}').disabled = true;$('item_operation_#{item.id}').hide();$('item_operation_loading_#{item.id}').show();" do
+    = hidden_field_tag :action_year, item.action_date.year
+    = h item.action_date.year
+    年 #{hidden_field_tag :action_month, item.action_date.month}#{h item.action_date.month}月 #{hidden_field_tag :action_day, item.action_date.mday}#{h item.action_date.mday}日 口座と残高を入力すると、過不足分が自動計算されます。
+    %br/
+    = select_tag 'to', options_for_select(@separated_accounts[:to_accounts], item.to_account_id.to_s)
+    残高:#{text_field_tag 'adjustment_amount', item.adjustment_amount, :size=>10, :style=>"text-align: right;"}円
+    %br/
+    タグ #{text_field_tag 'tag_list', item.tag_list(@user)}
+    %span{:id => "item_operation_#{h item.id}"}
+      = submit_tag '変更', :id=>'edit_button_' + item.id.to_s
+      = link_to 'キャンセル', entry_path(params[:year].to_i, params[:month].to_i, item.id), :remote => true, :method => :get, :before => "$('item_operation_#{item.id}').hide();$('item_operation_loading_#{item.id}').show();"
+    %span{:id => "item_operation_loading_#{h item.id}", :style => "display:none;"}= image_tag "loading.gif", :alt => "loading..."
+    = hidden_field_tag 'entry_type', 'adjustment'
+  %br/
+  %span.warning{:id => "item_warning_#{item.id}"}

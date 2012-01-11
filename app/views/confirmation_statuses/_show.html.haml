@@ -1,0 +1,12 @@
+#confirmation_status_explain.drawer
+  = link_to "<span id='confirmation_icon'>▼</span><span id='confirmation_loading' style ='display: none;'>#{image_tag('loading.gif', :alt=>'loading...', :border => 0, :height => 12, :width => 12)}</span> <span class='item_confirmation_required'>★</span>リスト".html_safe, confirmation_status_path, :remote => true,  :method => :delete, :before => "$('confirmation_icon').hide();  $('confirmation_reload_icon').hide(); $('confirmation_loading').show();"
+  = link_to "<span id='confirmation_reload_icon'>#{image_tag('reload.png', :alt => 'Reload', :border => 0, :height => 12, :width => 12)}</span>".html_safe, confirmation_status_path, :remote => true, :method => :get, :before => "$('confirmation_icon').hide(); $('confirmation_reload_icon').hide(); $('confirmation_loading').show();"
+#confirmation_status_body{:style => "display: none;"}
+  %table{:width => "100%"}
+    %tr
+      %th 日付
+      %th 説明
+    - @entries.each do |etr|
+      %tr
+        %td= etr.action_date.strftime("%m/%d")
+        %td= link_to etr.name, entries_path(etr.action_date.year, etr.action_date.month) + "#item_#{etr.id}"

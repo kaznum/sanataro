@@ -1,0 +1,19 @@
+%div{:id => "credit_relation_#{cr.id}"}
+  .cfg_credit_relation_name= @separated_accounts[:all_accounts][cr.credit_account_id]
+  .cfg_payment_relation_name= @separated_accounts[:all_accounts][cr.payment_account_id]
+  .cfg_settlement_day
+    毎月 #{h (cr.settlement_day == 99) ? '末日' : cr.settlement_day.to_s + '日'}
+  .cfg_payment_date
+    - if cr.payment_month == 0 
+      = '同月'
+    - elsif cr.payment_month == 1
+      = '翌月'
+    - elsif cr.payment_month == 2
+      = '翌々月'
+    - elsif cr.payment_month == 3
+      = '翌々々月'
+    = (cr.payment_day < 99) ? cr.payment_day.to_s + '日' : '末日'
+  .cfg_credit_relation_operation
+    = link_to '編集', edit_settings_credit_relation_path(cr.id), :remote => true,  :method => :get
+    = link_to '削除', settings_credit_relation_path(cr.id), :remote => true, :method => :delete, :confirm=>"本当に削除しますか?"
+.reset
