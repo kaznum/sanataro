@@ -2,9 +2,6 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   include MonthlistHelper
-  extend ERB::DefMethod
-  def_erb_method('render_item(event_item)', "#{Rails.root.to_s}/app/views/entries/_item.html.erb")
-
   #
   # 口座名に背景色を付与する
   #
