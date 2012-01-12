@@ -5,7 +5,7 @@
 下記のURLにアクセスいただくことにより、ユーザ登録処理が
 完了します。
 
-<%= url_for(:only_path => false, :controller => :login, :action => :confirmation, :login => @user.login, :sid => @user.confirmation) %>
+<%= url_for(only_path: false, controller: :login, action: :confirmation, login: @user.login, sid: @user.confirmation) %>
 
 是非、「<%= PRODUCT_NAME %>」をご活用ください。
 
