@@ -205,7 +205,7 @@ class EntriesController < ApplicationController
 
       # すでに同日かつ同account_idの残高調整が存在しないかチェックし、存在する場合は削除する
       prev_adj = @user.items.find_by_to_account_id_and_action_date_and_is_adjustment(item.to_account_id, item.action_date, true)
-      unless prev_adj.nil?
+      if prev_adj
         MonthlyProfitLoss.reflect_relatively(@user,
                            prev_adj.action_date.beginning_of_month,
                            -1,
@@ -469,14 +469,14 @@ class EntriesController < ApplicationController
         page.delay(3.seconds) do
           page.remove "item_#{item.id}"
         end
-        if (not from_adj_item.nil?) &&
+        if from_adj_item &&
             from_adj_item.action_date >= Date.new(display_year, display_month) &&
             from_adj_item.action_date <= Date.new(display_year, display_month).end_of_month
           page.replace "item_#{from_adj_item.id}", render_item(from_adj_item)
           page.visual_effect :highlight, "item_#{from_adj_item.id}", :duration => HIGHLIGHT_DURATION
         end
 
-        if (not to_adj_item.nil?) &&
+        if to_adj_item &&
             to_adj_item.action_date >= Date.new(display_year, display_month) &&
             to_adj_item.action_date <= Date.new(display_year, display_month).end_of_month
           page.replace "item_#{to_adj_item.id}", render_item(to_adj_item)
@@ -485,7 +485,7 @@ class EntriesController < ApplicationController
         end
 
         #クレジットカード処理
-        if (not deleted_child_item.nil?) && deleted_child_item.action_date.strftime("%Y/%m") == item.action_date.strftime("%Y/%m")
+        if deleted_child_item && deleted_child_item.action_date.strftime("%Y/%m") == item.action_date.strftime("%Y/%m")
           # 表示されていない可能性があるため、Collection Proxyを利用する
           page.select("#item_#{deleted_child_item.id}").each do |etty|
             etty.visual_effect :fade, :duration => FADE_DURATION
@@ -563,7 +563,7 @@ class EntriesController < ApplicationController
 
       unless old_action_date == item.action_date &&
           ((old_future_adj.nil? && new_future_adj.nil?)||
-           (not old_future_adj.nil?) && (not new_future_adj.nil?) &&
+           old_future_adj && new_future_adj &&
            old_future_adj.id == new_future_adj.id &&
            old_future_adj.to_account_id == new_future_adj.to_account_id )
         items = _get_items(display_year, display_month)
@@ -576,13 +576,13 @@ class EntriesController < ApplicationController
         #
         if old_action_date == item.action_date &&
             ((old_future_adj.nil? && new_future_adj.nil?)||
-             (not old_future_adj.nil?) && (not new_future_adj.nil?) &&
+             old_future_adj && new_future_adj &&
              old_future_adj.id == new_future_adj.id &&
              old_future_adj.to_account_id == new_future_adj.to_account_id )
 
           page.replace "item_#{item.id}", render_item(item)
 
-          if (not new_future_adj.nil?) && new_future_adj.action_date <= Date.new(display_year, display_month).end_of_month &&
+          if new_future_adj && new_future_adj.action_date <= Date.new(display_year, display_month).end_of_month &&
               old_future_adj.action_date.beginning_of_month == Date.new(display_year, display_month)
             page.replace "item_#{new_future_adj.id}", render_item(new_future_adj)
           end
@@ -596,7 +596,7 @@ class EntriesController < ApplicationController
         end
 
         # 変更された未来のadjectiveのハイライト表示
-        if (not old_future_adj.nil?) && (not new_future_adj.nil?)
+        if old_future_adj && new_future_adj
           if old_future_adj.id == new_future_adj.id # to_account_idがかわっていない
             page.select("#item_#{old_future_adj.id} div").each do |etty|
               etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
@@ -609,11 +609,11 @@ class EntriesController < ApplicationController
               etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
             end
           end
-        elsif (not old_future_adj.nil?)
+        elsif old_future_adj
           page.select("#item_#{old_future_adj.id} div").each do |etty|
             etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
           end
-        elsif  (not new_future_adj.nil?)
+        elsif  new_future_adj
           page.select("#item_#{new_future_adj.id} div").each do |etty|
             etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
           end
@@ -639,7 +639,7 @@ class EntriesController < ApplicationController
   #
   def _update_item
 
-    unless params[:id].blank?
+    if params[:id].present?
       item_id = params[:id].to_i
       item = @user.items.find_by_id(item_id)
       old_action_date = item.action_date
@@ -692,7 +692,7 @@ class EntriesController < ApplicationController
 
         # クレジットカードの処理
         # 一旦古い情報を削除し、再度追加の必要がある場合のみ追加する
-        deleted_child_item, from_adj_credit, to_adj_credit = (_do_delete_item(old_child_id))[:child] unless old_child_id.nil?
+        deleted_child_item, from_adj_credit, to_adj_credit = (_do_delete_item(old_child_id))[:child] if old_child_id
         cr = @user.credit_relations.find_by_credit_account_id(item.from_account_id)
         if cr.nil?
           payment_account_id = nil
@@ -841,7 +841,7 @@ class EntriesController < ApplicationController
   #
   def _do_delete_item(item_id)
     item = @user.items.find_by_id(item_id)
-    unless item.nil?
+    if item
       from_id = item.from_account_id
       to_id = item.to_account_id
       action_date = item.action_date
@@ -849,7 +849,7 @@ class EntriesController < ApplicationController
       child_id = item.child_id
 
       # クレジットカード関連itemの削除
-      child_item, from_adj_credit, to_adj_credit = _do_delete_item(child_id)[:itself] unless child_id.nil?
+      child_item, from_adj_credit, to_adj_credit = _do_delete_item(child_id)[:itself] if child_id
 
       # オブジェクトの削除
       item.destroy
@@ -894,7 +894,7 @@ class EntriesController < ApplicationController
       # クレジットカードの処理
       #
       cr = @user.credit_relations.find_by_credit_account_id(from_id)
-      unless cr.nil?
+      if cr
         payment_date = _credit_payment_date(from_id, Date.new(year,month,day))
         credit_item, ignore, ignore =
           _do_add_item(name,
