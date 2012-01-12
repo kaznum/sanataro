@@ -1,0 +1,13 @@
+こんにちは! <%= @user.login %>さん!
+
+この度は、「<%= PRODUCT_NAME %>」にユーザ登録していただき、
+ありがとうございます。
+下記のURLにアクセスいただくことにより、ユーザ登録処理が
+完了します。
+
+<%= url_for(:only_path => false, :controller => :login, :action => :confirmation, :login => @user.login, :sid => @user.confirmation) %>
+
+是非、「<%= PRODUCT_NAME %>」をご活用ください。
+
+「<%= PRODUCT_NAME %>」開発チーム一同
+
