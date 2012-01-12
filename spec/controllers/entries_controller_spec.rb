@@ -2425,35 +2425,59 @@ describe EntriesController do
           end
         end
         
-        pending("#update for adjustment specに未変換")
-        it "test_update_adjustment_change_date_to_next_month_no_future_adj" do 
-          # 日付、金額を変更
-          old_adj2 = items(:adjustment2)
-          old_adj4 = items(:adjustment4)
-          old_adj6 = items(:adjustment6)
-          old_m_pl_bank1_200802 = monthly_profit_losses(:bank1200802)
-          old_m_pl_bank1_200803 = monthly_profit_losses(:bank1200803)
+        context "when updating adjustment's action_date to the next month and there is no other adjustments in the future," do
+          let(:updated_id) { items(:adjustment2).id }
+          before do
+            @init_adj2 = items(:adjustment2)
+            @init_adj4 = items(:adjustment4)
+            @init_adj6 = items(:adjustment6)
+            
+            date = items(:adjustment6).action_date + 1
+            @action = lambda {
+              xhr :put, :update, :entry_type => 'adjustment', :id=>items(:adjustment2).id, :action_year=>date.year, :action_month=>date.month, :action_day=>date.day, :adjustment_amount=>'3,000', :to=>items(:adjustment2).to_account_id, :year => date.year, :month => date.month
+            }
+          end
 
-          login
+          describe "response" do
+            before { @action.call }
+            subject { response }
 
-          date = items(:adjustment6).action_date + 1
+            it { should be_success }
+          end
 
-          xhr :put, :update, :entry_type => 'adjustment', :id=>items(:adjustment2).id, :action_year=>date.year, :action_month=>date.month, :action_day=>date.day, :adjustment_amount=>'3,000', :to=>items(:adjustment2).to_account_id, :year => date.year, :month => date.month
-          assert_select_rjs :replace_html, :items, ''
-          assert_select_rjs :insert_html, :bottom, :items
-          assert_select_rjs :replace_html, :warning, 'Item was changed successfully.' + ' ' + date.strftime("%Y/%m/%d") + ' ' + 'Adjustment' + ' ' +
-            CommonUtil.separate_by_comma(3000) + 'yen'
+          describe "updated item" do
+            before do
+              @action.call
+            end
 
-          new_adj2 = Item.find(items(:adjustment2).id)
-          assert_equal 3000, new_adj2.adjustment_amount
-          assert_equal old_adj6.action_date + 1, new_adj2.action_date
-          assert new_adj2.is_adjustment?
+            subject { Item.find(updated_id) }
+            its(:adjustment_amount) { should == 3000 }
+            its(:amount) { should == 3000 - Item.find(@init_adj6).adjustment_amount }
+            its(:action_date) { should == @init_adj6.action_date.tomorrow }
+            it {should be_is_adjustment }
+          end
 
-          assert_equal 3000 - old_adj6.adjustment_amount, new_adj2.amount
-          assert_equal old_adj4.amount + old_adj2.amount, Item.find(items(:adjustment4).id).amount
-          assert_equal old_adj6.amount, Item.find(items(:adjustment6).id).amount
-          assert_equal old_m_pl_bank1_200802.amount, MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount
-          assert_equal old_m_pl_bank1_200803.amount + new_adj2.amount, MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount
+          describe "the adjustment which was next to updated adjustment" do
+            specify {
+              expect { @action.call }.to change{Item.find(@init_adj4.id).amount}.by(@init_adj2.amount)
+            }
+          end
+
+          describe "the adjustment which is in front of updated adjustment" do
+            specify {
+              expect { @action.call }.not_to change{Item.find(@init_adj6.id).amount}
+            }
+          end
+
+          describe "monthly profit losses" do
+            specify {
+              expect { @action.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount}
+            }
+            specify {
+              expect { @action.call }.to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(3000 - @init_adj6.adjustment_amount)
+            }
+          end
+          
         end
       end
 
