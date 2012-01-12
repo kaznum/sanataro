@@ -212,6 +212,11 @@ class EntriesController < ApplicationController
                            prev_adj.to_account_id,
                            prev_adj.amount * (-1))
         prev_adj.destroy
+        MonthlyProfitLoss.reflect_relatively(@user,
+                                             prev_adj.action_date.beginning_of_month,
+                                             -1,
+                                             prev_adj.to_account_id,
+                                             prev_adj.amount)
       end
 
       # 残高計算(amountの決定)
