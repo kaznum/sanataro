@@ -1666,15 +1666,68 @@ describe EntriesController do
           end
         end
 
+
+        context "create adjustment to the same day as another ajustment's one" do
+          let(:existing_adj) { items(:adjustment2) }
+          let(:future_adj) { items(:adjustment4) }
+          let(:action) {
+            lambda {
+              date = existing_adj.action_date
+              xhr(:post,
+                  :create, :entry_type => 'adjustment',
+                  :action_year => date.year, :action_month => date.month, :action_day => date.day,
+                  :to => accounts(:bank1).id.to_s, :adjustment_amount => '50',
+                  :year => 2008, :month => 2)
+            }
+          }
+
+          describe "response" do
+            before { action.call }
+            subject { response }
+            it { should be_success }
+          end
+
+          describe "all adjustments count" do
+            specify {
+              expect { action.call }.not_to change{ Item.find_all_by_is_adjustment(true).count }
+            }
+          end
+          
+          describe "created_adjustment" do
+            before { action.call }
+            subject { Item.where(is_adjustment: true, action_date: existing_adj.action_date).first }
+            its(:adjustment_amount) { should == 50 }
+            its(:amount) { should == existing_adj.amount + 50 - existing_adj.adjustment_amount }
+          end
+
+          describe "existed adjustment" do
+            before { action.call }
+            subject { Item.find_by_id(existing_adj.id) }
+            it { should be_nil }
+          end
+
+          describe "future adjustment" do
+            specify {
+              expect { action.call }.to change{ Item.find(future_adj.id).amount }.by(existing_adj.adjustment_amount - existing_adj.amount - 50)
+            }
+          end
+
+          describe "monthly_pl" do
+            specify {
+              expect { action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount}
+            }
+          end
+        end
+
         context "create adjustment between adjustments whose months are same," do
           let(:date) { items(:adjustment4).action_date - 1 }
           let(:next_adj_date) { items(:adjustment4).action_date }
           let(:action) do
             lambda { xhr(:post,
                          :create, :entry_type => 'adjustment',
-                         :action_year => date.year, :action_month => date.month, :action_day => date.day,
+                         :action_year => date.year.to_s, :action_month => date.month.to_s, :action_day => date.day.to_s,
                          :to => accounts(:bank1).id.to_s, :adjustment_amount => '3000',
-                         :year => 2008, :month => 2)
+                         :year => "2008", :month => "2")
             }
           end
           
@@ -1841,9 +1894,9 @@ describe EntriesController do
           let(:action) do
             lambda { xhr(:post,
                          :create, :entry_type => 'adjustment',
-                         :action_year => date.year, :action_month => date.month, :action_day => date.day,
+                         :action_year => date.year.to_s, :action_month => date.month.to_s, :action_day => date.day.to_s,
                          :to => accounts(:bank1).id.to_s, :adjustment_amount => '3000',
-                         :year => 2008, :month => 2)
+                         :year => 2008.to_s, :month => 2.to_s)
             }
           end
           
