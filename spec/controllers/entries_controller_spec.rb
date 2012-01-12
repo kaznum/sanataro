@@ -909,7 +909,6 @@ describe EntriesController do
 
       context "#create(only_add)" do
         before do 
-#          login(true)
           @init_item_count = Item.count
           xhr :post, :create, :action_year=>Date.today.year.to_s, :action_month=>Date.today.month.to_s, :action_day=>Date.today.day.to_s,  :item_name=>'test10', :amount=>'10,000', :from=>accounts(:bank1).id, :to=>accounts(:outgo3).id, :only_add=>'true'
         end
