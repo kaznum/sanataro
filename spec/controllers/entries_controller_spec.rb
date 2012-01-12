@@ -587,6 +587,50 @@ describe EntriesController do
           end
         end
 
+        context "given there is a future's adjustment whose id is to_account_id," do
+          before do
+            # prepare data to destroy
+            xhr :post, :create, item_name: 'test', amount: '1000', action_year: '2008', action_month: '2', action_day: '3', from: '2', to: '1', year: "2008", month: "2"
+            @item_to_del = Item.where(action_date: Date.new(2008,2,3), from_account_id: 2, to_account_id: 1).first
+            @item_to_del.amount.should == 1000
+            
+            @old_adj2 = items(:adjustment2)
+            @old_bank1 = monthly_profit_losses(:bank1200802)
+            @old_income = MonthlyProfitLoss.where(user_id: users(:user1).id, account_id: accounts(:income2).id, month: Date.new(2008,2)).first
+
+            _login_and_change_month(2008,2)
+            date = @item_to_del.action_date
+            xhr :delete, :destroy, id: @item_to_del.id, year: date.year.to_s, month: date.month.to_s, day: date.day
+          end
+
+          describe "response" do
+            subject { response }
+            it { should be_success }
+            its(:content_type) { should == "text/javascript"}
+          end
+
+          describe "the specified item" do
+            subject { Item.where(:id => @item_to_del.id).all }
+            it { should have(0).item }
+          end
+          
+          describe "the future adjustment item" do
+            subject { Item.find(@old_adj2.id) }
+            its(:amount) { should == @old_adj2.amount + @item_to_del.amount }
+          end
+
+          describe "amount of Montly profit loss of from_account" do
+
+            subject { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id) }
+            its(:amount) { should == @old_bank1.amount }
+          end
+
+          describe "amount of Montly profit loss of to_account" do
+            subject { MonthlyProfitLoss.find(@old_income.id) }
+            its(:amount) { should == @old_income.amount + @item_to_del.amount }
+          end
+        end
+
         context "given there is no future's adjustment," do
           before do
             _login_and_change_month(2008,2)
