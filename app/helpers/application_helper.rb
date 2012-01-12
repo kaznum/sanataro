@@ -32,15 +32,4 @@ module ApplicationHelper
   def today
     @view_cached_today ||= Date.today
   end
-
-  if RUBY_VERSION >= "1.9"
-    module ActionView
-      class OutputBuffer < ActiveSupport::SafeBuffer
-        def <<(value)
-          super(value.to_s.force_encoding('UTF-8'))
-        end
-        alias :append= :<<
-      end
-    end
-  end
 end
