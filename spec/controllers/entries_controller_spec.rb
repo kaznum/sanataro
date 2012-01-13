@@ -696,13 +696,20 @@ describe EntriesController do
                 expect {Item.find(@child_item.id)}.to raise_error(ActiveRecord::RecordNotFound)
               end
             end
-            pending("Adding specs for profit losses") do 
-              describe "profit_losses" do
-                before { action.call}
-                specify {
 
-                }
-              end
+            describe "profit_losses" do
+              specify {
+                expect { action.call }.to change{ MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,2)).sum(:amount)}.by(1000)
+              }
+              specify {
+                expect { action.call }.to change{ MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008,2)).sum(:amount)}.by(-1000)
+              }
+              specify {
+                expect { action.call }.to change{ MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,4)).sum(:amount)}.by(1000)
+              }
+              specify {
+                expect { action.call }.to change{ MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,4)).sum(:amount)}.by(-1000)
+              }
             end
           end
           
@@ -710,7 +717,7 @@ describe EntriesController do
             let(:action) { lambda {xhr :delete, :destroy, :id => @item.id, :year => 2008, :month => 2}}
             before do
               cr = credit_relations(:cr1)
-              cr.update_attributes!(payment_month: 0, settlement_day: 5)
+              cr.update_attributes!(payment_month: 0, payment_day: 25, settlement_day: 11)
 
               _login_and_change_month(2008,2)
               # dummy data
@@ -733,11 +740,25 @@ describe EntriesController do
               end
             end
 
-            describe "child item of the specified item" do
-              before { action.call}
-              it 'should not exist' do 
-                expect {Item.find(@child_item.id)}.to raise_error(ActiveRecord::RecordNotFound)
-              end
+            describe "future adjustment" do
+              specify {
+                expect { action.call }.to change{ Item.find(items(:adjustment6).id).amount }.by(-1000)
+              }
+            end
+            
+            describe "profit_losses" do
+              specify {
+                expect { action.call }.not_to change{ MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,2)).sum(:amount)}
+              }
+              specify {
+                expect { action.call }.to change{ MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008,2)).sum(:amount)}.by(-1000)
+              }
+              specify {
+                expect { action.call }.to change{ MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,2)).sum(:amount)}.by(1000)
+              }
+              specify {
+                expect { action.call }.to change{ MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,3)).sum(:amount)}.by(-1000)
+              }
             end
           end
         end
