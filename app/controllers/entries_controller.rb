@@ -517,10 +517,7 @@ class EntriesController < ApplicationController
       return
     end
 
-    unless item.valid?
-      render_rjs_error(:id => "item_warning_#{item.id}", :errors => item.errors, :default_message => _("Input value is incorrect."))
-      return
-    end
+    raise ActiveRecord::RecordInvalid.new(item) unless item.valid?
 
     Item.transaction do
       # 古い情報に基づいたMonthlyPLを一度消す
