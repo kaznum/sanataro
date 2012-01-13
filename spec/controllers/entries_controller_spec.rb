@@ -2644,6 +2644,56 @@ describe EntriesController do
           end
           
         end
+
+        context "when updating adjustment's action_date which doesn't have future adjsutment to the previous month and now there is other adjustments in the future," do
+          let(:updated_id) { items(:adjustment6).id }
+          let(:date) { items(:adjustment2).action_date.yesterday }
+          before do
+            @init_adj2 = items(:adjustment2)
+            @init_adj4 = items(:adjustment4)
+            @init_adj6 = items(:adjustment6)
+            
+            @action = lambda {
+              xhr :put, :update, :entry_type => 'adjustment', :id=> updated_id, :action_year=>date.year, :action_month=>date.month, :action_day=>date.day, :adjustment_amount=>'3,000', :to=> items(:adjustment6).to_account_id, :year => date.year, :month => date.month
+            }
+          end
+
+          describe "response" do
+            before { @action.call }
+            subject { response }
+
+            it { should be_success }
+          end
+
+          describe "updated item" do
+            before do
+              @action.call
+              @asset = Account.asset(users(:user1), @init_adj6.to_account_id, date, updated_id)
+            end
+
+            subject { Item.find(updated_id) }
+            its(:adjustment_amount) { should == 3000 }
+            its(:amount) { should == 3000 - @asset}
+            its(:action_date) { should == date }
+            it {should be_is_adjustment }
+          end
+
+          describe "the adjustment which is next to updated adjustment" do
+            specify {
+              asset = Account.asset(users(:user1), @init_adj6.to_account_id, date, updated_id)
+              expect { @action.call }.to change{Item.find(@init_adj2.id).amount}.by(asset - 3000)
+            }
+          end
+
+          describe "monthly profit losses" do
+            specify {
+              expect { @action.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount}
+            }
+            specify {
+              expect { @action.call }.to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by((-1) * @init_adj6.amount)
+            }
+          end
+        end
       end
 
       describe "update item" do
