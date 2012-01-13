@@ -1800,7 +1800,7 @@ describe EntriesController do
 
           describe "future adjustment" do
             specify {
-              expect { action.call }.to change{ Item.find(future_adj.id).amount }.by(existing_adj.adjustment_amount - existing_adj.amount - 50)
+              expect { action.call }.to change{ Item.find(future_adj.id).amount }.by(existing_adj.adjustment_amount - 50)
             }
           end
 

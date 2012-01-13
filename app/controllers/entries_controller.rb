@@ -205,19 +205,7 @@ class EntriesController < ApplicationController
 
       # すでに同日かつ同account_idの残高調整が存在しないかチェックし、存在する場合は削除する
       prev_adj = @user.items.find_by_to_account_id_and_action_date_and_is_adjustment(item.to_account_id, item.action_date, true)
-      if prev_adj
-        MonthlyProfitLoss.reflect_relatively(@user,
-                           prev_adj.action_date.beginning_of_month,
-                           -1,
-                           prev_adj.to_account_id,
-                           prev_adj.amount * (-1))
-        prev_adj.destroy
-        MonthlyProfitLoss.reflect_relatively(@user,
-                                             prev_adj.action_date.beginning_of_month,
-                                             -1,
-                                             prev_adj.to_account_id,
-                                             prev_adj.amount)
-      end
+      _do_delete_item(prev_adj.id) if prev_adj
 
       # 残高計算(amountの決定)
       # amountの算出
