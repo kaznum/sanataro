@@ -667,33 +667,81 @@ describe EntriesController do
         end
 
         context "when destroy the item which is assigned to credit card account," do
-          before do
-            _login_and_change_month(2008,2)
-            # dummy data
-            xhr :post, :create, :item_name=>'test', :amount=>'1000', :action_year=>'2008', :action_month=>'2', :action_day=>'10',:from=>'4', :to=>'3', :year => 2008, :month => 2
-            @item = Item.find(:first, :conditions=>["name = 'test' and from_account_id = 4 and to_account_id = 3"])
-            @child_item = Item.find(@item.child_id)
-            xhr :delete, :destroy, :id => @item.id, :year => 2008, :month => 2
-          end
+          context "and payment date is in 2 months," do
+            let(:action) { lambda {xhr :delete, :destroy, :id => @item.id, :year => 2008, :month => 2}}
+            before do
+              _login_and_change_month(2008,2)
+              # dummy data
+              xhr :post, :create, :item_name=>'test', :amount=>'1000', :action_year=>'2008', :action_month=>'2', :action_day=>'10',:from=>'4', :to=>'3', :year => 2008, :month => 2
+              @item = Item.where(name: 'test', from_account_id: 4, to_account_id: 3).first
+              @child_item = Item.find(@item.child_id)
+            end
 
-          describe "response" do 
-            subject { response }
-            it { should be_success }
-          end
+            describe "response" do
+              before { action.call}
+              subject { response }
+              it { should be_success }
+            end
 
-          describe "specified item" do
-            it 'should not exist' do 
-              expect {Item.find(@item.id)}.to raise_error(ActiveRecord::RecordNotFound)
+            describe "specified item" do
+              before { action.call}
+              it 'should not exist' do 
+                expect {Item.find(@item.id)}.to raise_error(ActiveRecord::RecordNotFound)
+              end
+            end
+
+            describe "child item of the specified item" do
+              before { action.call}
+              it 'should not exist' do 
+                expect {Item.find(@child_item.id)}.to raise_error(ActiveRecord::RecordNotFound)
+              end
+            end
+            pending("Adding specs for profit losses") do 
+              describe "profit_losses" do
+                before { action.call}
+                specify {
+
+                }
+              end
             end
           end
+          
+          context "and payment date is in same months," do 
+            let(:action) { lambda {xhr :delete, :destroy, :id => @item.id, :year => 2008, :month => 2}}
+            before do
+              cr = credit_relations(:cr1)
+              cr.update_attributes!(payment_month: 0, settlement_day: 5)
 
-          describe "child item of the specified item" do
-            it 'should not exist' do 
-              expect {Item.find(@child_item.id)}.to raise_error(ActiveRecord::RecordNotFound)
+              _login_and_change_month(2008,2)
+              # dummy data
+              xhr :post, :create, :item_name=>'test', :amount=>'1000', :action_year=>'2008', :action_month=>'2', :action_day=>'10',:from=>'4', :to=>'3', :year => 2008, :month => 2
+              @item = Item.where(name: 'test', from_account_id: 4, to_account_id: 3).first
+              @child_item = Item.find(@item.child_id)
+            end
+
+            describe "response" do 
+              before { action.call}
+              subject { response }
+              it { should be_success }
+              its(:content_type) { should == 'text/javascript'}
+            end
+
+            describe "specified item" do
+              before { action.call}
+              it 'should not exist' do 
+                expect {Item.find(@item.id)}.to raise_error(ActiveRecord::RecordNotFound)
+              end
+            end
+
+            describe "child item of the specified item" do
+              before { action.call}
+              it 'should not exist' do 
+                expect {Item.find(@child_item.id)}.to raise_error(ActiveRecord::RecordNotFound)
+              end
             end
           end
         end
-
+        
         context "when is_adjustment is true," do
           context "with invalid id," do
             let(:mock_items) { double }
