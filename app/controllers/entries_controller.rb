@@ -2,6 +2,7 @@
 class EntriesController < ApplicationController
   before_filter :required_login
   before_filter :set_separated_accounts, :only => [:index, :create, :update, :destroy, :new, :edit, :show]
+  before_filter :_redirect_to_login_by_rjs_if_id_is_blank, :only => [:update]
   
   def index
     @tag = params[:tag]
@@ -86,8 +87,6 @@ class EntriesController < ApplicationController
   end
   
   def update
-    return if _redirect_to_login_by_rjs_if_id_is_blank(params[:id])
-    
     if params[:entry_type] == 'adjustment'
       _update_adjustment
     else
@@ -96,11 +95,12 @@ class EntriesController < ApplicationController
 
   end
 
-  def _redirect_to_login_by_rjs_if_id_is_blank(id)
-    if id.blank?
+  def _redirect_to_login_by_rjs_if_id_is_blank
+    if params[:id].blank?
       redirect_rjs_to login_url
-      return true
+      return false
     end
+    return true
   end
   
   def destroy
@@ -175,32 +175,27 @@ class EntriesController < ApplicationController
   # exec adding adjustment
   #
   def _create_adjustment
-    Item.transaction do
-      item = Item.new
-      item.user = @user
-      item.year, item.month, item.day = _get_action_year_month_day_from_params
-      display_year = params[:year].to_i
-      display_month = params[:month].to_i
-      @display_year_month = Date.new(display_year, display_month)
-      item.name = 'Adjustment'
-      item.from_account_id  = -1
-      item.to_account_id  = CommonUtil.remove_comma(params[:to]).to_i
-      item.is_adjustment = true
-      item.tag_list = params[:tag_list]
-      item.user_id = item.user.id
-      begin
-        item.adjustment_amount = _calc_amount(params[:adjustment_amount])
-      rescue SyntaxError
-        render_rjs_error :id => "warning", :default_message => _("Amount is invalid.")
-        return
-      end
+    item = Item.new
+    item.user = @user
+    item.year, item.month, item.day = _get_action_year_month_day_from_params
+    display_year = params[:year].to_i
+    display_month = params[:month].to_i
+    @display_year_month = Date.new(display_year, display_month)
+    item.name = 'Adjustment'
+    item.from_account_id  = -1
+    item.to_account_id  = CommonUtil.remove_comma(params[:to]).to_i
+    item.is_adjustment = true
+    item.tag_list = params[:tag_list]
+    item.user_id = item.user.id
+    # could raise SyntaxError
+    item.adjustment_amount = _calc_amount(params[:adjustment_amount])
 
+    Item.transaction do
       # 一旦、ここでvalidateを実行しておく(action_date等が他の箇所で参照されているため)
       item.amount = 0 #ダミーデータ(validateのため)
-      unless item.valid?
-        render_rjs_error(:id => "warning", :errors => item.errors, :default_message => _('Input value is incorrect'))
-        return
-      end
+
+      raise ActiveRecord::RecordInvalid.new(item) unless item.valid?
+      
       item.amount = nil #ダミーデータの除去
 
       # すでに同日かつ同account_idの残高調整が存在しないかチェックし、存在する場合は削除する
@@ -242,6 +237,8 @@ class EntriesController < ApplicationController
         end
       end
     end
+  rescue SyntaxError
+    render_rjs_error :id => "warning", :default_message => _("Amount is invalid.")
   rescue ActiveRecord::RecordInvalid
     render_rjs_error(:id => "warning", :errors => item.errors, :default_message => _('Input value is incorrect'))
   end
@@ -265,13 +262,8 @@ class EntriesController < ApplicationController
         display_month = params[:month].to_i
         @display_year_month = Date.new(display_year, display_month)
       end
-
-      begin
-        amount = _calc_amount(params[:amount])
-      rescue SyntaxError
-        render_rjs_error :id => "warning", :default_message => _("Amount is invalid.")
-        return
-      end
+      # could raise SyntaxError because of :amount has an statement.
+      amount = _calc_amount(params[:amount])
 
       item, affected_items, is_error =
         Teller.create_entry(:user => @user,
@@ -282,9 +274,8 @@ class EntriesController < ApplicationController
                             :action_date => Date.new(year,month,day),
                             :confirmation_required => confirmation_required,
                             :tag_list => tag_list)
-      if is_error
-        raise ActiveRecord::RecordInvalid.new(item)
-      end
+      raise ActiveRecord::RecordInvalid.new(item) if is_error
+      
       # 以下、表示処理
       item_month = Date.new(year, month, 1)
       # displaying page from here
@@ -300,6 +291,8 @@ class EntriesController < ApplicationController
       end
     end # transaction
     render "common/rjs_queue_renderer.rjs"
+  rescue SyntaxError
+    render_rjs_error :id => "warning", :default_message => _("Amount is invalid.")
   rescue ActiveRecord::RecordInvalid
     render_rjs_error(:id => "warning", :errors => (item.nil? ? nil : item.errors), :default_message => _('Input value is incorrect'))
   end
@@ -510,12 +503,8 @@ class EntriesController < ApplicationController
     display_year = params[:year].to_i
     display_month = params[:month].to_i
     @display_year_month = Date.new(display_year, display_month)
-    begin
-      item.adjustment_amount = _calc_amount(params[:adjustment_amount])
-    rescue SyntaxError
-      render_rjs_error(:id => "warning", :errors => nil, :default_message => _("Amount is invalid."))
-      return
-    end
+    # could raise SyntaxError
+    item.adjustment_amount = _calc_amount(params[:adjustment_amount])
 
     raise ActiveRecord::RecordInvalid.new(item) unless item.valid?
 
@@ -615,6 +604,8 @@ class EntriesController < ApplicationController
           CommonUtil.separate_by_comma(item.adjustment_amount) + _('yen')
       end
     end
+  rescue SyntaxError
+    render_rjs_error(:id => "warning", :errors => nil, :default_message => _("Amount is invalid."))
   rescue ActiveRecord::RecordInvalid
     render_rjs_error :id => "item_warning_#{item.id}", :errors => item.errors, :default_message =>  _('Input value is incorrect.')
   end
@@ -623,141 +614,134 @@ class EntriesController < ApplicationController
   # Store item info to DB
   #
   def _update_item
+    item_id = params[:id].to_i
+    @item = item = @user.items.find(item_id)
+    old_action_date = item.action_date
+    old_amount = item.amount
+    old_from_id = item.from_account_id
+    old_to_id = item.to_account_id
+    old_adjustment_amount = item.adjustment_amount
+    old_child_id = item.child_id
+    old_confirmation_required = item.confirmation_required?
+    old_tag_list = item.tag_list
 
-    if params[:id].present?
-      item_id = params[:id].to_i
-      item = @user.items.find_by_id(item_id)
-      old_action_date = item.action_date
-      old_amount = item.amount
-      old_from_id = item.from_account_id
-      old_to_id = item.to_account_id
-      old_adjustment_amount = item.adjustment_amount
-      old_child_id = item.child_id
-      old_confirmation_required = item.confirmation_required?
-      old_tag_list = item.tag_list
+    # 新規値の登録
+    item.is_adjustment = false
+    item.name = params[:item_name]
+    item.year, item.month, item.day = _get_action_year_month_day_from_params
+    item.from_account_id  = params[:from].to_i
+    item.to_account_id  = params[:to].to_i
+    item.confirmation_required = params[:confirmation_required]
+    item.tag_list = params[:tag_list]
+    item.user_id = item.user.id
+    
+    display_year = params[:year].to_i
+    display_month = params[:month].to_i
+    @display_year_month = display_from_date = Date.new(display_year, display_month)
+    display_to_date = display_from_date.end_of_month
+    # could raise SyntaxError
+    item.amount = _calc_amount(params[:amount])
 
-      # 新規値の登録
-      item.is_adjustment = false
-      item.name = params[:item_name]
-      item.year, item.month, item.day = _get_action_year_month_day_from_params
-      item.from_account_id  = params[:from].to_i
-      item.to_account_id  = params[:to].to_i
-      item.confirmation_required = params[:confirmation_required]
-      item.tag_list = params[:tag_list]
-      item.user_id = item.user.id
+    Item.transaction do
+      item.save!
+      MonthlyProfitLoss.correct(@user, old_from_id, old_action_date.beginning_of_month)
+      MonthlyProfitLoss.correct(@user, old_to_id, old_action_date.beginning_of_month)
+      MonthlyProfitLoss.correct(@user, item.from_account_id, item.action_date.beginning_of_month)
+      MonthlyProfitLoss.correct(@user, item.to_account_id, item.action_date.beginning_of_month)
       
-      display_year = params[:year].to_i
-      display_month = params[:month].to_i
-      @display_year_month = display_from_date = Date.new(display_year, display_month)
-      display_to_date = display_from_date.end_of_month
-      begin
-        item.amount = _calc_amount(params[:amount])
-      rescue SyntaxError
-        render_rjs_error :id => "item_warning_#{item.id}", :errors => nil, :default_message =>  _("Amount is invalid.")
-        return
+      old_from_item_adj = Item.update_future_balance(@user, old_action_date,
+                                                     old_from_id, item.id)
+      old_to_item_adj = Item.update_future_balance(@user, old_action_date,
+                                                   old_to_id, item.id)
+      from_item_adj = Item.update_future_balance(@user, item.action_date,
+                                                 item.from_account_id, item.id)
+      to_item_adj = Item.update_future_balance(@user, item.action_date,
+                                               item.to_account_id, item.id)
+
+      # クレジットカードの処理
+      # 一旦古い情報を削除し、再度追加の必要がある場合のみ追加する
+      deleted_child_item, from_adj_credit, to_adj_credit = (_do_delete_item(old_child_id))[:child] if old_child_id
+      cr = @user.credit_relations.find_by_credit_account_id(item.from_account_id)
+      if cr.nil?
+        payment_account_id = nil
+        credit_item = nil
+      else
+        payment_account_id = cr.payment_account_id
+      end
+      if payment_account_id
+        paydate = _credit_payment_date(item.from_account_id, item.action_date)
+
+        credit_item, ignore, ignore = _do_add_item(item.name, payment_account_id, item.from_account_id,
+                                                   item.amount, paydate.year, paydate.month, paydate.day, item.id)
+        if credit_item
+          item.child_id = credit_item.id
+        end
       end
 
-      @item = item
+      # child_id が異なる場合は、保存しなおす
+      if credit_item.nil?
+        if old_child_id
+          item.child_id = nil
+          item.save!
+        end
+      else
+        if old_child_id.nil? || old_child_id != credit_item.id
+          item.child_id = credit_item.id
+          item.save!
+        end
+      end
+      item.child_item = credit_item
+
+      # クレジットカード処理終了
+
+      # 以下、表示処理
+      #日付に変更がない場合は、並び順が変わらないため、当該アイテムのみ表示を変更する。
       
-      Item.transaction do
-        item.save!
-        MonthlyProfitLoss.correct(@user, old_from_id, old_action_date.beginning_of_month)
-        MonthlyProfitLoss.correct(@user, old_to_id, old_action_date.beginning_of_month)
-        MonthlyProfitLoss.correct(@user, item.from_account_id, item.action_date.beginning_of_month)
-        MonthlyProfitLoss.correct(@user, item.to_account_id, item.action_date.beginning_of_month)
-        
-        old_from_item_adj = Item.update_future_balance(@user, old_action_date,
-                                                       old_from_id, item.id)
-        old_to_item_adj = Item.update_future_balance(@user, old_action_date,
-                                                     old_to_id, item.id)
-        from_item_adj = Item.update_future_balance(@user, item.action_date,
-                                                   item.from_account_id, item.id)
-        to_item_adj = Item.update_future_balance(@user, item.action_date,
-                                                item.to_account_id, item.id)
+      if (old_action_date == item.action_date &&
+          (old_from_item_adj.nil? ||
+           old_from_item_adj.action_date < display_from_date || old_from_item_adj.action_date > display_to_date) &&
+          (old_to_item_adj.nil? ||
+           old_to_item_adj.action_date < display_from_date || old_to_item_adj.action_date > display_to_date ) &&
+          (from_item_adj.nil? ||
+           from_item_adj.action_date < display_from_date || from_item_adj.action_date > display_to_date ) &&
+          (to_item_adj.nil? ||
+           to_item_adj.action_date < display_from_date || to_item_adj.action_date > display_to_date ))
 
-        # クレジットカードの処理
-        # 一旦古い情報を削除し、再度追加の必要がある場合のみ追加する
-        deleted_child_item, from_adj_credit, to_adj_credit = (_do_delete_item(old_child_id))[:child] if old_child_id
-        cr = @user.credit_relations.find_by_credit_account_id(item.from_account_id)
-        if cr.nil?
-          payment_account_id = nil
-          credit_item = nil
-        else
-          payment_account_id = cr.payment_account_id
-        end
-        if payment_account_id
-          paydate = _credit_payment_date(item.from_account_id, item.action_date)
+        render :update do |page|
+          page.replace 'item_' + item.id.to_s, render_item(item)
+          page[:warning].set_style :color => 'blue'
+          page.replace_html :warning, _('Item was changed successfully.') +
+            ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' +
+            CommonUtil.separate_by_comma(item.amount) + _('yen')
 
-          credit_item, ignore, ignore = _do_add_item(item.name, payment_account_id, item.from_account_id,
-                                                     item.amount, paydate.year, paydate.month, paydate.day, item.id)
-          if credit_item
-            item.child_id = credit_item.id
-          end
-        end
-
-        # child_id が異なる場合は、保存しなおす
-        if credit_item.nil?
-          if old_child_id
-            item.child_id = nil
-            item.save!
-          end
-        else
-          if old_child_id.nil? || old_child_id != credit_item.id
-            item.child_id = credit_item.id
-            item.save!
-          end
-        end
-        item.child_item = credit_item
-
-        # クレジットカード処理終了
-
-        # 以下、表示処理
-        #日付に変更がない場合は、並び順が変わらないため、当該アイテムのみ表示を変更する。
-        
-        if (old_action_date == item.action_date &&
-            (old_from_item_adj.nil? ||
-             old_from_item_adj.action_date < display_from_date || old_from_item_adj.action_date > display_to_date) &&
-            (old_to_item_adj.nil? ||
-             old_to_item_adj.action_date < display_from_date || old_to_item_adj.action_date > display_to_date ) &&
-            (from_item_adj.nil? ||
-             from_item_adj.action_date < display_from_date || from_item_adj.action_date > display_to_date ) &&
-            (to_item_adj.nil? ||
-             to_item_adj.action_date < display_from_date || to_item_adj.action_date > display_to_date ))
-
-          render :update do |page|
-            page.replace 'item_' + item.id.to_s, render_item(item)
-            page[:warning].set_style :color => 'blue'
-            page.replace_html :warning, _('Item was changed successfully.') +
-              ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' +
-              CommonUtil.separate_by_comma(item.amount) + _('yen')
-
-            if item.action_date >= display_from_date && item.action_date <= display_to_date
-              page.select('#item_' + item.id.to_s + ' div').each do |etty|
-                etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
-              end
+          if item.action_date >= display_from_date && item.action_date <= display_to_date
+            page.select('#item_' + item.id.to_s + ' div').each do |etty|
+              etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
             end
           end
-        else # action_dateが変わり、なおかつ、未来の残高調整が同月に存在するばあい
-          @items = _get_items(display_year, display_month)
-          render :update do |page|
-            page.replace_html :items, ''
-            @items.each do |it|
-              page.insert_html :bottom, :items, render_item(it)
-            end
-            page.insert_html :bottom, :items, :partial=>'remains_link'
+        end
+      else # action_dateが変わり、なおかつ、未来の残高調整が同月に存在するばあい
+        @items = _get_items(display_year, display_month)
+        render :update do |page|
+          page.replace_html :items, ''
+          @items.each do |it|
+            page.insert_html :bottom, :items, render_item(it)
+          end
+          page.insert_html :bottom, :items, :partial=>'remains_link'
 
-            page[:warning].set_style :color=>'blue'
-            page.replace_html :warning, _('Item was changed successfully.') + ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' + CommonUtil.separate_by_comma(item.amount) + _('yen')
-            if item.action_date >= display_from_date && item.action_date <= display_to_date
-              page.select('#item_' + item.id.to_s + ' div').each do |etty|
-                etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
-              end
+          page[:warning].set_style :color=>'blue'
+          page.replace_html :warning, _('Item was changed successfully.') + ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' + CommonUtil.separate_by_comma(item.amount) + _('yen')
+          if item.action_date >= display_from_date && item.action_date <= display_to_date
+            page.select('#item_' + item.id.to_s + ' div').each do |etty|
+              etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
             end
           end
         end
       end
     end
     
+  rescue SyntaxError
+    render_rjs_error :id => "item_warning_#{@item.id}", :errors => nil, :default_message =>  _("Amount is invalid.")
   rescue ActiveRecord::RecordInvalid
     render_rjs_error(:id => 'item_warning_' + @item.id.to_s,
                      :errors => @item.errors,
