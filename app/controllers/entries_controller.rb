@@ -583,7 +583,7 @@ class EntriesController < ApplicationController
 
         end
 
-        # 変更された未来のadjectiveのハイライト表示
+        # 変更された未来のadjustmentのハイライト表示
         if old_future_adj && new_future_adj
           if old_future_adj.id == new_future_adj.id # to_account_idがかわっていない
             page.select("#item_#{old_future_adj.id} div").each do |etty|
