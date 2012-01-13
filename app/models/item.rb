@@ -40,7 +40,7 @@ class Item < ActiveRecord::Base
   def validate_everytime
     today = Date.today
     unless action_date.nil?
-      if self.action_date >= 2.years.since(Date.today)  #Date.new(today.year + 2, today.month, 1)
+      if self.action_date >= 2.years.since(Date.today)
         errors.add(:action_date, "日付は本日より2年先(" + (Date.new(today.year + 2, today.month, 1) - 1).strftime("%Y年%m月") + ")まで入力可能です。")
       end
       if self.action_date < Date.new(2006, 1, 1)
