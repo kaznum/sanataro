@@ -228,7 +228,7 @@ class EntriesController < ApplicationController
         if item.action_date.beginning_of_month == Date.new(display_year, display_month)
           page.replace_html :items, ''
           items.each do |it|
-            page.insert_html :bottom, :items, render_item(it)
+            page.insert_html :bottom, :items, partial: 'item', locals: { event_item: it }
           end
           page.insert_html :bottom, :items, :partial=>'remains_link'
           page.select('#item_' + item.id.to_s + ' div').each do |etty|
@@ -453,14 +453,14 @@ class EntriesController < ApplicationController
         if from_adj_item &&
             from_adj_item.action_date >= Date.new(display_year, display_month) &&
             from_adj_item.action_date <= Date.new(display_year, display_month).end_of_month
-          page.replace "item_#{from_adj_item.id}", render_item(from_adj_item)
+          page.replace "item_#{from_adj_item.id}", partial: 'item', locals: { event_item: from_adj_item }
           page.visual_effect :highlight, "item_#{from_adj_item.id}", :duration => HIGHLIGHT_DURATION
         end
 
         if to_adj_item &&
             to_adj_item.action_date >= Date.new(display_year, display_month) &&
             to_adj_item.action_date <= Date.new(display_year, display_month).end_of_month
-          page.replace "item_#{to_adj_item.id}", render_item(to_adj_item)
+          page.replace "item_#{to_adj_item.id}", partial: 'item', locals: { event_item: to_adj_item }
           page.visual_effect :highlight, "item_#{to_adj_item.id}", :duration => HIGHLIGHT_DURATION
 
         end
@@ -548,48 +548,41 @@ class EntriesController < ApplicationController
              old_future_adj.id == new_future_adj.id &&
              old_future_adj.to_account_id == new_future_adj.to_account_id )
 
-          page.replace "item_#{item.id}", render_item(item)
+          page.replace "item_#{item.id}", partial: 'item', locals: { event_item: item }
 
           if new_future_adj && new_future_adj.action_date <= Date.new(display_year, display_month).end_of_month &&
               old_future_adj.action_date.beginning_of_month == Date.new(display_year, display_month)
-            page.replace "item_#{new_future_adj.id}", render_item(new_future_adj)
+            page.replace "item_#{new_future_adj.id}", partial: 'item', locals: { event_item: new_future_adj }
           end
         else
           page.replace_html :items,''
           items.each do |it|
-            page.insert_html :bottom, :items, render_item(it)
+            page.insert_html :bottom, :items, partial: 'item', locals: { event_item: it }
           end
           page.insert_html :bottom, :items, :partial => 'remains_link'
 
         end
 
         # 変更された未来のadjustmentのハイライト表示
+        selectors = []
         if old_future_adj && new_future_adj
           if old_future_adj.id == new_future_adj.id # to_account_idがかわっていない
-            page.select("#item_#{old_future_adj.id} div").each do |etty|
-              etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
-            end
+            selectors << "#item_#{old_future_adj.id} div"
           else
-            page.select("#item_#{old_future_adj.id} div").each do |etty|
-              etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
-            end
-            page.select("#item_#{new_future_adj.id} div").each do |etty|
-              etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
-            end
+            selectors << "#item_#{old_future_adj.id} div"
+            selectors << "#item_#{new_future_adj.id} div"
           end
         elsif old_future_adj
-          page.select("#item_#{old_future_adj.id} div").each do |etty|
-            etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
-          end
-        elsif  new_future_adj
-          page.select("#item_#{new_future_adj.id} div").each do |etty|
-            etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
-          end
+          selectors << "#item_#{old_future_adj.id} div"
+        elsif new_future_adj
+          selectors << "#item_#{new_future_adj.id} div"
         end
+        selectors << "#item_#{item.id} div"
 
-        # 変更部分をハイライト表示
-        page.select("#item_#{item.id} div").each do |etty|
-          etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
+        selectors.each do |s|
+          page.select(s).each do |etty|
+            etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
+          end
         end
 
         page[:warning].set_style :color => 'blue'
@@ -690,7 +683,7 @@ class EntriesController < ApplicationController
            to_item_adj.action_date < display_from_date || to_item_adj.action_date > display_to_date ))
 
         render :update do |page|
-          page.replace 'item_' + item.id.to_s, render_item(item)
+          page.replace 'item_' + item.id.to_s, partial: 'item', locals: { event_item: item }
           page[:warning].set_style :color => 'blue'
           page.replace_html :warning, _('Item was changed successfully.') +
             ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' +
@@ -707,7 +700,7 @@ class EntriesController < ApplicationController
         render :update do |page|
           page.replace_html :items, ''
           @items.each do |it|
-            page.insert_html :bottom, :items, render_item(it)
+            page.insert_html :bottom, :items, partial: 'item', locals: { event_item: it }
           end
           page.insert_html :bottom, :items, :partial=>'remains_link'
 
