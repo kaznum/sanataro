@@ -38,7 +38,7 @@ class Item < ActiveRecord::Base
   
   def validate_everytime
     today = Date.today
-    unless action_date.nil?
+    if action_date
       if self.action_date >= 2.years.since(Date.today)
         errors.add(:action_date, "日付は本日より2年先(" + (Date.new(today.year + 2, today.month, 1) - 1).strftime("%Y年%m月") + ")まで入力可能です。")
       end
@@ -138,34 +138,6 @@ class Item < ActiveRecord::Base
     item_adj
   end
   
-  #(obsolete self.update_future_balance(user, action_date, account_id, item_id)で置き換え)
-  # 残高調整内部処理
-  # 直近の未来の残高調整アイテムを1件取得し、amountの分だけ、金額に追加することにより、残高調整による不明金調整を行なう
-  #
-  def self.adjust_future_balance(user, account_id, amount, action_date, item_id=nil)
-
-    return if account_id == -1
-
-    if item_id.nil?
-      item_adj = user.items.order("action_date, id").where(to_account_id: account_id, is_adjustment: true).where("action_date > ?", action_date).first
-    else
-      item_adj = user.items.where(to_account_id: account_id,
-                                  is_adjustment: true).where("(action_date > ? AND id <> ?) OR (action_date = ? AND id > ?)",
-                                                             action_date, item_id, action_date, item_id).order("action_date, id").first
-    end
-    unless item_adj.nil?
-      item_adj.amount += amount
-      item_adj.save!
-      MonthlyProfitLoss.reflect_relatively(user,
-                         item_adj.action_date.beginning_of_month,
-                         -1,
-                         account_id,
-                         amount)
-    end
-
-    return item_adj
-  end
-
   #
   # get items from db
   # options

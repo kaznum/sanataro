@@ -251,117 +251,38 @@ describe Item do
       @plbank1 = monthly_profit_losses(:bank1200802)
     end
     
-    context "item1の金額を+100した時(item_idを指定)" do
-      before do
-        User.find(@item1.user_id).items.adjust_future_balance(User.find(@item1.user_id), @item1.from_account_id, 100, @item1.action_date, @item1.id)
-      end
-
-      describe "adj2" do
-        subject { Item.find(2)}
-        its(:amount) {should be(@adj2.amount + 100) }
-        its(:adjustment_amount) {should be(@adj2.adjustment_amount) }
-      end
-
-      describe "item3" do
-        subject { Item.find(3)}
-        its(:amount) {should be(@item3.amount) }
-      end
-
-      describe "adj4" do
-        subject { Item.find(4)}
-        its(:amount) {should be(@adj4.amount) }
-        its(:adjustment_amount) {should be(@adj4.adjustment_amount) }
-      end
-
-      describe "profit_losses of bank1" do
-        subject { MonthlyProfitLoss.find(@plbank1.id) }
-        its(:amount) { should be(@plbank1.amount + 100) }
-      end
-    end
-
-    
-    context "item1の金額を+100した時(item_idを指定しない)" do
-      before do
-        User.find(@item1.user_id).items.adjust_future_balance(User.find(@item1.user_id), @item1.from_account_id, 100, @item1.action_date)
-      end
-
-      describe "adj2" do
-        subject { Item.find(2)}
-        its(:amount) {should be(@adj2.amount + 100) }
-      end
-
-      describe "item3" do
-        subject { Item.find(3)}
-        its(:amount) {should be(@item3.amount) }
-      end
-
-      describe "adj4" do
-        subject { Item.find(4)}
-        its(:amount) {should be(@adj4.amount) }
-      end
-
-      describe "profit_losses of bank1" do
-        subject { MonthlyProfitLoss.find(@plbank1.id) }
-        its(:amount) { should be(@plbank1.amount + 100) }
-      end
-    end
-    
-
-    context "item3の金額を+100した時" do
-      before do
-        User.find(@item3.user_id).items.adjust_future_balance(User.find(@item3.user_id), @item3.from_account_id, 100, @item3.action_date, @item3.id)
-      end
-
-      describe "adj2" do
-        subject {Item.find(@adj2.id)}
-        its(:amount) { should be @adj2.amount}
-        its(:adjustment_amount) { should be @adj2.adjustment_amount }
-      end
-
-      describe "adj4" do
-        subject {Item.find(@adj4.id)}
-        its(:amount) { should be @adj4.amount + 100}
-        its(:adjustment_amount) { should be @adj4.adjustment_amount }
-      end
-
-      describe "Monthly Profit Loss of bank1" do
-        subject { MonthlyProfitLoss.find(@plbank1.id) }
-        its(:amount) { should be @plbank1.amount + 100 }
-      end
-    end
-
     context "adjustment2のitemとaction_dateが同一のitemを追加した場合" do
-      context "when item3の金額を+100した場合" do
-        before do
-          item = Item.create!(:id => 105,
-                              :user_id => users(:user1).id,
-                              :name => 'aaaaa',
-                              :year => @adj2.action_date.year,
-                              :month => @adj2.action_date.month,
-                              :day => @adj2.action_date.day,
-                              :from_account_id => 1,
-                              :to_account_id => 2,
-                              :amount => 10000)
-          
-          User.find(item.user_id).items.adjust_future_balance(User.find(item.user_id), item.from_account_id, 10000, item.action_date, item.id)
-        end
+      before do
+        item = Item.create!(:user_id => users(:user1).id,
+                            :name => 'aaaaa',
+                            :year => @adj2.action_date.year,
+                            :month => @adj2.action_date.month,
+                            :day => @adj2.action_date.day,
+                            :from_account_id => 1,
+                            :to_account_id => 2,
+                            :amount => 10000)
 
-        describe "adj2" do
-          subject { Item.find(@adj2.id) }
-          its(:amount) { should be @adj2.amount}
-          its(:adjustment_amount) { should be @adj2.adjustment_amount}
-        end
+        MonthlyProfitLoss.correct(users(:user1), 1, item.action_date.beginning_of_month)
+        MonthlyProfitLoss.correct(users(:user1), 2, item.action_date.beginning_of_month)
+        Item.update_future_balance(users(:user1), item.action_date, 1, item.id)
+        Item.update_future_balance(users(:user1), item.action_date, 2, item.id)
+      end
 
-        describe "adj4" do
-          subject { Item.find(@adj4.id)}
-          its(:amount) { should be @adj4.amount + 10000}
-          its(:adjustment_amount) { should be @adj4.adjustment_amount}
-        end
+      describe "adj2" do
+        subject { Item.find(@adj2.id) }
+        its(:amount) { should == @adj2.amount}
+        its(:adjustment_amount) { should == @adj2.adjustment_amount}
+      end
 
-        describe "monthly profit loss of bank1" do
-          subject { MonthlyProfitLoss.find(@plbank1.id) }
-          its(:amount) { should be @plbank1.amount + 10000 }
-        end
+      describe "adj4" do
+        subject { Item.find(@adj4.id)}
+        its(:amount) { should == @adj4.amount + 10000}
+        its(:adjustment_amount) { should == @adj4.adjustment_amount}
+      end
+
+      describe "monthly profit loss of bank1" do
+        subject { MonthlyProfitLoss.find(@plbank1.id) }
+        its(:amount) { should == @plbank1.amount }
       end
     end
 
@@ -369,6 +290,8 @@ describe Item do
       before do 
         @adj6 = items(:adjustment6)
         @plbank1_03 = monthly_profit_losses(:bank1200803)
+        MonthlyProfitLoss.correct(users(:user1), 1, @adj6.action_date.beginning_of_month)
+        MonthlyProfitLoss.correct(users(:user1), 2, @adj6.action_date.beginning_of_month)
         item = Item.create(:id => 105,
                            :user_id => users(:user1).id,
                            :name => 'aaaaa',
@@ -378,36 +301,40 @@ describe Item do
                            :from_account_id => 1,
                            :to_account_id => 2,
                            :amount => 200)
-        Item.adjust_future_balance(User.find(item.user_id), item.from_account_id, 200, item.action_date, item.id)
+        
+        MonthlyProfitLoss.correct(users(:user1), 1, item.action_date.beginning_of_month)
+        MonthlyProfitLoss.correct(users(:user1), 2, item.action_date.beginning_of_month)
+        Item.update_future_balance(users(:user1), item.action_date, 1, item.id)
+        Item.update_future_balance(users(:user1), item.action_date, 2, item.id)
       end
 
       describe "adj2" do
         subject { Item.find(2)}
-        its(:amount) { should be @adj2.amount}
-        its(:adjustment_amount) { should be @adj2.adjustment_amount}
+        its(:amount) { should == @adj2.amount}
+        its(:adjustment_amount) { should == @adj2.adjustment_amount}
       end
 
       describe "adj4" do 
         subject { Item.find(4)}
-        its(:amount) { should be @adj4.amount}
-        its(:adjustment_amount) { should be @adj4.adjustment_amount}
+        its(:amount) { should == @adj4.amount}
+        its(:adjustment_amount) { should == @adj4.adjustment_amount}
       end
       
       describe "adj6" do
         subject { Item.find(@adj6.id)}
-        its(:amount) { should be @adj6.amount + 200}
-        its(:adjustment_amount) { should be @adj6.adjustment_amount}
+        its(:amount) { should == @adj6.amount + 200}
+        its(:adjustment_amount) { should == @adj6.adjustment_amount}
       end
 
 
       describe "MonthlyProfitLoss for bank1 in 2008/2" do
         subject { MonthlyProfitLoss.find(@plbank1.id) }
-        its(:amount) { should be @plbank1.amount}
+        its(:amount) { should == @plbank1.amount}
       end
       
       describe "MonthlyProfitLoss for bank1 in 2008/3" do
         subject { MonthlyProfitLoss.find(@plbank1_03.id) }
-        its(:amount) { should be @plbank1_03.amount + 200}
+        its(:amount) { should == @plbank1_03.amount}
       end
     end
   end

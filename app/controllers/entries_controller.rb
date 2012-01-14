@@ -210,13 +210,13 @@ class EntriesController < ApplicationController
       @item = item
       
       item.save!
-      MonthlyProfitLoss.reflect_relatively(@user,
-                                           item.action_date.beginning_of_month,
-                                           -1,
-                                           item.to_account_id,
-                                           item.amount)
+
+      MonthlyProfitLoss.correct(@user, item.to_account_id, item.action_date.beginning_of_month)
+      MonthlyProfitLoss.correct(@user, -1, item.action_date.beginning_of_month)
+      
       # 未来の残高調整を再調整
-      Item.adjust_future_balance(@user, item.to_account_id, item.amount * (-1), item.action_date, item.id)
+      Item.update_future_balance(@user, item.action_date, item.to_account_id, item.id)
+
       if item.action_date.beginning_of_month == Date.new(display_year, display_month)
         items = _get_items(item.action_date.year, item.action_date.month)
       end
@@ -509,32 +509,26 @@ class EntriesController < ApplicationController
     raise ActiveRecord::RecordInvalid.new(item) unless item.valid?
 
     Item.transaction do
-      # 古い情報に基づいたMonthlyPLを一度消す
-      MonthlyProfitLoss.reflect_relatively(@user,
-                         old_action_date.beginning_of_month,
-                         -1,
-                         old_to_id,
-                         old_amount * (-1))
       # 未来の残高調整を行なう。
       # 残高調整のため、一度、amountを0にする。
       item.amount = 0
       item.save!
-      old_future_adj = Item.adjust_future_balance(@user, old_to_id, old_amount, old_action_date, item.id)
+      MonthlyProfitLoss.correct(@user, -1, old_action_date.beginning_of_month)
+      MonthlyProfitLoss.correct(@user, old_to_id, old_action_date.beginning_of_month)
+      old_future_adj = Item.update_future_balance(@user, old_action_date, old_to_id, item.id)
+      
       # amountの算出
       asset = @user.accounts.asset(@user, item.to_account_id, item.action_date, item.id)
       item.amount = item.adjustment_amount - asset
       item.save!
       @item = item
-      MonthlyProfitLoss.reflect_relatively(@user,
-                                           item.action_date.beginning_of_month,
-                                           -1,
-                                           item.to_account_id,
-                                           item.amount)
+      MonthlyProfitLoss.correct(@user, -1, item.action_date.beginning_of_month)
+      MonthlyProfitLoss.correct(@user, item.to_account_id, item.action_date.beginning_of_month)
+      
       # 新account_idで、未来に残高調整が存在する場合の調整
-      new_future_adj = Item.adjust_future_balance(@user, item.to_account_id, (-1) * item.amount, item.action_date, item.id)
+      new_future_adj = Item.update_future_balance(@user, item.action_date, item.to_account_id, item.id)
 
       # 表示処理
-
       unless old_action_date == item.action_date &&
           ((old_future_adj.nil? && new_future_adj.nil?)||
            old_future_adj && new_future_adj &&
