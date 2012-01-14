@@ -28,15 +28,11 @@ class Teller
         cr_item, cr_affected_items, is_cr_error =
           create_entry(name: item.name, from_account_id: cr.payment_account_id,
                        to_account_id: item.from_account_id, amount: item.amount,
-                       action_date: payment_date, parent_id: item.id,
+                       action_date: payment_date, parent_item: item,
                        user: user)
         raise ActiveRecord::RecordInvalid.new(cr_item) if is_cr_error
-        if cr_item
-          item.child_id = cr_item.id
-          item.save!
-          affected_items << cr_item
-          affected_items += cr_affected_items
-        end
+        affected_items << cr_item
+        affected_items += cr_affected_items
       end
     end
     return [item, affected_items, false]

@@ -2,13 +2,12 @@
 class Item < ActiveRecord::Base
   acts_as_taggable
 
+
   belongs_to :parent_item, :class_name => "Item", :foreign_key => 'parent_id'
   has_one :child_item, :class_name => "Item", :foreign_key => 'parent_id'
   belongs_to :user
 
   validate :validate_everytime
-
-#  before_validation :set_user_id
 
   attr_accessor :p_year, :p_month, :p_day
   N_("Item|Year")
@@ -103,7 +102,7 @@ class Item < ActiveRecord::Base
         :from_account_id => from_account_id, :to_account_id => to_account_id,
         :amount => amount, :confirmation_required => confirmation_required?,
         :tags => tag_list.split(' ').sort,
-        :child_id => child_id, :parent_id => parent_id } }
+        :child_id => child_item.try(:id), :parent_id => parent_id } }
   end
   
   protected  

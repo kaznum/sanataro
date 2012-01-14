@@ -674,7 +674,7 @@ describe EntriesController do
               # dummy data
               xhr :post, :create, :item_name=>'test', :amount=>'1000', :action_year=>'2008', :action_month=>'2', :action_day=>'10',:from=>'4', :to=>'3', :year => 2008, :month => 2
               @item = Item.where(name: 'test', from_account_id: 4, to_account_id: 3).first
-              @child_item = Item.find(@item.child_id)
+              @child_item = @item.child_item
             end
 
             describe "response" do
@@ -723,7 +723,7 @@ describe EntriesController do
               # dummy data
               xhr :post, :create, :item_name=>'test', :amount=>'1000', :action_year=>'2008', :action_month=>'2', :action_day=>'10',:from=>'4', :to=>'3', :year => 2008, :month => 2
               @item = Item.where(name: 'test', from_account_id: 4, to_account_id: 3).first
-              @child_item = Item.find(@item.child_id)
+              @child_item = @item.child_item
             end
 
             describe "response" do 
@@ -1546,7 +1546,7 @@ describe EntriesController do
                                          :from_account_id => accounts(:credit4).id,
                                          :to_account_id => accounts(:outgo3).id,
                                          :amount => 10000,
-                                         :parent_id => nil).where("child_id is not null").first }
+                                         :parent_id => nil).find{|i| i.child_item } }
           
           describe "response" do
             subject { response }
@@ -1559,7 +1559,6 @@ describe EntriesController do
             it { should_not be_nil }
             its(:amount) { should == 10000 }
             its(:parent_id) { should be_nil }
-            its(:child_id) { should_not be_nil }
             its(:child_item) { should_not be_nil }
           end
 
@@ -1569,8 +1568,8 @@ describe EntriesController do
           end
 
           describe "child item" do
-            subject { Item.where(:parent_id => credit_item.id, :child_id => nil).first }
-            its(:child_id) { should be_nil }
+            subject { Item.where(:parent_id => credit_item.id).find{|i| i.child_item.nil?} }
+            its(:child_item) { should be_nil }
             its(:parent_item) { should == credit_item }
             its(:action_date) { should == Date.new(2008, 2 + credit_relations(:cr1).payment_month,credit_relations(:cr1).payment_day) }
             its(:from_account_id) { should == credit_relations(:cr1).payment_account_id }
@@ -1605,7 +1604,7 @@ describe EntriesController do
             Item.where(:action_date => Date.new(2008,2,25),
                        :from_account_id => accounts(:credit4).id,
                        :to_account_id => accounts(:outgo3).id,
-                       :amount => 10000, :parent_id => nil).where("child_id is not null").first
+                       :amount => 10000, :parent_id => nil).find{|i| i.child_item }
           }
 
           describe "created credit item" do
@@ -1613,7 +1612,7 @@ describe EntriesController do
             it { should_not be_nil }
             its(:amount) { should == 10000 }
             its(:parent_id) { should be_nil }
-            its(:child_id) { should_not be_nil }
+            its(:child_item) { should_not be_nil }
             its(:action_date) { should == Date.new(2008,2,25)}
           end
 
@@ -1625,9 +1624,9 @@ describe EntriesController do
 
             describe "child item" do
               subject { Item.where(:parent_id => credit_item.id).first }
-              its(:child_id) { should be_nil }
+              its(:child_item) { should be_nil }
               its(:parent_id) { should == credit_item.id }
-              its(:id) { should == credit_item.child_id }
+              its(:id) { should == credit_item.child_item.id }
               its(:action_date) { should == Date.new(2008, 3 + credit_relations(:cr1).payment_month,credit_relations(:cr1).payment_day) }
               its(:from_account_id) { should == credit_relations(:cr1).payment_account_id }
               its(:to_account_id) { should == credit_relations(:cr1).credit_account_id }
@@ -1662,7 +1661,7 @@ describe EntriesController do
             Item.where(:action_date => Date.new(2008,2,10),
                        :from_account_id => accounts(:credit4).id,
                        :to_account_id => accounts(:outgo3).id,
-                       :amount => 10000, :parent_id => nil).where("child_id is not null").first
+                       :amount => 10000, :parent_id => nil).find{|i| i.child_item }
           }
 
           describe "created credit item" do
@@ -1670,7 +1669,7 @@ describe EntriesController do
             it { should_not be_nil }
             its(:amount) { should == 10000 }
             its(:parent_id) { should be_nil }
-            its(:child_id) { should_not be_nil }
+            its(:child_item) { should_not be_nil }
             its(:action_date) { should == Date.new(2008,2,10)}
           end
 
@@ -1681,9 +1680,9 @@ describe EntriesController do
 
           describe "child item" do
             subject { Item.where(:parent_id => credit_item.id).first }
-            its(:child_id) { should be_nil }
+            its(:child_item) { should be_nil }
             its(:parent_id) { should == credit_item.id }
-            its(:id) { should == credit_item.child_id }
+            its(:id) { should == credit_item.child_item.id }
             its(:action_date) { should == Date.new(2008, 2 + @cr1.payment_month,1).end_of_month }
             its(:from_account_id) { should == @cr1.payment_account_id }
             its(:to_account_id) { should == @cr1.credit_account_id }
@@ -3191,7 +3190,7 @@ describe EntriesController do
                                             to_account_id: accounts(:outgo3).id).first
               
               
-              init_payment_item = Item.find(init_credit_item.child_id)
+              init_payment_item = init_credit_item.child_item
               date = init_credit_item.action_date
               
               init_credit_item.amount.should == 10000
@@ -3229,19 +3228,19 @@ describe EntriesController do
                 expect { @action.call }.to change{Item.find(@credit_id).amount}.to(20000)
               }
               specify {
-                expect { @action.call }.to change{Item.find(@credit_id).child_id}
+                expect { @action.call }.to change{Item.find(@credit_id).child_item.id}
               }
             end
             
             describe "payment item" do
               specify {
-                expect { @action.call }.to change{Item.find(Item.find(@credit_id).child_id).amount}.to(20000)
+                expect { @action.call }.to change{ Item.find(@credit_id).child_item.amount}.to(20000)
               }
               specify {
-                expect { @action.call }.not_to change{Item.find(Item.find(@credit_id).child_id).from_account_id}
+                expect { @action.call }.not_to change{Item.find(@credit_id).child_item.from_account_id}
               }
               specify {
-                expect { @action.call }.not_to change{Item.find(Item.find(@credit_id).child_id).action_date}
+                expect { @action.call }.not_to change{Item.find(@credit_id).child_item.action_date}
               }
             end
 
@@ -3272,7 +3271,7 @@ describe EntriesController do
                                             to_account_id: accounts(:outgo3).id).first
               
               
-              init_payment_item = Item.find(init_credit_item.child_id)
+              init_payment_item = init_credit_item.child_item
               date = init_credit_item.action_date
               
               init_credit_item.amount.should == 10000
@@ -3313,19 +3312,19 @@ describe EntriesController do
                 expect { @action.call }.to change{Item.find(@credit_id).action_date}.to(Date.new(2008,3,10))
               }
               specify {
-                expect { @action.call }.to change{Item.find(@credit_id).child_id}
+                expect { @action.call }.to change{Item.find(@credit_id).child_item.id}
               }
             end
             
             describe "payment item" do
               specify {
-                expect { @action.call }.to change{Item.find(Item.find(@credit_id).child_id).amount}.to(20000)
+                expect { @action.call }.to change{Item.find(Item.find(@credit_id).child_item.id).amount}.to(20000)
               }
               specify {
-                expect { @action.call }.not_to change{Item.find(Item.find(@credit_id).child_id).from_account_id}
+                expect { @action.call }.not_to change{Item.find(Item.find(@credit_id).child_item.id).from_account_id}
               }
               specify {
-                expect { @action.call }.to change{Item.find(Item.find(@credit_id).child_id).action_date}.to(Date.new(2008,5,20))
+                expect { @action.call }.to change{Item.find(Item.find(@credit_id).child_item.id).action_date}.to(Date.new(2008,5,20))
               }
             end
 
@@ -3378,7 +3377,7 @@ describe EntriesController do
                                             to_account_id: accounts(:outgo3).id).first
               
               
-              init_payment_item = Item.find(init_credit_item.child_id)
+              init_payment_item = Item.find(init_credit_item.child_item.id)
               date = init_credit_item.action_date
               
               init_credit_item.amount.should == 10000

@@ -71,7 +71,7 @@ describe MainController do
 
         describe "response" do
           subject { response }
-          it { should redirect_by_js_to entries_url(:year => 2008, :month => 4) + "#item_#{@item.child_id}" }
+          it { should redirect_by_js_to entries_url(:year => 2008, :month => 4) + "#item_#{@item.child_item.id}" }
         end
       end
 

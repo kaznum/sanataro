@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110930070004) do
+ActiveRecord::Schema.define(:version => 20120113112151) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
@@ -54,7 +54,6 @@ ActiveRecord::Schema.define(:version => 20110930070004) do
     t.boolean  "is_adjustment",         :default => false
     t.integer  "adjustment_amount",     :default => 0
     t.integer  "parent_id"
-    t.integer  "child_id"
     t.datetime "updated_at"
     t.boolean  "confirmation_required", :default => false
   end

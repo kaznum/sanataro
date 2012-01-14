@@ -621,7 +621,7 @@ class EntriesController < ApplicationController
     old_from_id = item.from_account_id
     old_to_id = item.to_account_id
     old_adjustment_amount = item.adjustment_amount
-    old_child_id = item.child_id
+    old_child_id = item.child_item.try(:id)
     old_confirmation_required = item.confirmation_required?
     old_tag_list = item.tag_list
 
@@ -671,26 +671,14 @@ class EntriesController < ApplicationController
       if payment_account_id
         paydate = _credit_payment_date(item.from_account_id, item.action_date)
 
-        credit_item, ignore, ignore = _do_add_item(item.name, payment_account_id, item.from_account_id,
-                                                   item.amount, paydate.year, paydate.month, paydate.day, item.id)
-        if credit_item
-          item.child_id = credit_item.id
-        end
+        credit_item, ignored, ignored =
+          Teller.create_entry(user: @user, name: item.name,
+                              from_account_id: payment_account_id, to_account_id: item.from_account_id,
+                              amount: item.amount,
+                              year: paydate.year, month: paydate.month, day: paydate.day,
+                              parent_item: item)
       end
-
-      # child_id が異なる場合は、保存しなおす
-      if credit_item.nil?
-        if old_child_id
-          item.child_id = nil
-          item.save!
-        end
-      else
-        if old_child_id.nil? || old_child_id != credit_item.id
-          item.child_id = credit_item.id
-          item.save!
-        end
-      end
-      item.child_item = credit_item
+      item.reload
 
       # クレジットカード処理終了
 
@@ -815,7 +803,7 @@ class EntriesController < ApplicationController
       to_id = item.to_account_id
       action_date = item.action_date
       amount = item.amount
-      child_id = item.child_id
+      child_id = item.child_item.try(:id)
 
       # クレジットカード関連itemの削除
       child_item, from_adj_credit, to_adj_credit = _do_delete_item(child_id)[:itself] if child_id
@@ -831,51 +819,6 @@ class EntriesController < ApplicationController
 
 
       return {:itself => [item, from_adj_item, to_adj_item], :child => [child_item, from_adj_credit, to_adj_credit]}
-    end
-  end
-
-  # (obsolete)
-  def _do_add_item(name, from_id, to_id, amount, year, month, day, parent_id=nil, confirmation_required=nil, tag_list=nil)
-    item = Item.new do |itm|
-      itm.user = @user
-      itm.name = name
-      itm.from_account_id  = from_id
-      itm.to_account_id  = to_id
-      itm.amount = amount
-      itm.year = year
-      itm.month = month
-      itm.day = day
-      itm.parent_id = parent_id
-      itm.confirmation_required = confirmation_required
-      itm.tag_list = tag_list
-      itm.user_id = itm.user.id
-    end
-    
-    ActiveRecord::Base.transaction do 
-      item.save!
-      
-      from_item_adj = Item.adjust_future_balance(@user, item.from_account_id, item.amount, item.action_date, item.id)
-      to_item_adj = Item.adjust_future_balance(@user, item.to_account_id, item.amount * (-1), item.action_date, item.id)
-      item_month = Date.new(year, month, 1)
-      MonthlyProfitLoss.reflect_relatively(@user, item_month, from_id, to_id, item.amount)
-
-      #
-      # クレジットカードの処理
-      #
-      cr = @user.credit_relations.find_by_credit_account_id(from_id)
-      if cr
-        payment_date = _credit_payment_date(from_id, Date.new(year,month,day))
-        credit_item, ignore, ignore =
-          _do_add_item(name,
-                       cr.payment_account_id, from_id,
-                       amount, payment_date.year, payment_date.month, payment_date.day,
-                       item.id)
-        unless credit_item.nil?
-          item.child_id = credit_item.id
-          item.save!
-        end
-      end
-      return [item, from_item_adj, to_item_adj]
     end
   end
 

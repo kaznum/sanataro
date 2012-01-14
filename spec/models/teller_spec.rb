@@ -569,7 +569,7 @@ describe Teller do
                                        :from_account_id => accounts(:credit4).id,
                                        :to_account_id => accounts(:outgo3).id,
                                        :amount => 10000,
-                                       :parent_id => nil).where("child_id is not null").first }
+                                       :parent_id => nil).find{|i| i.child_item } }
 
         it_should_behave_like "created itself and credit payment item successfully"
           
@@ -582,7 +582,6 @@ describe Teller do
           it { should_not be_nil }
           its(:amount) { should == 10000 }
           its(:parent_id) { should be_nil }
-          its(:child_id) { should_not be_nil }
           its(:child_item) { should_not be_nil }
         end
 
@@ -598,8 +597,8 @@ describe Teller do
           before do
             @create.call
           end
-          subject { Item.where(:parent_id => credit_item.id, :child_id => nil).first }
-          its(:child_id) { should be_nil }
+          subject { Item.where(:parent_id => credit_item.id).find{|i| i.child_item.nil?} }
+          its(:child_item) { should be_nil }
           its(:parent_item) { should == credit_item }
           its(:action_date) { should == Date.new(2008, 2 + credit_relations(:cr1).payment_month,credit_relations(:cr1).payment_day) }
           its(:from_account_id) { should == credit_relations(:cr1).payment_account_id }
@@ -642,7 +641,7 @@ describe Teller do
           Item.where(:action_date => Date.new(2008,2,25),
                      :from_account_id => accounts(:credit4).id,
                      :to_account_id => accounts(:outgo3).id,
-                     :amount => 10000, :parent_id => nil).where("child_id is not null").first
+                     :amount => 10000, :parent_id => nil).find{|i| i.child_item}
         }
 
         it_should_behave_like "created itself and credit payment item successfully"
@@ -655,7 +654,7 @@ describe Teller do
             it { should_not be_nil }
             its(:amount) { should == 10000 }
             its(:parent_id) { should be_nil }
-            its(:child_id) { should_not be_nil }
+            its(:child_item) { should_not be_nil }
             its(:action_date) { should == Date.new(2008,2,25)}
           end
 
@@ -671,9 +670,9 @@ describe Teller do
 
           describe "child item" do
             subject { Item.where(:parent_id => credit_item.id).first }
-            its(:child_id) { should be_nil }
+            its(:child_item) { should be_nil }
             its(:parent_id) { should == credit_item.id }
-            its(:id) { should == credit_item.child_id }
+            its(:id) { should == credit_item.child_item.id }
             its(:action_date) { should == Date.new(2008, 3 + credit_relations(:cr1).payment_month,credit_relations(:cr1).payment_day) }
             its(:from_account_id) { should == credit_relations(:cr1).payment_account_id }
             its(:to_account_id) { should == credit_relations(:cr1).credit_account_id }
@@ -716,7 +715,7 @@ describe Teller do
           Item.where(:action_date => Date.new(2008,2,10),
                      :from_account_id => accounts(:credit4).id,
                      :to_account_id => accounts(:outgo3).id,
-                     :amount => 10000, :parent_id => nil).where("child_id is not null").first
+                     :amount => 10000, :parent_id => nil).find {|i| i.child_item }
         }
 
         it_should_behave_like "created itself and credit payment item successfully"
@@ -730,7 +729,7 @@ describe Teller do
           it { should_not be_nil }
           its(:amount) { should == 10000 }
           its(:parent_id) { should be_nil }
-          its(:child_id) { should_not be_nil }
+          its(:child_item) { should_not be_nil }
           its(:action_date) { should == Date.new(2008,2,10)}
         end
 
@@ -747,9 +746,9 @@ describe Teller do
             @create.call
           end
           subject { Item.where(:parent_id => credit_item.id).first }
-          its(:child_id) { should be_nil }
+          its(:child_item) { should be_nil }
           its(:parent_id) { should == credit_item.id }
-          its(:id) { should == credit_item.child_id }
+          its(:id) { should == credit_item.child_item.id }
           its(:action_date) { should == Date.new(2008, 2 + @cr1.payment_month,1).end_of_month }
           its(:from_account_id) { should == @cr1.payment_account_id }
           its(:to_account_id) { should == @cr1.credit_account_id }

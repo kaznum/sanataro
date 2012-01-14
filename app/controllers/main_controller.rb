@@ -20,7 +20,7 @@ class MainController < ApplicationController
     id = params[:id].to_i
     type = params[:type]
     if type.blank? || type == "parent"
-      item = @user.items.find_by_child_id(id)
+      item = @user.items.find_by_id(id).try(:parent_item)
     else
       item = @user.items.find_by_parent_id(id)
     end

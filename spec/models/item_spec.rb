@@ -696,8 +696,8 @@ describe Item do
         amount: 10000,
         confirmation_required: true,
         tag_list: 'hoge fuga',
-        child_id: 100,
-        parent_id: 200
+        child_item: items(:item11),
+        parent_item: items(:item10)
       }
 
       @item = Item.create!(@valid_attrs)
@@ -721,11 +721,11 @@ describe Item do
       its([:amount]) { should == 10000 }
       its([:confirmation_required]) { should be_true }
       its([:tags]) { should == ['fuga', 'hoge'] }
-      its([:child_id]) { should == 100 }
-      its([:parent_id]) { should == 200 }
+      its([:child_id]) { should == items(:item11).id }
+      its([:parent_id]) { should == items(:item10).id }
     end
   end
-
+  
   describe "items.to_custom_hash" do
     describe "Array#to_custom_hash" do
       before do

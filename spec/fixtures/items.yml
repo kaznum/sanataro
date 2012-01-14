@@ -125,7 +125,6 @@ credit_payment21:
   from_account_id: 4
   to_account_id: 13
   amount: 500
-  child_id: 31
   
 credit_refill31:
   id: 31
