@@ -4,7 +4,7 @@
 = form_tag entries_path(it.action_date.year, it.action_date.month), :remote => true, :method => :post, :before=>"$('new_add_button').disabled = true", :complete=>"$('new_add_button').disabled = false", :id=>'do_add_item' do
   = text_field_tag :action_year, it.action_date.year, :size=>5
   \/#{text_field_tag :action_month, it.action_date.month, :size=>3}/#{text_field_tag :action_day, (it.action_date.year == today.year && it.action_date.month == today.month) ? it.action_date.day : nil, :size=>3, :placeholder=>_('Day')} #{text_field_tag :item_name, it.name, :size=>30, :placeholder=>_('Input explanation')}
-  \#{check_box_tag :confirmation_required, true, it.confirmation_required?}#{link_to '要確認', mark_entries_path('confirmation_required')}
+  \#{check_box_tag :confirmation_required, true, it.confirmation_required?}#{link_to '要確認', mark_entries_path(mark: :confirmation_required)}
   #candidates
   = select_tag 'from', options_for_select(@separated_accounts[:from_accounts], it.from_account_id.to_s)
   \=&gt;#{select_tag 'to', options_for_select(@separated_accounts[:to_accounts], it.to_account_id.to_s)} #{_("Amount:")}#{text_field_tag 'amount', ((it.amount.nil? || it.amount == 0) ? nil : CommonUtil.separate_by_comma(it.amount)), :size=>10, :style=>"text-align: right;", :placeholder=>_('amount')}#{_("yen")}
