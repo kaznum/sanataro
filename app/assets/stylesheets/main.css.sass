@@ -11,7 +11,10 @@ $border_style: solid
   text-align: center
   font-weight: bold
   background: #C9C9C9 url(header-bg-l.gif) repeat-x
-  
+
+@mixin default_item_line
+  height: 3.0em
+    
 body
   background: #E6E6E6 url(header-bg.gif) repeat-x scroll 0 0
   color: #333
@@ -30,7 +33,7 @@ th
   background: #C9C9C9 url(header-bg.gif) repeat-x
 
 .footer
-  font-size: 11px
+  font-size: 0.9em
   color: white
 
 td.title
@@ -56,7 +59,7 @@ td.percent
 td.all_total
   font:
     weight: bold
-    size: 14px
+    size: 1.1em
     style: italic
   color: #0000ff
 
@@ -78,13 +81,13 @@ div.item_move, tr.item_move
 div#menu
   margin: 5px
   margin-top: 10px
-  width: 780px
+  width: 805px
   a
     @include default_border
     background: #C9C9C9 url(header-bg.gif) repeat-x
     color: #333
     font:
-      size: 12px
+      size: 1.0em
       weight: bold
     padding: 5px
 
@@ -94,7 +97,7 @@ div#input_item_area
 div#input_item_area p#add_item_explain
   font:
     weight: bold
-    size: 14px
+    size: 1.2em
   margin: 1px
 
 div#itemlistarea 
@@ -125,7 +128,7 @@ div.wrapper
   a
     font:
       weight: bold
-      size: 12px
+      size: 1.0em
     margin-left: 2px
     color: black
     text-decoration: none
@@ -160,9 +163,9 @@ div.item_adjustment
 
 div.item_date
   @include row_column_border
+  @include default_item_line
   float: left
   width: 80px
-  height: 30px
 
 div.item_date_header
   height: 40px
@@ -170,9 +173,9 @@ div.item_date_header
 
 div.item_name
   @include row_column_border
+  @include default_item_line
   float: left
   width: 200px
-  height: 30px
 
 div.item_name_header
   height: 40px
@@ -180,15 +183,15 @@ div.item_name_header
 
 div.item_from
   @include row_column_border
+  @include default_item_line
   float: left
   width: 100px
-  height: 30px
 
 div.item_to
   @include row_column_border
+  @include default_item_line
   float: left
   width: 100px
-  height: 30px
 
 div.item_from_to_header 
   @include row_column_border
@@ -199,10 +202,10 @@ div.item_from_to_header
 
 div.item_amount 
   @include row_column_border
+  @include default_item_line
   text-align: right
   float: left
   width: 70px
-  height: 30px
 
 div.item_amount_header 
   height: 40px
@@ -210,9 +213,9 @@ div.item_amount_header
 
 div.item_operation 
   @include row_column_border
+  @include default_item_line
   float: left
   width: 28px
-  height: 30px
 
 div.item_operation_header 
   height: 40px
