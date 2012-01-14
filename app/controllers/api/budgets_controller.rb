@@ -1,12 +1,10 @@
 class Api::BudgetsController < ApplicationController
   before_filter :required_login
-  respond_to :json
+  before_filter :redirect_if_invalid_year_month!
   
+  respond_to :json
+
   def show
-    unless CommonUtil.valid_combined_year_month?(params[:id])
-      redirect_to login_url
-      return
-    end
     year, month = CommonUtil.get_year_month_from_combined(params[:id])
 
     from_date = Date.new(year.to_i, month.to_i)
@@ -31,5 +29,14 @@ class Api::BudgetsController < ApplicationController
       end
     end
     respond_with results
+  end
+
+  private
+  def redirect_if_invalid_year_month!
+    unless CommonUtil.valid_combined_year_month?(params[:id])
+      redirect_to login_url
+      return
+    end
+    return true
   end
 end
