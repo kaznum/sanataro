@@ -29,7 +29,7 @@ class Api::YearlyAssetsController < ApplicationController
     }
 
     results["total"] = { label: "合計",
-      data: _json_total_assets(accounts.map{|a| a.id}, date_since) }
+      data: _json_total_assets(accounts.map(&:id), date_since) }
 
     results
   end

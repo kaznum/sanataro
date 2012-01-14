@@ -62,8 +62,8 @@ class Api::YearlyBudgetsController < ApplicationController
   end
 
   def _get_total_data(date_since)
-    outgo_ids = @user.accounts.where(account_type: 'outgo').order("order_no").map{|a| a.id }
-    income_ids = @user.accounts.where(account_type: 'income').order("order_no").map{|a| a.id }
+    outgo_ids = @user.accounts.where(account_type: 'outgo').order("order_no").map(&:id)
+    income_ids = @user.accounts.where(account_type: 'income').order("order_no").map(&:id)
 
     results = (0..11).inject({incomes: [], outgos: [], totals: []}) { |ret, i|
       month = date_since.months_since(i)
