@@ -123,7 +123,7 @@ class Item < ActiveRecord::Base
 
   def self.update_future_balance(user, action_date, account_id, item_id)
     return if account_id == -1
-    
+
     item_adj = user.items.where(to_account_id: account_id,
                                 is_adjustment: true).where("(action_date > ? AND id <> ?) OR (action_date = ? AND id > ?)",
                                                            action_date, item_id, action_date, item_id).order("action_date, id").first
@@ -131,7 +131,6 @@ class Item < ActiveRecord::Base
       amount_to_adj = Account.asset(user, account_id, item_adj.action_date, item_adj.id)
       item_adj.amount = item_adj.adjustment_amount - amount_to_adj
       item_adj.save!
-
       MonthlyProfitLoss.correct(user, account_id, item_adj.action_date.beginning_of_month)
       MonthlyProfitLoss.correct(user, -1, item_adj.action_date.beginning_of_month)
     end

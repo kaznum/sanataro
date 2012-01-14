@@ -75,6 +75,12 @@ unknown200802:
   account_id: -1
   amount: -21000
 
+unknown200803:
+  user_id: 1
+  month: 2008/03/01
+  account_id: -1
+  amount: 1000
+
 bank1200802-2:
   id: 51
   user_id: 2
