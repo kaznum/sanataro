@@ -9,7 +9,8 @@
         (mark: #{h (@mark == 'confirmation_required') ? '要確認' : '(不明)'})
       = render :partial => 'items_header'
       #items
-        =  @items.each{|it| render partial: 'item', locals: { event_item: it } }
+        - @items.each do |it|
+          = render partial: 'item', locals: { event_item: it }
         = render :partial=>'remains_link'
   #right_area
     #account_status.status_drawer
