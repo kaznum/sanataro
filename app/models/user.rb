@@ -83,5 +83,13 @@ class User < ActiveRecord::Base
     }
 
   end
+
+  def deliver_signup_confirmation
+    Mailer.signup_confirmation(self).deliver
+  end
+  
+  def deliver_signup_complete
+    Mailer.signup_complete(self).deliver
+  end
   
 end

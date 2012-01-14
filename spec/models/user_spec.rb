@@ -290,4 +290,24 @@ describe User do
       subject[:account_bgcolors].should have(actual).records
     }
   end
+
+  describe "#deliver_signup_confirmation" do
+    let(:user) { User.new }
+    specify {
+      mock_obj = double
+      mock_obj.should_receive(:deliver)
+      Mailer.should_receive(:signup_confirmation).with(user).and_return(mock_obj)
+      user.deliver_signup_confirmation
+    }
+  end
+  
+  describe "#deliver_signup_complete" do
+    let(:user) { User.new }
+    specify {
+      mock_obj = double
+      mock_obj.should_receive(:deliver)
+      Mailer.should_receive(:signup_complete).with(user).and_return(mock_obj)
+      user.deliver_signup_complete
+    }
+  end
 end

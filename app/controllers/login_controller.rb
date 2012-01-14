@@ -100,8 +100,8 @@ class LoginController < ApplicationController
       user.is_active = false
     end
     @user.save!
-    
-    Mailer.signup_confirmation(@user).deliver
+
+    @user.deliver_signup_confirmation
   rescue ActiveRecord::RecordInvalid
     render_rjs_error :id => "warning", :errors => @user.errors, :default_message => ''
   end
@@ -118,7 +118,7 @@ class LoginController < ApplicationController
     if user.nil?
       render 'confirmation_error', :layout => 'entries'
     else
-      Mailer.signup_complete(user).deliver
+      user.deliver_signup_complete
       user.update_attributes!(:is_active => true)
       account1 = Account.create(:user_id => user.id, :name => '財布', :order_no => 10, :account_type => 'account')
       account2 = Account.create(:user_id => user.id, :name => '銀行A', :order_no => 20, :account_type => 'account')
