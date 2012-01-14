@@ -9,7 +9,7 @@
         (tag: #{h @tag})
       = render :partial => 'items_header'
       #items
-	= @items.each {|it| render partial: 'item', locals: { event_item: it }}
+        = @items.each {|it| render partial: 'item', locals: { event_item: it }}
         = render :partial=>'remains_link'
   #right_area
     #account_status.status_drawer
