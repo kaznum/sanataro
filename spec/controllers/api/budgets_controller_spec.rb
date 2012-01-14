@@ -82,7 +82,7 @@ describe Api::BudgetsController do
           MonthlyProfitLoss.create!(:user_id => @user.id, :month => Date.new(1999,1), :account_id => account2.id, :amount => -900 )
           MonthlyProfitLoss.create!(:user_id => @user.id, :month => Date.new(1999,1), :account_id => account3.id, :amount => 900 )
           MonthlyProfitLoss.create!(:user_id => @user.id, :month => Date.new(1999,1), :account_id => account4.id, :amount => 200 )
-          MonthlyProfitLoss.create!(:user_id => @user.id, :month => Date.new(1999,1), :account_id => -1, :amount => -800 )
+          @mpl_unknown = MonthlyProfitLoss.create!(:user_id => @user.id, :month => Date.new(1999,1), :account_id => -1, :amount => -800 )
         end
         
         context "budget_type is not specified." do
@@ -100,7 +100,9 @@ describe Api::BudgetsController do
         end
         
         context "budget_type is 'outgo'" do
-          before do 
+          before do
+            @mpl_unknown.update_attributes(amount: 500)
+
             get :show, :id => '199901', :format => :json, :budget_type => 'outgo'
           end
 
@@ -108,7 +110,7 @@ describe Api::BudgetsController do
             subject { response }
             it {  should be_success }
             specify do
-              ActiveSupport::JSON.decode(subject.body).should == [{"label" => "その4", "data" => 200}]
+              ActiveSupport::JSON.decode(subject.body).should == [{"label" => "その4", "data" => 200}, {"label" => "不明支出", "data" => 500}]
             end
           end
         end
