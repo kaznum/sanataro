@@ -3023,154 +3023,204 @@ describe EntriesController do
             }
           end
         end
-        
-        pending("#update for item specに未変換")
-        # regular (action_date's month, day are not changed
-        # and future-same month's adjustment DOES NOT exists)
-        it "test_update_item_after_adj4_same_month" do
 
-          old_item5 = Item.find(items(:item5).id)
-          new2_item1 = Item.find(items(:item1).id)
-          new2_adj2 = Item.find(items(:adjustment2).id)
-          new2_adj4 = Item.find(items(:adjustment4).id)
-          new2_adj6 = Item.find(items(:adjustment6).id)
-          new2_pl200712 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200712).id)
-          new2_pl200801 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id)
-          new2_pl200802 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id)
-          new2_pl200803 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id)
+        context "when updated the item whose action date is after adj4 but same month," do
+          before do
+            @item5 = items(:item5)
+            @adj4 = items(:adjustment4)
+            @adj6 = items(:adjustment6)
+            @pl200802 = monthly_profit_losses(:bank1200802)
+            @pl200803 = monthly_profit_losses(:bank1200803)
+            
+            @action = lambda {
+              xhr :put, :update, id: @item5.id, item_name: 'テスト50',
+              action_year: @item5.action_date.year.to_s, action_month: @item5.action_date.month.to_s,
+              action_day: @item5.action_date.day.to_s, amount: "20000",
+              from: @item5.from_account_id.to_s, to: @item5.to_account_id.to_s,
+              year: "2008", month: "2"
+            }
+          end
 
-          xhr :put, :update, :id=>items(:item5).id, :item_name=>'テスト30', :action_year=>old_item5.action_date.year.to_s, :action_month=>old_item5.action_date.month.to_s, :action_day=>old_item5.action_date.day.to_s, :amount=>"20000", :from=>accounts(:bank1).id.to_s, :to=>accounts(:outgo3).id.to_s, :year => 2008, :month => 2
+          describe "response" do
+            before { @action.call }
+            subject { response }
+            it { should be_success }
+            its(:content_type) { should == 'text/javascript' }
+          end
 
-          #    assert_no_rjs :replace_html, :account_status
-          #    assert_no_rjs :replace_html, :confirmation_status
-          assert_select_rjs :replace, 'item_' + items(:item5).id.to_s
-          assert_select_rjs :replace_html, :warning, 'Item was changed successfully.' + ' ' + old_item5.action_date.strftime("%Y/%m/%d") + ' ' + 'テスト30' + ' ' + CommonUtil.separate_by_comma(20000) + 'yen'
-          #   assert_select_rjs :visual_effect, :highlight, 'item_' + items(:item5).id.to_s, :duration=>'1.0'
+          describe "updated item" do
+            before { @action.call }
+            subject { Item.find(@item5.id) }
+            its(:name) { should == 'テスト50' }
+            its(:amount) { should == 20000 }
+            its(:action_date) { should == @item5.action_date }
+            its(:from_account_id) { should == accounts(:bank1).id }
+            its(:to_account_id) { should == accounts(:outgo3).id }
+          end
 
+          describe "adjustments" do
+            specify {
+              expect { @action.call }.not_to change{ Item.find(@adj4.id).amount }
+            }
 
-          # データの整合性チェック
-          new3_item1 = Item.find(items(:item1).id)
-          new3_adj2 = Item.find(items(:adjustment2).id)
-          new3_adj4 = Item.find(items(:adjustment4).id)
-          new3_item5 = Item.find(items(:item5).id)
-          new3_adj6 = Item.find(items(:adjustment6).id)
-          new3_pl200712 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200712).id)
-          new3_pl200801 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id)
-          new3_pl200802 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id)
-          new3_pl200803 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id)
+            specify {
+              expect { @action.call }.to change{ Item.find(@adj6.id).amount }.by(20000 - @item5.amount)
+            }
+          end
 
-          assert_equal 'テスト30', new3_item5.name
-          assert_equal old_item5.action_date, new3_item5.action_date
-          assert_equal 20000, new3_item5.amount
-          assert_equal accounts(:bank1).id, new3_item5.from_account_id
-          assert_equal accounts(:outgo3).id, new3_item1.to_account_id
-
-          assert_equal new2_adj2.amount, new3_adj2.amount
-          assert_equal new2_adj4.amount, new3_adj4.amount
-          assert_equal new2_adj6.amount - old_item5.amount + new3_item5.amount, new3_adj6.amount
-          assert_equal new2_pl200712.amount, new3_pl200712.amount
-          assert_equal new2_pl200801.amount, new3_pl200801.amount
-          assert_equal new2_pl200802.amount + old_item5.amount - new3_item5.amount, new3_pl200802.amount
-          assert_equal new2_pl200803.amount - old_item5.amount + new3_item5.amount, new3_pl200803.amount
+          describe "monthly pls" do
+            specify {
+              expect { @action.call }.to change{ MonthlyProfitLoss.find(@pl200802.id).amount }.by(-20000 + @item5.amount)
+            }
+            specify {
+              expect { @action.call }.to change{ MonthlyProfitLoss.find(@pl200803.id).amount }.by(20000 - @item5.amount)
+            }
+          end
         end
 
-        # adj2 adj4の間にあるitemを変更し adj6の手前に日付にする(金額も変更)
-        it "test_update_item_from_adj2_adj4_to_before_adj6" do
-          new3_item3 = items(:item3)
-          new3_item1 = items(:item1)
-          new3_adj2 = items(:adjustment2)
-          new3_adj4 = items(:adjustment4)
-          new3_item5 = items(:item5)
-          new3_adj6 = items(:adjustment6)
-          new3_pl200712 = monthly_profit_losses(:bank1200712)
-          new3_pl200801 = monthly_profit_losses(:bank1200801)
-          new3_pl200802 = monthly_profit_losses(:bank1200802)
-          new3_pl200803 = monthly_profit_losses(:bank1200803)
+        context "when updated the item whose action date is before adj6 but same month," do
+          before do
+            @item3 = items(:item3)
+            @adj4 = Item.find(items(:adjustment4).id)
+            @adj6 = Item.find(items(:adjustment6).id)
+            @pl200802 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id)
+            @pl200803 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id)
+            @date = @adj6.action_date - 1
+            @action = lambda { xhr :put, :update, id: @item3.id, item_name: 'テスト30', action_year: @date.year.to_s, action_month: @date.month.to_s, action_day: @date.day.to_s, amount: "300", from: accounts(:bank1).id.to_s, to: accounts(:outgo3).id.to_s, year: @item3.action_date.year.to_s, month: @item3.action_date.month.to_s }
+          end
+          
+          describe "response" do
+            before { @action.call }
+            subject { response }
+            it { should be_success }
+            its(:content_type) { should == 'text/javascript' }
+          end
 
-          date = new3_adj6.action_date - 1
-          xhr :put, :update, :id=>items(:item3).id, :item_name=>'テスト50', :action_year=>date.year.to_s, :action_month=>date.month.to_s, :action_day=>date.day.to_s, :amount=>"300", :from=>accounts(:bank1).id.to_s, :to=>accounts(:outgo3).id.to_s, :year => items(:item3).action_date.year, :month => items(:item3).action_date.month
+          describe "updated item" do
+            before { @action.call }
+            subject { Item.find(@item3.id) }
+            its(:name) { should == 'テスト30' }
+            its(:amount) { should == 300 }
+            its(:action_date) { should == @date }
+            its(:from_account_id) { should == accounts(:bank1).id }
+            its(:to_account_id) { should == accounts(:outgo3).id }
+          end
 
+          describe "adjustments" do
+            specify {
+              expect { @action.call }.to change{ Item.find(@adj4.id).amount }.by((-1) * @item3.amount)
+            }
 
-#          assert_no_rjs :replace_html, :account_status
-#          assert_no_rjs :replace_html, :confirmation_status
-          assert_select_rjs :replace_html, :items, ''
-          assert_select_rjs :insert_html, :bottom, :items  # remains_list
-          assert_select_rjs :replace_html, :warning, 'Item was changed successfully.' + ' ' +  Date.new(date.year,date.month,date.day).strftime("%Y/%m/%d") + ' ' + 'テスト50' + ' ' + CommonUtil.separate_by_comma(300) + 'yen'
+            specify {
+              expect { @action.call }.to change{ Item.find(@adj6.id).amount }.by(300)
+            }
+          end
 
-          # データの整合性チェック
-          new4_item3 = Item.find(items(:item3).id)
-          new4_adj2 = Item.find(items(:adjustment2).id)
-          new4_adj4 = Item.find(items(:adjustment4).id)
-          new4_adj6 = Item.find(items(:adjustment6).id)
-          new4_pl200712 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200712).id)
-          new4_pl200801 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id)
-          new4_pl200802 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id)
-          new4_pl200803 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id)
-
-          assert_equal 'テスト50', new4_item3.name
-          assert_equal Date.new(date.year,date.month,date.day), new4_item3.action_date
-          assert_equal 300, new4_item3.amount
-          assert_equal accounts(:bank1).id, new4_item3.from_account_id
-          assert_equal accounts(:outgo3).id, new4_item3.to_account_id
-
-          assert_equal new3_adj2.amount, new4_adj2.amount
-          assert_equal new3_adj4.amount - new3_item3.amount, new4_adj4.amount
-          assert_equal new3_adj6.amount + new4_item3.amount, new4_adj6.amount
-
-          assert_equal new3_pl200712.amount, new4_pl200712.amount
-          assert_equal new3_pl200801.amount, new4_pl200801.amount
-          assert_equal new3_pl200802.amount, new4_pl200802.amount
-          assert_equal new3_pl200803.amount, new4_pl200803.amount
+          describe "monthly pls" do
+            specify {
+              expect { @action.call }.not_to change{ MonthlyProfitLoss.find(@pl200802.id).amount }
+              expect { @action.call }.not_to change{ MonthlyProfitLoss.find(@pl200803.id).amount }
+            }
+          end
+          
         end
 
-        # item1をadj6(次月のadjのうしろ)に移動(価格を変更)
-        it "test_update_item_from_before_adj2_to_after_adj6" do
+        context "when updated the item whose action date changes from before adj4 to before adj6, " do
+          before do
+            @item3 = items(:item3)
+            @adj4 = items(:adjustment4)
+            @adj6 = items(:adjustment6)
+            @pl200802 = monthly_profit_losses(:bank1200802)
+            @pl200803 = monthly_profit_losses(:bank1200803)
 
-          new3_item1 = items(:item1)
-          new3_adj2 = items(:adjustment2)
-          new3_adj4 = items(:adjustment4)
-          new3_item5 = items(:item5)
-          new3_adj6 = items(:adjustment6)
-          new3_pl200712 = monthly_profit_losses(:bank1200712)
-          new3_pl200801 = monthly_profit_losses(:bank1200801)
-          new3_pl200802 = monthly_profit_losses(:bank1200802)
-          new3_pl200803 = monthly_profit_losses(:bank1200803)
+            @date = @adj6.action_date - 1
+            @action = lambda { xhr :put, :update, id: @item3.id, item_name: 'テスト50', action_year: @date.year.to_s, action_month: @date.month.to_s, action_day: @date.day.to_s, amount: "300", from: accounts(:bank1).id.to_s, to: accounts(:outgo3).id.to_s, year: @item3.action_date.year.to_s, :month => @item3.action_date.month.to_s }
+          end
 
-          date = new3_adj6.action_date + 1
-          xhr :put, :update, :id=>items(:item1).id, :item_name=>'テスト50', :action_year=>date.year.to_s, :action_month=>date.month.to_s, :action_day=>date.day.to_s, :amount=>"300", :from=>accounts(:bank1).id.to_s, :to=>accounts(:outgo3).id.to_s, :year => items(:item1).action_date.year, :month => items(:item1).action_date.month
+          describe "response" do
+            before { @action.call }
+            subject { response }
+            it { should be_success }
+            its(:content_type) { should == 'text/javascript' }
+          end
 
+          describe "updated item" do
+            before { @action.call }
+            subject { Item.find(@item3.id) }
+            its(:name) { should == 'テスト50' }
+            its(:amount) { should == 300 }
+            its(:action_date) { should == @date }
+            its(:from_account_id) { should == accounts(:bank1).id }
+            its(:to_account_id) { should == accounts(:outgo3).id }
+          end
 
-#          assert_no_rjs :replace_html, :account_status
-#          assert_no_rjs :replace_html, :confirmation_status
-          assert_select_rjs :replace_html, :items, ''
-          assert_select_rjs :insert_html, :bottom, :items  # remains_list
-          assert_select_rjs :replace_html, :warning, 'Item was changed successfully.' + ' ' +  Date.new(date.year,date.month,date.day).strftime("%Y/%m/%d") + ' ' + 'テスト50' + ' ' + CommonUtil.separate_by_comma(300) + 'yen'
-          #   assert_select_rjs :visual_effect, :highlight, 'item_' + items(:item1).id.to_s, :duration=>'1.0'
+          describe "adjustments" do
+            specify {
+              expect { @action.call }.to change{ Item.find(@adj4.id).amount }.by((-1)*@item3.amount)
+            }
 
-          # データの整合性チェック
-          new4_item1 = Item.find(items(:item1).id)
-          new4_adj2 = Item.find(items(:adjustment2).id)
-          new4_adj4 = Item.find(items(:adjustment4).id)
-          new4_adj6 = Item.find(items(:adjustment6).id)
-          new4_pl200712 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200712).id)
-          new4_pl200801 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id)
-          new4_pl200802 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id)
-          new4_pl200803 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id)
+            specify {
+              expect { @action.call }.to change{ Item.find(@adj6.id).amount }.by(300)
+            }
+          end
 
-          assert_equal 'テスト50', new4_item1.name
-          assert_equal Date.new(date.year,date.month,date.day), new4_item1.action_date
-          assert_equal 300, new4_item1.amount
-          assert_equal accounts(:bank1).id, new4_item1.from_account_id
-          assert_equal accounts(:outgo3).id, new4_item1.to_account_id
+          describe "monthly pls" do
+            specify {
+              expect { @action.call }.not_to change{ MonthlyProfitLoss.find(@pl200802.id).amount }
+              expect { @action.call }.not_to change{ MonthlyProfitLoss.find(@pl200803.id).amount }
+            }
+          end
+        end
 
-          assert_equal new3_adj2.amount - new3_item1.amount, new4_adj2.amount
-          assert_equal new3_adj4.amount, new4_adj4.amount
-          assert_equal new3_adj6.amount, new4_adj6.amount
+        context "when update item from before adj2 to after adj6," do
+          before do
+            @item1 = items(:item1)
+            @adj2 = items(:adjustment2)
+            @adj4 = items(:adjustment4)
+            @adj6 = items(:adjustment6)
+            @pl200802 = monthly_profit_losses(:bank1200802)
+            @pl200803 = monthly_profit_losses(:bank1200803)
+            @date = @adj6.action_date + 1
+            @action = lambda { xhr :put, :update, id: @item1.id, item_name: 'テストXX', action_year: @date.year.to_s, action_month: @date.month.to_s, action_day: @date.day.to_s, amount: "300", from: @item1.from_account_id.to_s, to: @item1.to_account_id.to_s, year: @item1.action_date.year, month: @item1.action_date.month }
+          end
+          describe "response" do
+            
+            before { @action.call }
+            subject { response }
+            it { should be_success }
+            its(:content_type) { should == 'text/javascript' }
+          end
 
-          assert_equal new3_pl200712.amount, new4_pl200712.amount
-          assert_equal new3_pl200801.amount, new4_pl200801.amount
-          assert_equal new3_pl200802.amount, new4_pl200802.amount
-          assert_equal new3_pl200803.amount - new4_item1.amount , new4_pl200803.amount
+          describe "updated item" do
+            before { @action.call }
+            subject { Item.find(@item1.id) }
+            its(:name) { should == 'テストXX' }
+            its(:amount) { should == 300 }
+            its(:action_date) { should == @date }
+            its(:from_account_id) { should == @item1.from_account_id }
+            its(:to_account_id) { should == @item1.to_account_id }
+          end
+
+          describe "adjustments" do
+            specify {
+              expect { @action.call }.to change{ Item.find(@adj2.id).amount }.by((-1)*@item1.amount)
+            }
+            specify {
+              expect { @action.call }.not_to change{ Item.find(@adj4.id).amount }
+            }
+            specify {
+              expect { @action.call }.not_to change{ Item.find(@adj6.id).amount }
+            }
+          end
+
+          describe "monthly pls" do
+            specify {
+              expect { @action.call }.not_to change{ MonthlyProfitLoss.find(@pl200802.id).amount }
+            }
+            specify {
+              expect { @action.call }.to change{ MonthlyProfitLoss.find(@pl200803.id).amount }.by(-300)
+            }
+          end
         end
 
         describe "updating credit item" do
