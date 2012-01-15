@@ -175,48 +175,30 @@ class EntriesController < ApplicationController
   # exec adding adjustment
   #
   def _create_adjustment
-    item = Item.new
-    item.user = @user
-    item.year, item.month, item.day = _get_action_year_month_day_from_params
+    item = nil
     display_year = params[:year].to_i
     display_month = params[:month].to_i
-    @display_year_month = Date.new(display_year, display_month)
-    item.name = 'Adjustment'
-    item.from_account_id  = -1
-    item.to_account_id  = CommonUtil.remove_comma(params[:to]).to_i
-    item.is_adjustment = true
-    item.tag_list = params[:tag_list]
-    item.user_id = item.user.id
-    # could raise SyntaxError
-    item.adjustment_amount = _calc_amount(params[:adjustment_amount])
-
+    year, month, day = _get_action_year_month_day_from_params
+    action_date = Date.new(year,month,day)
+    to_account_id = CommonUtil.remove_comma(params[:to]).to_i
+    adjustment_amount = _calc_amount(params[:adjustment_amount])
+    
     Item.transaction do
-      # 一旦、ここでvalidateを実行しておく(action_date等が他の箇所で参照されているため)
-      item.amount = 0 #ダミーデータ(validateのため)
-
-      raise ActiveRecord::RecordInvalid.new(item) unless item.valid?
-      
-      item.amount = nil #ダミーデータの除去
-
       # すでに同日かつ同account_idの残高調整が存在しないかチェックし、存在する場合は削除する
-      prev_adj = @user.items.find_by_to_account_id_and_action_date_and_is_adjustment(item.to_account_id, item.action_date, true)
+      prev_adj = @user.items.find_by_to_account_id_and_action_date_and_is_adjustment(to_account_id, action_date, true)
       _do_delete_item(prev_adj.id) if prev_adj
-
-      # 残高計算(amountの決定)
-      # amountの算出
-      # 前月までのassetを算出
-      asset = @user.accounts.asset(@user, item.to_account_id, item.action_date)
-      item.amount = item.adjustment_amount - asset
+      
+      asset = @user.accounts.asset(@user, to_account_id, action_date)
+      amount = adjustment_amount - asset
+      
+      item, ignored, is_error =
+        Teller.create_entry(user: @user, action_date: action_date, name: 'Adjustment',
+                            from_account_id: -1, to_account_id: to_account_id,
+                            is_adjustment: true, tag_list: params[:tag_list],
+                            adjustment_amount: adjustment_amount, amount: amount)
+      raise ActiveRecord::RecordInvalid.new(item) if is_error
       @item = item
       
-      item.save!
-
-      MonthlyProfitLoss.correct(@user, item.to_account_id, item.action_date.beginning_of_month)
-      MonthlyProfitLoss.correct(@user, -1, item.action_date.beginning_of_month)
-      
-      # 未来の残高調整を再調整
-      Item.update_future_balance(@user, item.action_date, item.to_account_id, item.id)
-
       if item.action_date.beginning_of_month == Date.new(display_year, display_month)
         items = _get_items(item.action_date.year, item.action_date.month)
       end
