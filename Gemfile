@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.3'
+gem 'rails', '3.2.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -71,11 +71,15 @@ if defined?(JRUBY_VERSION)
 else
   gem "mysql2", '~> 0.3'
 end
-gem 'prototype-rails', '3.1.0'
+gem 'prototype-rails'
 
 group :assets do
-  gem 'sass-rails', '3.1.4'
-  gem 'coffee-rails', "~> 3.1.0"
+# sass-rails and coffee-rails don't support rails 3.2 now, so
+# they are commented out temporarily.
+#  gem 'sass-rails'
+#  gem 'coffee-rails'
+  gem 'sass'
+  gem 'coffee-script'
   gem 'uglifier'
 end
 
