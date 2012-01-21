@@ -71,7 +71,7 @@ if defined?(JRUBY_VERSION)
 else
   gem "mysql2", "~> 0.3.10"
 end
-gem 'prototype-rails'
+gem 'prototype-rails', "~> 3.2.0"
 
 group :assets do
 # sass-rails and coffee-rails don't support rails 3.2 now, so
