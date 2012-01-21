@@ -69,7 +69,7 @@ if defined?(JRUBY_VERSION)
   gem "jruby-openssl"
   gem "activerecord-jdbcmysql-adapter"
 else
-  gem "mysql2", '~> 0.3'
+  gem "mysql2", "~> 0.3.10"
 end
 gem 'prototype-rails'
 

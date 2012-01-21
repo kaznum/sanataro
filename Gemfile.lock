@@ -115,7 +115,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.17.2)
     multi_json (1.0.4)
-    mysql2 (0.3.7)
+    mysql2 (0.3.11)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
@@ -236,7 +236,7 @@ DEPENDENCIES
   guard-spork
   haml-rails
   launchy
-  mysql2 (~> 0.3)
+  mysql2 (~> 0.3.10)
   prototype-rails
   rails (= 3.2.0)
   rails-erd
