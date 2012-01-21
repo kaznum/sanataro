@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
 
   def redirect_rjs_to(path)
     @path_to_redirect_to = path
-    render "common/redirect.rjs"
+    render "common/redirect", :handlers => [:rjs]
   end
 
 
@@ -87,7 +87,7 @@ class ApplicationController < ActionController::Base
   
   def render_rjs_error(args)
     @error_rjs_params = args
-    render 'common/error.rjs'
+    render 'common/error', :handlers => [:rjs]
   end
 
   def today

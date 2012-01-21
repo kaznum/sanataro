@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/account_statuses/show.rjs" do
+describe "/account_statuses/show" do
   fixtures :all
   
   before(:each) do
