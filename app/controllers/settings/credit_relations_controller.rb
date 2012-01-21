@@ -28,7 +28,7 @@ class Settings::CreditRelationsController < ApplicationController
     @destroyed_id = params[:id]
   rescue ActiveRecord::RecordNotFound
     @credit_relations = @user.credit_relations.all
-    render "no_record.rjs"
+    render "no_record", :handlers => [:rjs]
   end
   
   def edit
@@ -46,7 +46,7 @@ class Settings::CreditRelationsController < ApplicationController
                            :payment_day => params[:payment_day].to_i)
   rescue ActiveRecord::RecordNotFound
     @credit_relations = @user.credit_relations.all
-    render "no_record.rjs"
+    render "no_record", :handlers => [:rjs]
   rescue ActiveRecord::RecordInvalid
     render_rjs_error :id => "edit_warning_#{@cr.id}", :errors => @cr.errors, :default_message => 'Error!!', :before => "Element.update('warning', '');"
   end
