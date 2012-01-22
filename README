@@ -2,7 +2,7 @@
 
 Sanataro - Simple Web Household Account Book Application.
 
-This is built with Ruby on Rails 3.1.
+This is built with Ruby on Rails 3.2.
 
 == Functions
 * This is simple kakeibo application on Web.
@@ -10,12 +10,12 @@ This is built with Ruby on Rails 3.1.
 
 == Requirement
 * Ruby: MRI (>= 1.9.2)
-* Rails: Rails 3.1
+* Rails: Rails 3.2
 * DB: MySQL or PostgreSQL (heroku available)
 
 
 == FIXME / TODO
-This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0 to 3.1 escalatingly, so there are lots of points to be fixed.
+This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0, 3.1 to 3.2 escalatingly, so there are lots of points to be fixed.
 * This depends on Prototype.js but jQuery is now defact standard in Rails, so want to adopt jQuery.
 * There are some points where Object-Oriented model is corrupted. They should be fixed.(especially, entities_controller.rb)
 * There are some places where hard-coded Japanese characters.
