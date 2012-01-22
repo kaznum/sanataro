@@ -3,7 +3,6 @@ require 'spork'
 require 'prototype_matchers'
 require 'simplecov'
 SimpleCov.start "rails"
-require File.expand_path(File.join(Rails.root, 'lib', 'acts_as_taggable_redux', 'init'))
 
 Spork.prefork do
   # Loading more in this block will cause your tests to run faster. However,
@@ -51,6 +50,8 @@ end
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
+
+require File.expand_path(File.join(Rails.root, 'lib', 'acts_as_taggable_redux', 'init'))
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
