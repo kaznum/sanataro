@@ -1,6 +1,0 @@
-#!/bin/sh
-
-#/etc/init.d/lighttpd restart &
-/opt/gems/rubygems/bin/mongrel_rails cluster::start
-
-#/var/www/kakeibo.nutube.org/kakeibo/current/script/process/spawner -p 11000 -i 3
