@@ -62,7 +62,6 @@ Kakeibo3::Application.configure do
 
   config.action_mailer.default_url_options = { :host => "k.nu-chon.org" } 
 
-  GRAPH_FONT = "/usr/share/fonts/truetype/sazanami/sazanami-gothic.ttf"
   ITEM_LIST_COUNT = 200
 
 end

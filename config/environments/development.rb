@@ -24,8 +24,6 @@ Kakeibo3::Application.configure do
   
   config.action_mailer.default_url_options = { :host => "127.0.0.1:3000" }
 
-#  GRAPH_FONT = "/usr/share/fonts/truetype/sazanami/sazanami-gothic.ttf"
-  GRAPH_FONT = "/Library/Fonts/Osaka.ttf"
   ITEM_LIST_COUNT = 100
 
   config.assets.compress = false
