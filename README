@@ -1,34 +1,30 @@
 == Welcome to Kakeibo Sanataro
+Sanataro - Simple Web Household Account Book.
+ built with Ruby on Rails 3.2.
 
-Sanataro - Simple Web Household Account Book Application.
-
-This is built with Ruby on Rails 3.2.
-
-== Functions
-* This is simple kakeibo application on Web.
-* Multi-User Support. (But doesn't support collaboration each other)
+== Features
+* Simple kakeibo Web Application.
+* Multi-User Support. (But no collaboration feature)
+* Simple input User-Interface for iPhone.
+* See more on a demo page. http://k.nu-chon.org
 
 == Requirement
 * Ruby: MRI (>= 1.9.2)
 * Rails: Rails 3.2
 * DB: MySQL or PostgreSQL (heroku available)
 
-
 == FIXME / TODO
-This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0, 3.1 to 3.2 escalatingly, so there are lots of points to be fixed.
+This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0, 3.1 to 3.2 escalatorily, so there are lots of points of old fassion expressions to be fixed.
 * This depends on Prototype.js but jQuery is now defact standard in Rails, so want to adopt jQuery.
 * There are some points where Object-Oriented model is corrupted. They should be fixed.(especially, entities_controller.rb)
 * There are some places where hard-coded Japanese characters.
-* There are lots of old-fassion Rails2 ways which want to be changed to new-fassion ones.
 * Fixture dependency should be removed and replaced with other framework(FactoryGirl, Fabrication, etc)
 * Now, there is no view specs and cucumber senarios.
 
 == License
-
 * MIT License.  http://opensource.org/licenses/mit-license.php
 
 == Author and Copyright
-
 * Author: Kazuya NUMATA <numata@gmail.com>.
 * Copyright (c) 2007-2012 Kazuya NUMATA.
 
