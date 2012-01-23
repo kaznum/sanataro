@@ -7,35 +7,19 @@ class Teller
       i.user_id = user.id
     }
     
-    affected_items = []
     ActiveRecord::Base.transaction do 
       item.save!
-
-      MonthlyProfitLoss.correct(user, item.from_account_id, item.action_date.beginning_of_month)
-      MonthlyProfitLoss.correct(user, item.to_account_id, item.action_date.beginning_of_month)
-      
-      from_item_adj = Item.update_future_balance(user, item.action_date,
-                                                 item.from_account_id, item.id)
-      to_item_adj = Item.update_future_balance(user, item.action_date,
-                                               item.to_account_id, item.id)
-      affected_items << from_item_adj if from_item_adj
-      affected_items << to_item_adj if to_item_adj
-
-      # クレジットカードの処理
-      cr = user.credit_relations.find_by_credit_account_id(item.from_account_id)
-      unless cr.nil?
-        payment_date = credit_payment_date(user, item.from_account_id, item.action_date)
-        cr_item, cr_affected_items, is_cr_error =
-          create_entry(name: item.name, from_account_id: cr.payment_account_id,
-                       to_account_id: item.from_account_id, amount: item.amount,
-                       action_date: payment_date, parent_item: item,
-                       user: user)
-        raise ActiveRecord::RecordInvalid.new(cr_item) if is_cr_error
-        affected_items << cr_item
-        affected_items += cr_affected_items
-      end
     end
-    return [item, affected_items, false]
+    affected_items = []
+    affected_items << item.child_item if item.child_item
+
+    adj_scope = user.items.where("action_date > ?", item.action_date).where(from_account_id: -1)
+    from_adj = adj_scope.where(to_account_id: item.from_account_id).order(:action_date).first
+    to_adj = adj_scope.where(to_account_id: item.to_account_id).order(:action_date).first
+    affected_items << from_adj if from_adj
+    affected_items << to_adj if to_adj
+    
+     return [item, affected_items, false]
   rescue ActiveRecord::RecordInvalid
     return [item, affected_items, true]
   end
