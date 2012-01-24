@@ -139,12 +139,7 @@ class LoginController < ApplicationController
       credit_relation = CreditRelation.create(:user_id => user.id, :credit_account_id => account4_cr.id, :payment_account_id => account3.id, :settlement_day => 25, :payment_month => 2, :payment_day => 4)
       
       item_income = Item.create(:user => user, :user_id => user.id, :name => 'サンプル収入(消してかまいません)', :from_account_id => income3.id, :to_account_id => account1.id, :amount => 1000, :action_date => today)
-      monthly_pl_income3 = MonthlyProfitLoss.create(:user_id => user.id, :month => today.beginning_of_month, :account_id => income3.id, :amount => -1000)
-      monthly_pl_account1 = MonthlyProfitLoss.create(:user_id => user.id, :month => today.beginning_of_month, :account_id => account1.id, :amount => 1000)
-      
       item_outgo = Item.create(:user => user, :user_id => user.id, :name => 'サンプル(消してかまいません)', :from_account_id => account1.id, :to_account_id => outgo1.id, :amount => 250, :action_date => today, :tag_list => 'タグもOK')
-      monthly_pl_account1 = MonthlyProfitLoss.create(:user_id => user.id, :month => today.beginning_of_month, :account_id => account1.id, :amount => -250)
-      monthly_pl_outgo1 = MonthlyProfitLoss.create(:user_id => user.id, :month => today.beginning_of_month, :account_id => outgo1.id, :amount => 250)
       
       render :layout => 'entries'
     end
