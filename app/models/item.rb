@@ -5,6 +5,7 @@ class Item < ActiveRecord::Base
 
   belongs_to :parent_item, :class_name => "Item", :foreign_key => 'parent_id'
   has_one :child_item, :class_name => "Item", :foreign_key => 'parent_id'
+                                                                           
   belongs_to :user
 
   validate :validate_everytime
@@ -103,6 +104,16 @@ class Item < ActiveRecord::Base
         :amount => amount, :confirmation_required => confirmation_required?,
         :tags => tag_list.split(' ').sort,
         :child_id => child_item.try(:id), :parent_id => parent_id } }
+  end
+
+  def self.calc_amount(amount)
+    return 0 if amount.nil?
+    amount_to_calc = amount.gsub(/\s/, '').gsub(/,/, '')
+    unless /^[\.\-\*\+\/\%\d\(\)]+$/ =~ amount_to_calc
+      raise SyntaxError
+    end
+    amount_to_calc.gsub!(/\//, '/1.0/')
+    eval(amount_to_calc).to_i
   end
   
   protected  

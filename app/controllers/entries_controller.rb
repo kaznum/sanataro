@@ -181,7 +181,7 @@ class EntriesController < ApplicationController
     year, month, day = _get_action_year_month_day_from_params
     action_date = Date.new(year,month,day)
     to_account_id = CommonUtil.remove_comma(params[:to]).to_i
-    adjustment_amount = _calc_amount(params[:adjustment_amount])
+    adjustment_amount = Item.calc_amount(params[:adjustment_amount])
     
     Item.transaction do
       # すでに同日かつ同account_idの残高調整が存在しないかチェックし、存在する場合は削除する
@@ -244,7 +244,7 @@ class EntriesController < ApplicationController
         @display_year_month = Date.new(display_year, display_month)
       end
       # could raise SyntaxError because of :amount has an statement.
-      amount = _calc_amount(params[:amount])
+      amount = Item.calc_amount(params[:amount])
 
       item, affected_items =
         Teller.create_entry(:user => @user,
@@ -483,7 +483,7 @@ class EntriesController < ApplicationController
     display_month = params[:month].to_i
     @display_year_month = Date.new(display_year, display_month)
     # could raise SyntaxError
-    item.adjustment_amount = _calc_amount(params[:adjustment_amount])
+    item.adjustment_amount = Item.calc_amount(params[:adjustment_amount])
 
     raise ActiveRecord::RecordInvalid.new(item) unless item.valid?
 
@@ -606,7 +606,7 @@ class EntriesController < ApplicationController
     @display_year_month = display_from_date = Date.new(display_year, display_month)
     display_to_date = display_from_date.end_of_month
     # could raise SyntaxError
-    item.amount = _calc_amount(params[:amount])
+    item.amount = Item.calc_amount(params[:amount])
 
     Item.transaction do
       item.save!
@@ -772,18 +772,5 @@ class EntriesController < ApplicationController
   #
   def _credit_due_date(account_id, date)
     @user.accounts.where(id: account_id).first.credit_due_date(date)
-  end
-
-  #
-  # amountに数式が含まれた場合に計算を行なう
-  #
-  def _calc_amount(amount)
-    return 0 if amount.nil?
-    amount_not_calc = amount.gsub(/\s/, '').gsub(/,/, '')
-    unless /^[\.\-\*\+\/\%\d\(\)]+$/ =~ amount_not_calc
-      raise SyntaxError
-    end
-    amount_not_calc.gsub!(/\//, '/1.0/')
-    return eval(amount_not_calc).to_i
   end
 end

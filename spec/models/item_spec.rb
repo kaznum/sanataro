@@ -713,4 +713,27 @@ describe Item do
       its(:day) {should == 20 }
     end
   end
+
+  describe "#calc_amount" do
+    context "when amount is 1/20*400," do
+      subject { Item.calc_amount("1/20*400") }
+      it { should == 20 }
+    end
+
+    context "when amount is 10 * 20," do
+      subject { Item.calc_amount("10 * 20") }
+      it { should == 200 }
+    end
+
+    context "when amount is 10 + 20.5," do
+      subject { Item.calc_amount("10 + 20.5") }
+      it { should == 30 }
+    end
+
+    context "when amount is '200'.to_i ," do
+      specify {
+        expect { Item.calc_amount("'200'.to_i") }.to raise_error(SyntaxError)
+      }
+    end
+  end
 end
