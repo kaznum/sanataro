@@ -766,26 +766,7 @@ class EntriesController < ApplicationController
   # 項目削除の内部処理
   #
   def _do_delete_item(item_id)
-    item = @user.items.find_by_id(item_id)
-    if item
-      from_id = item.from_account_id
-      to_id = item.to_account_id
-      action_date = item.action_date
-      amount = item.amount
-      child_id = item.child_item.try(:id)
-
-      # オブジェクトの削除
-      item.destroy
-      MonthlyProfitLoss.correct(@user, from_id, action_date.beginning_of_month)
-      MonthlyProfitLoss.correct(@user, to_id, action_date.beginning_of_month)
-      from_adj_item = Item.update_future_balance(@user, action_date, from_id, item_id)
-      to_adj_item = Item.update_future_balance(@user, action_date, to_id, item_id)
-
-      # クレジットカード関連itemの削除
-      child_item, from_adj_credit, to_adj_credit = _do_delete_item(child_id)[:itself] if child_id
-
-      return {:itself => [item, from_adj_item, to_adj_item], :child => [child_item, from_adj_credit, to_adj_credit]}
-    end
+    Teller.destroy_entry(@user, item_id)
   end
 
   # カード引き落とし日を算出する
