@@ -181,7 +181,7 @@ ja:
 
       messages:
         taken: "はすでに存在します。"
-        record_invalid: "バリデーションに失敗しました。 %{errors}"
+        record_invalid: "%{errors}"
         <<: *errors_messages
 
       full_messages:
