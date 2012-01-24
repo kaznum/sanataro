@@ -191,12 +191,11 @@ class EntriesController < ApplicationController
       asset = @user.accounts.asset(@user, to_account_id, action_date)
       amount = adjustment_amount - asset
       
-      item, ignored, is_error =
+      item, ignored =
         Teller.create_entry(user: @user, action_date: action_date, name: 'Adjustment',
                             from_account_id: -1, to_account_id: to_account_id,
                             is_adjustment: true, tag_list: params[:tag_list],
                             adjustment_amount: adjustment_amount, amount: amount)
-      raise ActiveRecord::RecordInvalid.new(item) if is_error
       @item = item
       
       if item.action_date.beginning_of_month == Date.new(display_year, display_month)
@@ -221,8 +220,8 @@ class EntriesController < ApplicationController
     end
   rescue SyntaxError
     render_rjs_error :id => "warning", :default_message => _("Amount is invalid.")
-  rescue ActiveRecord::RecordInvalid
-    render_rjs_error(:id => "warning", :errors => item.errors, :default_message => _('Input value is incorrect'))
+  rescue ActiveRecord::RecordInvalid => ex
+    render_rjs_error(:id => "warning", :errors => ex.message.split(",").map(&:strip), :default_message => _('Input value is incorrect'))
   end
 
   #
@@ -247,7 +246,7 @@ class EntriesController < ApplicationController
       # could raise SyntaxError because of :amount has an statement.
       amount = _calc_amount(params[:amount])
 
-      item, affected_items, is_error =
+      item, affected_items =
         Teller.create_entry(:user => @user,
                             :name => name,
                             :from_account_id => from.to_i,
@@ -256,8 +255,6 @@ class EntriesController < ApplicationController
                             :action_date => Date.new(year,month,day),
                             :confirmation_required => confirmation_required,
                             :tag_list => tag_list)
-      raise ActiveRecord::RecordInvalid.new(item) if is_error
-      
       # 以下、表示処理
       item_month = Date.new(year, month, 1)
       # displaying page from here
@@ -275,8 +272,8 @@ class EntriesController < ApplicationController
     render "common/rjs_queue_renderer", :handlers => [:rjs]
   rescue SyntaxError
     render_rjs_error :id => "warning", :default_message => _("Amount is invalid.")
-  rescue ActiveRecord::RecordInvalid
-    render_rjs_error(:id => "warning", :errors => (item.nil? ? nil : item.errors), :default_message => _('Input value is incorrect'))
+  rescue ActiveRecord::RecordInvalid => ex
+    render_rjs_error(:id => "warning", :errors => ex.message.split(",").map(&:strip), :default_message => _('Input value is incorrect'))
   end
 
   def renderer_queues_for_create_entry_simple(item)
@@ -575,8 +572,8 @@ class EntriesController < ApplicationController
     end
   rescue SyntaxError
     render_rjs_error(:id => "warning", :errors => nil, :default_message => _("Amount is invalid."))
-  rescue ActiveRecord::RecordInvalid
-    render_rjs_error :id => "item_warning_#{item.id}", :errors => item.errors, :default_message =>  _('Input value is incorrect.')
+  rescue ActiveRecord::RecordInvalid => ex
+    render_rjs_error :id => "item_warning_#{item.id}", :errors => ex.message.split(",").map(&:strip), :default_message =>  _('Input value is incorrect.')
   end
 
   #
@@ -640,7 +637,7 @@ class EntriesController < ApplicationController
       if payment_account_id
         paydate = _credit_due_date(item.from_account_id, item.action_date)
 
-        credit_item, ignored, ignored =
+        credit_item, ignored =
           Teller.create_entry(user: @user, name: item.name,
                               from_account_id: payment_account_id, to_account_id: item.from_account_id,
                               amount: item.amount,
@@ -699,9 +696,9 @@ class EntriesController < ApplicationController
     
   rescue SyntaxError
     render_rjs_error :id => "item_warning_#{@item.id}", :errors => nil, :default_message =>  _("Amount is invalid.")
-  rescue ActiveRecord::RecordInvalid
+  rescue ActiveRecord::RecordInvalid => ex
     render_rjs_error(:id => 'item_warning_' + @item.id.to_s,
-                     :errors => @item.errors,
+                     :errors => ex.message.split(",").map(&:strip),
                      :default_message => _('Input value is incorrect.'))
   end
 

@@ -18,9 +18,7 @@ class Teller
     affected_items << from_adj if from_adj
     affected_items << to_adj if to_adj
     
-     return [item, affected_items, false]
-  rescue ActiveRecord::RecordInvalid
-    return [item, affected_items, true]
+    return [item, affected_items, false]
   end
 
   def self.destroy_entry(user, id)

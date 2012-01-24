@@ -6,22 +6,26 @@ describe Teller do
   describe "#create_entry" do
     context "when validation errors happen," do
       before do
-        @prev_count = Item.count
-        @item, @affected_items, @is_error = Teller.create_entry(:action_date => Date.today, :name => '', :amount => 10000, :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:outgo3).id, :user => users(:user1), :tag_list => 'hoge fuga')
-      end
-      describe "created_item" do 
-        subject { @item }
-        its(:errors) { should_not be_empty }
+        @initial_count = Item.count
+        @action = lambda { Teller.create_entry(:action_date => Date.today, :name => '', :amount => 10000, :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:outgo3).id, :user => users(:user1), :tag_list => 'hoge fuga') }
       end
 
-      describe "is_error" do
-        subject { @is_error }
-        it { should be_true }
+      describe "raise error" do
+        specify {
+          expect { @action.call }.to raise_error(ActiveRecord::RecordInvalid)
+        }
       end
 
       describe "Item.count" do
-        subject { Item.count}
-        it { should == @prev_count }
+        before do
+          begin
+            @action.call
+          rescue
+            # do nothing
+          end
+        end
+        subject { Item.count }
+        it { should == @initial_count }
       end
     end
 
