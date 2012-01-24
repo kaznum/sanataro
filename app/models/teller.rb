@@ -25,21 +25,15 @@ class Teller
 
   def self.destroy_entry(user, id)
     item = user.items.find(id)
-    from_id = item.from_account_id
-    to_id = item.to_account_id
-    action_date = item.action_date
-    amount = item.amount
-    child_id = item.child_item.try(:id)
 
     from_adj_item = to_adj_item = child_item = from_adj_credit = to_adj_credit = nil
-    
-    # オブジェクトの削除
+
     ActiveRecord::Base.transaction do 
       item.destroy
-      from_adj_item = Item.future_adjustment(user, action_date, from_id, id)
-      to_adj_item = Item.future_adjustment(user, action_date, to_id, id)
+      from_adj_item = Item.future_adjustment(user, item.action_date, item.from_account_id, item.id)
+      to_adj_item = Item.future_adjustment(user, item.action_date, item.to_account_id, item.id)
       # クレジットカード関連itemの削除
-      child_item, from_adj_credit, to_adj_credit = destroy_entry(user, child_id)[:itself] if child_id
+      child_item, from_adj_credit, to_adj_credit = destroy_entry(user, item.child_item)[:itself] if item.child_item
     end
     return {:itself => [item, from_adj_item, to_adj_item], :child => [child_item, from_adj_credit, to_adj_credit]}
   end
