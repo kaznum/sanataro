@@ -330,7 +330,8 @@ describe LoginController do
   describe "confirmation" do
     context "when params are correct," do 
       before do
-        mock_user = mock_model(User).as_null_object
+        mock_user = mock_model(User)
+        Item.should_receive(:create).twice.and_return(double.as_null_object)
         User.should_receive(:find_by_login_and_confirmation).with('test200', '123456789012345').and_return(mock_user)
         mock_user.should_receive(:update_attributes!).with(:is_active => true)
         mock_user.should_receive(:deliver_signup_complete)
