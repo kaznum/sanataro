@@ -638,7 +638,7 @@ class EntriesController < ApplicationController
         payment_account_id = cr.payment_account_id
       end
       if payment_account_id
-        paydate = _credit_payment_date(item.from_account_id, item.action_date)
+        paydate = _credit_due_date(item.from_account_id, item.action_date)
 
         credit_item, ignored, ignored =
           Teller.create_entry(user: @user, name: item.name,
@@ -773,7 +773,7 @@ class EntriesController < ApplicationController
   # params: account_id (カードのアカウントID)
   # params: date (決済日)
   #
-  def _credit_payment_date(account_id, date)
+  def _credit_due_date(account_id, date)
     @user.accounts.where(id: account_id).first.credit_due_date(date)
   end
 
