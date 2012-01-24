@@ -26,13 +26,17 @@ class Teller
 
     from_adj_item = to_adj_item = child_item = from_adj_credit = to_adj_credit = nil
 
-    ActiveRecord::Base.transaction do 
+    ActiveRecord::Base.transaction do
       item.destroy
-      from_adj_item = Item.future_adjustment(user, item.action_date, item.from_account_id, item.id)
-      to_adj_item = Item.future_adjustment(user, item.action_date, item.to_account_id, item.id)
-      # クレジットカード関連itemの削除
-      child_item, from_adj_credit, to_adj_credit = destroy_entry(user, item.child_item)[:itself] if item.child_item
     end
-    return {:itself => [item, from_adj_item, to_adj_item], :child => [child_item, from_adj_credit, to_adj_credit]}
+    from_adj_item = Item.future_adjustment(user, item.action_date, item.from_account_id, item.id)
+    to_adj_item = Item.future_adjustment(user, item.action_date, item.to_account_id, item.id)
+    credit_item = item.child_item
+    if credit_item
+      from_adj_credit = Item.future_adjustment(user, credit_item.action_date, credit_item.from_account_id, credit_item.id)
+      to_adj_credit = Item.future_adjustment(user, credit_item.action_date, credit_item.to_account_id, credit_item.id)
+    end
+
+    {:itself => [item, from_adj_item, to_adj_item], :child => [credit_item, from_adj_credit, to_adj_credit]}
   end
 end

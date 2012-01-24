@@ -2,9 +2,8 @@
 class Item < ActiveRecord::Base
   acts_as_taggable
 
-
   belongs_to :parent_item, :class_name => "Item", :foreign_key => 'parent_id'
-  has_one :child_item, :class_name => "Item", :foreign_key => 'parent_id'
+  has_one :child_item, :class_name => "Item", :foreign_key => 'parent_id', :dependent => :destroy
                                                                            
   belongs_to :user
 

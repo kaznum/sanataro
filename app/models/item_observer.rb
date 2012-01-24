@@ -24,11 +24,6 @@ class ItemObserver < ActiveRecord::Observer
     MonthlyProfitLoss.correct(item.user, item.to_account_id, item.action_date.beginning_of_month)
     Item.update_future_balance(item.user, item.action_date, item.from_account_id, item.id)
     Item.update_future_balance(item.user, item.action_date, item.to_account_id, item.id)
-
-    # In fact, they want to be declared as :dependent => :destroy in Item's has_one statement, but 
-    # it does not work well.
-    child_item = Item.find_by_parent_id(item.id)
-    child_item.destroy if child_item
   end
 
   private
