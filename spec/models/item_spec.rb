@@ -101,6 +101,19 @@ describe Item do
         end
       end
       
+      context "when from_account_id is -1," do
+        before do
+          @item.from_account_id = -1
+          @is_saved = @item.save
+        end
+
+        describe "item was not saved" do
+          subject { @is_saved }
+          it { should be_true }
+        end
+
+      end
+      
       context "when from_account_id is not owned by user," do
         before do
           @item.from_account_id = 21234
@@ -135,8 +148,26 @@ describe Item do
         end
       end
       
+      context "when to_account_id is -1," do
+        before do
+          @item.to_account_id = -1
+          @is_saved = @item.save
+        end
+
+        describe "item was not saved" do
+          subject { @is_saved }
+          it { should be_false }
+        end
+
+        describe "error" do
+          subject { @item }
+          it { should have_at_least(1).errors_on :to_account_id }
+        end
+      end
+      
       context "when to_account_id is not owned by user," do
         before do
+          @item.from_account_id = -1
           @item.to_account_id = 21234
           @is_saved = @item.save
         end

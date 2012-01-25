@@ -480,7 +480,7 @@ class EntriesController < ApplicationController
       item.reload
       
       item.year, item.month, item.day = _get_action_year_month_day_from_params
-      
+
       item.to_account_id  = params[:to].to_i
       item.tag_list = params[:tag_list]
       item.user_id = item.user.id

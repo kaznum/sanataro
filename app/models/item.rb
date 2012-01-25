@@ -31,6 +31,7 @@ class Item < ActiveRecord::Base
   before_validation :fill_amount_for_adjustment_if_needed
 
   def fill_amount_for_adjustment_if_needed
+
     if is_adjustment? && !amount_changed? && action_date && to_account_id && user && adjustment_amount
       asset = user.accounts.asset(user, to_account_id, action_date, id)
       self.amount = adjustment_amount - asset
@@ -42,7 +43,7 @@ class Item < ActiveRecord::Base
     if from_account_id != -1 && !user.accounts.exists?(id: from_account_id)
       errors.add(:from_account_id, "が不正です。")
     end
-    if from_account_id != -1 && !user.accounts.exists?(id: to_account_id)
+    if !user.accounts.exists?(id: to_account_id)
       errors.add(:to_account_id, "が不正です。")
     end
   end

@@ -2319,15 +2319,15 @@ describe EntriesController do
         context "without params[:to]" do
           before do
             date = items(:adjustment2).action_date
-            @action = lambda { xhr :put, :update, :entry_type => 'adjustment', :id=>items(:adjustment2).id.to_s, :action_year => date.year.to_s, :action_month => date.month.to_s, :action_amount=>'3,000', :year => 2008, :month => 2 }
+            @action = lambda { xhr :put, :update, :entry_type => 'adjustment', :id=>items(:adjustment2).id.to_s, :action_year => date.year.to_s, :action_month => date.month.to_s, :action_day => date.day.to_s, :action_amount=>'3,000', :year => 2008, :month => 2 }
           end
-          describe "response" do 
+          describe "response" do
             before do
               @action.call
             end
             subject {response}
             it {should be_success}
-            it { should render_rjs_error :id => "warning" }
+            it { should render_rjs_error :id => "item_warning_2" }
           end
 
           describe "item to update" do
