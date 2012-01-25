@@ -759,9 +759,6 @@ class EntriesController < ApplicationController
                                :remain=>remain, :tag => tag, :mark => mark})
   end
 
-  #
-  # 項目削除の内部処理
-  #
   def _do_delete_item(item_id)
     Teller.destroy_entry(@user, item_id)
   end
@@ -769,7 +766,6 @@ class EntriesController < ApplicationController
   # カード引き落とし日を算出する
   # params: account_id (カードのアカウントID)
   # params: date (決済日)
-  #
   def _credit_due_date(account_id, date)
     @user.accounts.where(id: account_id).first.credit_due_date(date)
   end
