@@ -178,8 +178,11 @@ class EntriesController < ApplicationController
     item = nil
     display_year = params[:year].to_i
     display_month = params[:month].to_i
+    @display_year_month = Date.new(display_year, display_month)
+    
     year, month, day = _get_action_year_month_day_from_params
     action_date = Date.new(year,month,day)
+    
     to_account_id = CommonUtil.remove_comma(params[:to]).to_i
     adjustment_amount = Item.calc_amount(params[:adjustment_amount])
     
@@ -188,6 +191,7 @@ class EntriesController < ApplicationController
       prev_adj = @user.items.find_by_to_account_id_and_action_date_and_is_adjustment(to_account_id, action_date, true)
       _do_delete_item(prev_adj.id) if prev_adj
 
+      
       item, ignored =
         Teller.create_entry(user: @user, action_date: action_date, name: 'Adjustment',
                             from_account_id: -1, to_account_id: to_account_id,
@@ -217,6 +221,8 @@ class EntriesController < ApplicationController
     end
   rescue SyntaxError
     render_rjs_error :id => "warning", :default_message => _("Amount is invalid.")
+  rescue InvalidDate
+    render_rjs_error :id => "warning", :default_message => "日付が不正です。"
   rescue ActiveRecord::RecordInvalid => ex
     render_rjs_error(:id => "warning", :errors => ex.message.split(",").map(&:strip), :default_message => _('Input value is incorrect'))
   end
@@ -327,6 +333,8 @@ class EntriesController < ApplicationController
     year  = params[:action_year].to_i
     month = params[:action_month].to_i
     day = params[:action_day].to_i
+    raise InvalidDate unless Date.valid_date?(year,month,day)
+    
     return [year, month, day]
   end
 
@@ -552,6 +560,8 @@ class EntriesController < ApplicationController
         ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + _('Adjustment') + ' ' +
         CommonUtil.separate_by_comma(item.adjustment_amount) + _('yen')
     end
+  rescue InvalidDate
+    render_rjs_error(:id => "warning", :errors => nil, :default_message => "日付が不正です。")
   rescue SyntaxError
     render_rjs_error(:id => "warning", :errors => nil, :default_message => _("Amount is invalid."))
   rescue ActiveRecord::RecordInvalid => ex
@@ -650,8 +660,10 @@ class EntriesController < ApplicationController
         end
       end
     end
+  rescue InvalidDate
+    render_rjs_error :id => "item_warning_#{@item.id}", :errors => nil, :default_message => "日付が不正です。"
   rescue SyntaxError
-    render_rjs_error :id => "item_warning_#{@item.id}", :errors => nil, :default_message =>  _("Amount is invalid.")
+    render_rjs_error :id => "item_warning_#{@item.id}", :errors => nil, :default_message => _("Amount is invalid.")
   rescue ActiveRecord::RecordInvalid => ex
     render_rjs_error(:id => 'item_warning_' + @item.id.to_s,
                      :errors => ex.message.split(",").map(&:strip),
@@ -726,3 +738,7 @@ class EntriesController < ApplicationController
     @user.accounts.where(id: account_id).first.credit_due_date(date)
   end
 end
+
+class InvalidDate < Exception
+end
+

@@ -1864,6 +1864,56 @@ describe EntriesController do
               }
             end
           end
+          
+          context "input action_date is invalid," do
+            let(:existing_adj) { items(:adjustment2) }
+            let(:future_adj) { items(:adjustment4) }
+            let(:action) {
+              lambda {
+                date = existing_adj.action_date
+                xhr(:post,
+                    :create, :entry_type => 'adjustment',
+                    :action_year => date.year, :action_month => date.month,
+                    :to => accounts(:bank1).id.to_s, :adjustment_amount => '50000',
+                    :year => 2008, :month => 2)
+              }
+            }
+
+            describe "response" do
+              before { action.call }
+              subject { response }
+              it { should be_success }
+            end
+
+            describe "all adjustments count" do
+              specify {
+                expect { action.call }.not_to change{ Item.find_all_by_is_adjustment(true).count }
+              }
+            end
+            describe "all item count" do
+              specify {
+                expect { action.call }.not_to change{ Item.count }
+              }
+            end
+
+            describe "existing_adj" do
+              specify {
+                expect { action.call }.not_to change{ Item.find(existing_adj.id).amount }
+              }
+            end
+
+            describe "future adjustment" do
+              specify {
+                expect { action.call }.not_to change{ Item.find(future_adj.id).amount }
+              }
+            end
+            
+            describe "profit_losses" do
+              specify {
+                expect { action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount}
+              }
+            end
+          end          
         end
 
         context "create adjustment between adjustments whose months are same," do
