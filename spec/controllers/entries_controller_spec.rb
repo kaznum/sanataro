@@ -2227,10 +2227,10 @@ describe EntriesController do
       
 
       describe "update adjustment" do
-        context "without action date" do
+        context "without action date", debug: true do
           before do
             date = items(:adjustment2).action_date
-            @action = lambda { xhr :put, :update, :entry_type => 'adjustment', :id=>items(:adjustment2).id.to_s, :action_year=>date.year, :action_month=>date.month, :action_amount=>'3,000', :to=>items(:adjustment2).to_account_id, :year => 2008, :month => 2 }
+            @action = lambda { xhr :put, :update, :entry_type => 'adjustment', :id=>items(:adjustment2).id.to_s, :action_year => date.year.to_s, :action_month => date.month.to_s, :action_amount=>'3,000', :to=>items(:adjustment2).to_account_id, :year => 2008, :month => 2 }
           end
           describe "response" do 
             before do

@@ -187,15 +187,12 @@ class EntriesController < ApplicationController
       # すでに同日かつ同account_idの残高調整が存在しないかチェックし、存在する場合は削除する
       prev_adj = @user.items.find_by_to_account_id_and_action_date_and_is_adjustment(to_account_id, action_date, true)
       _do_delete_item(prev_adj.id) if prev_adj
-      
-      asset = @user.accounts.asset(@user, to_account_id, action_date)
-      amount = adjustment_amount - asset
-      
+
       item, ignored =
         Teller.create_entry(user: @user, action_date: action_date, name: 'Adjustment',
                             from_account_id: -1, to_account_id: to_account_id,
                             is_adjustment: true, tag_list: params[:tag_list],
-                            adjustment_amount: adjustment_amount, amount: amount)
+                            adjustment_amount: adjustment_amount)
       @item = item
       
       if item.action_date.beginning_of_month == Date.new(display_year, display_month)
@@ -466,34 +463,27 @@ class EntriesController < ApplicationController
   def _update_adjustment
     item_id = params[:id].to_i
     item = @user.items.find_by_id(item_id)
-
     old_action_date = item.action_date
-    old_amount = item.amount
-    old_from_id = item.from_account_id
     old_to_id = item.to_account_id
-    old_adjustment_amount = item.adjustment_amount
-    old_tag_list = item.tag_list
-
-    item.year, item.month, item.day = _get_action_year_month_day_from_params
-    item.to_account_id  = params[:to].to_i
-    item.tag_list = params[:tag_list]
-    item.user_id = item.user.id
-
     display_year = params[:year].to_i
     display_month = params[:month].to_i
     @display_year_month = Date.new(display_year, display_month)
-    # could raise SyntaxError
-    item.adjustment_amount = Item.calc_amount(params[:adjustment_amount])
-
-    raise ActiveRecord::RecordInvalid.new(item) unless item.valid?
 
     Item.transaction do
       # 残高調整のため、一度、amountを0にする。
       # (amountを算出するために、他のadjustmentのamountを正しい値にする必要があるため)
       item.update_attributes!(amount: 0)
-      # amountの算出
-      asset = @user.accounts.asset(@user, item.to_account_id, item.action_date, item.id)
-      item.update_attributes!(amount: item.adjustment_amount - asset)
+      item.reload
+      
+      item.year, item.month, item.day = _get_action_year_month_day_from_params
+      
+      item.to_account_id  = params[:to].to_i
+      item.tag_list = params[:tag_list]
+      item.user_id = item.user.id
+      # could raise SyntaxError
+      item.adjustment_amount = Item.calc_amount(params[:adjustment_amount])
+
+      item.save!
     end
     
     @item = item

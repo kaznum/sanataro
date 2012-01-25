@@ -2,12 +2,11 @@
 class Item < ActiveRecord::Base
   acts_as_taggable
 
+  belongs_to :user
   belongs_to :parent_item, :class_name => "Item", :foreign_key => 'parent_id'
   has_one :child_item, :class_name => "Item", :foreign_key => 'parent_id', :dependent => :destroy
-                                                                           
-  belongs_to :user
 
-  validate :validate_everytime
+  validate :validates_action_date_range
 
   attr_accessor :p_year, :p_month, :p_day
 
@@ -28,6 +27,15 @@ class Item < ActiveRecord::Base
   validates_presence_of :action_date
 
   before_validation :set_action_date
+  before_validation :fill_amount_for_adjustment_if_needed
+
+  def fill_amount_for_adjustment_if_needed
+    if is_adjustment? && !amount_changed? && action_date && to_account_id && user && adjustment_amount
+      asset = user.accounts.asset(user, to_account_id, action_date, id)
+      self.amount = adjustment_amount - asset
+      
+    end
+  end
   
   ORDER_OF_ENTRIES_LIST = "action_date desc, id desc"
   scope :only_account, lambda { |account_id|  where("from_account_id = ? or to_account_id = ?", account_id, account_id) }
@@ -37,7 +45,7 @@ class Item < ActiveRecord::Base
   scope :remaining, offset(ITEM_LIST_COUNT)
   scope :order_for_entries_list, order(ORDER_OF_ENTRIES_LIST)
   
-  def validate_everytime
+  def validates_action_date_range
     today = Date.today
     if action_date
       if self.action_date >= 2.years.since(Date.today)
@@ -129,7 +137,6 @@ class Item < ActiveRecord::Base
     else
       self.action_date = nil
     end
-
   end
 
   def self.update_future_balance(user, action_date, account_id, item_id)
