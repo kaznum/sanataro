@@ -84,7 +84,7 @@ describe Item do
     end
 
     describe "account_id" do 
-      context "when from_account_id is nil" do
+      context "when from_account_id is nil," do
         before do
           @item.from_account_id = nil
           @is_saved = @item.save
@@ -101,7 +101,7 @@ describe Item do
         end
       end
 
-      context "when to_account_id is nil" do
+      context "when to_account_id is nil," do
         before do
           @item.to_account_id = nil
           @is_saved = @item.save
