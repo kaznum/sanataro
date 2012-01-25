@@ -25,6 +25,7 @@ class Item < ActiveRecord::Base
   validates_presence_of :amount
   validates_format_of :amount, :with => /^-?\d+$/
   validates_presence_of :action_date
+  validate :account_id_should_be_owned_by_user
 
   before_validation :set_action_date
   before_validation :fill_amount_for_adjustment_if_needed
@@ -36,6 +37,16 @@ class Item < ActiveRecord::Base
       
     end
   end
+
+  def account_id_should_be_owned_by_user
+    if from_account_id != -1 && !user.accounts.exists?(id: from_account_id)
+      errors.add(:from_account_id, "が不正です。")
+    end
+    if from_account_id != -1 && !user.accounts.exists?(id: to_account_id)
+      errors.add(:to_account_id, "が不正です。")
+    end
+  end
+  
   
   ORDER_OF_ENTRIES_LIST = "action_date desc, id desc"
   scope :only_account, lambda { |account_id|  where("from_account_id = ? or to_account_id = ?", account_id, account_id) }

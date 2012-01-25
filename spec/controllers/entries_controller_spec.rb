@@ -2316,6 +2316,27 @@ describe EntriesController do
           end
         end
 
+        context "without params[:to]" do
+          before do
+            date = items(:adjustment2).action_date
+            @action = lambda { xhr :put, :update, :entry_type => 'adjustment', :id=>items(:adjustment2).id.to_s, :action_year => date.year.to_s, :action_month => date.month.to_s, :action_amount=>'3,000', :year => 2008, :month => 2 }
+          end
+          describe "response" do 
+            before do
+              @action.call
+            end
+            subject {response}
+            it {should be_success}
+            it { should render_rjs_error :id => "warning" }
+          end
+
+          describe "item to update" do
+            specify {
+              expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).updated_at}
+            }
+          end
+        end
+
         context "with invalid function for amount" do
           before do
             _login_and_change_month(2008,2)

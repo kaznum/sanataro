@@ -409,6 +409,7 @@ class EntriesController < ApplicationController
     ques << { :command => :insert_html, :id => id, :position => :bottom }.merge(*attr)
     ques
   end
+
   
 
   #
@@ -452,20 +453,13 @@ class EntriesController < ApplicationController
         end
 
         #クレジットカード処理
-        if deleted_child_item && deleted_child_item.action_date.strftime("%Y/%m") == item.action_date.strftime("%Y/%m")
-          # 表示されていない可能性があるため、Collection Proxyを利用する
-          page.select("#item_#{deleted_child_item.id}").each do |etty|
-            etty.visual_effect :fade, :duration => FADE_DURATION
-          end
-          page.select("#item_#{deleted_child_item.id}").each do |etty|
-            page.delay(3.seconds) do
-              etty.remove
-            end
-          end
+        if deleted_child_item
+          page.fadeout_and_remove("#item_#{deleted_child_item.id}")
         end
       end
     end # transaction
   end
+
   
   #
   # 残高調整の変更実行処理
@@ -743,4 +737,3 @@ end
 
 class InvalidDate < Exception
 end
-

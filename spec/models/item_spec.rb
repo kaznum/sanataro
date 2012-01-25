@@ -100,10 +100,44 @@ describe Item do
           it { should have_at_least(1).errors_on :from_account_id }
         end
       end
+      
+      context "when from_account_id is not owned by user," do
+        before do
+          @item.from_account_id = 21234
+          @is_saved = @item.save
+        end
+
+        describe "item was not saved" do
+          subject { @is_saved }
+          it { should be_false }
+        end
+
+        describe "error" do
+          subject { @item }
+          it { should have_at_least(1).errors_on :from_account_id }
+        end
+      end
 
       context "when to_account_id is nil," do
         before do
           @item.to_account_id = nil
+          @is_saved = @item.save
+        end
+
+        describe "item was not saved" do
+          subject { @is_saved }
+          it { should be_false }
+        end
+
+        describe "error" do
+          subject { @item }
+          it { should have_at_least(1).errors_on :to_account_id }
+        end
+      end
+      
+      context "when to_account_id is not owned by user," do
+        before do
+          @item.to_account_id = 21234
           @is_saved = @item.save
         end
 
@@ -367,8 +401,13 @@ describe Item do
           end
 
           # データの準備(参照されないデータ)(別ユーザ)
-          80.times do |i|
-            item = Fabricate.build(:item, user_id: 101, from_account_id: 11, to_account_id: 13, action_date: '2008-09-15', tag_list: 'abc def', confirmation_required: true)
+          from_account = Fabricate.build(:account, user_id: 101)
+          from_account.save!
+          to_account = Fabricate.build(:outgo, user_id: 101)
+          to_account.save!
+          
+          10.times do |i|
+            item = Fabricate.build(:item, user_id: 101, from_account_id: from_account.id, to_account_id: to_account.id, action_date: '2008-09-15', tag_list: 'abc def', confirmation_required: true)
             item.save!
             @created_ids << item.id
           end
@@ -471,11 +510,15 @@ describe Item do
           end
 
           # データの準備(参照されないデータ)(別ユーザ)
-          80.times do |i|
+          from_account = Fabricate.build(:account, user_id: 101)
+          from_account.save!
+          to_account = Fabricate.build(:outgo, user_id: 101)
+          to_account.save!
+          20.times do |i|
             @created_ids << Item.create!(:name => 'regular item ' + i.to_s,
                                          :user_id => 101,
-                                         :from_account_id => 11,
-                                         :to_account_id => 13,
+                                         :from_account_id => from_account.id,
+                                         :to_account_id => to_account.id,
                                          :action_date => Date.new(2008,9,15),
                                          :amount => 100 + i).id
           end
