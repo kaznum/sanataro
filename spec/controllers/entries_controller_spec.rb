@@ -2889,7 +2889,7 @@ describe EntriesController do
               it {should_not be_confirmation_required }
             end
 
-            describe "adjustment which is in the same month" do 
+            describe "adjustment which is in the same month" do
               let(:adj_id) { items(:adjustment2).id }
               specify {
                 expect { @action.call }.to change{ Item.find(adj_id).amount }.by(100000 - old_item1.amount)

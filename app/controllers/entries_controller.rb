@@ -488,87 +488,79 @@ class EntriesController < ApplicationController
     raise ActiveRecord::RecordInvalid.new(item) unless item.valid?
 
     Item.transaction do
-      # 未来の残高調整を行なう。
       # 残高調整のため、一度、amountを0にする。
-      item.amount = 0
-      item.save!
-      MonthlyProfitLoss.correct(@user, -1, old_action_date.beginning_of_month)
-      MonthlyProfitLoss.correct(@user, old_to_id, old_action_date.beginning_of_month)
-      old_future_adj = Item.update_future_balance(@user, old_action_date, old_to_id, item.id)
-      
+      # (amountを算出するために、他のadjustmentのamountを正しい値にする必要があるため)
+      item.update_attributes!(amount: 0)
       # amountの算出
       asset = @user.accounts.asset(@user, item.to_account_id, item.action_date, item.id)
-      item.amount = item.adjustment_amount - asset
-      item.save!
-      @item = item
-      MonthlyProfitLoss.correct(@user, -1, item.action_date.beginning_of_month)
-      MonthlyProfitLoss.correct(@user, item.to_account_id, item.action_date.beginning_of_month)
-      
-      # 新account_idで、未来に残高調整が存在する場合の調整
-      new_future_adj = Item.update_future_balance(@user, item.action_date, item.to_account_id, item.id)
+      item.update_attributes!(amount: item.adjustment_amount - asset)
+    end
+    
+    @item = item
+    old_future_adj = Item.future_adjustment(@user, old_action_date, old_to_id, item.id)
+    new_future_adj = Item.future_adjustment(@user, item.action_date, item.to_account_id, item.id)
 
-      # 表示処理
-      unless old_action_date == item.action_date &&
+    # 表示処理
+    unless old_action_date == item.action_date &&
+        ((old_future_adj.nil? && new_future_adj.nil?)||
+         old_future_adj && new_future_adj &&
+         old_future_adj.id == new_future_adj.id &&
+         old_future_adj.to_account_id == new_future_adj.to_account_id )
+      items = _get_items(display_year, display_month)
+    end
+
+    render :update do |page|
+      #日付に変更がなく、未来のadjustmentが存在しないか
+      #もしくは、存在するが、to_account_idに変更がなく、
+      # 表示中の月と同一月の場合
+      #
+      if old_action_date == item.action_date &&
           ((old_future_adj.nil? && new_future_adj.nil?)||
            old_future_adj && new_future_adj &&
            old_future_adj.id == new_future_adj.id &&
            old_future_adj.to_account_id == new_future_adj.to_account_id )
-        items = _get_items(display_year, display_month)
+
+        page.replace "item_#{item.id}", partial: 'item', locals: { event_item: item }
+
+        if new_future_adj && new_future_adj.action_date <= Date.new(display_year, display_month).end_of_month &&
+            old_future_adj.action_date.beginning_of_month == Date.new(display_year, display_month)
+          page.replace "item_#{new_future_adj.id}", partial: 'item', locals: { event_item: new_future_adj }
+        end
+      else
+        page.replace_html :items,''
+        items.each do |it|
+          page.insert_html :bottom, :items, partial: 'item', locals: { event_item: it }
+        end
+        page.insert_html :bottom, :items, :partial => 'remains_link'
+
       end
 
-      render :update do |page|
-        #日付に変更がなく、未来のadjustmentが存在しないか
-        #もしくは、存在するが、to_account_idに変更がなく、
-        # 表示中の月と同一月の場合
-        #
-        if old_action_date == item.action_date &&
-            ((old_future_adj.nil? && new_future_adj.nil?)||
-             old_future_adj && new_future_adj &&
-             old_future_adj.id == new_future_adj.id &&
-             old_future_adj.to_account_id == new_future_adj.to_account_id )
-
-          page.replace "item_#{item.id}", partial: 'item', locals: { event_item: item }
-
-          if new_future_adj && new_future_adj.action_date <= Date.new(display_year, display_month).end_of_month &&
-              old_future_adj.action_date.beginning_of_month == Date.new(display_year, display_month)
-            page.replace "item_#{new_future_adj.id}", partial: 'item', locals: { event_item: new_future_adj }
-          end
-        else
-          page.replace_html :items,''
-          items.each do |it|
-            page.insert_html :bottom, :items, partial: 'item', locals: { event_item: it }
-          end
-          page.insert_html :bottom, :items, :partial => 'remains_link'
-
-        end
-
-        # 変更された未来のadjustmentのハイライト表示
-        selectors = []
-        if old_future_adj && new_future_adj
-          if old_future_adj.id == new_future_adj.id # to_account_idがかわっていない
-            selectors << "#item_#{old_future_adj.id} div"
-          else
-            selectors << "#item_#{old_future_adj.id} div"
-            selectors << "#item_#{new_future_adj.id} div"
-          end
-        elsif old_future_adj
+      # 変更された未来のadjustmentのハイライト表示
+      selectors = []
+      if old_future_adj && new_future_adj
+        if old_future_adj.id == new_future_adj.id # to_account_idがかわっていない
           selectors << "#item_#{old_future_adj.id} div"
-        elsif new_future_adj
+        else
+          selectors << "#item_#{old_future_adj.id} div"
           selectors << "#item_#{new_future_adj.id} div"
         end
-        selectors << "#item_#{item.id} div"
-
-        selectors.each do |s|
-          page.select(s).each do |etty|
-            etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
-          end
-        end
-
-        page[:warning].set_style :color => 'blue'
-        page.replace_html :warning, _('Item was changed successfully.') +
-          ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + _('Adjustment') + ' ' +
-          CommonUtil.separate_by_comma(item.adjustment_amount) + _('yen')
+      elsif old_future_adj
+        selectors << "#item_#{old_future_adj.id} div"
+      elsif new_future_adj
+        selectors << "#item_#{new_future_adj.id} div"
       end
+      selectors << "#item_#{item.id} div"
+
+      selectors.each do |s|
+        page.select(s).each do |etty|
+          etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
+        end
+      end
+
+      page[:warning].set_style :color => 'blue'
+      page.replace_html :warning, _('Item was changed successfully.') +
+        ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + _('Adjustment') + ' ' +
+        CommonUtil.separate_by_comma(item.adjustment_amount) + _('yen')
     end
   rescue SyntaxError
     render_rjs_error(:id => "warning", :errors => nil, :default_message => _("Amount is invalid."))
@@ -583,13 +575,8 @@ class EntriesController < ApplicationController
     item_id = params[:id].to_i
     @item = item = @user.items.find(item_id)
     old_action_date = item.action_date
-    old_amount = item.amount
     old_from_id = item.from_account_id
     old_to_id = item.to_account_id
-    old_adjustment_amount = item.adjustment_amount
-    old_child_id = item.child_item.try(:id)
-    old_confirmation_required = item.confirmation_required?
-    old_tag_list = item.tag_list
 
     # 新規値の登録
     item.is_adjustment = false
@@ -608,92 +595,71 @@ class EntriesController < ApplicationController
     # could raise SyntaxError
     item.amount = Item.calc_amount(params[:amount])
 
+    # get items which could be updated
+    old_from_item_adj = Item.future_adjustment(@user, old_action_date, old_from_id, item.id)
+    old_to_item_adj = Item.future_adjustment(@user, old_action_date, old_to_id, item.id)
+
+    deleted_child_item = item.child_item
+    if deleted_child_item
+      from_adj_credit = Item.future_adjustment(@user, deleted_child_item.action_date, deleted_child_item.from_account_id, deleted_child_item.id)
+      to_adj_credit = Item.future_adjustment(@user, deleted_child_item.action_date, deleted_child_item.to_account_id, deleted_child_item.id)
+    end
+
+    
     Item.transaction do
       item.save!
-      MonthlyProfitLoss.correct(@user, old_from_id, old_action_date.beginning_of_month)
-      MonthlyProfitLoss.correct(@user, old_to_id, old_action_date.beginning_of_month)
-      MonthlyProfitLoss.correct(@user, item.from_account_id, item.action_date.beginning_of_month)
-      MonthlyProfitLoss.correct(@user, item.to_account_id, item.action_date.beginning_of_month)
-      
-      old_from_item_adj = Item.update_future_balance(@user, old_action_date,
-                                                     old_from_id, item.id)
-      old_to_item_adj = Item.update_future_balance(@user, old_action_date,
-                                                   old_to_id, item.id)
-      from_item_adj = Item.update_future_balance(@user, item.action_date,
-                                                 item.from_account_id, item.id)
-      to_item_adj = Item.update_future_balance(@user, item.action_date,
-                                               item.to_account_id, item.id)
+    end
+    item.reload
+    from_item_adj = Item.future_adjustment(@user, item.action_date,
+                                           item.from_account_id, item.id)
+    to_item_adj = Item.future_adjustment(@user, item.action_date,
+                                         item.to_account_id, item.id)
+    credit_item = item.child_item
+    
+    # 以下、表示処理
+    #日付に変更がない場合は、並び順が変わらないため、当該アイテムのみ表示を変更する。
+    
+    if (old_action_date == item.action_date &&
+        (old_from_item_adj.nil? ||
+         old_from_item_adj.action_date < display_from_date || old_from_item_adj.action_date > display_to_date) &&
+        (old_to_item_adj.nil? ||
+         old_to_item_adj.action_date < display_from_date || old_to_item_adj.action_date > display_to_date ) &&
+        (from_item_adj.nil? ||
+         from_item_adj.action_date < display_from_date || from_item_adj.action_date > display_to_date ) &&
+        (to_item_adj.nil? ||
+         to_item_adj.action_date < display_from_date || to_item_adj.action_date > display_to_date ))
 
-      # クレジットカードの処理
-      # 一旦古い情報を削除し、再度追加の必要がある場合のみ追加する
-      deleted_child_item, from_adj_credit, to_adj_credit = (_do_delete_item(old_child_id))[:child] if old_child_id
-      cr = @user.credit_relations.find_by_credit_account_id(item.from_account_id)
-      if cr.nil?
-        payment_account_id = nil
-        credit_item = nil
-      else
-        payment_account_id = cr.payment_account_id
-      end
-      if payment_account_id
-        paydate = _credit_due_date(item.from_account_id, item.action_date)
+      render :update do |page|
+        page.replace 'item_' + item.id.to_s, partial: 'item', locals: { event_item: item }
+        page[:warning].set_style :color => 'blue'
+        page.replace_html :warning, _('Item was changed successfully.') +
+          ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' +
+          CommonUtil.separate_by_comma(item.amount) + _('yen')
 
-        credit_item, ignored =
-          Teller.create_entry(user: @user, name: item.name,
-                              from_account_id: payment_account_id, to_account_id: item.from_account_id,
-                              amount: item.amount,
-                              year: paydate.year, month: paydate.month, day: paydate.day,
-                              parent_item: item)
-      end
-      item.reload
-
-      # クレジットカード処理終了
-
-      # 以下、表示処理
-      #日付に変更がない場合は、並び順が変わらないため、当該アイテムのみ表示を変更する。
-      
-      if (old_action_date == item.action_date &&
-          (old_from_item_adj.nil? ||
-           old_from_item_adj.action_date < display_from_date || old_from_item_adj.action_date > display_to_date) &&
-          (old_to_item_adj.nil? ||
-           old_to_item_adj.action_date < display_from_date || old_to_item_adj.action_date > display_to_date ) &&
-          (from_item_adj.nil? ||
-           from_item_adj.action_date < display_from_date || from_item_adj.action_date > display_to_date ) &&
-          (to_item_adj.nil? ||
-           to_item_adj.action_date < display_from_date || to_item_adj.action_date > display_to_date ))
-
-        render :update do |page|
-          page.replace 'item_' + item.id.to_s, partial: 'item', locals: { event_item: item }
-          page[:warning].set_style :color => 'blue'
-          page.replace_html :warning, _('Item was changed successfully.') +
-            ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' +
-            CommonUtil.separate_by_comma(item.amount) + _('yen')
-
-          if item.action_date >= display_from_date && item.action_date <= display_to_date
-            page.select('#item_' + item.id.to_s + ' div').each do |etty|
-              etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
-            end
+        if item.action_date >= display_from_date && item.action_date <= display_to_date
+          page.select('#item_' + item.id.to_s + ' div').each do |etty|
+            etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
           end
         end
-      else # action_dateが変わり、なおかつ、未来の残高調整が同月に存在するばあい
-        @items = _get_items(display_year, display_month)
-        render :update do |page|
-          page.replace_html :items, ''
-          @items.each do |it|
-            page.insert_html :bottom, :items, partial: 'item', locals: { event_item: it }
-          end
-          page.insert_html :bottom, :items, :partial=>'remains_link'
+      end
+    else # action_dateが変わり、なおかつ、未来の残高調整が同月に存在するばあい
+      @items = _get_items(display_year, display_month)
+      render :update do |page|
+        page.replace_html :items, ''
+        @items.each do |it|
+          page.insert_html :bottom, :items, partial: 'item', locals: { event_item: it }
+        end
+        page.insert_html :bottom, :items, :partial=>'remains_link'
 
-          page[:warning].set_style :color=>'blue'
-          page.replace_html :warning, _('Item was changed successfully.') + ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' + CommonUtil.separate_by_comma(item.amount) + _('yen')
-          if item.action_date >= display_from_date && item.action_date <= display_to_date
-            page.select('#item_' + item.id.to_s + ' div').each do |etty|
-              etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
-            end
+        page[:warning].set_style :color=>'blue'
+        page.replace_html :warning, _('Item was changed successfully.') + ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' + CommonUtil.separate_by_comma(item.amount) + _('yen')
+        if item.action_date >= display_from_date && item.action_date <= display_to_date
+          page.select('#item_' + item.id.to_s + ' div').each do |etty|
+            etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
           end
         end
       end
     end
-    
   rescue SyntaxError
     render_rjs_error :id => "item_warning_#{@item.id}", :errors => nil, :default_message =>  _("Amount is invalid.")
   rescue ActiveRecord::RecordInvalid => ex

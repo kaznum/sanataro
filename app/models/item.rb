@@ -10,6 +10,7 @@ class Item < ActiveRecord::Base
   validate :validate_everytime
 
   attr_accessor :p_year, :p_month, :p_day
+
   N_("Item|Year")
   N_("Item|Month")
   N_("Item|Day")
@@ -142,8 +143,7 @@ class Item < ActiveRecord::Base
       # Do not update without comparing because the following processes is very expensive and ItemObserver
       # could update other items unnecessorily.
       if item_adj.amount != amount
-        item_adj.amount = amount
-        item_adj.save! 
+        item_adj.update_attributes!(amount: amount)
         MonthlyProfitLoss.correct(user, account_id, item_adj.action_date.beginning_of_month)
         MonthlyProfitLoss.correct(user, -1, item_adj.action_date.beginning_of_month)
       else
