@@ -97,6 +97,11 @@ AND #{Tagging.table_name}.tag_id = #{Tag.table_name}.id",
           end
         end
 
+        def user=(new_user)
+          self.user_id = new_user.id
+          super(new_user)
+        end
+
         def user_id=(new_user_id)
           @new_user_id = new_user_id
           super(new_user_id)

@@ -1,15 +1,12 @@
 # coding: utf-8
 class Teller
   def self.create_entry(args)
-    user = args[:user]
-    # taggableの問題で、user_idを明示的にしてしないと、tagにuser_idが設定されない
-    item = Item.new(args){ |i|
-      i.user_id = user.id
-    }
-    
+    item = Item.new(args)
     ActiveRecord::Base.transaction do 
       item.save!
     end
+    user = item.user
+    
     affected_items = []
     affected_items << item.child_item if item.child_item
 
