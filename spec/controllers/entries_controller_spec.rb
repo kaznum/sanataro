@@ -985,6 +985,24 @@ describe EntriesController do
           it { should == @previous_items }
         end
       end
+      
+      context "when input action_date is invalid," do
+        before do
+          @previous_items = Item.count
+          xhr :post, :create, :action_year => Date.today.year.to_s, :action_month => Date.today.month.to_s, :action_day => "",  :item_name => 'TEST11', :amount=>'10,000', :from=>accounts(:bank1).id, :to=>accounts(:outgo3).id, :year => Date.today.year, :month => Date.today.month
+        end
+
+        describe "response" do 
+          subject { response }
+          it { should be_success }
+          it { should render_rjs_error :id => 'warning', :default_message => "日付が不正です。" }
+        end
+
+        describe "the count of items" do
+          subject { Item.count }
+          it { should == @previous_items }
+        end
+      end
 
       shared_examples_for "created successfully" do
         describe "response" do 

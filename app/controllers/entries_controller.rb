@@ -273,6 +273,8 @@ class EntriesController < ApplicationController
       end
     end # transaction
     render "common/rjs_queue_renderer", :handlers => [:rjs]
+  rescue InvalidDate
+    render_rjs_error :id => "warning", :default_message => "日付が不正です。"
   rescue SyntaxError
     render_rjs_error :id => "warning", :default_message => _("Amount is invalid.")
   rescue ActiveRecord::RecordInvalid => ex
