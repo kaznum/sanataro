@@ -74,12 +74,8 @@ end
 gem 'prototype-rails', "~> 3.2.0"
 
 group :assets do
-# sass-rails and coffee-rails don't support rails 3.2 now, so
-# they are commented out temporarily.
-#  gem 'sass-rails'
-#  gem 'coffee-rails'
-  gem 'sass'
-  gem 'coffee-script'
-  gem 'uglifier'
+  gem 'sass-rails', "~> 3.2.3"
+  gem 'coffee-rails', "~> 3.2.1"
+  gem 'uglifier', ">= 1.0.3"
 end
 
