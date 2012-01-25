@@ -726,13 +726,6 @@ class EntriesController < ApplicationController
   def _do_delete_item(item_id)
     Teller.destroy_entry(@user, item_id)
   end
-
-  # カード引き落とし日を算出する
-  # params: account_id (カードのアカウントID)
-  # params: date (決済日)
-  def _credit_due_date(account_id, date)
-    @user.accounts.where(id: account_id).first.credit_due_date(date)
-  end
 end
 
 class InvalidDate < Exception

@@ -2888,6 +2888,50 @@ describe EntriesController do
           end
         end
         
+        context "with to_account_id which is not owned the user, " do
+          before do 
+            @old_item1 = old_item1 = items(:item1)
+            @action = lambda {
+              xhr(:put, :update,
+                  :id => old_item1.id,
+                  :item_name => 'テスト10',
+                  :action_year => old_item1.action_date.year,
+                  :action_month => old_item1.action_date.month,
+                  :action_day => '18',
+                  :amount => "1000",
+                  :from => accounts(:bank1).id,
+                  :to => 43214,
+                  :confirmation_required => 'true',
+                  :year => 2008, :month => 2)
+              }
+          end
+          
+          describe "response" do
+            before {@action.call}
+            subject {response}
+            it {should be_success}
+            it { should render_rjs_error :id => "item_warning_#{@old_item1.id}" }
+          end
+
+          describe "item to update" do
+            def item
+              Item.find(@old_item1.id)
+            end
+            specify {
+              expect {@action.call}.not_to change{item.updated_at}
+            }
+            specify {
+              expect {@action.call}.not_to change{item.name}
+            }
+            specify {
+              expect {@action.call}.not_to change{item.action_date}
+            }
+            specify {
+              expect {@action.call}.not_to change{item.amount}
+            }
+          end
+        end
+        
         context "without changing date, " do
           before do
             @old_item11 = items(:item11)
