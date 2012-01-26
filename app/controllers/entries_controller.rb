@@ -205,7 +205,7 @@ class EntriesController < ApplicationController
 
       render :update do |page|
 
-        page[:warning].set_style :color => 'blue'
+        page << '$("#warning").css({"color":"blue"});'
         page.replace_html :warning, _('Item was added successfully.') + ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + _('Adjustment') + ' ' + CommonUtil.separate_by_comma(item.adjustment_amount) + _('yen')
         if item.action_date.beginning_of_month == Date.new(display_year, display_month)
           page.replace_html :items, ''
@@ -426,7 +426,7 @@ class EntriesController < ApplicationController
       # 残高調整の更新も行われた場合は、一覧全体を再描画する。
       render :update do |page|
 
-        page[:warning].set_style :color => 'blue'
+        page << '$("#warning").css({"color":"blue"});'
         page.replace_html :warning, _('Item was deleted successfully.') + ' ' +
           item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' +
           CommonUtil.separate_by_comma(item.amount) + _('yen')
@@ -515,7 +515,7 @@ class EntriesController < ApplicationController
 
       selectors.each { |s| page.highlight(s) }
 
-      page[:warning].set_style :color => 'blue'
+      page << '$("#warning").css({"color":"blue"});'
       page.replace_html :warning, _('Item was changed successfully.') +
         ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + _('Adjustment') + ' ' +
         CommonUtil.separate_by_comma(item.adjustment_amount) + _('yen')
@@ -591,7 +591,7 @@ class EntriesController < ApplicationController
 
       render :update do |page|
         page.replace 'item_' + item.id.to_s, partial: 'item', locals: { event_item: item }
-        page[:warning].set_style :color => 'blue'
+        page << '$("#warning").css({"color":"blue"});'
         page.replace_html :warning, _('Item was changed successfully.') +
           ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' +
           CommonUtil.separate_by_comma(item.amount) + _('yen')
@@ -609,7 +609,6 @@ class EntriesController < ApplicationController
         end
         page.insert_html :bottom, :items, :partial=>'remains_link'
 
-        page[:warning].set_style :color=>'blue'
         page.replace_html :warning, _('Item was changed successfully.') + ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' + CommonUtil.separate_by_comma(item.amount) + _('yen')
         if item.action_date >= display_from_date && item.action_date <= display_to_date
           page.highlight('#item_' + item.id.to_s + ' div')

@@ -2,7 +2,7 @@ converter = lambda { |page, q, inblock=false|
 
   args = []
   if q[:command] == :set_style
-    page[q[:id]].set_style :color => q[:color]
+    page << "$('#{q[:id]}').css('color': '#{q[:color]}');"
   elsif q[:command] == :plain
     page << q[:body]
   else
