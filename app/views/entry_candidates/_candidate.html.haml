@@ -1,4 +1,4 @@
-= h candidate.name
-= h @separated_accounts[:all_accounts][candidate.from_account_id]
+= candidate.name
+= @separated_accounts[:all_accounts][candidate.from_account_id]
 \=&gt; #{h @separated_accounts[:all_accounts][candidate.to_account_id]} #{h CommonUtil.separate_by_comma(candidate.amount)}円 [#{link_to_function _('Copy'), "copy_item('#{candidate.name.gsub(/'/, Regexp.escape('\\\''))}', '#{candidate.from_account_id.to_s}','#{candidate.to_account_id.to_s}','#{CommonUtil.separate_by_comma(candidate.amount)}')"}]
 %br/
