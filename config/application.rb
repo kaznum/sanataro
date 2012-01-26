@@ -59,6 +59,7 @@ CREDIT_RELATION_PAYMENT_MONTHS =  [['同月', 0], ['翌月', 1], ['翌々月', 2
 ActionMailer::Base.delivery_method = :sendmail
 SYSTEM_MAIL_ADDRESS = "donotreply@nu-chon.org"
 HIGHLIGHT_DURATION = '1.0'
-PULSATE_DURATION = '1.0'
+PULSATE_DURATION = 300
+PULSATE_TIMES = 3
 FADE_DURATION = 300
 

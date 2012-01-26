@@ -15,5 +15,5 @@ else
   end
   page.replace_html id, error_str
 end
-page << "$('##{id}').effect('pulsate', { times:3 }, #{PULSATE_DURATION.to_i * 400});"
+page << "$('##{id}').effect('pulsate', { times:#{PULSATE_TIMES} }, #{PULSATE_DURATION});"
 page << after if after
