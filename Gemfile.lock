@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/kaznum/jquery-rjs.git
+  revision: 799c27f133101be942e7dcfbac182ae0c4995f0d
+  specs:
+    jquery-rjs (0.1.1)
+      jquery-rails
+      rails (~> 3.1)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -131,7 +139,7 @@ GEM
       net-ssh (>= 1.99.1)
     nokogiri (1.5.0)
     polyglot (0.3.3)
-    rack (1.4.0)
+    rack (1.4.1)
     rack-cache (1.1)
       rack (>= 0.4)
     rack-ssl (1.3.2)
@@ -244,6 +252,7 @@ DEPENDENCIES
   guard-spork
   haml-rails
   jquery-rails
+  jquery-rjs!
   launchy
   mysql2 (~> 0.3.10)
   rails (= 3.2.0)
