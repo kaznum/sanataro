@@ -597,7 +597,7 @@ class EntriesController < ApplicationController
           CommonUtil.separate_by_comma(item.amount) + _('yen')
 
         if item.action_date >= display_from_date && item.action_date <= display_to_date
-          page.highlight('#item_' + item.id.to_s + ' div')
+          page.highlight("#item_#{item.id} div")
         end
       end
     else # action_dateが変わり、なおかつ、未来の残高調整が同月に存在するばあい
