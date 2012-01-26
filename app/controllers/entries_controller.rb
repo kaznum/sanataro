@@ -213,9 +213,7 @@ class EntriesController < ApplicationController
             page.insert_html :bottom, :items, partial: 'item', locals: { event_item: it }
           end
           page.insert_html :bottom, :items, :partial=>'remains_link'
-          page.select('#item_' + item.id.to_s + ' div').each do |etty|
-            etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
-          end
+          page.highlight("#item_#{item.id} div")
         end
       end
     end
@@ -432,24 +430,20 @@ class EntriesController < ApplicationController
         page.replace_html :warning, _('Item was deleted successfully.') + ' ' +
           item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' +
           CommonUtil.separate_by_comma(item.amount) + _('yen')
-
-        page.visual_effect :fade, "item_#{item.id}", :duration => FADE_DURATION
-        page.delay(3.seconds) do
-          page.remove "item_#{item.id}"
-        end
+        page.fadeout_and_remove("#item_#{item.id}")
+        
         if from_adj_item &&
             from_adj_item.action_date >= Date.new(display_year, display_month) &&
             from_adj_item.action_date <= Date.new(display_year, display_month).end_of_month
           page.replace "item_#{from_adj_item.id}", partial: 'item', locals: { event_item: from_adj_item }
-          page.visual_effect :highlight, "item_#{from_adj_item.id}", :duration => HIGHLIGHT_DURATION
+          page.highlight('#item_#{from_adj_item.id}')
         end
 
         if to_adj_item &&
             to_adj_item.action_date >= Date.new(display_year, display_month) &&
             to_adj_item.action_date <= Date.new(display_year, display_month).end_of_month
           page.replace "item_#{to_adj_item.id}", partial: 'item', locals: { event_item: to_adj_item }
-          page.visual_effect :highlight, "item_#{to_adj_item.id}", :duration => HIGHLIGHT_DURATION
-
+          page.highlight('#item_#{to_adj_item.id}')
         end
 
         #クレジットカード処理
@@ -603,9 +597,7 @@ class EntriesController < ApplicationController
           CommonUtil.separate_by_comma(item.amount) + _('yen')
 
         if item.action_date >= display_from_date && item.action_date <= display_to_date
-          page.select('#item_' + item.id.to_s + ' div').each do |etty|
-            etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
-          end
+          page.highlight('#item_' + item.id.to_s + ' div')
         end
       end
     else # action_dateが変わり、なおかつ、未来の残高調整が同月に存在するばあい
@@ -620,9 +612,7 @@ class EntriesController < ApplicationController
         page[:warning].set_style :color=>'blue'
         page.replace_html :warning, _('Item was changed successfully.') + ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' + CommonUtil.separate_by_comma(item.amount) + _('yen')
         if item.action_date >= display_from_date && item.action_date <= display_to_date
-          page.select('#item_' + item.id.to_s + ' div').each do |etty|
-            etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
-          end
+          page.highlight('#item_' + item.id.to_s + ' div')
         end
       end
     end

@@ -35,19 +35,10 @@ module ApplicationHelper
 
   
   def fadeout_and_remove(selector)
-    # 表示されていない可能性があるため、Collection Proxyを利用する
-    self.select(selector).each do |etty|
-      etty.visual_effect :fade, :duration => FADE_DURATION
-    end
-    self.select(selector).each do |etty|
-      self.delay(3.seconds) do
-        etty.remove
-      end
-    end
+    page << "jQuery('#{selector}').fadeOut(#{FADE_DURATION.to_f * 1000}, function() { this.remove(); });"
   end
 
   def highlight(selector)
-    debugger
     self.select(selector).each do |etty|
       etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
     end
