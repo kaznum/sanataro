@@ -2,9 +2,11 @@ converter = lambda { |page, q, inblock=false|
 
   args = []
   if q[:command] == :set_style
-    page << "$('#{q[:id]}').css('color': '#{q[:color]}');"
+    page << "$('##{q[:id]}').css({'color': '#{q[:color]}'});"
   elsif q[:command] == :plain
     page << q[:body]
+  elsif q[:command] == :highlight
+    page.highlight("##{q[:id]}")
   else
     case q[:command]
     when :replace_html

@@ -282,8 +282,8 @@ class EntriesController < ApplicationController
   def renderer_queues_for_create_entry_simple(item)
     ques = []
     ques += renderer_queues_for_info(:warning, _('Item was added successfully.') + ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' + CommonUtil.separate_by_comma(item.amount) + _('yen'))
-    ques += renderer_queues_for_plain("$('do_add_item').item_name.value = ''")
-    ques += renderer_queues_for_plain("$('do_add_item').amount.value = ''")
+    ques += renderer_queues_for_plain("$('#do_add_item [name=item_name]').val('')")
+    ques += renderer_queues_for_plain("$('#do_add_item [name=amount]').val('')")
     ques += renderer_queues_for_clear_content(:candidates)
     ques
   end
@@ -299,9 +299,9 @@ class EntriesController < ApplicationController
                                      ' ' +
                                      CommonUtil.separate_by_comma(item.amount) +
                                      _('yen')) +
-      renderer_queues_for_plain("$('do_add_item').item_name.value = ''") +
-      renderer_queues_for_plain("$('do_add_item').amount.value = ''") +
-      renderer_queues_for_plain("$('do_add_item').tag_list.value = ''")
+      renderer_queues_for_plain("$('#do_add_item [name=item_name]').val('');") +
+      renderer_queues_for_plain("$('#do_add_item [name=amount]').val('');")
+      renderer_queues_for_plain("$('#do_add_item' [name=tag_list]).val('');")
     if item.action_date.beginning_of_month == @display_year_month
       ques += renderer_queues_for_clear_content(:items)
       ques += renderer_queues_for_all_items(:items, items)
@@ -321,12 +321,7 @@ class EntriesController < ApplicationController
   end
 
   def renderer_queues_for_highlight(id, selector=nil)
-    highlight_command = { :command => :visual_effect, :effect => :highlight, :id => id, :duration => HIGHLIGHT_DURATION }
-    if selector
-      [{ :command => :select, :id => selector, :blocks => [highlight_command]}]
-    else
-      [highlight_command]
-    end
+    [{ :command => :highlight, :id => id }]
   end
   
   def _get_action_year_month_day_from_params
