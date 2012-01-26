@@ -71,7 +71,7 @@ if defined?(JRUBY_VERSION)
 else
   gem "mysql2", "~> 0.3.10"
 end
-gem 'prototype-rails', "~> 3.2.0"
+gem 'jquery-rails'
 
 group :assets do
   gem 'sass-rails', "~> 3.2.3"

@@ -1,8 +1,5 @@
-//= require prototype
-//= require prototype_ujs
-//= require effects
-//= require dragdrop
-//= require controls
+//= require jquery
+//= require jquery_ujs
 //= require html_escape
 //= require add_figure
 //= require_self
