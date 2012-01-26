@@ -494,42 +494,15 @@ class EntriesController < ApplicationController
     old_future_adj = Item.future_adjustment(@user, old_action_date, old_to_id, item.id)
     new_future_adj = Item.future_adjustment(@user, item.action_date, item.to_account_id, item.id)
 
-    # 表示処理
-    unless old_action_date == item.action_date &&
-        ((old_future_adj.nil? && new_future_adj.nil?)||
-         old_future_adj && new_future_adj &&
-         old_future_adj.id == new_future_adj.id &&
-         old_future_adj.to_account_id == new_future_adj.to_account_id )
-      items = _get_items(display_year, display_month)
-    end
+    items = _get_items(display_year, display_month)
 
     render :update do |page|
-      #日付に変更がなく、未来のadjustmentが存在しないか
-      #もしくは、存在するが、to_account_idに変更がなく、
-      # 表示中の月と同一月の場合
-      #
-      if old_action_date == item.action_date &&
-          ((old_future_adj.nil? && new_future_adj.nil?)||
-           old_future_adj && new_future_adj &&
-           old_future_adj.id == new_future_adj.id &&
-           old_future_adj.to_account_id == new_future_adj.to_account_id )
-
-        page.replace "item_#{item.id}", partial: 'item', locals: { event_item: item }
-
-        if new_future_adj && new_future_adj.action_date <= Date.new(display_year, display_month).end_of_month &&
-            old_future_adj.action_date.beginning_of_month == Date.new(display_year, display_month)
-          page.replace "item_#{new_future_adj.id}", partial: 'item', locals: { event_item: new_future_adj }
-        end
-      else
-        page.replace_html :items,''
-        items.each do |it|
-          page.insert_html :bottom, :items, partial: 'item', locals: { event_item: it }
-        end
-        page.insert_html :bottom, :items, :partial => 'remains_link'
-
+      page.replace_html :items,''
+      items.each do |it|
+        page.insert_html :bottom, :items, partial: 'item', locals: { event_item: it }
       end
+      page.insert_html :bottom, :items, :partial => 'remains_link'
 
-      # 変更された未来のadjustmentのハイライト表示
       selectors = []
       if old_future_adj && new_future_adj
         if old_future_adj.id == new_future_adj.id # to_account_idがかわっていない
@@ -543,6 +516,7 @@ class EntriesController < ApplicationController
       elsif new_future_adj
         selectors << "#item_#{new_future_adj.id} div"
       end
+      
       selectors << "#item_#{item.id} div"
 
       selectors.each do |s|
