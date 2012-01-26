@@ -27,8 +27,6 @@
     /[if lte IE 8] 
       = javascript_include_tag "flot/excanvas.min.js"
     = javascript_include_tag "flot"
-    :javascript
-      jQuery.noConflict();
     %body
     .header
       - if params[:action] == 'add_item_only_input'

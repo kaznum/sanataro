@@ -1,10 +1,10 @@
 exports = this
 exports.copy_item = (name, from, to, amount) ->
-  $('do_add_item').item_name.value = name
-  $('do_add_item').from.value = from
-  $('do_add_item').to.value = to
-  $('do_add_item').amount.value = amount
-  Element.update('candidates', '')
+  $('#do_add_item #item_name').val(name)
+  $('#do_add_item #from').val(from)
+  $('#do_add_item #to').val(to)
+  $('#do_add_item #amount').val(amount)
+  $('#candidates').html('')
 
 
 exports.observerAddItemOnlyInput = (token) ->

@@ -1,6 +1,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require jquery.utils
 //= require html_escape
 //= require add_figure
 //= require_self
