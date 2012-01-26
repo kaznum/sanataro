@@ -1,11 +1,12 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
-//= require jquery.utils
 //= require html_escape
 //= require add_figure
 //= require_self
+//= require jquery.utils
 //= require add_item_input_only
+//= require entries
 
 function _view_remainsLink() {
   return "<div id='remains' class='item_remains'><a onclick=\"new Ajax.Request('/main/remaining_items.json', {asynchronous:true, evalScripts:true, onComplete:cb_showRemainingItems}); return false;\" href=\"#\">>> すべて表示する</a></div>";
