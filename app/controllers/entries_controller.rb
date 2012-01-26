@@ -233,7 +233,6 @@ class EntriesController < ApplicationController
     Item.transaction do
       year, month, day = _get_action_year_month_day_from_params
       name  = params[:item_name]
-      amount = 0
       only_add = params[:only_add]
       from  = params[:from].to_i
       to  = params[:to].to_i
