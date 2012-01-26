@@ -519,11 +519,7 @@ class EntriesController < ApplicationController
       
       selectors << "#item_#{item.id} div"
 
-      selectors.each do |s|
-        page.select(s).each do |etty|
-          etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
-        end
-      end
+      selectors.each { |s| page.highlight(s) }
 
       page[:warning].set_style :color => 'blue'
       page.replace_html :warning, _('Item was changed successfully.') +

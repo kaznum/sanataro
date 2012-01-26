@@ -11,4 +11,11 @@ class ActionView::Helpers::PrototypeHelper::JavaScriptGenerator
       end
     end
   end
+
+  def hightlight(selector)
+    self.select(s).each do |etty|
+      etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
+    end
+  end
+  
 end
