@@ -33,14 +33,11 @@ module ApplicationHelper
     @view_cached_today ||= Date.today
   end
 
-  
   def fadeout_and_remove(selector)
-    page << "jQuery('#{selector}').fadeOut(#{FADE_DURATION.to_f * 1000}, function() { this.remove(); });"
+    page << "jQuery('#{selector}').fadeOut(#{FADE_DURATION}, function() { this.remove(); });"
   end
 
   def highlight(selector)
-    self.select(selector).each do |etty|
-      etty.visual_effect :highlight, :duration => HIGHLIGHT_DURATION
-    end
+    page << "$(\"#{selector}\").fadeOut(#{FADE_DURATION}).fadeIn(#{FADE_DURATION});"
   end
 end
