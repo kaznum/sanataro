@@ -5,8 +5,7 @@ before = @error_rjs_params[:before]
 after = @error_rjs_params[:after]
 
 page << before if before
-
-page[id].set_style :color => 'red'
+page << "$('##{id}').css({'color': 'red'});"
 if errors.nil? || errors.empty?
   page.replace_html id, default_msg
 else
@@ -16,6 +15,5 @@ else
   end
   page.replace_html id, error_str
 end
-page.visual_effect :pulsate, id, :duration => PULSATE_DURATION
-
+page << "$('##{id}').effect('pulsate', { times:3 }, #{PULSATE_DURATION.to_i * 400});"
 page << after if after
