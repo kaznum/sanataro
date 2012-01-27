@@ -138,8 +138,9 @@ class EntriesController < ApplicationController
 
 
   private
-  #### PRIVATE ###########
-  # 収支の登録
+
+  # this method is called when a link in the field of adding adjustment
+  # which switches to the regular item new entry input.
   def _new_entry
     item = Item.new
     if params[:year].blank? || params[:month].blank? || today.beginning_of_month == Date.new(params[:year].to_i, params[:month].to_i)
@@ -152,9 +153,8 @@ class EntriesController < ApplicationController
     render "add_item"
   end
 
-  #
-  # 残高調整の登録入力
-  #
+  # this method is called when a link in the field of adding regular item
+  # which switches to the adjustment item new entry input.
   def _new_adjustment
     @action_date = _get_date_by_specific_year_and_month_or_today(params[:year], params[:month])
     render "add_adjustment"
@@ -171,9 +171,6 @@ class EntriesController < ApplicationController
     action_date || today
   end
   
-  #
-  # exec adding adjustment
-  #
   def _create_adjustment
     item = nil
     display_year = params[:year].to_i
@@ -448,10 +445,6 @@ class EntriesController < ApplicationController
     end # transaction
   end
 
-  
-  #
-  # 残高調整の変更実行処理
-  #
   def _update_adjustment
     item_id = params[:id].to_i
     item = @user.items.find_by_id(item_id)
@@ -522,9 +515,6 @@ class EntriesController < ApplicationController
     render_rjs_error :id => "item_warning_#{item.id}", :errors => ex.message.split(",").map(&:strip), :default_message =>  _('Input value is incorrect.')
   end
 
-  #
-  # Store item info to DB
-  #
   def _update_item
     item_id = params[:id].to_i
     @item = item = @user.items.find(item_id)
