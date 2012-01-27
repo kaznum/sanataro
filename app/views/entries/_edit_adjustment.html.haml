@@ -13,5 +13,4 @@
       = link_to 'キャンセル', entry_path(params[:year].to_i, params[:month].to_i, item.id), :remote => true, :method => :get, :before => "$('item_operation_#{item.id}').hide();$('item_operation_loading_#{item.id}').show();"
     %span{:id => "item_operation_loading_#{h item.id}", :style => "display:none;"}= image_tag "loading.gif", :alt => "loading..."
     = hidden_field_tag 'entry_type', 'adjustment'
-  %br/
   %span.warning{:id => "item_warning_#{item.id}"}
