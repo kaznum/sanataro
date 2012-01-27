@@ -1,0 +1,3 @@
+:plain
+  $("#account_status").html("#{escape_javascript(render partial: 'index', locals: {:account_statuses => @account_statuses })}");
+  $("#account_status_body").slideDown(#{SLIDE_DURATION});

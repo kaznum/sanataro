@@ -1,2 +1,0 @@
-page.replace_html :account_status, :partial => 'index', :locals => { :account_statuses => @account_statuses }
-page << "$(\"#account_status_body\").slideDown(#{SLIDE_DURATION});"
