@@ -172,7 +172,6 @@ class EntriesController < ApplicationController
   end
   
   def _create_adjustment
-    item = nil
     display_year = params[:year].to_i
     display_month = params[:month].to_i
     @display_year_month = Date.new(display_year, display_month)
@@ -187,31 +186,29 @@ class EntriesController < ApplicationController
       # すでに同日かつ同account_idの残高調整が存在しないかチェックし、存在する場合は削除する
       prev_adj = @user.items.find_by_to_account_id_and_action_date_and_is_adjustment(to_account_id, action_date, true)
       _do_delete_item(prev_adj.id) if prev_adj
-
       
-      item, ignored =
+      item, influenced_items =
         Teller.create_entry(user: @user, action_date: action_date, name: 'Adjustment',
                             from_account_id: -1, to_account_id: to_account_id,
                             is_adjustment: true, tag_list: params[:tag_list],
                             adjustment_amount: adjustment_amount)
-      @item = item
-      
-      if item.action_date.beginning_of_month == Date.new(display_year, display_month)
-        items = _get_items(item.action_date.year, item.action_date.month)
-      end
 
+      items = _get_items(item.action_date.year, item.action_date.month)
       render :update do |page|
-
         page << '$("#warning").css({"color":"blue"});'
         page.replace_html :warning, _('Item was added successfully.') + ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + _('Adjustment') + ' ' + CommonUtil.separate_by_comma(item.adjustment_amount) + _('yen')
-        if item.action_date.beginning_of_month == Date.new(display_year, display_month)
-          page.replace_html :items, ''
-          items.each do |it|
-            page.insert_html :bottom, :items, partial: 'item', locals: { event_item: it }
-          end
-          page.insert_html :bottom, :items, :partial=>'remains_link'
-          page.highlight("#item_#{item.id} div")
+        
+        page.replace_html :items, ''
+        items.each do |it|
+          page.insert_html :bottom, :items, partial: 'item', locals: { event_item: it }
         end
+        page.insert_html :bottom, :items, :partial=>'remains_link'
+        
+        page.highlight("#item_#{item.id} div")
+        influenced_items.each do |it|
+          page.highlight("#item_#{it.id} div")
+        end
+        page << "$('#do_add_item #adjustment_amount').val('');"
       end
     end
   rescue SyntaxError
@@ -226,7 +223,6 @@ class EntriesController < ApplicationController
   # exec adding item.
   #
   def _create_entry
-    item = nil
     Item.transaction do
       year, month, day = _get_action_year_month_day_from_params
       name  = params[:item_name]
@@ -244,10 +240,8 @@ class EntriesController < ApplicationController
       amount = Item.calc_amount(params[:amount])
 
       item, affected_items =
-        Teller.create_entry(:user => @user,
-                            :name => name,
-                            :from_account_id => from.to_i,
-                            :to_account_id => to.to_i,
+        Teller.create_entry(:user => @user, :name => name,
+                            :from_account_id => from.to_i, :to_account_id => to.to_i,
                             :amount => amount,
                             :action_date => Date.new(year,month,day),
                             :confirmation_required => confirmation_required,
@@ -265,7 +259,7 @@ class EntriesController < ApplicationController
         
         @renderer_queues += renderer_queues_for_create_entry(item, @items)
       end
-    end # transaction
+    end
     render "common/rjs_queue_renderer", :handlers => [:rjs]
   rescue InvalidDate
     render_rjs_error :id => "warning", :default_message => "日付が不正です。"
@@ -413,33 +407,25 @@ class EntriesController < ApplicationController
       deleted_item, from_adj_item, to_adj_item = result_of_delete[:itself]
       deleted_child_item, from_adj_child, to_adj_child = result_of_delete[:child]
 
-      # 以下、表示処理
-      # 残高調整の更新も行われた場合は、一覧全体を再描画する。
-      render :update do |page|
+      updated_items = []
+      deleted_items = []
+      updated_items << from_adj_item if from_adj_item
+      updated_items << to_adj_item if to_adj_item
+      updated_items << from_adj_child if from_adj_child
+      updated_items << to_adj_child if to_adj_child
+      deleted_items << deleted_child_item if deleted_child_item
+      deleted_items << item
 
+      render :update do |page|
+        deleted_items.each {|it| page.fadeout_and_remove("#item_#{it.id}") }
         page << '$("#warning").css({"color":"blue"});'
         page.replace_html :warning, _('Item was deleted successfully.') + ' ' +
           item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' +
           CommonUtil.separate_by_comma(item.amount) + _('yen')
-        page.fadeout_and_remove("#item_#{item.id}")
-        
-        if from_adj_item &&
-            from_adj_item.action_date >= Date.new(display_year, display_month) &&
-            from_adj_item.action_date <= Date.new(display_year, display_month).end_of_month
-          page.replace "item_#{from_adj_item.id}", partial: 'item', locals: { event_item: from_adj_item }
-          page.highlight('#item_#{from_adj_item.id}')
-        end
 
-        if to_adj_item &&
-            to_adj_item.action_date >= Date.new(display_year, display_month) &&
-            to_adj_item.action_date <= Date.new(display_year, display_month).end_of_month
-          page.replace "item_#{to_adj_item.id}", partial: 'item', locals: { event_item: to_adj_item }
-          page.highlight('#item_#{to_adj_item.id}')
-        end
-
-        #クレジットカード処理
-        if deleted_child_item
-          page.fadeout_and_remove("#item_#{deleted_child_item.id}")
+        updated_items.each do |it|
+          page.replace "item_#{it.id}", partial: 'item', locals: { event_item: it }
+          page.highlight("#item_#{it.id} div")
         end
       end
     end # transaction
@@ -481,20 +467,8 @@ class EntriesController < ApplicationController
     influenced_items << item
     
     items = _get_items(display_year, display_month)
-    
-    render :update do |page|
-      page.replace_html :items,''
-      items.each do |it|
-        page.insert_html :bottom, :items, partial: 'item', locals: { event_item: it }
-      end
-      page.insert_html :bottom, :items, :partial => 'remains_link'
-      
-      page << '$("#warning").css({"color":"blue"});'
-      page.replace_html :warning, _('Item was changed successfully.') +
-        ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + _('Adjustment') + ' ' +
-        CommonUtil.separate_by_comma(item.adjustment_amount) + _('yen')
-      influenced_items.map(&:id).uniq.each { |id| page.highlight("#item_#{id} div") }
-    end
+
+    render "update_adjustment", locals: { item: item, items: items, updated_items: influenced_items }
   rescue InvalidDate
     render_rjs_error(:id => "item_warning_#{item.id}", :errors => nil, :default_message => "日付が不正です。")
   rescue SyntaxError

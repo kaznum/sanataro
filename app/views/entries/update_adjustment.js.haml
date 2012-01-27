@@ -1,0 +1,14 @@
+:plain
+  $("#items").html('');
+- items.each do |it|
+  :plain
+    $("#items").append("#{ escape_javascript(render partial: "item", locals: {event_item: it}) }");
+:plain
+  $("#items").append("#{ escape_javascript(render partial: "remains_link") }");
+  $("#warning").css({"color":"blue"});
+  $("#warning").html("#{ escape_javascript(_('Item was changed successfully.') + ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + _('Adjustment') + ' ' + CommonUtil.separate_by_comma(item.adjustment_amount) + _('yen') ) }");
+
+- updated_items.map(&:id).uniq.each do |id|
+  :plain
+    $("#item_#{id} div").effect("highlight", {color: '#{ HIGHLIGHT_COLOR }'}, #{ HIGHLIGHT_DURATION });
+
