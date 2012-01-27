@@ -393,11 +393,6 @@ class EntriesController < ApplicationController
     ques
   end
 
-  
-
-  #
-  # アイテムの削除実行
-  #
   def _destroy_regular_item(item)
     display_year = params[:year].to_i
     display_month = params[:month].to_i
@@ -409,26 +404,11 @@ class EntriesController < ApplicationController
 
       updated_items = []
       deleted_items = []
-      updated_items << from_adj_item if from_adj_item
-      updated_items << to_adj_item if to_adj_item
-      updated_items << from_adj_child if from_adj_child
-      updated_items << to_adj_child if to_adj_child
-      deleted_items << deleted_child_item if deleted_child_item
-      deleted_items << item
+      updated_items << from_adj_item << to_adj_item << from_adj_child << to_adj_child
+      deleted_items << deleted_child_item << item
 
-      render :update do |page|
-        deleted_items.each {|it| page.fadeout_and_remove("#item_#{it.id}") }
-        page << '$("#warning").css({"color":"blue"});'
-        page.replace_html :warning, _('Item was deleted successfully.') + ' ' +
-          item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' +
-          CommonUtil.separate_by_comma(item.amount) + _('yen')
-
-        updated_items.each do |it|
-          page.replace "item_#{it.id}", partial: 'item', locals: { event_item: it }
-          page.highlight("#item_#{it.id} div")
-        end
-      end
-    end # transaction
+      render "destroy_item", locals: { item: item, deleted_items: deleted_items.reject(&:nil?), updated_items: updated_items.reject(&:nil?) }
+    end
   end
 
   def _update_adjustment
@@ -447,7 +427,6 @@ class EntriesController < ApplicationController
       item.reload
       
       item.year, item.month, item.day = _get_action_year_month_day_from_params
-
       item.to_account_id  = params[:to].to_i
       item.tag_list = params[:tag_list]
       item.user_id = item.user.id
@@ -461,14 +440,12 @@ class EntriesController < ApplicationController
     old_future_adj = Item.future_adjustment(@user, old_action_date, old_to_id, item.id)
     new_future_adj = Item.future_adjustment(@user, item.action_date, item.to_account_id, item.id)
 
-    influenced_items = []
-    influenced_items << old_future_adj if old_future_adj
-    influenced_items << new_future_adj if new_future_adj
-    influenced_items << item
+    updated_items = []
+    updated_items << old_future_adj << new_future_adj << item
     
     items = _get_items(display_year, display_month)
 
-    render "update_adjustment", locals: { item: item, items: items, updated_items: influenced_items }
+    render "update_adjustment", locals: { item: item, items: items, updated_items: updated_items.reject(&:nil?) }
   rescue InvalidDate
     render_rjs_error(:id => "item_warning_#{item.id}", :errors => nil, :default_message => "日付が不正です。")
   rescue SyntaxError
@@ -500,14 +477,10 @@ class EntriesController < ApplicationController
     display_to_date = display_from_date.end_of_month
     # could raise SyntaxError
     item.amount = Item.calc_amount(params[:amount])
-
-    influenced_items = []
+    
     # get items which could be updated
     old_from_item_adj = Item.future_adjustment(@user, old_action_date, old_from_id, item.id)
     old_to_item_adj = Item.future_adjustment(@user, old_action_date, old_to_id, item.id)
-
-    influenced_items << old_from_item_adj if old_from_item_adj
-    influenced_items << old_to_item_adj if old_to_item_adj
 
     deleted_child_item = item.child_item
     if deleted_child_item
@@ -515,10 +488,6 @@ class EntriesController < ApplicationController
       to_adj_credit = Item.future_adjustment(@user, deleted_child_item.action_date, deleted_child_item.to_account_id, deleted_child_item.id)
     end
 
-    influenced_items << deleted_child_item if deleted_child_item
-    influenced_items << from_adj_credit if from_adj_credit
-    influenced_items << to_adj_credit if to_adj_credit
-    
     Item.transaction do
       item.save!
     end
@@ -529,27 +498,15 @@ class EntriesController < ApplicationController
                                          item.to_account_id, item.id)
     credit_item = item.child_item
 
-    influenced_items << from_item_adj if from_item_adj
-    influenced_items << to_item_adj if to_item_adj
-    influenced_items << credit_item if credit_item
-    
-    # 以下、表示処理
-    #日付に変更がない場合は、並び順が変わらないため、当該アイテムのみ表示を変更する。
+    updated_items = []
+    updated_items << old_from_item_adj << old_to_item_adj 
+    updated_items << deleted_child_item << from_adj_credit << to_adj_credit
+    updated_items << from_item_adj << to_item_adj << credit_item
+    updated_items << item
+
     items = _get_items(display_year, display_month)
-    render :update do |page|
-      page.replace_html :items, ''
-      items.each do |it|
-        page.insert_html :bottom, :items, partial: 'item', locals: { event_item: it }
-      end
-      page.insert_html :bottom, :items, :partial=>'remains_link'
-      page << '$("#warning").css({color: "blue"});'
-      page.replace_html :warning, _('Item was changed successfully.') + ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' + CommonUtil.separate_by_comma(item.amount) + _('yen')
-      
-      influenced_items << item
-      influenced_items.map(&:id).uniq.each do |id|
-        page.highlight("#item_#{id} div")
-      end
-    end
+
+    render "update_adjustment", locals: { item: item, items: items, updated_items: updated_items.reject(&:nil?) }
   rescue InvalidDate
     render_rjs_error :id => "item_warning_#{@item.id}", :errors => nil, :default_message => "日付が不正です。"
   rescue SyntaxError
