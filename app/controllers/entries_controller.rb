@@ -470,42 +470,30 @@ class EntriesController < ApplicationController
 
       item.save!
     end
-    
-    @item = item
+    item.reload
+
     old_future_adj = Item.future_adjustment(@user, old_action_date, old_to_id, item.id)
     new_future_adj = Item.future_adjustment(@user, item.action_date, item.to_account_id, item.id)
 
+    influenced_items = []
+    influenced_items << old_future_adj if old_future_adj
+    influenced_items << new_future_adj if new_future_adj
+    influenced_items << item
+    
     items = _get_items(display_year, display_month)
-
+    
     render :update do |page|
       page.replace_html :items,''
       items.each do |it|
         page.insert_html :bottom, :items, partial: 'item', locals: { event_item: it }
       end
       page.insert_html :bottom, :items, :partial => 'remains_link'
-
-      selectors = []
-      if old_future_adj && new_future_adj
-        if old_future_adj.id == new_future_adj.id # to_account_idがかわっていない
-          selectors << "#item_#{old_future_adj.id} div"
-        else
-          selectors << "#item_#{old_future_adj.id} div"
-          selectors << "#item_#{new_future_adj.id} div"
-        end
-      elsif old_future_adj
-        selectors << "#item_#{old_future_adj.id} div"
-      elsif new_future_adj
-        selectors << "#item_#{new_future_adj.id} div"
-      end
       
-      selectors << "#item_#{item.id} div"
-
-      selectors.each { |s| page.highlight(s) }
-
       page << '$("#warning").css({"color":"blue"});'
       page.replace_html :warning, _('Item was changed successfully.') +
         ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + _('Adjustment') + ' ' +
         CommonUtil.separate_by_comma(item.adjustment_amount) + _('yen')
+      influenced_items.map(&:id).uniq.each { |id| page.highlight("#item_#{id} div") }
     end
   rescue InvalidDate
     render_rjs_error(:id => "item_warning_#{item.id}", :errors => nil, :default_message => "日付が不正です。")
@@ -539,15 +527,23 @@ class EntriesController < ApplicationController
     # could raise SyntaxError
     item.amount = Item.calc_amount(params[:amount])
 
+    influenced_items = []
     # get items which could be updated
     old_from_item_adj = Item.future_adjustment(@user, old_action_date, old_from_id, item.id)
     old_to_item_adj = Item.future_adjustment(@user, old_action_date, old_to_id, item.id)
+
+    influenced_items << old_from_item_adj if old_from_item_adj
+    influenced_items << old_to_item_adj if old_to_item_adj
 
     deleted_child_item = item.child_item
     if deleted_child_item
       from_adj_credit = Item.future_adjustment(@user, deleted_child_item.action_date, deleted_child_item.from_account_id, deleted_child_item.id)
       to_adj_credit = Item.future_adjustment(@user, deleted_child_item.action_date, deleted_child_item.to_account_id, deleted_child_item.id)
     end
+
+    influenced_items << deleted_child_item if deleted_child_item
+    influenced_items << from_adj_credit if from_adj_credit
+    influenced_items << to_adj_credit if to_adj_credit
     
     Item.transaction do
       item.save!
@@ -558,6 +554,10 @@ class EntriesController < ApplicationController
     to_item_adj = Item.future_adjustment(@user, item.action_date,
                                          item.to_account_id, item.id)
     credit_item = item.child_item
+
+    influenced_items << from_item_adj if from_item_adj
+    influenced_items << to_item_adj if to_item_adj
+    influenced_items << credit_item if credit_item
     
     # 以下、表示処理
     #日付に変更がない場合は、並び順が変わらないため、当該アイテムのみ表示を変更する。
@@ -568,9 +568,13 @@ class EntriesController < ApplicationController
         page.insert_html :bottom, :items, partial: 'item', locals: { event_item: it }
       end
       page.insert_html :bottom, :items, :partial=>'remains_link'
-
+      page << '$("#warning").css({color: "blue"});'
       page.replace_html :warning, _('Item was changed successfully.') + ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' + CommonUtil.separate_by_comma(item.amount) + _('yen')
-      page.highlight('#item_' + item.id.to_s + ' div')
+      
+      influenced_items << item
+      influenced_items.map(&:id).uniq.each do |id|
+        page.highlight("#item_#{id} div")
+      end
     end
   rescue InvalidDate
     render_rjs_error :id => "item_warning_#{@item.id}", :errors => nil, :default_message => "日付が不正です。"
