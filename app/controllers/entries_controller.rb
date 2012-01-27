@@ -548,7 +548,6 @@ class EntriesController < ApplicationController
       from_adj_credit = Item.future_adjustment(@user, deleted_child_item.action_date, deleted_child_item.from_account_id, deleted_child_item.id)
       to_adj_credit = Item.future_adjustment(@user, deleted_child_item.action_date, deleted_child_item.to_account_id, deleted_child_item.id)
     end
-
     
     Item.transaction do
       item.save!
@@ -562,42 +561,16 @@ class EntriesController < ApplicationController
     
     # 以下、表示処理
     #日付に変更がない場合は、並び順が変わらないため、当該アイテムのみ表示を変更する。
-    
-    if (old_action_date == item.action_date &&
-        (old_from_item_adj.nil? ||
-         old_from_item_adj.action_date < display_from_date || old_from_item_adj.action_date > display_to_date) &&
-        (old_to_item_adj.nil? ||
-         old_to_item_adj.action_date < display_from_date || old_to_item_adj.action_date > display_to_date ) &&
-        (from_item_adj.nil? ||
-         from_item_adj.action_date < display_from_date || from_item_adj.action_date > display_to_date ) &&
-        (to_item_adj.nil? ||
-         to_item_adj.action_date < display_from_date || to_item_adj.action_date > display_to_date ))
-
-      render :update do |page|
-        page.replace 'item_' + item.id.to_s, partial: 'item', locals: { event_item: item }
-        page << '$("#warning").css({"color":"blue"});'
-        page.replace_html :warning, _('Item was changed successfully.') +
-          ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' +
-          CommonUtil.separate_by_comma(item.amount) + _('yen')
-
-        if item.action_date >= display_from_date && item.action_date <= display_to_date
-          page.highlight("#item_#{item.id} div")
-        end
+    items = _get_items(display_year, display_month)
+    render :update do |page|
+      page.replace_html :items, ''
+      items.each do |it|
+        page.insert_html :bottom, :items, partial: 'item', locals: { event_item: it }
       end
-    else # action_dateが変わり、なおかつ、未来の残高調整が同月に存在するばあい
-      @items = _get_items(display_year, display_month)
-      render :update do |page|
-        page.replace_html :items, ''
-        @items.each do |it|
-          page.insert_html :bottom, :items, partial: 'item', locals: { event_item: it }
-        end
-        page.insert_html :bottom, :items, :partial=>'remains_link'
+      page.insert_html :bottom, :items, :partial=>'remains_link'
 
-        page.replace_html :warning, _('Item was changed successfully.') + ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' + CommonUtil.separate_by_comma(item.amount) + _('yen')
-        if item.action_date >= display_from_date && item.action_date <= display_to_date
-          page.highlight('#item_' + item.id.to_s + ' div')
-        end
-      end
+      page.replace_html :warning, _('Item was changed successfully.') + ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' + CommonUtil.separate_by_comma(item.amount) + _('yen')
+      page.highlight('#item_' + item.id.to_s + ' div')
     end
   rescue InvalidDate
     render_rjs_error :id => "item_warning_#{@item.id}", :errors => nil, :default_message => "日付が不正です。"
