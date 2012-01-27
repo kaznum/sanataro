@@ -515,9 +515,9 @@ class EntriesController < ApplicationController
         CommonUtil.separate_by_comma(item.adjustment_amount) + _('yen')
     end
   rescue InvalidDate
-    render_rjs_error(:id => "warning", :errors => nil, :default_message => "日付が不正です。")
+    render_rjs_error(:id => "item_warning_#{item.id}", :errors => nil, :default_message => "日付が不正です。")
   rescue SyntaxError
-    render_rjs_error(:id => "warning", :errors => nil, :default_message => _("Amount is invalid."))
+    render_rjs_error(:id => "item_warning_#{item.id}", :errors => nil, :default_message => _("Amount is invalid."))
   rescue ActiveRecord::RecordInvalid => ex
     render_rjs_error :id => "item_warning_#{item.id}", :errors => ex.message.split(",").map(&:strip), :default_message =>  _('Input value is incorrect.')
   end
