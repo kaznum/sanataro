@@ -1,2 +1,0 @@
-page.visual_effect :slide_up, :confirmation_status_body, :duration => '0.2'
-page.delay(0.2) { page.replace_html :confirmation_status, :partial => 'show_blank' }
