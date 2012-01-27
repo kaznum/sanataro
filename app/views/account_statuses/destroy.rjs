@@ -1,2 +1,0 @@
-page << "$(\"#account_status_body\").slideUp(#{SLIDE_DURATION});"
-page.delay(0.2) { page.replace_html :account_status, :partial => 'entries/account_status_blank' }
