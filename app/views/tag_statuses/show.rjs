@@ -1,2 +1,0 @@
-page.replace_html :tag_status, :partial => 'show'
-page.visual_effect :slide_down, :tag_status_body, :duration => '0.2'

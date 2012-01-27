@@ -1,0 +1,4 @@
+:plain
+  $("#tag_status_body").slideUp(#{SLIDE_DURATION}, function() {
+    $("#tag_status").html("#{escape_javascript(render partial: "show_blank")}");
+  });
