@@ -8,8 +8,7 @@ describe "/account_statuses/destroy" do
   end
 
   subject {  rendered }
-  it { should =~ /\$\("#account_status_body"\)\.slideUp\(200\);/}
+  it { should =~ /\$\("#account_status_body"\)\.slideUp\(200, function\(\) {/}
   it { should =~ /\$\("#account_status"\).html\(/ }
-  it { should have_prototype_rjs_of :delay, 0.2}
 end
 
