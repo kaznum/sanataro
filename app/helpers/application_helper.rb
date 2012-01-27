@@ -38,6 +38,6 @@ module ApplicationHelper
   end
 
   def highlight(selector)
-    page << "$(\"#{selector}\").fadeOut(#{FADE_DURATION}).fadeIn(#{FADE_DURATION});"
+    page << "$(\"#{selector}\").effect(\"highlight\", {color: '#{HIGHLIGHT_COLOR}'}, #{HIGHLIGHT_DURATION});"
   end
 end
