@@ -87,7 +87,7 @@ class ApplicationController < ActionController::Base
   
   def render_rjs_error(args)
     @error_rjs_params = args
-    render 'common/error', :handlers => [:rjs]
+    render 'common/error'
   end
 
   def today

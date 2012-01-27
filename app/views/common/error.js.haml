@@ -1,0 +1,23 @@
+- id = @error_rjs_params[:id]
+- errors = @error_rjs_params[:errors]
+- default_msg = @error_rjs_params[:default_message]
+- before = @error_rjs_params[:before]
+- after = @error_rjs_params[:after]
+
+- if before
+  :plain
+    #{before}
+:plain
+  $('##{id}').css({'color': 'red'});
+  
+- if errors.blank?
+  :plain
+    $("##{id}").html("#{default_msg}");
+- else
+  :plain
+    $("##{id}").html("#{errors.to_a.join("<br/>")}");
+:plain
+  $('##{id}').effect('pulsate', { times:#{PULSATE_TIMES} }, #{PULSATE_DURATION});
+- if after
+  :plain
+    #{after}
