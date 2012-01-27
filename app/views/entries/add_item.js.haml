@@ -1,0 +1,4 @@
+:plain
+  $("#input_item_area").hide();
+  $("#input_item_area").html("#{escape_javascript(render partial: "add_item", locals: {it: @item})}");
+  $("#input_item_area").fadeIn(#{FADE_DURATION});

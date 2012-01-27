@@ -1,7 +1,0 @@
-page.visual_effect :fade, :remains, :duration => FADE_DURATION
-page.delay(2.seconds) do
-  page.remove :remains
-end
-@items.each do |item|
-  page.insert_html :bottom, :items, :partial => "item", :locals => { :event_item => item }
-end

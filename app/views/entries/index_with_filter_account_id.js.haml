@@ -1,0 +1,7 @@
+:plain
+  $("#items").html('');
+- @items.each do |item|
+  :plain
+    $("#items").append("#{escape_javascript(render partial: "item", locals: { event_item: item })}");
+:plain
+  $("#items").append("#{escape_javascript(render partial: "remains_link")}");

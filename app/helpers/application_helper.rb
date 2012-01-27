@@ -34,7 +34,7 @@ module ApplicationHelper
   end
 
   def fadeout_and_remove(selector)
-    page << "jQuery('#{selector}').fadeOut(#{FADE_DURATION}, function() { this.remove(); });"
+    page << "$('#{selector}').fadeOut(#{FADE_DURATION}, function() { $('#{selector}').remove(); });"
   end
 
   def highlight(selector)

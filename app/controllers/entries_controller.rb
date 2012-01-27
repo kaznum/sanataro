@@ -32,7 +32,7 @@ class EntriesController < ApplicationController
   def _index_with_filter_account_id
     _set_filter_account_id_to_session_from_params
     @items = _get_items(@display_year_month.year, @display_year_month.month)
-    render "index_with_filter_account_id", :handlers => [:rjs]
+    render "index_with_filter_account_id"
   end
   
   def _index_with_tag(tag)
@@ -149,7 +149,7 @@ class EntriesController < ApplicationController
     end
 
     @item = item
-    render "add_item", :handlers => [:rjs]
+    render "add_item"
   end
 
   #
@@ -157,7 +157,7 @@ class EntriesController < ApplicationController
   #
   def _new_adjustment
     @action_date = _get_date_by_specific_year_and_month_or_today(params[:year], params[:month])
-    render "add_adjustment", :handlers => [:rjs]
+    render "add_adjustment"
   end
   
   def _get_date_by_specific_year_and_month_or_today(year, month)
@@ -659,7 +659,7 @@ class EntriesController < ApplicationController
     end
     
     @items = _get_items(y, m, true, tag, mark)
-    render 'index_for_remaining', :handlers => [:rjs]
+    render 'index_for_remaining'
   end
   
   #

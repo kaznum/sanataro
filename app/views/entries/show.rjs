@@ -1,1 +1,0 @@
-page.replace 'item_' + @item.id.to_s, :partial => 'item', :locals => { :event_item => @item }

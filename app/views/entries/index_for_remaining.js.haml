@@ -1,0 +1,8 @@
+:plain
+  $("#remains").fadeOut(#{FADE_DURATION}, function() {
+    $("#remains").remove();
+  });
+- @items.each do |item|
+  :plain
+    $("#items").append("#{escape_javascript(render partial: "item", locals: { event_item: item })}");
+
