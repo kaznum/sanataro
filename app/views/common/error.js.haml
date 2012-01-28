@@ -5,19 +5,14 @@
 - after = @error_rjs_params[:after]
 
 - if before
-  :plain
-    #{before}
-:plain
-  $('##{id}').css({'color': 'red'});
+  ! #{before}
   
+! $('##{id}').css({'color': 'red'});
 - if errors.blank?
-  :plain
-    $("##{id}").html("#{default_msg}");
+  ! $("##{id}").html("#{default_msg}");
 - else
-  :plain
-    $("##{id}").html("#{errors.to_a.join("<br/>")}");
-:plain
-  $('##{id}').effect('pulsate', { times:#{PULSATE_TIMES} }, #{PULSATE_DURATION});
+  ! $("##{id}").html("#{errors.to_a.join("<br/>")}");
+! $('##{id}').effect('pulsate', { times:#{PULSATE_TIMES} }, #{PULSATE_DURATION});
+
 - if after
-  :plain
-    #{after}
+  ! #{after}
