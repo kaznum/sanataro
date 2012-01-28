@@ -1,2 +1,0 @@
-page.replace_html 'credit_relation_' + @cr.id.to_s, :partial => 'show', :locals => { :cr => @cr }
-page.replace_html :warning, ''

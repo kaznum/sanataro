@@ -17,7 +17,7 @@ class Settings::CreditRelationsController < ApplicationController
 
     if @cr.errors.empty?
       @credit_relations = @user.credit_relations.all
-      render 'create', handlers: [:rjs]
+      render 'create'
     else
       render_rjs_error :id => "warning", :errors => @cr.errors, :default_message => 'Error!!'
     end
@@ -26,15 +26,15 @@ class Settings::CreditRelationsController < ApplicationController
   def destroy
     @user.credit_relations.destroy(params[:id])
     @destroyed_id = params[:id]
-    render 'destroy', handlers: [:rjs]
+    render 'destroy'
   rescue ActiveRecord::RecordNotFound
     @credit_relations = @user.credit_relations.all
-    render "no_record", :handlers => [:rjs]
+    render "no_record"
   end
   
   def edit
     @cr = @user.credit_relations.find(params[:id])
-    render 'edit', handlers: [:rjs]
+    render 'edit'
   rescue ActiveRecord::RecordNotFound
     render_rjs_error :id => "warning", :default_errors => "データが存在しません。"
   end
@@ -46,17 +46,17 @@ class Settings::CreditRelationsController < ApplicationController
                            :settlement_day => params[:settlement_day].to_i,
                            :payment_month => params[:payment_month].to_i,
                            :payment_day => params[:payment_day].to_i)
-    render 'update', handlers: [:rjs]
+    render 'update'
   rescue ActiveRecord::RecordNotFound
     @credit_relations = @user.credit_relations.all
-    render "no_record", :handlers => [:rjs]
+    render "no_record"
   rescue ActiveRecord::RecordInvalid
     render_rjs_error :id => "edit_warning_#{@cr.id}", :errors => @cr.errors, :default_message => 'Error!!', :before => "Element.update('warning', '');"
   end
   
   def show
     @cr = @user.credit_relations.find(params[:id])
-    render "show", :handlers => [:rjs]
+    render "show"
   rescue ActiveRecord::RecordNotFound
     redirect_rjs_to settings_credit_relations_url
   end
