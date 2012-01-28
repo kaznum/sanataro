@@ -8,31 +8,31 @@
 = javascript_include_tag "linechart"
 :javascript
   $(function() {
-    jQuery.ajax({
+    $.ajax({
       url: "#{raw api_budget_path(:id => sprintf("%04d%02d", cur_year, cur_month), :format => :json)}",
       type: "GET",
       dataType: "json",
       success: function(data){ pieChart("income_chart", data); }
     });
-    jQuery.ajax({
+    $.ajax({
       url: "#{raw api_budget_path(:id => sprintf("%04d%02d", cur_year, cur_month), :budget_type => 'outgo', :format => :json)}",
       type: "GET",
       dataType: "json",
       success: function(data){ pieChart("outgo_chart", data); }
     });
-    jQuery.ajax({
+    $.ajax({
       url: "#{raw api_yearly_budget_path(:id => sprintf("%04d%02d", cur_year, cur_month), :budget_type => 'income', :format => :json)}",
       type: "GET",
       dataType: "json",
       success: function(data){ lineChart("#yearly_income_chart", "#yearly_income_chart_choices" , data); }
     });
-    jQuery.ajax({
+    $.ajax({
       url: "#{raw api_yearly_budget_path(:id => sprintf("%04d%02d", cur_year, cur_month), :budget_type => 'outgo', :format => :json)}",
       type: "GET",
       dataType: "json",
       success: function(data){ lineChart("#yearly_outgo_chart", "#yearly_outgo_chart_choices" , data); }
     });
-    jQuery.ajax({
+    $.ajax({
       url: "#{raw api_yearly_budget_path(:id => sprintf("%04d%02d", cur_year, cur_month), :budget_type => 'total', :format => :json)}",
       type: "GET",
       dataType: "json",

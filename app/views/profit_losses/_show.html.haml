@@ -3,8 +3,9 @@
   %table{:width => "600"}
     %tr
       %th{:colspan => "5"}
-        = h @separated_accounts[:all_accounts][@account_id]
-        の出納帳 (#{link_to_function '隠す', "new Effect.Fade('pl_history_#{ @account_id }', {duration: 0.3}); setTimeout(function() { Element.remove('pl_history_#{@account_id}');}, 3000);"})
+        - selector = "#pl_history_#{@account_id}"
+        = @separated_accounts[:all_accounts][@account_id]
+        の出納帳 (#{link_to_function '隠す', fadeout_and_remove(selector)})
     %tr
       %th{:width => "80px"} 日付
       %th 種別
