@@ -1,0 +1,5 @@
+= render partial: "remove_items", locals: { items: deleted_items }
+
+= render partial: "success_message", locals: { selector: "#warning", message: _('Item was deleted successfully.') + ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' +  _('Adjustment') + ' ' +  CommonUtil.separate_by_comma(item.adjustment_amount) + _('yen')}
+
+= render partial: "replace_items", locals: { items: updated_items }

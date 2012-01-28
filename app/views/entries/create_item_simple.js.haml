@@ -1,0 +1,3 @@
+= render partial: "success_message", locals: { selector: "#warning", message: _('Item was added successfully.') + ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' + CommonUtil.separate_by_comma(item.amount) + _('yen')}
+! $('#do_add_item #item_name').val('');
+! $('#do_add_item #amount').val('');

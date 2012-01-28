@@ -237,16 +237,13 @@ class EntriesController < ApplicationController
       # displaying page from here
       @renderer_queues ||= []
       if only_add
-        @renderer_queues += renderer_queues_for_create_entry_simple(item)
+        render "create_item_simple", locals: { item: item }
       else
-        if item_month == @display_year_month
-          @items = _get_items(item_month.year, item_month.month)
-        end
-        
-        @renderer_queues += renderer_queues_for_create_entry(item, @items)
+        @items = _get_items(item_month.year, item_month.month)
+        affected_items << item
+        render "create_item", locals: { item: item, items: @items, updated_items: affected_items.reject(&:nil?).uniq }
       end
     end
-    render "common/rjs_queue_renderer", :handlers => [:rjs]
   rescue InvalidDate
     render_rjs_error :id => "warning", :default_message => "日付が不正です。"
   rescue SyntaxError
@@ -316,12 +313,13 @@ class EntriesController < ApplicationController
     
     Item.transaction do
       deleted_item, f_adj, adj = _do_delete_item(item.id)[:itself]
+      deleted_items = [ deleted_item ]
+      updated_items = [f_adj, adj]
+      
 
-      # 表示処理
-      @renderer_queues = []
-      @renderer_queues += renderer_queues_for_destroy_adjustment(item, adj,display_year, display_month)
-      render 'common/rjs_queue_renderer', :handlers => [:rjs]
-    end # transaction
+      render "destroy_adjustment", locals: { item: item, deleted_items: deleted_items.reject(&:nil?).uniq, updated_items: updated_items.reject(&:nil?).uniq }
+      
+    end
   end
 
   

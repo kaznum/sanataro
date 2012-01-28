@@ -8,6 +8,9 @@ exports.copy_item = (name, from, to, amount) ->
 
 
 exports.observerAddItemOnlyInput = (token) ->
-  new Form.Element.Observer 'item_name',1, (el, v) ->
-    new Ajax.Updater 'candidates','/entry_candidates', {asynchronous:true, evalScripts:true, method:'get', parameters:'item_name='+v+'&authenticity_token='+encodeURIComponent(token)}
-
+  $("#item_name").delayedObserver () ->
+    $.ajax {
+      url: '/entry_candidates',
+      type: 'get',
+      data: { item_name: $("#item_name").val(), authenticity_token: token }
+      success: (data) -> $("#candidates").html(data) }, 0.5

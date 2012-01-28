@@ -1007,12 +1007,7 @@ describe EntriesController do
       shared_examples_for "created successfully" do
         describe "response" do 
           subject { response }
-          it { should render_template "common/rjs_queue_renderer"}
-        end
-
-        describe "@renderer_queues" do
-          subject { assigns(:renderer_queues) }
-          it { should_not be_empty }
+          it { should be_success }
         end
       end
 

@@ -1,11 +1,5 @@
-- deleted_items.each do |it|
-  :plain
-    $("#item_#{it.id}").fadeOut(#{FADE_DURATION}, function() {$("#item_#{it.id}").remove();})
-:plain
-  $("#warning").css({"color":"blue"});
-  $("#warning").html("#{ escape_javascript(_('Item was deleted successfully.') + ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' + CommonUtil.separate_by_comma(item.amount) + _('yen'))}");
-  
-- updated_items.uniq.each do |it|
-  :plain
-    $("#item_#{it.id}").replaceWith("#{escape_javascript(render partial: "item", locals: {event_item: it})}");
-    $("#item_#{it.id} div").effect("highlight", {color: '#{ HIGHLIGHT_COLOR }'}, #{ HIGHLIGHT_DURATION });
+= render partial: "remove_items", locals: { items: deleted_items }
+
+= render partial: "success_message", locals: { selector: "#warning", message: _('Item was deleted successfully.') + ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' + CommonUtil.separate_by_comma(item.amount) + _('yen') }
+
+= render partial: "replace_items", locals: { items: updated_items }
