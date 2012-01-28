@@ -232,10 +232,8 @@ class EntriesController < ApplicationController
                             :action_date => Date.new(year,month,day),
                             :confirmation_required => confirmation_required,
                             :tag_list => tag_list)
-      # 以下、表示処理
+
       item_month = Date.new(year, month, 1)
-      # displaying page from here
-      @renderer_queues ||= []
       if only_add
         render "create_item_simple", locals: { item: item }
       else
@@ -252,51 +250,6 @@ class EntriesController < ApplicationController
     render_rjs_error(:id => "warning", :errors => ex.message.split(",").map(&:strip), :default_message => _('Input value is incorrect'))
   end
 
-  def renderer_queues_for_create_entry_simple(item)
-    ques = []
-    ques += renderer_queues_for_info(:warning, _('Item was added successfully.') + ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + item.name + ' ' + CommonUtil.separate_by_comma(item.amount) + _('yen'))
-    ques += renderer_queues_for_plain("$('#do_add_item [name=item_name]').val('')")
-    ques += renderer_queues_for_plain("$('#do_add_item [name=amount]').val('')")
-    ques += renderer_queues_for_clear_content(:candidates)
-    ques
-  end
-  
-  def renderer_queues_for_create_entry(item, items)
-    ques = []
-    ques += renderer_queues_for_info(:warning,
-                                     _('Item was added successfully.') +
-                                     ' ' +
-                                     item.action_date.strftime("%Y/%m/%d") +
-                                     ' ' +
-                                     item.name +
-                                     ' ' +
-                                     CommonUtil.separate_by_comma(item.amount) +
-                                     _('yen')) +
-      renderer_queues_for_plain("$('#do_add_item [name=item_name]').val('');") +
-      renderer_queues_for_plain("$('#do_add_item [name=amount]').val('');")
-      renderer_queues_for_plain("$('#do_add_item' [name=tag_list]).val('');")
-    if item.action_date.beginning_of_month == @display_year_month
-      ques += renderer_queues_for_clear_content(:items)
-      ques += renderer_queues_for_all_items(:items, items)
-      ques += renderer_queues_for_appending_to_bottom(:items, :partial => 'remains_link')
-      ques += renderer_queues_for_highlight("item_#{item.id}", "#item_#{item.id} div")
-      ques += renderer_queues_for_clear_content(:candidates)
-    end
-    ques
-  end
-
-  def renderer_queues_for_all_items(id, items)
-    ques = []
-    items.each do |it|
-      ques += renderer_queues_for_appending_to_bottom(id, :partial => "entries/item", :locals => { :event_item => it })
-    end
-    ques
-  end
-
-  def renderer_queues_for_highlight(id, selector=nil)
-    [{ :command => :highlight, :id => id }]
-  end
-  
   def _get_action_year_month_day_from_params
     year  = params[:action_year].to_i
     month = params[:action_month].to_i
@@ -320,61 +273,6 @@ class EntriesController < ApplicationController
       render "destroy_adjustment", locals: { item: item, deleted_items: deleted_items.reject(&:nil?).uniq, updated_items: updated_items.reject(&:nil?).uniq }
       
     end
-  end
-
-  
-  def renderer_queues_for_destroy_adjustment(item, adj,display_year, display_month)
-    ques = []
-    ques += renderer_queues_for_info(:warning, _('Item was deleted successfully.') + ' ' +
-                                     item.action_date.strftime("%Y/%m/%d") + ' ' +
-                                     _('Adjustment') + ' ' +
-                                     CommonUtil.separate_by_comma(item.adjustment_amount) + _('yen'))
-    ques += renderer_queues_for_removing("item_#{item.id}")
-
-    unless  (adj.nil? ||
-             adj.action_date <= Date.new(display_year, display_month) ||
-             adj.action_date >= Date.new(display_year, display_month).end_of_month)
-      ques += renderer_queues_for_replace("item_#{adj.id}",
-                                          :partial => 'entries/item',
-                                          :locals => { :event_item => adj })
-    end
-    ques
-  end
-  
-  def renderer_queues_for_clear_content(id)
-    [{ :command => :replace_html, :id => id, :body => '' }]
-  end
-
-  def renderer_queues_for_info(id, message)
-    ques = []
-    ques << { :command => :set_style, :id => id, :color => 'blue' }
-    ques << { :command => :replace_html, :id => id, :body => message }
-    ques
-  end
-  
-  def renderer_queues_for_plain(body)
-    [ { :command => :plain, :body => body }]
-  end
-  
-
-  def renderer_queues_for_removing(id, delay=nil)
-    ques = []
-    ques << { :command => :visual_effect, :effect => :fade, :id => id, :duration => FADE_DURATION  }
-    ques << { :command => :remove, :id => id, :delay => 3 }
-    ques
-  end
-
-  def renderer_queues_for_replace(id, *attr)
-    ques = []
-    ques << { :command => :replace, :id => id }.merge(*attr)
-    ques += renderer_queues_for_highlight(id)
-    ques
-  end
-  
-  def renderer_queues_for_appending_to_bottom(id, *attr)
-    ques = []
-    ques << { :command => :insert_html, :id => id, :position => :bottom }.merge(*attr)
-    ques
   end
 
   def _destroy_regular_item(item)
