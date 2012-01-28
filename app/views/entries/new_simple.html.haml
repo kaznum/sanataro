@@ -27,18 +27,4 @@
   :javascript
     new EJS({url: '/ejs/entries/new_simple.ejs?2011041401'}).update("replaced_area",#{@data.to_json});
     observerAddItemOnlyInput('#{@data[:authenticity_token]}');
-    $(function() {
-      $("#do_add_item").bind("submit", function() {
-        $('#new_add_button').attr('disabled', 'disabled');
-        $.ajax({
-          url:'/entries',
-          type:'post',
-          success: function(request){
-            $('#new_add_button').removeAttr('disabled')
-          },
-          data: $("#do_add_item").serialize()
-        });
-        return false;
-      });
-    });
-    
+    bindSubmitInNewSimple();
