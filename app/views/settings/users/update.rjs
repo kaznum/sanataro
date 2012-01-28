@@ -1,1 +1,0 @@
-page.replace_html :input_area, '<p>変更が完了しました</p>'
