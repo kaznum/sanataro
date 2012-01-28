@@ -1,2 +1,2 @@
 - items.map(&:id).uniq.each do |id|
-  ! $("#item_#{id} div").effect("highlight", {color: '#{ HIGHLIGHT_COLOR }'}, #{ HIGHLIGHT_DURATION });
+  = highlight("#item_#{id} div")

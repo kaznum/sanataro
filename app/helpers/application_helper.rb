@@ -32,4 +32,13 @@ module ApplicationHelper
   def today
     @view_cached_today ||= Date.today
   end
+
+  def highlight(selector)
+    "$('#{selector}').effect('highlight', {color: '#{ HIGHLIGHT_COLOR }'}, #{ HIGHLIGHT_DURATION });"
+  end
+
+  def fadeout_and_remove(selector)
+    "$('#{selector}').fadeOut(#{FADE_DURATION}, function() {$('#{selector}').remove();});"
+  end
+  
 end
