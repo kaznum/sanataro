@@ -183,33 +183,19 @@ class EntriesController < ApplicationController
     adjustment_amount = Item.calc_amount(params[:adjustment_amount])
     
     Item.transaction do
-      # すでに同日かつ同account_idの残高調整が存在しないかチェックし、存在する場合は削除する
       prev_adj = @user.items.find_by_to_account_id_and_action_date_and_is_adjustment(to_account_id, action_date, true)
       _do_delete_item(prev_adj.id) if prev_adj
       
-      item, influenced_items =
+      item, updated_items =
         Teller.create_entry(user: @user, action_date: action_date, name: 'Adjustment',
                             from_account_id: -1, to_account_id: to_account_id,
                             is_adjustment: true, tag_list: params[:tag_list],
                             adjustment_amount: adjustment_amount)
 
       items = _get_items(item.action_date.year, item.action_date.month)
-      render :update do |page|
-        page << '$("#warning").css({"color":"blue"});'
-        page.replace_html :warning, _('Item was added successfully.') + ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + _('Adjustment') + ' ' + CommonUtil.separate_by_comma(item.adjustment_amount) + _('yen')
-        
-        page.replace_html :items, ''
-        items.each do |it|
-          page.insert_html :bottom, :items, partial: 'item', locals: { event_item: it }
-        end
-        page.insert_html :bottom, :items, :partial=>'remains_link'
-        
-        page.highlight("#item_#{item.id} div")
-        influenced_items.each do |it|
-          page.highlight("#item_#{it.id} div")
-        end
-        page << "$('#do_add_item #adjustment_amount').val('');"
-      end
+      updated_items << item
+      
+      render "create_adjustment", locals: { item: item, items: items, updated_items: updated_items.reject(&:nil?) }
     end
   rescue SyntaxError
     render_rjs_error :id => "warning", :default_message => _("Amount is invalid.")
