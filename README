@@ -15,7 +15,6 @@ Sanataro - Simple Web Household Account Book.
 
 == FIXME / TODO
 This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0, 3.1 to 3.2 escalatorily, so there are lots of points of old fassion expressions to be fixed.
-* This depends on Prototype.js but jQuery is now defact standard in Rails, so want to adopt jQuery.
 * There are some points where Object-Oriented model is corrupted. They should be fixed.(especially, entities_controller.rb)
 * There are some places where hard-coded Japanese characters.
 * Fixture dependency should be removed and replaced with other framework(FactoryGirl, Fabrication, etc)
