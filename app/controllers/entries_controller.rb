@@ -2,7 +2,7 @@
 class EntriesController < ApplicationController
   before_filter :required_login
   before_filter :set_separated_accounts, :only => [:index, :create, :update, :destroy, :new, :edit, :show]
-  before_filter :_redirect_to_login_by_rjs_if_id_is_blank, :only => [:update]
+  before_filter :_redirect_to_login_by_js_if_id_is_blank, :only => [:update]
   
   def index
     @tag = params[:tag]
@@ -95,7 +95,7 @@ class EntriesController < ApplicationController
 
   end
 
-  def _redirect_to_login_by_rjs_if_id_is_blank
+  def _redirect_to_login_by_js_if_id_is_blank
     if params[:id].blank?
       redirect_js_to login_url
       return false
