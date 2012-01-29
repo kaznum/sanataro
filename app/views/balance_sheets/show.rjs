@@ -1,3 +1,0 @@
-page.replace :account_history, :partial => 'show'
-page.hide "account_history_#{@account_id}"
-page.visual_effect :appear, "account_history_#{@account_id}", :duration => '0.3'
