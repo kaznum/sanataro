@@ -1,7 +1,7 @@
 .cfg_account{:id => "account_#{account.id.to_s}"}
   .cfg_account_name
     - if account.bgcolor.blank?
-      = h account.name
+      = account.name
     - else
       %span{:style => "background-color: ##{h account.bgcolor};"}= h account.name
   .cfg_account_order= account.order_no

@@ -3,6 +3,8 @@ class Account < ActiveRecord::Base
   belongs_to :user
   has_one :payment_relation, foreign_key: :credit_account_id, class_name: "CreditRelation"
   has_many :credit_relations, foreign_key: :payment_account_id, class_name: "CreditRelation"
+
+  before_validation :trim_bgcolor_if_needed
   
   validates_presence_of :name
   validates_length_of :name, :in =>1..255
@@ -13,6 +15,12 @@ class Account < ActiveRecord::Base
 
   scope :active, where(:is_active => true)
 
+  def trim_bgcolor_if_needed
+    if bgcolor =~ /^#/
+      self.bgcolor = bgcolor.gsub("#","")
+    end
+  end
+  
   #
   # 特定の日付までの残高を取得する
   # my_id でitemのIDを指定すると、そのItemが除外される。また、

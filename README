@@ -28,3 +28,12 @@ This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0, 3.1 to 3.2 escalat
 * Author: Kazuya NUMATA <numata@gmail.com>.
 * Copyright (c) 2007-2012 Kazuya NUMATA.
 
+== Libraries used in this application
+* Farbtastic 1.2
+** Copyright (c) Steven Wittens
+** GPL v2 (GPL Document is in doc directory)
+** http://acko.net/blog/farbtastic-jquery-color-picker-plug-in/ 
+* jQuery-util
+** http://code.google.com/p/jquery-util/ 
+** MIT License
+

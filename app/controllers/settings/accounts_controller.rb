@@ -43,7 +43,7 @@ class Settings::AccountsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     redirect_js_to login_url
   rescue ActiveRecord::RecordInvalid
-    render_js_error :id => "account_#{@account.id}_warning", :errors => @account.errors, :default_message => '入力値が不正です', :before => "$('edit_button_#{@account.id}').disabled = false"
+    render_js_error :id => "account_#{@account.id}_warning", :errors => @account.errors, :default_message => '入力値が不正です', :before => "$('#edit_button_#{@account.id}').removeAttr('disabled')"
   end
 
   def destroy
