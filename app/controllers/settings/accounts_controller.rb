@@ -19,7 +19,7 @@ class Settings::AccountsController < ApplicationController
                            :account_type => params[:account_type],
                            :user_id => @user.id)
     @account.save!
-    redirect_rjs_to settings_accounts_url(:account_type => @account.account_type)
+    redirect_js_to settings_accounts_url(:account_type => @account.account_type)
   rescue ActiveRecord::RecordInvalid
     render_js_error :id => "add_warning", :errors => @account.errors, :default_message => '入力値が不正です'
   end
@@ -27,7 +27,7 @@ class Settings::AccountsController < ApplicationController
   def edit
     @account = @user.accounts.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    redirect_rjs_to login_url
+    redirect_js_to login_url
   end
 
   def update
@@ -38,10 +38,10 @@ class Settings::AccountsController < ApplicationController
 
     @account = @user.accounts.find(id)
     @account.update_attributes!(:name => name, :order_no => order_no, :bgcolor => bgcolor)
-    redirect_rjs_to settings_accounts_url(:account_type => @account.account_type)
+    redirect_js_to settings_accounts_url(:account_type => @account.account_type)
 
   rescue ActiveRecord::RecordNotFound
-    redirect_rjs_to login_url
+    redirect_js_to login_url
   rescue ActiveRecord::RecordInvalid
     render_js_error :id => "account_#{@account.id}_warning", :errors => @account.errors, :default_message => '入力値が不正です', :before => "$('edit_button_#{@account.id}').disabled = false"
   end
@@ -66,12 +66,12 @@ class Settings::AccountsController < ApplicationController
     account.destroy
     @account = account
   rescue ActiveRecord::RecordNotFound
-    redirect_rjs_to login_url
+    redirect_js_to login_url
   end
   
   def show
     @account = @user.accounts.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    redirect_rjs_to login_url
+    redirect_js_to login_url
   end
 end

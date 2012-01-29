@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def redirect_rjs_to(path)
+  def redirect_js_to(path)
     @path_to_redirect_to = path
     render "common/redirect"
   end
@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
         redirect_to login_url
       end
       format.js do
-        redirect_rjs_to login_url
+        redirect_js_to login_url
       end
       format.json do
         redirect_to login_url
@@ -71,7 +71,7 @@ class ApplicationController < ActionController::Base
         redirect_to url_for(:action => current_action, :year => from_year, :month => from_month)
       end
       format.js do
-        redirect_rjs_to url_for(:action => current_action, :year => from_year, :month => from_month)
+        redirect_js_to url_for(:action => current_action, :year => from_year, :month => from_month)
       end
     end
   rescue
@@ -80,7 +80,7 @@ class ApplicationController < ActionController::Base
         redirect_to current_entries_url
       end
       format.js do
-        redirect_rjs_to current_entries_url
+        redirect_js_to current_entries_url
       end
     end
   end

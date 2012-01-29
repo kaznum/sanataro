@@ -58,6 +58,6 @@ class Settings::CreditRelationsController < ApplicationController
     @cr = @user.credit_relations.find(params[:id])
     render "show"
   rescue ActiveRecord::RecordNotFound
-    redirect_rjs_to settings_credit_relations_url
+    redirect_js_to settings_credit_relations_url
   end
 end

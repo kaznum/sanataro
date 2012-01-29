@@ -13,7 +13,7 @@ class MainController < ApplicationController
   #
   def show_parent_child_item
     if params[:id].blank?
-      redirect_rjs_to login_url
+      redirect_js_to login_url
       return
     end
 
@@ -26,10 +26,10 @@ class MainController < ApplicationController
     end
 
     if item.nil?
-      redirect_rjs_to login_url
+      redirect_js_to login_url
       return
     end
-    redirect_rjs_to entries_url(:year => item.action_date.year, :month => item.action_date.month) + "#item_#{item.id}" 
+    redirect_js_to entries_url(:year => item.action_date.year, :month => item.action_date.month) + "#item_#{item.id}" 
     return
   end
 end

@@ -24,7 +24,7 @@ class EntriesController < ApplicationController
     end
   rescue # 日付が不正の場合がある
     respond_to do |format|
-      format.js {  redirect_rjs_to current_entries_url }
+      format.js {  redirect_js_to current_entries_url }
       format.html {  redirect_to current_entries_url }
     end
   end
@@ -97,7 +97,7 @@ class EntriesController < ApplicationController
 
   def _redirect_to_login_by_rjs_if_id_is_blank
     if params[:id].blank?
-      redirect_rjs_to login_url
+      redirect_js_to login_url
       return false
     end
     return true
@@ -108,7 +108,7 @@ class EntriesController < ApplicationController
     _destroy_item(item)
   rescue ActiveRecord::RecordNotFound => ex
     url = params[:id].blank? ? login_url : entries_url(today.year, today.month)
-    redirect_rjs_to url
+    redirect_js_to url
   end
 
   def _destroy_item(item)
@@ -124,7 +124,7 @@ class EntriesController < ApplicationController
   def edit
     @item = @user.items.find(params[:id])
   rescue ActiveRecord::RecordNotFound => ex
-    redirect_rjs_to entries_url(:year => today.year, :month => today.month)
+    redirect_js_to entries_url(:year => today.year, :month => today.month)
   end
   
   #
@@ -133,7 +133,7 @@ class EntriesController < ApplicationController
   def show
     @item = @user.items.find(params[:id])
   rescue ActiveRecord::RecordNotFound => ex
-    redirect_rjs_to current_entries_url
+    redirect_js_to current_entries_url
   end
 
 

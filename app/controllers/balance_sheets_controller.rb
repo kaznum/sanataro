@@ -45,7 +45,7 @@ class BalanceSheetsController < ApplicationController
   
   def show
     if params[:id].blank?
-      redirect_rjs_to login_url
+      redirect_js_to login_url
       return
     else
       @account_id = params[:id].to_i

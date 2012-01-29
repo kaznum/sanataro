@@ -45,7 +45,7 @@ class ProfitLossesController < ApplicationController
   private
   def redirect_if_id_is_nil!
     if params[:id].blank?
-      redirect_rjs_to login_url
+      redirect_js_to login_url
       return
     end
     true

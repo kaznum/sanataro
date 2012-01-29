@@ -13,9 +13,9 @@ class LoginController < ApplicationController
       render_js_error :id => "warning", :default_message => _("UserID or Password is incorrect.")
     else
       if params[:only_add]
-        redirect_rjs_to new_current_entry_url(:entry_type => 'simple')
+        redirect_js_to new_current_entry_url(:entry_type => 'simple')
       else
-        redirect_rjs_to current_entries_url
+        redirect_js_to current_entries_url
       end
     end
   end
