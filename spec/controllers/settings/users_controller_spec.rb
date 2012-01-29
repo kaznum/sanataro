@@ -97,7 +97,7 @@ describe Settings::UsersController do
 
           describe "response" do
             subject {response}
-            it {should render_rjs_error  :id => "warning", :errors => @user1.errors, :default_message => _('Input value is incorrect')}
+            it {should render_js_error  :id => "warning", :errors => @user1.errors, :default_message => _('Input value is incorrect')}
           end
         end
       end

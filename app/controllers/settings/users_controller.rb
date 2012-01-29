@@ -17,7 +17,7 @@ class Settings::UsersController < ApplicationController
     @user = user_to_change
     session[:user_id] = @user.id
   rescue ActiveRecord::RecordInvalid => ex
-    render_rjs_error :id => "warning", :errors => @user_to_change.errors, :default_message => _('Input value is incorrect')
+    render_js_error :id => "warning", :errors => @user_to_change.errors, :default_message => _('Input value is incorrect')
   end
   
 end

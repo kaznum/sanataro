@@ -10,7 +10,7 @@ class LoginController < ApplicationController
   def do_login
     _do_login(params[:login], params[:password], params[:autologin], false, params[:only_add])
     if session[:user_id].nil?
-      render_rjs_error :id => "warning", :default_message => _("UserID or Password is incorrect.")
+      render_js_error :id => "warning", :default_message => _("UserID or Password is incorrect.")
     else
       if params[:only_add]
         redirect_rjs_to new_current_entry_url(:entry_type => 'simple')
@@ -104,7 +104,7 @@ class LoginController < ApplicationController
     @user.deliver_signup_confirmation
     render "do_create_user"
   rescue ActiveRecord::RecordInvalid
-    render_rjs_error :id => "warning", :errors => @user.errors, :default_message => ''
+    render_js_error :id => "warning", :errors => @user.errors, :default_message => ''
   end
 
   def _confirmation_key

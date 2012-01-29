@@ -19,7 +19,7 @@ class Settings::CreditRelationsController < ApplicationController
       @credit_relations = @user.credit_relations.all
       render 'create'
     else
-      render_rjs_error :id => "warning", :errors => @cr.errors, :default_message => 'Error!!'
+      render_js_error :id => "warning", :errors => @cr.errors, :default_message => 'Error!!'
     end
   end
   
@@ -36,7 +36,7 @@ class Settings::CreditRelationsController < ApplicationController
     @cr = @user.credit_relations.find(params[:id])
     render 'edit'
   rescue ActiveRecord::RecordNotFound
-    render_rjs_error :id => "warning", :default_errors => "データが存在しません。"
+    render_js_error :id => "warning", :default_errors => "データが存在しません。"
   end
   
   def update
@@ -51,7 +51,7 @@ class Settings::CreditRelationsController < ApplicationController
     @credit_relations = @user.credit_relations.all
     render "no_record"
   rescue ActiveRecord::RecordInvalid
-    render_rjs_error :id => "edit_warning_#{@cr.id}", :errors => @cr.errors, :default_message => 'Error!!', :before => "Element.update('warning', '');"
+    render_js_error :id => "edit_warning_#{@cr.id}", :errors => @cr.errors, :default_message => 'Error!!', :before => "Element.update('warning', '');"
   end
   
   def show

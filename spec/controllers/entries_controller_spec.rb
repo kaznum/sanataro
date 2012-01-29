@@ -977,7 +977,7 @@ describe EntriesController do
         describe "response" do 
           subject { response }
           it { should be_success }
-          it { should render_rjs_error :id => 'warning', :default_message => _('Input value is incorrect') }
+          it { should render_js_error :id => 'warning', :default_message => _('Input value is incorrect') }
         end
 
         describe "the count of items" do
@@ -995,7 +995,7 @@ describe EntriesController do
         describe "response" do 
           subject { response }
           it { should be_success }
-          it { should render_rjs_error :id => 'warning', :default_message => "日付が不正です。" }
+          it { should render_js_error :id => 'warning', :default_message => "日付が不正です。" }
         end
 
         describe "the count of items" do
@@ -1019,7 +1019,7 @@ describe EntriesController do
         describe "response" do
           subject { response }
           it { should be_success }
-          it { should render_rjs_error :id => "warning", :default_message => _("Amount is invalid.")}
+          it { should render_js_error :id => "warning", :default_message => _("Amount is invalid.")}
         end
 
         describe "count of Item" do
@@ -1172,7 +1172,7 @@ describe EntriesController do
 
         describe "response" do
           subject { response }
-          it { should render_rjs_error :id => "warning"}
+          it { should render_js_error :id => "warning"}
         end
         
         describe "count of items" do
@@ -1191,7 +1191,7 @@ describe EntriesController do
         describe "response" do 
           subject { response }
           it { should be_success }
-          it { should render_rjs_error :id => "warning" }
+          it { should render_js_error :id => "warning" }
         end
 
         describe "count of items" do
@@ -2322,7 +2322,7 @@ describe EntriesController do
             end
             subject {response}
             it {should be_success}
-            it { should render_rjs_error :id => "item_warning_2" }
+            it { should render_js_error :id => "item_warning_2" }
           end
 
           describe "item to update" do
@@ -2905,7 +2905,7 @@ describe EntriesController do
             before {@action.call}
             subject {response}
             it {should be_success}
-            it { should render_rjs_error :id => "item_warning_#{@old_item1.id}" }
+            it { should render_js_error :id => "item_warning_#{@old_item1.id}" }
           end
 
           describe "item to update" do

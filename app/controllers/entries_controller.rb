@@ -198,11 +198,11 @@ class EntriesController < ApplicationController
       render "create_adjustment", locals: { item: item, items: items, updated_items: updated_items.reject(&:nil?) }
     end
   rescue SyntaxError
-    render_rjs_error :id => "warning", :default_message => _("Amount is invalid.")
+    render_js_error :id => "warning", :default_message => _("Amount is invalid.")
   rescue InvalidDate
-    render_rjs_error :id => "warning", :default_message => "日付が不正です。"
+    render_js_error :id => "warning", :default_message => "日付が不正です。"
   rescue ActiveRecord::RecordInvalid => ex
-    render_rjs_error(:id => "warning", :errors => ex.message.split(",").map(&:strip), :default_message => _('Input value is incorrect'))
+    render_js_error(:id => "warning", :errors => ex.message.split(",").map(&:strip), :default_message => _('Input value is incorrect'))
   end
 
   #
@@ -243,11 +243,11 @@ class EntriesController < ApplicationController
       end
     end
   rescue InvalidDate
-    render_rjs_error :id => "warning", :default_message => "日付が不正です。"
+    render_js_error :id => "warning", :default_message => "日付が不正です。"
   rescue SyntaxError
-    render_rjs_error :id => "warning", :default_message => _("Amount is invalid.")
+    render_js_error :id => "warning", :default_message => _("Amount is invalid.")
   rescue ActiveRecord::RecordInvalid => ex
-    render_rjs_error(:id => "warning", :errors => ex.message.split(",").map(&:strip), :default_message => _('Input value is incorrect'))
+    render_js_error(:id => "warning", :errors => ex.message.split(",").map(&:strip), :default_message => _('Input value is incorrect'))
   end
 
   def _get_action_year_month_day_from_params
@@ -329,11 +329,11 @@ class EntriesController < ApplicationController
 
     render "update_adjustment", locals: { item: item, items: items, updated_items: updated_items.reject(&:nil?) }
   rescue InvalidDate
-    render_rjs_error(:id => "item_warning_#{item.id}", :errors => nil, :default_message => "日付が不正です。")
+    render_js_error(:id => "item_warning_#{item.id}", :errors => nil, :default_message => "日付が不正です。")
   rescue SyntaxError
-    render_rjs_error(:id => "item_warning_#{item.id}", :errors => nil, :default_message => _("Amount is invalid."))
+    render_js_error(:id => "item_warning_#{item.id}", :errors => nil, :default_message => _("Amount is invalid."))
   rescue ActiveRecord::RecordInvalid => ex
-    render_rjs_error :id => "item_warning_#{item.id}", :errors => ex.message.split(",").map(&:strip), :default_message =>  _('Input value is incorrect.')
+    render_js_error :id => "item_warning_#{item.id}", :errors => ex.message.split(",").map(&:strip), :default_message =>  _('Input value is incorrect.')
   end
 
   def _update_item
@@ -390,11 +390,11 @@ class EntriesController < ApplicationController
 
     render "update_adjustment", locals: { item: item, items: items, updated_items: updated_items.reject(&:nil?) }
   rescue InvalidDate
-    render_rjs_error :id => "item_warning_#{@item.id}", :errors => nil, :default_message => "日付が不正です。"
+    render_js_error :id => "item_warning_#{@item.id}", :errors => nil, :default_message => "日付が不正です。"
   rescue SyntaxError
-    render_rjs_error :id => "item_warning_#{@item.id}", :errors => nil, :default_message => _("Amount is invalid.")
+    render_js_error :id => "item_warning_#{@item.id}", :errors => nil, :default_message => _("Amount is invalid.")
   rescue ActiveRecord::RecordInvalid => ex
-    render_rjs_error(:id => 'item_warning_' + @item.id.to_s,
+    render_js_error(:id => 'item_warning_' + @item.id.to_s,
                      :errors => ex.message.split(",").map(&:strip),
                      :default_message => _('Input value is incorrect.'))
   end

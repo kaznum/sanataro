@@ -113,7 +113,7 @@ RSpec::Matchers.define :redirect_by_js_to do |path|
   end
 end
 
-RSpec::Matchers.define :render_rjs_error do |prms|
+RSpec::Matchers.define :render_js_error do |prms|
   match_unless_raises ActiveSupport::TestCase::Assertion do |_|
     assert_template "common/error"
     prms.each do |key, value|
@@ -130,11 +130,11 @@ RSpec::Matchers.define :render_rjs_error do |prms|
   end
 
   failure_message_for_should_not do |_|
-    "expected not to have render_rjs_error(#{prms.serialize}, but did"
+    "expected not to have render_js_error(#{prms.serialize}, but did"
   end
   
   description do
-    "error.rjs matcher"
+    "error.js.haml matcher"
   end
 end
 

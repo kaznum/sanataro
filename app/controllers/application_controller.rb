@@ -85,7 +85,7 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def render_rjs_error(args)
+  def render_js_error(args)
     @error_js_params = args
     render 'common/error'
   end

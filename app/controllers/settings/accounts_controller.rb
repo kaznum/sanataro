@@ -21,7 +21,7 @@ class Settings::AccountsController < ApplicationController
     @account.save!
     redirect_rjs_to settings_accounts_url(:account_type => @account.account_type)
   rescue ActiveRecord::RecordInvalid
-    render_rjs_error :id => "add_warning", :errors => @account.errors, :default_message => '入力値が不正です'
+    render_js_error :id => "add_warning", :errors => @account.errors, :default_message => '入力値が不正です'
   end
   
   def edit
@@ -43,7 +43,7 @@ class Settings::AccountsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     redirect_rjs_to login_url
   rescue ActiveRecord::RecordInvalid
-    render_rjs_error :id => "account_#{@account.id}_warning", :errors => @account.errors, :default_message => '入力値が不正です', :before => "$('edit_button_#{@account.id}').disabled = false"
+    render_js_error :id => "account_#{@account.id}_warning", :errors => @account.errors, :default_message => '入力値が不正です', :before => "$('edit_button_#{@account.id}').disabled = false"
   end
 
   def destroy
@@ -52,7 +52,7 @@ class Settings::AccountsController < ApplicationController
 
     item = @user.items.where("from_account_id = ? or to_account_id = ?", id, id).first
     if item
-      render_rjs_error :id => "add_warning", :default_message => "すでに収支情報に使用されているため、削除できません。" + 
+      render_js_error :id => "add_warning", :default_message => "すでに収支情報に使用されているため、削除できません。" + 
         item.action_date.strftime("%Y/%m/%d") + " " + item.name + " " + 
         CommonUtil.separate_by_comma(item.amount) + "円"
       return
@@ -60,7 +60,7 @@ class Settings::AccountsController < ApplicationController
 
     credit_rel = @user.credit_relations.where("credit_account_id = ? or payment_account_id = ?", id, id).first
     if credit_rel
-      render_rjs_error :id => "add_warning", :default_message => "クレジットカード支払い情報に関連づけられているため、削除できません。"
+      render_js_error :id => "add_warning", :default_message => "クレジットカード支払い情報に関連づけられているため、削除できません。"
       return
     end
     account.destroy

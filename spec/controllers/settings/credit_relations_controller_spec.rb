@@ -134,7 +134,7 @@ describe Settings::CreditRelationsController do
 
           describe "response" do 
             subject { response }
-            it { should render_rjs_error :id => "warning", :default_errors => "データが存在しません。" }
+            it { should render_js_error :id => "warning", :default_errors => "データが存在しません。" }
           end
         end
 
@@ -281,7 +281,7 @@ describe Settings::CreditRelationsController do
 
           describe "response" do
             subject { response }
-            it { should render_rjs_error :id => "warning", :errors => @mock_errors, :default_message => 'Error!!' }
+            it { should render_js_error :id => "warning", :errors => @mock_errors, :default_message => 'Error!!' }
           end
           describe "@cr" do
             subject { assigns(:cr) }
@@ -390,7 +390,7 @@ describe Settings::CreditRelationsController do
 
           describe "response" do
             subject { response }
-            it { should render_rjs_error :id => "edit_warning_1", :errors => @mock_errors, :default_message => 'Error!!', :before => "Element.update('warning', '');" }
+            it { should render_js_error :id => "edit_warning_1", :errors => @mock_errors, :default_message => 'Error!!', :before => "Element.update('warning', '');" }
           end
 
           it_should_behave_like "Got basic instance variables successfully"
