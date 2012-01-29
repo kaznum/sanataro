@@ -1,0 +1,2 @@
+! cp_#{@account.id}.close();
+! $("account_#{@account.id}").replaceWith("#{escape_javascript(render partial: 'show', locals: { account: @account })}")

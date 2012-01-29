@@ -1,2 +1,0 @@
-page.remove "account_#{@account.id}"
-page.replace_html :add_warning, '削除しました。'
