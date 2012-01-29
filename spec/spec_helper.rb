@@ -118,9 +118,9 @@ RSpec::Matchers.define :render_rjs_error do |prms|
     assert_template "common/error"
     prms.each do |key, value|
       if value.is_a?(Regexp)
-        assert_match value, assigns(:error_rjs_params)[key]
+        assert_match value, assigns(:error_js_params)[key]
       else
-        assert_equal value, assigns(:error_rjs_params)[key]
+        assert_equal value, assigns(:error_js_params)[key]
       end
     end
   end
