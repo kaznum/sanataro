@@ -102,7 +102,7 @@ class LoginController < ApplicationController
     @user.save!
 
     @user.deliver_signup_confirmation
-    render "do_create_user", :handlers => [:rjs]
+    render "do_create_user"
   rescue ActiveRecord::RecordInvalid
     render_rjs_error :id => "warning", :errors => @user.errors, :default_message => ''
   end

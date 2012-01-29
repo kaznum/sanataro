@@ -1,2 +1,0 @@
-page.replace_html :warning, ''
-page.replace_html :inputarea, :partial => 'user_created'
