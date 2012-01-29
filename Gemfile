@@ -72,7 +72,6 @@ else
   gem "mysql2", "~> 0.3.10"
 end
 gem 'jquery-rails'
-gem 'jquery-rjs', :git => 'git://github.com/kaznum/jquery-rjs.git'
 
 group :assets do
   gem 'sass-rails', "~> 3.2.3"
