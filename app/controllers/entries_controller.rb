@@ -142,17 +142,11 @@ class EntriesController < ApplicationController
   # this method is called when a link in the field of adding adjustment
   # which switches to the regular item new entry input.
   def _new_entry
-    item = Item.new
-    if params[:year].blank? || params[:month].blank? || today.beginning_of_month == Date.new(params[:year].to_i, params[:month].to_i)
-      item.action_date = today
-    else
-      item.action_date = Date.new(params[:year].to_i, params[:month].to_i)
-    end
-
-    @item = item
+    action_date = _get_date_by_specific_year_and_month_or_today(params[:year], params[:month])
+    @item = Item.new(action_date: action_date)
     render "add_item"
   end
-
+  
   # this method is called when a link in the field of adding regular item
   # which switches to the adjustment item new entry input.
   def _new_adjustment
