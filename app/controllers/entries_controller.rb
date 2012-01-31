@@ -64,9 +64,6 @@ class EntriesController < ApplicationController
     @new_item = Item.new { |item| item.action_date = _default_action_date(month_to_display) }
   end
 
-  #
-  # 支出、収入の登録入力
-  #
   def new
     case params[:entry_type]
     when 'simple'
@@ -118,18 +115,13 @@ class EntriesController < ApplicationController
       _destroy_regular_item(item)
     end
   end
-  #
-  # アイテムの編集領域の表示
-  #
+  
   def edit
     @item = @user.items.find(params[:id])
   rescue ActiveRecord::RecordNotFound => ex
     redirect_js_to entries_url(:year => today.year, :month => today.month)
   end
   
-  #
-  # replace an input field with a regular text
-  #
   def show
     @item = @user.items.find(params[:id])
   rescue ActiveRecord::RecordNotFound => ex
