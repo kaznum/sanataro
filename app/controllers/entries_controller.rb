@@ -89,7 +89,6 @@ class EntriesController < ApplicationController
     else
       _update_item
     end
-
   end
 
   def _redirect_to_login_by_js_if_id_is_blank
@@ -127,7 +126,6 @@ class EntriesController < ApplicationController
   rescue ActiveRecord::RecordNotFound => ex
     redirect_js_to current_entries_url
   end
-
 
   private
 
@@ -229,10 +227,8 @@ class EntriesController < ApplicationController
       deleted_item, f_adj, adj = _do_delete_item(item.id)[:itself]
       deleted_items = [ deleted_item ]
       updated_items = [f_adj, adj]
-      
 
       render "destroy_adjustment", locals: { item: item, deleted_items: deleted_items.reject(&:nil?).uniq, updated_items: updated_items.reject(&:nil?).uniq }
-      
     end
   end
 
