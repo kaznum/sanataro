@@ -7,14 +7,9 @@ class Settings::UsersController < ApplicationController
   end
   
   def update
-    user_to_change = User.find(@user.id)
-    user_to_change.email = params[:email]
-    user_to_change.password_plain = params[:password_plain]
-    user_to_change.password_confirmation = params[:password_confirmation]
-
-    @user_to_change = user_to_change
-    user_to_change.save!
-    @user = user_to_change
+    @user_to_change = User.find(@user.id)
+    @user_to_change.update_attributes!(email: params[:email], password_plain: params[:password_plain],
+                                       password_confirmation: params[:password_confirmation])
     session[:user_id] = @user.id
   rescue ActiveRecord::RecordInvalid => ex
     render_js_error :id => "warning", :errors => @user_to_change.errors, :default_message => _('Input value is incorrect')

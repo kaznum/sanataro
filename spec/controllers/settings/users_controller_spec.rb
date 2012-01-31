@@ -77,11 +77,6 @@ describe Settings::UsersController do
             subject {assigns(:user_to_change)}
             its(:object_id) {should == @user1.object_id}
           end
-          
-          describe "@user" do
-            subject {assigns(:user)}
-            its(:object_id) {should == @user1.object_id}
-          end
         end
         context "when validation error happens." do
           before do
