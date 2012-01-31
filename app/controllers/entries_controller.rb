@@ -186,10 +186,10 @@ class EntriesController < ApplicationController
                             is_adjustment: true, tag_list: params[:tag_list],
                             adjustment_amount: adjustment_amount)
 
-      items = _get_items(item.action_date.year, item.action_date.month)
+      @items = _get_items(@display_year_month.year, @display_year_month.month)
       updated_items << item
       
-      render "create_adjustment", locals: { item: item, items: items, updated_items: updated_items.reject(&:nil?) }
+      render "create_adjustment", locals: { item: item, items: @items, updated_items: updated_items.reject(&:nil?) }
     end
   rescue SyntaxError
     render_js_error :id => "warning", :default_message => _("Amount is invalid.")
@@ -205,33 +205,24 @@ class EntriesController < ApplicationController
   def _create_entry
     Item.transaction do
       year, month, day = _get_action_year_month_day_from_params
-      name  = params[:item_name]
-      only_add = params[:only_add]
-      from  = params[:from].to_i
-      to  = params[:to].to_i
-      confirmation_required = params[:confirmation_required]
-      tag_list = params[:tag_list]
-      unless only_add
+      
+      item, affected_items =
+        Teller.create_entry(:user => @user, :name => params[:item_name],
+                            :from_account_id => params[:from], :to_account_id => params[:to],
+                            :amount => Item.calc_amount(params[:amount]),
+                            :action_date => Date.new(year,month,day),
+                            :confirmation_required => params[:confirmation_required],
+                            :tag_list => params[:tag_list])
+
+      item_month = Date.new(year, month, 1)
+      if params[:only_add]
+        render "create_item_simple", locals: { item: item }
+      else
         display_year = params[:year].to_i
         display_month = params[:month].to_i
         @display_year_month = Date.new(display_year, display_month)
-      end
-      # could raise SyntaxError because of :amount has an statement.
-      amount = Item.calc_amount(params[:amount])
 
-      item, affected_items =
-        Teller.create_entry(:user => @user, :name => name,
-                            :from_account_id => from.to_i, :to_account_id => to.to_i,
-                            :amount => amount,
-                            :action_date => Date.new(year,month,day),
-                            :confirmation_required => confirmation_required,
-                            :tag_list => tag_list)
-
-      item_month = Date.new(year, month, 1)
-      if only_add
-        render "create_item_simple", locals: { item: item }
-      else
-        @items = _get_items(item_month.year, item_month.month)
+        @items = _get_items(@display_year_month.year, @display_year_month.month)
         affected_items << item
         render "create_item", locals: { item: item, items: @items, updated_items: affected_items.reject(&:nil?).uniq }
       end

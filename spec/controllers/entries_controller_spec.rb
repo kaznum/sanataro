@@ -1144,6 +1144,43 @@ describe EntriesController do
 
         it_should_behave_like "created successfully with tag_list == 'hoge fuga"        
       end
+      
+      context "with year, month are not same as action_date's month" do
+        before do 
+          @init_item_count = Item.count
+          @display_month = 30.days.since(Date.today)
+          xhr :post, :create, :action_year=>Date.today.year.to_s, :action_month=>Date.today.month.to_s, :action_day=>Date.today.day.to_s,  :item_name=>'テスト10', :amount=>'10,000', :from=>accounts(:bank1).id, :to=>accounts(:outgo3).id, :year => @display_month.year.to_s, :month => @display_month.month.to_s, :tag_list => 'hoge fuga'
+        end
+
+        it_should_behave_like "created successfully"
+
+        describe "count of items" do
+          subject { Item.count }
+          it { should == @init_item_count + 1 }
+        end
+
+        describe "created item" do
+          subject {
+            id = Item.maximum('id')
+            Item.find_by_id(id)
+          }
+
+          its(:name) { should == 'テスト10' }
+          its(:amount) { should == 10000 }
+          it { should_not be_confirmation_required }
+          its(:tag_list) { should == "fuga hoge" }
+        end
+
+        it_should_behave_like "created successfully with tag_list == 'hoge fuga"
+
+        describe "@items" do
+          subject {
+            assigns(:items).all?{|it| it.action_date.beginning_of_month == @display_month.beginning_of_month }
+          }
+          it { should be_true }
+        end
+        
+      end
 
       context "when amount needs to be calcurated," do
         before do
@@ -1722,7 +1759,7 @@ describe EntriesController do
             @action = lambda {
               xhr(:post, :create, :entry_type => 'adjustment',
                   :action_year => @date.year, :action_month => @date.month, :action_day => @date.day,
-                  :to => accounts(:bank1).id.to_s, :adjustment_amount=>'100*(10+50)/2', :year => 2008, :month => 2, :tag_list => 'hoge fuga')
+                  :to => accounts(:bank1).id.to_s, :adjustment_amount=>'100*(10+50)/2', :year => 2008, :month => 3, :tag_list => 'hoge fuga')
             }
           end
 
@@ -1731,6 +1768,14 @@ describe EntriesController do
               expect {@action.call}.to change { Item.count }.by(1)
             }
           end
+
+          describe "@items" do
+            before { @action.call}
+
+            subject { assigns(:items).all?{|it| (Date.new(2008,3).beginning_of_month..Date.new(2008,3).end_of_month).cover?(it.action_date) } }
+            it { should be_true }
+          end
+          
 
           describe "created adjustment" do
             before do
