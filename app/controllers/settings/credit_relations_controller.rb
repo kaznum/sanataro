@@ -9,18 +9,16 @@ class Settings::CreditRelationsController < ApplicationController
   end
   
   def create
-    @cr = @user.credit_relations.create(:credit_account_id => params[:credit_account_id].to_i,
+    @cr = @user.credit_relations.create!(:credit_account_id => params[:credit_account_id].to_i,
                                          :payment_account_id => params[:payment_account_id].to_i,
                                          :settlement_day => params[:settlement_day].to_i,
                                          :payment_month => params[:payment_month].to_i,
                                          :payment_day => params[:payment_day].to_i)
 
-    if @cr.errors.empty?
-      @credit_relations = @user.credit_relations.all
-      render 'create'
-    else
-      render_js_error :id => "warning", :errors => @cr.errors, :default_message => 'Error!!'
-    end
+    @credit_relations = @user.credit_relations.all
+    render 'create'
+  rescue ActiveRecord::RecordInvalid => ex
+    render_js_error :id => "warning", :errors => ex.message.split(",").map(&:strip), :default_message => 'Error!!'
   end
   
   def destroy

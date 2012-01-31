@@ -270,10 +270,11 @@ describe Settings::CreditRelationsController do
         context "with invalid params," do
           before do
             @mock_user.should_receive(:credit_relations).and_return(@mock_crs)
-            @mock_errors = [double, double]
-            @mock_cr.should_receive(:errors).at_least(:once).and_return(@mock_errors)
-            
-            @mock_crs.should_receive(:create).with(:credit_account_id => 1, :payment_account_id => 2, :settlement_day => 99, :payment_month => 1, :payment_day => 4).and_return(@mock_cr)
+            mock_cr = double
+            mock_cr.as_null_object
+            mock_exception = ActiveRecord::RecordInvalid.new(mock_cr)
+            mock_exception.should_receive(:message).and_return("aaa , bbb, ccc ")
+            @mock_crs.should_receive(:create!).with(:credit_account_id => 1, :payment_account_id => 2, :settlement_day => 99, :payment_month => 1, :payment_day => 4).and_raise(mock_exception)
             @mock_crs.should_not_receive(:all)
             
             xhr :post, :create, :credit_account_id => 1, :payment_account_id => 2, :settlement_day => 99, :payment_month => 1, :payment_day => 4
@@ -281,11 +282,7 @@ describe Settings::CreditRelationsController do
 
           describe "response" do
             subject { response }
-            it { should render_js_error :id => "warning", :errors => @mock_errors, :default_message => 'Error!!' }
-          end
-          describe "@cr" do
-            subject { assigns(:cr) }
-            it { should be @mock_cr }
+            it { should render_js_error :id => "warning", :errors => ["aaa","bbb","ccc"], :default_message => 'Error!!' }
           end
 
           describe "@user" do
@@ -298,7 +295,7 @@ describe Settings::CreditRelationsController do
         context "with valid params," do
           before do 
             @mock_user.should_receive(:credit_relations).at_least(1).and_return(@mock_crs)
-@mock_crs.should_receive(:create).with(:credit_account_id => 1, :payment_account_id => 2, :settlement_day => 99, :payment_month => 1, :payment_day => 4).and_return(@mock_cr)
+@mock_crs.should_receive(:create!).with(:credit_account_id => 1, :payment_account_id => 2, :settlement_day => 99, :payment_month => 1, :payment_day => 4).and_return(@mock_cr)
             @mock_crs.should_receive(:all).and_return(@mock_crs)
             xhr :post, :create, :credit_account_id => 1, :payment_account_id => 2, :settlement_day => 99, :payment_month => 1, :payment_day => 4
           end
