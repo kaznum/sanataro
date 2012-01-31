@@ -336,10 +336,9 @@ class EntriesController < ApplicationController
     # 新規値の登録
     item.attributes = { is_adjustment: false, name: params[:item_name],
       from_account_id: params[:from], to_account_id: params[:to],
-      confirmation_required: params[:confirmation_required], tag_list: params[:tag_list] }
+      confirmation_required: params[:confirmation_required], tag_list: params[:tag_list],
+      amount: Item.calc_amount(params[:amount]) }
     item.year, item.month, item.day = _get_action_year_month_day_from_params
-    # could raise SyntaxError
-    item.amount = Item.calc_amount(params[:amount])
     
     display_year = params[:year].to_i
     display_month = params[:month].to_i
