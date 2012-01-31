@@ -8,14 +8,12 @@ class Teller
     user = item.user
     
     affected_items = []
-    affected_items << item.child_item if item.child_item
+    affected_items << item.child_item
 
     from_adj = Item.future_adjustment(user, item.action_date, item.from_account_id, item.id)
     to_adj = Item.future_adjustment(user, item.action_date, item.to_account_id, item.id)
-    affected_items << from_adj if from_adj
-    affected_items << to_adj if to_adj
-    
-    return [item, affected_items, false]
+    affected_items << from_adj << to_adj
+    return [item, affected_items.reject(&:nil?).uniq, false]
   end
 
   def self.destroy_entry(user, id)

@@ -301,9 +301,7 @@ class EntriesController < ApplicationController
       item.reload
       
       item.year, item.month, item.day = _get_action_year_month_day_from_params
-      item.to_account_id  = params[:to].to_i
-      item.tag_list = params[:tag_list]
-      item.user_id = item.user.id
+      item.attributes = { to_account_id: params[:to], tag_list: params[:tag_list] }
       # could raise SyntaxError
       item.adjustment_amount = Item.calc_amount(params[:adjustment_amount])
 
@@ -336,21 +334,17 @@ class EntriesController < ApplicationController
     old_to_id = item.to_account_id
 
     # 新規値の登録
-    item.is_adjustment = false
-    item.name = params[:item_name]
+    item.attributes = { is_adjustment: false, name: params[:item_name],
+      from_account_id: params[:from], to_account_id: params[:to],
+      confirmation_required: params[:confirmation_required], tag_list: params[:tag_list] }
     item.year, item.month, item.day = _get_action_year_month_day_from_params
-    item.from_account_id  = params[:from].to_i
-    item.to_account_id  = params[:to].to_i
-    item.confirmation_required = params[:confirmation_required]
-    item.tag_list = params[:tag_list]
-    item.user_id = item.user.id
+    # could raise SyntaxError
+    item.amount = Item.calc_amount(params[:amount])
     
     display_year = params[:year].to_i
     display_month = params[:month].to_i
     @display_year_month = display_from_date = Date.new(display_year, display_month)
     display_to_date = display_from_date.end_of_month
-    # could raise SyntaxError
-    item.amount = Item.calc_amount(params[:amount])
     
     # get items which could be updated
     old_from_item_adj = Item.future_adjustment(@user, old_action_date, old_from_id, item.id)
