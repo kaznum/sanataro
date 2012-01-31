@@ -443,9 +443,9 @@ class EntriesController < ApplicationController
       from_date = Date.new(year,month)
       to_date = from_date.end_of_month
     end
-    return Item.find_partial(@user, from_date, to_date,
-                             { :filter_account_id => session[:filter_account_id],
-                               :remain=>remain, :tag => tag, :mark => mark})
+    Item.find_partial(@user, from_date, to_date,
+                      { :filter_account_id => session[:filter_account_id],
+                        :remain=>remain, :tag => tag, :mark => mark})
   end
 
   def _do_delete_item(item_id)
