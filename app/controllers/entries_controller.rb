@@ -8,7 +8,7 @@ class EntriesController < ApplicationController
     @tag = params[:tag]
     @mark = params[:mark]
 
-    @display_year_month = _month_to_display(params[:year], params[:month])
+    @display_year_month = _month_to_display
 
     case
     when params[:remaining]
@@ -54,7 +54,7 @@ class EntriesController < ApplicationController
     session[:filter_account_id] = account_id == 0 ? nil : account_id
   end
       
-  def _month_to_display(year, month)
+  def _month_to_display(year = params[:year], month = params[:month])
     year.present? && month.present? ? Date.new(year.to_i, month.to_i) : today.beginning_of_month
   end
     
@@ -166,7 +166,7 @@ class EntriesController < ApplicationController
   end
   
   def _create_adjustment
-    @display_year_month = _month_to_display(params[:year], params[:month])
+    @display_year_month = _month_to_display
     
     year, month, day = _get_action_year_month_day_from_params
     action_date = Date.new(year,month,day)
@@ -216,7 +216,7 @@ class EntriesController < ApplicationController
       if params[:only_add]
         render "create_item_simple", locals: { item: item }
       else
-        @display_year_month = _month_to_display(params[:year], params[:month])
+        @display_year_month = _month_to_display
         @items = _get_items(@display_year_month)
         affected_items << item
         render "create_item", locals: { item: item, items: @items, updated_items: affected_items.reject(&:nil?).uniq }
@@ -270,7 +270,7 @@ class EntriesController < ApplicationController
     item = @user.items.find_by_id(item_id)
     old_action_date = item.action_date
     old_to_id = item.to_account_id
-    @display_year_month = _month_to_display(params[:year], params[:month])
+    @display_year_month = _month_to_display
 
     Item.transaction do
       # 残高調整のため、一度、amountを0にする。
@@ -318,7 +318,7 @@ class EntriesController < ApplicationController
       amount: Item.calc_amount(params[:amount]) }
     item.year, item.month, item.day = _get_action_year_month_day_from_params
 
-    @display_year_month = _month_to_display(params[:year], params[:month])
+    @display_year_month = _month_to_display
     display_to_date = @display_year_month.end_of_month
     
     # get items which could be updated
