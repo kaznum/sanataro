@@ -278,11 +278,9 @@ class EntriesController < ApplicationController
       deleted_item, from_adj_item, to_adj_item = result_of_delete[:itself]
       deleted_child_item, from_adj_child, to_adj_child = result_of_delete[:child]
 
-      updated_items = []
-      deleted_items = []
-      updated_items << from_adj_item << to_adj_item << from_adj_child << to_adj_child
-      deleted_items << deleted_child_item << item
-
+      updated_items = [from_adj_item, to_adj_item, from_adj_child, to_adj_child]
+      deleted_items = [deleted_child_item, item]
+      
       render "destroy_item", locals: { item: item, deleted_items: deleted_items.reject(&:nil?), updated_items: updated_items.reject(&:nil?) }
     end
   end
@@ -402,14 +400,12 @@ class EntriesController < ApplicationController
     # FIXME
     # html escape should be done in Views.
     #
-    from_accounts = []
-    separated_accounts[:from_accounts].each do |a|
-      from_accounts << { :value => a[1], :text => ERB::Util.html_escape(a[0]) }
-    end
-    to_accounts = []
-    separated_accounts[:to_accounts].each do |a|
-      to_accounts << { :value => a[1], :text => ERB::Util.html_escape(a[0]) }
-    end
+    from_accounts = separated_accounts[:from_accounts].map {|a|
+      { :value => a[1], :text => ERB::Util.html_escape(a[0]) }
+    }
+    to_accounts = separated_accounts[:to_accounts].map {|a|
+      { :value => a[1], :text => ERB::Util.html_escape(a[0]) }
+    }
 
     @data = {
       :authenticity_token => form_authenticity_token,
