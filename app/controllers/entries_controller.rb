@@ -319,7 +319,6 @@ class EntriesController < ApplicationController
     item.year, item.month, item.day = _get_action_year_month_day_from_params
 
     @display_year_month = _month_to_display
-    display_to_date = @display_year_month.end_of_month
     
     # get items which could be updated
     old_from_item_adj = Item.future_adjustment(@user, old_action_date, old_from_id, item.id)
