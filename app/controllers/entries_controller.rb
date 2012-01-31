@@ -167,9 +167,7 @@ class EntriesController < ApplicationController
   
   def _create_adjustment
     @display_year_month = _month_to_display
-    
-    year, month, day = _get_action_year_month_day_from_params
-    action_date = Date.new(year,month,day)
+    action_date = _get_action_date_from_params
     
     to_account_id = CommonUtil.remove_comma(params[:to]).to_i
     adjustment_amount = Item.calc_amount(params[:adjustment_amount])
@@ -202,17 +200,14 @@ class EntriesController < ApplicationController
   #
   def _create_entry
     Item.transaction do
-      year, month, day = _get_action_year_month_day_from_params
-      
       item, affected_items =
         Teller.create_entry(:user => @user, :name => params[:item_name],
                             :from_account_id => params[:from], :to_account_id => params[:to],
                             :amount => Item.calc_amount(params[:amount]),
-                            :action_date => Date.new(year,month,day),
+                            :action_date => _get_action_date_from_params,
                             :confirmation_required => params[:confirmation_required],
                             :tag_list => params[:tag_list])
 
-      item_month = Date.new(year, month, 1)
       if params[:only_add]
         render "create_item_simple", locals: { item: item }
       else
@@ -230,13 +225,10 @@ class EntriesController < ApplicationController
     render_js_error(:id => "warning", :errors => ex.error_messages, :default_message => _('Input value is incorrect'))
   end
 
-  def _get_action_year_month_day_from_params
-    year  = params[:action_year].to_i
-    month = params[:action_month].to_i
-    day = params[:action_day].to_i
-    raise InvalidDate unless Date.valid_date?(year,month,day)
-    
-    return [year, month, day]
+  def _get_action_date_from_params
+    Date.new(params[:action_year].to_i, params[:action_month].to_i, params[:action_day].to_i)
+  rescue
+    raise InvalidDate
   end
 
   # adjustmentの削除
@@ -278,12 +270,9 @@ class EntriesController < ApplicationController
       item.update_attributes!(amount: 0)
       item.reload
       
-      item.year, item.month, item.day = _get_action_year_month_day_from_params
-      item.attributes = { to_account_id: params[:to], tag_list: params[:tag_list] }
-      # could raise SyntaxError
-      item.adjustment_amount = Item.calc_amount(params[:adjustment_amount])
-
-      item.save!
+      item.update_attributes!( action_date: _get_action_date_from_params,
+        to_account_id: params[:to], tag_list: params[:tag_list],
+        adjustment_amount: Item.calc_amount(params[:adjustment_amount]))
     end
     item.reload
 
@@ -311,15 +300,6 @@ class EntriesController < ApplicationController
     old_from_id = item.from_account_id
     old_to_id = item.to_account_id
 
-    # 新規値の登録
-    item.attributes = { is_adjustment: false, name: params[:item_name],
-      from_account_id: params[:from], to_account_id: params[:to],
-      confirmation_required: params[:confirmation_required], tag_list: params[:tag_list],
-      amount: Item.calc_amount(params[:amount]) }
-    item.year, item.month, item.day = _get_action_year_month_day_from_params
-
-    @display_year_month = _month_to_display
-    
     # get items which could be updated
     old_from_item_adj = Item.future_adjustment(@user, old_action_date, old_from_id, item.id)
     old_to_item_adj = Item.future_adjustment(@user, old_action_date, old_to_id, item.id)
@@ -330,8 +310,13 @@ class EntriesController < ApplicationController
       to_adj_credit = Item.future_adjustment(@user, deleted_child_item.action_date, deleted_child_item.to_account_id, deleted_child_item.id)
     end
 
+    @display_year_month = _month_to_display
     Item.transaction do
-      item.save!
+      item.update_attributes!(is_adjustment: false, name: params[:item_name],
+                              from_account_id: params[:from], to_account_id: params[:to],
+                              confirmation_required: params[:confirmation_required], tag_list: params[:tag_list],
+                              action_date: _get_action_date_from_params,
+                              amount: Item.calc_amount(params[:amount]))
     end
     item.reload
     from_item_adj = Item.future_adjustment(@user, item.action_date,
