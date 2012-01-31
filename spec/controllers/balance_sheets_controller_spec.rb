@@ -30,7 +30,6 @@ describe BalanceSheetsController do
 
         describe "assigns" do
           subject { assigns }
-          its([:this_month]) { should ==  Date.today.beginning_of_month }
           its([:bs]) { should_not be_nil }
           its([:accounts]) { should_not be_nil }
           its([:bs_plus]) { should_not be_nil }
@@ -56,7 +55,6 @@ describe BalanceSheetsController do
 
         describe "assigns" do
           subject { assigns }
-          its([:this_month]) { should ==  Date.today.beginning_of_month }
           its([:bs]) { should_not be_nil }
           its([:accounts]) { should_not be_nil }
           its([:bs_plus]) { should_not be_nil }
@@ -92,7 +90,6 @@ describe BalanceSheetsController do
 
         describe "assigns" do
           subject { assigns }
-          its([:this_month]) { should ==  Date.new(2008,2) }
           its([:bs]) { should_not be_nil }
           its([:accounts]) { should_not be_nil }
           its([:bs_plus]) { should_not be_nil }

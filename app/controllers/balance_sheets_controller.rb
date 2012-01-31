@@ -7,11 +7,7 @@ class BalanceSheetsController < ApplicationController
   # balance sheet
   #
   def index
-    year = (params[:year] || today.year).to_i
-    month = (params[:month] || today.month).to_i
-    @this_month = Date.new(year, month)
-
-    mpls = @user.monthly_profit_losses.where("month <= ?", @this_month)
+    mpls = @user.monthly_profit_losses.where("month <= ?", displaying_month)
 
     @bs = { }
     @bs.default = 0
@@ -42,24 +38,16 @@ class BalanceSheetsController < ApplicationController
     redirect_to current_entries_path
   end
   
-  
   def show
     if params[:id].blank?
       redirect_js_to login_url
       return
     else
       @account_id = params[:id].to_i
-
-      if params[:year].blank? || params[:month].blank?
-        from_date = today.beginning_of_month
-        to_date = today.end_of_month
-      else
-        from_date = Date.new(params[:year].to_i, params[:month].to_i)
-        to_date = Date.new(params[:year].to_i, params[:month].to_i).end_of_month
-      end
+      from_date = displaying_month
+      to_date = displaying_month.end_of_month
       
       @remain_amount, @items = Item.collect_account_history(@user, @account_id, from_date, to_date)
-      @from_date = from_date
     end
   end
 end

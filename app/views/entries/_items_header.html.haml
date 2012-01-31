@@ -1,9 +1,5 @@
-- if params[:year].blank? || params[:month].blank?
-  - year = today.year
-  - month = today.month
-- else
-  - year = params[:year].to_i
-  - month = params[:month].to_i
+- year = displaying_month.year
+- month = displaying_month.month
 :javascript
   $(function() {
     $("#filter_account_id").bind("change", function() {

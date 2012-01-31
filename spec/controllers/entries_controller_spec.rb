@@ -1751,12 +1751,12 @@ describe EntriesController do
         
         context "add adjustment before any of the adjustments," do
           before do 
-            _login_and_change_month(2008,2)
+            _login_and_change_month(2008,3)
             @date = items(:adjustment2).action_date - 1
             @action = lambda {
               xhr(:post, :create, :entry_type => 'adjustment',
                   :action_year => @date.year, :action_month => @date.month, :action_day => @date.day,
-                  :to => accounts(:bank1).id.to_s, :adjustment_amount=>'100*(10+50)/2', :year => 2008, :month => 3, :tag_list => 'hoge fuga')
+                  :to => accounts(:bank1).id.to_s, :adjustment_amount=>'100*(10+50)/2', :year => "2008", :month => "3", :tag_list => 'hoge fuga')
             }
           end
 
@@ -1766,10 +1766,10 @@ describe EntriesController do
             }
           end
 
-          describe "@items" do
-            before { @action.call}
+          describe "@items", debug: true do
+            before { @action.call }
 
-            subject { assigns(:items).all?{|it| (Date.new(2008,3).beginning_of_month..Date.new(2008,3).end_of_month).cover?(it.action_date) } }
+            subject { assigns(:items).all?{|it| (Date.new(2008,3,1)..Date.new(2008,3,31)).cover?(it.action_date) } }
             it { should be_true }
           end
           

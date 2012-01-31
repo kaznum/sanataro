@@ -4,10 +4,7 @@ class ProfitLossesController < ApplicationController
   before_filter :redirect_if_id_is_nil!, only: :show
   
   def index
-    from_date, ignored = from_and_to_date_from_params_or_today
-    
-    @from_date = from_date
-    @m_pls = find_account_id_and_amount_by_month(from_date)
+    @m_pls = find_account_id_and_amount_by_month(displaying_month)
     
     adjustment_amount = @m_pls[-1]
     unknown_account = Account.new{ |a| a.id = -1 }
@@ -35,7 +32,8 @@ class ProfitLossesController < ApplicationController
   end
 
   def show
-    from_date, to_date = from_and_to_date_from_params_or_today
+    from_date = displaying_month
+    to_date = from_date.end_of_month
 
     @account_id = params[:id].to_i
     @remain_amount, @items = Item.collect_account_history(@user, @account_id, from_date, to_date)
@@ -51,16 +49,6 @@ class ProfitLossesController < ApplicationController
     true
   end
   
-  def from_and_to_date_from_params_or_today
-    if params[:year].blank? || params[:month].blank?
-      from_date = today.beginning_of_month
-      to_date = today.end_of_month
-    else
-      from_date = Date.new(params[:year].to_i, params[:month].to_i)
-      to_date = Date.new(params[:year].to_i, params[:month].to_i).end_of_month
-    end
-    [from_date, to_date]
-  end
 
   def find_account_id_and_amount_by_month(month)
     pls = { }

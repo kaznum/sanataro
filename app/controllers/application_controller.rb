@@ -20,10 +20,24 @@ class ApplicationController < ActionController::Base
   # change month to display
   #
   def change_month
-    from_year = params[:year].to_i
-    from_month = params[:month].to_i
-    current_action = params[:current_action]
-    _page_redirect_to(from_year, from_month, current_action)
+    url = url_for(:action => params[:current_action], :year => displaying_month.year, :month => displaying_month.month)
+    respond_to do |format|
+      format.html do
+        redirect_to url
+      end
+      format.js do
+        redirect_js_to url
+      end
+    end
+  rescue
+    respond_to do |format|
+      format.html do
+        redirect_to current_entries_url
+      end
+      format.js do
+        redirect_js_to current_entries_url
+      end
+    end
   end
 
   def set_separated_accounts
@@ -59,32 +73,6 @@ class ApplicationController < ActionController::Base
     return false
   end
 
-  #
-  # 日付を指定して一覧を表示
-  #
-  def _page_redirect_to(from_year, from_month, current_action)
-    # 日付が正しいことをチェックする
-    Date.new(from_year, from_month)
-
-    respond_to do |format|
-      format.html do
-        redirect_to url_for(:action => current_action, :year => from_year, :month => from_month)
-      end
-      format.js do
-        redirect_js_to url_for(:action => current_action, :year => from_year, :month => from_month)
-      end
-    end
-  rescue
-    respond_to do |format|
-      format.html do
-        redirect_to current_entries_url
-      end
-      format.js do
-        redirect_js_to current_entries_url
-      end
-    end
-  end
-  
   def render_js_error(args)
     @error_js_params = args
     render 'common/error'
@@ -97,4 +85,16 @@ class ApplicationController < ActionController::Base
   def json_date_format(date)
     date.to_time.to_i * 1000
   end
+
+  def displaying_month(year = params[:year], month = params[:month])
+    if @cached_displaying_month && year == @cached_year && month == @cached_month
+      @cached_displaying_month
+    else
+      @cached_year = year
+      @cached_month = month
+      @cached_displaying_month = year.present? && month.present? ? Date.new(year.to_i, month.to_i) : today.beginning_of_month
+    end
+  end
+  helper_method :displaying_month
+  
 end

@@ -8,7 +8,7 @@
         の出納帳 (#{link_to_function '隠す', fadeout_and_remove(selector)})
     %tr
       %th{:colspan => "4"}
-        前月(#{h (@from_date - 1).strftime("%Y/%m")})からの繰越
+        前月(#{(displaying_month - 1).strftime("%Y/%m")})からの繰越
       %th.money
         = CommonUtil.separate_by_comma(@remain_amount)
         円
@@ -38,7 +38,7 @@
           円
     %tr
       %th{:colspan => "4"}
-        次月(#{h (@from_date.end_of_month + 1).strftime("%Y/%m")})への繰越
+        次月(#{(displaying_month.end_of_month + 1).strftime("%Y/%m")})への繰越
       %th{:align => "right"}
         = CommonUtil.separate_by_comma(@remain_amount)
         円

@@ -32,7 +32,6 @@ describe ProfitLossesController do
 
         describe "instance varriables" do
           subject { assigns }
-          its([:from_date]) { should == Date.today.beginning_of_month }
           its([:m_pls]) { should_not be_nil }
           its([:account_incomes]) { should_not be_nil }
           its([:total_income]) { should_not be_nil }
@@ -65,7 +64,6 @@ describe ProfitLossesController do
 
           describe "assigned variables" do
             subject { assigns }
-            its([:from_date]) { should_not be_nil}
             its([:m_pls]) { should_not be_nil}
             its([:account_incomes]) { should_not be_nil}
             its([:total_income]) { should_not be_nil}

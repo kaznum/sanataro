@@ -5,6 +5,6 @@
     - elsif @mark
       = link_to _('>> Show All'), mark_entries_path(:mark => @mark, :remaining => true), :remote => true, :method => :get, :before => "$('remains_operation').hide();$('remains_loading').show();"
     - else
-      = link_to _('>> Show All'), entries_path(:year => @display_year_month.year, :month => @display_year_month.month, :remaining => true), :remote => true, :method => :get, :before => "$('remains_operation').hide();$('remains_loading').show();"
+      = link_to _('>> Show All'), entries_path(:year => displaying_month.year, :month => displaying_month.month, :remaining => true), :remote => true, :method => :get, :before => "$('remains_operation').hide();$('remains_loading').show();"
   %span#remains_loading{:style => "display:none;"}= image_tag "loading.gif", :alt => "loading..."
 / remains

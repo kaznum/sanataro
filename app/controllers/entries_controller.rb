@@ -8,11 +8,9 @@ class EntriesController < ApplicationController
     @tag = params[:tag]
     @mark = params[:mark]
 
-    @display_year_month = _month_to_display
-
     case
     when params[:remaining]
-      _index_for_remaining(@display_year_month, @tag, @mark)
+      _index_for_remaining(displaying_month, @tag, @mark)
     when !params[:filter_account_id].nil?
       _index_with_filter_account_id
     when @tag.present?
@@ -20,7 +18,7 @@ class EntriesController < ApplicationController
     when @mark.present?
       _index_with_mark(@mark)
     else
-      _index_plain(@display_year_month)
+      _index_plain(displaying_month)
     end
   rescue # 日付が不正の場合がある
     respond_to do |format|
@@ -31,7 +29,7 @@ class EntriesController < ApplicationController
   
   def _index_with_filter_account_id
     _set_filter_account_id_to_session_from_params
-    @items = _get_items(@display_year_month)
+    @items = _get_items(displaying_month)
     render "index_with_filter_account_id"
   end
   
@@ -54,11 +52,6 @@ class EntriesController < ApplicationController
     session[:filter_account_id] = account_id == 0 ? nil : account_id
   end
       
-  def _month_to_display(year = params[:year], month = params[:month])
-    year.present? && month.present? ? Date.new(year.to_i, month.to_i) : today.beginning_of_month
-  end
-    
-  
   def _index_plain(month_to_display)
     @items = _get_items(month_to_display)
     @new_item = Item.new { |item| item.action_date = _default_action_date(month_to_display) }
@@ -156,7 +149,6 @@ class EntriesController < ApplicationController
   end
   
   def _create_adjustment
-    @display_year_month = _month_to_display
     action_date = _get_action_date_from_params
     
     to_account_id = CommonUtil.remove_comma(params[:to]).to_i
@@ -171,8 +163,7 @@ class EntriesController < ApplicationController
                             from_account_id: -1, to_account_id: to_account_id,
                             is_adjustment: true, tag_list: params[:tag_list],
                             adjustment_amount: adjustment_amount)
-
-      @items = _get_items(@display_year_month)
+      @items = _get_items(displaying_month)
       updated_items << item
       
       render "create_adjustment", locals: { item: item, items: @items, updated_items: updated_items.reject(&:nil?) }
@@ -201,8 +192,7 @@ class EntriesController < ApplicationController
       if params[:only_add]
         render "create_item_simple", locals: { item: item }
       else
-        @display_year_month = _month_to_display
-        @items = _get_items(@display_year_month)
+        @items = _get_items(displaying_month)
         affected_items << item
         render "create_item", locals: { item: item, items: @items, updated_items: affected_items.reject(&:nil?).uniq }
       end
@@ -250,7 +240,6 @@ class EntriesController < ApplicationController
     item = @user.items.find_by_id(item_id)
     old_action_date = item.action_date
     old_to_id = item.to_account_id
-    @display_year_month = _month_to_display
 
     Item.transaction do
       # 残高調整のため、一度、amountを0にする。
@@ -270,7 +259,7 @@ class EntriesController < ApplicationController
     updated_items = []
     updated_items << old_future_adj << new_future_adj << item
     
-    items = _get_items(@display_year_month)
+    items = _get_items(displaying_month)
 
     render "update_adjustment", locals: { item: item, items: items, updated_items: updated_items.reject(&:nil?) }
   rescue InvalidDate
@@ -298,7 +287,6 @@ class EntriesController < ApplicationController
       to_adj_credit = Item.future_adjustment(@user, deleted_child_item.action_date, deleted_child_item.to_account_id, deleted_child_item.id)
     end
 
-    @display_year_month = _month_to_display
     Item.transaction do
       item.update_attributes!(is_adjustment: false, name: params[:item_name],
                               from_account_id: params[:from], to_account_id: params[:to],
@@ -319,7 +307,7 @@ class EntriesController < ApplicationController
     updated_items << from_item_adj << to_item_adj << credit_item
     updated_items << item
 
-    items = _get_items(@display_year_month)
+    items = _get_items(displaying_month)
 
     render "update_adjustment", locals: { item: item, items: items, updated_items: updated_items.reject(&:nil?) }
   rescue InvalidDate
