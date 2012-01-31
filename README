@@ -14,11 +14,11 @@ Sanataro - Simple Web Household Account Book.
 * DB: MySQL or PostgreSQL (heroku available)
 
 == FIXME / TODO
-This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0, 3.1 to 3.2 escalatorily, so there are lots of points of old fassion expressions to be fixed.
-* There are some points where Object-Oriented model is corrupted. They should be fixed.(especially, entities_controller.rb)
-* There are some places where hard-coded Japanese characters.
-* Fixture dependency should be removed and replaced with other framework(FactoryGirl, Fabrication, etc)
-* Now, there is no view specs and cucumber senarios.
+This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0, 3.1 to 3.2 escalatorily, so there are lots of points of old fashion expressions to be fixed.
+* There are some code where Object-Oriented model is corrupted. They should be fixed.
+* There are some code where hard-coded Japanese characters.
+* Fixture dependency should be removed and replaced it with Fabrication.
+* Now, there is no view specs and cucumber features.
 
 == License
 * MIT License.  http://opensource.org/licenses/mit-license.php
