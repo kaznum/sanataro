@@ -12,7 +12,7 @@ class EntriesController < ApplicationController
 
     case
     when params[:remaining]
-      _index_for_remaining(params[:year].to_i, params[:month].to_i, @tag, @mark)
+      _index_for_remaining(@display_year_month, @tag, @mark)
     when !params[:filter_account_id].nil?
       _index_with_filter_account_id
     when @tag.present?
@@ -31,17 +31,17 @@ class EntriesController < ApplicationController
   
   def _index_with_filter_account_id
     _set_filter_account_id_to_session_from_params
-    @items = _get_items(@display_year_month.year, @display_year_month.month)
+    @items = _get_items(@display_year_month)
     render "index_with_filter_account_id"
   end
   
   def _index_with_tag(tag)
-    @items = _get_items(nil, nil, false, tag, nil)
+    @items = _get_items(nil, false, tag, nil)
     render ('index_with_tag')
   end
   
   def _index_with_mark(mark)
-    @items = _get_items(nil, nil, false, nil, mark)
+    @items = _get_items(nil, false, nil, mark)
     render ('index_with_mark')
   end
   
@@ -60,7 +60,7 @@ class EntriesController < ApplicationController
     
   
   def _index_plain(month_to_display)
-    @items = _get_items(month_to_display.year, month_to_display.month)
+    @items = _get_items(month_to_display)
     @new_item = Item.new { |item| item.action_date = _default_action_date(month_to_display) }
   end
 
@@ -184,7 +184,7 @@ class EntriesController < ApplicationController
                             is_adjustment: true, tag_list: params[:tag_list],
                             adjustment_amount: adjustment_amount)
 
-      @items = _get_items(@display_year_month.year, @display_year_month.month)
+      @items = _get_items(@display_year_month)
       updated_items << item
       
       render "create_adjustment", locals: { item: item, items: @items, updated_items: updated_items.reject(&:nil?) }
@@ -217,7 +217,7 @@ class EntriesController < ApplicationController
         render "create_item_simple", locals: { item: item }
       else
         @display_year_month = _month_to_display(params[:year], params[:month])
-        @items = _get_items(@display_year_month.year, @display_year_month.month)
+        @items = _get_items(@display_year_month)
         affected_items << item
         render "create_item", locals: { item: item, items: @items, updated_items: affected_items.reject(&:nil?).uniq }
       end
@@ -293,7 +293,7 @@ class EntriesController < ApplicationController
     updated_items = []
     updated_items << old_future_adj << new_future_adj << item
     
-    items = _get_items(@display_year_month.year, @display_year_month.month)
+    items = _get_items(@display_year_month)
 
     render "update_adjustment", locals: { item: item, items: items, updated_items: updated_items.reject(&:nil?) }
   rescue InvalidDate
@@ -347,7 +347,7 @@ class EntriesController < ApplicationController
     updated_items << from_item_adj << to_item_adj << credit_item
     updated_items << item
 
-    items = _get_items(@display_year_month.year, @display_year_month.month)
+    items = _get_items(@display_year_month)
 
     render "update_adjustment", locals: { item: item, items: items, updated_items: updated_items.reject(&:nil?) }
   rescue InvalidDate
@@ -391,14 +391,14 @@ class EntriesController < ApplicationController
   #
   # 支出一覧の「すべて表示」をクリックした場合の処理
   #
-  def _index_for_remaining(year=nil, month=nil, tag=nil, mark=nil)
+  def _index_for_remaining(month, tag=nil, mark=nil)
     if tag.present? || mark.present?
-      y = m = nil
+      month_to_display = nil
     else
-      y, m = year, month
+      month_to_display = month.beginning_of_month
     end
     
-    @items = _get_items(y, m, true, tag, mark)
+    @items = _get_items(month_to_display, true, tag, mark)
     render 'index_for_remaining'
   end
   
@@ -406,10 +406,10 @@ class EntriesController < ApplicationController
   # get items from db
   # remain  true: 非表示の部分を取得
   #
-  def _get_items(year, month, remain=false, tag=nil, mark=nil)
-    if year.present? && month.present? 
-      from_date = Date.new(year,month)
-      to_date = from_date.end_of_month
+  def _get_items(month, remain=false, tag=nil, mark=nil)
+    if month.present?
+      from_date = month.beginning_of_month
+      to_date = month.end_of_month
     end
     Item.find_partial(@user, from_date, to_date,
                       { :filter_account_id => session[:filter_account_id],

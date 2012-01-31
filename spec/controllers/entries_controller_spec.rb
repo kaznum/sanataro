@@ -223,9 +223,6 @@ describe EntriesController do
             it "is called with :remain => true" do
               stub_date_from = Date.new(2008,2)
               stub_date_to = Date.new(2008,2).end_of_month
-              Date.should_receive(:new).with(2008,2).at_least(:once).and_return(stub_date_from)
-              stub_date_from.should_receive(:end_of_month).at_least(:once).and_return(stub_date_to)
-              
               Item.should_receive(:find_partial).with(an_instance_of(User),
                                                       stub_date_from, stub_date_to,
                                                       hash_including(:remain => true)).and_return(Item.where(:action_date => Date.new(2008,2)..Date.new(2008,2).end_of_month).all)
