@@ -397,16 +397,18 @@ class EntriesController < ApplicationController
   # 入力機能のみ表示(iPhone等でアクセスした場合)
   #
   def _new_simple
-    from_accounts = Array.new
     separated_accounts = @user.get_separated_accounts
+    #
+    # FIXME
+    # html escape should be done in Views.
+    #
+    from_accounts = []
     separated_accounts[:from_accounts].each do |a|
-      v = { :value => a[1], :text => ERB::Util.html_escape(a[0]) }
-      from_accounts.push v
+      from_accounts << { :value => a[1], :text => ERB::Util.html_escape(a[0]) }
     end
-    to_accounts = Array.new
+    to_accounts = []
     separated_accounts[:to_accounts].each do |a|
-      v = { :value => a[1], :text => ERB::Util.html_escape(a[0]) }
-      to_accounts.push v
+      to_accounts << { :value => a[1], :text => ERB::Util.html_escape(a[0]) }
     end
 
     @data = {
