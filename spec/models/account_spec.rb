@@ -97,15 +97,34 @@ describe Account do
       end
     end
 
-    context "when bgcolor is exist" do
-      before do 
-        @acc = Account.new(@valid_params)
-        @acc.bgcolor = 'ff0f1f'
-        @retval = @acc.save
+    context "when bgcolor is exist," do
+      context "and bgcolor does not have #," do
+        before do
+          @acc = Account.new(@valid_params)
+          @acc.bgcolor = 'ff0f1f'
+          @retval = @acc.save
+        end
+        
+        
+        it "保存できること" do
+          @retval.should be_true
+        end
       end
-      
-      it "保存できること" do
-        @retval.should be_true
+
+      context "and bgcolor has #," do
+        before do
+          @acc = Account.new(@valid_params)
+          @acc.bgcolor = '#ff0f1f'
+          @retval = @acc.save
+        end
+        
+        it "can save" do
+          @retval.should be_true
+        end
+
+        it "does not have # in bgcolor" do
+          @acc.bgcolor.should == "ff0f1f"
+        end
       end
     end
     

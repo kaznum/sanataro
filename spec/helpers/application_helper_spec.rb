@@ -56,4 +56,15 @@ describe ApplicationHelper do
       it { should be == Date.today.beginning_of_month.months_since(2).beginning_of_month }
     end
   end
+
+  describe "#highlight" do
+    subject { helper.highlight("#hello") }
+    it {should == "$('#hello').effect('highlight', {color: '#{HIGHLIGHT_COLOR}'}, #{HIGHLIGHT_DURATION});"}
+  end
+
+  describe "#fadeout_and_remove" do
+    subject { helper.fadeout_and_remove("#hello") }
+    it {should == "$('#hello').fadeOut(#{FADE_DURATION}, function() {$('#hello').remove();});"}
+  end
+  
 end
