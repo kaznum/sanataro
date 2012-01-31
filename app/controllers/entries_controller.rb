@@ -8,7 +8,7 @@ class EntriesController < ApplicationController
     @tag = params[:tag]
     @mark = params[:mark]
 
-    @display_year_month = _date_to_display(params[:year], params[:month])
+    @display_year_month = _month_to_display(params[:year], params[:month])
 
     case
     when params[:remaining]
@@ -54,7 +54,7 @@ class EntriesController < ApplicationController
     session[:filter_account_id] = account_id == 0 ? nil : account_id
   end
       
-  def _date_to_display(year, month)
+  def _month_to_display(year, month)
     year.present? && month.present? ? Date.new(year.to_i, month.to_i) : today.beginning_of_month
   end
     
