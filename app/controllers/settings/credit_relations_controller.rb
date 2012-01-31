@@ -18,7 +18,7 @@ class Settings::CreditRelationsController < ApplicationController
     @credit_relations = @user.credit_relations.all
     render 'create'
   rescue ActiveRecord::RecordInvalid => ex
-    render_js_error :id => "warning", :errors => ex.message.split(",").map(&:strip), :default_message => 'Error!!'
+    render_js_error :id => "warning", :errors => ex.error_messages, :default_message => 'Error!!'
   end
   
   def destroy
