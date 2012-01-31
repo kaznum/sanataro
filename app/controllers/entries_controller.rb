@@ -166,9 +166,7 @@ class EntriesController < ApplicationController
   end
   
   def _create_adjustment
-    display_year = params[:year].to_i
-    display_month = params[:month].to_i
-    @display_year_month = Date.new(display_year, display_month)
+    @display_year_month = _month_to_display(params[:year], params[:month])
     
     year, month, day = _get_action_year_month_day_from_params
     action_date = Date.new(year,month,day)
@@ -218,10 +216,7 @@ class EntriesController < ApplicationController
       if params[:only_add]
         render "create_item_simple", locals: { item: item }
       else
-        display_year = params[:year].to_i
-        display_month = params[:month].to_i
-        @display_year_month = Date.new(display_year, display_month)
-
+        @display_year_month = _month_to_display(params[:year], params[:month])
         @items = _get_items(@display_year_month.year, @display_year_month.month)
         affected_items << item
         render "create_item", locals: { item: item, items: @items, updated_items: affected_items.reject(&:nil?).uniq }
@@ -246,9 +241,6 @@ class EntriesController < ApplicationController
 
   # adjustmentの削除
   def _destroy_adjustment(item)
-    display_year = params[:year].to_i
-    display_month = params[:month].to_i
-    
     Item.transaction do
       deleted_item, f_adj, adj = _do_delete_item(item.id)[:itself]
       deleted_items = [ deleted_item ]
@@ -261,9 +253,6 @@ class EntriesController < ApplicationController
   end
 
   def _destroy_regular_item(item)
-    display_year = params[:year].to_i
-    display_month = params[:month].to_i
-
     Item.transaction do
       result_of_delete = _do_delete_item(item.id)
       deleted_item, from_adj_item, to_adj_item = result_of_delete[:itself]
@@ -281,9 +270,7 @@ class EntriesController < ApplicationController
     item = @user.items.find_by_id(item_id)
     old_action_date = item.action_date
     old_to_id = item.to_account_id
-    display_year = params[:year].to_i
-    display_month = params[:month].to_i
-    @display_year_month = Date.new(display_year, display_month)
+    @display_year_month = _month_to_display(params[:year], params[:month])
 
     Item.transaction do
       # 残高調整のため、一度、amountを0にする。
@@ -306,7 +293,7 @@ class EntriesController < ApplicationController
     updated_items = []
     updated_items << old_future_adj << new_future_adj << item
     
-    items = _get_items(display_year, display_month)
+    items = _get_items(@display_year_month.year, @display_year_month.month)
 
     render "update_adjustment", locals: { item: item, items: items, updated_items: updated_items.reject(&:nil?) }
   rescue InvalidDate
@@ -330,11 +317,9 @@ class EntriesController < ApplicationController
       confirmation_required: params[:confirmation_required], tag_list: params[:tag_list],
       amount: Item.calc_amount(params[:amount]) }
     item.year, item.month, item.day = _get_action_year_month_day_from_params
-    
-    display_year = params[:year].to_i
-    display_month = params[:month].to_i
-    @display_year_month = display_from_date = Date.new(display_year, display_month)
-    display_to_date = display_from_date.end_of_month
+
+    @display_year_month = _month_to_display(params[:year], params[:month])
+    display_to_date = @display_year_month.end_of_month
     
     # get items which could be updated
     old_from_item_adj = Item.future_adjustment(@user, old_action_date, old_from_id, item.id)
@@ -362,7 +347,7 @@ class EntriesController < ApplicationController
     updated_items << from_item_adj << to_item_adj << credit_item
     updated_items << item
 
-    items = _get_items(display_year, display_month)
+    items = _get_items(@display_year_month.year, @display_year_month.month)
 
     render "update_adjustment", locals: { item: item, items: items, updated_items: updated_items.reject(&:nil?) }
   rescue InvalidDate
