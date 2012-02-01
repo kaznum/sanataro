@@ -1,4 +1,0 @@
-= render partial: "items", locals: { items: items }
-= render partial: "success_message", locals: { selector: "#warning", message: _('Item was changed successfully.') + ' ' + item.action_date.strftime("%Y/%m/%d") + ' ' + _('Adjustment') + ' ' + CommonUtil.separate_by_comma(item.adjustment_amount) + _('yen') }
-= render partial: "highlight_items", locals: { items: updated_items }
-! $('#do_add_item #adjustment_amount').val('');

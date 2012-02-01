@@ -212,7 +212,7 @@ class EntriesController < ApplicationController
       updated_items = [from_adj_item, to_adj_item, from_adj_child, to_adj_child]
       deleted_items = [deleted_child_item, item]
       
-      render "destroy_item", locals: { item: item, deleted_items: deleted_items.reject(&:nil?), updated_items: updated_items.reject(&:nil?) }
+      render "destroy", locals: { item: item, deleted_items: deleted_items.reject(&:nil?), updated_items: updated_items.reject(&:nil?) }
     end
   end
 
@@ -242,7 +242,7 @@ class EntriesController < ApplicationController
     
     items = _get_items(displaying_month)
 
-    render "update_adjustment", locals: { item: item, items: items, updated_items: updated_items.reject(&:nil?) }
+    render "update", locals: { item: item, items: items, updated_items: updated_items.reject(&:nil?) }
   rescue InvalidDate
     render_js_error(:id => "item_warning_#{item.id}", :errors => nil, :default_message => "日付が不正です。")
   rescue SyntaxError
@@ -290,7 +290,7 @@ class EntriesController < ApplicationController
 
     items = _get_items(displaying_month)
 
-    render "update_adjustment", locals: { item: item, items: items, updated_items: updated_items.reject(&:nil?) }
+    render "update", locals: { item: item, items: items, updated_items: updated_items.reject(&:nil?) }
   rescue InvalidDate
     render_js_error :id => "item_warning_#{@item.id}", :errors => nil, :default_message => "日付が不正です。"
   rescue SyntaxError
