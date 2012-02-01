@@ -11,13 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120201084827) do
+ActiveRecord::Schema.define(:version => 20120201094222) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
     t.string   "name"
     t.datetime "created_at"
-    t.boolean  "is_active",    :default => true
+    t.boolean  "active",       :default => true
     t.string   "account_type"
     t.integer  "order_no"
     t.datetime "updated_at"
@@ -101,7 +101,7 @@ ActiveRecord::Schema.define(:version => 20120201084827) do
     t.string   "login"
     t.string   "password"
     t.datetime "created_at"
-    t.boolean  "is_active",    :default => true
+    t.boolean  "active",       :default => true
     t.datetime "updated_at"
     t.string   "email"
     t.string   "confirmation"

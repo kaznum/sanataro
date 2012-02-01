@@ -79,7 +79,7 @@ class LoginController < ApplicationController
   end
 
   def _get_user_by_login_and_autologin_key(login, autologin_key)
-    user = (login.blank? || autologin_key.blank?) ? nil : User.find_by_login_and_is_active(login, true)
+    user = (login.blank? || autologin_key.blank?) ? nil : User.find_by_login_and_active(login, true)
     matched_autologin_key = (user ? AutologinKey.matched_key(user.id, autologin_key) : nil)
     matched_autologin_key ? user : nil
   end
@@ -97,7 +97,7 @@ class LoginController < ApplicationController
       user.password_confirmation = params[:password_confirmation]
       user.email = params[:email].strip
       user.confirmation = _confirmation_key
-      user.is_active = false
+      user.active = false
     end
     @user.save!
 
@@ -120,7 +120,7 @@ class LoginController < ApplicationController
       render 'confirmation_error', :layout => 'entries'
     else
       user.deliver_signup_complete
-      user.update_attributes!(:is_active => true)
+      user.update_attributes!(:active => true)
       account1 = Account.create(:user_id => user.id, :name => '財布', :order_no => 10, :account_type => 'account')
       account2 = Account.create(:user_id => user.id, :name => '銀行A', :order_no => 20, :account_type => 'account')
       account3 = Account.create(:user_id => user.id, :name => '銀行B', :order_no => 30, :account_type => 'account')
@@ -153,7 +153,7 @@ class LoginController < ApplicationController
   # Inner procedure for login
   #
   def _do_login(login, password, set_autologin, is_autologin=false, is_only_add=false)
-    user = User.find_by_login_and_is_active(login, true)
+    user = User.find_by_login_and_active(login, true)
 
     unless is_autologin || _password_correct?(login, password, user)
       _clear_user_session

@@ -161,14 +161,14 @@ module FakedUser
                                :login => 'user1',
                                :password => '354274759f43fafbc9551e47bc63f077f244164e',
                                :email => 'test1@example.com',
-                               :is_active => true)
+                               :active => true)
   end
 
   class << self
     define_method :included do |mod|
       mod.instance_eval do 
         before do
-          User.stub(:find_by_login_and_is_active).with("user1", true).and_return(login_user)
+          User.stub(:find_by_login_and_active).with("user1", true).and_return(login_user)
         end
       end
     end

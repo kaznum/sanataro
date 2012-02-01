@@ -13,7 +13,7 @@ class Account < ActiveRecord::Base
   validates_format_of :account_type, :with => /^account$|^income$|^outgo$/
   validates_format_of :bgcolor, :with => /^[0-9a-f]{6}/i, :allow_nil => true
 
-  scope :active, where(:is_active => true)
+  scope :active, where(:active => true)
 
   def trim_bgcolor_if_needed
     if bgcolor =~ /^#/

@@ -69,13 +69,13 @@ describe Api::YearlyBudgetsController do
 
               @user = users(:user1)
               accs = @user.accounts
-              account1 = accs.create!(name: "その1", is_active: true,
+              account1 = accs.create!(name: "その1", active: true,
                                       account_type: 'account', order_no: 10)
-              account2 = accs.create!(name: "その2", is_active: true,
+              account2 = accs.create!(name: "その2", active: true,
                                       account_type: 'income', order_no: 20)
-              account3 = accs.create!(name: "その3", is_active: true,
+              account3 = accs.create!(name: "その3", active: true,
                                       account_type: 'account', order_no: 30)
-              @outgo_account = account4 = accs.create!(name: "その4", is_active: true,
+              @outgo_account = account4 = accs.create!(name: "その4", active: true,
                                       account_type: 'outgo', order_no: 40)
 
               pls = @user.monthly_profit_losses
@@ -142,13 +142,13 @@ describe Api::YearlyBudgetsController do
               Account.destroy_all
               @user = users(:user1)
               accs = @user.accounts
-              account1 = accs.create!(name: "その1", is_active: true,
+              account1 = accs.create!(name: "その1", active: true,
                                       account_type: 'account', order_no: 10)
-              @income_account = account2 = accs.create!(name: "その2", is_active: true,
+              @income_account = account2 = accs.create!(name: "その2", active: true,
                                       account_type: 'income', order_no: 20)
-              account3 = accs.create!(name: "その3", is_active: true,
+              account3 = accs.create!(name: "その3", active: true,
                                       account_type: 'account', order_no: 30)
-              account4 = accs.create!(name: "その4", is_active: true,
+              account4 = accs.create!(name: "その4", active: true,
                                       account_type: 'outgo', order_no: 40)
 
               pls = @user.monthly_profit_losses
@@ -216,13 +216,13 @@ describe Api::YearlyBudgetsController do
               Account.destroy_all
               @user = users(:user1)
               accs = @user.accounts
-              account1 = accs.create!(name: "その1", is_active: true,
+              account1 = accs.create!(name: "その1", active: true,
                                       account_type: 'account', order_no: 10)
-              account2 = accs.create!(name: "その2", is_active: true,
+              account2 = accs.create!(name: "その2", active: true,
                                       account_type: 'income', order_no: 20)
-              account3 = accs.create!(name: "その3", is_active: true,
+              account3 = accs.create!(name: "その3", active: true,
                                       account_type: 'account', order_no: 30)
-              account4 = accs.create!(name: "その4", is_active: true,
+              account4 = accs.create!(name: "その4", active: true,
                                       account_type: 'outgo', order_no: 40)
 
               pls = @user.monthly_profit_losses

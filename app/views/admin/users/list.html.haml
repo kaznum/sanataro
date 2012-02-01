@@ -14,4 +14,4 @@
       %td= h u.login
       %td= h u.created_at.nil? ? '' : u.created_at.strftime("%Y/%m/%d %H:%M:%S")
       %td= h u.updated_at.nil? ? '' : u.updated_at.strftime("%Y/%m/%d %H:%M:%S")
-      %td= h u.is_active?
+      %td= h u.active?

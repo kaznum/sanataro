@@ -307,7 +307,7 @@ describe LoginController do
         subject {User.order("id desc").first}
         its(:confirmation) {should_not be_nil}
         its(:confirmation) {should have(15).characters}
-        it { should_not be_is_active}
+        it { should_not be_active}
       end
     end
 
@@ -333,9 +333,9 @@ describe LoginController do
         mock_user = mock_model(User)
         Item.should_receive(:create).twice.and_return(double.as_null_object)
         User.should_receive(:find_by_login_and_confirmation).with('test200', '123456789012345').and_return(mock_user)
-        mock_user.should_receive(:update_attributes!).with(:is_active => true)
+        mock_user.should_receive(:update_attributes!).with(:active => true)
         mock_user.should_receive(:deliver_signup_complete)
-        User.create!(:login => 'test200', :password => '1234567', :password_confirmation => '1234567', :confirmation => '123456789012345', :email => 'test@example.com', :is_active => false)
+        User.create!(:login => 'test200', :password => '1234567', :password_confirmation => '1234567', :confirmation => '123456789012345', :email => 'test@example.com', :active => false)
         get :confirmation, :login => 'test200', :sid => '123456789012345'
       end
 
@@ -348,10 +348,10 @@ describe LoginController do
 
     context "when params[:sid] are correct," do 
       before do
-        User.create!(:login => 'test200', :password => '1234567', :password_confirmation => '1234567', :confirmation => '123456789012345', :email => 'test@example.com', :is_active => false)
+        User.create!(:login => 'test200', :password => '1234567', :password_confirmation => '1234567', :confirmation => '123456789012345', :email => 'test@example.com', :active => false)
         mock_user = mock_model(User).as_null_object
         User.should_receive(:find_by_login_and_confirmation).with('test200', '1234567890').and_return(nil)
-        mock_user.should_not_receive(:update_attributes!).with(:is_active => true)
+        mock_user.should_not_receive(:update_attributes!).with(:active => true)
         mock_mailer = double
         mock_mailer.should_not_receive(:deliver)
         Mailer.should_not_receive(:signup_complete).with(an_instance_of(User)).and_return(mock_mailer)

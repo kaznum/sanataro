@@ -3,7 +3,7 @@ bank1:
   id: 1
   user_id: 1
   name: bank1
-  is_active: true
+  active: true
   account_type: account
   order_no: 10
 
@@ -11,7 +11,7 @@ income2:
   id: 2
   user_id: 1
   name: income2
-  is_active: true
+  active: true
   account_type: income
   order_no: 10
 
@@ -19,7 +19,7 @@ outgo3:
   id: 3
   user_id: 1
   name: outgo3
-  is_active: true
+  active: true
   account_type: outgo
   order_no: 10
 
@@ -27,7 +27,7 @@ credit4:
   id: 4
   user_id: 1
   name: credit4
-  is_active: true
+  active: true
   account_type: account
   order_no: 10
 
@@ -35,7 +35,7 @@ bank11:
   id: 11
   user_id: 1
   name: bank11
-  is_active: true
+  active: true
   account_type: account
   order_no: 10
 
@@ -43,7 +43,7 @@ income12:
   id: 12
   user_id: 1
   name: income12
-  is_active: true
+  active: true
   account_type: income
   order_no: 10
 
@@ -52,7 +52,7 @@ outgo13:
   id: 13
   user_id: 1
   name: outgo13
-  is_active: true
+  active: true
   account_type: outgo
   order_no: 10
 
@@ -60,7 +60,7 @@ bank21:
   id: 21
   user_id: 1
   name: bank21
-  is_active: true
+  active: true
   account_type: account
   order_no: 10
 

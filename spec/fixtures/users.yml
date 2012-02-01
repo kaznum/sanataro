@@ -4,12 +4,12 @@ user1:
   login: user1
   password: 354274759f43fafbc9551e47bc63f077f244164e
   email: test1@example.com
-  is_active: true
+  active: true
 
 user101:
   id: 101
   login: user101
   password: 354274759f43fafbc9551e47bc63f077f244164e
   email: test2@example.com
-  is_active: true
+  active: true
 

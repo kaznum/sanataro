@@ -25,7 +25,7 @@ describe User do
       its(:password) { should == Digest::SHA1.hexdigest('test_1'+'123-4_56') }
       its(:created_at) { should_not be_nil }
       its(:updated_at) { should_not be_nil }
-      its(:is_active?) { should be_true }
+      its(:active?) { should be_true }
     end
 
     context "when without email" do
