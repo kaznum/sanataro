@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class BalanceSheetsController < ApplicationController
   before_filter :required_login
-  before_filter :set_separated_accounts, :only => [:show]
+  before_filter :set_categorized_accounts, :only => [:show]
   
   #
   # balance sheet

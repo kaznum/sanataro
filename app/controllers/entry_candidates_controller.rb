@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class EntryCandidatesController < ApplicationController
   before_filter :required_login
-  before_filter :set_separated_accounts, :only => [:index]
+  before_filter :set_categorized_accounts, :only => [:index]
   
   #
   # 入力候補の一覧を取得

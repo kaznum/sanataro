@@ -40,8 +40,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def set_separated_accounts
-    @separated_accounts = @user.get_separated_accounts unless @user.nil?
+  def set_categorized_accounts
+    @separated_accounts = @user.get_categorized_accounts unless @user.nil?
   end
 
   private

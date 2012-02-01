@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class EntriesController < ApplicationController
   before_filter :required_login
-  before_filter :set_separated_accounts, :only => [:index, :create, :update, :destroy, :new, :edit, :show]
+  before_filter :set_categorized_accounts, :only => [:index, :create, :update, :destroy, :new, :edit, :show]
   before_filter :_redirect_to_login_by_js_if_id_is_blank, :only => [:update]
   
   def index
@@ -304,7 +304,7 @@ class EntriesController < ApplicationController
   # 入力機能のみ表示(iPhone等でアクセスした場合)
   #
   def _new_simple
-    separated_accounts = @user.get_separated_accounts
+    separated_accounts = @user.get_categorized_accounts
     #
     # FIXME
     # html escape should be done in Views.

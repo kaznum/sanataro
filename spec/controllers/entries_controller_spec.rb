@@ -474,7 +474,7 @@ describe EntriesController do
         before do
           mock_user
           User.should_receive(:find).with(mock_user.id).and_return(mock_user)
-          mock_user.should_receive(:get_separated_accounts).twice.and_return(:from_accounts => [['a', 'b'],['c','d']], :to_accounts => [['e','f'],['g','h']])
+          mock_user.should_receive(:get_categorized_accounts).twice.and_return(:from_accounts => [['a', 'b'],['c','d']], :to_accounts => [['e','f'],['g','h']])
           
           @controller.should_receive(:form_authenticity_token).and_return("1234567")
           xhr :get, :new, :entry_type => 'simple'

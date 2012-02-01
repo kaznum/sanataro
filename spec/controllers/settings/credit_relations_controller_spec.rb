@@ -328,7 +328,7 @@ describe Settings::CreditRelationsController do
       before do
         @mock_user = mock_model(User, :id => users(:user1).id)
         @mock_separated_accounts = [double, double, double]
-        @mock_user.should_receive(:get_separated_accounts).and_return(@mock_separated_accounts)
+        @mock_user.should_receive(:get_categorized_accounts).and_return(@mock_separated_accounts)
         User.should_receive(:find).with(@mock_user.id).at_least(1).and_return(@mock_user)
         login
       end
