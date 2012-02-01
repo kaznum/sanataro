@@ -1,4 +1,4 @@
 = render partial: "items", locals: { items: items }
-- item_name = item.is_adjustment? ? _("Adjustment") : item.name
+- item_name = item.adjustment? ? _("Adjustment") : item.name
 = render partial: "success_message", locals: { selector: "#warning", message: "#{_('Item was changed successfully.')} #{item.action_date.strftime("%Y/%m/%d")} #{item_name} #{CommonUtil.separate_by_comma(item.amount) + _('yen')}" }
 = render partial: "highlight_items", locals: { items: updated_items }

@@ -1,5 +1,5 @@
 .item{:id => "item_#{event_item.id}"}
-  - if event_item.is_adjustment?
+  - if event_item.adjustment?
     .item_date.item_adjustment= event_item.action_date.strftime("%Y/%m/%d")
     .item_name.item_adjustment
       残高調整 #{h CommonUtil.separate_by_comma(event_item.adjustment_amount)}円

@@ -15,7 +15,7 @@ class EntryCandidatesController < ApplicationController
     end
 
     items = @user.items.
-      where("name like ?", '%' + sub_name + '%').where(:is_adjustment => false, :parent_id => nil).select('distinct name, from_account_id, to_account_id, amount').order("id desc").limit(5)
+      where("name like ?", '%' + sub_name + '%').where(:adjustment => false, :parent_id => nil).select('distinct name, from_account_id, to_account_id, amount').order("id desc").limit(5)
     render :partial => 'candidate', :collection => items
   end
 end

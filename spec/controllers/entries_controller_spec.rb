@@ -544,7 +544,7 @@ describe EntriesController do
         end
       end
 
-      context "item's is_adjustment is false" do
+      context "item's adjustment is false" do
         context "given there is a future's adjustment," do
           before do
             @old_item1 = items(:item1)
@@ -760,7 +760,7 @@ describe EntriesController do
           end
         end
         
-        context "when is_adjustment is true," do
+        context "when adjustment is true," do
           context "with invalid id," do
             let(:mock_items) { double }
             before do
@@ -1786,7 +1786,7 @@ describe EntriesController do
             end
             subject { @created_item }
 
-            it { should be_is_adjustment }
+            it { should be_adjustment }
             its(:adjustment_amount) { should == 100*(10+50)/2 }
             its(:amount) { should == 100*(10+50)/2 - @prev_total }
             its(:amount) { should == 100*(10+50)/2 - @init_total }
@@ -1846,7 +1846,7 @@ describe EntriesController do
             }
             describe "created_adjustment" do
               before { action.call }
-              subject { Item.where(is_adjustment: true, action_date: existing_adj.action_date).first }
+              subject { Item.where(adjustment: true, action_date: existing_adj.action_date).first }
               its(:adjustment_amount) { should == 50 }
               its(:amount) { should == existing_adj.amount + 50 - existing_adj.adjustment_amount }
             end
@@ -1892,7 +1892,7 @@ describe EntriesController do
 
             describe "all adjustments count" do
               specify {
-                expect { action.call }.not_to change{ Item.find_all_by_is_adjustment(true).count }
+                expect { action.call }.not_to change{ Item.find_all_by_adjustment(true).count }
               }
             end
             describe "all item count" do
@@ -1942,7 +1942,7 @@ describe EntriesController do
 
             describe "all adjustments count" do
               specify {
-                expect { action.call }.not_to change{ Item.find_all_by_is_adjustment(true).count }
+                expect { action.call }.not_to change{ Item.find_all_by_adjustment(true).count }
               }
             end
             describe "all item count" do
@@ -2005,7 +2005,7 @@ describe EntriesController do
           describe "created adjustment" do
             before do
               action.call
-              @created_adj = Item.where(:user_id => users(:user1).id, :action_date => date, :is_adjustment => true, :to_account_id => accounts(:bank1).id).first
+              @created_adj = Item.where(:user_id => users(:user1).id, :action_date => date, :adjustment => true, :to_account_id => accounts(:bank1).id).first
             end
             subject { @created_adj }
             its(:adjustment_amount) { should == 3000 }
@@ -2091,7 +2091,7 @@ describe EntriesController do
           describe "created adjustment" do
             before do
               action.call
-              @created_adj = Item.where(:user_id => users(:user1).id, :action_date => date, :is_adjustment => true, :to_account_id => accounts(:bank1).id).first
+              @created_adj = Item.where(:user_id => users(:user1).id, :action_date => date, :adjustment => true, :to_account_id => accounts(:bank1).id).first
             end
             subject { @created_adj }
             its(:adjustment_amount) { should == 3000 }
@@ -2178,7 +2178,7 @@ describe EntriesController do
           describe "created adjustment" do
             before do
               action.call
-              @created_adj = Item.where(:user_id => users(:user1).id, :action_date => date, :is_adjustment => true, :to_account_id => accounts(:bank1).id).first
+              @created_adj = Item.where(:user_id => users(:user1).id, :action_date => date, :adjustment => true, :to_account_id => accounts(:bank1).id).first
             end
             subject { @created_adj }
             its(:adjustment_amount) { should == 3000 }
@@ -2264,7 +2264,7 @@ describe EntriesController do
           describe "created adjustment" do
             before do
               action.call
-              @created_adj = Item.where(:user_id => users(:user1).id, :action_date => date, :is_adjustment => true, :to_account_id => accounts(:bank1).id).first
+              @created_adj = Item.where(:user_id => users(:user1).id, :action_date => date, :adjustment => true, :to_account_id => accounts(:bank1).id).first
             end
             subject { @created_adj }
             its(:adjustment_amount) { should == 3000 }
@@ -2420,7 +2420,7 @@ describe EntriesController do
             subject {Item.find(@old_adj2.id)}
             its(:adjustment_amount) { should == 3000 }
             its(:action_date) { should == @old_adj2.action_date }
-            it { should be_is_adjustment }
+            it { should be_adjustment }
             its(:amount) {should == 3000 - @old_adj2.adjustment_amount + @old_adj2.amount}
             its(:tag_list) {should == 'fuga hoge'}
           end
@@ -2469,7 +2469,7 @@ describe EntriesController do
               expect{@action.call}.not_to change{Item.find(items(:adjustment6).id).action_date}
             }
             specify {
-              expect{@action.call}.not_to change{Item.find(items(:adjustment6).id).is_adjustment?}
+              expect{@action.call}.not_to change{Item.find(items(:adjustment6).id).adjustment?}
             }
             specify {
               expect{@action.call}.to change{Item.find(items(:adjustment6).id).adjustment_amount}.to(3000)
@@ -2524,7 +2524,7 @@ describe EntriesController do
               expect{@action.call}.not_to change{Item.find(items(:adjustment4).id).action_date}
             }
             specify {
-              expect{@action.call}.not_to change{Item.find(items(:adjustment4).id).is_adjustment?}
+              expect{@action.call}.not_to change{Item.find(items(:adjustment4).id).adjustment?}
             }
             specify {
               expect{@action.call}.to change{Item.find(items(:adjustment4).id).adjustment_amount}.to(3000)
@@ -2584,7 +2584,7 @@ describe EntriesController do
               expect{@action.call}.to change{item.action_date}.to(@date)
             }
             specify {
-              expect{@action.call}.not_to change{item.is_adjustment?}
+              expect{@action.call}.not_to change{item.adjustment?}
             }
             specify {
               expect{@action.call}.to change{item.amount}.by(3000 - @init_adj2.adjustment_amount)
@@ -2617,7 +2617,7 @@ describe EntriesController do
             @old_adj4 = old_adj4 = items(:adjustment4)
             @old_adj6 = old_adj6 = items(:adjustment6)
             xhr :post, :create, :entry_type => 'adjustment', :action_year=>old_adj6.action_date.year, :action_month=>old_adj6.action_date.month, :action_day=>old_adj6.action_date.day, :to => 13,:adjustment_amount => '1000', :year=>old_adj4.action_date.year, :month=>old_adj4.action_date.month
-            @future_adj = Item.where(action_date: old_adj6.action_date, to_account_id: 13, is_adjustment: true).first
+            @future_adj = Item.where(action_date: old_adj6.action_date, to_account_id: 13, adjustment: true).first
             @date = date = old_adj2.action_date
             @old_mpl = MonthlyProfitLoss.where(month: date.beginning_of_month, account_id: old_adj2.to_account_id).first
             @new_mpl = MonthlyProfitLoss.where(month: date.beginning_of_month, account_id: 13).first
@@ -2703,7 +2703,7 @@ describe EntriesController do
             before { @action.call }
             subject { Item.find(items(:adjustment2).id) }
             its(:adjustment_amount) { should == 3000 }
-            it { should be_is_adjustment }
+            it { should be_adjustment }
             its(:action_date) { should == date }
             its(:amount) { should == 3000 - Account.asset(users(:user1), items(:adjustment2).to_account_id, date, items(:adjustment2).id )}
           end
@@ -2779,7 +2779,7 @@ describe EntriesController do
             its(:adjustment_amount) { should == 3000 }
             its(:amount) { should == 3000 - Item.find(@init_adj6).adjustment_amount }
             its(:action_date) { should == @init_adj6.action_date.tomorrow }
-            it {should be_is_adjustment }
+            it {should be_adjustment }
           end
 
           describe "the adjustment which was next to updated adjustment" do
@@ -2835,7 +2835,7 @@ describe EntriesController do
             its(:adjustment_amount) { should == 3000 }
             its(:amount) { should == 3000 - @asset}
             its(:action_date) { should == date }
-            it {should be_is_adjustment }
+            it {should be_adjustment }
           end
 
           describe "the adjustment which is next to updated adjustment" do

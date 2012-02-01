@@ -5,7 +5,7 @@ Fabricator(:item) do
   to_account_id 3
   amount 1000
   action_date "2011-11-01"
-  is_adjustment false
+  adjustment false
   adjustment_amount 0
   confirmation_required false
 end

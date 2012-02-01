@@ -1,4 +1,4 @@
--  partial = @item.is_adjustment? ? 'edit_adjustment' : 'edit_item'
+-  partial = @item.adjustment? ? 'edit_adjustment' : 'edit_item'
 :plain
   $("#item_#{@item.id}").hide();
   $("#item_#{@item.id}").html("#{escape_javascript(render partial: partial, locals: {item: @item})}");

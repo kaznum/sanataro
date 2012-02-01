@@ -18,7 +18,7 @@ adjustment2:
   from_account_id: -1
   to_account_id: 1
   amount: 22000
-  is_adjustment: true
+  adjustment: true
   adjustment_amount: 20000
   confirmation_required: false
 
@@ -40,7 +40,7 @@ adjustment4:
   from_account_id: -1
   to_account_id: 1
   amount: -1000
-  is_adjustment: true
+  adjustment: true
   adjustment_amount: 14000
 
 item5:
@@ -60,7 +60,7 @@ adjustment6:
   from_account_id: -1
   to_account_id: 1
   amount: -1000
-  is_adjustment: true
+  adjustment: true
   adjustment_amount: 12900
 
 item7:

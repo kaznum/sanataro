@@ -29,7 +29,7 @@
       %tr
         %td{:width => "80px"}= it.action_date.strftime("%Y/%m/%d")
         %td= related_account
-        %td= (it.is_adjustment?) ? '残高調整 ' + CommonUtil.separate_by_comma(it.adjustment_amount) + ' 円' : it.name
+        %td= (it.adjustment?) ? '残高調整 ' + CommonUtil.separate_by_comma(it.adjustment_amount) + ' 円' : it.name
         %td.money{:width => "80px"}
           = CommonUtil.separate_by_comma(amount)
           円

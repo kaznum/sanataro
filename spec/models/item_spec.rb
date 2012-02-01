@@ -34,7 +34,7 @@ describe Item do
     describe "created item's attributes" do
       subject { @saved_item }
       its(:action_date) { should == Date.new(2008,10,17) }
-      its(:is_adjustment?) { should be_false }
+      its(:adjustment?) { should be_false }
       its(:confirmation_required?) { should be_true }
     end
   end

@@ -32,7 +32,7 @@ class Item < ActiveRecord::Base
 
   def fill_amount_for_adjustment_if_needed
 
-    if is_adjustment? && !amount_changed? && action_date && to_account_id && user && adjustment_amount
+    if adjustment? && !amount_changed? && action_date && to_account_id && user && adjustment_amount
       asset = user.accounts.asset(user, to_account_id, action_date, id)
       self.amount = adjustment_amount - asset
       
@@ -175,7 +175,7 @@ class Item < ActiveRecord::Base
 
   def self.future_adjustment(user, action_date, account_id, item_id)
     user.items.where(to_account_id: account_id,
-                     is_adjustment: true).where("(action_date > ? AND id <> ?) OR (action_date = ? AND id > ?)",
+                     adjustment: true).where("(action_date > ? AND id <> ?) OR (action_date = ? AND id > ?)",
                                                 action_date, item_id, action_date, item_id).order("action_date, id").first
   end
   

@@ -147,13 +147,13 @@ class EntriesController < ApplicationController
     adjustment_amount = Item.calc_amount(params[:adjustment_amount])
     
     Item.transaction do
-      prev_adj = @user.items.find_by_to_account_id_and_action_date_and_is_adjustment(to_account_id, action_date, true)
+      prev_adj = @user.items.find_by_to_account_id_and_action_date_and_adjustment(to_account_id, action_date, true)
       _do_delete_item(prev_adj.id) if prev_adj
       
       item, updated_items =
         Teller.create_entry(user: @user, action_date: action_date, name: 'Adjustment',
                             from_account_id: -1, to_account_id: to_account_id,
-                            is_adjustment: true, tag_list: params[:tag_list],
+                            adjustment: true, tag_list: params[:tag_list],
                             adjustment_amount: adjustment_amount)
       @items = _get_items(displaying_month)
       updated_items << item
@@ -269,7 +269,7 @@ class EntriesController < ApplicationController
     end
 
     Item.transaction do
-      item.update_attributes!(is_adjustment: false, name: params[:item_name],
+      item.update_attributes!(adjustment: false, name: params[:item_name],
                               from_account_id: params[:from], to_account_id: params[:to],
                               confirmation_required: params[:confirmation_required], tag_list: params[:tag_list],
                               action_date: _get_action_date_from_params,
