@@ -36,7 +36,7 @@ class AutologinKey < ActiveRecord::Base
   def fill_enc_autologin_key
     if (not self.autologin_key.nil?) && (not self.user_id.nil?)
       user = User.find_by_id(self.user_id)
-      self.enc_autologin_key = CommonUtil.crypt(user.login + self.autologin_key) unless user.nil?
+      self.enc_autologin_key = CommonUtil.crypt(user.login + self.autologin_key) if user
     end
   end
   
