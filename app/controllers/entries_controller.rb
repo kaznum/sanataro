@@ -100,14 +100,6 @@ class EntriesController < ApplicationController
     redirect_js_to url
   end
 
-  def _destroy_item(item)
-    if item.is_adjustment?
-      _destroy_adjustment(item)
-    else
-      _destroy_regular_item(item)
-    end
-  end
-  
   def edit
     @item = @user.items.find(params[:id])
   rescue ActiveRecord::RecordNotFound => ex
@@ -211,18 +203,7 @@ class EntriesController < ApplicationController
     raise InvalidDate
   end
 
-  # adjustmentの削除
-  def _destroy_adjustment(item)
-    Item.transaction do
-      deleted_item, f_adj, adj = _do_delete_item(item.id)[:itself]
-      deleted_items = [ deleted_item ]
-      updated_items = [f_adj, adj]
-
-      render "destroy_adjustment", locals: { item: item, deleted_items: deleted_items.reject(&:nil?).uniq, updated_items: updated_items.reject(&:nil?).uniq }
-    end
-  end
-
-  def _destroy_regular_item(item)
+  def _destroy_item(item)
     Item.transaction do
       result_of_delete = _do_delete_item(item.id)
       deleted_item, from_adj_item, to_adj_item = result_of_delete[:itself]
