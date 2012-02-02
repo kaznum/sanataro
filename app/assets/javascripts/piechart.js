@@ -4,7 +4,7 @@
     var pieChart = function(id, data) {
         $(function () {
             var series = data.length;
-            $.plot($("#" + id), data, {
+            $.plot($(id), data, {
                 series: {
                     pie: { 
                         show: true,
@@ -23,11 +23,11 @@
                 legend: { show: true },
 		grid: { hoverable: true }
             });
-	    $("#" + id).bind("plothover", function(event, pos, obj) {
+	    $(id).bind("plothover", function(event, pos, obj) {
 		
 		if (!obj) { return; }
 		var percent = parseFloat(obj.series.percent).toFixed(0);
-		$("#" + id + "_hover").html('<span style="font-weight: bold; color: '+obj.series.color+'">'+obj.series.label+' ('+percent+'%)</span>');
+		$(id + "_hover").html('<span style="font-weight: bold; color: '+obj.series.color+'">'+obj.series.label+' ('+percent+'%)</span>');
 	    });
         });
     }

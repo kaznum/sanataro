@@ -8,13 +8,13 @@
       url: "#{raw api_budget_path(:id => sprintf("%04d%02d", cur_year, cur_month), :format => :json)}",
       type: "GET",
       dataType: "json",
-      success: function(data){ pieChart("income_chart", data); }
+      success: function(data){ pieChart("#income_chart", data); }
     });
     $.ajax({
       url: "#{raw api_budget_path(:id => sprintf("%04d%02d", cur_year, cur_month), :budget_type => 'outgo', :format => :json)}",
       type: "GET",
       dataType: "json",
-      success: function(data){ pieChart("outgo_chart", data); }
+      success: function(data){ pieChart("#outgo_chart", data); }
     });
     $.ajax({
       url: "#{raw api_yearly_budget_path(:id => sprintf("%04d%02d", cur_year, cur_month), :budget_type => 'income', :format => :json)}",
