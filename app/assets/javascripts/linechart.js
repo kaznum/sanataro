@@ -26,7 +26,11 @@
 	choiceContainer.find("input[rel=all]").bind("change", function() {
 	    checked = jQuery(this).attr("checked");
             choiceContainer.find("input[rel!=all]").each(function () {
-		jQuery(this).attr("checked", checked);
+		if (checked == "checked") {
+		    jQuery(this).attr("checked", "checked");
+		} else {
+		    $(this).removeAttr("checked");
+		}
 		plotAccordingToChoices();
 	    });
 	});
