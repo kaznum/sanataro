@@ -2,27 +2,15 @@
 - cur_month = displaying_month.month
 = javascript_include_tag "piechart"
 = javascript_include_tag "linechart"
+= javascript_include_tag "balance_sheets"
 :javascript
-  window.onload = function() {
-    $.ajax({
-      url: "#{api_asset_path(:id => sprintf("%04d%02d", cur_year, cur_month), :format => :json)}",
-      type: "GET",
-      dataType: "json",
-      success: function(data){ pieChart("#asset_chart", data); }
-    });
-    $.ajax({
-      url: "#{api_asset_path(:id => sprintf("%04d%02d", cur_year, cur_month), :asset_type => 'debt', :format => :json)}",
-      type: "GET",
-      dataType: "json",
-      success: function(data){ pieChart("#debt_chart", data); }
-    });
-    $.ajax({
-      url: "#{api_yearly_asset_path(:id => sprintf("%04d%02d", cur_year, cur_month), :format => :json)}",
-      type: "GET",
-      dataType: "json",
-      success: function(data){ lineChart("#yearly_chart", "#yearly_chart_choices" , data); }
-    });
-  };
+  (function(global) {
+    global.urls = {
+      asset: "#{api_asset_path(id: sprintf("%04d%02d", cur_year, cur_month), format: :json)}",
+      debt: "#{api_asset_path(id: sprintf("%04d%02d", cur_year, cur_month), asset_type: 'debt', format: :json)}",
+      yearly_asset: "#{api_yearly_asset_path(id: sprintf("%04d%02d", cur_year, cur_month), format: :json)}"
+    };
+  })(document);
 #monthlist
   - calendar_from_date = calendar_from(@user)
   - calendar_to_date = calendar_to(@user)
