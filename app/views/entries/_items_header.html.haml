@@ -1,15 +1,8 @@
 - year = displaying_month.year
 - month = displaying_month.month
+= javascript_include_tag :items
 :javascript
-  $(function() {
-    $("#filter_account_id").bind("change", function() {
-      $.ajax({
-        url: "#{entries_path(:year => year, :month => month)}",
-        type: "get",
-        data: { filter_account_id: $("#filter_account_id > option:selected").val() }
-      });
-    });
-  });
+  document.urls = { entries_path: "#{entries_path(:year => year, :month => month)}" }
 - all_acnts = Array.new
 - (@separated_accounts[:outgo_ids] + @separated_accounts[:account_ids] + @separated_accounts[:income_ids]).each do |a|
   - all_acnts.push [@separated_accounts[:all_accounts][a], a]
