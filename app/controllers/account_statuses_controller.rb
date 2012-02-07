@@ -29,8 +29,8 @@ class AccountStatusesController < ApplicationController
     retval = { 'account' => [], 'income' => [], 'outgo' => [] }
     @user.accounts.active.order(:order_no).each do |a|
       pl_total = a.account_type == 'account' ? amount_to_last_month(a.id, from) : 0
-      from_total = ['account', 'income'].include?(a.account_type) ? @user.items.where(:from_account_id => a.id).action_date_between(from, to).sum(:amount) || 0 : 0
-      to_total = ['account', 'outgo'].include?(a.account_type) ? @user.items.where(:to_account_id => a.id).action_date_between(from, to).sum(:amount) || 0 : 0
+      from_total = ['account', 'income'].include?(a.account_type) ? @user.items.where(:from_account_id => a.id).action_date_between(from, to).sum(:amount) : 0
+      to_total = ['account', 'outgo'].include?(a.account_type) ? @user.items.where(:to_account_id => a.id).action_date_between(from, to).sum(:amount) : 0
 
       case a.account_type
       when 'account'
@@ -45,11 +45,11 @@ class AccountStatusesController < ApplicationController
   end
   
   def amount_to_last_month(account_id, month)
-    @user.monthly_profit_losses.where("account_id = ? and month < ?", account_id, month).sum(:amount) || 0
+    @user.monthly_profit_losses.where("account_id = ? and month < ?", account_id, month).sum(:amount)
   end
 
   def unknown_amount_between(from, to)
-    @user.items.where(:from_account_id => -1).action_date_between(from, to).sum(:amount) || 0
+    @user.items.where(:from_account_id => -1).action_date_between(from, to).sum(:amount)
   end
 end
 
