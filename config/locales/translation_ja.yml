@@ -11,7 +11,7 @@ ja:
     attributes:
       account:
         name: "名"  #g
-        is_active: "アクティブになっています"  #g
+        active: "アクティブになっています"  #g
         account_type: "アカウントの種類"  #g
         order_no: "注文番号"  #g
         bgcolor: "bgcolorは"  #g
@@ -48,7 +48,7 @@ ja:
       user:
         login: "ログイン"  #g
         password: "パスワード"  #g
-        is_active: "アクティブになっています"  #g
+        active: "アクティブになっています"  #g
         email: "Eメール"  #g
         confirmation: "確認"  #g
         accounts: "アカウント"  #g
