@@ -1,0 +1,27 @@
+development:
+  adapter: mysql2
+  database: sanataro_development
+  username: sanataro
+  password: password
+  encoding: utf8
+  host: localhost
+
+test: &test
+  adapter: mysql2
+  database: sanataro_test
+  username: sanataro
+  password: password
+  encoding: utf8
+  host: localhost
+
+production:
+  adapter: mysql2
+  database: sanataro_production
+  username: sanataro
+  password: password
+  encoding: utf8
+  host: localhost
+
+cucumber:
+  <<: *test
+
