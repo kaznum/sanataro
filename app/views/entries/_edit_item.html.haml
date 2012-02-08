@@ -1,20 +1,23 @@
 :javascript
   $(function() {
-    $("#edit_#{item.id}_form").bind("ajax:before", function() {
-      $('#edit_button_#{item.id}').attr('disabled', 'disabled');
-      $('#item_operation_#{item.id}').hide();
-      $('#item_operation_loading_#{item.id}').show();
-    });
-    $("#edit_#{item.id}_form").bind("ajax:complete", function() {
-      $('#edit_button_#{item.id}').removeAttr('disabled');
-      $('#item_operation_loading_#{item.id}').hide();
-      $('#item_operation_#{item.id}').show();
-    });
+    $("#edit_#{item.id}_form")
+      .bind("ajax:before", function() {
+        $('#edit_button_#{item.id}').attr('disabled', 'disabled');
+        $('#item_operation_#{item.id}').hide();
+        $('#item_operation_loading_#{item.id}').show();
+      })
+      .bind("ajax:complete", function() {
+        $('#edit_button_#{item.id}').removeAttr('disabled');
+        $('#item_operation_loading_#{item.id}').hide();
+        $('#item_operation_#{item.id}').show();
+      });
+    $("#action_date_#{item.id}").datepicker();
   });
+  
 .item{:id => "item_#{item.id}"}
   = form_tag entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :put, :id => "edit_#{item.id}_form"  do
-    = text_field_tag :action_year, item.action_date.year, :size=>5
-    年 #{text_field_tag :action_month, item.action_date.month, :size=>3}月 #{text_field_tag :action_day, item.action_date.mday, :size=>3}日 #{text_field_tag :item_name, item.name, :size=>30}
+    = text_field_tag :action_date, item.action_date.strftime("%Y/%m/%d"), size: 12, placeholder: "YYYY/MM/DD", id: "action_date_#{item.id}"
+    = text_field_tag :item_name, item.name, :size=>30
     \#{check_box_tag 'confirmation_required', true, item.confirmation_required?}要確認
     %br/
     = select_tag 'from', options_for_select(@separated_accounts[:from_accounts], item.from_account_id.to_s)

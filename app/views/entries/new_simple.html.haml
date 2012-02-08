@@ -28,3 +28,4 @@
     new EJS({url: '/ejs/entries/new_simple.ejs?2011041401'}).update("replaced_area",#{@data.to_json});
     observerAddItemOnlyInput('#{@data[:authenticity_token]}');
     bindSubmitInNewSimple();
+    $("#action_date").datepicker();

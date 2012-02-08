@@ -198,7 +198,7 @@ class EntriesController < ApplicationController
   end
 
   def _get_action_date_from_params
-    Date.new(params[:action_year].to_i, params[:action_month].to_i, params[:action_day].to_i)
+    Date.parse(params[:action_date])
   rescue
     raise InvalidDate
   end

@@ -2,7 +2,7 @@
 <div>
 <div id="add_item_only_input">
 <form action="/entries" id="do_add_item" method="post">
-<div class="vl"><input id="year" name="action_year" type="text" value="<%= year %>"  placeholder="年"/>年<input id="month" name="action_month"  type="text" value="<%= month %>"  placeholder="月"/>月<input id="day" name="action_day" placeholder="日"  type="text" value="<%= day %>" />日</div><div class="reset"></div>
+<div class="vl"><input id="action_date" name="action_date" type="text" value="<%= year %>/<%= month %>/<%= day %>"  placeholder="YYYY/MM/DD" size="12"/><div class="reset"></div>
 <div class="vl"><input id="item_name" name="item_name" placeholder="説明を入力" type="text" /><div id="candidates"></div></div><div class="reset"></div>
 <div class="vl"><%= select_tag('from', null, from_accounts) %><br/>▽▽▽<br/><%= select_tag('to', null, to_accounts) %></div><div class="reset"></div>
 <div class="vl"><input id="amount" name="amount" placeholder="金額" style="text-align: right;" type="text" />円 <input id="confirmation_required" name="confirmation_required" type="checkbox" value="true" />要確認</div><div class="reset"></div>

@@ -1,21 +1,22 @@
 :javascript
   $(function() {
-    $("#edit_#{item.id}_form").bind("ajax:before", function() {
-      $('#edit_button_#{item.id}').attr('disabled', 'disabled');
-      $('#item_operation_#{item.id}').hide();
-      $('#item_operation_loading_#{item.id}').show();
-    });
-    $("#edit_#{item.id}_form").bind("ajax:complete", function() {
-      $('#edit_button_#{item.id}').removeAttr('disabled');
-      $('#item_operation_loading_#{item.id}').hide();
-      $('#item_operation_#{item.id}').show();
-    });
+    $("#edit_#{item.id}_form")
+      .bind("ajax:before", function() {
+        $('#edit_button_#{item.id}').attr('disabled', 'disabled');
+        $('#item_operation_#{item.id}').hide();
+        $('#item_operation_loading_#{item.id}').show();
+      })
+      .bind("ajax:complete", function() {
+        $('#edit_button_#{item.id}').removeAttr('disabled');
+        $('#item_operation_loading_#{item.id}').hide();
+        $('#item_operation_#{item.id}').show();
+      });
   });
 .item{:id => "item_#{item.id}"}
   = form_tag entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :put, :id => "edit_#{item.id}_form" do
-    = hidden_field_tag :action_year, item.action_date.year
-    = item.action_date.year
-    年 #{hidden_field_tag :action_month, item.action_date.month}#{h item.action_date.month}月 #{hidden_field_tag :action_day, item.action_date.mday}#{h item.action_date.mday}日 口座と残高を入力すると、過不足分が自動計算されます。
+    = hidden_field_tag :action_date, item.action_date.strftime("%Y/%m/%d")
+    = #{item.action_date.strftime("%Y/%m/%d")}
+    口座と残高を入力すると、過不足分が自動計算されます。
     %br/
     = select_tag 'to', options_for_select(@separated_accounts[:to_accounts], item.to_account_id.to_s)
     残高:#{text_field_tag 'adjustment_amount', item.adjustment_amount, :size=>10, :style=>"text-align: right;"}円

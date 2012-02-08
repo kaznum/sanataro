@@ -60,7 +60,7 @@ describe MainController do
       context "with id which is valid" do
         before do
           xhr :post, :change_month, :year=>'2008', :month=>'2', :current_action=>'items'
-          create_entry(:action_year=>'2008', :action_month=>'2', :action_day=>'10',
+          create_entry(:action_date => '2008/2/10', 
                        :item_name=>'テスト10show_parent_child', 
                        :amount=>'10,000', :from=>accounts(:credit4).id,
                        :to=>accounts(:outgo3).id, :year => 2008, :month => 2)
@@ -78,7 +78,7 @@ describe MainController do
       context "with :type => 'parent' even it should not be done" do
         before do
           xhr :post, :change_month, :year=>'2008', :month=>'2', :current_action=>'items'
-          create_entry(:action_year=>'2008', :action_month=>'2', :action_day=>'10',
+          create_entry(:action_date => '2008/2/10',
                        :item_name=>'テスト10show_parent_child', 
                        :amount=>'10,000', :from=>accounts(:credit4).id,
                        :to=>accounts(:outgo3).id, :year => 2008, :month => 2)
