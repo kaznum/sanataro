@@ -4,7 +4,7 @@ require 'spec_helper'
 describe MonthlyProfitLoss do
   fixtures :monthly_profit_losses, :users, :accounts
 
-  describe "find_by_month" do
+  describe "find_all_by_month" do
     subject { MonthlyProfitLoss.find_all_by_month(Date.new(2008,2)) }
     specify { subject.size.should be > 0 }
   end
