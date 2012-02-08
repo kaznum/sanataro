@@ -2,8 +2,6 @@
 class MonthlyProfitLoss < ActiveRecord::Base
   belongs_to :user
 
-  scope :months_before, lambda { |date| where("month < ?", date) }
-  
   class << self
     def correct(user, account_id, month)
       pl = user.monthly_profit_losses.find_or_initialize_by_account_id_and_month(account_id, month)
