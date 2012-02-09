@@ -14,4 +14,7 @@
       observerAddItemOnlyInput('#{@data[:authenticity_token]}');
       bindSubmitInNewSimple();
       $("#action_date").datepicker();
+      $("#confirmation_required_label").bind("click", function() {
+        toggleConfirmationRequired($("#confirmation_required").attr("value") != "true");
+      });
     });

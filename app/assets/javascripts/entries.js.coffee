@@ -1,3 +1,6 @@
+//= require toggle_confirmation_required
+//= require_self
+
 global = this
 global.itemNameObserver = (url) ->
   $("#do_add_item #item_name").delayedObserver ->
