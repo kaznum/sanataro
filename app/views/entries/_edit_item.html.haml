@@ -13,23 +13,11 @@
       });
     $("#action_date_#{item.id}").datepicker();
     $("#confirmation_required_label_#{item.id}").bind("click", function() {
-      if ($("#confirmation_required_#{item.id}").attr("value") == "true") {
-        $("#confirmation_required_label_#{item.id}").text("☆").attr("class", "item_confirmation_not_required");
-        $("#confirmation_required_#{item.id}").attr("value", "false");
-      } else {
-        $("#confirmation_required_label_#{item.id}").text("★").attr("class", "item_confirmation_required");
-        $("#confirmation_required_#{item.id}").attr("value", "true");
-      }
+      toggleConfirmationRequired($("#confirmation_required_#{item.id}").attr("value") != "true", "#{item.id}");
     });
 
-
     //initialize confirmation required just after rendering initialy
-    if ($("#confirmation_required_#{item.id}").attr("value") == "true") {
-      $("#confirmation_required_label_#{item.id}").text("★").attr("class", "item_confirmation_required");
-    } else {
-      $("#confirmation_required_label_#{item.id}").text("☆").attr("class", "item_confirmation_not_required");
-    }
-    
+    toggleConfirmationRequired($("#confirmation_required_#{item.id}").attr("value") == "true", "#{item.id}");
   });
   
 .item{:id => "item_#{item.id}"}

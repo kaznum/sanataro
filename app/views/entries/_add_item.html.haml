@@ -11,13 +11,7 @@
       });
     $("#action_date").datepicker();
     $("#confirmation_required_label").bind("click", function() {
-      if ($("#confirmation_required").attr("value") == "true") {
-        $("#confirmation_required_label").text("☆").attr("class", "item_confirmation_not_required");
-        $("#confirmation_required").attr("value", "false");
-      } else {
-        $("#confirmation_required_label").text("★").attr("class", "item_confirmation_required");
-        $("#confirmation_required").attr("value", "true");
-      }
+      toggleConfirmationRequired($("#confirmation_required").attr("value") != "true");
     });
   });
   
