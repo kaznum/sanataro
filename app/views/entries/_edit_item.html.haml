@@ -12,13 +12,32 @@
         $('#item_operation_#{item.id}').show();
       });
     $("#action_date_#{item.id}").datepicker();
+    $("#confirmation_required_label_#{item.id}").bind("click", function() {
+      if ($("#confirmation_required_#{item.id}").attr("value") == "true") {
+        $("#confirmation_required_label_#{item.id}").text("☆").attr("class", "item_confirmation_not_required");
+        $("#confirmation_required_#{item.id}").attr("value", "false");
+      } else {
+        $("#confirmation_required_label_#{item.id}").text("★").attr("class", "item_confirmation_required");
+        $("#confirmation_required_#{item.id}").attr("value", "true");
+      }
+    });
+
+
+    //initialize confirmation required just after rendering initialy
+    if ($("#confirmation_required_#{item.id}").attr("value") == "true") {
+      $("#confirmation_required_label_#{item.id}").text("★").attr("class", "item_confirmation_required");
+    } else {
+      $("#confirmation_required_label_#{item.id}").text("☆").attr("class", "item_confirmation_not_required");
+    }
+    
   });
   
 .item{:id => "item_#{item.id}"}
   = form_tag entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :put, :id => "edit_#{item.id}_form"  do
     = text_field_tag :action_date, item.action_date.strftime("%Y/%m/%d"), size: 12, placeholder: "YYYY/MM/DD", id: "action_date_#{item.id}"
     = text_field_tag :item_name, item.name, :size=>30
-    \#{check_box_tag 'confirmation_required', true, item.confirmation_required?}要確認
+    = hidden_field_tag :confirmation_required, item.confirmation_required?, id: "confirmation_required_#{item.id}"
+    %span.item_confirmation_not_required{id: "confirmation_required_label_#{item.id}"}= '☆'
     %br/
     = select_tag 'from', options_for_select(@separated_accounts[:from_accounts], item.from_account_id.to_s)
     \=&gt;#{select_tag 'to', options_for_select(@separated_accounts[:to_accounts], item.to_account_id.to_s)} 金額:#{text_field_tag 'amount', item.amount, :size=>10, :style=>"text-align: right;"}円

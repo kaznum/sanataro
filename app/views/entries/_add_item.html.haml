@@ -10,6 +10,15 @@
         $('#new_add_button').removeAttr('disabled');
       });
     $("#action_date").datepicker();
+    $("#confirmation_required_label").bind("click", function() {
+      if ($("#confirmation_required").attr("value") == "true") {
+        $("#confirmation_required_label").text("☆").attr("class", "item_confirmation_not_required");
+        $("#confirmation_required").attr("value", "false");
+      } else {
+        $("#confirmation_required_label").text("★").attr("class", "item_confirmation_required");
+        $("#confirmation_required").attr("value", "true");
+      }
+    });
   });
   
 %p#add_item_explain
@@ -18,8 +27,9 @@
 = form_tag entries_path(it.action_date.year, it.action_date.month), :remote => true, :method => :post, :id=>'do_add_item' do
   = text_field_tag :action_date, it.action_date.strftime("%Y/%m/%d"), size: 12, placeholder: "YYYY/MM/DD"
   = text_field_tag :item_name, it.name, size: 30, placeholder: _('Input explanation')
-  = check_box_tag :confirmation_required, true, it.confirmation_required?
-  = link_to '要確認', mark_entries_path(mark: :confirmation_required)
+  = hidden_field_tag :confirmation_required, it.confirmation_required?
+  %span#confirmation_required_label.item_confirmation_not_required= '☆'
+  = link_to '[すべての★を見る]', mark_entries_path(mark: :confirmation_required)
   #candidates
   = select_tag 'from', options_for_select(@separated_accounts[:from_accounts], it.from_account_id.to_s)
   \=&gt;
