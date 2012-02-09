@@ -1,17 +1,32 @@
-<div><img src="/assets/logo-s.gif" alt="家計簿 さな太郎" /></div>
-<div>
-<div id="add_item_only_input">
-<form action="/entries" id="do_add_item" method="post">
-<div class="vl"><input id="action_date" name="action_date" type="text" value="<%= year %>/<%= month %>/<%= day %>"  placeholder="YYYY/MM/DD" size="12"/><div class="reset"></div>
-<div class="vl"><input id="item_name" name="item_name" placeholder="説明を入力" type="text" /><div id="candidates"></div></div><div class="reset"></div>
-<div class="vl"><%= select_tag('from', null, from_accounts) %><br/>▽▽▽<br/><%= select_tag('to', null, to_accounts) %></div><div class="reset"></div>
-<div class="vl"><input id="amount" name="amount" placeholder="金額" style="text-align: right;" type="text" />円 <input id="confirmation_required" name="confirmation_required" type="checkbox" value="true" />要確認</div><div class="reset"></div>
-<input id="only_add" name="only_add" type="hidden" value="true" />
-<input id="authenticity_token" name="authenticity_token" type="hidden" value="<%= authenticity_token %>" />
-<div id="warning" class="w"></div>
-<div class="plain"><input id="new_add_button" name="commit" type="submit" value="登録" /></div>
-</form>
+<div id="logo">
+  <img src="/assets/logo-s.gif" alt="家計簿 さな太郎" />
 </div>
+<div id="main">
+  <div id="add_item_only_input">
+    <form action="/entries" id="do_add_item" method="post">
+      <div class="vl">
+	<input id="action_date" name="action_date" type="text" value="<%= year %>/<%= month %>/<%= day %>"  placeholder="YYYY/MM/DD" readonly="readonly"/>
+      </div>
+      <div class="reset"></div>
+      <div class="vl">
+	<input id="item_name" name="item_name" placeholder="説明を入力" type="text" />
+	<div id="candidates"></div>
+      </div>
+      <div class="reset"></div>
+      <div class="vl">
+	<%= select_tag('from', null, from_accounts) %><br/>▽▽▽<br/><%= select_tag('to', null, to_accounts) %>
+      </div>
+      <div class="reset"></div>
+      <div class="vl">
+	<input id="amount" name="amount" placeholder="金額" style="text-align: right;" type="text" />円 <input id="confirmation_required" name="confirmation_required" type="checkbox" value="true" />☆
+      </div>
+      <div class="reset"></div>
+      <input id="only_add" name="only_add" type="hidden" value="true" />
+      <input id="authenticity_token" name="authenticity_token" type="hidden" value="<%= authenticity_token %>" />
+      <div id="warning" class="w"></div>
+      <div class="plain"><input id="new_add_button" name="commit" type="submit" value="登録" /></div>
+    </form>
+  </div>
+  <div class="m"><a href="/entries">収支一覧</a> | <a href="/logout">ログアウト</a></div>
+  <div class="f">Copyright &copy; 2007-2012 Kazuya NUMATA. All rights are reserved.</div>
 </div>
-<div class="m"><a href="/entries">収支一覧</a> | <a href="/logout">ログアウト</a></div>
-<div class="f">Copyright &copy; 2007-2012 nu-chon.org. All rights are reserved.</div>
