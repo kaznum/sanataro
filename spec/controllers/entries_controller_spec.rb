@@ -1745,11 +1745,9 @@ describe EntriesController do
             its(:content_type) { should == 'text/javascript' }
             it { should render_js_error id: "warning" }
           end
-          
         end
 
         context "with invalid calcuration amount," do
-
           specify {
             date = items(:adjustment2).action_date - 1
             expect {xhr :post,  :create, :entry_type => 'adjustment', :action_date => date.strftime("%Y/%m/%d"), :to=>accounts(:bank1).id.to_s, :adjustment_amount=>'3000-(10', :year => 2008, :month => 2}.not_to change { Item.count }
