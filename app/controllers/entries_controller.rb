@@ -77,11 +77,35 @@ class EntriesController < ApplicationController
   end
   
   def update
+    id = params[:id].to_i
     if params[:entry_type] == 'adjustment'
-      _update_adjustment
+      args = {
+        to_account_id: params[:to],
+        adjustment_amount: Item.calc_amount(params[:adjustment_amount])
+      }
     else
-      _update_item
+      args = {
+        name: params[:item_name],
+        from_account_id: params[:from],
+        to_account_id: params[:to],
+        amount: Item.calc_amount(params[:amount])
+      }
     end
+
+    args.merge!({ confirmation_required: params[:confirmation_required],
+                  tag_list: params[:tag_list],
+                  action_date: _get_action_date_from_params })
+    
+    item, updated_items, deleted_items = Teller.update_entry(@user, id, args)
+    items = _get_items(displaying_month)
+    render "update", locals: { item: item, items: items, updated_items: updated_items }
+  rescue InvalidDate
+    render_js_error :id => "item_warning_#{id}", :errors => nil, :default_message => "日付が不正です。"
+  rescue SyntaxError
+    render_js_error :id => "item_warning_#{id}", :errors => nil, :default_message => _("Amount is invalid.")
+  rescue ActiveRecord::RecordInvalid => ex
+    render_js_error(:id => "item_warning_#{id}", :errors => ex.error_messages,
+                    :default_message => _('Input value is incorrect.'))
   end
 
   def _redirect_to_login_by_js_if_id_is_blank
@@ -214,52 +238,6 @@ class EntriesController < ApplicationController
       
       render "destroy", locals: { item: item, deleted_items: deleted_items.reject(&:nil?), updated_items: updated_items.reject(&:nil?) }
     end
-  end
-
-  def _update_adjustment
-    id = params[:id].to_i
-    args = {
-      to_account_id: params[:to],
-      confirmation_required: params[:confirmation_required],
-      tag_list: params[:tag_list],
-      action_date: _get_action_date_from_params,
-      adjustment_amount: Item.calc_amount(params[:adjustment_amount])
-    }
-    
-    item, updated_items, deleted_items = Teller.update_entry(@user, id, args)
-    items = _get_items(displaying_month)
-
-    render "update", locals: { item: item, items: items, updated_items: updated_items }
-  rescue InvalidDate
-    render_js_error(:id => "item_warning_#{id}", :errors => nil, :default_message => "日付が不正です。")
-  rescue SyntaxError
-    render_js_error(:id => "item_warning_#{id}", :errors => nil, :default_message => _("Amount is invalid."))
-  rescue ActiveRecord::RecordInvalid => ex
-    render_js_error :id => "item_warning_#{id}", :errors => ex.error_messages, :default_message =>  _('Input value is incorrect.')
-  end
-
-  def _update_item
-    id = params[:id].to_i
-    args = {
-      name: params[:item_name],
-      from_account_id: params[:from],
-      to_account_id: params[:to],
-      confirmation_required: params[:confirmation_required],
-      tag_list: params[:tag_list],
-      action_date: _get_action_date_from_params,
-      amount: Item.calc_amount(params[:amount])
-    }
-    item, updated_items, deleted_items = Teller.update_entry(@user, id, args)
-    items = _get_items(displaying_month)
-
-    render "update", locals: { item: item, items: items, updated_items: updated_items }
-  rescue InvalidDate
-    render_js_error :id => "item_warning_#{id}", :errors => nil, :default_message => "日付が不正です。"
-  rescue SyntaxError
-    render_js_error :id => "item_warning_#{id}", :errors => nil, :default_message => _("Amount is invalid.")
-  rescue ActiveRecord::RecordInvalid => ex
-    render_js_error(:id => "item_warning_#{id}", :errors => ex.error_messages,
-                    :default_message => _('Input value is incorrect.'))
   end
 
   #
