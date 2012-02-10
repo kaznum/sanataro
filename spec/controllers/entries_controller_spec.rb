@@ -1728,6 +1728,26 @@ describe EntriesController do
           }
         end
 
+        context "when a validation error occurs,", debug: true do
+          before do
+            mock_exception = ActiveRecord::RecordInvalid.new(double.as_null_object)
+            mock_exception.should_receive(:error_messages).and_return("Error!!!")
+            Teller.should_receive(:create_entry).and_raise(mock_exception)
+            @action = lambda {
+              xhr :post, :create, :action_date => '2008/02/05', :from  => '-1', :to => accounts(:bank1).id.to_s, :adjustment_amount => '3000', :entry_type => 'adjustment', :year => 2008, :month => 2
+            }
+          end
+
+          describe "response" do
+            before { @action.call }
+            subject {response}
+            it { should be_success }
+            its(:content_type) { should == 'text/javascript' }
+            it { should render_js_error id: "warning" }
+          end
+          
+        end
+
         context "with invalid calcuration amount," do
 
           specify {
