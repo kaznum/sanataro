@@ -96,9 +96,9 @@ class EntriesController < ApplicationController
                   tag_list: params[:tag_list],
                   action_date: _get_action_date_from_params })
     
-    item, updated_items, deleted_items = Teller.update_entry(@user, id, args)
+    item, updated_item_ids, deleted_item_ids = Teller.update_entry(@user, id, args)
     items = _get_items(displaying_month)
-    render "update", locals: { item: item, items: items, updated_items: updated_items }
+    render "update", locals: { item: item, items: items, updated_item_ids: updated_item_ids }
   rescue InvalidDate
     render_js_error :id => "item_warning_#{id}", :errors => nil, :default_message => "日付が不正です。"
   rescue SyntaxError
@@ -174,15 +174,15 @@ class EntriesController < ApplicationController
       prev_adj = @user.items.find_by_to_account_id_and_action_date_and_adjustment(to_account_id, action_date, true)
       _do_delete_item(prev_adj.id) if prev_adj
       
-      item, updated_items =
+      item, updated_item_ids =
         Teller.create_entry(user: @user, action_date: action_date, name: 'Adjustment',
                             from_account_id: -1, to_account_id: to_account_id,
                             adjustment: true, tag_list: params[:tag_list],
                             adjustment_amount: adjustment_amount)
       @items = _get_items(displaying_month)
-      updated_items << item
+      updated_item_ids << item.try(:id)
       
-      render "create_adjustment", locals: { item: item, items: @items, updated_items: updated_items.reject(&:nil?) }
+      render "create_adjustment", locals: { item: item, items: @items, updated_item_ids: updated_item_ids.reject(&:nil?).uniq }
     end
   rescue SyntaxError
     render_js_error :id => "warning", :default_message => _("Amount is invalid.")
@@ -197,7 +197,7 @@ class EntriesController < ApplicationController
   #
   def _create_entry
     Item.transaction do
-      item, affected_items =
+      item, affected_item_ids =
         Teller.create_entry(:user => @user, :name => params[:item_name],
                             :from_account_id => params[:from], :to_account_id => params[:to],
                             :amount => Item.calc_amount(params[:amount]),
@@ -209,8 +209,8 @@ class EntriesController < ApplicationController
         render "create_item_simple", locals: { item: item }
       else
         @items = _get_items(displaying_month)
-        affected_items << item
-        render "create_item", locals: { item: item, items: @items, updated_items: affected_items.reject(&:nil?).uniq }
+        affected_item_ids << item.try(:id)
+        render "create_item", locals: { item: item, items: @items, updated_item_ids: affected_item_ids.reject(&:nil?).uniq }
       end
     end
   rescue InvalidDate

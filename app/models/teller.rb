@@ -13,7 +13,7 @@ class Teller
     from_adj = Item.future_adjustment(user, item.action_date, item.from_account_id, item.id)
     to_adj = Item.future_adjustment(user, item.action_date, item.to_account_id, item.id)
     affected_items << from_adj << to_adj
-    return [item, affected_items.reject(&:nil?).uniq, false]
+    return [item, affected_items.reject(&:nil?).map(&:id).uniq, false]
   end
 
   def self.update_entry(user, id, args)
@@ -74,7 +74,7 @@ class Teller
     
     deleted_items = [old_child_item]
     
-    [item, updated_items.reject(&:nil?).uniq, deleted_items.reject(&:nil?).uniq]
+    [item, updated_items.reject(&:nil?).map(&:id).uniq, deleted_items.reject(&:nil?).map(&:id).uniq]
   end
 
   def self.destroy_entry(user, id)
