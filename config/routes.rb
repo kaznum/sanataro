@@ -3,7 +3,9 @@ Kakeibo3::Application.routes.draw do
 
   match 'simple', :to => 'entries#new', :entry_type => 'simple', :as => 'simple_input'
   match 'login' => 'login#login', :as => :login
+  match 'do_login' => 'login#do_login', :as => :do_login
   match 'logout' => 'login#do_logout', :as => :logout
+  match 'reload_config' => 'main#reload_config', :as => :reload_config
   
   scope 'months/:year/:month' do
     resources :entries
@@ -48,7 +50,5 @@ Kakeibo3::Application.routes.draw do
       resources :entries
     end
   end
-  
-  match ':controller(/:action(/:id(.:format)))'
 end
 
