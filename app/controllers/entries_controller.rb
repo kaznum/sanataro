@@ -217,86 +217,48 @@ class EntriesController < ApplicationController
   end
 
   def _update_adjustment
-    item_id = params[:id].to_i
-    item = @user.items.find_by_id(item_id)
-    old_action_date = item.action_date
-    old_to_id = item.to_account_id
-
-    Item.transaction do
-      # 残高調整のため、一度、amountを0にする。
-      # (amountを算出するために、他のadjustmentのamountを正しい値にする必要があるため)
-      item.update_attributes!(amount: 0)
-      item.reload
-      
-      item.update_attributes!( action_date: _get_action_date_from_params,
-        to_account_id: params[:to], tag_list: params[:tag_list],
-        adjustment_amount: Item.calc_amount(params[:adjustment_amount]))
-    end
-    item.reload
-
-    old_future_adj = Item.future_adjustment(@user, old_action_date, old_to_id, item.id)
-    new_future_adj = Item.future_adjustment(@user, item.action_date, item.to_account_id, item.id)
-
-    updated_items = []
-    updated_items << old_future_adj << new_future_adj << item
+    id = params[:id].to_i
+    args = {
+      to_account_id: params[:to],
+      confirmation_required: params[:confirmation_required],
+      tag_list: params[:tag_list],
+      action_date: _get_action_date_from_params,
+      adjustment_amount: Item.calc_amount(params[:adjustment_amount])
+    }
     
+    item, updated_items, deleted_items = Teller.update_entry(@user, id, args)
     items = _get_items(displaying_month)
 
-    render "update", locals: { item: item, items: items, updated_items: updated_items.reject(&:nil?) }
+    render "update", locals: { item: item, items: items, updated_items: updated_items }
   rescue InvalidDate
-    render_js_error(:id => "item_warning_#{item.id}", :errors => nil, :default_message => "日付が不正です。")
+    render_js_error(:id => "item_warning_#{id}", :errors => nil, :default_message => "日付が不正です。")
   rescue SyntaxError
-    render_js_error(:id => "item_warning_#{item.id}", :errors => nil, :default_message => _("Amount is invalid."))
+    render_js_error(:id => "item_warning_#{id}", :errors => nil, :default_message => _("Amount is invalid."))
   rescue ActiveRecord::RecordInvalid => ex
-    render_js_error :id => "item_warning_#{item.id}", :errors => ex.error_messages, :default_message =>  _('Input value is incorrect.')
+    render_js_error :id => "item_warning_#{id}", :errors => ex.error_messages, :default_message =>  _('Input value is incorrect.')
   end
 
   def _update_item
-    item_id = params[:id].to_i
-    @item = item = @user.items.find(item_id)
-    old_action_date = item.action_date
-    old_from_id = item.from_account_id
-    old_to_id = item.to_account_id
-
-    # get items which could be updated
-    old_from_item_adj = Item.future_adjustment(@user, old_action_date, old_from_id, item.id)
-    old_to_item_adj = Item.future_adjustment(@user, old_action_date, old_to_id, item.id)
-
-    deleted_child_item = item.child_item
-    if deleted_child_item
-      from_adj_credit = Item.future_adjustment(@user, deleted_child_item.action_date, deleted_child_item.from_account_id, deleted_child_item.id)
-      to_adj_credit = Item.future_adjustment(@user, deleted_child_item.action_date, deleted_child_item.to_account_id, deleted_child_item.id)
-    end
-
-    Item.transaction do
-      item.update_attributes!(adjustment: false, name: params[:item_name],
-                              from_account_id: params[:from], to_account_id: params[:to],
-                              confirmation_required: params[:confirmation_required], tag_list: params[:tag_list],
-                              action_date: _get_action_date_from_params,
-                              amount: Item.calc_amount(params[:amount]))
-    end
-    item.reload
-    from_item_adj = Item.future_adjustment(@user, item.action_date,
-                                           item.from_account_id, item.id)
-    to_item_adj = Item.future_adjustment(@user, item.action_date,
-                                         item.to_account_id, item.id)
-    credit_item = item.child_item
-
-    updated_items = []
-    updated_items << old_from_item_adj << old_to_item_adj 
-    updated_items << deleted_child_item << from_adj_credit << to_adj_credit
-    updated_items << from_item_adj << to_item_adj << credit_item
-    updated_items << item
-
+    id = params[:id].to_i
+    args = {
+      name: params[:item_name],
+      from_account_id: params[:from],
+      to_account_id: params[:to],
+      confirmation_required: params[:confirmation_required],
+      tag_list: params[:tag_list],
+      action_date: _get_action_date_from_params,
+      amount: Item.calc_amount(params[:amount])
+    }
+    item, updated_items, deleted_items = Teller.update_entry(@user, id, args)
     items = _get_items(displaying_month)
 
-    render "update", locals: { item: item, items: items, updated_items: updated_items.reject(&:nil?) }
+    render "update", locals: { item: item, items: items, updated_items: updated_items }
   rescue InvalidDate
-    render_js_error :id => "item_warning_#{@item.id}", :errors => nil, :default_message => "日付が不正です。"
+    render_js_error :id => "item_warning_#{id}", :errors => nil, :default_message => "日付が不正です。"
   rescue SyntaxError
-    render_js_error :id => "item_warning_#{@item.id}", :errors => nil, :default_message => _("Amount is invalid.")
+    render_js_error :id => "item_warning_#{id}", :errors => nil, :default_message => _("Amount is invalid.")
   rescue ActiveRecord::RecordInvalid => ex
-    render_js_error(:id => "item_warning_#{@item.id}", :errors => ex.error_messages,
+    render_js_error(:id => "item_warning_#{id}", :errors => ex.error_messages,
                     :default_message => _('Input value is incorrect.'))
   end
 
