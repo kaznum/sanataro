@@ -85,7 +85,7 @@ describe LoginController do
 
           describe "response" do
             subject {response}
-            it { should redirect_to new_current_entry_url(:entry_type => 'simple') }
+            it { should redirect_to simple_input_path }
           end
         end
       end
@@ -194,7 +194,7 @@ describe LoginController do
 
       describe "response" do
         subject {response}
-        it {should redirect_by_js_to new_current_entry_url(:entry_type => 'simple')}
+        it {should redirect_by_js_to simple_input_path }
       end
       
       describe "cookies" do

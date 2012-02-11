@@ -13,7 +13,7 @@ class LoginController < ApplicationController
       render_js_error :id => "warning", :default_message => _("UserID or Password is incorrect.")
     else
       if params[:only_add]
-        redirect_js_to new_current_entry_url(:entry_type => 'simple')
+        redirect_js_to simple_input_path
       else
         redirect_js_to current_entries_url
       end
@@ -65,7 +65,7 @@ class LoginController < ApplicationController
     if (not user.nil?)
       # do autologin
       _do_login(user.login, nil, "1", true, al_params[:only_add])
-      redirect_to (al_params[:only_add] ? new_current_entry_url(:entry_type => 'simple') : current_entries_url)
+      redirect_to (al_params[:only_add] ? simple_input_path : current_entries_url)
       return true
     end
     return false

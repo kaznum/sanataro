@@ -10,5 +10,5 @@
 = params[:controller] == 'profit_losses' ? link_to(_('Profit/Loss'), pl_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(_('Profit/Loss'),pl_path)
 = params[:controller] == 'balance_sheets' ? link_to(_('Balance'), bs_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(_('Balance'), bs_path)
 = link_to _('Configuration'), settings_accounts_path
-= link_to _('Simple Input'), new_current_entry_path(:entry_type=>'simple')
+= link_to _('Simple Input'), simple_input_path
 = link_to _('Logout'), logout_path, {:confirm=>_('Do you really logout now?')}
