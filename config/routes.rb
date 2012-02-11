@@ -13,16 +13,20 @@ Kakeibo3::Application.routes.draw do
     resources :balance_sheets
   end
 
-  resources :entries, :path_prefix => 'current', :as => 'current_entries'
-  resources :profit_losses, :path_prefix => 'current',:as => 'current_profit_losses'
-  resources :balance_sheets, :path_prefix => 'current', :as => 'current_balance_sheets'
+  scope 'current' do
+    resources :entries, :as => 'current_entries'
+    resources :profit_losses, :as => 'current_profit_losses'
+    resources :balance_sheets, :as => 'current_balance_sheets'
+  end
   
-  tag_base = '/tags/:tag'
-  resources :entries, :path_prefix => tag_base, :as => 'tag_entries'
-
-  mark_base = '/marks/:mark'
-  resources :entries, :path_prefix => mark_base, :as => 'mark_entries'
-
+  scope '/tags/:tag' do
+    resources :entries, :as => 'tag_entries'
+  end
+  
+  scope '/marks/:mark' do
+    resources :entries, :as => 'mark_entries'
+  end
+  
   resources :entries do
     resource :confirmation_required
   end
