@@ -56,20 +56,34 @@ describe :routes do
   end
   
   describe 'current...' do
-    describe 'entries' do
-      subject { { get: '/current/entries' }}
-      it { should route_to(controller: 'entries', action: 'index') }
-    end
-    describe 'profit_losses' do
-      subject { { get: '/current/profit_losses' }}
-      it { should route_to(controller: 'profit_losses', action: 'index') }
-    end
+    %w(entries profit_losses balance_sheets).each do |controller|
+      describe "get /current/#{controller}" do
+        subject { get("/current/#{controller}") }
+        it { should route_to("#{controller}#index")}
+      end
+      describe "post /current/#{controller}" do
+        subject { post("/current/#{controller}") }
+        it { should route_to("#{controller}#create")}
+      end
+      describe "get /current/#{controller}/10" do
+        subject { get("/current/#{controller}/10") }
+        it { should route_to("#{controller}#show", id: "10") }
+      end
+      describe "put /current/#{controller}/10" do
+        subject { put("/current/#{controller}/10") }
+        it { should route_to("#{controller}#update", id: "10")}
+      end
+              
+      describe "delete /current/#{controller}/10" do
+        subject { delete("/current/#{controller}/10") }
+        it { should route_to("#{controller}#destroy", id: "10")}
+      end
 
-    describe '/current/balance_sheets' do
-      subject { { get: '/current/balance_sheets' }}
-      it { should route_to(controller: 'balance_sheets', action: 'index') }
+      describe "get /current/#{controller}/10/edit" do
+        subject { get("/current/#{controller}/10/edit") }
+        it { should route_to("#{controller}#edit", id: "10")}
+      end
     end
-
 
     describe 'named_route' do
       describe "entries" do
@@ -134,20 +148,17 @@ describe :routes do
     it { should route_to(controller: 'confirmation_requireds', action: 'update', entry_id: '10') }
   end
 
-  describe 'account_status' do
-    subject {get("/account_status") }
-    it { should route_to("account_statuses#show") }
+  %w(account_status confirmation_status tag_status).each do |controller|
+    describe "get #{controller}" do
+      subject {get("/#{controller}") }
+      it { should route_to("#{controller.pluralize}#show") }
+    end
+    describe "destroy #{controller}" do
+      subject {delete("/#{controller}") }
+      it { should route_to("#{controller.pluralize}#destroy") }
+    end
   end
   
-  describe 'confirmation_status' do
-    subject {get("/confirmation_status") }
-    it { should route_to("confirmation_statuses#show") }
-  end
-
-  describe 'tag_status' do
-    subject {get("/tag_status") }
-    it { should route_to("tag_statuses#show") }
-  end
   
   describe 'entry_candidates' do
     subject {get("/entry_candidates") }
@@ -162,36 +173,72 @@ describe :routes do
   end
 
   describe 'settings' do
-    describe "accounts" do
-      subject { get("/settings/accounts") }
-      it {should route_to("settings/accounts#index") }
+    %w(accounts credit_relations).each do |controller|
+      describe "get #{controller}" do
+        subject { get("/settings/#{controller}") }
+        it {should route_to("settings/#{controller}#index") }
+      end
+      describe "post #{controller}" do
+        subject { post("/settings/#{controller}") }
+        it {should route_to("settings/#{controller}#create") }
+      end
+      describe "get #{controller}/10" do
+        subject { get("/settings/#{controller}/10") }
+        it {should route_to("settings/#{controller}#show", id: "10") }
+      end
+      describe "put #{controller}/10" do
+        subject { put("/settings/#{controller}/10") }
+        it {should route_to("settings/#{controller}#update", id: "10") }
+      end
+      describe "delete #{controller}/10" do
+        subject { delete("/settings/#{controller}/10") }
+        it {should route_to("settings/#{controller}#destroy", id: "10") }
+      end
+      describe "get #{controller}/10/edit" do
+        subject { get("/settings/#{controller}/10/edit") }
+        it {should route_to("settings/#{controller}#edit", id: "10") }
+      end
     end
-    describe "credit_relations" do
-      subject { get("/settings/credit_relations") }
-      it {should route_to("settings/credit_relations#index") }
-    end
+    
     describe "user" do
-      subject { get("/settings/user") }
-      it {should route_to("settings/users#show") }
+      describe "get" do
+        subject { get("/settings/user") }
+        it {should route_to("settings/users#show") }
+      end
+      describe "put" do
+        subject { put("/settings/user") }
+        it {should route_to("settings/users#update") }
+      end
     end
   end
 
   describe "api" do
-    describe "assets" do
-      subject { get("/api/assets") }
-      it {should route_to("api/assets#index") }
-    end
-    describe "budgets" do
-      subject { get("/api/budgets") }
-      it {should route_to("api/budgets#index") }
-    end
-    describe "yearly_assets" do
-      subject { get("/api/yearly_assets") }
-      it {should route_to("api/yearly_assets#index") }
-    end
-    describe "budgets" do
-      subject { get("/api/yearly_budgets") }
-      it {should route_to("api/yearly_budgets#index") }
+
+    %w(assets budgets yearly_assets yearly_budgets).each do |controller|
+      describe "get #{controller}" do
+        subject { get("/api/#{controller}") }
+        it {should route_to("api/#{controller}#index") }
+      end
+      describe "get #{controller}/10" do
+        subject { get("/api/#{controller}/10") }
+        it {should route_to("api/#{controller}#show", id: "10") }
+      end
+      describe "get #{controller}/10/edit" do
+        subject { get("/api/#{controller}/10/edit") }
+        it {should route_to("api/#{controller}#edit", id: "10") }
+      end
+      describe "put #{controller}/10" do
+        subject { put("/api/#{controller}/10") }
+        it {should route_to("api/#{controller}#update", id: "10") }
+      end
+      describe "delete #{controller}/10" do
+        subject { delete("/api/#{controller}/10") }
+        it {should route_to("api/#{controller}#destroy", id: "10") }
+      end
+      describe "post #{controller}" do
+        subject { post("/api/#{controller}") }
+        it {should route_to("api/#{controller}#create") }
+      end
     end
   end
 end
