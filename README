@@ -38,4 +38,7 @@ This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0, 3.1 to 3.2 escalat
 * jQuery-util
 ** http://code.google.com/p/jquery-util/ 
 ** MIT License
+* Flot
+** http://code.google.com/p/flot/
+** MIT License
 
