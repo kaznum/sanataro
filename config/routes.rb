@@ -2,8 +2,8 @@ Kakeibo3::Application.routes.draw do
   root :to => "login#login"
 
   match 'simple', :to => 'entries#new', :entry_type => 'simple', :as => 'simple_input'
-  match 'login' => 'login#login', :as => :login
-  match 'do_login' => 'login#do_login', :as => :do_login
+  match 'login' => 'login#login', :as => :login, :via => :get
+  match 'login' => 'login#do_login', :as => :login, :via => :post
   match 'logout' => 'login#do_logout', :as => :logout
   match 'reload_config' => 'main#reload_config', :as => :reload_config
   
