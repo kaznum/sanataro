@@ -265,7 +265,7 @@ class EntriesController < ApplicationController
       :to_accounts => to_accounts,
     }
 
-    render :action => 'new_simple', :layout => false
+    render 'new_simple', :layout => false
   end
   
   
