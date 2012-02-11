@@ -21,7 +21,7 @@ This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0, 3.1 to 3.2 escalat
 * There are some code where Object-Oriented model is corrupted. They should be fixed.
 * There are some code where hard-coded Japanese characters.
 * Fixture dependency should be removed and replaced it with Fabrication.
-* Now, there is no view specs and cucumber features.
+* Now, there is no view spec and cucumber feature.
 
 == License
 * MIT License.  http://opensource.org/licenses/mit-license.php
