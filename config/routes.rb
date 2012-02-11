@@ -50,9 +50,6 @@ Kakeibo3::Application.routes.draw do
     resources :budgets
     resources :yearly_budgets
     resources :yearly_assets
-    scope ':year_month' do
-      resources :entries
-    end
   end
 end
 
