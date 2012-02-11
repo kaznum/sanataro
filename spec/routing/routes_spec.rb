@@ -123,8 +123,74 @@ describe :routes do
   end
 
   describe '/entries/10/confirmation_required' do
-    subject { get("/entries/10/confirmation_required") }
-    it { should route_to(controller: 'confirmation_requireds', action: 'show', entry_id: '10') }
+    subject { put("/entries/10/confirmation_required") }
+    it { should route_to(controller: 'confirmation_requireds', action: 'update', entry_id: '10') }
+  end
+
+  describe 'account_status' do
+    subject {get("/account_status") }
+    it { should route_to("account_statuses#show") }
+  end
+  
+  describe 'confirmation_status' do
+    subject {get("/confirmation_status") }
+    it { should route_to("confirmation_statuses#show") }
+  end
+
+  describe 'tag_status' do
+    subject {get("/tag_status") }
+    it { should route_to("tag_statuses#show") }
+  end
+  
+  describe 'entry_candidates' do
+    subject {get("/entry_candidates") }
+    it { should route_to("entry_candidates#index") }
+  end
+
+  describe '/admin' do
+    describe 'users' do
+      subject { get("/admin/users") }
+      it { should route_to("admin/users#index") }
+    end
+  end
+
+  describe 'settings' do
+    describe "accounts" do
+      subject { get("/settings/accounts") }
+      it {should route_to("settings/accounts#index") }
+    end
+    describe "credit_relations" do
+      subject { get("/settings/credit_relations") }
+      it {should route_to("settings/credit_relations#index") }
+    end
+    describe "user" do
+      subject { get("/settings/user") }
+      it {should route_to("settings/users#show") }
+    end
+  end
+
+  describe "api" do
+    describe "assets" do
+      subject { get("/api/assets") }
+      it {should route_to("api/assets#index") }
+    end
+    describe "budgets" do
+      subject { get("/api/budgets") }
+      it {should route_to("api/budgets#index") }
+    end
+    describe "yearly_assets" do
+      subject { get("/api/yearly_assets") }
+      it {should route_to("api/yearly_assets#index") }
+    end
+    describe "budgets" do
+      subject { get("/api/yearly_budgets") }
+      it {should route_to("api/yearly_budgets#index") }
+    end
+
+    describe ":year_month" do
+      subject { get("/api/200810/entries") }
+      it {should route_to("api/entries#index", year_month: "200810") }
+    end
   end
 end
 
