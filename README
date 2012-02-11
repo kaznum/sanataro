@@ -16,6 +16,9 @@ Sanataro - Simple Web Household Account Book.
 ** SQLite3 (tested)
 ** PostgreSQL (heroku available) (not tested)
 
+== Caution
+* http(s)://<your URL>/admin/users lists the account names which have been registered, but this page has no authentication logic. Please limit the users by web server or Rails mechanism who can access this page or remove the file "app/controllers/admin/users_controller.rb".
+
 == FIXME / TODO
 This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0, 3.1 to 3.2 escalatorily, so there are lots of points of old fashion expressions to be fixed.
 * There are some code where Object-Oriented model is corrupted. They should be fixed.
