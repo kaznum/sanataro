@@ -8,9 +8,9 @@ describe Mailer do
 
     describe "mail" do
       subject{mail}
-      its(:subject) { should == "[#{PRODUCT_NAME}] ユーザ登録は完了していません" }
+      its(:subject) { should == "[#{Settings.product_name}] ユーザ登録は完了していません" }
       its(:to) {should == [ user.email ]}
-      its(:from) { should == [ SYSTEM_MAIL_ADDRESS ] }
+      its(:from) { should == [ Settings.system_mail_address ] }
     end
 
     describe "user" do
@@ -25,9 +25,9 @@ describe Mailer do
     
     describe "mail" do
       subject{mail}
-      its(:subject) { should == "[#{PRODUCT_NAME}] ユーザ登録完了" }
+      its(:subject) { should == "[#{Settings.product_name}] ユーザ登録完了" }
       its(:to) {should == [ user.email ]}
-      its(:from) { should == [ SYSTEM_MAIL_ADDRESS ] }
+      its(:from) { should == [ Settings.system_mail_address ] }
     end
 
     describe "user" do

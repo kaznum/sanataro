@@ -2,11 +2,11 @@
 class Mailer < ActionMailer::Base
   def signup_confirmation(user)
     @user = user
-    mail(to: user.email, from: SYSTEM_MAIL_ADDRESS, subject: "[#{PRODUCT_NAME}] ユーザ登録は完了していません")
+    mail(to: user.email, from: Settings.system_mail_address, subject: "[#{Settings.product_name}] ユーザ登録は完了していません")
   end
   
   def signup_complete(user)
     @user = user
-    mail(to: user.email, from: SYSTEM_MAIL_ADDRESS, subject: "[#{PRODUCT_NAME}] ユーザ登録完了")
+    mail(to: user.email, from: Settings.system_mail_address, subject: "[#{Settings.product_name}] ユーザ登録完了")
   end
 end

@@ -196,6 +196,7 @@ GEM
       ffi (>= 1.0.7)
       json_pure
       rubyzip
+    settingslogic (2.0.8)
     simplecov (0.5.3)
       multi_json (~> 1.0.3)
       simplecov-html (~> 0.5.3)
@@ -256,6 +257,7 @@ DEPENDENCIES
   rspec-rails
   ruby-debug19
   sass-rails (~> 3.2.3)
+  settingslogic
   simplecov
   spork (~> 0.9.0.rc)
   sqlite3-ruby

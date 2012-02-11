@@ -34,11 +34,11 @@ module ApplicationHelper
   end
 
   def highlight(selector)
-    "$('#{selector}').effect('highlight', {color: '#{ HIGHLIGHT_COLOR }'}, #{ HIGHLIGHT_DURATION });"
+    "$('#{selector}').effect('highlight', {color: '#{ Settings.effect.highlight.color }'}, #{ Settings.effect.highlight.duration });"
   end
 
   def fadeout_and_remove(selector)
-    "$('#{selector}').fadeOut(#{FADE_DURATION}, function() {$('#{selector}').remove();});"
+    "$('#{selector}').fadeOut(#{Settings.effect.fade.duration}, function() {$('#{selector}').remove();});"
   end
-  
 end
+

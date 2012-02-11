@@ -1,4 +1,5 @@
 :plain
   $("#input_item_area").hide();
   $("#input_item_area").html("#{escape_javascript(render partial: "add_adjustment", locals: {date: @action_date})}")
-  $("#input_item_area").fadeIn(#{FADE_DURATION});
+  $("#input_item_area").fadeIn(#{Settings.effect.fade.duration});
+

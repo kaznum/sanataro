@@ -53,8 +53,8 @@ class Item < ActiveRecord::Base
   scope :only_account, lambda { |account_id|  where("from_account_id = ? or to_account_id = ?", account_id, account_id) }
   scope :action_date_between, lambda { |from, to| where("action_date between ? and ?", from, to)}
   scope :confirmation_required, where(:confirmation_required => true)
-  scope :default_limit, limit(ITEM_LIST_COUNT)
-  scope :remaining, offset(ITEM_LIST_COUNT)
+  scope :default_limit, limit(Settings.item_list_count)
+  scope :remaining, offset(Settings.item_list_count)
   scope :order_for_entries_list, order(ORDER_OF_ENTRIES_LIST)
   
   def validates_action_date_range
@@ -220,7 +220,7 @@ class Item < ActiveRecord::Base
     # In fact, it should call call the method like  the following
     # self.find_tagged_with(tag).default_limit.order(ORDER_OF_ENTRIES_LIST)
     self.find_tagged_with(tag,
-                          :limit => ITEM_LIST_COUNT,
+                          :limit => Settings.item_list_count,
                           :order => ORDER_OF_ENTRIES_LIST)
   end
 
@@ -231,7 +231,7 @@ class Item < ActiveRecord::Base
     # self.find_tagged_with(tag).remaining.order(ORDER_OF_ENTRIES_LIST)
     self.find_tagged_with(tag,
                           :limit => 999999,
-                          :offset => ITEM_LIST_COUNT,
+                          :offset => Settings.item_list_count,
                           :order => ORDER_OF_ENTRIES_LIST)
   end
   

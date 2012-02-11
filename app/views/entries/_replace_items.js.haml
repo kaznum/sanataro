@@ -1,3 +1,4 @@
 - items.each do |it|
   ! $("#item_#{it.id}").replaceWith("#{escape_javascript(render partial: "item", locals: {event_item: it})}");
-  ! $("#item_#{it.id} div").effect("highlight", {color: '#{ HIGHLIGHT_COLOR }'}, #{ HIGHLIGHT_DURATION });
+  ! $("#item_#{it.id} div").effect("highlight", {color: '#{ Settings.effect.highlight.color }'}, #{ Settings.effect.highlight.duration });
+

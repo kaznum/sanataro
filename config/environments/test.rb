@@ -41,6 +41,4 @@ Kakeibo3::Application.configure do
   config.assets.allow_debugging = true
 
   config.action_mailer.default_url_options = { :host => "k.nu-chon.org" } 
- 
-  ITEM_LIST_COUNT = 20
 end

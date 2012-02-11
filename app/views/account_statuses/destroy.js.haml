@@ -1,5 +1,5 @@
 :plain
-  $("#account_status_body").slideUp(#{SLIDE_DURATION}, function() {
+  $("#account_status_body").slideUp(#{Settings.effect.slide.duration}, function() {
     $("#account_status").html("#{escape_javascript(render :partial => 'entries/account_status_blank')}");
   });
 

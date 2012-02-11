@@ -456,38 +456,38 @@ describe Item do
      
       context "when :remain is not specified" do
         subject { Item.find_partial(users(:user1),@from_date, @to_date) }
-        it { should have(ITEM_LIST_COUNT).entries }
+        it { should have(Settings.item_list_count).entries }
       end
 
       context "when :remain is specified as true" do
         subject { Item.find_partial(users(:user1), @from_date, @to_date, {:remain=>true}) }
-        it { should have(100 - ITEM_LIST_COUNT).entries }
+        it { should have(100 - Settings.item_list_count).entries }
       end
 
       context "when :tag is specified" do
         subject { Item.find_partial(users(:user1),nil, nil, {:tag => 'abc' }) }
-        it { should have(ITEM_LIST_COUNT).entries }
+        it { should have(Settings.item_list_count).entries }
       end
 
       context "when :tag and :remain is specified" do
         subject { Item.find_partial(users(:user1),nil, nil, {:remain => true, :tag => 'abc' }) }
-        it { should have(50 - ITEM_LIST_COUNT).entries }
+        it { should have(50 - Settings.item_list_count).entries }
       end
 
       context "when :filter_account_id is specified" do
         subject { Item.find_partial(users(:user1),@from_date, @to_date, {:filter_account_id => accounts(:bank11).id}) }
-        it { should have(ITEM_LIST_COUNT).entries }
+        it { should have(Settings.item_list_count).entries }
       end
 
       context "when :filter_account_id and :remain is specified" do
         subject { Item.find_partial(users(:user1),@from_date, @to_date, {:filter_account_id => accounts(:bank11).id, :remain => true}) }
-        it { should have(50 - ITEM_LIST_COUNT).entries }
+        it { should have(50 - Settings.item_list_count).entries }
       end
 
       context "when confirmation required is specified"  do
         context "when remain not specified" do
           subject { Item.find_partial(users(:user1),nil, nil, {:mark => 'confirmation_required' }) }
-          it { should have(ITEM_LIST_COUNT).entries }
+          it { should have(Settings.item_list_count).entries }
         end
         
         context "when remain not specified" do
@@ -496,7 +496,7 @@ describe Item do
           end
           
           subject { Item.find_partial(users(:user1),nil, nil, {:mark => 'confirmation_required', :remain => true }) }
-          it { should have(@cnfmt_rqrd_count - ITEM_LIST_COUNT).entries }
+          it { should have(@cnfmt_rqrd_count - Settings.item_list_count).entries }
         end
         
       end

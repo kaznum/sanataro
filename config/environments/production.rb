@@ -61,7 +61,4 @@ Kakeibo3::Application.configure do
   config.filter_parameters += [:password]
 
   config.action_mailer.default_url_options = { :host => "k.nu-chon.org" } 
-
-  ITEM_LIST_COUNT = 200
-
 end

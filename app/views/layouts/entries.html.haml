@@ -10,7 +10,7 @@
     %meta{:content => "text/css", "http-equiv" => "Content-Style-type"}/
     %meta{:content => "width=device-width", :name => "viewport"}/
     = csrf_meta_tag
-    %title= PRODUCT_NAME
+    %title= Settings.product_name
     /[if IE]
       <script type="text/javascript">
       document.createElement( 'header' );
@@ -29,9 +29,9 @@
     %body
     .header
       - if params[:action] == 'add_item_only_input'
-        = image_tag "logo-s.gif", :alt=> PRODUCT_NAME
+        = image_tag "logo-s.gif", :alt=> Settings.product_name
       - else
-        = image_tag "logo.gif", :alt => PRODUCT_NAME
+        = image_tag "logo.gif", :alt => Settings.product_name
       :javascript
         var coo = "cookietest=ok";
         document.cookie = coo + "\;";
@@ -44,4 +44,4 @@
     .main
       = yield
     .footer
-      Copyright &copy; 2007-2012 nu-chon.org. All rights are reserved.
+      Copyright &copy; 2007-2012 Kazuya NUMATA. All rights are reserved.

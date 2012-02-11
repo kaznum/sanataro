@@ -15,10 +15,10 @@
           %td= select_tag 'credit_account_id', options_for_select(@separated_accounts[:bank_accounts])
           %td= select_tag 'payment_account_id', options_for_select(@separated_accounts[:bank_accounts])
           %td
-            毎月 #{select_tag 'settlement_day', options_for_select(CREDIT_RELATION_SETTLEMENT_DAYS)}日
+            毎月 #{select_tag 'settlement_day', options_for_select(CreditRelation::SETTLEMENT_DAYS)}日
           %td
-            = select_tag 'payment_month', options_for_select(CREDIT_RELATION_PAYMENT_MONTHS)
-            = select_tag 'payment_day', options_for_select(CREDIT_RELATION_PAYMENT_DAYS)
+            = select_tag 'payment_month', options_for_select(CreditRelation::PAYMENT_MONTHS)
+            = select_tag 'payment_day', options_for_select(CreditRelation::PAYMENT_DAYS)
             日
           %td= submit_tag '登録', :id=>'add_button'
   #warning.warning

@@ -1,4 +1,4 @@
 :plain
-  $("#confirmation_status_body").slideUp(#{SLIDE_DURATION}, function() {
+  $("#confirmation_status_body").slideUp(#{Settings.effect.slide.duration}, function() {
     $("#confirmation_status").html("#{escape_javascript(render partial: "show_blank")}");
   });

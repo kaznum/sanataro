@@ -53,15 +53,5 @@ module Kakeibo3
   end
 end
 
-PRODUCT_NAME='家計簿 さな太郎'
-CREDIT_RELATION_SETTLEMENT_DAYS = CREDIT_RELATION_PAYMENT_DAYS = [['1', 1], ['2', 2], ['3', 3], ['4', 4], ['5', 5], ['6', 6], ['7', 7], ['8', 8], ['9', 9], ['10', 10], ['11', 11], ['12', 12], ['13', 13], ['14', 14], ['15', 15], ['16', 16], ['17', 17], ['18', 18], ['19', 19], ['20', 20], ['21', 21], ['22', 22], ['23', 23], ['24', 24], ['25', 25], ['26', 26], ['27', 27], ['28', 28], ['末日', 99]]
-CREDIT_RELATION_PAYMENT_MONTHS =  [['同月', 0], ['翌月', 1], ['翌々月', 2], ['翌々々月', 3]]
 ActionMailer::Base.delivery_method = :sendmail
-SYSTEM_MAIL_ADDRESS = "donotreply@nu-chon.org"
-PULSATE_DURATION = 300
-PULSATE_TIMES = 3
-FADE_DURATION = 300
-SLIDE_DURATION = 200
-HIGHLIGHT_DURATION = 1000
-HIGHLIGHT_COLOR = "#ff99ff"
 

@@ -1,0 +1,27 @@
+defaults: &defaults
+  product_name: 家計簿 さな太郎
+  system_mail_address: donotreply@nu-chon.org
+  effect:
+    pulsate:
+      duration: 300
+      times: 3
+    fade:
+      duration: 300
+    slide:
+      duration: 200
+    highlight:
+      duration: 1000
+      color: "#ff99ff"
+  item_list_count: 20
+
+development:
+  <<: *defaults
+  item_list_count: 100
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
+  item_list_count: 200
+
