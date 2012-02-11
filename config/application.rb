@@ -53,5 +53,3 @@ module Kakeibo3
   end
 end
 
-ActionMailer::Base.delivery_method = :sendmail
-
