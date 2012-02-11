@@ -14,7 +14,8 @@ module NavigationHelpers
     when /^ログイン$/
       '/login'
     when /^収支入力$/
-      '/entries'
+      '/current/entries'
+      
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
