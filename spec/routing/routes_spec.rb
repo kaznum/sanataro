@@ -2,6 +2,13 @@ require 'spec_helper'
 
 describe :routes do
 
+  describe "root" do
+    describe 'GET /' do
+      subject { get('/') }
+      it { should route_to("login#login") }
+    end
+  end
+  
   describe 'login' do
     describe 'GET login' do
       subject { get('/login') }
@@ -185,11 +192,6 @@ describe :routes do
     describe "budgets" do
       subject { get("/api/yearly_budgets") }
       it {should route_to("api/yearly_budgets#index") }
-    end
-
-    describe ":year_month" do
-      subject { get("/api/200810/entries") }
-      it {should route_to("api/entries#index", year_month: "200810") }
     end
   end
 end
