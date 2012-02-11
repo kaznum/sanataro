@@ -1,6 +1,4 @@
-%h1
-  = PRODUCT_NAME
-  users list
+%h1= "#{PRODUCT_NAME} users list"
 %table
   %tr
     %th ID
@@ -8,6 +6,7 @@
     %th created
     %th updated
     %th active
+
   - @users.each do |u|
     %tr
       %td= u.id

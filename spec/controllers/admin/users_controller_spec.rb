@@ -33,7 +33,7 @@ describe Admin::UsersController do
 
       subject {response}
       it {should be_success}
-      it {should render_template "list"}
+      it {should render_template "index"}
     end
 
   end
