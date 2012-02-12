@@ -26,6 +26,10 @@ This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0, 3.1 to 3.2 escalat
 * Fixture dependency should be removed and replaced it with Fabrication.
 * Now, there is no view spec and cucumber feature.
 
+== CI environment
+* This product is using Travis-CI. 
+* http://travis-ci.org/#!/kaznum/sanataro
+
 == License
 * MIT License.  http://opensource.org/licenses/mit-license.php
 
