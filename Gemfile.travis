@@ -8,7 +8,7 @@ gem "database_cleaner"
 gem "rspec"
 gem "rspec-rails"
 gem "assert_valid_markup"
-
+gem "haml-rails"
 gem "fast_gettext"
 gem "gettext_i18n_rails"
 gem "mysql2", "~> 0.3.10"
