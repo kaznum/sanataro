@@ -1,5 +1,4 @@
 gemfile: Gemfile.travis
-bundler_args: --without development 
 script: "rake spec"
 
 rvm:
