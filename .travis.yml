@@ -1,4 +1,7 @@
 bundler_args: --without development 
+script:
+ - "rake spec"
+ - "rake cucumber"
 
 rvm:
   - 1.9.2
@@ -10,7 +13,6 @@ branches:
 
 before_script:
  - "cp config/database.yml.travis config/database.yml"
- - "rake db:setup"
  - "rake db:migrate"
  - "rake db:test:prepare"
 
