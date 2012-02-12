@@ -52,7 +52,7 @@ group :test do
   gem "guard-spork"
   unless ENV['TRAVIS_RUBY_VERSION']
     if RUBY_VERSION >= "1.9"
-      gem 'spork', '~> 0.9.0.rc'
+      gem 'spork', '~> 0.9.0'
     else
       gem 'spork', '~> 0.8'
     end
