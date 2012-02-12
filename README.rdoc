@@ -1,6 +1,6 @@
 == Welcome to Kakeibo Sanataro
 Sanataro - Simple Web Household Account Book.
- built with Ruby on Rails 3.2.
+built with Ruby on Rails 3.2.
 
 == Features
 * Simple kakeibo Web Application.
@@ -12,9 +12,9 @@ Sanataro - Simple Web Household Account Book.
 * Ruby: MRI (>= 1.9.2)
 * Ruby on Rails: 3.2.0
 * DB: 
-** MySQL(adapter mysql2) (tested)
-** SQLite3 (tested)
-** PostgreSQL (heroku available) (not tested)
+  * MySQL(adapter mysql2) (tested)
+  * SQLite3 (tested)
+  * PostgreSQL (heroku available) (not tested)
 
 == Caution
 * http(s)://<your URL>/admin/users lists the account names which have been registered, but this page has no authentication logic. Please limit the users by web server or Rails mechanism who can access this page or remove the file "app/controllers/admin/users_controller.rb".
@@ -38,13 +38,13 @@ This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0, 3.1 to 3.2 escalat
 
 == Libraries used in this application
 * Farbtastic 1.2
-** Copyright (c) Steven Wittens
-** GPL v2 (GPL Document is in doc directory)
-** http://acko.net/blog/farbtastic-jquery-color-picker-plug-in/ 
+  * Copyright (c) Steven Wittens
+  * GPL v2 (GPL Document is in doc directory)
+  * http://acko.net/blog/farbtastic-jquery-color-picker-plug-in/ 
 * jQuery-util
-** http://code.google.com/p/jquery-util/ 
-** MIT License
+  * http://code.google.com/p/jquery-util/ 
+  * MIT License
 * Flot
-** http://code.google.com/p/flot/
-** MIT License
+  * http://code.google.com/p/flot/
+  * MIT License
 
