@@ -1,0 +1,10 @@
+language: ruby
+rvm:
+  - 1.9.2
+  - 1.9.3
+  - jruby-19mode # JRuby in 1.9 mode
+
+before_script:
+ - "cp config/database.yml.travis config/database.yml"
+ - "mysql -e 'create database sanataro_test;'"
+
