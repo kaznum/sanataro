@@ -1,12 +1,11 @@
+gemfile: Gemfile.travis
 bundler_args: --without development 
-script: "rake spec cucumber"
+script: "rake spec"
 
 rvm:
   - 1.9.2
-  - 1.9.3
 
 before_script: "cp config/database.yml.travis config/database.yml; rake db:drop db:create db:migrate"
 
 env:
   - DB=mysql
-
