@@ -17,16 +17,16 @@ describe ApplicationHelper do
 
   describe "calendar_from" do
     fixtures :users, :monthly_profit_losses
-    context "there is monthly_profit_losses records" do 
+    context "when there are monthly_profit_losses records," do 
       before do
-        @min_month = MonthlyProfitLoss.where(:user_id => users(:user1).id).minimum(:month)
+        @min_month = MonthlyProfitLoss.where(:user_id => users(:user1).id).where("amount <> 0").minimum(:month)
       end
 
       subject { helper.calendar_from(users(:user1)) }
       it { should be == @min_month.beginning_of_month.months_ago(2).beginning_of_month }
     end
     
-    context "there is no monthly_profit_losses record" do 
+    context "when there is no monthly_profit_losses record," do 
       before do
         MonthlyProfitLoss.destroy_all
       end
@@ -38,16 +38,16 @@ describe ApplicationHelper do
 
   describe "calendar_to" do
     fixtures :users, :monthly_profit_losses
-    context "there is monthly_profit_losses records" do 
+    context "when there are monthly_profit_losses records," do 
       before do
-        @max_month = MonthlyProfitLoss.where(:user_id => users(:user1).id).maximum(:month)
+        @max_month = MonthlyProfitLoss.where(:user_id => users(:user1).id).where("amount <> 0").maximum(:month)
       end
 
       subject { helper.calendar_to(users(:user1)) }
       it { should be == @max_month.beginning_of_month.months_since(2).beginning_of_month }
     end
     
-    context "there is no monthly_profit_losses record" do 
+    context "when there is no monthly_profit_losses record," do 
       before do
         MonthlyProfitLoss.destroy_all
       end

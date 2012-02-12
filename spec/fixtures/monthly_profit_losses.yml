@@ -47,13 +47,6 @@ outgo3200802:
   account_id: 3
   amount: 15100
 
-#outgo3200803:
-#  id: 14
-#  user_id: 1
-#  month: 2008-03-01
-#  account_id: 3
-#  amount: 0
-
 outgo3200804:
   id: 15
   user_id: 1
@@ -67,6 +60,18 @@ bank1200804:
   month: 2008-04-01
   account_id: 1
   amount: -500
+
+bank1201504:
+  user_id: 1
+  month: 2015-04-01
+  account_id: 1
+  amount: 0
+
+bank1200304:
+  user_id: 1
+  month: 2003-04-01
+  account_id: 1
+  amount: 0
 
 unknown200802:
   user_id: 1
