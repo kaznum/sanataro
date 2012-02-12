@@ -2,7 +2,9 @@ require 'rubygems'
 require 'spork'
 require 'prototype_matchers'
 require 'simplecov'
-SimpleCov.start "rails"
+if defined? SimpleCov
+  SimpleCov.start "rails"
+end
 
 Spork.prefork do
   # Loading more in this block will cause your tests to run faster. However,
@@ -75,7 +77,9 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
-  Capybara.javascript_driver = :webkit
+  if defined? Capybara
+    Capybara.javascript_driver = :webkit
+  end
 
   def login(only_add=false)
     orig_controller = @controller
