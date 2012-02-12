@@ -2,7 +2,9 @@ require 'rubygems'
 require 'spork'
 require 'prototype_matchers'
 require 'simplecov'
-SimpleCov.start "rails"
+if defined? SimpleCov
+  SimpleCov.start "rails"
+end
 
 Spork.prefork do
   # Loading more in this block will cause your tests to run faster. However,
