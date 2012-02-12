@@ -1,10 +1,17 @@
-language: ruby
+bundler_args: --without development 
+script: "bundle exec rake db:drop db:create db:migrate spec"
+
 rvm:
   - 1.9.2
   - 1.9.3
 
+branches:
+  only:
+    - master
+
 before_script:
  - "cp config/database.yml.travis config/database.yml"
- - "mysql -e 'create database sanataro_development default character set utf8;'"
- - "mysql -e 'create database sanataro_test default character set utf8;'"
+
+env:
+  - DB=mysql
 
