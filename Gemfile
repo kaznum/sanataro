@@ -11,8 +11,7 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 # Use unicorn as the web server
 # gem 'unicorn'
 
-# Deploy with Capistrano
-gem 'capistrano'
+gem 'capistrano' unless ENV['TRAVIS_RUBY_VERSION']
 
 # To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
 # gem 'ruby-debug'
@@ -25,15 +24,19 @@ gem 'capistrano'
 
 gem "therubyracer"
 
-group :development, :test do
+group :development do
   gem "gettext"
   gem "rails-erd"
-  gem "libnotify" if RUBY_PLATFORM.downcase =~ /linux/
-  gem "rb-inotify" if RUBY_PLATFORM.downcase =~ /linux/
-  if RUBY_VERSION >= "1.9"
-   gem 'ruby-debug19'
+end
+
+group :development, :test do
+  unless ENV['TRAVIS_RUBY_VERSION']
+    gem "libnotify" if RUBY_PLATFORM.downcase =~ /linux/
+    gem "rb-inotify" if RUBY_PLATFORM.downcase =~ /linux/
+    if RUBY_VERSION >= "1.9"
+     gem 'ruby-debug19'
+    end
   end
-  gem "capybara-webkit"
   gem "cucumber-rails"
   gem "launchy"
   gem "fabrication"
@@ -41,28 +44,26 @@ end
 
 gem 'haml-rails'
 
-group :watchr do
-#  gem "watchr"
-#  gem "rev" if RUBY_PLATFORM.downcase =~ /linux/
-end
-
 group :test do
+  gem "capybara-webkit"
   gem "database_cleaner"
   gem "guard-rspec"
   gem "guard-cucumber"
   gem "guard-spork"
-  gem "growl" if RUBY_PLATFORM.downcase =~ /darwin/
+  unless ENV['TRAVIS_RUBY_VERSION']
+    if RUBY_VERSION >= "1.9"
+      gem 'spork', '~> 0.9.0.rc'
+    else
+      gem 'spork', '~> 0.8'
+    end
+    gem "growl" if RUBY_PLATFORM.downcase =~ /darwin/
+    gem "rb-fsevent" if RUBY_PLATFORM.downcase =~ /darwin/
+  end
+  gem "simplecov" if RUBY_VERSION >= "1.9"
   gem "rspec"
   gem "rspec-rails"
-  gem "rb-fsevent" if RUBY_PLATFORM.downcase =~ /darwin/
   gem "assert_valid_markup"
-  if RUBY_VERSION >= "1.9"
-    gem 'spork', '~> 0.9.0.rc'
-  else
-    gem 'spork', '~> 0.8'
-  end
   gem "webrat"
-  gem "simplecov" if RUBY_VERSION >= "1.9"
 end
 
 gem "fast_gettext"
