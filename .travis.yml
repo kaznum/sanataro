@@ -10,6 +10,9 @@ branches:
 
 before_script:
  - "cp config/database.yml.travis config/database.yml"
+ - "rake db:setup"
+ - "rake db:migrate"
+ - "rake db:test:prepare"
 
 env:
   - DB=mysql
