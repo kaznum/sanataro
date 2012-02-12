@@ -5,5 +5,6 @@ rvm:
 
 before_script:
  - "cp config/database.yml.travis config/database.yml"
- - "mysql -e 'create database sanataro_test;'"
+ - "mysql -e 'create database sanataro_development default character set utf8;'"
+ - "mysql -e 'create database sanataro_test default character set utf8;'"
 
