@@ -19,7 +19,7 @@ gem 'coffee-rails', "~> 3.2.1"
 gem 'uglifier', ">= 1.0.3"
 
 gem 'settingslogic'
-
+gem 'cucumber-rails'
 gem "capybara-webkit"
 gem "database_cleaner"
 gem "webrat"
