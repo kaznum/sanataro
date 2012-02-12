@@ -75,7 +75,9 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
-  Capybara.javascript_driver = :webkit
+  if defined? Capybara
+    Capybara.javascript_driver = :webkit
+  end
 
   def login(only_add=false)
     orig_controller = @controller
