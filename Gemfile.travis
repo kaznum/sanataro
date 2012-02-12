@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.2.0'
 gem "fabrication"
-gem 'simplecov'
+gem "simplecov"
 gem "spork", "~> 0.9.0"
 gem "database_cleaner"
 gem "rspec"
@@ -20,3 +20,6 @@ gem 'uglifier', ">= 1.0.3"
 
 gem 'settingslogic'
 
+gem "capybara-webkit"
+gem "database_cleaner"
+gem "webrat"

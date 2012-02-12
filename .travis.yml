@@ -1,4 +1,7 @@
 gemfile: Gemfile.travis
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
 
 rvm:
   - 1.9.2
