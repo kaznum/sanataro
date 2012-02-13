@@ -11,13 +11,12 @@
   });
   
 %p#add_item_explain
-  = _('Adjustment')
-  %span{:style => "font-weight: normal;font-size: 12px;"}= link_to _('Register Income/Outgo'), new_entry_path(:year => date.year, :month => date.month), :remote => true, :method => :get
+  = t('label.register_adjustment')
+  %span{:style => "font-weight: normal;font-size: 12px;"}= link_to t('link.register_income_outgo'), new_entry_path(:year => date.year, :month => date.month), :remote => true, :method => :get
 = form_tag entries_path(date.year, date.month), :remote => true, :method => :post, :id=>'do_add_item' do
-  = text_field_tag :action_date, date.strftime("%Y/%m/%d"), size: 12, placeholder: "YYYY/MM/DD" #{_("Select an account to adjust amount.")}
+  = text_field_tag :action_date, l(date), size: 12, placeholder: "YYYY/MM/DD"
   = select_tag 'to', options_for_select(@separated_accounts[:bank_accounts])
-  = _('Balance:')
-  = text_field_tag 'adjustment_amount', nil, :size=>10, :style=>"text-align: right;"
-  = _("yen")
+  = t('label.balance')
+  = text_field_tag 'adjustment_amount', nil, :size=>10, :style=>"text-align: right;", placeholder: t("placeholder.amount")
   %br/
-  タグ #{text_field_tag 'tag_list'} #{submit_tag _('Register'), :id=>'new_add_button'}#{hidden_field_tag 'entry_type', 'adjustment'}
+  #{text_field_tag 'tag_list',nil, placeholder: t('placeholder.tag')} #{submit_tag t('button.register'), :id=>'new_add_button'}#{hidden_field_tag 'entry_type', 'adjustment'}

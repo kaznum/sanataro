@@ -26,15 +26,15 @@
             %td{:style => "vertical-align:top"}
               %table{:width => "300"}
                 %tr
-                  %th.table_header 口座
-                  %th.table_header 金額
+                  %th.table_header= t('label.account')
+                  %th.table_header= t('label.amount')
                   %th %
                 %tr
                   %th.table_header{:colspan => "3"} #{displaying_month.year}年#{displaying_month.month}月資産の部
                 - @plus.each do |a, amount|
                   %tr
-                    %td.title!= "#{h a.name} [#{link_to '出納帳', balance_sheet_path(displaying_month.year, displaying_month.month, a.id), :method => :get, :remote => true}]"
-                    %td.money #{CommonUtil.separate_by_comma(amount)}円
+                    %td.title!= "#{h a.name} [#{link_to t('link.revenue'), balance_sheet_path(displaying_month.year, displaying_month.month, a.id), :method => :get, :remote => true}]"
+                    %td.money= number_to_currency(amount)
                     %td.percent #{(@total_plus == 0) ? '*' : amount * 100 / @total_plus}%
                 %tr
                   %td.total 資産合計
@@ -43,8 +43,8 @@
             %td{:style => "vertical-align:top"}
               %table{:width => "300"}
                 %tr
-                  %th.table_header 口座
-                  %th.table_header 金額
+                  %th.table_header= t('label.account')
+                  %th.table_header= t('label.amount')
                   %th %
                 %tr
                   %th.table_header{:colspan => "3"} #{displaying_month.year}年#{displaying_month.month}月負債の部
@@ -61,14 +61,14 @@
                   %th.table_header{:colspan => "3"} #{displaying_month.year}年#{displaying_month.month}月資本の部
                 %tr
                   %td.total 資本合計
-                  %td.total.money #{CommonUtil.separate_by_comma(@total_plus + @total_minus)}円
+                  %td.total.money= number_to_currency(@total_plus + @total_minus)
                   %td.percent 100%
           %tr
-            %td.total_capital 総資産: #{CommonUtil.separate_by_comma(@total_plus)}円
-            %td.total_capital 総資本: #{CommonUtil.separate_by_comma(@total_plus)}円
+            %td.total_capital 総資産: #{number_to_currency(@total_plus)}
+            %td.total_capital 総資本: #{number_to_currency(@total_plus)}
         .yearly_balance_graph
           .chart_title
-            ■推移
+            ■#{t('label.change')}
             %span#income_chart_hover
           #yearly_chart_choices
           #yearly_chart.graph{:style => "width: 600px; height: 200px;"}

@@ -16,11 +16,11 @@
   });
   
 %p#add_item_explain
-  = _("Register Income/Outgo")
-  %span.swither_link= link_to _('Register Adjustment'), new_entry_path(:year => it.action_date.year, :month => it.action_date.month, :entry_type => 'adjustment'), :remote => true, :method => :get
+  = t('label.register_income_outgo')
+  %span.swither_link= link_to t('link.register_adjustment'), new_entry_path(:year => it.action_date.year, :month => it.action_date.month, :entry_type => 'adjustment'), :remote => true, :method => :get
 = form_tag entries_path(it.action_date.year, it.action_date.month), :remote => true, :method => :post, :id=>'do_add_item' do
   = text_field_tag :action_date, it.action_date.strftime("%Y/%m/%d"), size: 12, placeholder: "YYYY/MM/DD"
-  = text_field_tag :item_name, it.name, size: 30, placeholder: _('Input explanation')
+  = text_field_tag :item_name, it.name, size: 30, placeholder: t('placeholder.item_name')
   = hidden_field_tag :confirmation_required, it.confirmation_required?
   %span#confirmation_required_label.item_confirmation_not_required= '☆'
   = link_to '[すべての★を見る]', mark_entries_path(mark: :confirmation_required)
@@ -28,9 +28,7 @@
   = select_tag 'from', options_for_select(@separated_accounts[:from_accounts], it.from_account_id.to_s)
   \=&gt;
   = select_tag 'to', options_for_select(@separated_accounts[:to_accounts], it.to_account_id.to_s)
-  = _("Amount:")
-  = text_field_tag 'amount', ((it.amount.nil? || it.amount == 0) ? nil : CommonUtil.separate_by_comma(it.amount)), size: 10, class: "amount", placeholder: _('amount')
-  \#{_("yen")}
+  = text_field_tag 'amount', ((it.amount.nil? || it.amount == 0) ? nil : CommonUtil.separate_by_comma(it.amount)), size: 10, class: "amount", placeholder: t('placeholder.amount')
   %br/
-  タグ #{text_field_tag 'tag_list'} #{submit_tag _('Register'), id: 'new_add_button'}
+  タグ #{text_field_tag 'tag_list', nil, placeholder: t('placeholder.tag')} #{submit_tag t('button.register'), id: 'new_add_button'}
 

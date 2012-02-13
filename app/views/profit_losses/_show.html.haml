@@ -5,13 +5,13 @@
       %th{:colspan => "5"}
         - selector = "#pl_history_#{@account_id}"
         = @separated_accounts[:all_accounts][@account_id]
-        の出納帳 (#{link_to_function '隠す', fadeout_and_remove(selector)})
+        #{t('label.of_history')} (#{link_to_function t('link.hide'), fadeout_and_remove(selector)})
     %tr
-      %th{:width => "80px"} 日付
-      %th 種別
-      %th 項目
-      %th{:width => "80px"} 金額
-      %th{:width => "80px"} 累計
+      %th{:width => "80px"}=t('label.date')
+      %th=t('label.type')
+      %th=t('label.item')
+      %th{:width => "80px"}=t('label.amount')
+      %th{:width => "80px"}=t('label.cumulative')
     - total = 0
     - @items.each do |it|
     - amount = it.amount
@@ -20,15 +20,10 @@
       %tr
         %td{:width => "80px"}= it.action_date.strftime("%Y/%m/%d")
         %td= related_account
-        %td= (it.adjustment?) ? '残高調整 ' + CommonUtil.separate_by_comma(it.adjustment_amount) + ' 円' : it.name
+        %td= (it.adjustment?) ? t('label.adjustment') + number_to_currency(it.adjustment_amount) : it.name
         %td{:align => "right", :width => "80px"}
-          = CommonUtil.separate_by_comma(amount)
-          円
-        %td{:align => "right", :width => "80px"}
-          = CommonUtil.separate_by_comma(total)
-          円
+          = number_to_currency(amount)
+        %td{:align => "right", :width => "80px"}= number_to_currency(total)
     %tr
-      %th{:colspan => "4"} 合計
-      %th{:align => "right"}
-        = CommonUtil.separate_by_comma(total)
-        円
+      %th{:colspan => "4"}= t('label.total')
+      %th{:align => "right"}= number_to_currency(total)

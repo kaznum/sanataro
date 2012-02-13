@@ -57,3 +57,36 @@ ja:
         tags: "タグ"  #g
         monthly_profit_losses: "毎月の利益の損失"  #g
         taggings: Taggings  #g
+  label:
+    date: "日付"
+    type: "種別"
+    item: "項目"
+    amount: "金額"
+    cumulative: "累計"
+    adjustment: "残高調整"
+    total: "合計"
+    of_history: "の出納帳"
+    total_of_income: "収入合計"
+    total_of_outgoing: "支出合計"
+    income: "収入"
+    outgoing: "支出"
+    yearly_income: "収入(年間)"
+    yearly_outgoing: "支出(年間)"
+    yearly_total_income_and_total_outgoing: "総収入・総支出(年間)"
+    gross_profit: "収益(損失)合計"
+    account: "口座"
+    change: "推移"
+    register_income_outgo: "入金・出金の登録"
+    register_adjustment: "残高調整の登録"
+    balance: "残高"
+  link:
+    hide: "隠す"
+    revenue: "出納帳"
+    register_adjustment: "残高調整の登録"
+    register_income_outgo: "入金・出金の登録"
+  placeholder:
+    item_name: "説明を入力してください"
+    tag: "タグ(スペース区切り)"
+    amount: "金額"
+  button:
+    register: "登録"
