@@ -54,6 +54,53 @@ describe :routes do
       it { should route_to(controller: 'main', action: 'reload_config') }
     end
   end
+
+  describe "show_parent_child_item" do
+    describe 'GET show_parent_child_item' do
+      subject { get('/show_parent_child_item') }
+      it { should route_to("main#show_parent_child_item") }
+    end
+
+    describe 'named route' do
+      subject { get( show_parent_child_item_path ) }
+      it { should route_to("main#show_parent_child_item") }
+    end
+  end
+
+
+  describe "create_user" do
+    describe 'GET create_user' do
+      subject { get('/create_user') }
+      it { should route_to("login#create_user") }
+    end
+
+    describe 'named route' do
+      subject { get( create_user_path ) }
+      it { should route_to("login#create_user")}
+    end
+    
+    describe 'POST create_user' do
+      subject { post('/create_user') }
+      it { should route_to("login#do_create_user") }
+    end
+
+    describe 'named route' do
+      subject { post( create_user_path ) }
+      it { should route_to("login#do_create_user")}
+    end
+  end
+  
+  describe "login#confirmation" do
+    describe 'GET confirm_user' do
+      subject { get('/confirm_user') }
+      it { should route_to("login#confirmation") }
+    end
+
+    describe 'named route' do
+      subject { get( confirm_user_path ) }
+      it { should route_to("login#confirmation")}
+    end
+  end
   
   describe 'current...' do
     %w(entries profit_losses balance_sheets).each do |controller|

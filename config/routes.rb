@@ -6,6 +6,7 @@ Kakeibo3::Application.routes.draw do
   match 'login' => 'login#do_login', :as => :login, :via => :post
   match 'logout' => 'login#do_logout', :as => :logout
   match 'reload_config' => 'main#reload_config', :as => :reload_config
+  match 'show_parent_child_item' => "main#show_parent_child_item", :as => :show_parent_child_item, :via => :get
   
   scope 'months/:year/:month' do
     resources :entries
