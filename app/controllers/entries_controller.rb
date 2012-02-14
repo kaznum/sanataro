@@ -69,43 +69,52 @@ class EntriesController < ApplicationController
   end
   
   def create
-    if params[:entry_type] == 'adjustment'
-      _create_adjustment
-    else
-      _create_entry
-    end
+    _xhr_action_wrapper("warning") {
+      if params[:entry_type] == 'adjustment'
+        _create_adjustment
+      else
+        _create_entry
+      end
+    }
   end
   
-  def update
-    id = params[:id].to_i
-    if params[:entry_type] == 'adjustment'
-      args = {
-        to_account_id: params[:to],
-        adjustment_amount: Item.calc_amount(params[:adjustment_amount])
-      }
-    else
-      args = {
-        name: params[:item_name],
-        from_account_id: params[:from],
-        to_account_id: params[:to],
-        amount: Item.calc_amount(params[:amount])
-      }
-    end
-
-    args.merge!({ confirmation_required: params[:confirmation_required],
-                  tag_list: params[:tag_list],
-                  action_date: _get_action_date_from_params })
-    
-    item, updated_item_ids, deleted_item_ids = Teller.update_entry(@user, id, args)
-    items = _get_items(displaying_month)
-    render "update", locals: { item: item, items: items, updated_item_ids: updated_item_ids }
+  def _xhr_action_wrapper(warning_selector, &block)
+    block.call
+  rescue ActiveRecord::RecordNotFound => ex
+    redirect_js_to current_entries_url
   rescue InvalidDate
-    render_js_error :id => "item_warning_#{id}", :errors => nil, :default_message => t("error.date_is_invalid")
+    render_js_error :id => warning_selector, :default_message => t("error.date_is_invalid")
   rescue SyntaxError
-    render_js_error :id => "item_warning_#{id}", :errors => nil, :default_message => t("error.amount_is_invalid")
+    render_js_error :id => warning_selector, :default_message => t("error.amount_is_invalid")
   rescue ActiveRecord::RecordInvalid => ex
-    render_js_error(:id => "item_warning_#{id}", :errors => ex.error_messages,
-                    :default_message => t("error.input_is_invalid"))
+    render_js_error(:id => warning_selector, :errors => ex.error_messages, :default_message => t("error.input_is_invalid"))
+  end
+
+  def update
+    _xhr_action_wrapper("item_warning_#{params[:id]}") {
+      id = params[:id].to_i
+      if params[:entry_type] == 'adjustment'
+        args = {
+          to_account_id: params[:to],
+          adjustment_amount: Item.calc_amount(params[:adjustment_amount])
+        }
+      else
+        args = {
+          name: params[:item_name],
+          from_account_id: params[:from],
+          to_account_id: params[:to],
+          amount: Item.calc_amount(params[:amount])
+        }
+      end
+
+      args.merge!({ confirmation_required: params[:confirmation_required],
+                    tag_list: params[:tag_list],
+                    action_date: _get_action_date_from_params })
+      
+      item, updated_item_ids, deleted_item_ids = Teller.update_entry(@user, id, args)
+      items = _get_items(displaying_month)
+      render "update", locals: { item: item, items: items, updated_item_ids: updated_item_ids }
+    }
   end
 
   def _redirect_to_login_by_js_if_id_is_blank
@@ -117,23 +126,22 @@ class EntriesController < ApplicationController
   end
   
   def destroy
-    item = @user.items.find(params[:id])
-    _destroy_item(item)
-  rescue ActiveRecord::RecordNotFound => ex
-    url = params[:id].blank? ? login_url : entries_url(today.year, today.month)
-    redirect_js_to url
+    _xhr_action_wrapper("warning") {
+      item = @user.items.find(params[:id])
+      _destroy_item(item)
+    }
   end
 
   def edit
-    @item = @user.items.find(params[:id])
-  rescue ActiveRecord::RecordNotFound => ex
-    redirect_js_to entries_url(:year => today.year, :month => today.month)
+    _xhr_action_wrapper("warning") {
+      @item = @user.items.find(params[:id])
+    }
   end
   
   def show
-    @item = @user.items.find(params[:id])
-  rescue ActiveRecord::RecordNotFound => ex
-    redirect_js_to current_entries_url
+    _xhr_action_wrapper("warning") {
+      @item = @user.items.find(params[:id])
+    }
   end
 
   private
@@ -183,13 +191,8 @@ class EntriesController < ApplicationController
       updated_item_ids << item.try(:id)
       
       render "create_adjustment", locals: { item: item, items: @items, updated_item_ids: updated_item_ids.reject(&:nil?).uniq }
+
     end
-  rescue SyntaxError
-    render_js_error :id => "warning", :default_message => t("error.amount_is_invalid")
-  rescue InvalidDate
-    render_js_error :id => "warning", :default_message => t("error.date_is_invalid")
-  rescue ActiveRecord::RecordInvalid => ex
-    render_js_error(:id => "warning", :errors => ex.error_messages, :default_message => t('error.input_is_invalid'))
   end
 
   #
@@ -213,14 +216,9 @@ class EntriesController < ApplicationController
         render "create_item", locals: { item: item, items: @items, updated_item_ids: affected_item_ids.reject(&:nil?).uniq }
       end
     end
-  rescue InvalidDate
-    render_js_error :id => "warning", :default_message => t("error.date_is_invalid")
-  rescue SyntaxError
-    render_js_error :id => "warning", :default_message => t("error.amount_is_invalid")
-  rescue ActiveRecord::RecordInvalid => ex
-    render_js_error(:id => "warning", :errors => ex.error_messages, :default_message => t("error.input_is_invalid"))
   end
 
+  
   def _get_action_date_from_params
     Date.parse(params[:action_date])
   rescue

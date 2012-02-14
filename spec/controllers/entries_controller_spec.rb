@@ -307,7 +307,7 @@ describe EntriesController do
         end
 
         subject { response }
-        it { should redirect_by_js_to entries_url(:year => Date.today.year, :month => Date.today.month)}
+        it { should redirect_by_js_to current_entries_url }
       end
 
       [:item1, :adjustment2].each do |item_name|
@@ -530,7 +530,7 @@ describe EntriesController do
 
         describe "response" do
           subject {response}
-          it {should redirect_by_js_to entries_url(Date.today.year, Date.today.month)}
+          it {should redirect_by_js_to current_entries_url}
         end
       end
 
@@ -544,7 +544,7 @@ describe EntriesController do
 
         describe "response" do
           subject {response}
-          it {should redirect_by_js_to login_url }
+          it {should redirect_by_js_to current_entries_url }
         end
       end
 
@@ -773,7 +773,7 @@ describe EntriesController do
               xhr :delete, :destroy, :id => 20000, :year => Date.today.year, :month => Date.today.month
             end
             subject {response}
-            it {should redirect_by_js_to entries_url(Date.today.year, Date.today.month)}
+            it {should redirect_by_js_to current_entries_url}
           end
 
           context "with correct id," do
