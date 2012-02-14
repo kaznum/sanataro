@@ -167,7 +167,7 @@ class EntriesController < ApplicationController
   def _create_adjustment
     action_date = _get_action_date_from_params
     
-    to_account_id = CommonUtil.remove_comma(params[:to]).to_i
+    to_account_id = params[:to].to_i
     adjustment_amount = Item.calc_amount(params[:adjustment_amount])
     
     Item.transaction do
