@@ -7,7 +7,7 @@
         = @separated_accounts[:all_accounts][@account_id]
         #{t('label.of_history')} (#{link_to_function t('link.hide'), fadeout_and_remove(selector)})
     %tr
-      %th{:colspan => "4"}= "#{t('label.last_month')}(#{(displaying_month - 1).strftime("%Y/%m")}) #{t('.brought_forward_from')}"
+      %th{:colspan => "4"}= "#{t('.brought_forward_from_last_month', month: l(displaying_month - 1, format: :year_month))}"
       %th.money= number_to_currency(@remain_amount)
     %tr
       %th{:width => "80px"}= t('label.date')
@@ -30,5 +30,5 @@
         %td.money{:width => "80px"}= number_to_currency(amount)
         %td.money{:width => "80px"}= number_to_currency(@remain_amount)
     %tr
-      %th{:colspan => "4"}= "#{t('label.next_month')} #{(displaying_month.end_of_month + 1).strftime("%Y/%m")} #{t('.carried_forward_to')}"
+      %th{:colspan => "4"}= "#{t('.carried_forward_to_next_month', month: l(displaying_month.end_of_month + 1, format: :year_month))}"
       %th{:align => "right"}= number_to_currency(@remain_amount)

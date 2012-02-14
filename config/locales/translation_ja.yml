@@ -88,8 +88,6 @@ ja:
     register_income_outgo: "出金・入金の登録"
     register_adjustment: "残高調整の登録"
     balance: "残高"
-    last_month: "前月"
-    next_month: "次月"
     tag: "タグ"
     unknown_income: "不明な入金"
     unknown_outgoing: "不明な出金"
@@ -130,8 +128,8 @@ ja:
       no_javascript_explanation: "あなたがご利用のブラウザは、現在JavaScriptが無効になっています。<br/>本サイトをご利用いただくにはブラウザ設定でJavaScriptを有効にしてください。"
   balance_sheets:
     show:
-      carried_forward_to: "への繰越"
-      brought_forward_from: "からの繰越"
+      carried_forward_to_next_month: "翌月(%{month})への繰越"
+      brought_forward_from_last_month: "前月(%{month})からの繰越"
   profit_losses:
     index:
       income_section: "収入の部"
