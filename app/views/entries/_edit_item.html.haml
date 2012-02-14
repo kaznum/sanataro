@@ -22,17 +22,17 @@
   
 .item{:id => "item_#{item.id}"}
   = form_tag entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :put, :id => "edit_#{item.id}_form"  do
-    = text_field_tag :action_date, item.action_date.strftime("%Y/%m/%d"), size: 12, placeholder: "YYYY/MM/DD", id: "action_date_#{item.id}"
-    = text_field_tag :item_name, item.name, :size=>30
+    = text_field_tag :action_date, l(item.action_date), size: 12, placeholder: "YYYY/MM/DD", id: "action_date_#{item.id}"
+    = text_field_tag :item_name, item.name, :size=>30, placeholder: t('placeholder.item_name')
     = hidden_field_tag :confirmation_required, item.confirmation_required?, id: "confirmation_required_#{item.id}"
-    %span.item_confirmation_not_required{id: "confirmation_required_label_#{item.id}"}= '☆'
+    %span.item_confirmation_not_required{id: "confirmation_required_label_#{item.id}"}= t('label.no_confirmation_mark')
     %br/
     = select_tag 'from', options_for_select(@separated_accounts[:from_accounts], item.from_account_id.to_s)
-    \=&gt;#{select_tag 'to', options_for_select(@separated_accounts[:to_accounts], item.to_account_id.to_s)} 金額:#{text_field_tag 'amount', item.amount, :size=>10, :style=>"text-align: right;"}円
+    \=&gt;#{select_tag 'to', options_for_select(@separated_accounts[:to_accounts], item.to_account_id.to_s)} #{text_field_tag 'amount', item.amount, :size=>10, :style=>"text-align: right;", :placeholder => t('placeholder.amount')}
     %br/
-    タグ #{text_field_tag 'tag_list', item.tag_list(@user)}
+    = text_field_tag 'tag_list', item.tag_list(@user), placeholder: t('placeholder.tag')
     %span{:id => "item_operation_#{item.id}"}
-      = submit_tag '変更', :id => "edit_button_#{item.id}"
-      = link_to 'キャンセル', entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :get
+      = submit_tag t('button.save'), :id => "edit_button_#{item.id}"
+      = link_to t('link.cancel'), entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :get
     %span{:id => "item_operation_loading_#{item.id}", :style => "display:none;"}= image_tag "loading.gif", :alt => "loading..."
   %span.warning{:id => "item_warning_#{item.id}"}

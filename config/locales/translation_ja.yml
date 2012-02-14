@@ -10,54 +10,60 @@ ja:
 
     attributes:
       account:
-        name: "名"  #g
+        name: "項目名"
         active: "アクティブになっています"  #g
         account_type: "アカウントの種類"  #g
-        order_no: "注文番号"  #g
-        bgcolor: "bgcolorは"  #g
-        user: "ユーザー"  #g
-        accounts: "アカウント"  #g
+        order_no: "並び順"
+        bgcolor: "色"  #g
+        user: "ユーザ"
+        accounts: "アカウント"
 
       autologin_key:
         enc_autologin_key: "encは自動ログインキー"  #g
 
       credit_relation:
-        settlement_day: "決済日"  #g
-        payment_month: "お支払い月"  #g
-        payment_day: "支払日"  #g
+        settlement_day: "決済日"
+        payment_month: "支払月"
+        payment_day: "支払日"
 
       item:
-        name: "名"  #g
+        name: "項目名"
         currency: "通貨"  #g
-        amount: "量"  #g
-        action_date: "アクション日"  #g
-        is_adjustment: "調整は、"  #g
-        adjustment_amount: "調整量"  #g
+        amount: "金額"
+        action_date: "日付"
+        adjustment: "残高調整"
+        adjustment_amount: "調整金額"
         confirmation_required: "確認が必要です"  #g
-        user: "ユーザー"  #g
+        user: "ユーザ"
         parent_item: "親項目"  #g
         child_item: "子項目"  #g
-        tags: "タグ"  #g
+        tags: "タグ"
         taggings: Taggings  #g
 
       monthly_profit_loss:
         month: "月"  #g
-        amount: "量"  #g
-        user: "ユーザー"  #g
+        amount: "金額"
+        user: "ユーザ"
 
       user:
         login: "ログイン"  #g
         password: "パスワード"  #g
+        password_plain: "パスワード"
+        password_confirmation: "パスワード(確認)"
         active: "アクティブになっています"  #g
         email: "Eメール"  #g
         confirmation: "確認"  #g
         accounts: "アカウント"  #g
         items: "アイテム"  #g
-        credit_relations: "クレジットカードでの関係"  #g
+        credit_relations: "クレジットカード"
         tags: "タグ"  #g
-        monthly_profit_losses: "毎月の利益の損失"  #g
+        monthly_profit_losses: "毎月の収支"
         taggings: Taggings  #g
+  
   label:
+    copyright: "Copyright &copy; 2007-2012 Kazuya NUMATA. All rights are reserved."
+    confirmation_mark: '★'
+    no_confirmation_mark: '☆'
     date: "日付"
     type: "種別"
     item: "項目"
@@ -70,23 +76,131 @@ ja:
     total_of_outgoing: "支出合計"
     income: "収入"
     outgoing: "支出"
+    unknown: "不明"
+    confirmation_required: "要確認(★)"
     yearly_income: "収入(年間)"
     yearly_outgoing: "支出(年間)"
     yearly_total_income_and_total_outgoing: "総収入・総支出(年間)"
     gross_profit: "収益(損失)合計"
     account: "口座"
     change: "推移"
-    register_income_outgo: "入金・出金の登録"
+    gain_loss: "増減"
+    register_income_outgo: "出金・入金の登録"
     register_adjustment: "残高調整の登録"
     balance: "残高"
+    last_month: "前月"
+    next_month: "次月"
+    tag: "タグ"
+    unknown_income: "不明な入金"
+    unknown_outgoing: "不明な出金"
   link:
+    copy: "コピー"
     hide: "隠す"
+    show: "表示"
+    edit: "編集"
+    delete: "削除"
     revenue: "出納帳"
     register_adjustment: "残高調整の登録"
     register_income_outgo: "入金・出金の登録"
+    show_all: ">> すべて表示"
+    back: "戻る"
+    logout: "ログアウト"
+    cancel: "キャンセル"
   placeholder:
-    item_name: "説明を入力してください"
+    item_name: "ラーメン、弁当など"
     tag: "タグ(スペース区切り)"
-    amount: "金額"
+    amount: "金額(円)"
   button:
     register: "登録"
+    save: "保存"
+  message:
+    register_successfully: "登録しました。"
+    save_successfully: "保存しました。"
+    delete_successfully: "削除しました。"
+    logout_really: "本当にログアウトしますか?"
+    delete_really: "本当に削除しますか?"
+  error:
+    amount_is_invalid: "金額が正しくありません。"
+    date_is_invalid: "日付が正しくありません。"
+    input_is_invalid: "入力した値が正しくありません。"
+    user_or_password_is_invalid: "ログインID、もしくは、パスワードが正しくありません。"
+  layouts:
+    entries:
+      no_cookie_explanation: "あなたがご利用のブラウザは、現在Cookieを受け付けない設定になっています。<br/>本サイトをご利用いただくにはブラウザ設定でCookieを受け付けるよう設定してください。"
+      no_javascript_explanation: "あなたがご利用のブラウザは、現在JavaScriptが無効になっています。<br/>本サイトをご利用いただくにはブラウザ設定でJavaScriptを有効にしてください。"
+  balance_sheets:
+    show:
+      carried_forward_to: "への繰越"
+      brought_forward_from: "からの繰越"
+  profit_losses:
+    index:
+      income_section: "収入の部"
+      outgoing_section: "支出の部"
+  login:
+    login:
+      login: "ログイン"
+      user: "ログインID"
+      password: "パスワード"
+      autologin_explanation: "次回から「自動ログイン」する"
+      simple_input_explanation: "「かんたん入力」を使う"
+      not_user_explanation: "ユーザアカウントをお持ちでない方は?"
+      new_account_explanation: "こちらをクリックするとアカウントを作成できます。"
+      lets_try: "さぁ！使ってみよう！"
+      demo_user_explanation: "ユーザ: demo、パスワード: demo123でログインできます。"
+    create_user:
+      input_user_and_password: "作成するログインIDとパスワードを入力してください。"
+      user_password_minimum_letters: "ログインIDは3文字以上10文字以下、パスワードは6文字以上10文字以下でなければなりません。"
+      available_characters: "使用できる文字は、半角英数字、-, _です。"
+      user: "ログインID"
+      password: "パスワード"
+      password_confirmation: "パスワード(確認)"
+      email: "Eメール"
+    user_created:
+      not_activated_title: "まだ完了していません"
+      sent_email: "ご入力いただいたメールアドレスに確認URLが記載されたメールを送信しました。"
+      click_url_to_complete: "メールに記載されたURLにアクセスすると登録が完了します。"
+    confirmation:
+      congraturations: "おめでとうございます! アカウントが有効になりました!"
+      go_to_login: "こちらからログインページに進み、ログインしてください。"
+    confirmation_error:
+      oops: "あれれ、なにかが間違っていますよ?"
+      not_activated: "まだアカウントが有効になっていません。こちらから送信されたメールを確認してください。"
+  common:
+    menu:
+      items: "出金・入金"
+      profit_loss: "収支集計"
+      balance: "残高"
+      config: "設定"
+      simple_input: "かんたん入力"
+  entries:
+    item:
+      deposit: "入金"
+    income_outgoing_list: "出金・入金の一覧"
+    items_header:
+      no_filter: "すべて表示"
+      explanation: "説明"
+      operation: "操作"
+      outgoing_to_income: "出金 => 入金"
+  account_statuses:
+    index:
+      status_of_today: "今日(%{date})の状況"
+  tag_statuses:
+    tag_list: "タグリスト"
+  confirmation_statuses:
+    title: "<span class='item_confirmation_required'>★</span>リスト"
+    show:
+      explanation: "説明"
+  settings:
+    config_menu:
+      account: "口座"
+      income: "収入"
+      outgoing: "支出"
+      credit_card: "クレジットカード"
+      user_info: "ユーザ情報"
+      back_to_book: "家計簿に戻る"
+    users:
+      show:
+        explanation: "新しいパスワードと新しいパスワード（確認）を入力し、保存ボタンを押してください。"
+        email: "Eメール"
+        new_password: "新しいパスワード"
+        new_password_confirmation: "新しいパスワード(確認)"

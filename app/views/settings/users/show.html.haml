@@ -3,19 +3,19 @@
 - if  @user.login != 'demo'
   #input_area
     = form_tag settings_user_path, :remote => true, :method => :put, :before=>"$('change_button').disabled = true" do
-      %p= _("Input new password and the same password in confirmation field.")
+      %p= t('.explanation')
       %table
         %tr
-          %th= _('Email')
+          %th= t('.email')
           %td= text_field_tag 'email', @user.email
         %tr
-          %th= _('New Password')
+          %th= t('.new_password')
           %td= password_field_tag 'password_plain', nil
         %tr
-          %th= _('New Password(Confirmation)')
+          %th= t('.new_password_confirmation')
           %td= password_field_tag 'password_confirmation', nil
       %p
         %span#warning.warning
-      = submit_tag _('Change'), :id=>'change_button'
+      = submit_tag t('button.save'), :id=>'change_button'
 - else
   This function is not available for the demo users.

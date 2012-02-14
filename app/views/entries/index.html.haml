@@ -10,7 +10,7 @@
       = render :partial => 'add_item', :locals => { :it => @new_item }
     #warning{:style => "color: red"}
     #itemlistarea
-      %p#list_item_explain= _("List of Income/Outgo")
+      %p#list_item_explain= t("entries.income_outgoing_list")
       = render :partial => 'items_header'
       #items
         - @items.each do |it|

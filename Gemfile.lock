@@ -75,12 +75,9 @@ GEM
     execjs (1.2.9)
       multi_json (~> 1.0)
     fabrication (1.2.0)
-    fast_gettext (0.5.13)
     ffi (1.0.11)
     gettext (2.1.0)
       locale (>= 2.0.5)
-    gettext_i18n_rails (0.3.0)
-      fast_gettext
     gherkin (2.7.7)
       json (>= 1.4.6)
     growl (1.0.3)
@@ -238,14 +235,13 @@ DEPENDENCIES
   cucumber-rails
   database_cleaner
   fabrication
-  fast_gettext
   gettext
-  gettext_i18n_rails
   growl
   guard-cucumber
   guard-rspec
   guard-spork
   haml-rails
+  i18n
   jquery-rails
   launchy
   mysql2 (~> 0.3.10)

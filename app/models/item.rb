@@ -10,10 +10,6 @@ class Item < ActiveRecord::Base
 
   attr_accessor :p_year, :p_month, :p_day
 
-  N_("Item|Year")
-  N_("Item|Month")
-  N_("Item|Day")
-
   validates_presence_of :user_id
   validates_format_of :user_id, :with => /^\d+$/
   validates_presence_of :name
@@ -41,10 +37,10 @@ class Item < ActiveRecord::Base
 
   def account_id_should_be_owned_by_user
     if from_account_id != -1 && !user.accounts.exists?(id: from_account_id)
-      errors.add(:from_account_id, "が不正です。")
+      errors.add(:from_account_id, I18n.t("errors.messages.invalid"))
     end
     if !user.accounts.exists?(id: to_account_id)
-      errors.add(:to_account_id, "が不正です。")
+      errors.add(:to_account_id, I18n.t("errors.messages.invalid"))
     end
   end
   
@@ -61,10 +57,11 @@ class Item < ActiveRecord::Base
     today = Date.today
     if action_date
       if self.action_date >= 2.years.since(Date.today)
-        errors.add(:action_date, "日付は本日より2年先(" + (Date.new(today.year + 2, today.month, 1) - 1).strftime("%Y年%m月") + ")まで入力可能です。")
+        errors.add(:action_date, I18n.t("errors.messages.until_since_today", year: 2, date: I18n.l(Date.new(today.year + 2, today.month, 1) - 1, format: :year_month)))
       end
-      if self.action_date < Date.new(2006, 1, 1)
-        errors.add(:action_date, _("Date has to be after the year 2006."))
+      since = Date.new(2006, 1, 1)
+      if self.action_date < since
+        errors.add(:action_date, I18n.t("errors.messages.since_until_today", date: I18n.l(since)))
       end
     end
   end

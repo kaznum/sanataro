@@ -14,8 +14,8 @@
   });
 .item{:id => "item_#{item.id}"}
   = form_tag entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :put, :id => "edit_#{item.id}_form" do
-    = hidden_field_tag :action_date, item.action_date.strftime("%Y/%m/%d")
-    = #{item.action_date.strftime("%Y/%m/%d")}
+    = hidden_field_tag :action_date, l(item.action_date)
+    = l(item.action_date)
     口座と残高を入力すると、過不足分が自動計算されます。
     %br/
     = select_tag 'to', options_for_select(@separated_accounts[:to_accounts], item.to_account_id.to_s)

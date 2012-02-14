@@ -23,9 +23,9 @@ class Api::BudgetsController < ApplicationController
     unknown_mpl = @user.monthly_profit_losses.where(:month => from_date, :account_id => -1).where("amount <> 0").first
     if unknown_mpl
       if budget_type == 'income' && unknown_mpl.amount < 0
-        results << { :label => _("Unknown Income"), :data  => unknown_mpl.amount.abs }
+        results << { :label => t("label.unknown_income"), :data  => unknown_mpl.amount.abs }
       elsif budget_type == 'outgo' && unknown_mpl.amount > 0
-        results << { :label => _("Unknown Outgo"), :data  => unknown_mpl.amount.abs }
+        results << { :label => t("label.unknown_outgoing"), :data  => unknown_mpl.amount.abs }
       end
     end
     respond_with results

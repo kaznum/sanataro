@@ -5,19 +5,16 @@
       %th{:colspan => "5"}
         - selector = "#account_history_#{ @account_id }"
         = @separated_accounts[:all_accounts][@account_id]
-        の出納帳 (#{link_to_function '隠す', fadeout_and_remove(selector)})
+        #{t('label.of_history')} (#{link_to_function t('link.hide'), fadeout_and_remove(selector)})
     %tr
-      %th{:colspan => "4"}
-        前月(#{(displaying_month - 1).strftime("%Y/%m")})からの繰越
-      %th.money
-        = CommonUtil.separate_by_comma(@remain_amount)
-        円
+      %th{:colspan => "4"}= "#{t('label.last_month')}(#{(displaying_month - 1).strftime("%Y/%m")}) #{t('.brought_forward_from')}"
+      %th.money= number_to_currency(@remain_amount)
     %tr
-      %th{:width => "80px"} 日付
-      %th 種別
-      %th 項目
-      %th{:width => "80px"} 増減
-      %th{:width => "80px"} 残高
+      %th{:width => "80px"}= t('label.date')
+      %th= t('label.type')
+      %th= t('label.item')
+      %th{:width => "80px"}= t('label.gain_loss')
+      %th{:width => "80px"}= t('label.balance')
     - @items.each do |it|
     - if it.from_account_id == @account_id
       - amount = it.amount * (-1)
@@ -27,18 +24,11 @@
       - related_account = @separated_accounts[:all_accounts][it.from_account_id]
     - @remain_amount += amount
       %tr
-        %td{:width => "80px"}= it.action_date.strftime("%Y/%m/%d")
+        %td{:width => "80px"}= l(it.action_date)
         %td= related_account
-        %td= (it.adjustment?) ? '残高調整 ' + CommonUtil.separate_by_comma(it.adjustment_amount) + ' 円' : it.name
-        %td.money{:width => "80px"}
-          = CommonUtil.separate_by_comma(amount)
-          円
-        %td.money{:width => "80px"}
-          = CommonUtil.separate_by_comma(@remain_amount)
-          円
+        %td= (it.adjustment?) ? t('label.adjustment') + number_to_currency(it.adjustment_amount) : it.name
+        %td.money{:width => "80px"}= number_to_currency(amount)
+        %td.money{:width => "80px"}= number_to_currency(@remain_amount)
     %tr
-      %th{:colspan => "4"}
-        次月(#{(displaying_month.end_of_month + 1).strftime("%Y/%m")})への繰越
-      %th{:align => "right"}
-        = CommonUtil.separate_by_comma(@remain_amount)
-        円
+      %th{:colspan => "4"}= "#{t('label.next_month')} #{(displaying_month.end_of_month + 1).strftime("%Y/%m")} #{t('.carried_forward_to')}"
+      %th{:align => "right"}= number_to_currency(@remain_amount)

@@ -2,29 +2,29 @@
   - if event_item.adjustment?
     .item_date.item_adjustment= l(event_item.action_date)
     .item_name.item_adjustment
-      残高調整  #{number_to_currency(event_item.adjustment_amount)}
+      = t("label.adjustment") + " " + number_to_currency(event_item.adjustment_amount)
       - if event_item.tags.size > 0
         [
         - event_item.tags.each do |tag|
           = link_to_tag(tag)
         ]
-    .item_from.item_adjustment= (event_item.amount < 0) ? colored_account_name(event_item.to_account_id) : '(調整)'
-    .item_to.item_adjustment= (event_item.amount >= 0) ? colored_account_name(event_item.to_account_id) : '(調整)'
+    .item_from.item_adjustment= (event_item.amount < 0) ? colored_account_name(event_item.to_account_id) : '(' + t("label.adjustment") + ')'
+    .item_to.item_adjustment= (event_item.amount >= 0) ? colored_account_name(event_item.to_account_id) : '(' + t("label.adjustment") + ')'
     .item_amount.item_adjustment= number_to_currency(event_item.amount.abs)
     .item_operation.item_adjustment
       %span{:id => "navi_#{h event_item.id}"}
         - if @tag || @mark
-          = link_to "表示", entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}"
+          = link_to t("link.show"), entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}"
         - else
-          = link_to "編集", edit_entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :method => :get, :remote => true
+          = link_to t("link.edit"), edit_entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :method => :get, :remote => true
           %br/
-          = link_to "削除", entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :method => :delete, :remote => true, :confirm => '本当に削除しますか?'
+          = link_to t("link.delete"), entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :method => :delete, :remote => true, :confirm => t("message.delete_really")
       %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
   - elsif not event_item.parent_id.nil?
-    .item_date.item_move= event_item.action_date.strftime("%Y/%m/%d")
+    .item_date.item_move= l(event_item.action_date)
     .item_name.item_move
-      = event_item.parent_item.confirmation_required? ? link_to('★', entry_confirmation_required_path(event_item.id, :confirmation_required => 'false'), :remote => true, :method => 'put', :class => 'item_confirmation_required') : link_to('☆', entry_confirmation_required_path(event_item.id, :confirmation_required => 'true'), :remote => true, :method => 'put', :class => 'item_confirmation_not_required')
-      入金 (#{link_to event_item.parent_item.action_date.strftime("%y/%m/%d") + ' ' + event_item.parent_item.name, url_for(:controller => 'main', :action=>'show_parent_child_item', :id=>event_item.id, :type=>'parent'), :remote => true})
+      = event_item.parent_item.confirmation_required? ? link_to(t('label.confirmation_mark'), entry_confirmation_required_path(event_item.id, :confirmation_required => 'false'), :remote => true, :method => 'put', :class => 'item_confirmation_required') : link_to(t('label.no_confirmation_mark'), entry_confirmation_required_path(event_item.id, :confirmation_required => 'true'), :remote => true, :method => 'put', :class => 'item_confirmation_not_required')
+      #{t(".deposit")} (#{link_to l(event_item.parent_item.action_date, format: :short) + ' ' + event_item.parent_item.name, show_parent_child_item_path(:id=>event_item.id, :type=>'parent'), :remote => true})
       - if event_item.tags.size > 0
         [
         - event_item.tags.each do |tag|
@@ -41,11 +41,11 @@
       - item_css_class = " item_move"
     - else
       - item_css_class = ""
-    %div{:class => "item_date#{item_css_class}"}= event_item.action_date.strftime("%Y/%m/%d")
+    %div{:class => "item_date#{item_css_class}"}= l(event_item.action_date)
     %div{:class => "item_name#{item_css_class}"}
-      = event_item.confirmation_required? ? link_to('★', entry_confirmation_required_path(event_item.id, :confirmation_required => 'false'), :remote => true, :method => 'put', :class => 'item_confirmation_required') : link_to('☆', entry_confirmation_required_path(event_item.id, :confirmation_required => 'true'), :remote => true, :method => 'put', :class => 'item_confirmation_not_required')
+      = event_item.confirmation_required? ? link_to(t('label.confirmation_mark'), entry_confirmation_required_path(event_item.id, :confirmation_required => 'false'), :remote => true, :method => 'put', :class => 'item_confirmation_required') : link_to(t('label.no_confirmation_mark'), entry_confirmation_required_path(event_item.id, :confirmation_required => 'true'), :remote => true, :method => 'put', :class => 'item_confirmation_not_required')
       = event_item.name
-      (#{link_to event_item.child_item.action_date.strftime("%y/%m/%d") + ' 入金', url_for(:controller => 'main', :action=>'show_parent_child_item', :id=>event_item.id, :type=>'child'), :remote => true})
+      (#{link_to l(event_item.child_item.action_date, format: :short) + ' ' + t(".deposit"), show_parent_child_item_path(:id=>event_item.id, :type=>'child'), :remote => true})
       - if event_item.tags.size > 0
         [
         - event_item.tags.each do |tag|
@@ -57,10 +57,10 @@
     %div{:class => "item_operation#{item_css_class}"}
       %span{:id => "navi_#{h event_item.id}"}
         - if @tag || @mark
-          = link_to "表示", entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}"
+          = link_to t("link.show"), entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}"
         - else
-          = link_to "編集", edit_entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :get
-          = link_to "削除", entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :delete, :confirm => '本当に削除しますか?'
+          = link_to t("link.edit"), edit_entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :get
+          = link_to t("link.delete"), entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :delete, :confirm => t('message.delete_really')
       %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
   - else
     - if (@separated_accounts[:income_ids]).include?(event_item.from_account_id)
@@ -69,9 +69,9 @@
       - item_css_class = " item_move"
     - else
       - item_css_class = ""
-    %div{:class => "item_date#{item_css_class}"}= event_item.action_date.strftime("%Y/%m/%d")
+    %div{:class => "item_date#{item_css_class}"}= l(event_item.action_date)
     %div{:class => "item_name#{item_css_class}"}
-      = event_item.confirmation_required? ? link_to('★', entry_confirmation_required_path(event_item.id, :confirmation_required => 'false'), :remote => true, :method => 'put', :class => 'item_confirmation_required') : link_to('☆', entry_confirmation_required_path(event_item.id, :confirmation_required => 'true'), :remote => true, :method => 'put', :class => 'item_confirmation_not_required')
+      = event_item.confirmation_required? ? link_to(t('label.confirmation_mark'), entry_confirmation_required_path(event_item.id, :confirmation_required => 'false'), :remote => true, :method => 'put', :class => 'item_confirmation_required') : link_to(t('label.no_confirmation_mark'), entry_confirmation_required_path(event_item.id, :confirmation_required => 'true'), :remote => true, :method => 'put', :class => 'item_confirmation_not_required')
       = event_item.name
       - if event_item.tags.size > 0
         [
@@ -84,10 +84,10 @@
     %div{:class => "item_operation#{item_css_class}"}
       %span{:id => "navi_#{h event_item.id}"}
         - if @tag || @mark
-          = link_to "表示", entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}"
+          = link_to t("link.show"), entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}"
         - else
-          = link_to "編集", edit_entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :get
+          = link_to t("link.edit"), edit_entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :get
           %br/
-          = link_to "削除", entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :delete, :confirm => '本当に削除しますか?'
+          = link_to t("link.delete"), entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :delete, :confirm => t("message.delete_really")
       %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
 .reset

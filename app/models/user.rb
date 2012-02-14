@@ -6,9 +6,6 @@ class User < ActiveRecord::Base
   has_many :accounts
   has_many :credit_relations
 
-  N_("User|Password plain")
-  N_("User|Password confirmation")
-
   validate :validate_everytime
   validates_presence_of :login
   validates_presence_of :password_plain, :if => :password_required?
@@ -17,7 +14,7 @@ class User < ActiveRecord::Base
   validates_length_of :login, :in =>3..10
   validates_format_of :password_plain, :with => /^[A-Za-z0-9_-]+$/, :if => :password_required?
   validates_length_of :password_plain, :in =>6..10, :if => :password_required?
-  validates_uniqueness_of :login, :message => N_("%{fn[:attribute]} has already been used. Input another UserID.")
+  validates_uniqueness_of :login, :message => I18n.t("errors.messages.exclusion")
 
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
   validates_length_of :email, :in =>5..255
@@ -25,7 +22,7 @@ class User < ActiveRecord::Base
   before_save :hash_password
 
   def validate_everytime
-    errors.add("password_plain", _("%{fn[:password_plain]} is not same.")) if self.password_required? && self.password_plain != self.password_confirmation
+    errors.add("password_plain", I18n.t("errors.messages.confirmation")) if self.password_required? && self.password_plain != self.password_confirmation
   end
 
   def password_required?
@@ -43,7 +40,7 @@ class User < ActiveRecord::Base
     to  = Array.new
     bank_accounts = Array.new
     all_accounts  = Hash.new
-    all_accounts.default = _('(unknown)')
+    all_accounts.default = "(#{I18n.t('label.unknown')})"
     income_ids = Array.new
     outgo_ids = Array.new
     account_ids = Array.new

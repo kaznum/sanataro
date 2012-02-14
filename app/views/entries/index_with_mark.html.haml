@@ -5,8 +5,8 @@
     #warning{:style => "color: red"}
     #itemlistarea
       %p#list_item_explain
-        = _("List of Income/Outgo")
-        (mark: #{h (@mark == 'confirmation_required') ? '要確認' : '(不明)'})
+        = t("entries.income_outgoing_list")
+        (mark: #{h (@mark == 'confirmation_required') ? t("label.confirmation_required") : '(' + t("label.unknown") + ')'})
       = render :partial => 'items_header'
       #items
         - @items.each do |it|

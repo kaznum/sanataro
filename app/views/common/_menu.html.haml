@@ -6,9 +6,9 @@
   - e_path = entries_path(params[:year], params[:month])
   - pl_path = profit_losses_path(params[:year], params[:month])
   - bs_path = balance_sheets_path(params[:year], params[:month])
-= params[:controller] == 'entries' ? link_to(_('items'), e_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(_('items'),e_path)
-= params[:controller] == 'profit_losses' ? link_to(_('Profit/Loss'), pl_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(_('Profit/Loss'),pl_path)
-= params[:controller] == 'balance_sheets' ? link_to(_('Balance'), bs_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(_('Balance'), bs_path)
-= link_to _('Configuration'), settings_accounts_path
-= link_to _('Simple Input'), simple_input_path
-= link_to _('Logout'), logout_path, {:confirm=>_('Do you really logout now?')}
+= params[:controller] == 'entries' ? link_to(t('.items'), e_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(t('.items'),e_path)
+= params[:controller] == 'profit_losses' ? link_to(t(".profit_loss"), pl_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(t(".profit_loss"),pl_path)
+= params[:controller] == 'balance_sheets' ? link_to(t('.balance'), bs_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(t('.balance'), bs_path)
+= link_to t('.config'), settings_accounts_path
+= link_to t('.simple_input'), simple_input_path
+= link_to t('link.logout'), logout_path, {:confirm=>t("message.logout_really")}

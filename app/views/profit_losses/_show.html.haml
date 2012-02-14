@@ -18,7 +18,7 @@
     - related_account = @separated_accounts[:all_accounts][it.from_account_id]
     - total += amount
       %tr
-        %td{:width => "80px"}= it.action_date.strftime("%Y/%m/%d")
+        %td{:width => "80px"}= l(it.action_date)
         %td= related_account
         %td= (it.adjustment?) ? t('label.adjustment') + number_to_currency(it.adjustment_amount) : it.name
         %td{:align => "right", :width => "80px"}

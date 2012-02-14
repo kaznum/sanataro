@@ -5,6 +5,9 @@ Kakeibo3::Application.routes.draw do
   match 'login' => 'login#login', :as => :login, :via => :get
   match 'login' => 'login#do_login', :as => :login, :via => :post
   match 'logout' => 'login#do_logout', :as => :logout
+  match 'create_user' => 'login#create_user', :as => :create_user, :via => :get
+  match 'create_user' => 'login#do_create_user', :as => :create_user, :via => :post
+  match 'confirm_user' => 'login#confirmation', :as => :confirm_user, :via => :get
   match 'reload_config' => 'main#reload_config', :as => :reload_config
   match 'show_parent_child_item' => "main#show_parent_child_item", :as => :show_parent_child_item, :via => :get
   

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 class Settings::AccountsController < ApplicationController
+  include ActionView::Helpers::NumberHelper
   before_filter :required_login
  
   def index
@@ -53,8 +54,8 @@ class Settings::AccountsController < ApplicationController
     item = @user.items.where("from_account_id = ? or to_account_id = ?", id, id).first
     if item
       render_js_error :id => "add_warning", :default_message => "すでに収支情報に使用されているため、削除できません。" + 
-        item.action_date.strftime("%Y/%m/%d") + " " + item.name + " " + 
-        CommonUtil.separate_by_comma(item.amount) + "円"
+        l(item.action_date) + " " + item.name + " " + 
+        number_to_currency(item.amount)
       return
     end
 

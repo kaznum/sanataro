@@ -978,7 +978,7 @@ describe EntriesController do
         describe "response" do 
           subject { response }
           it { should be_success }
-          it { should render_js_error :id => 'warning', :default_message => _('Input value is incorrect') }
+          it { should render_js_error :id => 'warning', :default_message => I18n.t('error.input_is_invalid') }
         end
 
         describe "the count of items" do
@@ -996,7 +996,7 @@ describe EntriesController do
         describe "response" do 
           subject { response }
           it { should be_success }
-          it { should render_js_error :id => 'warning', :default_message => "日付が不正です。" }
+          it { should render_js_error :id => 'warning', :default_message => I18n.t("error.date_is_invalid")}
         end
 
         describe "the count of items" do
@@ -1020,7 +1020,7 @@ describe EntriesController do
         describe "response" do
           subject { response }
           it { should be_success }
-          it { should render_js_error :id => "warning", :default_message => _("Amount is invalid.")}
+          it { should render_js_error :id => "warning", :default_message => I18n.t("error.amount_is_invalid")}
         end
 
         describe "count of Item" do

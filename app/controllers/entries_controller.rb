@@ -100,12 +100,12 @@ class EntriesController < ApplicationController
     items = _get_items(displaying_month)
     render "update", locals: { item: item, items: items, updated_item_ids: updated_item_ids }
   rescue InvalidDate
-    render_js_error :id => "item_warning_#{id}", :errors => nil, :default_message => "日付が不正です。"
+    render_js_error :id => "item_warning_#{id}", :errors => nil, :default_message => t("error.date_is_invalid")
   rescue SyntaxError
-    render_js_error :id => "item_warning_#{id}", :errors => nil, :default_message => _("Amount is invalid.")
+    render_js_error :id => "item_warning_#{id}", :errors => nil, :default_message => t("error.amount_is_invalid")
   rescue ActiveRecord::RecordInvalid => ex
     render_js_error(:id => "item_warning_#{id}", :errors => ex.error_messages,
-                    :default_message => _('Input value is incorrect.'))
+                    :default_message => t("error.input_is_invalid"))
   end
 
   def _redirect_to_login_by_js_if_id_is_blank
@@ -185,11 +185,11 @@ class EntriesController < ApplicationController
       render "create_adjustment", locals: { item: item, items: @items, updated_item_ids: updated_item_ids.reject(&:nil?).uniq }
     end
   rescue SyntaxError
-    render_js_error :id => "warning", :default_message => _("Amount is invalid.")
+    render_js_error :id => "warning", :default_message => t("error.amount_is_invalid")
   rescue InvalidDate
-    render_js_error :id => "warning", :default_message => "日付が不正です。"
+    render_js_error :id => "warning", :default_message => t("error.date_is_invalid")
   rescue ActiveRecord::RecordInvalid => ex
-    render_js_error(:id => "warning", :errors => ex.error_messages, :default_message => _('Input value is incorrect'))
+    render_js_error(:id => "warning", :errors => ex.error_messages, :default_message => t('error.input_is_invalid'))
   end
 
   #
@@ -214,11 +214,11 @@ class EntriesController < ApplicationController
       end
     end
   rescue InvalidDate
-    render_js_error :id => "warning", :default_message => "日付が不正です。"
+    render_js_error :id => "warning", :default_message => t("error.date_is_invalid")
   rescue SyntaxError
-    render_js_error :id => "warning", :default_message => _("Amount is invalid.")
+    render_js_error :id => "warning", :default_message => t("error.amount_is_invalid")
   rescue ActiveRecord::RecordInvalid => ex
-    render_js_error(:id => "warning", :errors => ex.error_messages, :default_message => _('Input value is incorrect'))
+    render_js_error(:id => "warning", :errors => ex.error_messages, :default_message => t("error.input_is_invalid"))
   end
 
   def _get_action_date_from_params

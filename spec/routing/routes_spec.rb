@@ -67,7 +67,6 @@ describe :routes do
     end
   end
 
-
   describe "create_user" do
     describe 'GET create_user' do
       subject { get('/create_user') }

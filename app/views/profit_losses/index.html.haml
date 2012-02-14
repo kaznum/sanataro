@@ -26,7 +26,7 @@
       %td{:valign => "top"}
         %table{:width => "300px"}
           %tr
-            %th{:colspan => "3"}= "#{displaying_month.year}年#{displaying_month.month}月収入の部"
+            %th{:colspan => "3"}= "#{l(displaying_month, format: :year_month)}#{t('.income_section')}"
           %tr
             %th=t('label.item')
             %th=t('label.amount')
@@ -41,14 +41,14 @@
             %td.total{:align => "right"}= number_to_currency(@total_income)
             %td{:align => "right"} 100%
           %tr
-            %th{:colspan => "3"}= "#{displaying_month.year}年#{displaying_month.month}月支出の部"
+            %th{:colspan => "3"}= "#{l(displaying_month, format: :year_month)}#{t('.outgoing_section')}"
           %tr
             %th=t('label.item')
             %th=t('label.amount')
             %th %
           - @account_outgos.each do |og|
             %tr
-              %td!= "#{h og.name} [#{link_to '出納帳', profit_loss_path(displaying_month.year, displaying_month.month, og.id), :remote => true, :method => :get}]"
+              %td!= "#{h og.name} [#{link_to t('link.revenue'), profit_loss_path(displaying_month.year, displaying_month.month, og.id), :remote => true, :method => :get}]"
               %td{:align => "right"}= number_to_currency(@m_pls[og.id])
               %td{:align => "right"}= "#{(@total_outgo == 0) ? '*' :@m_pls[og.id] * 100 / @total_outgo}%"
           %tr
@@ -59,7 +59,7 @@
             %td.space{:colspan => "3"}
           %tr
             %td.all_total
-              = "#{displaying_month.year}年#{displaying_month.month}月"
+              = l(displaying_month, format: :year_month)
               %br/ 
               #{t('label.gross_profit')}
             %td.all_total{:align => "right"}= number_to_currency(@total_income - @total_outgo)

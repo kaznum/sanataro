@@ -124,7 +124,7 @@ describe LoginController do
 
       describe "response" do
         subject {response}
-        it {should render_js_error :id => "warning", :default_message => _("UserID or Password is incorrect.")}
+        it {should render_js_error :id => "warning", :default_message => I18n.t("error.user_or_password_is_invalid") }
       end
     end
 

@@ -66,8 +66,7 @@ group :test do
   gem "webrat"
 end
 
-gem "fast_gettext"
-gem "gettext_i18n_rails"
+gem "i18n"
 if defined?(JRUBY_VERSION)
   gem "jruby-openssl"
   gem "activerecord-jdbcmysql-adapter"

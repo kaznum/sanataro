@@ -10,7 +10,7 @@ class LoginController < ApplicationController
   def do_login
     _do_login(params[:login], params[:password], params[:autologin], false, params[:only_add])
     if session[:user_id].nil?
-      render_js_error :id => "warning", :default_message => _("UserID or Password is incorrect.")
+      render_js_error :id => "warning", :default_message => t("error.user_or_password_is_invalid")
     else
       if params[:only_add]
         redirect_js_to simple_input_path

@@ -37,11 +37,10 @@
         document.cookie = coo + "\;";
         coo = document.cookie;
         if( !coo ){
-          document.write("<div class=\"warning\">#{_("It seems that Cookie is not accepted by your browser.<br/>This site has to be used with Coocie-Acceptable web browser.<br/>Please make the browser accept Cookie. Thank you.")}</div>");
+          document.write("<div class=\"warning\">#{t(".no_cookie_explanation")}</div>");
         }
       %noscript
-        .warning= _("It seems that JavaScript function is off in your browser configuration.<br/>This site has to be used with JavaScript-enabled web browser.<br/>Please make JavaScript enabled. Thank you.")
+        .warning!= t(".no_javascript_explanation")
     .main
       = yield
-    .footer
-      Copyright &copy; 2007-2012 Kazuya NUMATA. All rights are reserved.
+    .footer!= t("label.copyright")

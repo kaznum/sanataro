@@ -1,7 +1,7 @@
-= (params[:controller] == 'settings/accounts' && (params[:account_type].blank? || params[:account_type] == 'account')) ? link_to(_('Bank Account'), settings_accounts_path(:account_type=>'account'), {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(_('Bank Account'), settings_accounts_path(:account_type=>'account'))
-= params[:account_type] == 'income' ? link_to(_('Income'), settings_accounts_path(:account_type=>'income'), {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(_('Income'), settings_accounts_path(:account_type => 'income'))
-= params[:account_type] == 'outgo' ? link_to(_('Outgo'), settings_accounts_path(:account_type => 'outgo'), {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(_('Outgo'), settings_accounts_path(:account_type => 'outgo'))
-= params[:controller] == 'settings/credit_relations' ? link_to(_('Credit Card Payment'), settings_credit_relations_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(_('Credit Card Payment'), settings_credit_relations_path)
-= params[:controller] == 'settings/users' ? link_to(_('User Info'), settings_user_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(_('User Info'), settings_user_path)
-= link_to _('Back'), :controller=>'/main', :action=>'reload_config'
-= link_to _("Logout"), logout_path, {:confirm=>_('Do you really logout now?')}
+= (params[:controller] == 'settings/accounts' && (params[:account_type].blank? || params[:account_type] == 'account')) ? link_to(t('.account'), settings_accounts_path(:account_type=>'account'), {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(t('.account'), settings_accounts_path(:account_type=>'account'))
+= params[:account_type] == 'income' ? link_to(t('.income'), settings_accounts_path(:account_type=>'income'), {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(t('.income'), settings_accounts_path(:account_type => 'income'))
+= params[:account_type] == 'outgo' ? link_to(t('.outgoing'), settings_accounts_path(:account_type => 'outgo'), {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(t('.outgoing'), settings_accounts_path(:account_type => 'outgo'))
+= params[:controller] == 'settings/credit_relations' ? link_to(t('.credit_card'), settings_credit_relations_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(t('.credit_card'), settings_credit_relations_path)
+= params[:controller] == 'settings/users' ? link_to(t('.user_info'), settings_user_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(t('.user_info'), settings_user_path)
+= link_to t('.back_to_book'), :controller=>'/main', :action=>'reload_config'
+= link_to t("link.logout"), logout_path, {:confirm=>t('message.logout_really')}

@@ -2,9 +2,6 @@
 # Filters added to this controller will be run for all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
-  #For gettext_i18n_rails
-  before_filter :set_gettext_locale
-
   # for i18n
   before_filter :set_locale
   def set_locale

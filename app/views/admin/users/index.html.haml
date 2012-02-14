@@ -11,6 +11,6 @@
     %tr
       %td= u.id
       %td= u.login
-      %td= u.created_at ? u.created_at.strftime("%Y/%m/%d %H:%M:%S") : ''
-      %td= u.updated_at ? u.updated_at.strftime("%Y/%m/%d %H:%M:%S") : ''
+      %td= u.created_at ? l(u.created_at) : ''
+      %td= u.updated_at ? l(u.updated_at) : ''
       %td= u.active?

@@ -6,13 +6,13 @@
 - all_acnts = Array.new
 - (@separated_accounts[:outgo_ids] + @separated_accounts[:account_ids] + @separated_accounts[:income_ids]).each do |a|
   - all_acnts.push [@separated_accounts[:all_accounts][a], a]
-.item_date.item_date_header 日付
-.item_name.item_name_header 説明
+.item_date.item_date_header= t("label.date")
+.item_name.item_name_header= t(".explanation")
 .item_from_to_header
-  出金 =&gt; 入金
+  = t(".outgoing_to_income")
   - unless @tag
     %br/
-    = select_tag('filter_account_id', options_for_select([[_("-- No Filter --"), '']] + all_acnts, session[:filter_account_id]))
-.item_amount.item_amount_header 金額
-.item_operation.item_operation_header 操作
+    = select_tag('filter_account_id', options_for_select([[t(".no_filter"), '']] + all_acnts, session[:filter_account_id]))
+.item_amount.item_amount_header= t("label.amount")
+.item_operation.item_operation_header= t(".operation")
 .reset

@@ -1,4 +1,4 @@
 %h2
-  = _('Congraturations! Your account has been activated.')
+  = t('.congraturations')
   %br/
-%p= link_to _('Go to Login Page to login!'), :controller => :login, :action => :login
+%p= link_to t('.go_to_login'), login_path

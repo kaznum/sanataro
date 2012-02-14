@@ -10,6 +10,7 @@ ja:
       default: "%Y/%m/%d"
       short: "%m/%d"
       long: "%Y年%m月%d日(%a)"
+      year_month: "%Y年%m月"
 
     day_names: [日曜日, 月曜日, 火曜日, 水曜日, 木曜日, 金曜日, 土曜日]
     abbr_day_names: [日, 月, 火, 水, 木, 金, 土]
@@ -170,7 +171,8 @@ ja:
       less_than_or_equal_to: "は%{count}以下の値にしてください。"
       odd: "は奇数にしてください。"
       even: "は偶数にしてください。"
-
+      since_until_today: "は%{date}以降を入力してください。"
+      until_since_today: "は%{year}年先(%{date})まで入力可能です。"
   activerecord:
     errors:
       template:

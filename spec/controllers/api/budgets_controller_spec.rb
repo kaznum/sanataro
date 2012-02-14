@@ -94,7 +94,7 @@ describe Api::BudgetsController do
             subject { response }
             it {  should be_success }
             specify do
-              ActiveSupport::JSON.decode(subject.body).should == [{"label" => "その2", "data" => 900},{"label" => "不明収入", "data" => 800}]
+              ActiveSupport::JSON.decode(subject.body).should == [{"label" => "その2", "data" => 900},{"label" => I18n.t("label.unknown_income"), "data" => 800}]
             end
           end
         end
@@ -110,7 +110,7 @@ describe Api::BudgetsController do
             subject { response }
             it {  should be_success }
             specify do
-              ActiveSupport::JSON.decode(subject.body).should == [{"label" => "その4", "data" => 200}, {"label" => "不明支出", "data" => 500}]
+              ActiveSupport::JSON.decode(subject.body).should == [{"label" => "その4", "data" => 200}, {"label" =>  I18n.t("label.unknown_outgoing"), "data" => 500}]
             end
           end
         end
