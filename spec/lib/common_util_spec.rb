@@ -2,33 +2,6 @@
 require 'spec_helper'
 
 describe CommonUtil do
-  describe "self.separate_by_comma" do
-    context "6 digit" do 
-      subject { CommonUtil.separate_by_comma(120030) }
-      it { should eq "120,030" }
-    end
-
-    context "3 digit" do 
-      subject { CommonUtil.separate_by_comma(330) }
-      it { should eq "330" }
-    end
-
-    context "7 digit" do 
-      subject { CommonUtil.separate_by_comma(1234567) }
-      it { should eq "1,234,567" }
-    end
-
-    context "7 digit < 0" do 
-      subject { CommonUtil.separate_by_comma(-1234567) }
-      it { should eq "-1,234,567" }
-    end
-    
-    context "6 digit < 0" do 
-      subject { CommonUtil.separate_by_comma(-120030) }
-      it { should eq "-120,030" }
-    end
-  end
-
   describe "remove_comma" do
     context "no comma" do
       subject { CommonUtil.remove_comma("120030") }

@@ -1,19 +1,6 @@
 # -*- coding: utf-8 -*-
-#require 'digest/sha1'
 class CommonUtil
   class << self
-    def separate_by_comma(number)
-      number_i = number.to_i
-      is_negative = false
-      if number_i < 0
-        is_negative = true
-        number_i = (-1) * number_i
-      end
-      ret_str = number_i.to_s.reverse.gsub( /(\d{3})/, "\\1," ).chomp( "," ).reverse
-      ret_str = '-' + ret_str if is_negative
-      return ret_str
-    end
-
     def remove_comma(str)
       if str.nil?
         return nil
