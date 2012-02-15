@@ -1,9 +1,7 @@
-#monthlist
-  - calendar_from_date = calendar_from(@user)
-  - calendar_to_date = calendar_to(@user)
-  = monthlist(calendar_from_date.year, calendar_from_date.month, calendar_to_date.year, calendar_to_date.month, displaying_month.year, displaying_month.month,'index')
-#menu
-  = render :partial => '/common/menu'
+- calendar_from_date = calendar_from(@user)
+- calendar_to_date = calendar_to(@user)
+#monthlist= monthlist(calendar_from_date.year, calendar_from_date.month, calendar_to_date.year, calendar_to_date.month, displaying_month.year, displaying_month.month,'index')
+#menu= render :partial => '/common/menu'
 .wrapper
   #left_area
     #input_item_area
@@ -17,11 +15,7 @@
           = render partial: 'item', locals: { event_item: it }
         = render :partial=>'remains_link'
   #right_area
-    #account_status.status_drawer
-      = render :partial => 'account_status_blank'
-    #confirmation_status.status_drawer
-      = render :partial => 'confirmation_statuses/show_blank'
-    #tag_status.status_drawer
-      = render :partial => 'tag_statuses/show_blank'
-    #ad
-      = render :partial => 'common/left_ad'
+    #account_status.status_drawer= render :partial => 'account_status_blank'
+    #confirmation_status.status_drawer= render :partial => 'confirmation_statuses/show_blank'
+    #tag_status.status_drawer= render :partial => 'tag_statuses/show_blank'
+    #ad= render :partial => 'common/left_ad'
