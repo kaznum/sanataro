@@ -9,6 +9,6 @@
 = params[:controller] == 'entries' ? link_to(t('.items'), e_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(t('.items'),e_path)
 = params[:controller] == 'profit_losses' ? link_to(t(".profit_loss"), pl_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(t(".profit_loss"),pl_path)
 = params[:controller] == 'balance_sheets' ? link_to(t('.balance'), bs_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(t('.balance'), bs_path)
-= link_to t('.config'), settings_accounts_path
 = link_to t('.simple_input'), simple_input_path
+= link_to t('.config'), settings_accounts_path
 = link_to t('link.logout'), logout_path, {:confirm=>t("message.logout_really")}
