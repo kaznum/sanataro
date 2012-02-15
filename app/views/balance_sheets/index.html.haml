@@ -30,14 +30,14 @@
                   %th.table_header= t('label.amount')
                   %th %
                 %tr
-                  %th.table_header{:colspan => "3"} #{l(displaying_month, format: :year_month)}資産の部
+                  %th.table_header{:colspan => "3"} #{l(displaying_month, format: :year_month)} #{t('.stock_title')}
                 - @plus.each do |a, amount|
                   %tr
                     %td.title!= "#{h a.name} [#{link_to t('link.revenue'), balance_sheet_path(displaying_month.year, displaying_month.month, a.id), :method => :get, :remote => true}]"
                     %td.money= number_to_currency(amount)
                     %td.percent #{(@total_plus == 0) ? '*' : amount * 100 / @total_plus}%
                 %tr
-                  %td.total 資産合計
+                  %td.total=t('.stock_total')
                   %td.total.money=  number_to_currency(@total_plus)
                   %td.percent 100%
             %td{:style => "vertical-align:top"}
@@ -47,25 +47,25 @@
                   %th.table_header= t('label.amount')
                   %th %
                 %tr
-                  %th.table_header{:colspan => "3"} #{l(displaying_month, format: :year_month)}負債の部
+                  %th.table_header{:colspan => "3"} #{l(displaying_month, format: :year_month)}#{t('.debt_title')}
                 - @minus.each do |a, amount|
                   %tr
-                    %td.title!= "#{h a.name} [#{link_to '出納帳', url_for(balance_sheet_path(displaying_month.year, displaying_month.month, a.id)), :method => :get, :remote => true}]"
+                    %td.title!= "#{h a.name} [#{link_to t('link.revenue'), url_for(balance_sheet_path(displaying_month.year, displaying_month.month, a.id)), :method => :get, :remote => true}]"
                     %td.money= number_to_currency((-1)*amount)
                     %td.percent #{(@total_minus == 0) ? '*' :amount * 100 / @total_minus}%
                 %tr
-                  %td.total 負債合計
+                  %td.total= t('.debt_total')
                   %td.total.money= number_to_currency((-1)*@total_minus)
                   %td.money 100%
                 %tr
-                  %th.table_header{:colspan => "3"} #{l(displaying_month, format: :year_month)}資本の部
+                  %th.table_header{:colspan => "3"} #{l(displaying_month, format: :year_month)} #{t('.gross_title')}
                 %tr
-                  %td.total 資本合計
+                  %td.total= t('.gross_total')
                   %td.total.money= number_to_currency(@total_plus + @total_minus)
                   %td.percent 100%
           %tr
-            %td.total_capital 総資産: #{number_to_currency(@total_plus)}
-            %td.total_capital 総資本: #{number_to_currency(@total_plus)}
+            %td.total_capital #{t('.stock_total')}: #{number_to_currency(@total_plus)}
+            %td.total_capital #{t('.debt_gross_total')}: #{number_to_currency(@total_plus)}
         .yearly_balance_graph
           .chart_title
             ■#{t('label.change')}
@@ -76,11 +76,11 @@
       %td{:style => "vertical-align:top"}
         #asset_graph
           .chart_title
-            ■資産
+            ■#{t('.stock')}
             %span#asset_chart_hover
           #asset_chart.graph{:style => "width: 300px; height: 200px"}
           .spacer &nbsp;
           .chart_title
-            ■負債
+            ■#{t('.debt')}
             %span#debt_chart_hover
           #debt_chart.graph{:style => "width: 300px; height: 200px"}

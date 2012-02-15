@@ -127,6 +127,17 @@ ja:
       no_cookie_explanation: "あなたがご利用のブラウザは、現在Cookieを受け付けない設定になっています。<br/>本サイトをご利用いただくにはブラウザ設定でCookieを受け付けるよう設定してください。"
       no_javascript_explanation: "あなたがご利用のブラウザは、現在JavaScriptが無効になっています。<br/>本サイトをご利用いただくにはブラウザ設定でJavaScriptを有効にしてください。"
   balance_sheets:
+    index:
+      stock_title: "現金の部"
+      stock_total: "現金合計"
+      debt_title: "借金の部"
+      debt_total: "借金合計"
+      gross_title: "グロスの部"
+      gross_total: "現金合計 - 借金合計"
+      stock_total: "現金合計"
+      debt_gross_total: "グロス + 借金"
+      stock: "現金"
+      debt: "借金"
     show:
       carried_forward_to_next_month: "翌月(%{month})への繰越"
       brought_forward_from_last_month: "前月(%{month})からの繰越"
