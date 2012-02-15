@@ -132,10 +132,10 @@ ja:
       stock_total: "現金合計"
       debt_title: "借金の部"
       debt_total: "借金合計"
-      gross_title: "グロスの部"
-      gross_total: "現金合計 - 借金合計"
+      net_title: "実質保有の部"
+      net_total: "現金合計 - 借金合計"
       stock_total: "現金合計"
-      debt_gross_total: "グロス + 借金"
+      debt_net_total: "実質保有 + 借金"
       stock: "現金"
       debt: "借金"
     show:

@@ -58,14 +58,14 @@
                   %td.total.money= number_to_currency((-1)*@total_minus)
                   %td.money 100%
                 %tr
-                  %th.table_header{:colspan => "3"} #{l(displaying_month, format: :year_month)} #{t('.gross_title')}
+                  %th.table_header{:colspan => "3"} #{l(displaying_month, format: :year_month)} #{t('.net_title')}
                 %tr
-                  %td.total= t('.gross_total')
+                  %td.total= t('.net_total')
                   %td.total.money= number_to_currency(@total_plus + @total_minus)
                   %td.percent 100%
           %tr
             %td.total_capital #{t('.stock_total')}: #{number_to_currency(@total_plus)}
-            %td.total_capital #{t('.debt_gross_total')}: #{number_to_currency(@total_plus)}
+            %td.total_capital #{t('.debt_net_total')}: #{number_to_currency(@total_plus)}
         .yearly_balance_graph
           .chart_title
             ■#{t('label.change')}
