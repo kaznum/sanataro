@@ -173,6 +173,8 @@ ja:
       even: "は偶数にしてください。"
       since_until_today: "は%{date}以降を入力してください。"
       until_since_today: "は%{year}年先(%{date})まで入力可能です。"
+      before_due: "は引き落とし日より前の日付を入力してください。"
+      different_from: "はクレジットカードと別のアカウントを選んでください。"
   activerecord:
     errors:
       template:

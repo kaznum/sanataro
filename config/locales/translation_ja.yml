@@ -19,12 +19,13 @@ ja:
         accounts: "アカウント"
 
       autologin_key:
-        enc_autologin_key: "encは自動ログインキー"  #g
+        enc_autologin_key: "自動ログインキー"
 
       credit_relation:
         settlement_day: "決済日"
         payment_month: "支払月"
         payment_day: "支払日"
+        credit_account: "引き落とし口座"
 
       item:
         name: "項目名"
@@ -98,6 +99,11 @@ ja:
     day: "日"
     register: "登録"
     list_update_delete: "一覧・変更・削除"
+    same_month: "同月"
+    next_month: "翌月"
+    month_after_next: "翌々月"
+    two_month_after_next: "翌々々月"
+    final_day: "末日"
   link:
     copy: "コピー"
     hide: "隠す"
@@ -124,6 +130,10 @@ ja:
     delete_successfully: "削除しました。"
     logout_really: "本当にログアウトしますか?"
     delete_really: "本当に削除しますか?"
+  mailer:
+    subject:
+      not_registered_user_yet: "ユーザ登録は完了していません"
+      registered_user_successfully: "ユーザ登録完了"
   error:
     amount_is_invalid: "金額が正しくありません。"
     date_is_invalid: "日付が正しくありません。"
