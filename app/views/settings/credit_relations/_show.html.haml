@@ -2,16 +2,9 @@
   .cfg_credit_relation_name= @separated_accounts[:all_accounts][cr.credit_account_id]
   .cfg_payment_relation_name= @separated_accounts[:all_accounts][cr.payment_account_id]
   .cfg_settlement_day
-    #{t('settings.credit_relations.same_month')} #{h (cr.settlement_day == 99) ? t('settings.credit_relations.final_day') : cr.settlement_day.to_s + t('label.day')}
+    #{t('settings.credit_relations.monthly')} #{h (cr.settlement_day == 99) ? t('settings.credit_relations.final_day') : cr.settlement_day.to_s + t('label.day')}
   .cfg_payment_date
-    - if cr.payment_month == 0 
-      = t('settings.credit_relations.same_month')
-    - elsif cr.payment_month == 1
-      = t('settings.credit_relations.next_month')
-    - elsif cr.payment_month == 2
-      = t('settings.credit_relations.month_after_next')
-    - elsif cr.payment_month == 3
-      = t('settings.credit_relations.two_month_after_next')
+    = localize_relative_month(cr.payment_month)
     = (cr.payment_day < 99) ? cr.payment_day.to_s + t('label.day'): t('settings.credit_relations.final_day')
   .cfg_credit_relation_operation
     = link_to t('link.edit'), edit_settings_credit_relation_path(cr.id), :remote => true,  :method => :get
