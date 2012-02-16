@@ -1,18 +1,16 @@
 = javascript_include_tag 'settings/accounts'
 = javascript_include_tag 'farbtastic'
 = stylesheet_link_tag 'farbtastic'
-#menu
-  = render :partial=>'settings/config_menu'
+#menu= render :partial=>'settings/config_menu'
 .cfg_account_list
-  #input_add
-    = render :partial=>'add'
+  #input_add= render :partial=>'add'
   #accounts
     .cfg_account
       .cfg_account_name.cfg_account_header
-        = '口座名' if @account_type == 'account'
-        = '支出項目名' if @account_type == 'outgo'
-        = '収入項目名' if @account_type == 'income'
-      .cfg_account_order.cfg_account_header 並順
+        = t("settings.accounts.bank_account") if @account_type == 'account'
+        = t("settings.accounts.outgoing_account") if @account_type == 'outgo'
+        = t("settings.accounts.income_account") if @account_type == 'income'
+      .cfg_account_order.cfg_account_header= t("label.position")
       .cfg_account_operation.cfg_account_header &nbsp;
     .reset
     - @accounts.each do |account|

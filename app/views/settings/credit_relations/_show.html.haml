@@ -2,18 +2,18 @@
   .cfg_credit_relation_name= @separated_accounts[:all_accounts][cr.credit_account_id]
   .cfg_payment_relation_name= @separated_accounts[:all_accounts][cr.payment_account_id]
   .cfg_settlement_day
-    毎月 #{h (cr.settlement_day == 99) ? '末日' : cr.settlement_day.to_s + '日'}
+    #{t('settings.credit_relations.same_month')} #{h (cr.settlement_day == 99) ? t('settings.credit_relations.final_day') : cr.settlement_day.to_s + t('label.day')}
   .cfg_payment_date
     - if cr.payment_month == 0 
-      = '同月'
+      = t('settings.credit_relations.same_month')
     - elsif cr.payment_month == 1
-      = '翌月'
+      = t('settings.credit_relations.next_month')
     - elsif cr.payment_month == 2
-      = '翌々月'
+      = t('settings.credit_relations.month_after_next')
     - elsif cr.payment_month == 3
-      = '翌々々月'
-    = (cr.payment_day < 99) ? cr.payment_day.to_s + '日' : '末日'
+      = t('settings.credit_relations.two_month_after_next')
+    = (cr.payment_day < 99) ? cr.payment_day.to_s + t('label.day'): t('settings.credit_relations.final_day')
   .cfg_credit_relation_operation
-    = link_to '編集', edit_settings_credit_relation_path(cr.id), :remote => true,  :method => :get
-    = link_to '削除', settings_credit_relation_path(cr.id), :remote => true, :method => :delete, :confirm=>"本当に削除しますか?"
+    = link_to t('link.edit'), edit_settings_credit_relation_path(cr.id), :remote => true,  :method => :get
+    = link_to t('link.delete'), settings_credit_relation_path(cr.id), :remote => true, :method => :delete, :confirm=> t('message.delete_really')
 .reset

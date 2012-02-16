@@ -6,13 +6,12 @@
   = form_tag settings_account_path(@account.id), :method => :put, :remote => true,  :before=>"$('#edit_button_#{@account.id}').attr('disabled', 'disabled')" do
     = text_field_tag :account_name, @account.name, :size=>20
     = text_field_tag :order_no, @account.order_no, :size=>3
-    = submit_tag '保存', :id=>"edit_button_#{@account.id}"
-    = link_to 'キャンセル', settings_account_path(@account.id), :remote => true, :method => :get
-    = succeed "\u{80cc}\u{666f}\u{8272}\u{3092}\u{5229}\u{7528}" do
-      %br/
+    = submit_tag t('button.save'), :id=>"edit_button_#{@account.id}"
+    = link_to t('link.cancel'), settings_account_path(@account.id), :remote => true, :method => :get
+    %br/
+    = t(".use_bgcolor")
     = check_box_tag :use_bgcolor, '1', (@account.bgcolor.present?), :id => "use_bgcolor_#{@account.id}"
     = hidden_field_tag :bgcolor, @account.bgcolor.nil? ? '#ffffff' : "##{@account.bgcolor}", :id => "colorfield_#{@account.id}"
     .warning{:id => "account_#{@account.id}_warning"}
     %span{:id => "colorpicker_#{@account.id}"}
-  %br/
   

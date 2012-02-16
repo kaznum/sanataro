@@ -94,6 +94,10 @@ ja:
     chart_title_prefix: "■"
     status_open: "▼"
     status_closed: "◆"
+    position: "並び順"
+    day: "日"
+    register: "登録"
+    list_update_delete: "一覧・変更・削除"
   link:
     copy: "コピー"
     hide: "隠す"
@@ -216,3 +220,21 @@ ja:
         email: "Eメール"
         new_password: "新しいパスワード"
         new_password_confirmation: "新しいパスワード(確認)"
+    accounts:
+      bank_account: "口座の名前"
+      outgoing_account: "支出の名前"
+      income_account: "収入の名前"
+      edit:
+        use_bgcolor: "色をつける"
+    credit_relations:
+      credit_card: "クレジットカード"
+      account_to_draw: "引き落とし口座"
+      closing_date: "締め日"
+      due: "引き落とし日"
+      monthly: "毎月"
+      same_month: "同月"
+      next_month: "翌月"
+      month_after_next: "翌々月"
+      two_month_after_next: "翌々々月"
+      final_day: "末日"
+      
