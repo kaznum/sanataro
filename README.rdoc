@@ -13,7 +13,7 @@ built with Ruby on Rails 3.2.
 
 == Architectual Features
 * All background calcuration is fully tested with rspec.
-** Keeping Controller/Model/Helper C0 test coverage to be 100%.
+  * Keeping Controller/Model/Helper C0 test coverage to be 100%.
 * Only HTML, CSS, JavaScript. No Flash, No ActiveX.
 * Locale Support (Now only Japanese, but you can add your own language easily)
 
