@@ -13,12 +13,11 @@ $ ->
           if key && datasets[key]
             data.push datasets[key]
 
-        if data.length > 0
-          $.plot $(plot_id), data, {
-            xaxis: {
-              mode: "time",
-              timeformat: "%y/%m",
-              tickSize: [1, "month"]}}
+        $.plot $(plot_id), data, {
+          xaxis: {
+            mode: "time",
+            timeformat: "%y/%m",
+            tickSize: [1, "month"]}}
 
       choiceContainer = $(choices_id)
       all_check_id = "all_" + choices_id.replace(/#/gi,'')
@@ -31,13 +30,13 @@ $ ->
 
   	  choiceContainer.find("input[rel!=all]").bind "change", plotAccordingToChoices
   	  choiceContainer.find("input[rel=all]").bind "change", ->
-        checked = $(this).attr("checked");
+        checked = $(this).attr("checked")
         choiceContainer.find("input[rel!=all]").each ->
           if checked == "checked"
             $(this).attr "checked", "checked"
           else
             $(this).removeAttr "checked"
-  		    plotAccordingToChoices()
+        plotAccordingToChoices()
 
     	plotAccordingToChoices()
 
@@ -45,5 +44,5 @@ $ ->
       selectedPlot plot_id, choices_id, data
 
     global.lineChart = lineChart
-  )(window)
+  ) window
 
