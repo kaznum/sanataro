@@ -199,6 +199,7 @@ ja:
       config: "設定"
       simple_input: "かんたん入力"
   entries:
+    adjustment_explanation: "口座と残高を入力すると、過不足分が自動計算されます。"
     item:
       deposit: "入金"
     income_outgoing_list: "出金・入金の一覧"
@@ -207,6 +208,8 @@ ja:
       explanation: "説明"
       operation: "操作"
       outgoing_to_income: "出金 => 入金"
+    add_item:
+      show_all_confirmation_required: "[すべての★を見る]"
   account_statuses:
     index:
       status_of_today: "今日(%{date})の状況"
