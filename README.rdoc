@@ -2,11 +2,20 @@
 Sanataro - Simple Web Household Account Book.
 built with Ruby on Rails 3.2.
 
-== Features
+== Functional Features
 * Simple kakeibo Web Application.
-* Multi-User Support. (But no collaboration feature)
+* Multi-User capable
+* Balance adjustment
+* Lightweight and beautiful monthly/yearly P/L and B/S charts
+* Credit-card due setting
 * Simple input User-Interface for iPhone.
 * See more on a demo page. http://k.nu-chon.org
+
+== Architectual Features
+* All background calcuration is fully tested with rspec.
+** Keeping Controller/Model/Helper C0 test coverage to be 100%.
+* Only HTML, CSS, JavaScript. No Flash, No ActiveX.
+* Locale Support (Now only Japanese, but you can add your own language easily)
 
 == Requirement
 * Ruby: MRI (>= 1.9.2)
@@ -21,10 +30,9 @@ built with Ruby on Rails 3.2.
 
 == FIXME / TODO
 This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0, 3.1 to 3.2 escalatorily, so there are lots of points of old fashion expressions to be fixed.
-* There are some code where Object-Oriented model is corrupted. They should be fixed.
-* There are some code where hard-coded Japanese characters.
 * Fixture dependency should be removed and replaced it with Fabrication.
 * Now, there is no view spec and cucumber feature.
+* There are some RESTful rule violation in some controllers.(ex. MainController)
 
 == CI environment
 * This product is tested with Travis CI.  {<img src="https://secure.travis-ci.org/kaznum/sanataro.png" />}[http://travis-ci.org/kaznum/sanataro]
