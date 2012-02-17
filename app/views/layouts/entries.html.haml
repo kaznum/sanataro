@@ -2,8 +2,8 @@
 %html{:lang => "ja"}
   %head
     %meta{:charset => "utf-8"}/
-    %meta{:content => "家計簿, Web, Rails, さな太郎", :name => "keywords"}/
-    %meta{:content => "WEB家計簿 さな太郎", :name => "description"}/
+    %meta{:content => "#{t('headers.keywords')}", :name => "keywords"}/
+    %meta{:content => "#{t('headers.description')}", :name => "description"}/
     %link{:href => "/favicon.ico", :rel => "icon", :type => "image/vnd.microsoft.icon"}/
     %link{:href => "/favicon.ico", :rel => "shortcut icon", :type => "image/vnd.microsoft.icon"}/
     %meta{:content => "text/javascript", "http-equiv" => "Content-Script-type"}/
@@ -41,6 +41,5 @@
         }
       %noscript
         .warning!= t(".no_javascript_explanation")
-    .main
-      = yield
+    .main= yield
     .footer!= t("label.copyright")

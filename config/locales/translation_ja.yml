@@ -60,7 +60,10 @@ ja:
         tags: "タグ"  #g
         monthly_profit_losses: "毎月の収支"
         taggings: Taggings  #g
-  
+
+  headers:
+    keywords: "家計簿, Web, Rails, さな太郎"
+    description: "WEB家計簿 さな太郎"
   label:
     copyright: "Copyright &copy; 2007-2012 Kazuya NUMATA. All rights are reserved."
     confirmation_mark: '★'

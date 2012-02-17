@@ -20,12 +20,12 @@
     = l(item.action_date)
     %br/
     = select_tag 'to', options_for_select(@separated_accounts[:to_accounts], item.to_account_id.to_s)
-    残高:#{text_field_tag 'adjustment_amount', item.adjustment_amount, :size=>10, :style=>"text-align: right;"}円
+    #{t('label.balance')}:#{text_field_tag 'adjustment_amount', item.adjustment_amount, :size=>10, :style=>"text-align: right;"}#{t('number.currency.format.unit')}
     %br/
-    タグ #{text_field_tag 'tag_list', item.tag_list(@user)}
+    #{text_field_tag 'tag_list', item.tag_list(@user), placeholder: t('placeholder.tag')}
     %span{:id => "item_operation_#{h item.id}"}
-      = submit_tag '変更', :id=>'edit_button_' + item.id.to_s
-      = link_to 'キャンセル', entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :get
+      = submit_tag t('button.save'), id: "edit_button_#{item.id}"
+      = link_to t('link.cancel'), entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :get
     %span{:id => "item_operation_loading_#{h item.id}", :style => "display:none;"}= image_tag "loading.gif", :alt => "loading..."
     = hidden_field_tag 'entry_type', 'adjustment'
   %span.warning{:id => "item_warning_#{item.id}"}
