@@ -76,8 +76,6 @@ GEM
       multi_json (~> 1.0)
     fabrication (1.2.0)
     ffi (1.0.11)
-    gettext (2.1.0)
-      locale (>= 2.0.5)
     gherkin (2.7.7)
       json (>= 1.4.6)
     growl (1.0.3)
@@ -110,7 +108,6 @@ GEM
     libv8 (3.3.10.2)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
-    locale (2.0.5)
     mail (2.4.1)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -142,10 +139,6 @@ GEM
       activesupport (= 3.2.0)
       bundler (~> 1.0)
       railties (= 3.2.0)
-    rails-erd (0.4.5)
-      activerecord (~> 3.0)
-      activesupport (~> 3.0)
-      ruby-graphviz (~> 0.9.18)
     railties (3.2.0)
       actionpack (= 3.2.0)
       activesupport (= 3.2.0)
@@ -178,7 +171,6 @@ GEM
       columnize (>= 0.3.1)
       linecache19 (>= 0.5.11)
       ruby-debug-base19 (>= 0.11.19)
-    ruby-graphviz (0.9.21)
     ruby_core_source (0.1.5)
       archive-tar-minitar (>= 0.5.2)
     rubyzip (0.9.6.1)
@@ -235,7 +227,6 @@ DEPENDENCIES
   cucumber-rails
   database_cleaner
   fabrication
-  gettext
   growl
   guard-cucumber
   guard-rspec
@@ -246,7 +237,6 @@ DEPENDENCIES
   launchy
   mysql2 (~> 0.3.10)
   rails (= 3.2.0)
-  rails-erd
   rb-fsevent
   rspec
   rspec-rails

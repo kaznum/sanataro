@@ -23,12 +23,6 @@ gem 'capistrano' unless ENV['TRAVIS_RUBY_VERSION']
 # end
 
 gem "therubyracer"
-
-group :development do
-  gem "gettext"
-  gem "rails-erd"
-end
-
 group :development, :test do
   unless ENV['TRAVIS_RUBY_VERSION']
     gem "libnotify" if RUBY_PLATFORM.downcase =~ /linux/
