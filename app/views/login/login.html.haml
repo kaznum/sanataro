@@ -1,6 +1,7 @@
+= javascript_include_tag 'login'
 %h2= t(".login")
 %div
-  = form_tag url_for(action: 'do_login'), :remote => true, :before=>"$('login_button').disabled = true" do
+  = form_tag url_for(action: 'do_login'), :remote => true, :id => 'login_form' do
     %table
       %tr
         %th= t('.user')
