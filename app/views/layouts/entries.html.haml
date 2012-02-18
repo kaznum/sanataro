@@ -26,7 +26,7 @@
     /[if lte IE 8] 
       = javascript_include_tag "flot/excanvas.min.js"
     = javascript_include_tag "flot"
-    %body
+  %body
     .header
       - if params[:action] == 'add_item_only_input'
         = image_tag "logo-s.gif", :alt=> Settings.product_name
