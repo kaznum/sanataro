@@ -27,9 +27,7 @@ group :development, :test do
   unless ENV['TRAVIS_RUBY_VERSION']
     gem "libnotify" if RUBY_PLATFORM.downcase =~ /linux/
     gem "rb-inotify" if RUBY_PLATFORM.downcase =~ /linux/
-    if RUBY_VERSION >= "1.9"
-     gem 'ruby-debug19'
-    end
+    gem 'ruby-debug19'
   end
   gem "cucumber-rails"
   gem "launchy"
@@ -39,21 +37,18 @@ end
 gem 'haml-rails'
 
 group :test do
+  gem "cucumber", "= 1.1.4"
   gem "capybara-webkit"
   gem "database_cleaner"
   gem "guard-rspec"
   gem "guard-cucumber"
   gem "guard-spork"
+  gem 'spork'
   unless ENV['TRAVIS_RUBY_VERSION']
-    if RUBY_VERSION >= "1.9"
-      gem 'spork', '~> 0.9.0'
-    else
-      gem 'spork', '~> 0.8'
-    end
     gem "growl" if RUBY_PLATFORM.downcase =~ /darwin/
     gem "rb-fsevent" if RUBY_PLATFORM.downcase =~ /darwin/
   end
-  gem "simplecov" if RUBY_VERSION >= "1.9"
+  gem "simplecov"
   gem "rspec"
   gem "rspec-rails"
   gem "assert_valid_markup"
@@ -65,7 +60,7 @@ if defined?(JRUBY_VERSION)
   gem "jruby-openssl"
   gem "activerecord-jdbcmysql-adapter"
 else
-  gem "mysql2", "~> 0.3.10"
+  gem "mysql2"
 end
 gem 'jquery-rails'
 
