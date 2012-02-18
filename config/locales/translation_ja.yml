@@ -66,6 +66,7 @@ ja:
     description: "WEB家計簿 さな太郎"
   label:
     copyright: "Copyright &copy; 2007-2012 Kazuya NUMATA. All rights are reserved."
+    author: "Kazuya NUMATA <kaz@nu-chon.org>"
     confirmation_mark: '★'
     no_confirmation_mark: '☆'
     date: "日付"

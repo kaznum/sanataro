@@ -1,15 +1,15 @@
 !!!
 %html{:lang => "ja"}
   %head
-    %meta{:charset => "utf-8"}/
-    %meta{:content => "#{t('headers.keywords')}", :name => "keywords"}/
-    %meta{:content => "#{t('headers.description')}", :name => "description"}/
-    %link{:href => "/favicon.ico", :rel => "icon", :type => "image/vnd.microsoft.icon"}/
-    %link{:href => "/favicon.ico", :rel => "shortcut icon", :type => "image/vnd.microsoft.icon"}/
-    %meta{:content => "text/javascript", "http-equiv" => "Content-Script-type"}/
-    %meta{:content => "text/css", "http-equiv" => "Content-Style-type"}/
-    %meta{:content => "width=device-width", :name => "viewport"}/
-    = csrf_meta_tag
+    %meta{:charset => "utf-8"}
+    %meta{name: "author", content: "#{t('label.author')}"}
+    %meta{name: "copyright", content: "#{t('label.copyright')}"}
+    %meta{:content => "#{t('headers.keywords')}", :name => "keywords"}
+    %meta{:content => "#{t('headers.description')}", :name => "description"}
+    %link{:href => "/favicon.ico", :rel => "icon", :type => "image/vnd.microsoft.icon"}
+    %link{:href => "/favicon.ico", :rel => "shortcut icon", :type => "image/vnd.microsoft.icon"}
+    %meta{:content => "width=device-width", :name => "viewport"}
+    = csrf_meta_tags
     %title= Settings.product_name
     /[if IE]
       <script type="text/javascript">
