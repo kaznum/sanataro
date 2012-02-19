@@ -1,8 +1,18 @@
+:javascript
+  $(function() {
+    $("#edit_user")
+      .bind("ajax:before", function() {
+        $('#change_button').attr("disabled", "disabled");
+      })
+      .bind("ajax:complete", function() {
+        $('#change_button').removeAttr("disabled");
+      });
+  });  
 #menu
   = render :partial=>'settings/config_menu'
 - if  @user.login != 'demo'
   #input_area
-    = form_tag settings_user_path, :remote => true, :method => :put, :before=>"$('change_button').disabled = true" do
+    = form_tag settings_user_path, :remote => true, :method => :put, :id => "edit_user" do
       %p= t('.explanation')
       %table
         %tr

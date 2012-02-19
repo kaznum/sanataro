@@ -1,9 +1,19 @@
+:javascript
+  $(function() {
+    $("#create_user_form")
+      .bind("ajax:before", function() {
+        $('#create_button').attr("disabled", "disabled");
+      })
+      .bind("ajax:complete", function() {
+        $('#create_button').removeAttr("disabled");
+      });
+  });
 #warning
 #inputarea
   %p= t(".input_user_and_password")
   %p= t('.user_password_minimum_letters')
   %p= t('.available_characters')
-  = form_tag url_for(:action => 'do_create_user'), :remote => true, :before=>"$('create_button').disabled = true", :complete=>"$('create_button').disabled = false" do
+  = form_tag url_for(:action => 'do_create_user'), :remote => true, :id => "create_user_form" do
     %table
       %tr
         %th= t('.user')
@@ -17,5 +27,5 @@
       %tr
         %th= t('.email')
         %td= text_field_tag 'email'
-    %br/
+    %br
     = submit_tag t('button.register'), :id=>'create_button'

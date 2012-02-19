@@ -22,7 +22,7 @@ class Settings::AccountsController < ApplicationController
     @account.save!
     redirect_js_to settings_accounts_url(:account_type => @account.account_type)
   rescue ActiveRecord::RecordInvalid
-    render_js_error :id => "add_warning", :errors => @account.errors, :default_message => '入力値が不正です'
+    render_js_error :id => "add_warning", :errors => @account.errors, :default_message => t("error.input_is_invalid")
   end
   
   def edit
@@ -44,7 +44,7 @@ class Settings::AccountsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     redirect_js_to login_url
   rescue ActiveRecord::RecordInvalid
-    render_js_error :id => "account_#{@account.id}_warning", :errors => @account.errors, :default_message => '入力値が不正です', :before => "$('#edit_button_#{@account.id}').removeAttr('disabled')"
+    render_js_error :id => "account_#{@account.id}_warning", :errors => @account.errors, :default_message => t('error.input_is_invalid')
   end
 
   def destroy
@@ -53,7 +53,7 @@ class Settings::AccountsController < ApplicationController
 
     item = @user.items.where("from_account_id = ? or to_account_id = ?", id, id).first
     if item
-      render_js_error :id => "add_warning", :default_message => "すでに収支情報に使用されているため、削除できません。" + 
+      render_js_error :id => "add_warning", :default_message => t('error.already_used_account') + 
         l(item.action_date) + " " + item.name + " " + 
         number_to_currency(item.amount)
       return
@@ -61,7 +61,7 @@ class Settings::AccountsController < ApplicationController
 
     credit_rel = @user.credit_relations.where("credit_account_id = ? or payment_account_id = ?", id, id).first
     if credit_rel
-      render_js_error :id => "add_warning", :default_message => "クレジットカード支払い情報に関連づけられているため、削除できません。"
+      render_js_error :id => "add_warning", :default_message => t("error.already_has_relation_to_credit")
       return
     end
     account.destroy

@@ -1,9 +1,19 @@
+:javascript
+  $(function() {
+    $("#add_form")
+      .bind("ajax:before", function() {
+        $('#add_button').attr("disabled", "disabled");
+      })
+      .bind("ajax:complete", function() {
+        $('#add_button').removeAttr("disabled");
+      });
+  });
 #menu
   = render :partial=>'settings/config_menu'
 .cfg_credit_relation_list
   %p= t('label.register')
   %div
-    = form_tag settings_credit_relations_path, {:remote => true, :method => :post, :before => "$('add_button').disabled = true", :complete => "$('add_button').disabled = false", :id => 'add_form'} do
+    = form_tag settings_credit_relations_path, {:remote => true, :method => :post, :id => 'add_form'} do
       %table
         %tr
           %th= t('settings.credit_relations.credit_card')

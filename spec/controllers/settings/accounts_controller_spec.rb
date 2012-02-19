@@ -133,7 +133,7 @@ describe Settings::AccountsController do
           
           describe "response" do
             subject { response }
-            it { should render_js_error :id => "add_warning", :default_message => '入力値が不正です' }
+            it { should render_js_error :id => "add_warning", :default_message => I18n.t("error.input_is_invalid") }
           end
 
           describe "count of accounts" do
@@ -377,7 +377,7 @@ describe Settings::AccountsController do
 
           describe "response" do
             subject { response}
-            it { should render_js_error :id => "account_#{accounts(:bank1).id}_warning", :before => "$('#edit_button_#{accounts(:bank1).id}').removeAttr('disabled')", :default_message => '入力値が不正です' }
+            it { should render_js_error :id => "account_#{accounts(:bank1).id}_warning", :default_message => I18n.t("error.input_is_invalid") }
           end
 
           describe "DB Record" do
