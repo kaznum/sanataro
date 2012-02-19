@@ -30,5 +30,5 @@
   = select_tag 'to', options_for_select(@separated_accounts[:to_accounts], it.to_account_id.to_s)
   = text_field_tag 'amount', ((it.amount.nil? || it.amount == 0) ? nil : number_to_currency(it.amount, format: "%n")), size: 10, class: "amount", placeholder: t('placeholder.amount')
   %br/
-  #{t('label.tag')} #{text_field_tag 'tag_list', nil, placeholder: t('placeholder.tag')} #{submit_tag t('button.register'), id: 'new_add_button'}
+  #{text_field_tag 'tag_list', nil, placeholder: t('placeholder.tag')} #{submit_tag t('button.register'), id: 'new_add_button'}
 

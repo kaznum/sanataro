@@ -93,7 +93,6 @@ ja:
     register_income_outgo: "出金・入金の登録"
     register_adjustment: "残高調整の登録"
     balance: "残高"
-    tag: "タグ"
     unknown_income: "不明な入金"
     unknown_outgoing: "不明な出金"
     chart_title_prefix: "■"
