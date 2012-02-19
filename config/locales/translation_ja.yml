@@ -25,7 +25,7 @@ ja:
         settlement_day: "決済日"
         payment_month: "支払月"
         payment_day: "支払日"
-        credit_account: "引き落とし口座"
+        credit_account_id: "引き落とし口座"
 
       item:
         name: "項目名"
@@ -142,6 +142,8 @@ ja:
     date_is_invalid: "日付が正しくありません。"
     input_is_invalid: "入力した値が正しくありません。"
     user_or_password_is_invalid: "ログインID、もしくは、パスワードが正しくありません。"
+    already_used_account: "すでに収支情報に使用されているため、削除できません。"
+    no_data: "データが存在しません。"
   layouts:
     entries:
       no_cookie_explanation: "あなたがご利用のブラウザは、現在Cookieを受け付けない設定になっています。<br/>本サイトをご利用いただくにはブラウザ設定でCookieを受け付けるよう設定してください。"

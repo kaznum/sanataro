@@ -1,5 +1,16 @@
+:javascript
+  $(function() {
+    $('#edit_form_#{@cr.id}')
+      .bind("ajax:before", function() {
+        
+        $('#edit_button_#{@cr.id}').attr("disabled", "disabled");
+      })
+      .bind("ajax:complete", function() {
+        $('#edit_button_#{@cr.id}').removeAttr("disabled");
+      });
+  });
 %div{:id => "credit_relation_#{@cr.id}"}
-  = form_tag settings_credit_relation_path(@cr.id), :remote => true, :method => :put, :before => "$('edit_button_#{@cr.id}').disabled = true", :complete => "$('edit_button_#{@cr.id}').disabled = false" , :id => 'edit_form_#{@cr.id}' do
+  = form_tag settings_credit_relation_path(@cr.id), :remote => true, :method => :put, :id => "edit_form_#{@cr.id}" do
     %table
       %tr
         %th= t('settings.credit_relations.credit_card')
