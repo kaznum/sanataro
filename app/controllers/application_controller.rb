@@ -4,14 +4,21 @@
 class ApplicationController < ActionController::Base
   # for i18n
   before_filter :set_locale
+
   def set_locale
-    I18n.locale = params[:locale].presence || :ja
+    I18n.locale = available_locale?(params[:locale]) ? params[:locale] : I18n.default_locale
   end
 
-  def default_url_options(options ={})
-    {:locale => I18n.locale}
+  def available_locale?(locale)
+    # FIX ME
+    # Now there is no translation for en.
+    locale && I18n.available_locales.include?(locale.to_sym) && locale.to_sym != :en
   end
 
+  def default_url_options(options={})
+    { :locale => I18n.locale }
+  end
+  
   protect_from_forgery
   #
   # change month to display
