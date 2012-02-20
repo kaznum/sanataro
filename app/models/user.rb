@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   has_many :accounts
   has_many :credit_relations
 
-  validate :validate_everytime
+  validate :validates_password_confirmation
   validates_presence_of :login
   validates_presence_of :password_plain, :if => :password_required?
   validates_presence_of :email
@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
 
   before_save :hash_password
 
-  def validate_everytime
+  def validates_password_confirmation
     errors.add("password_plain", I18n.t("errors.messages.confirmation")) if self.password_required? && self.password_plain != self.password_confirmation
   end
 
