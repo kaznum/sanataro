@@ -1,4 +1,4 @@
-== Welcome to Kakeibo Sanataro
+== Kakeibo Sanataro {<img src="https://secure.travis-ci.org/kaznum/sanataro.png" />}[http://travis-ci.org/kaznum/sanataro]
 Sanataro - Simple Web Household Account Book.
 built with Ruby on Rails 3.2.
 
@@ -24,6 +24,19 @@ built with Ruby on Rails 3.2.
   * MySQL(adapter mysql2) (tested)
   * SQLite3 (tested)
   * PostgreSQL (heroku available) (not tested)
+* Recommend: Passenger and Webserver such as Apache
+
+== If you want to try instantly...
+* `git clone git://github.com/kaznum/sanataro.git'
+* `cd sanataro'
+* `cp config/database.yml.sample config/database.yml'
+* Edit config/database.yml if needed
+* Create database if you use MySQL or PostgreSQL and set privileges to the database.
+* `gem install bundler' if bundler is not installed.
+* `bundle install'
+* `rake db:migrate'
+* `rails s'
+* Access http://localhost:3000/ with your favorite web browser.
 
 == Caution
 * http(s)://<your URL>/admin/users lists the account names which have been registered, but this page has no authentication logic. Please limit the users by web server or Rails mechanism who can access this page or remove the file "app/controllers/admin/users_controller.rb".
@@ -34,15 +47,10 @@ This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0, 3.1 to 3.2 escalat
 * Now, there is no view spec and cucumber feature.
 * There are some RESTful rule violation in some controllers.(ex. MainController)
 
-== CI environment
-* This product is tested with Travis CI.  {<img src="https://secure.travis-ci.org/kaznum/sanataro.png" />}[http://travis-ci.org/kaznum/sanataro]
-
-== License
-* MIT License.  http://opensource.org/licenses/mit-license.php
-
-== Author and Copyright
+== Credit
 * Author: Kazuya NUMATA <numata@gmail.com>.
 * Copyright (c) 2007-2012 Kazuya NUMATA.
+* License: MIT License.  http://opensource.org/licenses/mit-license.php
 
 == Dependency
 * Farbtastic 1.2
