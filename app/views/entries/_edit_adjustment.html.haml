@@ -1,17 +1,14 @@
-:javascript
-  $(function() {
+:coffeescript
+  $ ->
     $("#edit_#{item.id}_form")
-      .bind("ajax:before", function() {
-        $('#edit_button_#{item.id}').attr('disabled', 'disabled');
-        $('#item_operation_#{item.id}').hide();
-        $('#item_operation_loading_#{item.id}').show();
-      })
-      .bind("ajax:complete", function() {
-        $('#edit_button_#{item.id}').removeAttr('disabled');
-        $('#item_operation_loading_#{item.id}').hide();
-        $('#item_operation_#{item.id}').show();
-      });
-  });
+      .bind("ajax:before", ->
+        $('#edit_button_#{item.id}').attr 'disabled', 'disabled'
+        $('#item_operation_#{item.id}').hide()
+        $('#item_operation_loading_#{item.id}').show())
+      .bind("ajax:complete", ->
+        $('#edit_button_#{item.id}').removeAttr 'disabled'
+        $('#item_operation_loading_#{item.id}').hide()
+        $('#item_operation_#{item.id}').show())
 .item{:id => "item_#{item.id}"}
   = form_tag entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :put, :id => "edit_#{item.id}_form" do
     = hidden_field_tag :action_date, l(item.action_date)

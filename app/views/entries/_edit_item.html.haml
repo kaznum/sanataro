@@ -1,25 +1,18 @@
-:javascript
-  $(function() {
-    $("#edit_#{item.id}_form")
-      .bind("ajax:before", function() {
-        $('#edit_button_#{item.id}').attr('disabled', 'disabled');
-        $('#item_operation_#{item.id}').hide();
-        $('#item_operation_loading_#{item.id}').show();
-      })
-      .bind("ajax:complete", function() {
-        $('#edit_button_#{item.id}').removeAttr('disabled');
-        $('#item_operation_loading_#{item.id}').hide();
-        $('#item_operation_#{item.id}').show();
-      });
-    $("#action_date_#{item.id}").datepicker();
-    $("#confirmation_required_label_#{item.id}").bind("click", function() {
-      toggleConfirmationRequired($("#confirmation_required_#{item.id}").attr("value") != "true", "#{item.id}");
-    });
-
-    //initialize confirmation required just after rendering initialy
-    toggleConfirmationRequired($("#confirmation_required_#{item.id}").attr("value") == "true", "#{item.id}");
-  });
-  
+:coffeescript
+  $ ->
+    $('#edit_#{item.id}_form').bind "ajax:before", ->
+      $('#edit_button_#{item.id}').attr 'disabled', 'disabled'
+      $('#item_operation_#{item.id}').hide()
+      $('#item_operation_loading_#{item.id}').show()
+    $('#edit_#{item.id}_form').bind "ajax:complete", ->
+      $('#edit_button_#{item.id}').removeAttr 'disabled'
+      $('#item_operation_loading_#{item.id}').hide()
+      $('#item_operation_#{item.id}').show()
+    $("#action_date_#{item.id}").datepicker()
+    $("#confirmation_required_label_#{item.id}").bind "click", ->
+      toggleConfirmationRequired($("#confirmation_required_#{item.id}").attr("value") != "true", "#{item.id}")
+    #initialize confirmation required just after rendering initialy
+    toggleConfirmationRequired($("#confirmation_required_#{item.id}").attr("value") == "true", "#{item.id}")
 .item{:id => "item_#{item.id}"}
   = form_tag entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :put, :id => "edit_#{item.id}_form"  do
     = text_field_tag :action_date, l(item.action_date), size: 12, placeholder: "YYYY/MM/DD", id: "action_date_#{item.id}"

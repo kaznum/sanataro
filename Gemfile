@@ -71,4 +71,4 @@ group :assets do
 end
 
 gem 'settingslogic'
-
+gem 'coffee-filter'

@@ -1,12 +1,8 @@
-:javascript
-  $(function() {
-    $("#create_form").bind("ajax:before", function() {
-        $('#submit_button').attr("disabled", "disabled");
-      })
-      .bind("ajax:complete", function() {
-        $('#submit_button').removeAttr("disabled");
-      });
-  });
+:coffeescript
+  $ ->
+    $("#create_form")
+      .bind("ajax:before", -> $('#submit_button').attr("disabled", "disabled"))
+      .bind("ajax:complete", -> $('#submit_button').removeAttr("disabled"))
 = form_tag settings_accounts_path, :remote => true, :method => :post, :id => "create_form"  do
   = t("settings.accounts.bank_account") if @account_type == 'account'
   = t("settings.accounts.outgoing_account") if @account_type == 'outgo'

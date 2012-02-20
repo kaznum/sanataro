@@ -1,20 +1,13 @@
 = stylesheet_link_tag "entries"
-:javascript
-  $(function() {
-    itemNameObserver("#{entry_candidates_path}");
+:coffeescript
+  $ ->
+    itemNameObserver("#{entry_candidates_path}")
     $("#do_add_item")
-      .bind("ajax:before", function() {
-        $('#new_add_button').attr('disabled', 'disabled');
-      })
-      .bind("ajax:complete", function() {
-        $('#new_add_button').removeAttr('disabled');
-      });
-    $("#action_date").datepicker();
-    $("#confirmation_required_label").bind("click", function() {
-      toggleConfirmationRequired($("#confirmation_required").attr("value") != "true");
-    });
-  });
-  
+      .bind("ajax:before", -> $('#new_add_button').attr('disabled', 'disabled'))
+      .bind("ajax:complete", -> $('#new_add_button').removeAttr('disabled'))
+    $("#action_date").datepicker()
+    $("#confirmation_required_label").bind "click", ->
+      toggleConfirmationRequired($("#confirmation_required").attr("value") != "true")
 %p#add_item_explain
   = t('label.register_income_outgo')
   %span.swither_link= link_to t('link.register_adjustment'), new_entry_path(:year => it.action_date.year, :month => it.action_date.month, :entry_type => 'adjustment'), :remote => true, :method => :get

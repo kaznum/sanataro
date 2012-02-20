@@ -1,15 +1,9 @@
-:javascript
-  $(function() {
+:coffeescript
+  $ ->
     $("#do_add_item")
-      .bind("ajax:before", function() {
-        $('#new_add_button').attr('disabled', 'disabled');
-      })
-      .bind("ajax:complete", function() {
-        $('#new_add_button').removeAttr('disabled');
-      });
-    $("#action_date").datepicker();
-  });
-  
+      .bind("ajax:before", -> $('#new_add_button').attr('disabled', 'disabled'))
+      .bind("ajax:complete", -> $('#new_add_button').removeAttr('disabled'))
+    $("#action_date").datepicker()
 %p#add_item_explain
   = t('label.register_adjustment')
   %span{:style => "font-weight: normal;font-size: 12px;"}= link_to t('link.register_income_outgo'), new_entry_path(:year => date.year, :month => date.month), :remote => true, :method => :get

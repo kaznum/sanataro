@@ -1,13 +1,11 @@
-:javascript
-  $(function() {
-    var showTimer = function() {
-      $('#tag_icon').hide();
-      $('#tag_reload_icon').hide();
-      $('#tag_loading').show();
-    };
-    $("#hide_tags").bind("click", showTimer);
-    $("#reload_tags").bind("click", showTimer);
-  });
+:coffeescript
+  $ ->
+    showTimer = ->
+      $('#tag_icon').hide()
+      $('#tag_reload_icon').hide()
+      $('#tag_loading').show()
+    $("#hide_tags").bind("click", showTimer)
+    $("#reload_tags").bind("click", showTimer)
 #tag_status_explain.drawer
   = link_to "<span id='tag_icon'>#{t('label.status_open')}</span><span id='tag_loading' style ='display: none;'>#{image_tag('loading.gif', :alt=>'loading...', :border => 0, :height => 12, :width => 12)}</span> #{t('tag_statuses.tag_list')}".html_safe, tag_status_path, :remote => true, :method => :delete, :id => "hide_tags" 
   = link_to "<span id='tag_reload_icon'>#{image_tag('reload.png', :alt => 'Reload', :border => 0, :height => 12, :width => 12)}</span>".html_safe, tag_status_path, :remote => true, :method => :get, :id => "reload_tags"

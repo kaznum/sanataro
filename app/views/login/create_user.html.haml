@@ -1,13 +1,8 @@
-:javascript
-  $(function() {
+:coffeescript
+  $ ->
     $("#create_user_form")
-      .bind("ajax:before", function() {
-        $('#create_button').attr("disabled", "disabled");
-      })
-      .bind("ajax:complete", function() {
-        $('#create_button').removeAttr("disabled");
-      });
-  });
+      .bind("ajax:before", -> $('#create_button').attr("disabled", "disabled"))
+      .bind("ajax:complete", -> $('#create_button').removeAttr("disabled"))
 #warning
 #inputarea
   %p= t(".input_user_and_password")

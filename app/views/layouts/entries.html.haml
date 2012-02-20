@@ -32,13 +32,12 @@
         = image_tag "logo-s.gif", :alt=> Settings.product_name
       - else
         = image_tag "logo.gif", :alt => Settings.product_name
-      :javascript
-        var coo = "cookietest=ok";
-        document.cookie = coo + "\;";
-        coo = document.cookie;
-        if( !coo ){
-          document.write("<div class=\"warning\">#{t(".no_cookie_explanation")}</div>");
-        }
+      :coffeescript
+        coo = "cookietest=ok"
+        document.cookie = coo + "\;"
+        coo = document.cookie
+        if( !coo )
+          document.write "<div class=\"warning\">#{t(".no_cookie_explanation")}</div>"
       %noscript
         .warning!= t(".no_javascript_explanation")
     .main= yield

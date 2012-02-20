@@ -8,13 +8,11 @@
     = javascript_include_tag "entries_new_simple"
   %body
     #replaced_area
-  :javascript
-    $(function() {
-      new EJS({url: '/ejs/entries/new_simple.ejs?2012020901'}).update("replaced_area",#{@data.to_json});
-      observerAddItemOnlyInput('#{@data[:authenticity_token]}');
-      bindSubmitInNewSimple();
-      $("#action_date").datepicker();
-      $("#confirmation_required_label").bind("click", function() {
-        toggleConfirmationRequired($("#confirmation_required").attr("value") != "true");
-      });
-    });
+  :coffeescript
+    $ ->
+      new EJS({url: '/ejs/entries/new_simple.ejs?2012020901'}).update("replaced_area",#{@data.to_json})
+      observerAddItemOnlyInput '#{@data[:authenticity_token]}'
+      bindSubmitInNewSimple()
+      $("#action_date").datepicker()
+      $("#confirmation_required_label").bind "click", ->
+        toggleConfirmationRequired($("#confirmation_required").attr("value") != "true")

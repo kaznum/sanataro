@@ -1,8 +1,8 @@
-:javascript
-  $('#remaining_link').bind("click", function() {
-    $('#remains_operation').hide();
-    $('#remains_loading').show();
-  });
+:coffeescript
+  $ ->
+    $('#remaining_link').bind "click", ->
+      $('#remains_operation').hide()
+      $('#remains_loading').show()
 - if @tag
   - path = tag_entries_path(:tag => @tag, :remaining => true)
 - elsif @mark

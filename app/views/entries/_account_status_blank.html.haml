@@ -1,7 +1,7 @@
-:javascript
-  var showTimer = function() {
-    $('#account_status_icon').hide();
-    $('#account_status_loading').show();
-  };
-  $("#show_statuses").bind("click", showTimer);
+:coffeescript
+  $ ->
+    showTimer = ->
+      $('#account_status_icon').hide()
+      $('#account_status_loading').show()
+    $("#show_statuses").bind "click", showTimer
 #account_status_explain.drawer= link_to "<span id='account_status_icon'>#{t('label.status_closed')}</span> <span id='account_status_loading' style ='display: none;'>#{ image_tag('loading.gif', :alt=>'loading...', :border => 0, :height => 12, :width => 12) }</span> #{t('account_statuses.index.status_of_today', date: l(today, format: :short))}".html_safe, account_status_path, :method => :get, :id => "show_statuses", :remote => true

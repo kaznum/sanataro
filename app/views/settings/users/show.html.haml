@@ -1,13 +1,8 @@
-:javascript
-  $(function() {
+:coffeescript
+  $ ->
     $("#edit_user")
-      .bind("ajax:before", function() {
-        $('#change_button').attr("disabled", "disabled");
-      })
-      .bind("ajax:complete", function() {
-        $('#change_button').removeAttr("disabled");
-      });
-  });  
+      .bind("ajax:before", -> $('#change_button').attr("disabled", "disabled"))
+      .bind("ajax:complete", -> $('#change_button').removeAttr("disabled"))
 #menu
   = render :partial=>'settings/config_menu'
 - if  @user.login != 'demo'

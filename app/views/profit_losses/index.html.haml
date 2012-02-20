@@ -3,17 +3,15 @@
 = javascript_include_tag "piechart"
 = javascript_include_tag "linechart"
 = javascript_include_tag "profit_losses"
-:javascript
-  (function(global) {
+:coffeescript
+  ((global) ->
     global.urls = {
       income: "#{api_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), format: :json)}",
       outgo: "#{api_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'outgo', format: :json)}",
       yearly_income: "#{api_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'income', format: :json)}",
       yearly_outgo: "#{api_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'outgo', format: :json)}",
       yearly_total: "#{api_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'total', format: :json)}"
-    };
-  })(document);
-  
+    })(document);
 #monthlist
   - calendar_from_date = calendar_from(@user)
   - calendar_to_date = calendar_to(@user)
