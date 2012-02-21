@@ -30,11 +30,10 @@ built with Ruby on Rails 3.2.
 * `git clone git://github.com/kaznum/sanataro.git'
 * `cd sanataro'
 * `cp config/database.yml.sample config/database.yml'
-* Edit config/database.yml if needed
-* Create database if you use MySQL or PostgreSQL and set privileges to the database.
 * `gem install bundler' if bundler is not installed.
 * `bundle install'
 * `rake db:migrate'
+* `rake db:seed' if you use 'demo' user (password: demo123).
 * `rails s'
 * Access http://localhost:3000/ with your favorite web browser.
 
