@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-user = User.create!(login: "demo", password_plain: "demo123", password_confirmation: "demo123",
+user = User.create!(login: "demo",
+                    password_plain: "demo123", password_confirmation: "demo123",
                     email: "sample@example.com",
                     active: true)
 
@@ -18,31 +19,28 @@ hashed_accounts = [{name: "財布", order_no: 10, type: 'account'},
                    {name: "雑費", order_no: 10, type: 'outgo'},
                   ]
 
-
 accounts = []
 hashed_accounts.each do |data|
   accounts << user.accounts.create!(name: data[:name], order_no: data[:order_no],
                                     account_type: data[:type])
 end
 
-credit_account = accounts.find { |a| a.name == "クレジットカード" }
-payment_account = accounts.find { |a| a.name == "銀行B" }
+user.credit_relations.create!(credit_account_id: accounts.find{|a| a.name == "クレジットカード" }.id,
+                              payment_account_id: accounts.find{|a| a.name == "銀行B" }.id,
+                              settlement_day: 25, payment_month: 2, payment_day: 4)
 
-credit_relation = user.credit_relations.create!(credit_account_id: credit_account.id,
-                                                payment_account_id: payment_account.id,
-                                                settlement_day: 25, payment_month: 2, payment_day: 4)
+user.items.create!(name: '会社給与',
+                   from_account_id: accounts.find{ |a| a.name == "給与"}.id,
+                   to_account_id: accounts.find{|a| a.name == "銀行A" }.id,
+                   amount: 1000, action_date: Date.today)
 
+user.items.create!(name: '妻のへそくりを発見',
+                   from_account_id: accounts.find{ |a| a.name == "雑収入"}.id,
+                   to_account_id: accounts.find{|a| a.name == "財布" }.id,
+                   amount: 800, action_date: Date.yesterday, confirmation_required: true)
 
-item_income = user.items.create!(name: 'サンプル収入(消してかまいません)',
-                                 from_account_id: accounts.find{ |a| a.name == "給与"}.id,
-                                 to_account_id: accounts.find{|a| a.name == "銀行A" }.id,
-                                 amount: 1000, action_date: Date.today)
-item_income = user.items.create!(name: 'サンプル雑収入(消してかまいません)',
-                                 from_account_id: accounts.find{ |a| a.name == "雑収入"}.id,
-                                 to_account_id: accounts.find{|a| a.name == "財布" }.id,
-                                 amount: 800, action_date: Date.yesterday, confirmation_required: true)
-item_outgo = user.items.create!(name: 'サンプル支出(消してかまいません)',
-                                from_account_id: accounts.find{|a| a.name == "財布" }.id,
-                                to_account_id: accounts.find{|a| a.name == "食費" }.id,
-                                amount: 250, action_date: Date.today, tag_list: 'タグもOK')
+user.items.create!(name: 'サンプル支出',
+                   from_account_id: accounts.find{|a| a.name == "財布" }.id,
+                   to_account_id: accounts.find{|a| a.name == "食費" }.id,
+                   amount: 250, action_date: Date.today, tag_list: 'コンビニ')
 
