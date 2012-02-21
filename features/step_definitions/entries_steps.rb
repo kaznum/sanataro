@@ -7,5 +7,6 @@ require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "sel
   step %{I fill in "login" with "user1"}
   step %{I fill in "password" with "123456"}
   step %{I press "ログイン"}
+  find('p#add_item_explain')
 end
 
