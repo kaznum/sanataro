@@ -15,7 +15,8 @@ module NavigationHelpers
       '/login'
     when /^収支入力$/
       '/current/entries'
-      
+    when /^(.+)年(.+)月の収支入力$/
+      "/months/#{$1}/#{$2}/entries"
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
