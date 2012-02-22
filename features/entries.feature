@@ -37,4 +37,17 @@
     かつ "div#items > div > div.item_to"に"outgo13"と表示されていること
     かつ "div#items > div > div.item_amount"に"1,000円"と表示されていること
 
+  シナリオ: "残高調整登録"ページから登録を行う。
+    前提 残高調整登録ページを表示している
+    もし "action_date"に"2012/2/12"と入力する
+    かつ "to"から"bank1"を選択する
+    かつ "adjustment_amount"に"100000"と入力する
+    かつ "登録"ボタンをクリックする
+    ならば "登録しました。 2012/02/12 残高調整 100,000円"と表示されていること
+    かつ "div#items > div > div.item_name"に"残高調整 100,000円"と表示されていること
+    かつ "div#items > div > div.item_date"に"2012/02/12"と表示されていること
+    かつ "div#items > div > div.item_from"に"(残高調整)"と表示されていること
+    かつ "div#items > div > div.item_to"に"bank1"と表示されていること
+    かつ "div#items > div > div.item_amount"に/円$/と表示されていること
+
 
