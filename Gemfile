@@ -6,7 +6,14 @@ gem 'rails', '3.2.1'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 # uncomment if you use sqlite3
-gem 'sqlite3-ruby', :require => 'sqlite3'
+case ENV['DB']
+when 'sqlite'
+  gem 'sqlite3-ruby', :require => 'sqlite3'
+when 'postgres'
+  gem 'pg'
+else
+  gem "mysql2"
+end
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -71,3 +78,4 @@ gem 'haml-rails'
 gem 'jquery-rails'
 gem 'settingslogic'
 gem 'coffee-filter'
+
