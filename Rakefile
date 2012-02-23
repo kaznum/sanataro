@@ -7,10 +7,11 @@ require 'rake'
 Kakeibo3::Application.load_tasks
 
 task :travis do
-  ["rspec spec", "rake cucumber"].each do |cmd|
+  ["spec", "cucumber"].each do |cmd|
     puts "Starting to run #{cmd}..."
-    system("export DISPLAY=:99.0 && bundle exec #{cmd}")
-    raise "#{cmd} failed!" unless $?.exitstatus == 0
+    system("export DISPLAY=:99.0")
+    Rake::Task[cmd].execute   
+    raise "rake #{cmd} failed!" unless $?.exitstatus == 0
   end
 end
 
