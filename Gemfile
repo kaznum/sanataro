@@ -11,7 +11,6 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 # Use unicorn as the web server
 # gem 'unicorn'
 
-gem 'capistrano' unless ENV['TRAVIS_RUBY_VERSION']
 
 # To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
 # gem 'ruby-debug'
@@ -22,22 +21,22 @@ gem 'capistrano' unless ENV['TRAVIS_RUBY_VERSION']
 #   gem 'webrat'
 # end
 
-gem "therubyracer"
+#gem "therubyracer"
 group :development, :test do
   unless ENV['TRAVIS_RUBY_VERSION']
+    gem 'capistrano' unless ENV['TRAVIS_RUBY_VERSION']
     gem "libnotify" if RUBY_PLATFORM.downcase =~ /linux/
     gem "rb-inotify" if RUBY_PLATFORM.downcase =~ /linux/
     gem 'ruby-debug19'
   end
-  gem "cucumber-rails"
+  gem "rspec-rails"
   gem "launchy"
   gem "fabrication"
 end
 
-gem 'haml-rails'
 
 group :test do
-  gem "cucumber"
+  gem "cucumber-rails"
   gem "capybara-webkit"
   gem "database_cleaner"
   gem "guard-rspec"
@@ -49,20 +48,17 @@ group :test do
     gem "rb-fsevent" if RUBY_PLATFORM.downcase =~ /darwin/
   end
   gem "simplecov"
-  gem "rspec"
-  gem "rspec-rails"
-  gem "assert_valid_markup"
   gem "webrat"
 end
 
-gem "i18n"
-if defined?(JRUBY_VERSION)
+platforms :jruby do
   gem "jruby-openssl"
   gem "activerecord-jdbcmysql-adapter"
-else
+end
+
+platforms :ruby do
   gem "mysql2"
 end
-gem 'jquery-rails'
 
 group :assets do
   gem 'sass-rails'
@@ -70,5 +66,8 @@ group :assets do
   gem 'uglifier'
 end
 
+gem "i18n"
+gem 'haml-rails'
+gem 'jquery-rails'
 gem 'settingslogic'
 gem 'coffee-filter'
