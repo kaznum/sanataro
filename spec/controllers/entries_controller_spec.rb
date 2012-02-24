@@ -778,7 +778,7 @@ describe EntriesController do
         end
 
         context "with correct id," do
-          context "adj2を変更する。影響をうけるのはadj4のみ。mplには影響なし," do
+          context "when change adj2's amount" do
             before do
               _login_and_change_month(2008,2)
               
@@ -794,32 +794,37 @@ describe EntriesController do
               @init_unknown_pl.user_id = users(:user1).id
               @init_unknown_pl.save!
 
-              xhr :delete, :destroy, :id=>items(:adjustment2).id, :year => 2008, :month => 2
+              @action = lambda { xhr :delete, :destroy, :id=>items(:adjustment2).id, :year => 2008, :month => 2 }
             end
 
-            describe "response" do 
+            describe "response" do
+              before { @action.call }
               subject { response }
               it { should be_success }
             end
 
             describe "specified item(adjustment2)" do
+              before { @action.call }
               subject { Item.find_by_id(@init_adj2.id) }
               it {should be_nil}
             end
 
             describe "adjustment4 which is next future adjustment" do
-              subject { Item.find(@init_adj4.id) }
-              its(:amount) { should == @init_adj4.amount + @init_adj2.amount }
+              specify {
+                expect { @action.call }.to change{ Item.find(@init_adj4.id).amount }.by(@init_adj2.amount)
+              }
             end
 
             describe "bank_pl amount" do
-              subject { MonthlyProfitLoss.find(@init_bank_pl.id) }
-              its(:amount) {should == @init_bank_pl.amount }
+              specify {
+                expect { @action.call}.not_to change { MonthlyProfitLoss.find(@init_bank_pl.id).amount}
+              }
             end
 
             describe "unknown pl amount" do
-              subject { MonthlyProfitLoss.find(@init_unknown_pl.id) }
-              its(:amount) { should == @init_unknown_pl.amount}
+              specify {
+                expect { @action.call }.not_to change { MonthlyProfitLoss.find(@init_unknown_pl.id).amount }
+              }
             end
           end
 
@@ -1728,7 +1733,7 @@ describe EntriesController do
           }
         end
 
-        context "when a validation error occurs,", debug: true do
+        context "when a validation error occurs," do
           before do
             mock_exception = ActiveRecord::RecordInvalid.new(double.as_null_object)
             mock_exception.should_receive(:error_messages).and_return("Error!!!")
@@ -1772,7 +1777,7 @@ describe EntriesController do
             }
           end
 
-          describe "@items", debug: true do
+          describe "@items" do
             before { @action.call }
 
             subject { assigns(:items).all?{|it| (Date.new(2008,3,1)..Date.new(2008,3,31)).cover?(it.action_date) } }
