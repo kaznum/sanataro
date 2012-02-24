@@ -7,7 +7,7 @@ class CreateItems < ActiveRecord::Migration
 		table.column :from_account_id,	:integer
 		table.column :to_account_id,	:integer
 		table.column :currency,	:string
-		table.column :amount,	:string
+		table.column :amount,	:integer
 		table.column :action_date,	:date
 		table.column :regist_datetime,  :datetime
         }
