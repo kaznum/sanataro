@@ -28,13 +28,16 @@ end
 #   gem 'webrat'
 # end
 
-#gem "therubyracer"
+gem "therubyracer"
 group :development, :test do
   unless ENV['TRAVIS_RUBY_VERSION']
-    gem 'capistrano' unless ENV['TRAVIS_RUBY_VERSION']
+    gem 'capistrano'
     gem "libnotify" if RUBY_PLATFORM.downcase =~ /linux/
     gem "rb-inotify" if RUBY_PLATFORM.downcase =~ /linux/
-    gem 'ruby-debug19'
+
+    gem 'linecache19', '0.5.13'
+    gem 'ruby-debug-base19', '0.11.26'
+    gem 'ruby-debug19', :require => 'ruby-debug'
   end
   gem "rspec-rails"
   gem "launchy"

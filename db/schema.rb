@@ -43,19 +43,19 @@ ActiveRecord::Schema.define(:version => 20120201094222) do
   end
 
   create_table "items", :force => true do |t|
-    t.integer  "user_id",               :limit => 255,                    :null => false
+    t.integer  "user_id"
     t.string   "name"
     t.integer  "from_account_id"
     t.integer  "to_account_id"
     t.string   "currency"
-    t.integer  "amount",                :limit => 255
+    t.integer  "amount"
     t.date     "action_date"
     t.datetime "created_at"
-    t.boolean  "adjustment",                           :default => false
-    t.integer  "adjustment_amount",                    :default => 0
+    t.boolean  "adjustment",            :default => false
+    t.integer  "adjustment_amount",     :default => 0
     t.integer  "parent_id"
     t.datetime "updated_at"
-    t.boolean  "confirmation_required",                :default => false
+    t.boolean  "confirmation_required", :default => false
   end
 
   create_table "monthly_profit_losses", :force => true do |t|

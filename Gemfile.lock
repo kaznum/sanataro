@@ -109,7 +109,8 @@ GEM
     json_pure (1.6.5)
     launchy (2.0.5)
       addressable (~> 2.2.6)
-    linecache19 (0.5.12)
+    libv8 (3.3.10.4)
+    linecache19 (0.5.13)
       ruby_core_source (>= 0.1.4)
     mail (2.4.1)
       i18n (>= 0.4.0)
@@ -166,7 +167,7 @@ GEM
       activesupport (>= 3.0)
       railties (>= 3.0)
       rspec (~> 2.8.0)
-    ruby-debug-base19 (0.11.25)
+    ruby-debug-base19 (0.11.26)
       columnize (>= 0.3.1)
       linecache19 (>= 0.5.11)
       ruby_core_source (>= 0.1.4)
@@ -197,10 +198,9 @@ GEM
       hike (~> 1.2)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sqlite3 (1.3.5)
-    sqlite3-ruby (1.3.3)
-      sqlite3 (>= 1.3.3)
     term-ansicolor (1.0.7)
+    therubyracer (0.9.10)
+      libv8 (~> 3.3.10)
     thor (0.14.6)
     tilt (1.3.3)
     treetop (1.4.10)
@@ -238,15 +238,17 @@ DEPENDENCIES
   jquery-rails
   jruby-openssl
   launchy
+  linecache19 (= 0.5.13)
   mysql2
   rails (= 3.2.1)
   rb-fsevent
   rspec-rails
+  ruby-debug-base19 (= 0.11.26)
   ruby-debug19
   sass-rails
   settingslogic
   simplecov
   spork
-  sqlite3-ruby
+  therubyracer
   uglifier
   webrat
