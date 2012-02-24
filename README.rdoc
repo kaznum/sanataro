@@ -1,6 +1,6 @@
 == Kakeibo Sanataro {<img src="https://secure.travis-ci.org/kaznum/sanataro.png" />}[http://travis-ci.org/kaznum/sanataro]
 Sanataro - Simple Web Household Account Book.
-built with Ruby on Rails 3.2.
+built with Ruby on Rails.
 
 == Functional Features
 * Simple kakeibo Web Application.
@@ -18,12 +18,13 @@ built with Ruby on Rails 3.2.
 * Locale Support (Now only Japanese, but you can add your own language easily)
 
 == Requirement
-* Ruby: MRI (>= 1.9.2)
-* Ruby on Rails: 3.2.0
-* DB: 
-  * MySQL(adapter mysql2) (tested)
-  * SQLite3 (tested)
-  * PostgreSQL (heroku available) (not tested)
+* Ruby: MRI (tested continuously with 1.9.2-p290, 1.9.3-p125)
+* Ruby on Rails: 3.2.1
+* DB : 
+  * MySQL(adapter mysql2)
+  * SQLite3
+  * PostgreSQL (heroku available)
+* Gem: See Gemfiles
 * Recommend: Passenger and Webserver such as Apache
 
 == If you want to try instantly...
