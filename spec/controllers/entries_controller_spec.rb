@@ -787,12 +787,7 @@ describe EntriesController do
               @init_adj6 = Item.find(items(:adjustment6).id)
               @init_bank_pl = monthly_profit_losses(:bank1200802)
               @init_bank_pl = monthly_profit_losses(:bank1200802)
-              @init_unknown_pl = MonthlyProfitLoss.new
-              @init_unknown_pl.month = Date.new(2008,2)
-              @init_unknown_pl.account_id = -1
-              @init_unknown_pl.amount = 100
-              @init_unknown_pl.user_id = users(:user1).id
-              @init_unknown_pl.save!
+              @init_unknown_pl = MonthlyProfitLoss.where(month: Date.new(2008,2), account_id: -1, user_id: users(:user1).id).first
 
               @action = lambda { xhr :delete, :destroy, :id=>items(:adjustment2).id, :year => 2008, :month => 2 }
             end
