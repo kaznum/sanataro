@@ -763,193 +763,193 @@ describe EntriesController do
             end
           end
         end
-        
-        context "when adjustment is true," do
-          context "with invalid id," do
-            let(:mock_items) { double }
+      end
+      
+      context "when adjustment is true," do
+        context "with invalid id," do
+          let(:mock_items) { double }
+          before do
+            mock_user.should_receive(:items).and_return(mock_items)
+            mock_items.should_receive(:find).with("20000").and_raise(ActiveRecord::RecordNotFound.new)
+            xhr :delete, :destroy, :id => 20000, :year => Date.today.year, :month => Date.today.month
+          end
+          subject {response}
+          it {should redirect_by_js_to current_entries_url}
+        end
+
+        context "with correct id," do
+          context "adj2を変更する。影響をうけるのはadj4のみ。mplには影響なし," do
             before do
-              mock_user.should_receive(:items).and_return(mock_items)
-              mock_items.should_receive(:find).with("20000").and_raise(ActiveRecord::RecordNotFound.new)
-              xhr :delete, :destroy, :id => 20000, :year => Date.today.year, :month => Date.today.month
-            end
-            subject {response}
-            it {should redirect_by_js_to current_entries_url}
-          end
-
-          context "with correct id," do
-            context "adj2を変更する。影響をうけるのはadj4のみ。mplには影響なし," do
-              before do
-                _login_and_change_month(2008,2)
-                
-                @init_adj2 = Item.find(items(:adjustment2).id)
-                @init_adj4 = Item.find(items(:adjustment4).id)
-                @init_adj6 = Item.find(items(:adjustment6).id)
-                @init_bank_pl = monthly_profit_losses(:bank1200802)
-                @init_bank_pl = monthly_profit_losses(:bank1200802)
-                @init_unknown_pl = MonthlyProfitLoss.new
-                @init_unknown_pl.month = Date.new(2008,2)
-                @init_unknown_pl.account_id = -1
-                @init_unknown_pl.amount = 100
-                @init_unknown_pl.user_id = users(:user1).id
-                @init_unknown_pl.save!
-
-                xhr :delete, :destroy, :id=>items(:adjustment2).id, :year => 2008, :month => 2
-              end
-
-              describe "response" do 
-                subject { response }
-                it { should be_success }
-              end
-
-              describe "specified item(adjustment2)" do
-                subject { Item.find_by_id(@init_adj2.id) }
-                it {should be_nil}
-              end
-
-              describe "adjustment4 which is next future adjustment" do
-                subject { Item.find(@init_adj4.id) }
-                its(:amount) { should == @init_adj4.amount + @init_adj2.amount }
-              end
-
-              describe "bank_pl amount" do
-                subject { MonthlyProfitLoss.find(@init_bank_pl.id) }
-                its(:amount) {should == @init_bank_pl.amount }
-              end
-
-              describe "unknown pl amount" do
-                subject { MonthlyProfitLoss.find(@init_unknown_pl.id) }
-                its(:amount) { should == @init_unknown_pl.amount}
-              end
-            end
-
-            context "adj4を削除。影響をうけるのはadj6と,200802, 200803のm_pl" do 
-              before do
-                _login_and_change_month(2008,2)
-
-                # データの初期化
-                @init_adj2 = Item.find(items(:adjustment2).id)
-                @init_adj4 = Item.find(items(:adjustment4).id)
-                @init_adj6 = Item.find(items(:adjustment6).id)
-                @init_bank_2_pl = monthly_profit_losses(:bank1200802)
-                @init_bank_3_pl = monthly_profit_losses(:bank1200803)
-                @init_unknown_2_pl = monthly_profit_losses(:unknown200802)
-                @init_unknown_3_pl = monthly_profit_losses(:unknown200803)
-
-                # 正常処理 (adj4を削除。影響をうけるのはadj6と,200802, 200803のm_pl)
-                xhr :delete, :destroy, :id => items(:adjustment4).id, :year => 2008, :month => 2
-              end
-
-              describe "response" do
-                subject { response }
-                it { should be_success }
-                its(:content_type) { should == "text/javascript" }
-              end
-
-              describe "previous adjustment(adj2)" do
-                subject { Item.find_by_id(@init_adj2.id) }
-                its(:amount) { should be == @init_adj2.amount }
-              end
-
-              describe "specified adjustment(adj4)" do
-                subject { Item.find_by_id(@init_adj4.id) }
-                it { should be_nil }
-              end
-
-              describe "next adjustment(adj6" do
-                subject { Item.find_by_id(@init_adj6.id) }
-                its(:amount) {should == @init_adj6.amount + @init_adj4.amount}
-              end
-
-              describe "bank_2_pl" do
-                subject { MonthlyProfitLoss.find(@init_bank_2_pl.id) }
-                its(:amount) { should == @init_bank_2_pl.amount - @init_adj4.amount}
-              end
-
-              describe "bank_3_pl" do
-                subject { MonthlyProfitLoss.find(@init_bank_3_pl.id) }
-                its(:amount) { should == @init_bank_3_pl.amount + @init_adj4.amount}
-              end
-
-              describe "unknown_2_pl" do
-                subject { MonthlyProfitLoss.find(@init_unknown_2_pl.id)}
-                its(:amount) { should == @init_unknown_2_pl.amount + @init_adj4.amount }
-              end
+              _login_and_change_month(2008,2)
               
-              describe "unknown_3_pl" do
-                subject { MonthlyProfitLoss.find(@init_unknown_3_pl.id)}
-                its(:amount) { should == @init_unknown_3_pl.amount - @init_adj4.amount }
-              end
+              @init_adj2 = Item.find(items(:adjustment2).id)
+              @init_adj4 = Item.find(items(:adjustment4).id)
+              @init_adj6 = Item.find(items(:adjustment6).id)
+              @init_bank_pl = monthly_profit_losses(:bank1200802)
+              @init_bank_pl = monthly_profit_losses(:bank1200802)
+              @init_unknown_pl = MonthlyProfitLoss.new
+              @init_unknown_pl.month = Date.new(2008,2)
+              @init_unknown_pl.account_id = -1
+              @init_unknown_pl.amount = 100
+              @init_unknown_pl.user_id = users(:user1).id
+              @init_unknown_pl.save!
+
+              xhr :delete, :destroy, :id=>items(:adjustment2).id, :year => 2008, :month => 2
             end
 
-            context "adj6を削除(影響をうけるadjustmentは無い)" do
-              before do
-                _login_and_change_month(2008,3)
+            describe "response" do 
+              subject { response }
+              it { should be_success }
+            end
 
-                # データの初期化
-                @init_adj2 = Item.find(items(:adjustment2).id)
-                @init_adj4 = Item.find(items(:adjustment4).id)
-                @init_adj6 = Item.find(items(:adjustment6).id)
-                @init_bank_2_pl = monthly_profit_losses(:bank1200802)
-                @init_bank_3_pl = monthly_profit_losses(:bank1200803)
-                @init_unknown_2_pl = MonthlyProfitLoss.new
-                @init_unknown_2_pl.month = Date.new(2008,2)
-                @init_unknown_2_pl.account_id = -1
-                @init_unknown_2_pl.amount = 100
-                @init_unknown_2_pl.user_id = users(:user1).id
-                @init_unknown_2_pl.save!
-                @init_unknown_3_pl = MonthlyProfitLoss.new
-                @init_unknown_3_pl.month = Date.new(2008,3)
-                @init_unknown_3_pl.account_id = -1
-                @init_unknown_3_pl.amount = 311
-                @init_unknown_3_pl.user_id = users(:user1).id
-                @init_unknown_3_pl.save!
+            describe "specified item(adjustment2)" do
+              subject { Item.find_by_id(@init_adj2.id) }
+              it {should be_nil}
+            end
 
-                xhr :delete, :destroy, :id => items(:adjustment6).id, :year => 2008, :month => 2
-              end
+            describe "adjustment4 which is next future adjustment" do
+              subject { Item.find(@init_adj4.id) }
+              its(:amount) { should == @init_adj4.amount + @init_adj2.amount }
+            end
 
-              describe "response" do
-                subject { response }
-                it { should be_success }
-                its(:content_type) { should == "text/javascript" }
-              end
+            describe "bank_pl amount" do
+              subject { MonthlyProfitLoss.find(@init_bank_pl.id) }
+              its(:amount) {should == @init_bank_pl.amount }
+            end
 
-              describe "the adj before last adj(adj2)" do
-                subject {Item.find_by_id(@init_adj2.id)}
-                its(:amount) { should == @init_adj2.amount }
-              end
-
-              describe "the last adj(adj4)" do
-                subject {Item.find_by_id(@init_adj4.id)}
-                its(:amount) { should == @init_adj4.amount }
-              end
-
-              describe "specified adjustment(adj6)" do
-                subject {Item.find_by_id(@init_adj6.id)}
-                it { should be_nil }
-              end
-
-              describe "bank_2_pl" do
-                subject { MonthlyProfitLoss.find(@init_bank_2_pl.id) }
-                its(:amount) { should == @init_bank_2_pl.amount }
-              end
-
-              describe "bank_3_pl" do
-                subject { MonthlyProfitLoss.find(@init_bank_3_pl.id) }
-                its(:amount) { should == @init_bank_3_pl.amount - @init_adj6.amount }
-              end
-
-              describe "unknown_2" do
-                subject { MonthlyProfitLoss.find(@init_unknown_2_pl.id) }
-                its(:amount) { @init_unknown_2_pl.amount }
-              end
-
-              describe "unknown_3" do
-                subject { MonthlyProfitLoss.find(@init_unknown_3_pl.id) }
-                its(:amount) { @init_unknown_3_pl.amount + @init_adj6.amount }
-              end
+            describe "unknown pl amount" do
+              subject { MonthlyProfitLoss.find(@init_unknown_pl.id) }
+              its(:amount) { should == @init_unknown_pl.amount}
             end
           end
-        end        
+
+          context "adj4を削除。影響をうけるのはadj6と,200802, 200803のm_pl" do 
+            before do
+              _login_and_change_month(2008,2)
+
+              # データの初期化
+              @init_adj2 = Item.find(items(:adjustment2).id)
+              @init_adj4 = Item.find(items(:adjustment4).id)
+              @init_adj6 = Item.find(items(:adjustment6).id)
+              @init_bank_2_pl = monthly_profit_losses(:bank1200802)
+              @init_bank_3_pl = monthly_profit_losses(:bank1200803)
+              @init_unknown_2_pl = monthly_profit_losses(:unknown200802)
+              @init_unknown_3_pl = monthly_profit_losses(:unknown200803)
+
+              # 正常処理 (adj4を削除。影響をうけるのはadj6と,200802, 200803のm_pl)
+              xhr :delete, :destroy, :id => items(:adjustment4).id, :year => 2008, :month => 2
+            end
+
+            describe "response" do
+              subject { response }
+              it { should be_success }
+              its(:content_type) { should == "text/javascript" }
+            end
+
+            describe "previous adjustment(adj2)" do
+              subject { Item.find_by_id(@init_adj2.id) }
+              its(:amount) { should be == @init_adj2.amount }
+            end
+
+            describe "specified adjustment(adj4)" do
+              subject { Item.find_by_id(@init_adj4.id) }
+              it { should be_nil }
+            end
+
+            describe "next adjustment(adj6" do
+              subject { Item.find_by_id(@init_adj6.id) }
+              its(:amount) {should == @init_adj6.amount + @init_adj4.amount}
+            end
+
+            describe "bank_2_pl" do
+              subject { MonthlyProfitLoss.find(@init_bank_2_pl.id) }
+              its(:amount) { should == @init_bank_2_pl.amount - @init_adj4.amount}
+            end
+
+            describe "bank_3_pl" do
+              subject { MonthlyProfitLoss.find(@init_bank_3_pl.id) }
+              its(:amount) { should == @init_bank_3_pl.amount + @init_adj4.amount}
+            end
+
+            describe "unknown_2_pl" do
+              subject { MonthlyProfitLoss.find(@init_unknown_2_pl.id)}
+              its(:amount) { should == @init_unknown_2_pl.amount + @init_adj4.amount }
+            end
+            
+            describe "unknown_3_pl" do
+              subject { MonthlyProfitLoss.find(@init_unknown_3_pl.id)}
+              its(:amount) { should == @init_unknown_3_pl.amount - @init_adj4.amount }
+            end
+          end
+
+          context "adj6を削除(影響をうけるadjustmentは無い)" do
+            before do
+              _login_and_change_month(2008,3)
+
+              # データの初期化
+              @init_adj2 = Item.find(items(:adjustment2).id)
+              @init_adj4 = Item.find(items(:adjustment4).id)
+              @init_adj6 = Item.find(items(:adjustment6).id)
+              @init_bank_2_pl = monthly_profit_losses(:bank1200802)
+              @init_bank_3_pl = monthly_profit_losses(:bank1200803)
+              @init_unknown_2_pl = MonthlyProfitLoss.new
+              @init_unknown_2_pl.month = Date.new(2008,2)
+              @init_unknown_2_pl.account_id = -1
+              @init_unknown_2_pl.amount = 100
+              @init_unknown_2_pl.user_id = users(:user1).id
+              @init_unknown_2_pl.save!
+              @init_unknown_3_pl = MonthlyProfitLoss.new
+              @init_unknown_3_pl.month = Date.new(2008,3)
+              @init_unknown_3_pl.account_id = -1
+              @init_unknown_3_pl.amount = 311
+              @init_unknown_3_pl.user_id = users(:user1).id
+              @init_unknown_3_pl.save!
+
+              xhr :delete, :destroy, :id => items(:adjustment6).id, :year => 2008, :month => 2
+            end
+
+            describe "response" do
+              subject { response }
+              it { should be_success }
+              its(:content_type) { should == "text/javascript" }
+            end
+
+            describe "the adj before last adj(adj2)" do
+              subject {Item.find_by_id(@init_adj2.id)}
+              its(:amount) { should == @init_adj2.amount }
+            end
+
+            describe "the last adj(adj4)" do
+              subject {Item.find_by_id(@init_adj4.id)}
+              its(:amount) { should == @init_adj4.amount }
+            end
+
+            describe "specified adjustment(adj6)" do
+              subject {Item.find_by_id(@init_adj6.id)}
+              it { should be_nil }
+            end
+
+            describe "bank_2_pl" do
+              subject { MonthlyProfitLoss.find(@init_bank_2_pl.id) }
+              its(:amount) { should == @init_bank_2_pl.amount }
+            end
+
+            describe "bank_3_pl" do
+              subject { MonthlyProfitLoss.find(@init_bank_3_pl.id) }
+              its(:amount) { should == @init_bank_3_pl.amount - @init_adj6.amount }
+            end
+
+            describe "unknown_2" do
+              subject { MonthlyProfitLoss.find(@init_unknown_2_pl.id) }
+              its(:amount) { @init_unknown_2_pl.amount }
+            end
+
+            describe "unknown_3" do
+              subject { MonthlyProfitLoss.find(@init_unknown_3_pl.id) }
+              its(:amount) { @init_unknown_3_pl.amount + @init_adj6.amount }
+            end
+          end
+        end
       end
     end
   end
