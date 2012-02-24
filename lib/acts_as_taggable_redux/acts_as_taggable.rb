@@ -8,7 +8,7 @@ module ActiveRecord
       module ClassMethods
         def acts_as_taggable(options = {})
           has_many :taggings, :as => :taggable, :dependent => :destroy, :include => :tag
-          has_many :tags, :through => :taggings, :order => 'LOWER(tags.name) asc', :select => "DISTINCT tags.*"
+          has_many :tags, :through => :taggings, :order => 'tags.name'
 
           after_save :update_tags
 
@@ -44,8 +44,8 @@ module ActiveRecord
                         "LEFT OUTER JOIN #{Tag.table_name} #{table_name}_tags ON #{table_name}_tags.id = #{table_name}_taggings.tag_id",
             :conditions => conditions,
             :group  =>  group,
-            :offset => options[:offset], # added by kaz
-            :limit => options[:limit], #added by kaz
+            :offset => options[:offset],
+            :limit => options[:limit],
             :order => options[:order]
           }
 

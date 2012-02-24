@@ -8,7 +8,7 @@ module ActiveRecord
       module ClassMethods
         def acts_as_tagger(options = {})
           has_many :taggings
-          has_many :tags, :through => :taggings, :select => "DISTINCT #{Tag.table_name}.*", :order => "LOWER(name) asc"
+          has_many :tags, :through => :taggings, :select => "DISTINCT #{Tag.table_name}.*,LOWER(#{Tag.table_name}.name) as l_name ", :order => "l_name"
 
           extend ActiveRecord::Acts::Tagger::SingletonMethods
           include ActiveRecord::Acts::Tagger::InstanceMethods
