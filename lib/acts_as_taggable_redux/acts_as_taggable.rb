@@ -117,14 +117,13 @@ AND #{Tagging.table_name}.tag_id = #{Tag.table_name}.id",
         end
 
         def update_tags
+          @new_user_id ||= self.try(:user_id)
           if @new_tag_list
             Tag.transaction do
-              unless @new_user_id
-                taggings.destroy_all
+              if @new_user_id
+                taggings.where(user_id: @new_user_id).destroy_all
               else
-                taggings.find(:all, :conditions => "user_id = #{@new_user_id}").each do |tagging|
-                  tagging.destroy
-                end
+                taggings.destroy_all
               end
 
               Tag.parse(@new_tag_list).each do |name|
