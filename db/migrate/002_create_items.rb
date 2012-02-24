@@ -1,7 +1,7 @@
 class CreateItems < ActiveRecord::Migration
   def self.up
         create_table(:items, {}) {|table|
-                table.column :user_id,	:string
+                table.column :user_id,	:integer
                 table.column :name,	:string
 		table.column :type_id,	:integer
 		table.column :from_account_id,	:integer
