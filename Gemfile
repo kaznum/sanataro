@@ -15,8 +15,6 @@ group :development, :test do
   gem "fabrication"
   unless ENV['TRAVIS']
     gem 'capistrano'
-    gem "libnotify"
-    gem "rb-inotify"
 
     gem 'linecache19', '0.5.13'
     gem 'ruby-debug-base19', '0.11.26'
