@@ -9,15 +9,6 @@ gem 'rails', '3.2.1'
 # gem 'unicorn'
 
 
-# To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
-# gem 'ruby-debug'
-# Bundle gems for the local environment. Make sure to
-# put test-only gems in this group so their generators
-# and rake tasks are available in development mode:
-# group :development, :test do
-#   gem 'webrat'
-# end
-
 group :development, :test do
   gem "rspec-rails"
   gem "launchy"
@@ -75,3 +66,4 @@ gem 'jquery-rails'
 gem 'settingslogic'
 gem 'coffee-filter'
 gem "therubyracer"
+
