@@ -7,8 +7,13 @@ class Admin::UsersController < ApplicationController
 
   private
   def authenticate
+    if ENV['ADMIN_USER'].blank? || ENV['ADMIN_PASSWORD'].blank?
+      redirect_to login_url
+      return false
+    end
+    
     authenticate_or_request_with_http_basic do |username, password|
-      username == 'admin' && password == 'ha-dogei'
+      username == ENV['ADMIN_USER'] && password == ENV['ADMIN_PASSWORD']
     end
   end    
 
