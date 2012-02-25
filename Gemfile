@@ -51,7 +51,7 @@ end
 platforms :ruby do
   gem "mysql2"
 #  gem 'sqlite3-ruby', :require => 'sqlite3'
-#  gem 'pg'
+  gem 'pg'
 end
 
 group :assets do
