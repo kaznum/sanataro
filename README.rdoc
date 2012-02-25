@@ -23,7 +23,7 @@ built with Ruby on Rails.
 * DB : 
   * MySQL(adapter mysql2)
   * SQLite3
-  * PostgreSQL (heroku available)
+  * PostgreSQL (Heroku available. Demo: http://sanataro.heroku.com/ )
 * Gem: See Gemfiles
 * Recommend: Passenger and Webserver such as Apache
 
