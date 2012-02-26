@@ -37,14 +37,17 @@ built with Ruby on Rails.
 * `rake db:seed' if you use 'demo' user (password: demo123).
 * `rails s'
 * Access http://localhost:3000/ with your favorite web browser.
-
-== Caution
-* http(s)://<your URL>/admin/users lists the account names which have been registered, but this page has no authentication logic. Please limit the users by web server or Rails mechanism who can access this page or remove the file "app/controllers/admin/users_controller.rb".
+* Some other settings are in config/environments/*.rb and config/application.yml
+  * http://<your machine>/admin/users has basic authentication. Credential username and
+    password can be setup by ADMIN_USER and ADMIN_PASSWORD in environment variables or
+    production's admin_user and admin_password settings in config/application.yml (see
+    development setting).
 
 == FIXME / TODO
-This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0, 3.1 to 3.2 escalatorily, so there are lots of points of old fashion expressions to be fixed.
+This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0, 3.1 to 3.2 escalatorily,
+so there are lots of points of old fashion expressions to be fixed.
 * Fixture dependency should be removed and replaced it with Fabrication.
-* Now, there is no view spec and cucumber feature.
+* Now, there is almost no view spec and cucumber feature.
 * There are some RESTful rule violation in some controllers.(ex. MainController)
 
 == Credit
