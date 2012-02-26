@@ -7,14 +7,28 @@ class Admin::UsersController < ApplicationController
 
   private
   def authenticate
-    if ENV['ADMIN_USER'].blank? || ENV['ADMIN_PASSWORD'].blank?
-      redirect_to login_url
+    admin_user, admin_password = get_correct_credential
+    if admin_user.nil? || admin_password.nil?
+      render :nothing => true, :status => :not_implemented
       return false
     end
     
     authenticate_or_request_with_http_basic do |username, password|
-      username == ENV['ADMIN_USER'] && password == ENV['ADMIN_PASSWORD']
+      username == admin_user && password == admin_password
     end
-  end    
+  end
 
+  def get_correct_credential
+    admin_user =  ENV['ADMIN_USER'].presence
+    admin_password = ENV['ADMIN_PASSWORD'].presence
+
+    begin
+      admin_user ||= Settings.admin_user
+      admin_password ||= Settings.admin_password
+    rescue Settingslogic::MissingSetting
+      admin_user = admin_password = nil
+    end
+
+    [admin_user, admin_password]
+  end
 end

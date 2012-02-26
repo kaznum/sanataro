@@ -17,11 +17,12 @@ defaults: &defaults
 development:
   <<: *defaults
   item_list_count: 100
+  admin_user: "admin"
+  admin_password: "password"
 
 test:
   <<: *defaults
-
+  
 production:
   <<: *defaults
   item_list_count: 200
-
