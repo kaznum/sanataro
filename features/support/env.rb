@@ -122,5 +122,5 @@ end
 
 ## end of codes for transactional fixtures
 
-Capybara.default_wait_time = 2
+Capybara.default_wait_time = 5
 
