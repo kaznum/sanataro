@@ -122,5 +122,9 @@ end
 
 ## end of codes for transactional fixtures
 
-Capybara.default_wait_time = 2
+if ENV['TRAVIS']
+  Capybara.default_wait_time = 10
+else
+  Capybara.default_wait_time = 2
+end
 
