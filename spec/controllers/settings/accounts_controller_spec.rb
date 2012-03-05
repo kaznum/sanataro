@@ -198,9 +198,8 @@ describe Settings::AccountsController do
   
   describe "destroy" do
     before do
-      @dummy = Account.create!(:name => 'hogehoge', :account_type => 'account',
-                              :order_no => 100,
-                              :user_id => users(:user1).id)
+      @dummy = users(:user1).accounts.create!(:name => 'hogehoge', :account_type => 'account',
+                                              :order_no => 100)
     end
     context "before login" do
       before do 
@@ -216,7 +215,6 @@ describe Settings::AccountsController do
       before do
         login
       end
-
      
       context "when method is xhr delete," do
         context "when params[:id] is not correct" do

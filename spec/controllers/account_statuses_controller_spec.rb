@@ -30,7 +30,7 @@ describe AccountStatusesController do
 
       describe "@account_statuses" do
         before do
-          Item.create!(:user_id => users(:user1).id, :from_account_id => -1, :to_account_id => accounts(:bank1).id, :amount => -100, :action_date => Date.today, :name => 'unknown')
+          users(:user1).items.create!(:from_account_id => -1, :to_account_id => accounts(:bank1).id, :amount => -100, :action_date => Date.today, :name => 'unknown')
           xhr :get, :show
         end
         

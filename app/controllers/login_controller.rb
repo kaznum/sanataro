@@ -121,26 +121,26 @@ class LoginController < ApplicationController
     else
       user.deliver_signup_complete
       user.update_attributes!(:active => true)
-      account1 = Account.create(:user_id => user.id, :name => '財布', :order_no => 10, :account_type => 'account')
-      account2 = Account.create(:user_id => user.id, :name => '銀行A', :order_no => 20, :account_type => 'account')
-      account3 = Account.create(:user_id => user.id, :name => '銀行B', :order_no => 30, :account_type => 'account')
-      account4_cr = Account.create(:user_id => user.id, :name => 'クレジットカード', :order_no => 40, :account_type => 'account')
+      account1 = user.accounts.create(:name => '財布', :order_no => 10, :account_type => 'account')
+      account2 = user.accounts.create(:name => '銀行A', :order_no => 20, :account_type => 'account')
+      account3 = user.accounts.create(:name => '銀行B', :order_no => 30, :account_type => 'account')
+      account4_cr = user.accounts.create(:name => 'クレジットカード', :order_no => 40, :account_type => 'account')
       
-      income1 = Account.create(:user_id => user.id, :name => '給与', :order_no => 10, :account_type => 'income')
-      income2 = Account.create(:user_id => user.id, :name => '賞与', :order_no => 20, :account_type => 'income')
-      income3 = Account.create(:user_id => user.id, :name => '雑収入', :order_no => 30, :account_type => 'income')
+      income1 = user.accounts.create(:name => '給与', :order_no => 10, :account_type => 'income')
+      income2 = user.accounts.create(:name => '賞与', :order_no => 20, :account_type => 'income')
+      income3 = user.accounts.create(:name => '雑収入', :order_no => 30, :account_type => 'income')
       
-      outgo1 = Account.create(:user_id => user.id, :name => '食費', :order_no => 10, :account_type => 'outgo')
-      outgo2 = Account.create(:user_id => user.id, :name => '光熱費', :order_no => 20, :account_type => 'outgo')
-      outgo3 = Account.create(:user_id => user.id, :name => '住居費', :order_no => 30, :account_type => 'outgo')
-      outgo4 = Account.create(:user_id => user.id, :name => '美容費', :order_no => 40, :account_type => 'outgo')
-      outgo5 = Account.create(:user_id => user.id, :name => '衛生費', :order_no => 50, :account_type => 'outgo')
-      outgo6 = Account.create(:user_id => user.id, :name => '雑費', :order_no => 60, :account_type => 'outgo')
+      outgo1 = user.accounts.create(:name => '食費', :order_no => 10, :account_type => 'outgo')
+      outgo2 = user.accounts.create(:name => '光熱費', :order_no => 20, :account_type => 'outgo')
+      outgo3 = user.accounts.create(:name => '住居費', :order_no => 30, :account_type => 'outgo')
+      outgo4 = user.accounts.create(:name => '美容費', :order_no => 40, :account_type => 'outgo')
+      outgo5 = user.accounts.create(:name => '衛生費', :order_no => 50, :account_type => 'outgo')
+      outgo6 = user.accounts.create(:name => '雑費', :order_no => 60, :account_type => 'outgo')
       
-      credit_relation = CreditRelation.create(:user_id => user.id, :credit_account_id => account4_cr.id, :payment_account_id => account3.id, :settlement_day => 25, :payment_month => 2, :payment_day => 4)
+      credit_relation = user.credit_relations.create(:credit_account_id => account4_cr.id, :payment_account_id => account3.id, :settlement_day => 25, :payment_month => 2, :payment_day => 4)
       
-      item_income = Item.create(:user => user, :user_id => user.id, :name => 'サンプル収入(消してかまいません)', :from_account_id => income3.id, :to_account_id => account1.id, :amount => 1000, :action_date => today)
-      item_outgo = Item.create(:user => user, :user_id => user.id, :name => 'サンプル(消してかまいません)', :from_account_id => account1.id, :to_account_id => outgo1.id, :amount => 250, :action_date => today, :tag_list => 'タグもOK')
+      item_income = user.items.create(:name => 'サンプル収入(消してかまいません)', :from_account_id => income3.id, :to_account_id => account1.id, :amount => 1000, :action_date => today)
+      item_outgo = user.items.create(:name => 'サンプル(消してかまいません)', :from_account_id => account1.id, :to_account_id => outgo1.id, :amount => 250, :action_date => today, :tag_list => 'タグもOK')
       
       render :layout => 'entries'
     end
@@ -165,7 +165,8 @@ class LoginController < ApplicationController
     elsif set_autologin == "1"
       key = _secret_key
       _store_cookies(user.login, key, is_only_add)
-      AutologinKey.create!(:user_id => user.id, :autologin_key => key)
+      user.autologin_keys.create!(:autologin_key => key)
+      
     else
       _clear_cookies
     end

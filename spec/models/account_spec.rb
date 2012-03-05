@@ -2,10 +2,9 @@
 require 'spec_helper'
 
 describe Account do
-  
+  fixtures :users
   before do
     @valid_params = {
-      :user_id => 1,
       :name => "aaaaa",
       :account_type => "account",
       :order_no => 1,
@@ -14,7 +13,7 @@ describe Account do
   
   context "when create" do
     before  do
-      @account = Account.new(@valid_params)
+      @account = users(:user1).accounts.new(@valid_params)
     end
     
     it "保存できること" do
@@ -100,7 +99,7 @@ describe Account do
     context "when bgcolor is exist," do
       context "and bgcolor does not have #," do
         before do
-          @acc = Account.new(@valid_params)
+          @acc = users(:user1).accounts.new(@valid_params)
           @acc.bgcolor = 'ff0f1f'
           @retval = @acc.save
         end
@@ -113,7 +112,7 @@ describe Account do
 
       context "and bgcolor has #," do
         before do
-          @acc = Account.new(@valid_params)
+          @acc = users(:user1).accounts.new(@valid_params)
           @acc.bgcolor = '#ff0f1f'
           @retval = @acc.save
         end
@@ -130,7 +129,7 @@ describe Account do
     
     context "when bgcolor is exist but wrong" do
       before do 
-        @acc = Account.new(@valid_params)
+        @acc = users(:user1).accounts.new(@valid_params)
         @acc.bgcolor = 'f0f2fg'
         @retval = @acc.save
       end
@@ -146,7 +145,7 @@ describe Account do
 
     context "when order_no is nil" do
       before do 
-        @acc = Account.new(@valid_params)
+        @acc = users(:user1).accounts.new(@valid_params)
         @acc.order_no = nil
         @retval = @acc.save
       end
@@ -208,14 +207,12 @@ describe Account do
   describe "#credit_due_date" do
     before do
       @credit_params = {
-        user_id: 1,
         name: "credit",
         account_type: "account",
         order_no: 1
       }
 
       @bank_params = {
-        user_id: 1,
         name: "bank",
         account_type: "account",
         order_no: 10,
@@ -225,12 +222,11 @@ describe Account do
         settlement_day: 10,
         payment_month: 2,
         payment_day: 4,
-        user_id: 1,
       }
 
-      @credit = Account.create!(@credit_params)
-      @bank = Account.create!(@bank_params)
-      @relation = CreditRelation.create!(@relation_params.merge(credit_account_id: @credit.id, payment_account_id: @bank.id))
+      @credit = users(:user1).accounts.create!(@credit_params)
+      @bank = users(:user1).accounts.create!(@bank_params)
+      @relation = users(:user1).credit_relations.create!(@relation_params.merge(credit_account_id: @credit.id, payment_account_id: @bank.id))
     end
 
     context "when action_date is before the settlemnt_date," do
@@ -264,5 +260,4 @@ describe Account do
       end
     end
   end
-  
 end

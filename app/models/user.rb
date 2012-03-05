@@ -1,10 +1,12 @@
 class User < ActiveRecord::Base
-  acts_as_tagger
+  attr_protected :login
   attr_accessor :password_plain, :password_confirmation
+  acts_as_tagger
   has_many :items
   has_many :monthly_profit_losses
   has_many :accounts
   has_many :credit_relations
+  has_many :autologin_keys
 
   validate :validates_password_confirmation
   validates_presence_of :login

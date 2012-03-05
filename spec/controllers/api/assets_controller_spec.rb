@@ -72,17 +72,17 @@ describe Api::AssetsController do
         before do
           Account.destroy_all
           @user = users(:user1)
-          account1 = Account.create!(:user_id => @user.id, :name => "その1", :active => true, :account_type => 'account', :order_no => 10)
-          account2 = Account.create!(:user_id => @user.id, :name => "その2", :active => true, :account_type => 'income', :order_no => 20)
-          account3 = Account.create!(:user_id => @user.id, :name => "その3", :active => true, :account_type => 'account', :order_no => 30)
-          account4 = Account.create!(:user_id => @user.id, :name => "その4", :active => true, :account_type => 'account', :order_no => 40)
+          account1 = users(:user1).accounts.create!(:name => "その1", :active => true, :account_type => 'account', :order_no => 10)
+          account2 = users(:user1).accounts.create!(:name => "その2", :active => true, :account_type => 'income', :order_no => 20)
+          account3 = users(:user1).accounts.create!(:name => "その3", :active => true, :account_type => 'account', :order_no => 30)
+          account4 = users(:user1).accounts.create!(:name => "その4", :active => true, :account_type => 'account', :order_no => 40)
           
           
-          MonthlyProfitLoss.create!(:user_id => @user.id, :month => Date.new(1999,5), :account_id => account1.id, :amount => -300 )
-          MonthlyProfitLoss.create!(:user_id => @user.id, :month => Date.new(1988,6), :account_id => account1.id, :amount => -100 )
-          MonthlyProfitLoss.create!(:user_id => @user.id, :month => Date.new(1999,1), :account_id => account1.id, :amount => 900 )
-          MonthlyProfitLoss.create!(:user_id => @user.id, :month => Date.new(1999,1), :account_id => account3.id, :amount => 900 )
-          MonthlyProfitLoss.create!(:user_id => @user.id, :month => Date.new(1998,3), :account_id => account4.id, :amount => -200 )
+          users(:user1).monthly_profit_losses.create!(:month => Date.new(1999,5), :account_id => account1.id, :amount => -300 )
+          users(:user1).monthly_profit_losses.create!(:month => Date.new(1988,6), :account_id => account1.id, :amount => -100 )
+          users(:user1).monthly_profit_losses.create!(:month => Date.new(1999,1), :account_id => account1.id, :amount => 900 )
+          users(:user1).monthly_profit_losses.create!(:month => Date.new(1999,1), :account_id => account3.id, :amount => 900 )
+          users(:user1).monthly_profit_losses.create!(:month => Date.new(1998,3), :account_id => account4.id, :amount => -200 )
 
           
         end

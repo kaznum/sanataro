@@ -1,18 +1,17 @@
 require 'spec_helper'
 
 describe User do
-	fixtures :users, :items, :accounts, :credit_relations
-
+  fixtures :users, :items, :accounts, :credit_relations
 
   describe "create" do
     before do
       valid_attrs = {
-        :login => 'test_1',
         :password_plain => '123-4_56',
         :password_confirmation => '123-4_56',
         :email => 'test@hoge.example.com'
       }
       @user = User.new(valid_attrs)
+      @user.login = 'test_1'
     end
 
     context "when all attributes are valid" do 
