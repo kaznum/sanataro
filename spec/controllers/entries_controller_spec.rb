@@ -190,7 +190,7 @@ describe EntriesController do
 
           context "after changing filter, access with filter_account_id nil" do 
             before do
-              @non_bank1_item = Item.create!(:user_id => users(:user1).id, :name => "not bank1 entry", :action_date => Date.new(2008,2,15), :from_account_id => accounts(:income2).id, :to_account_id => accounts(:outgo3).id, :amount => 1000)
+              @non_bank1_item = users(:user1).items.create!(:name => "not bank1 entry", :action_date => Date.new(2008,2,15), :from_account_id => accounts(:income2).id, :to_account_id => accounts(:outgo3).id, :amount => 1000)
               session[:filter_account_id].should == accounts(:bank1).id
               xhr :get, :index, :filter_account_id => "", :year => '2008', :month => '2'
             end

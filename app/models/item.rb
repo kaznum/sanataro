@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 class Item < ActiveRecord::Base
   acts_as_taggable
+  attr_protected :user_id
 
   belongs_to :user
   belongs_to :parent_item, :class_name => "Item", :foreign_key => 'parent_id'

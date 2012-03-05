@@ -51,6 +51,7 @@ module Kakeibo3
       g.test_framework      :rspec, :fixture => true
       g.fixture_replacement :fabrication
     end
+    config.active_record.mass_assignment_sanitizer = :strict
   end
 end
 

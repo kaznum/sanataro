@@ -5,7 +5,6 @@ describe CreditRelation do
 
   before do
     @valid_attrs = {
-      :user_id => users(:user1).id,
       :credit_account_id => accounts(:bank21).id,
       :payment_account_id => accounts(:bank1).id,
       :settlement_day => 25,
@@ -18,7 +17,7 @@ describe CreditRelation do
     describe "create successfully" do 
       before do
         @init_count = CreditRelation.count
-        @cr = CreditRelation.new(@valid_attrs)
+        @cr = users(:user1).credit_relations.new(@valid_attrs)
         @cr.save
       end
 
@@ -42,7 +41,7 @@ describe CreditRelation do
         @init_count = CreditRelation.count
         @invalid_attrs = @valid_attrs.clone
         @invalid_attrs[:payment_account_id] = @valid_attrs[:credit_account_id]
-        @cr = CreditRelation.new(@invalid_attrs)
+        @cr = users(:user1).credit_relations.new(@invalid_attrs)
         @retval = @cr.save
       end
 
@@ -60,7 +59,7 @@ describe CreditRelation do
         @init_count = CreditRelation.count
         @invalid_attrs = @valid_attrs.clone
         @invalid_attrs[:payment_account_id] = @valid_attrs[:credit_account_id]
-        @cr = CreditRelation.new(@invalid_attrs)
+        @cr = users(:user1).credit_relations.new(@invalid_attrs)
         @retval = @cr.save
       end
 
@@ -81,7 +80,7 @@ describe CreditRelation do
           @invalid_attrs[:payment_day] = 15
           @invalid_attrs[:settlement_day] = 20
           
-          @cr = CreditRelation.new(@invalid_attrs)
+          @cr = users(:user1).credit_relations.new(@invalid_attrs)
           @retval = @cr.save
         end
 
@@ -102,7 +101,7 @@ describe CreditRelation do
           @invalid_attrs[:payment_day] = 20
           @invalid_attrs[:settlement_day] = 15
           
-          @cr = CreditRelation.new(@invalid_attrs)
+          @cr = users(:user1).credit_relations.new(@invalid_attrs)
           @retval = @cr.save
         end
         subject { @retval }
@@ -117,7 +116,7 @@ describe CreditRelation do
         before do 
           @invalid_attrs = @valid_attrs.clone
           @invalid_attrs[:settlement_day] = 0
-          @cr = CreditRelation.new(@invalid_attrs)
+          @cr = users(:user1).credit_relations.new(@invalid_attrs)
           @retval = @cr.save
         end
 
@@ -134,7 +133,7 @@ describe CreditRelation do
         before do 
           @invalid_attrs = @valid_attrs.clone
           @invalid_attrs[:settlement_day] = 29
-          @cr = CreditRelation.new(@invalid_attrs)
+          @cr = users(:user1).credit_relations.new(@invalid_attrs)
           @retval = @cr.save
         end
 
@@ -153,7 +152,7 @@ describe CreditRelation do
         before do 
           @invalid_attrs = @valid_attrs.clone
           @invalid_attrs[:payment_month] = -1
-          @cr = CreditRelation.new(@invalid_attrs)
+          @cr = users(:user1).credit_relations.new(@invalid_attrs)
           @retval = @cr.save
         end
 
@@ -173,7 +172,7 @@ describe CreditRelation do
         before do 
           @invalid_attrs = @valid_attrs.clone
           @invalid_attrs[:payment_day] = 29
-          @cr = CreditRelation.new(@invalid_attrs)
+          @cr = users(:user1).credit_relations.new(@invalid_attrs)
           @retval = @cr.save
         end
 
@@ -194,7 +193,7 @@ describe CreditRelation do
         @init_count = CreditRelation.count
         @invalid_attrs = @valid_attrs.clone
         @invalid_attrs[:payment_day] = 99
-        @cr = CreditRelation.new(@invalid_attrs)
+        @cr = users(:user1).credit_relations.new(@invalid_attrs)
         @retval = @cr.save
       end
 

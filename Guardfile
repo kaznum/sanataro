@@ -1,6 +1,3 @@
-# A sample Guardfile
-# More info at https://github.com/guard/guard#readme
-
 guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAILS_ENV' => 'test' }, :test_unit => false do
   watch('config/application.rb')
   watch('config/environment.rb')
@@ -20,9 +17,10 @@ guard 'rspec', :version => 2, :cli => "--drb --color --format progress" do
   watch(%r{^app/controllers/(.+)_(controller)\.rb})  { |m| ["spec/routing/#{m[1]}_routing_spec.rb", "spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb", "spec/acceptance/#{m[1]}_spec.rb"] }
 end
 
-guard 'cucumber',:cli => "--drb --no-profile --color --format progress --strict" do
-  watch(%r{^features/.+\.feature$})
-  watch(%r{^features/support/.+$})                      { 'features' }
-  watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'features' }
-end
+# The --drb option doesn't work with attr_protected in model/Item.rb.
+#guard 'cucumber',:cli => "--drb --no-profile --color --format progress --strict" do
+#  watch(%r{^features/.+\.feature$})
+#  watch(%r{^features/support/.+$})                      { 'features' }
+#  watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'features' }
+#end
 

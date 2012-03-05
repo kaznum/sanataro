@@ -15,10 +15,10 @@ class Settings::AccountsController < ApplicationController
   end
 
   def create
-    @account = Account.new(:name => params[:account_name],
-                           :order_no => params[:order_no],
-                           :account_type => params[:account_type],
-                           :user_id => @user.id)
+    @account = @user.accounts.new(:name => params[:account_name],
+                                  :order_no => params[:order_no],
+                                  :account_type => params[:account_type])
+                           
     @account.save!
     redirect_js_to settings_accounts_url(:account_type => @account.account_type)
   rescue ActiveRecord::RecordInvalid
