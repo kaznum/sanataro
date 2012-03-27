@@ -4,8 +4,8 @@ require 'spec_helper'
 describe Settings::AccountsController do
   fixtures :all
 
-  describe "index" do
-    context "before login" do
+  describe "#index" do
+    context "before login," do
       before do
         get :index, :account_type => nil
       end
@@ -13,12 +13,12 @@ describe Settings::AccountsController do
       it_should_behave_like "Unauthenticated Access"
     end
 
-    context "after login" do
+    context "after login," do
       before do
         login
       end
       
-      context "params[:account_type] is invalid" do
+      context "when params[:account_type] is invalid," do
         before do
           get :index, :account_type => 'not_exist'
         end
@@ -53,21 +53,21 @@ describe Settings::AccountsController do
         end
       end
       
-      context "params[:account_type] is nil" do
+      context "when params[:account_type] is nil," do
         before do
           get :index, :account_type => nil
         end
         it_should_behave_like "account_type = 'account'"
       end
 
-      context "params[:account_type] == 'account'" do
+      context "when params[:account_type] == 'account'," do
         before do
           get :index, :account_type => 'account'
         end
         it_should_behave_like "account_type = 'account'"
       end
 
-      context "params[:account_type] == 'outgo'" do
+      context "when params[:account_type] == 'outgo'," do
         before do
           get :index, :account_type => 'outgo'
         end
@@ -75,7 +75,7 @@ describe Settings::AccountsController do
         it_should_behave_like "account_type = 'outgo'"
       end
 
-      context "params[:account_type] == 'income'" do
+      context "when params[:account_type] == 'income'," do
         before do
           get :index, :account_type => 'income'
         end
@@ -85,9 +85,9 @@ describe Settings::AccountsController do
     end
   end
 
-  describe "create" do
+  describe "#create" do
 
-    context "before login" do
+    context "before login," do
       before do
         xhr :post, :create, :account_type => 'account', :account_name => 'hogehoge', :order_no => '10' 
       end
@@ -95,13 +95,13 @@ describe Settings::AccountsController do
       it_should_behave_like "Unauthenticated Access by xhr"
     end
 
-    context "after login" do
+    context "after login," do
       before do
         login
       end
       
-     context "via xhr" do
-        context "with valid params" do 
+     context "via xhr," do
+        context "with valid params," do 
           before do
             @before_count = Account.count
             @before_bgcolors_count = User.find(session[:user_id]).get_categorized_accounts[:account_bgcolors].size
@@ -124,7 +124,7 @@ describe Settings::AccountsController do
           end
         end
         
-        context "with invalid params" do 
+        context "with invalid params," do 
           before do
             @before_count = Account.count
             @before_bgcolors_count = User.find(session[:user_id]).get_categorized_accounts[:account_bgcolors].size
@@ -150,7 +150,7 @@ describe Settings::AccountsController do
     end
   end
 
-  describe "edit" do
+  describe "#edit" do
     context "before login," do
       before do
         xhr :get, :edit, :id => accounts(:bank1).id
@@ -167,7 +167,7 @@ describe Settings::AccountsController do
 
       context "when method is xhr get," do
 
-        context "with invalid params[:id]" do
+        context "with invalid params[:id]," do
           before do
             xhr :get, :edit
           end
@@ -196,12 +196,12 @@ describe Settings::AccountsController do
     end
   end
   
-  describe "destroy" do
+  describe "#destroy" do
     before do
       @dummy = users(:user1).accounts.create!(:name => 'hogehoge', :account_type => 'account',
                                               :order_no => 100)
     end
-    context "before login" do
+    context "before login," do
       before do 
         xhr :delete, :destroy, :id => @dummy.id
       end
@@ -217,7 +217,7 @@ describe Settings::AccountsController do
       end
      
       context "when method is xhr delete," do
-        context "when params[:id] is not correct" do
+        context "when params[:id] is not correct," do
           before do
             xhr :delete, :destroy, :id => 31432412
           end
@@ -280,7 +280,7 @@ describe Settings::AccountsController do
     
   end
   
-  describe "update" do
+  describe "#update" do
     context "before login," do
       before do
         xhr :put, :update, :id => accounts(:bank1).id, :account_name => 'hogehoge', :order_no => '10', :bgcolor => '222222'
@@ -296,7 +296,7 @@ describe Settings::AccountsController do
 
       context "with xhr put method," do
 
-        context "with invalid params[:id]" do
+        context "with invalid params[:id]," do
           before do 
             xhr :put, :update, :id => 4314321, :account_name => 'hogehoge', :order_no => '100', :bgcolor => "cccccc", :use_bgcolor => '1'
           end
@@ -386,12 +386,11 @@ describe Settings::AccountsController do
             its(:bgcolor) { should be == @orig_account.bgcolor }
           end
         end
-        
       end
     end
   end
   
-  describe "show" do
+  describe "#show" do
     context "before login," do
       before do
         xhr :get, :show, :id => accounts(:bank1).id
@@ -405,7 +404,7 @@ describe Settings::AccountsController do
         login
       end
       
-      context "accessed by xhr get," do
+      context "when accessed by xhr get," do
         context "with valid params," do 
           before do
             xhr :get, :show, :id => accounts(:bank1).id
@@ -441,8 +440,6 @@ describe Settings::AccountsController do
           it { should redirect_by_js_to login_url }
         end
       end
-      
     end
   end
-  
 end

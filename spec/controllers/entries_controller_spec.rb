@@ -59,7 +59,7 @@ describe EntriesController do
         
       end
 
-      context "when year and month are not specified" do
+      context "when year and month are not specified," do
         before do
           get :index
         end
@@ -67,14 +67,14 @@ describe EntriesController do
       end
       
       context "when year and month are specified," do
-        context "when year and month is today's ones" do 
+        context "when year and month is today's ones," do 
           before do
             get :index, :year => Date.today.year, :month => Date.today.month
           end
           it_should_behave_like "no params"
         end
 
-        context "when year and month is specified but they are not today's ones" do 
+        context "when year and month is specified but they are not today's ones," do 
           before do
             get :index, :year => '2008', :month => '2'
           end
@@ -151,7 +151,7 @@ describe EntriesController do
       end
       
       context "with filter change," do
-        context "with valid filter_account_id" do 
+        context "with valid filter_account_id," do 
           shared_examples_for "filtered index" do 
             describe "response" do
               subject { response }
@@ -188,7 +188,7 @@ describe EntriesController do
             it_should_behave_like "filtered index"
           end
 
-          context "after changing filter, access with filter_account_id nil" do 
+          context "after changing filter, access with filter_account_id nil," do 
             before do
               @non_bank1_item = users(:user1).items.create!(:name => "not bank1 entry", :action_date => Date.new(2008,2,15), :from_account_id => accounts(:income2).id, :to_account_id => accounts(:outgo3).id, :amount => 1000)
               session[:filter_account_id].should == accounts(:bank1).id
@@ -388,7 +388,7 @@ describe EntriesController do
         _login_and_change_month(2008,2)
       end
 
-      context "without any params" do
+      context "without any params," do
         before do
           xhr :get, :new
         end
@@ -405,7 +405,7 @@ describe EntriesController do
         end
       end
 
-      context "with year and month in params" do
+      context "with year and month in params," do
         before do
           xhr :get, :new, :year => '2008', :month => '5'
         end

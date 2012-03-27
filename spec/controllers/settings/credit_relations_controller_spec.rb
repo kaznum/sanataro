@@ -4,7 +4,7 @@ require 'spec_helper'
 describe Settings::CreditRelationsController do
   fixtures :users, :credit_relations
 
-  describe "index" do
+  describe "#index" do
     context "before login," do
       before do
         User.should_receive(:find).with(nil).and_raise(ActiveRecord::RecordNotFound.new)
@@ -22,7 +22,7 @@ describe Settings::CreditRelationsController do
         login
       end
 
-      context "access successfully, " do
+      context "when access successfully, " do
         before do
           mock_user = users(:user1)
           mock_credit_relations = double
@@ -41,7 +41,7 @@ describe Settings::CreditRelationsController do
     end
   end
 
-  describe "show" do
+  describe "#show" do
     context "before login," do
       before do
         xhr :get, :show, :id=>credit_relations(:cr1).id
@@ -55,7 +55,7 @@ describe Settings::CreditRelationsController do
         login
       end
 
-      context "successful access," do
+      context "when successful access," do
         before do
           @mock_user = users(:user1)
           User.should_receive(:find).with(@mock_user.id).and_return(@mock_user)
@@ -106,7 +106,7 @@ describe Settings::CreditRelationsController do
     end
   end
 
-  describe "edit" do
+  describe "#edit" do
     context "before login," do
       before do
         xhr :get, :edit, :id => 123456
@@ -165,7 +165,7 @@ describe Settings::CreditRelationsController do
     end
   end
 
-  describe "destroy" do
+  describe "#destroy" do
     context "before login," do
       before do
         xhr :delete, :destroy, :id => 123456

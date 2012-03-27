@@ -6,8 +6,8 @@ describe MainController do
   
   fixtures :items, :accounts, :credit_relations, :monthly_profit_losses
 
-  describe "reload_config" do
-    context "before login" do
+  describe "#reload_config" do
+    context "before login," do
       before do
         get :reload_config
       end
@@ -15,7 +15,7 @@ describe MainController do
       it_should_behave_like "Unauthenticated Access"
     end
 
-    context "after login" do
+    context "after login," do
       before do
         login
         get :reload_config
@@ -28,8 +28,8 @@ describe MainController do
     end
   end
 
-  describe "show_parent_child_item" do
-    context "before login" do
+  describe "#show_parent_child_item" do
+    context "before login," do
       before do
         xhr :get, :show_parent_child_item, :id => 1, :type => 'child'
       end
@@ -37,11 +37,11 @@ describe MainController do
       it_should_behave_like "Unauthenticated Access by xhr"
     end
 
-    context "after login" do
+    context "after login," do
       before do
         login
       end
-      context "without id" do
+      context "without id," do
         before do
           xhr :get, :show_parent_child_item, :type => 'child'
         end
@@ -49,7 +49,7 @@ describe MainController do
         it_should_behave_like "Unauthenticated Access by xhr"
       end
 
-      context "with id which doesn't exist" do
+      context "with id which doesn't exist," do
         before do
           xhr :get, :show_parent_child_item, :type => 'child', :id => 10000
         end
@@ -57,7 +57,7 @@ describe MainController do
         it_should_behave_like "Unauthenticated Access by xhr"
       end
 
-      context "with id which is valid" do
+      context "with id which is valid," do
         before do
           xhr :post, :change_month, :year=>'2008', :month=>'2', :current_action=>'items'
           create_entry(:action_date => '2008/2/10', 
@@ -75,7 +75,7 @@ describe MainController do
         end
       end
 
-      context "with :type => 'parent' even it should not be done" do
+      context "with :type => 'parent' even it should not be done," do
         before do
           xhr :post, :change_month, :year=>'2008', :month=>'2', :current_action=>'items'
           create_entry(:action_date => '2008/2/10',
@@ -92,7 +92,7 @@ describe MainController do
     end
   end
 
-  describe "change_month" do
+  describe "#change_month" do
     context "before login," do
       before do 
         xhr :post, :change_month, :year=>'2008', :month=>'2', :current_action=>'index'
@@ -106,7 +106,7 @@ describe MainController do
         login
       end
 
-      context "when month is invalid" do
+      context "when month is invalid," do
         before do
           xhr :post, :change_month, :year=>'2008', :month=>'13', :current_action=>'index'
         end
@@ -115,7 +115,7 @@ describe MainController do
         it { should redirect_by_js_to current_entries_url }
       end
 
-      context "when month is correct" do
+      context "when month is correct," do
         before do
           xhr :post, :change_month, :year=>'2008', :month=>'2', :current_action=>'index'
         end

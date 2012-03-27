@@ -4,8 +4,8 @@ require 'spec_helper'
 describe LoginController do
   fixtures :users, :autologin_keys
 
-  describe "index" do
-    context "belore login" do
+  describe "#index" do
+    context "belore login," do
       before do
         get :index
       end
@@ -23,7 +23,7 @@ describe LoginController do
     end
   end
   
-  describe "login" do
+  describe "#login" do
     shared_examples_for "render login" do
       subject {response}
       it {should be_success }
@@ -109,7 +109,7 @@ describe LoginController do
     end
   end
   
-  describe "do_login" do
+  describe "#do_login" do
     context "with invalid password," do
       before do
         xhr :post, :do_login, :login=>'user1', :password=>'user1', :autologin=>nil, :only_add=>nil
@@ -128,7 +128,7 @@ describe LoginController do
       end
     end
 
-    context "without autologin and only_add" do
+    context "without autologin and only_add," do
       before do
         xhr :post, :do_login, :login=>'user1', :password=>'123456', :autologin=>nil, :only_add=>nil
       end
@@ -151,7 +151,7 @@ describe LoginController do
       end
     end
     
-    describe "AutologinKey.cleanup is called," do 
+    context "when AutologinKey.cleanup is called," do 
       it "should send AutologinKey.cleanup," do
         AutologinKey.should_receive(:cleanup).with(users(:user1).id)
         xhr :post, :do_login, :login => users(:user1).login, :password=>'123456', :autologin => "1", :only_add=>'1'
@@ -187,7 +187,7 @@ describe LoginController do
       end
     end
 
-    context "with autologin = 1 and only_add = 1 in params" do
+    context "with autologin = 1 and only_add = 1 in params," do
       before do
         xhr :post, :do_login, :login=>'user1', :password=>'123456', :autologin=>'1', :only_add=>'1'
       end
@@ -218,8 +218,8 @@ describe LoginController do
 
   end
 
-  describe "do_logout" do
-    context "before login" do
+  describe "#do_logout" do
+    context "before login," do
       before do
         @previous_count_of_autologin_keys = AutologinKey.count
         get :do_logout
@@ -236,8 +236,8 @@ describe LoginController do
       end
     end
 
-    context "after login" do
-      context "without autologin in cookies" do 
+    context "after login," do
+      context "without autologin in cookies," do 
         before do
           login
           get :do_logout
@@ -255,7 +255,7 @@ describe LoginController do
         end
       end
 
-      context "with autologin in cookies" do 
+      context "with autologin in cookies," do 
         before do
           login
           login_user_id = users(:user1).id
@@ -280,7 +280,7 @@ describe LoginController do
     end
   end
 
-  describe "create_user" do
+  describe "#create_user" do
     before do
       get :create_user
     end
@@ -291,8 +291,8 @@ describe LoginController do
   end
 
 
-  describe "do_create_user" do
-    context "params are all valid," do
+  describe "#do_create_user" do
+    context "when params are all valid," do
       before do
         xhr :post, :do_create_user, :login=>'hogehoge', :password_plain=>'hagehage', :password_confirmation=>'hagehage', :email => 'email@example.com'
       end
@@ -327,7 +327,7 @@ describe LoginController do
     end
   end
 
-  describe "confirmation" do
+  describe "#confirmation" do
     context "when params are correct," do 
       before do
         mock_user = mock_model(User)

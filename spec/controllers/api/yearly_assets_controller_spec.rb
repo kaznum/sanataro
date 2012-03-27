@@ -4,7 +4,7 @@ require 'spec_helper'
 describe Api::YearlyAssetsController do
     fixtures :users
   
-  describe "show" do
+  describe "#show" do
     context "before login," do
       before do
         get :show, id: "200802", format: :json
@@ -57,7 +57,7 @@ describe Api::YearlyAssetsController do
           end
         end
         
-        context "there is some assets information" do
+        context "when there is some assets information," do
           before do
             Account.destroy_all
 
