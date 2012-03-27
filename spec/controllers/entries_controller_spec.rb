@@ -882,11 +882,10 @@ describe EntriesController do
             end
           end
 
-          context "adj6を削除(影響をうけるadjustmentは無い)" do
+          context "when destroying adj6 which effects no item/adjustment," do
             before do
               _login_and_change_month(2008,3)
 
-              # データの初期化
               @init_adj2 = Item.find(items(:adjustment2).id)
               @init_adj4 = Item.find(items(:adjustment4).id)
               @init_adj6 = Item.find(items(:adjustment6).id)
