@@ -195,9 +195,6 @@ class EntriesController < ApplicationController
     end
   end
 
-  #
-  # exec adding item.
-  #
   def _create_entry
     Item.transaction do
       item, affected_item_ids =
@@ -238,9 +235,6 @@ class EntriesController < ApplicationController
     end
   end
 
-  #
-  # 入力機能のみ表示(iPhone等でアクセスした場合)
-  #
   def _new_simple
     separated_accounts = @user.get_categorized_accounts
     #
