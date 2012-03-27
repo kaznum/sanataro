@@ -2,7 +2,8 @@
 class Settings::AccountsController < ApplicationController
   include ActionView::Helpers::NumberHelper
   before_filter :required_login
- 
+  before_filter :_retrieve_account_or_redirect!, only: [:edit, :update, :destroy, :show]
+  
   def index
     @account_type = params[:account_type].presence || 'account'
     unless ['account', 'outgo', 'income'].include?(@account_type)
@@ -25,32 +26,19 @@ class Settings::AccountsController < ApplicationController
     render_js_error :id => "add_warning", :errors => @account.errors, :default_message => t("error.input_is_invalid")
   end
   
-  def edit
-    @account = @user.accounts.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_js_to login_url
-  end
-
   def update
-    id  = params[:id]
     name  = params[:account_name]
     order_no  = params[:order_no]
     bgcolor = params[:use_bgcolor] == '1' ?  params[:bgcolor].presence : nil
 
-    @account = @user.accounts.find(id)
     @account.update_attributes!(:name => name, :order_no => order_no, :bgcolor => bgcolor)
     redirect_js_to settings_accounts_url(:account_type => @account.account_type)
-
-  rescue ActiveRecord::RecordNotFound
-    redirect_js_to login_url
   rescue ActiveRecord::RecordInvalid
     render_js_error :id => "account_#{@account.id}_warning", :errors => @account.errors, :default_message => t('error.input_is_invalid')
   end
 
   def destroy
-    id = params[:id]
-    account = @user.accounts.find(id)
-
+    id = @account.id
     item = @user.items.where("from_account_id = ? or to_account_id = ?", id, id).first
     if item
       render_js_error :id => "add_warning", :default_message => t('error.already_used_account') + 
@@ -64,15 +52,15 @@ class Settings::AccountsController < ApplicationController
       render_js_error :id => "add_warning", :default_message => t("error.already_has_relation_to_credit")
       return
     end
-    account.destroy
-    @account = account
-  rescue ActiveRecord::RecordNotFound
-    redirect_js_to login_url
+    @account.destroy
   end
   
-  def show
+  private
+  def _retrieve_account_or_redirect!
     @account = @user.accounts.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     redirect_js_to login_url
+    return
   end
+  
 end

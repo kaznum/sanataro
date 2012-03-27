@@ -274,7 +274,7 @@ describe Settings::CreditRelationsController do
             mock_cr.as_null_object
             mock_exception = ActiveRecord::RecordInvalid.new(mock_cr)
             mock_exception.should_receive(:message).and_return("aaa , bbb, ccc ")
-            @mock_crs.should_receive(:create!).with(:credit_account_id => 1, :payment_account_id => 2, :settlement_day => 99, :payment_month => 1, :payment_day => 4).and_raise(mock_exception)
+            @mock_crs.should_receive(:create!).with(:credit_account_id => "1", :payment_account_id => "2", :settlement_day => "99", :payment_month => "1", :payment_day => "4").and_raise(mock_exception)
             @mock_crs.should_not_receive(:all)
             
             xhr :post, :create, :credit_account_id => 1, :payment_account_id => 2, :settlement_day => 99, :payment_month => 1, :payment_day => 4
@@ -295,7 +295,7 @@ describe Settings::CreditRelationsController do
         context "with valid params," do
           before do 
             @mock_user.should_receive(:credit_relations).at_least(1).and_return(@mock_crs)
-@mock_crs.should_receive(:create!).with(:credit_account_id => 1, :payment_account_id => 2, :settlement_day => 99, :payment_month => 1, :payment_day => 4).and_return(@mock_cr)
+@mock_crs.should_receive(:create!).with(:credit_account_id => "1", :payment_account_id => "2", :settlement_day => "99", :payment_month => "1", :payment_day => "4").and_return(@mock_cr)
             @mock_crs.should_receive(:all).and_return(@mock_crs)
             xhr :post, :create, :credit_account_id => 1, :payment_account_id => 2, :settlement_day => 99, :payment_month => 1, :payment_day => 4
           end
@@ -378,7 +378,7 @@ describe Settings::CreditRelationsController do
           before do
             @mock_cr = mock_model(CreditRelation, :id => 1)
             @mock_crs.should_receive(:find).with("1").and_return(@mock_cr)
-            @mock_cr.should_receive(:update_attributes!).with(:credit_account_id => 2,:payment_account_id => 3, :settlement_day => 25, :payment_month => 2, :payment_day => 10).and_raise(ActiveRecord::RecordInvalid.new(@mock_cr))
+            @mock_cr.should_receive(:update_attributes!).with(:credit_account_id => "2",:payment_account_id => "3", :settlement_day => "25", :payment_month => "2", :payment_day => "10").and_raise(ActiveRecord::RecordInvalid.new(@mock_cr))
             @mock_errors = [double, double, double]
             @mock_cr.should_receive(:errors).and_return(@mock_errors)
             
@@ -402,7 +402,7 @@ describe Settings::CreditRelationsController do
           before do 
             @mock_cr = mock_model(CreditRelation, :id => 1)
             @mock_crs.should_receive(:find).with("1").and_return(@mock_cr)
-            @mock_cr.should_receive(:update_attributes!).with(:credit_account_id => 2,:payment_account_id => 3, :settlement_day => 25, :payment_month => 2, :payment_day => 10).and_return(true)
+            @mock_cr.should_receive(:update_attributes!).with(:credit_account_id => "2",:payment_account_id => "3", :settlement_day => "25", :payment_month => "2", :payment_day => "10").and_return(true)
             
             xhr :put, :update, :id => 1, :credit_account_id => 2,:payment_account_id => 3, :settlement_day => 25, :payment_month => 2, :payment_day => 10
           end

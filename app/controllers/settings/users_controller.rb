@@ -8,7 +8,8 @@ class Settings::UsersController < ApplicationController
   
   def update
     @user_to_change = User.find(@user.id)
-    @user_to_change.update_attributes!(email: params[:email], password_plain: params[:password_plain],
+    @user_to_change.update_attributes!(email: params[:email],
+                                       password_plain: params[:password_plain],
                                        password_confirmation: params[:password_confirmation])
     session[:user_id] = @user.id
   rescue ActiveRecord::RecordInvalid => ex

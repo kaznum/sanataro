@@ -2,33 +2,27 @@
 class BalanceSheetsController < ApplicationController
   before_filter :required_login
   before_filter :set_categorized_accounts, :only => [:show]
+  before_filter :_redirect_if_id_is_blank!, :only => [:show]
   
   #
   # balance sheet
   #
   def index
-    mpls = @user.monthly_profit_losses.where("month <= ?", displaying_month)
+    @bs = _snapshot_of_month(displaying_month)
 
-    @bs = { }
-    @bs.default = 0
-    mpls.each do |mpl|
-      @bs[mpl.account_id] += mpl.amount
-    end
-
-    @accounts = @user.accounts.order("order_no").where(:account_type => 'account')
+    @accounts = @user.accounts.account.order("order_no")
+    
     @bs_plus = { }
     @bs_minus = { }
-
     @plus = []
     @minus = []
-    @total_plus = 0
-    @total_minus = 0
+    @total_plus = @total_minus = 0
     @accounts.each do |a|
       if @bs[a.id] < 0
-        @minus.push [a, @bs[a.id]]
+        @minus << [a, @bs[a.id]]
         @total_minus += @bs[a.id]
       else
-        @plus.push [a, @bs[a.id]]
+        @plus << [a, @bs[a.id]]
         @total_plus += @bs[a.id]
       end
     end
@@ -37,17 +31,32 @@ class BalanceSheetsController < ApplicationController
   rescue ArgumentError => ex # 日付変換等のエラーがあるため
     redirect_to current_entries_path
   end
-  
+
   def show
+    @account_id = params[:id].to_i
+    from_date = displaying_month
+    to_date = displaying_month.end_of_month
+    
+    @remain_amount, @items = Item.collect_account_history(@user, @account_id, from_date, to_date)
+  end
+
+  private
+  def _snapshot_of_month(month)
+    mpls = @user.monthly_profit_losses.where("month <= ?", month)
+    bs = {}
+    bs.default = 0
+    mpls.each do |mpl|
+      bs[mpl.account_id] += mpl.amount
+    end
+    bs
+  end
+  
+  def _redirect_if_id_is_blank!
     if params[:id].blank?
       redirect_js_to login_url
       return
     else
-      @account_id = params[:id].to_i
-      from_date = displaying_month
-      to_date = displaying_month.end_of_month
-      
-      @remain_amount, @items = Item.collect_account_history(@user, @account_id, from_date, to_date)
+      true
     end
   end
 end
