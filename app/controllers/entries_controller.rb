@@ -35,12 +35,12 @@ class EntriesController < ApplicationController
   
   def _index_with_tag(tag)
     @items = _get_items(nil, false, tag, nil)
-    render ('index_with_tag')
+    render 'index_with_tag'
   end
   
   def _index_with_mark(mark)
     @items = _get_items(nil, false, nil, mark)
-    render ('index_with_mark')
+    render 'index_with_mark'
   end
   
   def _default_action_date(month_to_display)
@@ -195,9 +195,6 @@ class EntriesController < ApplicationController
     end
   end
 
-  #
-  # exec adding item.
-  #
   def _create_entry
     Item.transaction do
       item, affected_item_ids =
@@ -238,9 +235,6 @@ class EntriesController < ApplicationController
     end
   end
 
-  #
-  # 入力機能のみ表示(iPhone等でアクセスした場合)
-  #
   def _new_simple
     separated_accounts = @user.get_categorized_accounts
     #

@@ -4,8 +4,8 @@ require 'spec_helper'
 describe Api::BudgetsController do
   fixtures :users
   
-  describe "show" do
-    context "before login" do
+  describe "#show" do
+    context "before login," do
       before do
         get :show, :id => 200802, :format => :json
       end
@@ -13,12 +13,12 @@ describe Api::BudgetsController do
       it_should_behave_like "Unauthenticated Access"
     end
     
-    context "after login" do
+    context "after login," do
       before do
         login
       end
       
-      context "id is not specified" do
+      context "when id is not specified," do
         before do
           get :show, :format => :json
         end
@@ -26,7 +26,7 @@ describe Api::BudgetsController do
         it_should_behave_like "Unauthenticated Access"
       end
       
-      context "id's length is not 6 digit" do
+      context "when id's length is not 6 digit," do
         before do
           get :show, :id => '21222', :format => :json
         end
@@ -34,7 +34,7 @@ describe Api::BudgetsController do
         it_should_behave_like "Unauthenticated Access"
       end
       
-      context "id's initial char is not 0" do
+      context "when id's initial char is not 0," do
         before do
           get :show, :id => '021222', :format => :json
         end
@@ -42,7 +42,7 @@ describe Api::BudgetsController do
         it_should_behave_like "Unauthenticated Access"
       end
       
-      context "id has non-numeric char" do
+      context "when id has non-numeric char," do
         before do
           get :show, :id => '2008a2', :format => :json
         end
@@ -50,15 +50,14 @@ describe Api::BudgetsController do
         it_should_behave_like "Unauthenticated Access"
       end
       
-      context "id does not mean correct year-month" do
-        before do
-          get :show, :id => '200815', :format => :json
+      context "when id does not mean correct year-month," do
+        before do          get :show, :id => '200815', :format => :json
         end
         
         it_should_behave_like "Unauthenticated Access"
       end
       
-      context "There is no data to send" do
+      context "When there is no data to send," do
         before do
           Account.destroy_all
           get :show, :id => '200301', :format => :json
@@ -68,7 +67,7 @@ describe Api::BudgetsController do
         its(:body) { should == "[]"}
       end
       
-      context "There are data to send." do
+      context "When there are data to send," do
         before do
           Account.destroy_all
           @user = users(:user1)
@@ -85,7 +84,7 @@ describe Api::BudgetsController do
           @mpl_unknown = @user.monthly_profit_losses.create(:month => Date.new(1999,1), :account_id => -1, :amount => -800 )
         end
         
-        context "budget_type is not specified." do
+        context "when budget_type is not specified," do
           before do 
             get :show, :id => '199901', :format => :json
           end
@@ -99,7 +98,7 @@ describe Api::BudgetsController do
           end
         end
         
-        context "budget_type is 'outgo'" do
+        context "when budget_type is 'outgo'," do
           before do
             @mpl_unknown.update_attributes(amount: 500)
 

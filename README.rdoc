@@ -56,6 +56,8 @@ so there are lots of points of old fashion expressions to be fixed.
 * License: MIT License.  http://opensource.org/licenses/mit-license.php
 
 == Dependency
+Thank you for the developers of The following libraries.
+(These are bundled with, so you don't need additional installation.)
 * Farbtastic 1.2
   * Copyright (c) Steven Wittens
   * GPL v2 (GPL Document is in doc directory)

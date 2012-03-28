@@ -4,8 +4,8 @@ describe BalanceSheetsController do
   include FakedUser
   
   fixtures :users, :items, :accounts, :credit_relations, :monthly_profit_losses
-  describe "index" do 
-    context "when without login" do
+  describe "#index" do 
+    context "when without login," do
       before do
         get :index
       end
@@ -13,11 +13,11 @@ describe BalanceSheetsController do
       it_should_behave_like "Unauthenticated Access"
     end
 
-    context "when logged in" do
+    context "when logged in," do
       before do
         login
       end
-      context "without month in params" do
+      context "without month in params," do
         before do
           get :index
         end
@@ -41,7 +41,7 @@ describe BalanceSheetsController do
         end
       end
       
-      context "without month in params and which has minus value in an account" do
+      context "without month in params and which has minus value in an account," do
         before do
           users(:user1).monthly_profit_losses.create(:month => Date.new(2006,12,1), :account_id => 1, :amount => -2000000)
           get :index
@@ -66,7 +66,7 @@ describe BalanceSheetsController do
         end
       end
 
-      context "with month in params is invalid" do
+      context "with month in params is invalid," do
         before do
           get :index, :year => '2008', :month => '13'
         end
@@ -77,7 +77,7 @@ describe BalanceSheetsController do
         end
       end
 
-      context "with month(2008/2)" do
+      context "with month(2008/2)," do
         before do
           get :index, :year => '2008', :month => '2'
         end
@@ -103,19 +103,19 @@ describe BalanceSheetsController do
     end
   end
 
-  describe "show" do
-    context "without login" do
+  describe "#show" do
+    context "without login," do
       before do
         xhr :get, :show, :id => accounts(:bank1).id
       end
       it_should_behave_like "Unauthenticated Access by xhr"
     end
 
-    context "with login" do
+    context "with login," do
       before do
         login
       end
-      context "without id" do
+      context "without id," do
         before do
           xhr :get, :show, :year => 2008, :month => 2
         end
@@ -123,7 +123,7 @@ describe BalanceSheetsController do
         it_should_behave_like "Unauthenticated Access by xhr"
       end
 
-      context "with year and month in params" do
+      context "with year and month in params," do
         before do
           xhr :get, :show, :id => accounts(:bank1).id.to_s, :year => '2008', :month => '2'
         end
@@ -157,7 +157,7 @@ describe BalanceSheetsController do
         
       end
       
-      context "without year and month in params" do
+      context "without year and month in params," do
         before do
           xhr :get, :show, :id => accounts(:bank1).id.to_s
         end

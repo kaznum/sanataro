@@ -10,7 +10,7 @@ class Admin::UsersController < ApplicationController
     admin_user, admin_password = get_correct_credential
     if admin_user.nil? || admin_password.nil?
       render :nothing => true, :status => :not_implemented
-      return false
+      return
     end
     
     authenticate_or_request_with_http_basic do |username, password|

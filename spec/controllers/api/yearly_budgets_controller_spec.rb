@@ -4,7 +4,7 @@ require 'spec_helper'
 describe Api::YearlyBudgetsController do
   fixtures :users
   
-  describe "show" do
+  describe "#show" do
     context "before login," do
       before do
         get :show, id: "200802", budget_type: "outgo", format: :json
@@ -41,8 +41,8 @@ describe Api::YearlyBudgetsController do
       end
 
       context "when params are valid," do
-        describe "budget_type is outgo," do 
-          context "there is no data to send," do 
+        context "and budget_type is outgo," do 
+          context "and there is no data to send," do 
             before do
               Account.destroy_all
               get :show, id: "200802", budget_type: "outgo", format: :json
@@ -63,7 +63,7 @@ describe Api::YearlyBudgetsController do
             end
           end
 
-          context "there are some data to send," do 
+          context "when there are some data to send," do 
             before do
               Account.destroy_all
 
@@ -114,8 +114,8 @@ describe Api::YearlyBudgetsController do
           end
         end
         
-        describe "budget_type is income," do 
-          context "there is no data to send," do 
+        context "when budget_type is income," do 
+          context "when there is no data to send," do 
             before do
               Account.destroy_all
               MonthlyProfitLoss.destroy_all
@@ -137,7 +137,7 @@ describe Api::YearlyBudgetsController do
             end
           end
 
-          context "there is some data to send," do 
+          context "when there is some data to send," do 
             before do
               Account.destroy_all
               @user = users(:user1)
@@ -185,8 +185,8 @@ describe Api::YearlyBudgetsController do
           end
         end
 
-        describe "budget_type is total," do 
-          context "there is no data to send," do 
+        context "when budget_type is total," do 
+          context "when there is no data to send," do 
             before do
               Account.destroy_all
               MonthlyProfitLoss.destroy_all
@@ -211,7 +211,7 @@ describe Api::YearlyBudgetsController do
               }
             end
           end
-          context "there is some data to send," do 
+          context "when there is some data to send," do 
             before do
               Account.destroy_all
               @user = users(:user1)

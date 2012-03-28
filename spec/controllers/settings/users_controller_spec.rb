@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Settings::UsersController do
   fixtures :users
-  describe "show" do
+  describe "#show" do
     context "before login," do
       before do
         get :show
@@ -31,7 +31,7 @@ describe Settings::UsersController do
     end
   end
 
-  describe "update" do
+  describe "#update" do
     context "before login," do
       before do
         xhr :put, :update, :password_plain=>'1234567', :password_confirmation=>'1234567', :email => 'hogehoge@example.com'

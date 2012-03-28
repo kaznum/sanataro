@@ -6,8 +6,8 @@ describe ProfitLossesController do
   
   fixtures :items, :accounts, :monthly_profit_losses, :credit_relations
 
-  describe "index" do
-    context "not logged in" do
+  describe "#index" do
+    context "when not logged in," do
       before do
         get :index
       end
@@ -15,11 +15,11 @@ describe ProfitLossesController do
       it_should_behave_like "Unauthenticated Access"
     end
 
-    context "when logged in" do
+    context "when logged in," do
       before do
         login
       end
-      context "when month is not specified" do 
+      context "when month is not specified," do 
         before do
           get :index
         end
@@ -40,7 +40,7 @@ describe ProfitLossesController do
         end
       end
       
-      context "when month is invalid" do 
+      context "when month is invalid," do 
         before do
           get :index, :year => '2008', :month => '13'
         end
@@ -100,8 +100,8 @@ describe ProfitLossesController do
     end
   end
 
-  describe "show" do
-    context "when not logged in" do
+  describe "#show" do
+    context "when not logged in," do
       before do
         xhr :get, :show, :id => accounts(:bank1).id, :year => '2008', :month => '2'
       end
@@ -112,11 +112,11 @@ describe ProfitLossesController do
       end
     end
 
-    context "when logged in" do
+    context "when logged in," do
       before do 
         login
       end
-      context "when without id"  do
+      context "when without id,"  do
         before do
           xhr :post, :change_month, :year=>'2008', :month=>'2', :current_action => :index
           xhr :get, :show, :year=>'2008', :month=>'2'
@@ -127,8 +127,8 @@ describe ProfitLossesController do
         end
       end
 
-      context "when correct id is specified" do
-        context "when year, month are specified" do 
+      context "when correct id is specified," do
+        context "when year, month are specified," do 
           before do 
             xhr :post, :change_month, :year=>'2008', :month=>'2', :current_action => :index
             xhr :get, :show, :id=>accounts(:outgo3).id.to_s, :year=>'2008', :month=>'2'
@@ -157,7 +157,7 @@ describe ProfitLossesController do
           end
         end
         
-        context "when year, month are not specified" do
+        context "when year, month are not specified," do
           before do
             xhr :get, :show, :id=>accounts(:outgo3).id.to_s
           end

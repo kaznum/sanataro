@@ -3,7 +3,7 @@ require 'spec_helper'
 describe ConfirmationStatusesController do
   fixtures :all
 
-  describe "show" do 
+  describe "#show" do 
     context "before login," do
       before do
         xhr :get, :show
@@ -29,7 +29,7 @@ describe ConfirmationStatusesController do
     end
   end
   
-  describe "destroy" do 
+  describe "#destroy" do 
     context "before login," do
       before do
         xhr :delete, :destroy
