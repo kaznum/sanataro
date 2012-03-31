@@ -19,6 +19,4 @@ class ConfirmationRequiredsController < ApplicationController
     end
     return false
   end
-
-
 end
