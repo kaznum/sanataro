@@ -4,9 +4,6 @@ class BalanceSheetsController < ApplicationController
   before_filter :set_categorized_accounts, :only => [:show]
   before_filter :_redirect_if_id_is_blank!, :only => [:show]
   
-  #
-  # balance sheet
-  #
   def index
     @bs = _snapshot_of_month(displaying_month)
 
