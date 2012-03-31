@@ -36,7 +36,7 @@ built with Ruby on Rails.
 * `rake db:migrate'
 * `rake db:seed' if you use 'demo' user (password: demo123).
 * `rails s'
-* Access http://localhost:3000/ with your favorite web browser.
+* Visit http://localhost:3000/ using your favorite web browser.
 * Some other settings are in config/environments/*.rb and config/application.yml
   * /admin/users has basic authentication. Credential username and password can
     be setup by ADMIN_USER and ADMIN_PASSWORD in environment variables or
