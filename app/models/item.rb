@@ -238,6 +238,4 @@ class Item < ActiveRecord::Base
     remain_amount = user.monthly_profit_losses.where("month < ?", from_date).where(account_id: account_id).sum('amount')
     [remain_amount, items]
   end
-
-
 end
