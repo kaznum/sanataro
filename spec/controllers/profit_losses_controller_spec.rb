@@ -2,9 +2,7 @@
 require 'spec_helper'
 
 describe ProfitLossesController do
-  include FakedUser
-  
-  fixtures :items, :accounts, :monthly_profit_losses, :credit_relations
+  fixtures :users, :items, :accounts, :monthly_profit_losses, :credit_relations
 
   describe "#index" do
     context "when not logged in," do
