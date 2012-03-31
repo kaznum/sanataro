@@ -49,7 +49,7 @@ class AccountStatusesController < ApplicationController
   end
 
   def unknown_amount_between(from, to)
-    @user.items.where(:from_account_id => -1).action_date_between(from, to).sum(:amount)
+    @user.items.where(from_account_id: -1).action_date_between(from, to).sum(:amount)
   end
 end
 
