@@ -67,5 +67,4 @@ class ProfitLossesController < ApplicationController
       @total_outgo += adjustment_amount
     end
   end
-
 end
