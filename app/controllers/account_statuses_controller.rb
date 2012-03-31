@@ -15,7 +15,7 @@ class AccountStatusesController < ApplicationController
     unknown_total = unknown_amount_between(max_month, max_date)
     unless unknown_total == 0
       unknown_account = Account.new do |a|
-        a.name = '不明'
+        a.name = I18n.t('label.unknown')
         a.order_no = 999999
         a.account_type = unknown_total < 0 ? 'outgo' : 'income'
       end
