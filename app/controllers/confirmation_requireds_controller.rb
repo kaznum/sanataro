@@ -6,7 +6,7 @@ class ConfirmationRequiredsController < ApplicationController
     
     @entry = Item.find(params[:entry_id])
     @entry.update_confirmation_required_of_self_or_parent(params[:confirmation_required])
-  rescue ActiveRecord::RecordNotFound => ex
+  rescue ActiveRecord::RecordNotFound
     redirect_js_to current_entries_url
   end
   
