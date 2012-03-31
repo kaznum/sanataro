@@ -45,7 +45,7 @@ class AccountStatusesController < ApplicationController
   end
   
   def amount_to_last_month(account_id, month)
-    @user.monthly_profit_losses.where("account_id = ? and month < ?", account_id, month).sum(:amount)
+    @user.monthly_profit_losses.where(account_id: account_id).where("month < ?", month).sum(:amount)
   end
 
   def unknown_amount_between(from, to)
