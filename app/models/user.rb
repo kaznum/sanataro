@@ -70,7 +70,6 @@ class User < ActiveRecord::Base
 
     to += tmp_accounts
 
-
     return { :from_accounts => from,
       :to_accounts => to,
       :bank_accounts => bank_accounts,
@@ -80,7 +79,6 @@ class User < ActiveRecord::Base
       :account_ids => account_ids,
       :account_bgcolors => account_bgcolors
     }
-
   end
 
   def deliver_signup_confirmation
@@ -90,5 +88,4 @@ class User < ActiveRecord::Base
   def deliver_signup_complete
     Mailer.signup_complete(self).deliver
   end
-  
 end
