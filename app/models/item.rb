@@ -28,11 +28,9 @@ class Item < ActiveRecord::Base
   before_validation :fill_amount_for_adjustment_if_needed
 
   def fill_amount_for_adjustment_if_needed
-
     if adjustment? && !amount_changed? && action_date && to_account_id && user && adjustment_amount
       asset = user.accounts.asset(user, to_account_id, action_date, id)
       self.amount = adjustment_amount - asset
-      
     end
   end
 
