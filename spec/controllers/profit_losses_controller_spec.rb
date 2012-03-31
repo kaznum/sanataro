@@ -80,7 +80,7 @@ describe ProfitLossesController do
           describe "unknown account in assigned variables" do
             subject { assigns[:account_incomes] }
             it { should be_any { |a| a.id == -1 } }
-            specify { subject.find{ |a| a.id == -1 }.name.should == "不明収入" }
+            specify { subject.find{ |a| a.id == -1 }.name.should == I18n.t("label.unknown_income") }
           end
         end
         
@@ -93,7 +93,7 @@ describe ProfitLossesController do
           describe "unknown account in assigned variables" do
             subject { assigns[:account_outgos] }
             it { should be_any { |a| a.id == -1 } }
-            specify { subject.find{ |a| a.id == -1 }.name.should == "不明支出" }
+            specify { subject.find{ |a| a.id == -1 }.name.should == I18n.t("label.unknown_outgoing") }
           end
         end
       end
