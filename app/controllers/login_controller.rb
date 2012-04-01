@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 class LoginController < ApplicationController
-
   before_filter :required_login, :except=>[:login, :do_login, :create_user, :do_create_user, :do_logout, :confirmation]
 
   def index
@@ -20,9 +19,6 @@ class LoginController < ApplicationController
     end
   end
   
-  #
-  # exec logout
-  #
   def do_logout
     unless session[:user_id].nil?
       autologin_key = cookies[:autologin]
@@ -63,7 +59,6 @@ class LoginController < ApplicationController
     
     user = _get_user_by_login_and_autologin_key(al_params[:login], al_params[:autologin_key])
     if (not user.nil?)
-      # do autologin
       _do_login(user.login, nil, "1", true, al_params[:only_add])
       redirect_to (al_params[:only_add] ? simple_input_path : current_entries_url)
       return true
@@ -84,12 +79,10 @@ class LoginController < ApplicationController
     matched_autologin_key ? user : nil
   end
 
-  # ユーザ作成ページの表示
   def create_user
     render :layout => 'entries'
   end
   
-  # ユーザの生成
   def do_create_user
     @user = User.new do |user|
       user.login = params[:login].strip
@@ -149,9 +142,6 @@ class LoginController < ApplicationController
   
   private
   
-  #
-  # Inner procedure for login
-  #
   def _do_login(login, password, set_autologin, is_autologin=false, is_only_add=false)
     user = User.find_by_login_and_active(login, true)
 
@@ -166,7 +156,6 @@ class LoginController < ApplicationController
       key = _secret_key
       _store_cookies(user.login, key, is_only_add)
       user.autologin_keys.create!(:autologin_key => key)
-      
     else
       _clear_cookies
     end
@@ -209,5 +198,4 @@ class LoginController < ApplicationController
     cookies.delete :autologin
     cookies.delete :only_add
   end
-
 end
