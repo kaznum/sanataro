@@ -7,11 +7,9 @@ class AccountStatusesController < ApplicationController
   
   private
   def _account_status
-    max_date = today.beginning_of_day
+    max_date = today
     max_month = max_date.beginning_of_month
-
     retval = known_account_statuses_between(max_month, max_date)
-
     unknown_total = unknown_amount_between(max_month, max_date)
     unless unknown_total == 0
       unknown_account = Account.new do |a|
