@@ -2,27 +2,24 @@
 require 'spec_helper'
 
 describe AccountStatusesController do
-  include FakedUser
   fixtures :users, :items, :accounts, :monthly_profit_losses
   
-  describe "show" do
-    context "when not logined" do
+  describe "#show" do
+    context "when not logined," do
       specify do
         User.should_receive(:find).with(nil).once.and_raise(ActiveRecord::RecordNotFound)
         xhr :get, :show
       end
     end
 
-    context "when logined" do
+    context "when logined," do
       before do
         login
         xhr :get, :show
       end
 
       describe "response" do
-        before do
-          xhr :get, :show
-        end
+        before { xhr :get, :show }
 
         subject {response}
         it {should render_template("account_statuses/show")}
@@ -43,12 +40,12 @@ describe AccountStatusesController do
         describe "unknown account" do
           it "does exist and amount is 100" do 
             unknown_account = Account.new do |a|
-              a.name = '不明'
+              a.name = I18n.t('label.unknown')
               a.order_no = 999999
               a.account_type = 'outgo'
             end
             outgoes = assigns(:account_statuses)['outgo']
-            matches = outgoes.select { |account, amount| account.name == '不明' }
+            matches = outgoes.select { |account, amount| account.name == I18n.t('label.unknown') }
             matches.should have(1).entry
             matches[0][1].should be == 100
           end
@@ -57,15 +54,15 @@ describe AccountStatusesController do
     end
   end
 
-  describe "destroy" do
-    context "when not logined" do
+  describe "#destroy" do
+    context "when not logined," do
       specify do
         User.should_receive(:find).with(nil).once.and_raise(ActiveRecord::RecordNotFound)
         xhr :delete, :destroy
       end
     end
 
-    context "when logined" do
+    context "when logined," do
       before do
         login
         xhr :delete, :destroy
