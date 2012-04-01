@@ -5,11 +5,10 @@ class CommonUtil
       if str.nil?
         return nil
       end
-
-      return str.to_s.gsub(/,/, '')
+      str.to_s.gsub(/,/, '')
     end
 
-    def check_password(str, encpass)
+    def correct_password?(str, encpass)
       if str.nil? || encpass.nil?
         return false
       else
@@ -17,14 +16,11 @@ class CommonUtil
       end
     end
 
-
-
     def crypt(str)
       return Digest::SHA1.hexdigest(str)
     end
     
     def valid_combined_year_month?(year_month)
-
       if year_month.blank? || year_month !~ /^([1-9][0-9]{3})([0-9]{2})$/
         return false
       end

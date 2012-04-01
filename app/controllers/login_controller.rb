@@ -176,7 +176,7 @@ class LoginController < ApplicationController
   end
 
   def _password_correct?(login, password, user)
-    user && CommonUtil.check_password(login + password, user.password)
+    user && CommonUtil.correct_password?(login + password, user.password)
   end
 
   def _secret_key
