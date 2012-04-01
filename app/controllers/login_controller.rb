@@ -20,9 +20,9 @@ class LoginController < ApplicationController
   end
   
   def do_logout
-    unless session[:user_id].nil?
+    if session[:user_id]
       autologin_key = cookies[:autologin]
-      unless autologin_key.nil?
+      if autologin_key
         k = AutologinKey.matched_key(session[:user_id], autologin_key)
         k.destroy unless k.nil?
       end
@@ -30,12 +30,10 @@ class LoginController < ApplicationController
 
     _clear_user_session
     _clear_cookies
-    
     session[:disable_autologin] = true
 
     redirect_to login_url
   end
-
 
   def login
     if _force_show_login_and_succeeded? || _autologin_and_succeeded?
