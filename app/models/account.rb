@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 class Account < ActiveRecord::Base
+  include ActionView::Helpers::NumberHelper
+  
   attr_protected :user_id
   
   belongs_to :user
@@ -7,6 +9,9 @@ class Account < ActiveRecord::Base
   has_many :credit_relations, foreign_key: :payment_account_id, class_name: "CreditRelation"
 
   before_validation :trim_bgcolor_if_needed
+  before_destroy :error_if_items_exist
+  before_destroy :error_if_credit_relations_exist
+
   
   validates_presence_of :name
   validates_length_of :name, :in =>1..255
@@ -102,5 +107,27 @@ class Account < ActiveRecord::Base
     income = items_scope.where(to_account_id: account_id).sum(:amount)
     income - outgo
   end
+
+  private
+  
+  def error_if_items_exist
+    items_table = Item.arel_table
+    item = Item.where(items_table[:from_account_id].eq(id).or(items_table[:to_account_id].eq(id))).first
+    if item
+      errors[:base] << I18n.t('error.already_used_account') + 
+                 "#{I18n.l(item.action_date)} #{item.name} #{number_to_currency(item.amount)}"
+    end
+    errors.empty?
+  end
+
+  def error_if_credit_relations_exist
+    cr_table = CreditRelation.arel_table
+    credit_rel = CreditRelation.where(cr_table[:credit_account_id].eq(id).or(cr_table[:payment_account_id].eq(id))).first
+    if credit_rel
+      errors[:base] << I18n.t("error.already_has_relation_to_credit")
+    end
+    errors.empty?
+  end
+  
 
 end

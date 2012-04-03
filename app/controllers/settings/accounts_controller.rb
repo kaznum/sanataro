@@ -10,8 +10,8 @@ class Settings::AccountsController < ApplicationController
       redirect_to login_url
       return
     end
+
     @accounts = @user.accounts.where(:account_type => @account_type).order(:order_no).all
-    
     render :layout => 'entries'
   end
 
@@ -37,23 +37,11 @@ class Settings::AccountsController < ApplicationController
   end
 
   def destroy
-    id = @account.id
-    items_table = @user.items.arel_table
-    item = @user.items.where(items_table[:from_account_id].eq(id).or(items_table[:to_account_id].eq(id))).first
-    if item
-      render_js_error :id => "add_warning", :default_message => t('error.already_used_account') + 
-        l(item.action_date) + " " + item.name + " " + 
-        number_to_currency(item.amount)
-      return
-    end
-
-    cr_table = @user.credit_relations.arel_table
-    credit_rel = @user.credit_relations.where(cr_table[:credit_account_id].eq(id).or(cr_table[:payment_account_id].eq(id))).first
-    if credit_rel
-      render_js_error :id => "add_warning", :default_message => t("error.already_has_relation_to_credit")
-      return
-    end
     @account.destroy
+    unless @account.errors.empty?
+      render_js_error id: "add_warning", errors: @account.errors.full_messages
+      return
+    end
   end
   
   private

@@ -249,7 +249,7 @@ describe Settings::AccountsController do
           
           describe "response" do 
             subject { response }
-            it { should render_js_error :id => "add_warning", :default_message => /^すでに収支情報に使用されているため、削除できません。/ }
+            it { should render_js_error :id => "add_warning" }
           end
           
           describe "Account.count" do
@@ -262,12 +262,13 @@ describe Settings::AccountsController do
           before do
             Item.destroy_all
             @before_count = Account.count
-            xhr :delete, :destroy, :id => accounts(:bank1).id
+            @account = accounts(:bank1)
+            xhr :delete, :destroy, :id => @account.id
           end
           
-          describe "response" do 
+          describe "response" do
             subject { response }
-            it { should render_js_error :id => "add_warning", :default_message => "クレジットカード支払い情報に関連づけられているため、削除できません。" }
+            it { should render_js_error :id => "add_warning", :errors => ["クレジットカード支払い情報に関連づけられているため、削除できません。"] }
           end
           
           describe "Account.count" do
