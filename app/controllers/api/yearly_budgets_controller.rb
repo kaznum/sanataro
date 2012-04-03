@@ -36,7 +36,6 @@ class Api::YearlyBudgetsController < ApplicationController
   
   def _get_income_or_outgo_data(budget_type, date_since)
     accounts = @user.accounts.where(account_type: budget_type).order("order_no").all
-    # accounts << Account.new(:id => -1, :name => 'Unknown') # doesn't work well.(id is ignored)
     accounts << Account.new {|a|
       a.id = -1
       a.name = 'Unknown'
@@ -77,9 +76,9 @@ class Api::YearlyBudgetsController < ApplicationController
       ret
     }
     
-		{ outgo: { label: '支出', data: results[:outgos] },
-      income: { label: '収入', data: results[:incomes] },
-      total: { label: '収支', data: results[:totals] }}
+    { outgo: { label: I18n.t('label.outgoing'), data: results[:outgos] },
+      income: { label: I18n.t('label.income'), data: results[:incomes] },
+      total: { label: I18n.t('label.net'), data: results[:totals] }}
   end
 
   def _monthly_total(month, outgo_ids, income_ids)

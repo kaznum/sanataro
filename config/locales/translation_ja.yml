@@ -81,6 +81,7 @@ ja:
     total_of_outgoing: "支出合計"
     income: "収入"
     outgoing: "支出"
+    net: "収支"
     unknown: "不明"
     confirmation_required: "要確認(★)"
     yearly_income: "収入(年間)"

@@ -28,7 +28,7 @@ class Api::YearlyAssetsController < ApplicationController
       data
     }
 
-    results["total"] = { label: "合計",
+    results["total"] = { label: I18n.t("label.total"),
       data: _json_total_assets(accounts.map(&:id), date_since) }
 
     results
