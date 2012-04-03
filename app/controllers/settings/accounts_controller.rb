@@ -39,7 +39,8 @@ class Settings::AccountsController < ApplicationController
 
   def destroy
     id = @account.id
-    item = @user.items.where("from_account_id = ? or to_account_id = ?", id, id).first
+    items_table = @user.items.arel_table
+    item = @user.items.where(items_table[:from_account_id].eq(id).or(items_table[:to_account_id].eq(id))).first
     if item
       render_js_error :id => "add_warning", :default_message => t('error.already_used_account') + 
         l(item.action_date) + " " + item.name + " " + 
@@ -47,7 +48,8 @@ class Settings::AccountsController < ApplicationController
       return
     end
 
-    credit_rel = @user.credit_relations.where("credit_account_id = ? or payment_account_id = ?", id, id).first
+    cr_table = @user.credit_relations.arel_table
+    credit_rel = @user.credit_relations.where(cr_table[:credit_account_id].eq(id).or(cr_table[:payment_account_id].eq(id))).first
     if credit_rel
       render_js_error :id => "add_warning", :default_message => t("error.already_has_relation_to_credit")
       return
@@ -62,5 +64,4 @@ class Settings::AccountsController < ApplicationController
     redirect_js_to login_url
     return
   end
-  
 end
