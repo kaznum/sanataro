@@ -19,7 +19,6 @@ class Settings::AccountsController < ApplicationController
     @account = @user.accounts.new(:name => params[:account_name],
                                   :order_no => params[:order_no],
                                   :account_type => params[:account_type])
-                           
     @account.save!
     redirect_js_to settings_accounts_url(:account_type => @account.account_type)
   rescue ActiveRecord::RecordInvalid
@@ -29,7 +28,7 @@ class Settings::AccountsController < ApplicationController
   def update
     name  = params[:account_name]
     order_no  = params[:order_no]
-    bgcolor = params[:use_bgcolor] == '1' ?  params[:bgcolor].presence : nil
+    bgcolor = params[:use_bgcolor] == '1' ? params[:bgcolor].presence : nil
 
     @account.update_attributes!(:name => name, :order_no => order_no, :bgcolor => bgcolor)
     redirect_js_to settings_accounts_url(:account_type => @account.account_type)

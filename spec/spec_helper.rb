@@ -154,8 +154,6 @@ unless defined?(CustomSharedExamplesHelper)
   end
 end
 
-
-
 module FakedUser
   def login_user
     @mock_user ||= mock_model(User,
@@ -175,6 +173,4 @@ module FakedUser
       end
     end
   end
-
-
 end
