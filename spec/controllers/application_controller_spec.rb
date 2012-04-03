@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe ApplicationController do
-  describe "change_month" do
+  describe "#change_month" do
     context "with no-xhr get," do
       context "with valid year, month, action," do
         before do
