@@ -35,6 +35,8 @@ describe Api::YearlyAssetsController do
       context "when params are valid," do
         context "there is no assets information" do
           before do
+            Item.destroy_all
+            CreditRelation.destroy_all
             Account.destroy_all
             get :show, id: "199902", format: :json
           end
@@ -59,6 +61,8 @@ describe Api::YearlyAssetsController do
         
         context "when there is some assets information," do
           before do
+            Item.destroy_all
+            CreditRelation.destroy_all
             Account.destroy_all
 
             @user = users(:user1)

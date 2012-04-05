@@ -56,16 +56,15 @@ class ProfitLossesController < ApplicationController
     unknown_account = Account.new{ |a| a.id = -1 }
     
     if adjustment_amount < 0
-      unknown_account.name = "不明収入"
+      unknown_account.name = I18n.t("label.unknown_income")
       @account_incomes << unknown_account
       @total_income -= adjustment_amount
     end
 
     if adjustment_amount > 0
-      unknown_account.name = "不明支出"
+      unknown_account.name = I18n.t("label.unknown_outgoing")
       @account_outgos << unknown_account
       @total_outgo += adjustment_amount
     end
   end
-
 end

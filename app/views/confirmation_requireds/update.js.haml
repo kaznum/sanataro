@@ -1,1 +1,1 @@
-! $("#item_#{@entry.id}").html("#{escape_javascript(render partial: "entries/item", locals: { :event_item => @entry })}")
+! $("#item_#{@entry.id}").html("#{j(render partial: "entries/item", locals: { :event_item => @entry })}")

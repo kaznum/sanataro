@@ -44,6 +44,8 @@ describe Api::YearlyBudgetsController do
         context "and budget_type is outgo," do 
           context "and there is no data to send," do 
             before do
+              Item.destroy_all
+              CreditRelation.destroy_all
               Account.destroy_all
               get :show, id: "200802", budget_type: "outgo", format: :json
             end
@@ -65,6 +67,8 @@ describe Api::YearlyBudgetsController do
 
           context "when there are some data to send," do 
             before do
+              Item.destroy_all
+              CreditRelation.destroy_all
               Account.destroy_all
 
               @user = users(:user1)
@@ -117,6 +121,8 @@ describe Api::YearlyBudgetsController do
         context "when budget_type is income," do 
           context "when there is no data to send," do 
             before do
+              Item.destroy_all
+              CreditRelation.destroy_all
               Account.destroy_all
               MonthlyProfitLoss.destroy_all
               get :show, id: "200802", budget_type: "income", format: :json
@@ -139,6 +145,8 @@ describe Api::YearlyBudgetsController do
 
           context "when there is some data to send," do 
             before do
+              Item.destroy_all
+              CreditRelation.destroy_all
               Account.destroy_all
               @user = users(:user1)
               accs = @user.accounts
@@ -188,6 +196,8 @@ describe Api::YearlyBudgetsController do
         context "when budget_type is total," do 
           context "when there is no data to send," do 
             before do
+              Item.destroy_all
+              CreditRelation.destroy_all
               Account.destroy_all
               MonthlyProfitLoss.destroy_all
               get :show, id: "200802", budget_type: "total", format: :json
@@ -213,6 +223,8 @@ describe Api::YearlyBudgetsController do
           end
           context "when there is some data to send," do 
             before do
+              Item.destroy_all
+              CreditRelation.destroy_all
               Account.destroy_all
               @user = users(:user1)
               accs = @user.accounts

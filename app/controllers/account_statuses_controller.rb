@@ -7,15 +7,13 @@ class AccountStatusesController < ApplicationController
   
   private
   def _account_status
-    max_date = today.beginning_of_day
+    max_date = today
     max_month = max_date.beginning_of_month
-
     retval = known_account_statuses_between(max_month, max_date)
-
     unknown_total = unknown_amount_between(max_month, max_date)
     unless unknown_total == 0
       unknown_account = Account.new do |a|
-        a.name = '不明'
+        a.name = I18n.t('label.unknown')
         a.order_no = 999999
         a.account_type = unknown_total < 0 ? 'outgo' : 'income'
       end
@@ -45,11 +43,11 @@ class AccountStatusesController < ApplicationController
   end
   
   def amount_to_last_month(account_id, month)
-    @user.monthly_profit_losses.where("account_id = ? and month < ?", account_id, month).sum(:amount)
+    @user.monthly_profit_losses.where(account_id: account_id).where("month < ?", month).sum(:amount)
   end
 
   def unknown_amount_between(from, to)
-    @user.items.where(:from_account_id => -1).action_date_between(from, to).sum(:amount)
+    @user.items.where(from_account_id: -1).action_date_between(from, to).sum(:amount)
   end
 end
 

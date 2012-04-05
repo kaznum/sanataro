@@ -260,4 +260,108 @@ describe Account do
       end
     end
   end
+
+  describe "#destroy" do
+    context "when child items/credit_relations don't exist," do
+      before do
+        @account = Fabricate.build(:account)
+        @account.save!
+      end
+
+      describe "count" do
+        specify {
+          expect { @account.destroy }.to change {Account.count}.by(-1)
+        }
+      end
+      describe "#errors" do
+        before { @account.destroy }
+        subject { @account.errors.full_messages }
+        it { should be_empty }
+      end
+    end
+    
+    context "when child items exist," do
+      before do
+        @account = Fabricate.build(:account)
+        @account.save!
+      end
+      
+      context "when it is used for from_account_id," do
+        before do
+          item = Fabricate.build(:item, from_account_id: @account.id)
+          item.save!
+        end
+        
+        describe "count" do
+          specify {
+            expect { @account.destroy }.not_to change {Account.count}
+          }
+        end
+        
+        describe "#errors" do
+          before { @account.destroy }
+          subject { @account.errors.full_messages }
+          it { should_not be_empty }
+        end
+      end
+
+      context "when it is used for to_account_id," do
+        before do
+          item = Fabricate.build(:item, to_account_id: @account.id)
+          item.save!
+        end
+
+        describe "count" do
+          specify {
+            expect { @account.destroy }.not_to change {Account.count}
+          }
+        end
+        
+        describe "#errors" do
+          before { @account.destroy }
+          subject { @account.errors.full_messages }
+          it { should_not be_empty }
+        end
+      end
+    end
+    
+    context "when child credit_relations exist," do
+      before do
+        @account = Fabricate.build(:account)
+        @account.save!
+      end
+
+      context "when it is used for payment_account_id," do
+        before do
+          cr = Fabricate.build(:credit_relation, payment_account_id: @account.id)
+          cr.save!
+        end
+        
+        describe "count" do
+          specify {
+            expect { @account.destroy }.not_to change {Account.count}
+          }
+        end
+      end
+
+      context "when it is used for credit_account_id," do
+        before do
+          cr = Fabricate.build(:credit_relation, credit_account_id: @account.id)
+          cr.save!
+        end
+
+        describe "count" do
+          specify {
+            expect { @account.destroy }.not_to change {Account.count}
+          }
+        end
+        
+        describe "#errors" do
+          before { @account.destroy }
+          subject { @account.errors.full_messages }
+          it { should_not be_empty }
+        end
+      end
+    end
+  end
 end

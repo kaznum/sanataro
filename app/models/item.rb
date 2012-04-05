@@ -28,11 +28,9 @@ class Item < ActiveRecord::Base
   before_validation :fill_amount_for_adjustment_if_needed
 
   def fill_amount_for_adjustment_if_needed
-
     if adjustment? && !amount_changed? && action_date && to_account_id && user && adjustment_amount
       asset = user.accounts.asset(user, to_account_id, action_date, id)
       self.amount = adjustment_amount - asset
-      
     end
   end
 
@@ -88,6 +86,7 @@ class Item < ActiveRecord::Base
       set_action_date
     end
   end
+  
   def month=(m)
     if m.blank?
       self.p_year = self.p_month = self.p_day = nil
@@ -97,6 +96,7 @@ class Item < ActiveRecord::Base
       set_action_date
     end
   end
+  
   def day=(d)
     if d.blank?
       self.p_year = self.p_month = self.p_day = nil
@@ -215,7 +215,7 @@ class Item < ActiveRecord::Base
   def self.partials_by_tag(tag)
     # FIX ME
     #
-    # In fact, it should call call the method like  the following
+    # In fact, it should call the method like the following
     # self.find_tagged_with(tag).default_limit.order(ORDER_OF_ENTRIES_LIST)
     self.find_tagged_with(tag,
                           :limit => Settings.item_list_count,
@@ -233,14 +233,9 @@ class Item < ActiveRecord::Base
                           :order => ORDER_OF_ENTRIES_LIST)
   end
   
-  #
-  # History収集の実処理
-  #
   def self.collect_account_history(user, account_id, from_date, to_date)
     items = user.items.action_date_between(from_date, to_date).only_account(account_id).order("action_date")
-    remain_amount = user.monthly_profit_losses.where("month < ? and account_id = ?", from_date, account_id).sum('amount')
+    remain_amount = user.monthly_profit_losses.where("month < ?", from_date).where(account_id: account_id).sum('amount')
     [remain_amount, items]
   end
-
-
 end
