@@ -31,6 +31,8 @@ GEM
     addressable (2.2.7)
     archive-tar-minitar (0.5.2)
     arel (3.0.2)
+    bourbon (1.4.0)
+      sass (>= 3.1)
     builder (3.0.0)
     capistrano (2.11.2)
       highline
@@ -222,6 +224,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-jdbcmysql-adapter
+  bourbon
   capistrano
   capybara-webkit
   coffee-filter

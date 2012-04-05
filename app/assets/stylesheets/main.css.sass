@@ -1,6 +1,7 @@
 $border_color: #b8b8b8
 $border_width: 1px
 $border_style: solid
+$default_radius: 6px
 @mixin default_border
   border: $border_width $border_style $border_color
 @mixin row_column_border
@@ -34,7 +35,7 @@ th
 
 .footer
   font-size: 0.9em
-  color: white
+  color: gray
 
 td.title
   white-space: nowrap
@@ -84,6 +85,7 @@ div#menu
   width: 805px
   a
     @include default_border
+    @include border-top-radius($default_radius)
     background: #C9C9C9 url(header-bg.gif) repeat-x
     color: #333
     font:
@@ -125,6 +127,7 @@ div.wrapper
 .drawer 
   background: #C9C9C9 url(header-bg.gif) repeat-x
   @include default_border
+  @include border-top-radius($default_radius)
   a
     font:
       weight: bold
@@ -164,12 +167,14 @@ div.item_adjustment
 div.item_date
   @include row_column_border
   @include default_item_line
+  @include border-left-radius($default_radius)
   float: left
   width: 80px
 
 div.item_date_header
   height: 40px
   @include default_header
+  @include border-left-radius($default_radius)
 
 div.item_name
   @include row_column_border
@@ -214,12 +219,14 @@ div.item_amount_header
 div.item_operation 
   @include row_column_border
   @include default_item_line
+  @include border-right-radius($default_radius)
   float: left
   width: 28px
 
 div.item_operation_header 
   height: 40px
   @include default_header
+  @include border-bottom-right-radius($default_radius)
 
 div.reset 
   clear: left
