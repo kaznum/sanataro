@@ -245,9 +245,9 @@ describe Item do
     
     describe "getting from DB" do
       subject { @item }
-      its(:year) { should be 2008 }
-      its(:month) { should be 2 }
-      its(:day) { should be 15 }
+      its(:year) { should == 2008 }
+      its(:month) { should == 2 }
+      its(:day) { should == 15 }
     end
 
     context "when nil is set to year" do
@@ -288,9 +288,9 @@ describe Item do
         @item.action_date = Date.new(2010, 3, 10)
       end
       subject { @item }
-      its(:year) { should be 2010 }
-      its(:month) { should be 3 }
-      its(:day) { should be 10 }
+      its(:year) { should == 2010 }
+      its(:month) { should == 3 }
+      its(:day) { should == 10 }
       its(:action_date) { should == Date.new(2010, 3, 10) }
     end
   end
@@ -592,7 +592,7 @@ describe Item do
       
       describe "amount" do 
         subject { @amount }
-        it { should be 8000 }
+        it { should == 8000 }
       end
 
       describe "items" do 
@@ -611,7 +611,7 @@ describe Item do
     subject { Item.find(items(:item1).id) }
 
     its(:user) { should_not be_nil }
-    specify { subject.user.id.should be subject.user_id }
+    specify { subject.user.id.should == subject.user_id }
   end
 
   describe "child_item" do
