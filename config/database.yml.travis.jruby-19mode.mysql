@@ -1,0 +1,16 @@
+development:
+  adapter: jdbcmysql
+  database: sanataro_development
+  username: root
+  encoding: utf8
+test:
+  adapter: jdbcmysql
+  database: sanataro_test
+  username: root
+  encoding: utf8
+production:
+  adapter: jdbcmysql
+  database: sanataro_production
+  username: root
+  encoding: utf8
+

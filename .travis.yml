@@ -1,7 +1,7 @@
 script: "rake travis"
 before_script:
-  - "cp config/database.yml.travis.${DB} config/database.yml"
-  - "bundle exec rake --trace db:create db:migrate"
+  - "cp config/database.yml.travis.${TRAVIS_RUBY_VERSION}.${DB} config/database.yml"
+  - "bundle exec rake db:drop db:create db:migrate"
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
 
