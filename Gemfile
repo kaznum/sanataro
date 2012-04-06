@@ -25,20 +25,18 @@ end
 
 
 group :test do
-  gem "cucumber-rails", require: false
-  gem "capybara-webkit"
-  gem "growl"
-  gem "rb-fsevent"
-  gem "webrat"
-  gem "database_cleaner"
-  gem "guard-rspec"
-  gem "guard-cucumber"
-  gem "guard-spork"
-  gem 'spork'
   gem "simplecov"
-  if ENV['TRAVIS']
-    gem 'sqlite3-ruby', :require => 'sqlite3'
-    gem 'pg'
+  gem 'spork'
+  platform :ruby do
+    gem "cucumber-rails", require: false
+    gem "capybara-webkit"
+    gem "growl"
+    gem "rb-fsevent"
+    gem "webrat"
+    gem "database_cleaner"
+    gem "guard-rspec"
+    gem "guard-cucumber"
+    gem "guard-spork"
   end
 end
 
@@ -47,11 +45,12 @@ platforms :jruby do
   gem "activerecord-jdbcmysql-adapter"
   gem "activerecord-jdbcsqlite3-adapter"
   gem "activerecord-jdbcpostgresql-adapter"
+  gem "therubyrhino"
 end
 
 platforms :ruby do
   gem "mysql2"
-#  gem 'sqlite3-ruby', :require => 'sqlite3'
+  gem 'sqlite3-ruby', :require => 'sqlite3'
   gem 'pg'
   gem "therubyracer"
 end
