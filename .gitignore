@@ -1,0 +1,9 @@
+.rspec
+.rvmrc
+.sass-cache/
+Capfile
+config/
+coverage/
+log/
+tmp/
+
