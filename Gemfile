@@ -27,15 +27,15 @@ end
 group :test do
   gem "cucumber-rails", require: false
   gem "capybara-webkit"
+  gem "growl"
+  gem "rb-fsevent"
+  gem "webrat"
   gem "database_cleaner"
   gem "guard-rspec"
   gem "guard-cucumber"
   gem "guard-spork"
   gem 'spork'
-  gem "growl"
-  gem "rb-fsevent"
   gem "simplecov"
-  gem "webrat"
   if ENV['TRAVIS']
     gem 'sqlite3-ruby', :require => 'sqlite3'
     gem 'pg'
@@ -53,6 +53,7 @@ platforms :ruby do
   gem "mysql2"
 #  gem 'sqlite3-ruby', :require => 'sqlite3'
   gem 'pg'
+  gem "therubyracer"
 end
 
 group :assets do
@@ -66,5 +67,5 @@ gem 'haml-rails'
 gem 'jquery-rails'
 gem 'settingslogic'
 gem 'coffee-filter'
-gem "therubyracer"
 gem "bourbon"
+
