@@ -14,10 +14,12 @@ group :development, :test do
   gem "launchy"
   gem "fabrication"
   unless ENV['TRAVIS']
-    gem 'capistrano'
-    gem 'linecache19', '0.5.13'
-    gem 'ruby-debug-base19', '0.11.26'
-    gem 'ruby-debug19', :require => 'ruby-debug'
+    platforms :ruby do
+      gem 'capistrano'
+      gem 'linecache19', '0.5.13'
+      gem 'ruby-debug-base19', '0.11.26'
+      gem 'ruby-debug19', :require => 'ruby-debug'
+    end
   end
 end
 
@@ -43,6 +45,8 @@ end
 platforms :jruby do
   gem "jruby-openssl"
   gem "activerecord-jdbcmysql-adapter"
+  gem "activerecord-jdbcsqlite3-adapter"
+  gem "activerecord-jdbcpostgresql-adapter"
 end
 
 platforms :ruby do
