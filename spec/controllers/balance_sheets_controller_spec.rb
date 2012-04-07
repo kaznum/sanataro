@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe BalanceSheetsController do
-  include FakedUser
-  
   fixtures :users, :items, :accounts, :credit_relations, :monthly_profit_losses
   describe "#index" do 
     context "when without login," do
