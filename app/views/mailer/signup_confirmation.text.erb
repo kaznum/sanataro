@@ -2,12 +2,11 @@
 
 この度は、「<%= Settings.product_name %>」にユーザ登録していただき、
 ありがとうございます。
-下記のURLにアクセスいただくことにより、ユーザ登録処理が
-完了します。
+下記のURLにアクセスいただくことにより、ユーザ登録処理が完了します。
 
 <%= url_for(only_path: false, controller: :login, action: :confirmation, login: @user.login, sid: @user.confirmation) %>
 
 是非、「<%= Settings.product_name %>」をご活用ください。
 
-「<%= Settings.product_name %>」開発チーム一同
+「<%= Settings.product_name %>」
 
