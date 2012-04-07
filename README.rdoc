@@ -24,7 +24,7 @@ built with Ruby on Rails.
 * Ruby on Rails: 3.2 (Check minor version in Gemfile)
 * DB: 
   * MySQL
-  * SQLite3 (MRI only. Some features don't work correctly on JRuby)
+  * SQLite3
   * PostgreSQL (Heroku available. Demo: http://sanataro.heroku.com/ )
 * Gem: See Gemfile
 * Recommend: Passenger and Webserver such as Apache

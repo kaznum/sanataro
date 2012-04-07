@@ -20,6 +20,5 @@ env:
 matrix:
   allow_failures:
     - rvm: ruby-head
-    - rvm: jruby-19mode
-      env: DB=sqlite
     - rvm: jruby-head
+
