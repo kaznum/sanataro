@@ -6,10 +6,11 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
 
 rvm:
+  - 1.9.2
+  - 1.9.3
   - jruby-head
 
 env:
   - DB=mysql
   - DB=postgres
   - DB=sqlite
-
