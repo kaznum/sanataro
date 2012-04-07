@@ -2339,12 +2339,12 @@ describe EntriesController do
       
 
       describe "update adjustment" do
-        context "with action_year/month/day" do
+        context "without action_year/month/day" do
           before do
             date = items(:adjustment2).action_date
             @action = lambda { xhr :put, :update, :entry_type => 'adjustment', :id=>items(:adjustment2).id.to_s,
               :action_year => date.year.to_s, :action_month => date.month.to_s,:action_day => date.day.to_s,
-              :action_amount=>'3,000', :to=>items(:adjustment2).to_account_id, :year => 2008, :month => 2 }
+              :adjustment_amount=>'3,000', :to=>items(:adjustment2).to_account_id, :year => 2008, :month => 2 }
           end
           describe "response" do 
             before do
@@ -2357,7 +2357,6 @@ describe EntriesController do
           describe "item to update" do
             specify {
               expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).updated_at}
-
             }
           end
         end
@@ -2367,7 +2366,7 @@ describe EntriesController do
             date = items(:adjustment2).action_date
             @action = lambda { xhr :put, :update, :entry_type => 'adjustment', :id=>items(:adjustment2).id.to_s,
               :action_date => date.strftime("%Y/%m/%d"),
-              :action_amount=>'3,000', :year => 2008, :month => 2 }
+              :adjustment_amount=>'3,000', :year => 2008, :month => 2 }
           end
           describe "response" do
             before do
