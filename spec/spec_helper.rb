@@ -2,7 +2,7 @@ require 'rubygems'
 require 'spork'
 require 'prototype_matchers'
 
-unless ENV['TRAVIS'] || defined?(JRUBY_VERSION)
+unless ENV['TRAVIS'] || defined?(JRUBY_VERSION) || RUBY_ENGINE == 'rbx'
   require 'simplecov'
   SimpleCov.start "rails"
 end
