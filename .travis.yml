@@ -1,6 +1,6 @@
 script: "rake travis"
 before_script:
-  - "cp -v config/database.yml.travis.${TRAVIS_RUBY_VERSION}.${DB} config/database.yml"
+  - "cp -v config/travis/database.yml.travis.${TRAVIS_RUBY_VERSION}.${DB} config/database.yml"
   - "rake --trace db:create db:migrate"
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
@@ -21,4 +21,5 @@ matrix:
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-19mode
+      env: DB=sqlite
     - rvm: jruby-head
