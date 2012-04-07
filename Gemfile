@@ -14,7 +14,7 @@ group :development, :test do
   gem "launchy"
   gem "fabrication"
   unless ENV['TRAVIS']
-    platforms :ruby do
+    platforms :mri_19 do
       gem 'capistrano'
       gem 'linecache19', '0.5.13'
       gem 'ruby-debug-base19', '0.11.26'
@@ -30,7 +30,7 @@ end
 group :test do
   gem "simplecov"
   gem 'spork'
-  platform :ruby do
+  platform :mri_19 do
     gem "cucumber-rails", require: false
     gem "capybara-webkit"
     gem "growl"
@@ -53,8 +53,11 @@ end
 
 platforms :ruby do
   gem "mysql2"
-  gem 'sqlite3-ruby', :require => 'sqlite3'
+  gem 'sqlite3'
   gem 'pg'
+end
+
+platforms :mri do
   gem "therubyracer"
 end
 
