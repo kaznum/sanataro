@@ -1,8 +1,7 @@
 require 'spec_helper'
 
 describe ConfirmationRequiredsController do
-  include FakedUser
-  fixtures :items, :accounts
+  fixtures :items, :accounts, :users
 
   describe "#update" do
     context "without login," do

@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe BalanceSheetsController do
-  include FakedUser
-  
   fixtures :users, :items, :accounts, :credit_relations, :monthly_profit_losses
   describe "#index" do 
     context "when without login," do
@@ -136,10 +134,10 @@ describe BalanceSheetsController do
 
         describe "assigns" do
           subject { assigns }
-          its([:remain_amount]) { should be 8000 }
+          its([:remain_amount]) { should == 8000 }
           its([:items]) { should_not be_nil }
           its([:account_id]) { should_not be_nil }
-          its([:account_id]) { should be accounts(:bank1).id}
+          its([:account_id]) { should == accounts(:bank1).id}
         end
 
         describe "assigns[:items]" do
@@ -173,7 +171,7 @@ describe BalanceSheetsController do
           its([:remain_amount]) { should_not be_nil }
           its([:items]) { should_not be_nil }
           its([:account_id]) { should_not be_nil }
-          its([:account_id]) { should be accounts(:bank1).id}
+          its([:account_id]) { should == accounts(:bank1).id}
         end
 
         describe "assigns[:items]" do

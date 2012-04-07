@@ -29,19 +29,33 @@ class Teller
       old_to_adj_credit = Item.future_adjustment(user, old_child_item.action_date,
                                                  old_child_item.to_account_id, old_child_item.id)
     end
-    
+
     Item.transaction do
       if item.adjustment?
         # 残高調整のため、一度、amountを0にする。
         # (amountを算出するために、他のadjustmentのamountを正しい値にする必要があるため)
+
+        attrs = {to_account_id: args[:to_account_id],
+          confirmation_required: args[:confirmation_required],
+          tag_list: args[:tag_list],
+          action_date: args[:action_date],
+          adjustment_amount: args[:adjustment_amount]}
+        # 以下、JRuby + SQLite3 対応
+        # 本来はトランザクション処理のため不要なコードだが、
+        # JRUBY + SQLite3のみで、トランザクションで、update_attributes!(amount:0)の結果が
+        # 破棄されずにDBに保存されてしまうため、事前に入力チェックを行うようにした。
+        # 以下の環境で確認
+        # JRuby 1.6.7, head(2012-4-6)
+        # activerecord-jdbcsqlite3-adapter (1.2.2)
+        # activerecord-jdbc-adapter (1.2.2)
+        # jdbc-sqlite3 (3.7.2)
+        item.assign_attributes(attrs)
+        item.valid? || (raise ActiveRecord::RecordInvalid.new(item))
+        item.reload
+        # 以上 JRuby + SQLite3 対応
         item.update_attributes!(amount: 0)
         item.reload
-        
-        item.update_attributes!(to_account_id: args[:to_account_id],
-                                confirmation_required: args[:confirmation_required],
-                                tag_list: args[:tag_list],
-                                action_date: args[:action_date],
-                                adjustment_amount: args[:adjustment_amount])
+        item.update_attributes!(attrs)
       else
         item.update_attributes!(name: args[:name],
                                 from_account_id: args[:from_account_id],

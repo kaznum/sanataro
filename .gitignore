@@ -10,3 +10,4 @@ config/deploy.rb
 config/database.yml
 .rspec
 .rvmrc
+.rbx/*

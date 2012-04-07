@@ -10,6 +10,10 @@ gem 'rails', '3.2.3'
 
 gem 'pg'
 
+platforms :mri do
+  gem "therubyracer"
+end
+
 group :assets do
   gem 'sass-rails'
   gem 'coffee-rails'
@@ -21,5 +25,5 @@ gem 'haml-rails'
 gem 'jquery-rails'
 gem 'settingslogic'
 gem 'coffee-filter'
-gem "therubyracer"
 gem "bourbon"
+

@@ -170,7 +170,7 @@ describe Account do
         user = users(:user1)
         user.accounts.asset(user, ini_bank1.id, date)
       }
-      it {should be 13900}
+      it {should == 13900}
     end
     
     context "when adj_id を指定(日時はadj_idと同じ)" do
@@ -180,7 +180,7 @@ describe Account do
         date = items(:adjustment4).action_date.clone
         user.accounts.asset(user, ini_bank1.id, date, items(:adjustment4).id)
       }
-      it {should be 15000}
+      it {should == 15000}
     end
 
     context "when bank1がfrom_account_idのitemのid を指定(日時はadjustment4の日時 + 1day)" do
@@ -190,7 +190,7 @@ describe Account do
         date = items(:adjustment4).action_date.clone + 1
         user.accounts.asset(user, ini_bank1.id, date, items(:item3).id)
       }
-      it { should be 19000 }
+      it { should == 19000 }
     end
 
     context "when adj_id を指定(日時はadj_idよりも未来にする)" do
@@ -200,7 +200,7 @@ describe Account do
         date = items(:adjustment6).action_date + 1
         total = user.accounts.asset(user, ini_bank1.id, date, items(:adjustment4).id)
       }
-      it { should be 13900 }
+      it { should == 13900 }
     end
   end
 
