@@ -277,6 +277,7 @@ DEPENDENCIES
   rails (= 3.2.3)
   rb-fsevent
   rspec-rails
+  ruby-debug
   ruby-debug-base19 (= 0.11.26)
   ruby-debug19
   sass-rails
