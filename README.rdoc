@@ -18,11 +18,13 @@ built with Ruby on Rails.
 * Locale Support (Now only Japanese, but you can add your own language easily)
 
 == Requirement
-* Ruby: MRI (tested continuously with 1.9.2-p290, 1.9.3-p125)
+* Ruby: 
+  * MRI (tested continuously with 1.9.2-p290, 1.9.3-p125)
+  * JRuby (tested continuously with version 1.6.7 - 1.9 mode)
 * Ruby on Rails: 3.2 (Check minor version in Gemfile)
-* DB : 
-  * MySQL(adapter mysql2)
-  * SQLite3
+* DB: 
+  * MySQL
+  * SQLite3 (MRI only. Some features don't work correctly on JRuby)
   * PostgreSQL (Heroku available. Demo: http://sanataro.heroku.com/ )
 * Gem: See Gemfile
 * Recommend: Passenger and Webserver such as Apache
