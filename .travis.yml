@@ -8,9 +8,17 @@ before_script:
 rvm:
   - 1.9.2
   - 1.9.3
+  - ruby-head
+  - jruby-19mode
   - jruby-head
 
 env:
   - DB=mysql
   - DB=postgres
   - DB=sqlite
+
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+    - rvm: jruby-19mode
+    - rvm: jruby-head

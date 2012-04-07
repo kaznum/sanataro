@@ -1,0 +1,8 @@
+test: &test
+  adapter: jdbcsqlite3
+  database: "db/test.sqlite3"
+  timeout: 5000
+
+cucumber:
+  <<: *test
+
