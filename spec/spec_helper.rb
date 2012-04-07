@@ -157,23 +157,3 @@ unless defined?(CustomSharedExamplesHelper)
   end
 end
 
-module FakedUser
-  def login_user
-    @mock_user ||= mock_model(User,
-                               :id => 1, 
-                               :login => 'user1',
-                               :password => '354274759f43fafbc9551e47bc63f077f244164e',
-                               :email => 'test1@example.com',
-                               :active => true)
-  end
-
-  class << self
-    define_method :included do |mod|
-      mod.instance_eval do 
-        before do
-          User.stub(:find_by_login_and_active).with("user1", true).and_return(login_user)
-        end
-      end
-    end
-  end
-end

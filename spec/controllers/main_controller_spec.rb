@@ -2,9 +2,7 @@
 require 'spec_helper'
 
 describe MainController do
-  include FakedUser
-  
-  fixtures :items, :accounts, :credit_relations, :monthly_profit_losses
+  fixtures :users, :items, :accounts, :credit_relations, :monthly_profit_losses
 
   describe "#reload_config" do
     context "before login," do

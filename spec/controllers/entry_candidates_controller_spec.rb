@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe EntryCandidatesController do
-  include FakedUser
-  
-  fixtures :items
+  fixtures :items, :users
 
   describe "index" do
     context "without login" do
@@ -44,7 +42,6 @@ describe EntryCandidatesController do
           it { should be_success }
           it { should render_template "_candidate"}
         end
-        
       end
     end
   end
