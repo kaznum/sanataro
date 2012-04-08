@@ -9,9 +9,9 @@ class Api::BudgetsController < ApplicationController
 
     from_date = Date.new(year.to_i, month.to_i)
     budget_type = params[:budget_type] == 'outgo' ? "outgo" : "income"
-		accounts = @user.accounts.where(:account_type => budget_type).order("order_no").all
+    accounts = @user.accounts.where(:account_type => budget_type).order("order_no").all
 
-		results = []
+    results = []
     accounts.each do |acc|
       mpl = @user.monthly_profit_losses.where(:month => from_date, :account_id => acc.id).where("amount <> 0").first
       if mpl
