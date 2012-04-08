@@ -30,7 +30,7 @@ end
 group :test do
   gem "simplecov"
   gem 'spork'
-  platform :mri_19 do
+  platform :mri do
     gem "cucumber-rails", require: false
     gem "capybara-webkit"
     gem "growl"
