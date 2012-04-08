@@ -9,7 +9,7 @@ built with Ruby on Rails.
 * Lightweight and beautiful monthly/yearly P/L and B/S charts
 * Credit-card due setting
 * Simple input User-Interface for iPhone.
-* See more on a demo page. http://k.nu-chon.org
+* See more on a demo page. http://sanataro.heroku.com/
 
 == Architectual Features
 * All background calcuration is fully tested with rspec.
