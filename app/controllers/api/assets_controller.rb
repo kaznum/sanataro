@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class Api::AssetsController < ApplicationController
   before_filter :required_login
-  before_filter :valid_combined_month?, :only => :show
+  before_filter :valid_combined_month?, only: :show
   respond_to :json
 
   def show
@@ -20,7 +20,7 @@ class Api::AssetsController < ApplicationController
   
   def balances_with_account_of_month(year, month)
     date = Date.new(year.to_i, month.to_i)
-		mpls = @user.monthly_profit_losses.where("month <= ?", date)
+    mpls = @user.monthly_profit_losses.where("month <= ?", date)
     mpls.inject(Hash.new(0)) { |result, mpl| result[mpl.account_id] += mpl.amount; result }
   end
 
@@ -33,14 +33,14 @@ class Api::AssetsController < ApplicationController
   end
 
   def formatted_assets_or_debts(balances_with_accounts, type=:asset)
-		accounts = @user.accounts.where(:account_type => 'account').order("order_no")
+    accounts = @user.accounts.where(:account_type => 'account').order("order_no")
     labels_and_data = []
-		accounts.each do |a|
+    accounts.each do |a|
       amount = balances_with_accounts[a.id]
       if type == :asset && amount > 0 || type == :debt && amount < 0
-        labels_and_data << { :label => a.name, :data => amount.abs }
+        labels_and_data << { label: a.name, data: amount.abs }
       end
-		end
+    end
     labels_and_data
   end
 end
