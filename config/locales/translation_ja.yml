@@ -181,7 +181,7 @@ ja:
       lets_try: "さぁ！使ってみよう！"
       demo_user_explanation: "ユーザ: demo、パスワード: demo123でログインできます。"
       source_code: "ソースコード"
-      source_code_explanation: "http://github.com/kaznum/sanataro で公開しています。"
+      github_url: "http://github.com/kaznum/sanataro"
     create_user:
       input_user_and_password: "作成するログインIDとパスワードを入力してください。"
       user_password_minimum_letters: "ログインIDは3文字以上10文字以下、パスワードは6文字以上10文字以下でなければなりません。"
