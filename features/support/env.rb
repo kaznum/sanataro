@@ -123,7 +123,7 @@ end
 ## end of codes for transactional fixtures
 
 if ENV['TRAVIS']
-  Capybara.default_wait_time = 30
+  Capybara.default_wait_time = 60
 else
   Capybara.default_wait_time = 2
 end
