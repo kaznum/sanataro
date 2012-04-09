@@ -3,7 +3,7 @@ require 'spec_helper'
 describe User do
   fixtures :users, :items, :accounts, :credit_relations
 
-  describe "create" do
+  describe "#create" do
     before do
       valid_attrs = {
         :password_plain => '123-4_56',
@@ -14,7 +14,7 @@ describe User do
       @user.login = 'test_1'
     end
 
-    context "when all attributes are valid" do 
+    context "when all attributes are valid," do 
       subject {
         @user.save
         @user
@@ -27,7 +27,7 @@ describe User do
       its(:active?) { should be_true }
     end
 
-    context "when without email" do
+    context "when without email," do
       subject {
         @user.email = ''
         @user.save
@@ -38,7 +38,7 @@ describe User do
     end
   
 
-    describe "when email is formatted wrong" do
+    describe "when email is formatted wrong," do
       subject {
         @user.email = 'test.example.com'
         @user.save
@@ -49,7 +49,7 @@ describe User do
       specify { subject.errors[:email].should_not be_empty }
     end
 
-    describe "when email is too short" do
+    context "when email is too short," do
       subject {
         @user.email = 't@e.c'
         @user.save
@@ -60,7 +60,7 @@ describe User do
       specify { subject.errors[:email].should_not be_empty }
     end
 
-    describe "when password_plain and password_confirmation are not same" do
+    context "when password_plain and password_confirmation are not same," do
       subject {
         @user.password_confirmation = 'ddddddddd'
         @user.save
@@ -71,7 +71,7 @@ describe User do
       specify { subject.errors[:password_plain].should_not be_empty }
     end
 
-    describe "when login is not set" do
+    context "when login is not set," do
       subject {
         @user.login = nil
         @user.save
@@ -82,7 +82,7 @@ describe User do
       specify { subject.errors[:login].should_not be_empty }
     end
 
-    describe "when login is too short" do
+    context "when login is too short," do
       subject {
         @user.login = '11'
         @user.save
@@ -93,7 +93,7 @@ describe User do
       specify { subject.errors[:login].should_not be_empty }
     end
     
-    describe "when login is too long" do
+    context "when login is too long," do
       subject {
         @user.login = '12345678901'
         @user.save
@@ -116,7 +116,7 @@ describe User do
       specify { subject.errors[:password_plain].should_not be_empty }
     end
 
-    describe "when both of passwords are too short" do
+    context "when both of passwords are too short," do
       subject {
         @user.password_plain = '12345'
         @user.password_confirmation = '12345'
@@ -128,7 +128,7 @@ describe User do
       specify { subject.errors[:password_plain].should_not be_empty }
     end
 
-    describe "when both of passwords are too long" do
+    context "when both of passwords are too long," do
       subject {
         @user.password_plain = '12345678901'
         @user.password_confirmation = '12345678901'
@@ -140,7 +140,7 @@ describe User do
       specify { subject.errors[:password_plain].should_not be_empty }
     end
     
-    describe "when both of passwords have invalid chars" do
+    context "when both of passwords have invalid chars," do
       subject {
         @user.password_plain = '1234.56'
         @user.password_confirmation = '1234.56'
@@ -152,7 +152,7 @@ describe User do
       specify { subject.errors[:password_plain].should_not be_empty }
     end
     
-    describe "when login has invalid chars" do
+    context "when login has invalid chars," do
       subject {
         @user.login = 'te.st1'
         @user.save
@@ -163,7 +163,7 @@ describe User do
       specify { subject.errors[:login].should_not be_empty }
     end
 
-    describe "when login is not unique" do
+    context "when login is not unique," do
       subject {
         @user.login = 'user1'
         @user.save
@@ -175,13 +175,13 @@ describe User do
     end
   end
   
-  describe "update" do 
+  describe "#update" do 
     before do
       @old_user = User.find(1)
       @user = User.find(1)
     end
     
-    context "when password changed correctly" do
+    context "when password changed correctly," do
       subject {
         @user.password_plain = '12-3456'
         @user.password_confirmation = '12-3456'
@@ -212,13 +212,13 @@ describe User do
       it { should_not be_empty }
     end
     
-    describe "it has credit_relations" do
+    context "when it has credit_relations," do
       subject { users(:user1).credit_relations }
       it { should_not be_empty }
     end
 
     
-    describe "it has items" do
+    context "when it has items" do
       subject { users(:user1).items }
 
       it { should_not be_empty }
@@ -240,7 +240,7 @@ describe User do
     end
   end
 
-  describe "get_categorized_accounts" do
+  describe "#get_categorized_accounts" do
     before do
       @user1 = users(:user1)
       @h_accounts = @user1.get_categorized_accounts
