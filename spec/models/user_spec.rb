@@ -309,4 +309,22 @@ describe User do
       user.deliver_signup_complete
     }
   end
+
+  describe "#store_sample" do
+    before do
+      @user = Fabricate(:user, login: "sample")
+    end
+    
+    specify {
+      @user.should_receive(:accounts).exactly(13).times.and_return(@mock_accounts = mock([Account]))
+      @user.should_receive(:credit_relations).once.and_return(@mock_crs = mock([CreditRelation]))
+      @user.should_receive(:items).twice.and_return(@mock_items = mock([Item]))
+      @mock_accounts.should_receive(:create).exactly(13).times.and_return(@account = mock(Account))
+      @account.should_receive(:id).exactly(6).times.and_return(100)
+      @mock_crs.should_receive(:create).once.times
+      @mock_items.should_receive(:create).twice
+
+      @user.store_sample
+    }
+  end
 end
