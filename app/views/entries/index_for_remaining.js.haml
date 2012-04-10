@@ -5,4 +5,4 @@
 - @items.each do |item|
   :plain
     $("#items").append("#{escape_javascript(render partial: "item", locals: { event_item: item })}");
-
+= render partial: "twitter_js"
