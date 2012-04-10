@@ -9,6 +9,7 @@ built with Ruby on Rails.
 * Lightweight and beautiful monthly/yearly P/L and B/S charts
 * Credit-card due setting
 * Simple input User-Interface for iPhone.
+* Tweet button. (Think why this exists and how to enjoy this individually.)
 * See more on a demo page. http://sanataro.heroku.com/
 
 == Architectual Features
