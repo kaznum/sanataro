@@ -12,5 +12,4 @@ describe TwitterHelper do
   subject { helper.tweet_button(@item) }
   it { should match /data-text="#{@item.name} \(1,500円\)"/ }
   it { should match /data-hashtags="aaa,bbb,sanataro"/ }
-  it { should match /<script>/ }
 end

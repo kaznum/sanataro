@@ -1,0 +1,13 @@
+:plain
+  !function(d,s,id){
+    var js,fjs;
+    var obj = d.getElementById(id);
+    if(obj) {
+      obj.parentNode.removeChild(obj);
+    }
+    js=d.createElement(s);
+    js.id=id;
+    js.src="//platform.twitter.com/widgets.js";
+    fjs=d.getElementsByTagName(s)[0];
+    fjs.parentNode.insertBefore(js,fjs);
+  }(document,"script","twitter-wjs");
