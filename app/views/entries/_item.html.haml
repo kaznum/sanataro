@@ -20,7 +20,7 @@
           %br/
           = link_to t("link.delete"), entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :method => :delete, :remote => true, :confirm => t("message.delete_really")
       %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
-  - elsif not event_item.parent_id.nil?
+  - elsif event_item.parent_id
     .item_date.item_move= l(event_item.action_date)
     .item_name.item_move
       = event_item.parent_item.confirmation_required? ? link_to(t('label.confirmation_mark'), entry_confirmation_required_path(event_item.id, :confirmation_required => 'false'), :remote => true, :method => 'put', :class => 'item_confirmation_required') : link_to(t('label.no_confirmation_mark'), entry_confirmation_required_path(event_item.id, :confirmation_required => 'true'), :remote => true, :method => 'put', :class => 'item_confirmation_not_required')
@@ -41,7 +41,9 @@
       - item_css_class = " item_move"
     - else
       - item_css_class = ""
-    %div{:class => "item_date#{item_css_class}"}= l(event_item.action_date)
+    %div{:class => "item_date#{item_css_class}"}
+      = l(event_item.action_date)
+      = tweet_button(event_item)
     %div{:class => "item_name#{item_css_class}"}
       = event_item.confirmation_required? ? link_to(t('label.confirmation_mark'), entry_confirmation_required_path(event_item.id, :confirmation_required => 'false'), :remote => true, :method => 'put', :class => 'item_confirmation_required') : link_to(t('label.no_confirmation_mark'), entry_confirmation_required_path(event_item.id, :confirmation_required => 'true'), :remote => true, :method => 'put', :class => 'item_confirmation_not_required')
       = event_item.name
@@ -69,7 +71,9 @@
       - item_css_class = " item_move"
     - else
       - item_css_class = ""
-    %div{:class => "item_date#{item_css_class}"}= l(event_item.action_date)
+    %div{:class => "item_date#{item_css_class}"}
+      = l(event_item.action_date)
+      = tweet_button(event_item)
     %div{:class => "item_name#{item_css_class}"}
       = event_item.confirmation_required? ? link_to(t('label.confirmation_mark'), entry_confirmation_required_path(event_item.id, :confirmation_required => 'false'), :remote => true, :method => 'put', :class => 'item_confirmation_required') : link_to(t('label.no_confirmation_mark'), entry_confirmation_required_path(event_item.id, :confirmation_required => 'true'), :remote => true, :method => 'put', :class => 'item_confirmation_not_required')
       = event_item.name
@@ -89,5 +93,6 @@
           = link_to t("link.edit"), edit_entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :get
           %br/
           = link_to t("link.delete"), entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :delete, :confirm => t("message.delete_really")
+      %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
       %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
 .reset

@@ -9,104 +9,94 @@ class Teller
     
     affected_items = []
     affected_items << item.child_item
-
-    from_adj = Item.future_adjustment(user, item.action_date, item.from_account_id, item.id)
-    to_adj = Item.future_adjustment(user, item.action_date, item.to_account_id, item.id)
-    affected_items << from_adj << to_adj
-    return [item, affected_items.reject(&:nil?).map(&:id).uniq, false]
+    affected_items += self.future_adjustments_of_item(item)
+    affected_items += self.future_adjustments_of_item(item.child_item)
+    
+    [item, affected_items.reject(&:nil?).map(&:id).uniq, false]
   end
 
   def self.update_entry(user, id, args)
     item = user.items.find(id)
-    old_action_date = item.action_date
-    old_from_id = item.from_account_id
-    old_to_id = item.to_account_id
     
-    old_child_item = item.child_item
-    if old_child_item
-      old_from_adj_credit = Item.future_adjustment(user, old_child_item.action_date,
-                                                   old_child_item.from_account_id, old_child_item.id)
-      old_to_adj_credit = Item.future_adjustment(user, old_child_item.action_date,
-                                                 old_child_item.to_account_id, old_child_item.id)
-    end
-
+    updated_items = []
+    deleted_items = []
+    deleted_items << item.child_item
+    updated_items += self.future_adjustments_of_item(item)
+    updated_items += self.future_adjustments_of_item(item.child_item)
+    
     Item.transaction do
-      if item.adjustment?
-        # 残高調整のため、一度、amountを0にする。
-        # (amountを算出するために、他のadjustmentのamountを正しい値にする必要があるため)
+      item = item.adjustment? ? self.update_adjustment!(item, args) : self.update_regular_entry!(item, args)
+    end
 
-        attrs = {to_account_id: args[:to_account_id],
-          confirmation_required: args[:confirmation_required],
-          tag_list: args[:tag_list],
-          action_date: args[:action_date],
-          adjustment_amount: args[:adjustment_amount]}
-        # 以下、JRuby + SQLite3 対応
-        # 本来はトランザクション処理のため不要なコードだが、
-        # JRUBY + SQLite3のみで、トランザクションで、update_attributes!(amount:0)の結果が
-        # 破棄されずにDBに保存されてしまうため、事前に入力チェックを行うようにした。
-        # 以下の環境で確認
-        # JRuby 1.6.7, head(2012-4-6)
-        # activerecord-jdbcsqlite3-adapter (1.2.2)
-        # activerecord-jdbc-adapter (1.2.2)
-        # jdbc-sqlite3 (3.7.2)
-        item.assign_attributes(attrs)
-        item.valid? || (raise ActiveRecord::RecordInvalid.new(item))
-        item.reload
-        # 以上 JRuby + SQLite3 対応
-        item.update_attributes!(amount: 0)
-        item.reload
-        item.update_attributes!(attrs)
-      else
-        item.update_attributes!(name: args[:name],
-                                from_account_id: args[:from_account_id],
-                                to_account_id: args[:to_account_id],
-                                confirmation_required: args[:confirmation_required],
-                                tag_list: args[:tag_list],
-                                action_date: args[:action_date],
-                                amount: args[:amount])
-      end
-    end
-    item.reload
-    
-    new_child_item = item.child_item
-    if new_child_item
-      new_from_adj_credit = Item.future_adjustment(user, new_child_item.action_date,
-                                                   new_child_item.from_account_id, new_child_item.id)
-      new_to_adj_credit = Item.future_adjustment(user, new_child_item.action_date,
-                                                 new_child_item.to_account_id, new_child_item.id)
-    end
-    
-    old_to_item_adj = Item.future_adjustment(user, old_action_date, old_to_id, item.id)
-    old_from_item_adj = Item.future_adjustment(user, old_action_date, old_from_id, item.id)
-    new_from_item_adj = Item.future_adjustment(user, item.action_date, item.from_account_id, item.id)
-    new_to_item_adj = Item.future_adjustment(user, item.action_date, item.to_account_id, item.id)
-    
-    updated_items = [item]
-    updated_items << old_from_item_adj << old_to_item_adj << old_from_adj_credit << old_to_adj_credit
-    updated_items << new_from_item_adj << new_to_item_adj
-    updated_items << new_child_item << new_from_adj_credit << new_to_adj_credit
-    
-    deleted_items = [old_child_item]
+    updated_items << item
+    updated_items << item.child_item
+    updated_items += self.future_adjustments_of_item(item)
+    updated_items += self.future_adjustments_of_item(item.child_item)
     
     [item, updated_items.reject(&:nil?).map(&:id).uniq, deleted_items.reject(&:nil?).map(&:id).uniq]
   end
 
+  def self.update_regular_entry!(item, args)
+    item.update_attributes!(name: args[:name],
+                            from_account_id: args[:from_account_id],
+                            to_account_id: args[:to_account_id],
+                            confirmation_required: args[:confirmation_required],
+                            tag_list: args[:tag_list],
+                            action_date: args[:action_date],
+                            amount: args[:amount])
+    item.reload
+    item
+  end
+  
+  def self.update_adjustment!(item, args)
+    # For simple adjustment, set amount = 0 at once
+    # This is to set correct amounts of other adjustment items to calcurate "amount" later.
+    attrs = {to_account_id: args[:to_account_id],
+      confirmation_required: args[:confirmation_required],
+      tag_list: args[:tag_list],
+      action_date: args[:action_date],
+      adjustment_amount: args[:adjustment_amount]}
+    # The following is only for JRuby + SQLite3
+    # Primarily, this code isn't required, but the result of update_attributes!(amount:0)
+    # got stored unfortunately when an exception happens after the code, so in advance,
+    # check the validation of the parameters.
+    # This problem has been seen the following environment.
+    # JRuby 1.6.7, head(2012-4-6)
+    # activerecord-jdbcsqlite3-adapter (1.2.2)
+    # activerecord-jdbc-adapter (1.2.2)
+    # jdbc-sqlite3 (3.7.2)
+    item.assign_attributes(attrs)
+    item.valid? || (raise ActiveRecord::RecordInvalid.new(item))
+    item.reload
+    # The End of code Only for JRuby + SQLite3
+    item.update_attributes!(amount: 0)
+    item.reload
+    item.update_attributes!(attrs)
+    item.reload
+    item
+  end
+  
   def self.destroy_entry(user, id)
     item = user.items.find(id)
 
-    from_adj_item = to_adj_item = child_item = from_adj_credit = to_adj_credit = nil
+    deleted_items = []
+    updated_items = []
+    child_item = item.child_item
 
     ActiveRecord::Base.transaction do
       item.destroy
     end
-    from_adj_item = Item.future_adjustment(user, item.action_date, item.from_account_id, item.id)
-    to_adj_item = Item.future_adjustment(user, item.action_date, item.to_account_id, item.id)
-    credit_item = item.child_item
-    if credit_item
-      from_adj_credit = Item.future_adjustment(user, credit_item.action_date, credit_item.from_account_id, credit_item.id)
-      to_adj_credit = Item.future_adjustment(user, credit_item.action_date, credit_item.to_account_id, credit_item.id)
-    end
+    deleted_items << item << child_item
+    updated_items += self.future_adjustments_of_item(item) + self.future_adjustments_of_item(child_item)
 
-    {:itself => [item, from_adj_item, to_adj_item], :child => [credit_item, from_adj_credit, to_adj_credit]}
+    [updated_items.reject(&:nil?).map(&:id).uniq, deleted_items.reject(&:nil?).map(&:id).uniq]
+  end
+
+  def self.future_adjustments_of_item(item)
+    item ? self.future_adjustments(item.user, item.action_date, [item.from_account_id, item.to_account_id], item.id) : []
+  end
+
+  def self.future_adjustments(user, action_date, account_ids, item_id)
+    account_ids.map { |a_id| Item.future_adjustment(user, action_date, a_id, item_id) }
   end
 end

@@ -332,13 +332,14 @@ describe LoginController do
       before do
         mock_user = mock_model(User)
         User.should_receive(:find_by_login_and_confirmation).with('test200', '123456789012345').and_return(mock_user)
-        mock_user.should_receive(:accounts).exactly(13).times.and_return(@mock_accounts = mock([Account]))
-        mock_user.should_receive(:credit_relations).once.and_return(@mock_crs = mock([CreditRelation]))
-        mock_user.should_receive(:items).twice.and_return(@mock_items = mock([Item]))
-        @mock_accounts.should_receive(:create).exactly(13).times.and_return(@account = mock(Account))
-        @account.should_receive(:id).exactly(6).times.and_return(100)
-        @mock_crs.should_receive(:create).once.times
-        @mock_items.should_receive(:create).twice
+        # mock_user.should_receive(:accounts).exactly(13).times.and_return(@mock_accounts = mock([Account]))
+        # mock_user.should_receive(:credit_relations).once.and_return(@mock_crs = mock([CreditRelation]))
+        # mock_user.should_receive(:items).twice.and_return(@mock_items = mock([Item]))
+        mock_user.should_receive(:store_sample)
+        # @mock_accounts.should_receive(:create).exactly(13).times.and_return(@account = mock(Account))
+        # @account.should_receive(:id).exactly(6).times.and_return(100)
+        # @mock_crs.should_receive(:create).once.times
+        # @mock_items.should_receive(:create).twice
         
         mock_user.should_receive(:update_attributes!).with(:active => true)
         mock_user.should_receive(:deliver_signup_complete)

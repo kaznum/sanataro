@@ -225,13 +225,8 @@ class EntriesController < ApplicationController
   def _destroy_item(item)
     Item.transaction do
       result_of_delete = _do_delete_item(item.id)
-      deleted_item, from_adj_item, to_adj_item = result_of_delete[:itself]
-      deleted_child_item, from_adj_child, to_adj_child = result_of_delete[:child]
-
-      updated_items = [from_adj_item, to_adj_item, from_adj_child, to_adj_child]
-      deleted_items = [deleted_child_item, item]
-      
-      render "destroy", locals: { item: item, deleted_items: deleted_items.reject(&:nil?), updated_items: updated_items.reject(&:nil?) }
+      updated_items = result_of_delete[0].map {|id| @user.items.find_by_id(id)}.reject(&:nil?)
+      render "destroy", locals: { item: item, deleted_ids: result_of_delete[1], updated_items: updated_items }
     end
   end
 
