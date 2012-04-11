@@ -7,15 +7,16 @@ class EntryCandidatesController < ApplicationController
   # 入力候補の一覧を取得
   #
   def index
-    sub_name = params[:item_name]
+    partial_name = params[:item_name]
 
-    if sub_name.blank?
-      render :text=>''
+    if partial_name.blank?
+      render :text => ''
       return
     end
 
+    items_table = @user.items.arel_table
     items = @user.items.
-      where("name like ?", '%' + sub_name + '%').
+      where(items_table[:name].matches("%#{partial_name}%")).
       where(:adjustment => false, :parent_id => nil).
       group('name, from_account_id, to_account_id, amount').
       select('distinct max(id) as max_id, name, from_account_id, to_account_id, amount').
