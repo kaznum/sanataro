@@ -1,5 +1,5 @@
 = render partial: "items", locals: { items: items }
 - item_name = item.adjustment? ? t('label.adjustment') : item.name
-= render partial: "success_message", locals: { selector: "#warning", message: "#{t('message.save_successfully')} #{l(item.action_date)} #{item_name} #{number_to_currency(item.amount)}" }
+= render partial: "success_message", locals: { selector: "#warning", message: "#{t('message.save_successfully')} #{l(item.action_date)} #{h(item_name)} #{number_to_currency(item.amount)}" }
 = render partial: "highlight_items", locals: { ids: updated_item_ids }
 = render partial: "twitter_js"
