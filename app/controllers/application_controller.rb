@@ -26,26 +26,18 @@ class ApplicationController < ActionController::Base
   def change_month
     url = url_for(:action => params[:current_action], :year => displaying_month.year, :month => displaying_month.month)
     respond_to do |format|
-      format.html do
-        redirect_to url
-      end
-      format.js do
-        redirect_js_to url
-      end
+      format.html { redirect_to url }
+      format.js { redirect_js_to url }
     end
   rescue
     respond_to do |format|
-      format.html do
-        redirect_to current_entries_url
-      end
-      format.js do
-        redirect_js_to current_entries_url
-      end
+      format.html { redirect_to current_entries_url }
+      format.js { redirect_js_to current_entries_url }
     end
   end
 
   def set_categorized_accounts
-    @separated_accounts = @user.get_categorized_accounts unless @user.nil?
+    @separated_accounts = @user.get_categorized_accounts if @user
   end
 
   private
@@ -55,7 +47,6 @@ class ApplicationController < ActionController::Base
     render "common/redirect"
   end
 
-
   #
   # getter logined user information from session
   #
@@ -64,15 +55,9 @@ class ApplicationController < ActionController::Base
     return true
   rescue ActiveRecord::RecordNotFound => ex
     respond_to do |format|
-      format.html do
-        redirect_to login_url
-      end
-      format.js do
-        redirect_js_to login_url
-      end
-      format.json do
-        redirect_to login_url
-      end
+      format.html { redirect_to login_url }
+      format.js { redirect_js_to login_url }
+      format.json { redirect_to login_url }
     end
     return false
   end
@@ -100,5 +85,4 @@ class ApplicationController < ActionController::Base
     end
   end
   helper_method :displaying_month
-  
 end
