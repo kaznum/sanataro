@@ -10,6 +10,9 @@ describe TwitterHelper do
   end
 
   subject { helper.tweet_button(@item) }
-  it { should match /data-text="#{@item.name} \(1,500円\)"/ }
-  it { should match /data-hashtags="aaa,bbb,sanataro"/ }
+  it { should match /#{URI.escape(@item.name)}/ }
+  it { should match /#{URI.escape("1,500円")}/ }
+  it { should match /hashtags=aaa,bbb,sanataro/ }
+  it { should match /onclick="open_twitter\(this.getAttribute\('href'\)\);return false;/ }
 end
+
