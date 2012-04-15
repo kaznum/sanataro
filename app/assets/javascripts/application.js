@@ -7,4 +7,5 @@
 //= require jquery.utils
 //= require add_item_input_only
 //= require entries
+//= require twitter
 //= require_self

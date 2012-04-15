@@ -2,4 +2,3 @@
   $("#item_#{@item.id}").hide();
   $("#item_#{@item.id}").html("#{escape_javascript(render partial: 'item', locals: { event_item: @item })}");
   $("#item_#{@item.id}").fadeIn(#{Settings.effect.fade.duration});
-= render partial: "twitter_js"
