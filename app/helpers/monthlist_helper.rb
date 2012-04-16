@@ -15,7 +15,7 @@ module MonthlistHelper
         end
         month = 1
         out += "</div><div id='year_#{y + 1}'>#{y + 1}|"
-      end  
+      end
     end
     out.html_safe
   end
