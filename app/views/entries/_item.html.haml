@@ -17,14 +17,13 @@
           = link_to t("link.show"), entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}"
         - else
           = link_to t("link.edit"), edit_entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :method => :get, :remote => true
-          %br/
           = link_to t("link.delete"), entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :method => :delete, :remote => true, :confirm => t("message.delete_really")
       %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
   - elsif event_item.parent_id
     .item_date.item_move= l(event_item.action_date)
     .item_name.item_move
       = event_item.parent_item.confirmation_required? ? link_to(t('label.confirmation_mark'), entry_confirmation_required_path(event_item.id, :confirmation_required => 'false'), :remote => true, :method => 'put', :class => 'item_confirmation_required') : link_to(t('label.no_confirmation_mark'), entry_confirmation_required_path(event_item.id, :confirmation_required => 'true'), :remote => true, :method => 'put', :class => 'item_confirmation_not_required')
-      #{t(".deposit")} (#{link_to l(event_item.parent_item.action_date, format: :short) + ' ' + event_item.parent_item.name, show_parent_child_item_path(:id=>event_item.id, :type=>'parent'), :remote => true})
+      #{t(".deposit")} (#{link_to l(event_item.parent_item.action_date, format: :short) + ' ' + truncate(event_item.parent_item.name, length: 25), show_parent_child_item_path(:id=>event_item.id, :type=>'parent'), :remote => true})
       - if event_item.tags.size > 0
         [
         - event_item.tags.each do |tag|
@@ -43,10 +42,9 @@
       - item_css_class = ""
     %div{:class => "item_date#{item_css_class}"}
       = l(event_item.action_date)
-      = tweet_button(event_item)
     %div{:class => "item_name#{item_css_class}"}
       = event_item.confirmation_required? ? link_to(t('label.confirmation_mark'), entry_confirmation_required_path(event_item.id, :confirmation_required => 'false'), :remote => true, :method => 'put', :class => 'item_confirmation_required') : link_to(t('label.no_confirmation_mark'), entry_confirmation_required_path(event_item.id, :confirmation_required => 'true'), :remote => true, :method => 'put', :class => 'item_confirmation_not_required')
-      = event_item.name
+      = truncate(event_item.name, length: 25)
       (#{link_to l(event_item.child_item.action_date, format: :short) + ' ' + t(".deposit"), show_parent_child_item_path(:id=>event_item.id, :type=>'child'), :remote => true})
       - if event_item.tags.size > 0
         [
@@ -63,6 +61,7 @@
         - else
           = link_to t("link.edit"), edit_entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :get
           = link_to t("link.delete"), entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :delete, :confirm => t('message.delete_really')
+          = tweet_button(event_item)
       %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
   - else
     - if (@separated_accounts[:income_ids]).include?(event_item.from_account_id)
@@ -73,10 +72,9 @@
       - item_css_class = ""
     %div{:class => "item_date#{item_css_class}"}
       = l(event_item.action_date)
-      = tweet_button(event_item)
     %div{:class => "item_name#{item_css_class}"}
       = event_item.confirmation_required? ? link_to(t('label.confirmation_mark'), entry_confirmation_required_path(event_item.id, :confirmation_required => 'false'), :remote => true, :method => 'put', :class => 'item_confirmation_required') : link_to(t('label.no_confirmation_mark'), entry_confirmation_required_path(event_item.id, :confirmation_required => 'true'), :remote => true, :method => 'put', :class => 'item_confirmation_not_required')
-      = event_item.name
+      = truncate(event_item.name)
       - if event_item.tags.size > 0
         [
         - event_item.tags.each do |tag|
@@ -91,8 +89,7 @@
           = link_to t("link.show"), entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}"
         - else
           = link_to t("link.edit"), edit_entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :get
-          %br/
           = link_to t("link.delete"), entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :delete, :confirm => t("message.delete_really")
-      %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
+          = tweet_button(event_item)
       %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
 .reset
