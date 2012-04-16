@@ -2,19 +2,33 @@ $border_color: #b8b8b8
 $border_width: 1px
 $border_style: solid
 $default_radius: 6px
+$item_date_width: 80px
+$item_name_width: 200px
+$item_from_width: 100px
+$item_to_width: 100px
+$item_amount_width: 70px
+$item_operation_width: 80px
+$item_margin: 1px
+$item_padding: 1px
+
 @mixin default_border
   border: $border_width $border_style $border_color
 @mixin row_column_border
   border: $border_width $border_style $border_color
-  margin: 1px
-  padding: 1px
+  margin: $item_margin
+  padding: $item_padding
 @mixin default_header
   text-align: center
   font-weight: bold
   background: #C9C9C9 url(header-bg-l.gif) repeat-x
-
+@mixin default_item_header
+  @include default_header
+  float: left
+  height: 40px
 @mixin default_item_line
+  @include row_column_border
   height: 3.3em
+  float: left
     
 body
   background: #E6E6E6 url(header-bg.gif) repeat-x scroll 0 0
@@ -169,68 +183,50 @@ div.item_adjustment
   background-color: yellow
 
 div.item_date
-  @include row_column_border
   @include default_item_line
   @include border-left-radius($default_radius)
-  float: left
-  width: 80px
+  width: $item_date_width
   text-align: center
 
 div.item_date_header
-  height: 40px
-  @include default_header
+  @include default_item_header
   @include border-left-radius($default_radius)
 
 div.item_name
-  @include row_column_border
   @include default_item_line
-  float: left
-  width: 200px
+  width: $item_name_width
 
 div.item_name_header
-  height: 40px
-  @include default_header
+  @include default_item_header
 
 div.item_from
-  @include row_column_border
   @include default_item_line
-  float: left
-  width: 100px
+  width: $item_from_width
 
 div.item_to
-  @include row_column_border
   @include default_item_line
-  float: left
-  width: 100px
+  width: $item_to_width
 
 div.item_from_to_header 
   @include row_column_border
-  float: left
-  width: 206px
-  height: 40px
-  @include default_header
+  @include default_item_header
+  width: $border-width * 2 + $item_margin * 2 + $item_padding * 2 + $item_from_width + $item_to_width
 
 div.item_amount 
-  @include row_column_border
   @include default_item_line
   text-align: right
-  float: left
-  width: 70px
+  width: $item_amount_width
 
 div.item_amount_header 
-  height: 40px
-  @include default_header
+  @include default_item_header
 
 div.item_operation 
-  @include row_column_border
   @include default_item_line
   @include border-right-radius($default_radius)
-  float: left
-  width: 80px
+  width: $item_operation_width
 
 div.item_operation_header 
-  height: 40px
-  @include default_header
+  @include default_item_header
   @include border-bottom-right-radius($default_radius)
 
 div.reset 
