@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 class Account < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
-  
+
   attr_protected :user_id
-  
+
   belongs_to :user
   has_one :payment_relation, foreign_key: :credit_account_id, class_name: "CreditRelation"
   has_many :credit_relations, foreign_key: :payment_account_id, class_name: "CreditRelation"
@@ -12,7 +12,6 @@ class Account < ActiveRecord::Base
   before_destroy :error_if_items_exist
   before_destroy :error_if_credit_relations_exist
 
-  
   validates_presence_of :name
   validates_length_of :name, :in =>1..255
   validates_presence_of :order_no
@@ -30,14 +29,14 @@ class Account < ActiveRecord::Base
       self.bgcolor = bgcolor.gsub("#","")
     end
   end
-  
+
   #
   # 特定の日付までの残高を取得する
   # my_id でitemのIDを指定すると、そのItemが除外される。また、
   # dateと、my_idに該当するitemのaction_dateが同一の場合、
   # dateと同じ日のitemデータのうち、my_idよりidがおおきいものは残高計算から除外する
   #
-  def self.asset(user, account_id, date, my_id=nil) 
+  def self.asset(user, account_id, date, my_id=nil)
     my_item = my_id ? user.items.find_by_id(my_id) : nil
 
     # amountの算出
@@ -54,7 +53,7 @@ class Account < ActiveRecord::Base
 
     return asset
   end
-  
+
   def self.asset_of_month(user, account_ids, month)
     user.monthly_profit_losses.where(account_id: account_ids).where("month <= ?", month.beginning_of_month).sum(:amount)
   end
@@ -68,8 +67,7 @@ class Account < ActiveRecord::Base
     end
     return due_date
   end
-  
-  
+
   private
   def self.asset_to_last_month_except_self(user, account_id, item, date)
     #
@@ -78,7 +76,7 @@ class Account < ActiveRecord::Base
     asset_of_month(user, account_id, date.beginning_of_month.months_ago(1)) +
       correlate_for_self(account_id, item, date.beginning_of_month)
   end
-  
+
   def self.correlate_for_self(account_id, item, this_month)
     retval = 0
     if item && item.action_date < this_month
@@ -109,12 +107,12 @@ class Account < ActiveRecord::Base
   end
 
   private
-  
+
   def error_if_items_exist
     items_table = Item.arel_table
     item = Item.where(items_table[:from_account_id].eq(id).or(items_table[:to_account_id].eq(id))).first
     if item
-      errors[:base] << I18n.t('error.already_used_account') + 
+      errors[:base] << I18n.t('error.already_used_account') +
                  "#{I18n.l(item.action_date)} #{item.name} #{number_to_currency(item.amount)}"
     end
     errors.empty?
@@ -128,6 +126,4 @@ class Account < ActiveRecord::Base
     end
     errors.empty?
   end
-  
-
 end
