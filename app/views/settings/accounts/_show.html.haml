@@ -1,9 +1,9 @@
 .cfg_account{:id => "account_#{account.id.to_s}"}
   .cfg_account_name
-    - if account.bgcolor.blank?
-      = account.name
-    - else
+    - if account.bgcolor?
       %span{:style => "background-color: ##{h account.bgcolor};"}= h account.name
+    - else
+      = account.name
   .cfg_account_order= account.order_no
   .cfg_account_operation
     = link_to t("link.edit"), edit_settings_account_path(account.id), :method => :get, :remote => true
