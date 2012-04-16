@@ -12,10 +12,10 @@ class Api::YearlyBudgetsController < ApplicationController
 
     budget_type = params[:budget_type]
     results = ['outgo', 'income'].include?(budget_type) ? _get_income_or_outgo_data(budget_type, date_since) : _get_total_data(date_since)
-    
+
     respond_with results
   end
-  
+
   private
   def _redirect_if_invalid_year_month!
     unless CommonUtil.valid_combined_year_month?(params[:id])
@@ -33,14 +33,14 @@ class Api::YearlyBudgetsController < ApplicationController
       return false
     end
   end
-  
+
   def _get_income_or_outgo_data(budget_type, date_since)
     accounts = @user.accounts.where(account_type: budget_type).order("order_no").all
     accounts << Account.new {|a|
       a.id = -1
       a.name = 'Unknown'
     }
-    
+
     results = accounts.inject({}) { |ret, acc|
       amounts = (0..11).map { |i|
         mpl = @user.monthly_profit_losses.where(month: date_since.months_since(i), account_id: acc.id).first
@@ -75,7 +75,7 @@ class Api::YearlyBudgetsController < ApplicationController
       ret[:totals] << [json_date, (-1) * totals[:total]]
       ret
     }
-    
+
     { outgo: { label: I18n.t('label.outgoing'), data: results[:outgos] },
       income: { label: I18n.t('label.income'), data: results[:incomes] },
       total: { label: I18n.t('label.net'), data: results[:totals] }}
@@ -87,7 +87,7 @@ class Api::YearlyBudgetsController < ApplicationController
     income_amount = monthly_pl_scope.where(account_id: income_ids).sum(:amount)
     unknown_amount = monthly_pl_scope.where(account_id: -1).sum(:amount)
     total_amount = outgo_amount + income_amount + unknown_amount
-    
+
     if unknown_amount < 0
       income_amount += unknown_amount
     else
@@ -95,5 +95,4 @@ class Api::YearlyBudgetsController < ApplicationController
     end
     { income: income_amount, outgo: outgo_amount, total: total_amount }
   end
-
 end

@@ -19,7 +19,7 @@ class CommonUtil
     def crypt(str)
       return Digest::SHA1.hexdigest(str)
     end
-    
+
     def valid_combined_year_month?(year_month)
       if year_month.blank? || year_month !~ /^([1-9][0-9]{3})([0-9]{2})$/
         return false

@@ -1,4 +1,4 @@
 :plain
-  $("#confirmation_status").html("#{escape_javascript(render partial: "show")}");
+  $("#confirmation_status").html("#{escape_javascript(render "show")}");
   $("#confirmation_status_body").slideDown(#{Settings.effect.slide.duration});
 

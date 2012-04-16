@@ -3,12 +3,12 @@ class BalanceSheetsController < ApplicationController
   before_filter :required_login
   before_filter :set_categorized_accounts, :only => [:show]
   before_filter :_redirect_if_id_is_blank!, :only => [:show]
-  
+
   def index
     @bs = _snapshot_of_month(displaying_month)
 
     @accounts = @user.accounts.account.order("order_no")
-    
+
     @bs_plus = { }
     @bs_minus = { }
     @plus = []
@@ -33,7 +33,7 @@ class BalanceSheetsController < ApplicationController
     @account_id = params[:id].to_i
     from_date = displaying_month
     to_date = displaying_month.end_of_month
-    
+
     @remain_amount, @items = Item.collect_account_history(@user, @account_id, from_date, to_date)
   end
 
@@ -47,7 +47,7 @@ class BalanceSheetsController < ApplicationController
     end
     bs
   end
-  
+
   def _redirect_if_id_is_blank!
     if params[:id].blank?
       redirect_js_to login_url

@@ -2,13 +2,13 @@
 class ProfitLossesController < ApplicationController
   before_filter :required_login
   before_filter :redirect_if_id_is_blank!, only: :show
-  
+
   def index
     @m_pls = _find_account_id_and_amount_by_month(displaying_month)
     _setup_incomes(@m_pls)
     _setup_outgos(@m_pls)
     _append_unknown_account
-    
+
     render :layout => 'entries'
   rescue ArgumentError => ex # 日付変換等のエラーがあるため
     redirect_to current_entries_url
@@ -45,16 +45,16 @@ class ProfitLossesController < ApplicationController
     @account_incomes = @user.accounts.income.order(:order_no).all
     @total_income = @account_incomes.inject(0) {|sum, ai| sum -= m_pls[ai.id] }
   end
-  
+
   def _setup_outgos(m_pls)
     @account_outgos = @user.accounts.outgo.order(:order_no).all
     @total_outgo = @account_outgos.inject(0) { |sum, og| sum += @m_pls[og.id] }
   end
-  
+
   def _append_unknown_account
     adjustment_amount = @m_pls[-1]
     unknown_account = Account.new{ |a| a.id = -1 }
-    
+
     if adjustment_amount < 0
       unknown_account.name = I18n.t("label.unknown_income")
       @account_incomes << unknown_account

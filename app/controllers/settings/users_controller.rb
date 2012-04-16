@@ -5,7 +5,7 @@ class Settings::UsersController < ApplicationController
   def show
     render :layout => 'entries'
   end
-  
+
   def update
     @user_to_change = User.find(@user.id)
     @user_to_change.update_attributes!(email: params[:email],
@@ -15,5 +15,5 @@ class Settings::UsersController < ApplicationController
   rescue ActiveRecord::RecordInvalid => ex
     render_js_error :id => "warning", :errors => @user_to_change.errors, :default_message => t('error.input_is_invalid')
   end
-  
+
 end

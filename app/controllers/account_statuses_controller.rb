@@ -4,7 +4,7 @@ class AccountStatusesController < ApplicationController
   def show
     @account_statuses = _account_status
   end
-  
+
   private
   def _account_status
     max_date = today
@@ -19,7 +19,7 @@ class AccountStatusesController < ApplicationController
       end
       retval[unknown_account.account_type].push [unknown_account, unknown_total.abs]
     end
-    
+
     retval
   end
 
@@ -41,7 +41,7 @@ class AccountStatusesController < ApplicationController
     end
     retval
   end
-  
+
   def amount_to_last_month(account_id, month)
     @user.monthly_profit_losses.where(account_id: account_id).where("month < ?", month).sum(:amount)
   end

@@ -12,7 +12,7 @@ class Api::YearlyAssetsController < ApplicationController
     accounts = @user.accounts.where(account_type: "account").order(:order_no)
     respond_with _json_assets(accounts, date_since)
   end
-  
+
   private
   def _redirect_if_invalid_year_month!
     unless CommonUtil.valid_combined_year_month?(params[:id])
@@ -33,7 +33,7 @@ class Api::YearlyAssetsController < ApplicationController
 
     results
   end
-  
+
   def _json_account_assets(account_id, date_since)
     json_data = []
     (0..11).inject(Account.asset_of_month(@user, account_id, date_since.months_ago(1))) do |amount, i|
@@ -45,7 +45,7 @@ class Api::YearlyAssetsController < ApplicationController
     end
     json_data
   end
-  
+
   def _json_total_assets(account_ids, date_since)
     initial_total = Account.asset_of_month(@user, account_ids, date_since.months_ago(1))
     ignored, data = (0..11).inject([initial_total, []]) do |total_data, i|

@@ -1,7 +1,7 @@
 class Api::BudgetsController < ApplicationController
   before_filter :required_login
   before_filter :redirect_if_invalid_year_month!
-  
+
   respond_to :json
 
   def show
@@ -18,7 +18,7 @@ class Api::BudgetsController < ApplicationController
         results << { :label => acc.name, :data  => mpl.amount.abs }
       end
     end
-    
+
     # unkown income/outgo
     unknown_mpl = @user.monthly_profit_losses.where(:month => from_date, :account_id => -1).where("amount <> 0").first
     if unknown_mpl

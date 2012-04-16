@@ -3,7 +3,7 @@
     $("#add_form")
       .bind("ajax:before", -> $('#add_button').attr("disabled", "disabled"))
       .bind("ajax:complete", -> $('#add_button').removeAttr("disabled"))
-#menu= render :partial=>'settings/config_menu'
+#menu= render 'settings/config_menu'
 .cfg_credit_relation_list
   %p= t('label.register')
   %div

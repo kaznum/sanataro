@@ -19,7 +19,7 @@ module ActiveRecord
 
       module SingletonMethods
         # Pass a tag string, returns taggables that match the tag string.
-        # 
+        #
         # Options:
         #   :match - Match taggables matching :all or :any of the tags, defaults to :any
         #   :user  - Limits results to those owned by a particular user
@@ -53,7 +53,7 @@ module ActiveRecord
         end
 
         # Pass a tag string, returns taggables that match the tag string for a particular user.
-        # 
+        #
         # Options:
         #   :match - Match taggables matching :all or :any of the tags, defaults to :any
         def find_tagged_with_by_user(tags, user, options = {})
@@ -70,7 +70,7 @@ module ActiveRecord
         # :order - SQL Order how to order the tags. Defaults to "count DESC, tags.name".
         # :match - Match taggables matching :all or :any of the tags, defaults to :any
         def find_related_tags(tags, options = {})
-          #duplicated work, the tags are parsed twice. I need to elimidate this by making find_tagged_with 
+          #duplicated work, the tags are parsed twice. I need to elimidate this by making find_tagged_with
           #accept an array of tags and not just a string
           parsed_tags = Tag.parse(tags)
           related_models = find_tagged_with(tags, :match => options.delete(:match))
