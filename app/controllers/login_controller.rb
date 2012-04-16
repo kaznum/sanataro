@@ -25,7 +25,7 @@ class LoginController < ApplicationController
       redirect_js_to current_entries_url
     end
   end
-  
+
   def do_logout
     if session[:user_id]
       autologin_key = cookies[:autologin]
@@ -42,11 +42,10 @@ class LoginController < ApplicationController
     redirect_to login_url
   end
 
-
   def create_user
     render :layout => 'entries'
   end
-  
+
   def do_create_user
     @user = User.new do |user|
       user.login = params[:login].strip
@@ -77,12 +76,12 @@ class LoginController < ApplicationController
     user.store_sample
     render :layout => 'entries'
   end
-  
+
   private
-  
+
   def _confirmation_key
     a_char = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a
-    Array.new(15){a_char[rand(a_char.size)]}.join    
+    Array.new(15){a_char[rand(a_char.size)]}.join
   end
 
   def _render_login_if_forced!
@@ -97,7 +96,7 @@ class LoginController < ApplicationController
 
   def _autologin_if_required!
     al_params = _get_autologin_params_from_cookies
-    
+
     user = _get_user_by_login_and_autologin_key(al_params[:login], al_params[:autologin_key])
     if user
       _do_login(user.login, nil, "1", true, al_params[:only_add])
@@ -128,7 +127,7 @@ class LoginController < ApplicationController
       _clear_user_session
       return
     end
-    
+
     if is_autologin
       # do nothing(自動ログインの場合は何もしない)
     elsif set_autologin == "1"
@@ -171,7 +170,7 @@ class LoginController < ApplicationController
       cookies.delete :only_add
     end
   end
-  
+
   def _clear_cookies
     cookies.delete :user
     cookies.delete :autologin

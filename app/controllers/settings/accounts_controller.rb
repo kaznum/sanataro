@@ -3,7 +3,7 @@ class Settings::AccountsController < ApplicationController
   include ActionView::Helpers::NumberHelper
   before_filter :required_login
   before_filter :_retrieve_account_or_redirect!, only: [:edit, :update, :destroy, :show]
-  
+
   def index
     @account_type = params[:account_type].presence || 'account'
     unless ['account', 'outgo', 'income'].include?(@account_type)
@@ -24,7 +24,7 @@ class Settings::AccountsController < ApplicationController
   rescue ActiveRecord::RecordInvalid
     render_js_error :id => "add_warning", :errors => @account.errors, :default_message => t("error.input_is_invalid")
   end
-  
+
   def update
     name  = params[:account_name]
     order_no  = params[:order_no]
@@ -43,7 +43,7 @@ class Settings::AccountsController < ApplicationController
       return
     end
   end
-  
+
   private
   def _retrieve_account_or_redirect!
     @account = @user.accounts.find(params[:id])

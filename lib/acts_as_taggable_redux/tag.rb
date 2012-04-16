@@ -28,7 +28,7 @@ class Tag < ActiveRecord::Base
     return tag_names
   end
 
-  # Grab a distinct list of tags only for a particular type of taggable. 
+  # Grab a distinct list of tags only for a particular type of taggable.
   # For example, if you had a taggable Foo, you could get all tags used on Foo via:
   #
   #  Tag.with_type_scope('Foo') { Tag.find(:all) }

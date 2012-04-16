@@ -19,7 +19,7 @@ class MainController < ApplicationController
     item = type == "parent" ? @user.items.find_by_id(id).try(:parent_item) : @user.items.find_by_parent_id(id)
 
     if item
-      redirect_js_to entries_url(:year => item.action_date.year, :month => item.action_date.month) + "#item_#{item.id}" 
+      redirect_js_to entries_url(:year => item.action_date.year, :month => item.action_date.month) + "#item_#{item.id}"
     else
       redirect_js_to login_url
     end

@@ -1,4 +1,4 @@
 ! $("#items").html('');
 - items.each do |it|
   ! $("#items").append("#{ escape_javascript(render partial: "item", locals: {event_item: it}) }");
-! $("#items").append("#{ escape_javascript(render partial: "remains_link") }");
+! $("#items").append("#{ escape_javascript(render "remains_link") }");

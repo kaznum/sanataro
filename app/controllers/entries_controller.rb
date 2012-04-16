@@ -3,7 +3,7 @@ class EntriesController < ApplicationController
   before_filter :required_login
   before_filter :set_categorized_accounts, :only => [:index, :create, :update, :destroy, :new, :edit, :show]
   before_filter :_redirect_to_login_by_js_if_id_is_blank, :only => [:update]
-  
+
   def index
     @tag = params[:tag]
     @mark = params[:mark]
@@ -26,32 +26,32 @@ class EntriesController < ApplicationController
       format.html {  redirect_to current_entries_url }
     end
   end
-  
+
   def _index_with_filter_account_id
     _set_filter_account_id_to_session_from_params
     @items = _get_items(displaying_month)
     render "index_with_filter_account_id"
   end
-  
+
   def _index_with_tag(tag)
     @items = _get_items(nil, false, tag, nil)
     render 'index_with_tag'
   end
-  
+
   def _index_with_mark(mark)
     @items = _get_items(nil, false, nil, mark)
     render 'index_with_mark'
   end
-  
+
   def _default_action_date(month_to_display)
     month_to_display == today.beginning_of_month ? today : month_to_display
   end
-  
+
   def _set_filter_account_id_to_session_from_params
     account_id = params[:filter_account_id].to_i
     session[:filter_account_id] = account_id == 0 ? nil : account_id
   end
-      
+
   def _index_plain(month_to_display)
     @items = _get_items(month_to_display)
     @new_item = Item.new { |item| item.action_date = _default_action_date(month_to_display) }
@@ -67,7 +67,7 @@ class EntriesController < ApplicationController
       _new_entry
     end
   end
-  
+
   def create
     _xhr_action_wrapper("warning") {
       if params[:entry_type] == 'adjustment'
@@ -77,7 +77,7 @@ class EntriesController < ApplicationController
       end
     }
   end
-  
+
   def _xhr_action_wrapper(warning_selector, &block)
     block.call
   rescue ActiveRecord::RecordNotFound => ex
@@ -110,7 +110,7 @@ class EntriesController < ApplicationController
       args.merge!({ confirmation_required: params[:confirmation_required],
                     tag_list: params[:tag_list],
                     action_date: _get_action_date_from_params })
-      
+
       item, updated_item_ids, deleted_item_ids = Teller.update_entry(@user, id, args)
       items = _get_items(displaying_month)
       render "update", locals: { item: item, items: items, updated_item_ids: updated_item_ids }
@@ -124,7 +124,7 @@ class EntriesController < ApplicationController
     end
     return true
   end
-  
+
   def destroy
     _xhr_action_wrapper("warning") {
       item = @user.items.find(params[:id])
@@ -137,7 +137,7 @@ class EntriesController < ApplicationController
       @item = @user.items.find(params[:id])
     }
   end
-  
+
   def show
     _xhr_action_wrapper("warning") {
       @item = @user.items.find(params[:id])
@@ -153,14 +153,14 @@ class EntriesController < ApplicationController
     @item = Item.new(action_date: action_date)
     render "add_item"
   end
-  
+
   # this method is called when a link in the field of adding regular item
   # which switches to the adjustment item new entry input.
   def _new_adjustment
     @action_date = _get_date_by_specific_year_and_month_or_today(params[:year], params[:month])
     render "add_adjustment"
   end
-  
+
   def _get_date_by_specific_year_and_month_or_today(year, month)
     action_date = nil
     begin
@@ -171,17 +171,17 @@ class EntriesController < ApplicationController
     end
     action_date || today
   end
-  
+
   def _create_adjustment
     action_date = _get_action_date_from_params
-    
+
     to_account_id = params[:to].to_i
     adjustment_amount = Item.calc_amount(params[:adjustment_amount])
-    
+
     Item.transaction do
       prev_adj = @user.items.find_by_to_account_id_and_action_date_and_adjustment(to_account_id, action_date, true)
       _do_delete_item(prev_adj.id) if prev_adj
-      
+
       item, updated_item_ids =
         Teller.create_entry(user: @user, action_date: action_date, name: 'Adjustment',
                             from_account_id: -1, to_account_id: to_account_id,
@@ -189,7 +189,7 @@ class EntriesController < ApplicationController
                             adjustment_amount: adjustment_amount)
       @items = _get_items(displaying_month)
       updated_item_ids << item.try(:id)
-      
+
       render "create_adjustment", locals: { item: item, items: @items, updated_item_ids: updated_item_ids.reject(&:nil?).uniq }
 
     end
@@ -215,7 +215,6 @@ class EntriesController < ApplicationController
     end
   end
 
-  
   def _get_action_date_from_params
     Date.parse(params[:action_date])
   rescue
@@ -254,8 +253,7 @@ class EntriesController < ApplicationController
 
     render 'new_simple', :layout => false
   end
-  
-  
+
   #
   # 支出一覧の「すべて表示」をクリックした場合の処理
   #
@@ -265,11 +263,11 @@ class EntriesController < ApplicationController
     else
       month_to_display = month.beginning_of_month
     end
-    
+
     @items = _get_items(month_to_display, true, tag, mark)
     render 'index_for_remaining'
   end
-  
+
   #
   # get items from db
   # remain  true: 非表示の部分を取得

@@ -7,7 +7,7 @@ class Api::AssetsController < ApplicationController
   def show
     year, month = CommonUtil.get_year_month_from_combined(params[:id])
     bs = balances_with_account_of_month(year, month)
-    
+
     respond_with params[:asset_type] == 'debt' ? formatted_debts(bs) : formatted_assets(bs)
   end
 
@@ -17,7 +17,7 @@ class Api::AssetsController < ApplicationController
       redirect_to login_url
     end
   end
-  
+
   def balances_with_account_of_month(year, month)
     date = Date.new(year.to_i, month.to_i)
     mpls = @user.monthly_profit_losses.where("month <= ?", date)

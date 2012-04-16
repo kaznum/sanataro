@@ -4,7 +4,7 @@
       .bind("ajax:before", -> $('#change_button').attr("disabled", "disabled"))
       .bind("ajax:complete", -> $('#change_button').removeAttr("disabled"))
 #menu
-  = render :partial=>'settings/config_menu'
+  = render 'settings/config_menu'
 - if  @user.login != 'demo'
   #input_area
     = form_tag settings_user_path, :remote => true, :method => :put, :id => "edit_user" do

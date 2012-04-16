@@ -2,28 +2,28 @@
 class Teller
   def self.create_entry(args)
     item = Item.new(args)
-    ActiveRecord::Base.transaction do 
+    ActiveRecord::Base.transaction do
       item.save!
     end
     user = item.user
-    
+
     affected_items = []
     affected_items << item.child_item
     affected_items += self.future_adjustments_of_item(item)
     affected_items += self.future_adjustments_of_item(item.child_item)
-    
+
     [item, affected_items.reject(&:nil?).map(&:id).uniq, false]
   end
 
   def self.update_entry(user, id, args)
     item = user.items.find(id)
-    
+
     updated_items = []
     deleted_items = []
     deleted_items << item.child_item
     updated_items += self.future_adjustments_of_item(item)
     updated_items += self.future_adjustments_of_item(item.child_item)
-    
+
     Item.transaction do
       item = item.adjustment? ? self.update_adjustment!(item, args) : self.update_regular_entry!(item, args)
     end
@@ -32,7 +32,7 @@ class Teller
     updated_items << item.child_item
     updated_items += self.future_adjustments_of_item(item)
     updated_items += self.future_adjustments_of_item(item.child_item)
-    
+
     [item, updated_items.reject(&:nil?).map(&:id).uniq, deleted_items.reject(&:nil?).map(&:id).uniq]
   end
 
@@ -47,7 +47,7 @@ class Teller
     item.reload
     item
   end
-  
+
   def self.update_adjustment!(item, args)
     # For simple adjustment, set amount = 0 at once
     # This is to set correct amounts of other adjustment items to calcurate "amount" later.
@@ -75,7 +75,7 @@ class Teller
     item.reload
     item
   end
-  
+
   def self.destroy_entry(user, id)
     item = user.items.find(id)
 

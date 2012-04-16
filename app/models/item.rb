@@ -42,8 +42,7 @@ class Item < ActiveRecord::Base
       errors.add(:to_account_id, I18n.t("errors.messages.invalid"))
     end
   end
-  
-  
+
   ORDER_OF_ENTRIES_LIST = "action_date desc, id desc"
   scope :only_account, lambda { |account_id|  where("from_account_id = ? or to_account_id = ?", account_id, account_id) }
   scope :action_date_between, lambda { |from, to| where("action_date between ? and ?", from, to)}
@@ -51,7 +50,7 @@ class Item < ActiveRecord::Base
   scope :default_limit, limit(Settings.item_list_count)
   scope :remaining, offset(Settings.item_list_count)
   scope :order_for_entries_list, order(ORDER_OF_ENTRIES_LIST)
-  
+
   def validates_action_date_range
     today = Date.today
     if action_date
@@ -72,7 +71,7 @@ class Item < ActiveRecord::Base
   def month
     self.p_month.presence || self.action_date.try(:month)
   end
-  
+
   def day
     self.p_day.presence || self.action_date.try(:day)
   end
@@ -86,7 +85,7 @@ class Item < ActiveRecord::Base
       set_action_date
     end
   end
-  
+
   def month=(m)
     if m.blank?
       self.p_year = self.p_month = self.p_day = nil
@@ -96,7 +95,7 @@ class Item < ActiveRecord::Base
       set_action_date
     end
   end
-  
+
   def day=(d)
     if d.blank?
       self.p_year = self.p_month = self.p_day = nil
@@ -133,8 +132,8 @@ class Item < ActiveRecord::Base
     amount_to_calc.gsub!(/\//, '/1.0/')
     eval(amount_to_calc).to_i
   end
-  
-  protected  
+
+  protected
 
   def set_action_date
     if self.p_year.blank? && self.p_month.blank? && self.p_day.blank?
@@ -153,7 +152,7 @@ class Item < ActiveRecord::Base
     return if account_id == -1
 
     item_adj = future_adjustment(user, action_date, account_id, item_id)
-    
+
     if item_adj
       amount_to_adj = Account.asset(user, account_id, item_adj.action_date, item_adj.id)
       amount = item_adj.adjustment_amount - amount_to_adj
@@ -167,7 +166,7 @@ class Item < ActiveRecord::Base
         item_adj = nil
       end
     end
-    
+
     item_adj
   end
 
@@ -176,7 +175,7 @@ class Item < ActiveRecord::Base
                      adjustment: true).where("(action_date > ? AND id <> ?) OR (action_date = ? AND id > ?)",
                                                 action_date, item_id, action_date, item_id).order("action_date, id").first
   end
-  
+
   #
   # get items from db
   # options
@@ -187,7 +186,7 @@ class Item < ActiveRecord::Base
   #
   def self.find_partial(user, from_date, to_date, filter_options={})
     options = symbolize_keys(filter_options)
-    
+
     if options[:tag].present?
       ret_items = options[:remain] ? user.items.remainings_by_tag(options[:tag]) :
         user.items.partials_by_tag(options[:tag])
@@ -200,7 +199,7 @@ class Item < ActiveRecord::Base
       items = items.order_for_entries_list
       ret_items = options[:remain] ? items.remaining.all : items.default_limit.all
     end
-    
+
     return ret_items
   end
 
@@ -232,7 +231,7 @@ class Item < ActiveRecord::Base
                           :offset => Settings.item_list_count,
                           :order => ORDER_OF_ENTRIES_LIST)
   end
-  
+
   def self.collect_account_history(user, account_id, from_date, to_date)
     items = user.items.action_date_between(from_date, to_date).only_account(account_id).order("action_date")
     remain_amount = user.monthly_profit_losses.where("month < ?", from_date).where(account_id: account_id).sum('amount')

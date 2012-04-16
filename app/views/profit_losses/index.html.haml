@@ -17,7 +17,7 @@
   - calendar_to_date = calendar_to(@user)
   = monthlist(calendar_from_date.year, calendar_from_date.month, calendar_to_date.year, calendar_to_date.month,cur_year, cur_month,'index')
 #menu
-  = render :partial => 'common/menu'
+  = render 'common/menu'
 #pllist
   %table{:width => "914px"}
     %tr
@@ -58,7 +58,7 @@
           %tr
             %td.all_total
               = l(displaying_month, format: :year_month)
-              %br/ 
+              %br/
               #{t('label.gross_profit')}
             %td.all_total{:align => "right"}= number_to_currency(@total_income - @total_outgo)
             %td{:align => "center"} -

@@ -12,7 +12,7 @@ class Admin::UsersController < ApplicationController
       render :nothing => true, :status => :not_implemented
       return
     end
-    
+
     authenticate_or_request_with_http_basic do |username, password|
       username == admin_user && password == admin_password
     end
