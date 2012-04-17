@@ -6,6 +6,6 @@
       = account.name
   .cfg_account_order= account.order_no
   .cfg_account_operation
-    = link_to t("link.edit"), edit_settings_account_path(account.id), :method => :get, :remote => true
-    = link_to t("link.delete"), settings_account_path(account.id), :method => :delete, :confirm => t("message.delete_really"), :remote => true
+    = link_to image_tag("milky/edit.png", alt: t("link.edit"), class: "edit_icon"), edit_settings_account_path(account.id), :method => :get, :remote => true
+    = link_to image_tag("milky/destroy.png", alt: t("link.delete"), class: "destroy_icon"), settings_account_path(account.id), :method => :delete, :confirm => t("message.delete_really"), :remote => true
 .reset
