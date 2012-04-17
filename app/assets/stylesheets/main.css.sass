@@ -14,36 +14,20 @@ $operation_icon_width: 15px
 $operation_icon_padding: 1px
 $operation_icon_hover_padding: 0px
 
+@mixin operation_icon
+  padding: $operation_icon_padding
+  width: $operation_icon_width
+  border: none
 @mixin icon_hover
   @include border-radius(2px)
   padding: $operation_icon_hover_padding
   background: tint(#ffff99, 25%)
   width: $operation_icon_width + 2px
 
-img.show_icon
-  padding: $operation_icon_padding
-  width: $operation_icon_width
-a:hover > img.show_icon
+a > img.show_icon, a > img.edit_icon, a > img.destroy_icon, a > img.tweet_icon
+  @include operation_icon
+a:hover > img.show_icon, a:hover > img.edit_icon, a:hover > img.destroy_icon, a:hover > img.tweet_icon
   @include icon_hover
-
-a > img.edit_icon
-  padding: $operation_icon_padding
-  width: $operation_icon_width
-a:hover > img.edit_icon
-  @include icon_hover
-
-img.destroy_icon
-  padding: $operation_icon_padding
-  width: $operation_icon_width
-a:hover > img.destroy_icon
-  @include icon_hover
-
-.tweet_icon
-  padding: $operation_icon_padding
-  width: $operation_icon_width
-a:hover > img.tweet_icon
-  @include icon_hover
-
 
 @mixin default_border
   border: $border_width $border_style $border_color
