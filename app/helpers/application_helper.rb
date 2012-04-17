@@ -20,7 +20,7 @@ module ApplicationHelper
     to_month = user.monthly_profit_losses.where("amount <> 0").maximum('month') || Date.today.beginning_of_month
     to_month.months_since(2).beginning_of_month
   end
-  
+
   def link_to_tag(tag)
     link_to(tag.name, tag_entries_path(:tag => tag.name), :rel => 'tag')
   end

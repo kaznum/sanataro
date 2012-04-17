@@ -5,7 +5,7 @@ class ItemObserver < ActiveRecord::Observer
     affected_items = []
     MonthlyProfitLoss.correct(user, item.from_account_id, item.action_date.beginning_of_month)
     MonthlyProfitLoss.correct(user, item.to_account_id, item.action_date.beginning_of_month)
-    
+
     Item.update_future_balance(user, item.action_date, item.from_account_id, item.id)
     Item.update_future_balance(user, item.action_date, item.to_account_id, item.id)
     # クレジットカードの処理
@@ -54,7 +54,7 @@ class ItemObserver < ActiveRecord::Observer
       end
     end
   end
-  
+
   private
   def credit_payment_date(user, account_id, date)
     user.accounts.where(id: account_id).first.credit_due_date(date)

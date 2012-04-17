@@ -85,7 +85,7 @@ class User < ActiveRecord::Base
   def deliver_signup_confirmation
     Mailer.signup_confirmation(self).deliver
   end
-  
+
   def deliver_signup_complete
     Mailer.signup_complete(self).deliver
   end
@@ -95,20 +95,20 @@ class User < ActiveRecord::Base
     account2 = self.accounts.create(:name => '銀行A', :order_no => 20, :account_type => 'account')
     account3 = self.accounts.create(:name => '銀行B', :order_no => 30, :account_type => 'account')
     account4_cr = self.accounts.create(:name => 'クレジットカード', :order_no => 40, :account_type => 'account')
-    
+
     income1 = self.accounts.create(:name => '給与', :order_no => 10, :account_type => 'income')
     income2 = self.accounts.create(:name => '賞与', :order_no => 20, :account_type => 'income')
     income3 = self.accounts.create(:name => '雑収入', :order_no => 30, :account_type => 'income')
-    
+
     outgo1 = self.accounts.create(:name => '食費', :order_no => 10, :account_type => 'outgo')
     outgo2 = self.accounts.create(:name => '光熱費', :order_no => 20, :account_type => 'outgo')
     outgo3 = self.accounts.create(:name => '住居費', :order_no => 30, :account_type => 'outgo')
     outgo4 = self.accounts.create(:name => '美容費', :order_no => 40, :account_type => 'outgo')
     outgo5 = self.accounts.create(:name => '衛生費', :order_no => 50, :account_type => 'outgo')
     outgo6 = self.accounts.create(:name => '雑費', :order_no => 60, :account_type => 'outgo')
-    
+
     credit_relation = self.credit_relations.create(:credit_account_id => account4_cr.id, :payment_account_id => account3.id, :settlement_day => 25, :payment_month => 2, :payment_day => 4)
-    
+
     item_income = self.items.create(:name => 'サンプル収入(消してかまいません)', :from_account_id => income3.id, :to_account_id => account1.id, :amount => 1000, :action_date => Date.today)
     item_outgo = self.items.create(:name => 'サンプル(消してかまいません)', :from_account_id => account1.id, :to_account_id => outgo1.id, :amount => 250, :action_date => Date.today, :tag_list => 'タグもOK')
   end

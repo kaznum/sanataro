@@ -35,9 +35,7 @@ class ProfitLossesController < ApplicationController
   def _find_account_id_and_amount_by_month(month)
     pls = { }
     pls.default = 0
-    @user.monthly_profit_losses.where(month: month).each do |pl|
-      pls[pl.account_id] = pl.amount
-    end
+    @user.monthly_profit_losses.where(month: month).each {|pl| pls[pl.account_id] = pl.amount}
     pls
   end
 
