@@ -7,9 +7,43 @@ $item_name_width: 200px
 $item_from_width: 100px
 $item_to_width: 100px
 $item_amount_width: 70px
-$item_operation_width: 80px
+$item_operation_width: 70px
 $item_margin: 1px
 $item_padding: 1px
+$operation_icon_width: 15px
+$operation_icon_padding: 1px
+$operation_icon_hover_padding: 0px
+
+@mixin icon_hover
+  @include border-radius(2px)
+  padding: $operation_icon_hover_padding
+  background: tint(#ffff99, 25%)
+  width: $operation_icon_width + 2px
+
+img.show_icon
+  padding: $operation_icon_padding
+  width: $operation_icon_width
+a:hover > img.show_icon
+  @include icon_hover
+
+a > img.edit_icon
+  padding: $operation_icon_padding
+  width: $operation_icon_width
+a:hover > img.edit_icon
+  @include icon_hover
+
+img.destroy_icon
+  padding: $operation_icon_padding
+  width: $operation_icon_width
+a:hover > img.destroy_icon
+  @include icon_hover
+
+.tweet_icon
+  padding: $operation_icon_padding
+  width: $operation_icon_width
+a:hover > img.tweet_icon
+  @include icon_hover
+
 
 @mixin default_border
   border: $border_width $border_style $border_color
@@ -118,7 +152,7 @@ div#input_item_area p#add_item_explain
     size: 1.2em
   margin: 1px
 
-div#itemlistarea 
+div#itemlistarea
   @include row_column_border
 
 div#asset_graph
@@ -138,9 +172,9 @@ table#account_status_table
   width: 100%
 
 div.wrapper
-  width: 867px
+  width: 787px + $item_operation_width
 
-.drawer 
+.drawer
   background: #C9C9C9 url(header-bg.gif) repeat-x
   @include default_border
   @include border-top-radius($default_radius)
@@ -158,11 +192,11 @@ div#left_area
   display: block
   background-color: #fff
   float: left
-  width: 672px
+  width: 592px + $item_operation_width
 
 div#right_area
   background-color: #fff
-  margin-left: 672px
+  margin-left: 592px + $item_operation_width
   display: block
   width: 195px
 
@@ -207,121 +241,122 @@ div.item_to
   @include default_item_line
   width: $item_to_width
 
-div.item_from_to_header 
+div.item_from_to_header
   @include row_column_border
   @include default_item_header
   width: $border-width * 2 + $item_margin * 2 + $item_padding * 2 + $item_from_width + $item_to_width
 
-div.item_amount 
+div.item_amount
   @include default_item_line
   text-align: right
   width: $item_amount_width
 
-div.item_amount_header 
+div.item_amount_header
   @include default_item_header
 
-div.item_operation 
+div.item_operation
   @include default_item_line
   @include border-right-radius($default_radius)
   width: $item_operation_width
+  text-align: center
 
-div.item_operation_header 
+div.item_operation_header
   @include default_item_header
   @include border-bottom-right-radius($default_radius)
 
-div.reset 
+div.reset
   clear: left
 
-div.cfg_account_list 
+div.cfg_account_list
   background-color: #ffffff
   width: 500px
   @include row_column_border
 
-div.cfg_credit_relation_list 
+div.cfg_credit_relation_list
   background-color: #ffffff
   width: 600px
   @include row_column_border
 
-div.cfg_account 
+div.cfg_account
   height: 22px
   margin: 1px
 
-div.cfg_account_name 
+div.cfg_account_name
   @include row_column_border
   float: left
   width: 200px
   height: 18px
 
-div.cfg_account_order 
+div.cfg_account_order
   @include row_column_border
   float: left
   width: 50px
   height: 18px
 
-div.cfg_account_operation 
+div.cfg_account_operation
   @include row_column_border
   float: left
   width: 70px
   height: 18px
   text-align: center
 
-div.cfg_account_header 
+div.cfg_account_header
   @include default_header
 
-div.cfg_credit_relation_name 
+div.cfg_credit_relation_name
   @include row_column_border
   float: left
   width: 150px
   height: 18px
   text-align: center
 
-div.cfg_credit_relation_name 
+div.cfg_credit_relation_name
   @include row_column_border
   float: left
   width: 150px
   height: 18px
   text-align: center
 
-div.cfg_payment_relation_name 
+div.cfg_payment_relation_name
   @include row_column_border
   float: left
   width: 150px
   height: 18px
   text-align: center
 
-div.cfg_settlement_day 
+div.cfg_settlement_day
   @include row_column_border
   float: left
   width: 80px
   height: 18px
   text-align: center
 
-div.cfg_payment_date 
+div.cfg_payment_date
   @include row_column_border
   float: left
   width: 100px
   height: 18px
   text-align: center
 
-div.cfg_credit_relation_operation 
+div.cfg_credit_relation_operation
   @include row_column_border
   float: left
   width: 70px
   height: 18px
   text-align: center
 
-div.cfg_credit_relation_header 
+div.cfg_credit_relation_header
   @include default_header
 
-div#bslist 
+div#bslist
   background-color: #ffffff
   width: 930px
 
-div#pllist 
+div#pllist
   background-color: #ffffff
   width: 914px
 
-div.item_remains 
+div.item_remains
   text-align: right
 
 .item_confirmation_required
@@ -336,5 +371,3 @@ div.item_remains
 
 input[type=submit]
   @include button(pill, gray)
-  
-  

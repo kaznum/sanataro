@@ -17,7 +17,7 @@ module TwitterHelper
     tags << "sanataro"
     escaped_hashtags = URI.escape(tags.join(","))
 
-    link_to(image_tag("http://a4.twimg.com/images/favicon.ico", :alt=> "Tweet"), url_for("#{TWITTER_SHARE_URL}?url=#{escaped_url}&text=#{escaped_text}&hashtags=#{escaped_hashtags}&source=tweetbutton&lang=ja"), class: "tweet_button", onclick: "open_twitter(this.getAttribute('href'));return false;")
+    link_to(image_tag("http://a4.twimg.com/images/favicon.ico", alt: "Tweet", class: "tweet_icon"), url_for("#{TWITTER_SHARE_URL}?url=#{escaped_url}&text=#{escaped_text}&hashtags=#{escaped_hashtags}&source=tweetbutton&lang=ja"), class: "tweet_button", onclick: "open_twitter(this.getAttribute('href'));return false;")
   end
 end
 
