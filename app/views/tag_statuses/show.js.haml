@@ -1,4 +1,4 @@
 :plain
-  $("#tag_status").html("#{escape_javascript(render "show")}");
+  $("#tag_status").html("#{j(render "show")}");
   $("#tag_status_body").slideDown(#{Settings.effect.slide.duration});
 

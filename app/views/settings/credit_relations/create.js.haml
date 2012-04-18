@@ -1,6 +1,6 @@
 ! $("#warning").html('');
 ! $("#credit_relations").html('');
 - @credit_relations.each do |cr|
-  ! $("#credit_relations").append("#{escape_javascript(render partial: "show", locals: { cr: cr })}");
+  ! $("#credit_relations").append("#{j(render partial: "show", locals: { cr: cr })}");
 = highlight("#credit_relation_#{@cr.id} div")
 
