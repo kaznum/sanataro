@@ -2,8 +2,8 @@
   $ ->
     $('#colorpicker_#{@account.id}').farbtastic('#colorfield_#{@account.id}')
     $("#edit_form_#{@account.id}")
-      .bind("ajax:before", -> $('#edit_button_#{@account.id}').attr('disabled', 'disabled'))
-      .bind("ajax:complete", -> $('#edit_button_#{@account.id}').removeAttr('disabled'))
+      .bind("ajax:before", -> $('#edit_button_#{@account.id}').attr('disabled', true))
+      .bind("ajax:complete", -> $('#edit_button_#{@account.id}').attr('disabled', false))
 %div{:id => "account_#{@account.id}"}
   = form_tag settings_account_path(@account.id), :method => :put, :remote => true, :id => "edit_form_#{@account.id}" do
     = text_field_tag :account_name, @account.name, :size=>20
