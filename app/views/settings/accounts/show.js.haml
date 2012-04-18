@@ -1,1 +1,1 @@
-! $("#account_#{@account.id}").replaceWith("#{escape_javascript(render partial: 'show', locals: { account: @account })}")
+! $("#account_#{@account.id}").replaceWith("#{j(render partial: 'show', locals: { account: @account })}")

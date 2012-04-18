@@ -1,8 +1,8 @@
 :coffeescript
   $ ->
     $("#add_form")
-      .bind("ajax:before", -> $('#add_button').attr("disabled", "disabled"))
-      .bind("ajax:complete", -> $('#add_button').removeAttr("disabled"))
+      .bind("ajax:before", -> $('#add_button').attr("disabled", true))
+      .bind("ajax:complete", -> $('#add_button').attr("disabled", false))
 #menu= render 'settings/config_menu'
 .cfg_credit_relation_list
   %p= t('label.register')

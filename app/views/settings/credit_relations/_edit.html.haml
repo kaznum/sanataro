@@ -1,8 +1,8 @@
 :coffeescript
   $ ->
     $('#edit_form_#{@cr.id}')
-      .bind("ajax:before", -> $('#edit_button_#{@cr.id}').attr("disabled", "disabled"))
-      .bind("ajax:complete", -> $('#edit_button_#{@cr.id}').removeAttr("disabled"))
+      .bind("ajax:before", -> $('#edit_button_#{@cr.id}').attr("disabled", true))
+      .bind("ajax:complete", -> $('#edit_button_#{@cr.id}').attr("disabled", false))
 %div{:id => "credit_relation_#{@cr.id}"}
   = form_tag settings_credit_relation_path(@cr.id), :remote => true, :method => :put, :id => "edit_form_#{@cr.id}" do
     %table

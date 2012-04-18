@@ -1,8 +1,8 @@
 :coffeescript
   $ ->
     $("#do_add_item")
-      .bind("ajax:before", -> $('#new_add_button').attr('disabled', 'disabled'))
-      .bind("ajax:complete", -> $('#new_add_button').removeAttr('disabled'))
+      .bind("ajax:before", -> $('#new_add_button').attr('disabled', true))
+      .bind("ajax:complete", -> $('#new_add_button').attr('disabled', false))
     $("#action_date").datepicker()
 %p#add_item_explain
   = t('label.register_adjustment')

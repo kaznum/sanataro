@@ -2,11 +2,11 @@
   $ ->
     $("#edit_#{item.id}_form")
       .bind("ajax:before", ->
-        $('#edit_button_#{item.id}').attr 'disabled', 'disabled'
+        $('#edit_button_#{item.id}').attr 'disabled', true
         $('#item_operation_#{item.id}').hide()
         $('#item_operation_loading_#{item.id}').show())
       .bind("ajax:complete", ->
-        $('#edit_button_#{item.id}').removeAttr 'disabled'
+        $('#edit_button_#{item.id}').attr 'disabled', false
         $('#item_operation_loading_#{item.id}').hide()
         $('#item_operation_#{item.id}').show())
 .item{:id => "item_#{item.id}"}
