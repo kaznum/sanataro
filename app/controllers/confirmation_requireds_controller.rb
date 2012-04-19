@@ -4,6 +4,9 @@ class ConfirmationRequiredsController < ApplicationController
   before_filter :_redirect_to_current_entries_if_params_are_invalid!
 
   def update
+    @tag = params[:tag]
+    @mark = params[:mark]
+
     @entry = Item.find(params[:entry_id])
     @entry.update_confirmation_required_of_self_or_parent(params[:confirmation_required])
   rescue ActiveRecord::RecordNotFound

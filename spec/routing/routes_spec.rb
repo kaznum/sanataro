@@ -8,13 +8,13 @@ describe :routes do
       it { should route_to("login#login") }
     end
   end
-  
+
   describe 'login' do
     describe 'GET login' do
       subject { get('/login') }
       it { should route_to(controller: 'login', action: 'login') }
     end
-    
+
     describe 'named route' do
       subject { get( login_path ) }
       it { should route_to(controller: 'login', action: 'login') }
@@ -42,7 +42,7 @@ describe :routes do
       it { should route_to(controller: 'login', action: 'do_logout') }
     end
   end
-  
+
   describe "reload_config" do
     describe 'GET reload_config' do
       subject { post('/reload_config') }
@@ -164,7 +164,7 @@ describe :routes do
       it { should route_to(controller: 'balance_sheets', action: 'index', year: "2008", month: "3") }
     end
   end
-  
+
   describe '/tags/:tag/..' do
     describe 'GET "entries"' do
       subject { { get: '/tags/hogehoge/entries' }}
@@ -177,7 +177,19 @@ describe :routes do
     end
   end
 
-  describe '/marks/:mark/..' do
+  describe '/tags/:tag/entries/:entry_id/confirmation_required' do
+    describe 'PUT "confirmation_required"' do
+      subject { { put: '/tags/hogehoge/entries/10/confirmation_required' }}
+      it { should route_to(controller: 'confirmation_requireds', action: 'update', tag: 'hogehoge', entry_id: '10')}
+    end
+
+    describe 'named route' do
+      subject { { put: tag_entry_confirmation_required_path('hogehoge', 10) }}
+      it { should route_to(controller: 'confirmation_requireds', action: 'update', tag: 'hogehoge', entry_id: '10')}
+    end
+  end
+
+  describe "/marks/:mark/.." do
     describe 'GET "entries"' do
       subject { { get: '/marks/hogehoge/entries' }}
       it { should route_to(controller: 'entries', action: 'index', mark: 'hogehoge')}
@@ -186,6 +198,18 @@ describe :routes do
     describe 'named route' do
       subject { { get: mark_entries_path('hogehoge') }}
       it { should route_to(controller: 'entries', action: 'index', mark: 'hogehoge')}
+    end
+  end
+
+  describe '/marks/:mark/entries/:entry_id/confirmation_required' do
+    describe 'PUT "confirmation_required"' do
+      subject { { put: '/marks/hogehoge/entries/10/confirmation_required' }}
+      it { should route_to(controller: 'confirmation_requireds', action: 'update', mark: 'hogehoge', entry_id: '10')}
+    end
+
+    describe 'named route' do
+      subject { { put: mark_entry_confirmation_required_path('hogehoge', 10) }}
+      it { should route_to(controller: 'confirmation_requireds', action: 'update', mark: 'hogehoge', entry_id: '10')}
     end
   end
 
@@ -204,8 +228,7 @@ describe :routes do
       it { should route_to("#{controller.pluralize}#destroy") }
     end
   end
-  
-  
+
   describe 'entry_candidates' do
     subject {get("/entry_candidates") }
     it { should route_to("entry_candidates#index") }
@@ -245,7 +268,7 @@ describe :routes do
         it {should route_to("settings/#{controller}#edit", id: "10") }
       end
     end
-    
+
     describe "user" do
       describe "get" do
         subject { get("/settings/user") }
