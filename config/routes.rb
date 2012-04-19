@@ -23,12 +23,12 @@ Kakeibo3::Application.routes.draw do
     resources :balance_sheets, :as => 'current_balance_sheets'
   end
 
-  scope '/tags/:tag' do
-    resources :entries, :as => 'tag_entries'
-  end
-
-  scope '/marks/:mark' do
-    resources :entries, :as => 'mark_entries'
+  %w( tag mark ).each do |s|
+    scope "/#{s.pluralize}/:#{s}", as: s.to_sym do
+      resources :entries do
+        resource :confirmation_required
+      end
+    end
   end
 
   resources :entries do
