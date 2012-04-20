@@ -14,7 +14,7 @@ describe User do
       @user.login = 'test_1'
     end
 
-    context "when all attributes are valid," do 
+    context "when all attributes are valid," do
       subject {
         @user.save
         @user
@@ -36,7 +36,6 @@ describe User do
       it { should be_new_record }
       specify { subject.errors[:email].should_not be_empty }
     end
-  
 
     describe "when email is formatted wrong," do
       subject {
@@ -247,8 +246,8 @@ describe User do
     end
 
     subject { @h_accounts }
-    specify { subject.size.should > 0 }
-    
+    its(:size) { should > 0 }
+
     specify {
       actual = @user1.accounts.where(:account_type => ['account', 'income']).size
       subject[:from_accounts].should have(actual).records
@@ -268,7 +267,7 @@ describe User do
       actual = @user1.accounts.where(:account_type => ['account','income','outgo']).size
       subject[:all_accounts].should have(actual).records
     }
-    
+
     specify {
       actual = @user1.accounts.where(:account_type => 'income').size
       subject[:income_ids].should have(actual).records
@@ -278,12 +277,12 @@ describe User do
       actual = @user1.accounts.where(:account_type => 'outgo').size
       subject[:outgo_ids].should have(actual).records
     }
-    
+
     specify {
       actual = @user1.accounts.where(:account_type => 'account').size
       subject[:account_ids].should have(actual).records
     }
-    
+
     specify {
       actual = @user1.accounts.where("bgcolor IS NOT NULL").size
       subject[:account_bgcolors].should have(actual).records
@@ -299,7 +298,7 @@ describe User do
       user.deliver_signup_confirmation
     }
   end
-  
+
   describe "#deliver_signup_complete" do
     let(:user) { User.new }
     specify {
@@ -314,7 +313,7 @@ describe User do
     before do
       @user = Fabricate(:user, login: "sample")
     end
-    
+
     specify {
       @user.should_receive(:accounts).exactly(13).times.and_return(@mock_accounts = mock([Account]))
       @user.should_receive(:credit_relations).once.and_return(@mock_crs = mock([CreditRelation]))

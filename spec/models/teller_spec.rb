@@ -11,9 +11,7 @@ describe Teller do
       end
 
       describe "raise error" do
-        specify {
-          expect { @action.call }.to raise_error(ActiveRecord::RecordInvalid)
-        }
+        it { expect { @action.call }.to raise_error(ActiveRecord::RecordInvalid) }
       end
 
       describe "Item.count" do
@@ -164,9 +162,7 @@ describe Teller do
         end
         
         describe "Item.count" do
-          specify {
-            expect { @create.call }.to change{ Item.count }.by(1)
-          }
+          it { expect { @create.call }.to change{ Item.count }.by(1) }
         end
       end
       
@@ -178,9 +174,7 @@ describe Teller do
         it_should_behave_like "created only itself successfully"
         
         describe "adjustment just next to the created item" do
-          specify {
-            expect { @create.call }.to change{ Item.find(items(:adjustment2).id).amount }.by(10000)
-          }
+          it { expect { @create.call }.to change{ Item.find(items(:adjustment2).id).amount }.by(10000) }
         end
 
         describe "affected_item_ids" do
@@ -201,33 +195,23 @@ describe Teller do
         end
 
         describe "adjustment which is the next of the adjustment next to the created item" do
-          specify {
-            expect { @create.call }.not_to change{ Item.find(items(:adjustment4).id).amount }
-          }
+          it { expect { @create.call }.not_to change{ Item.find(items(:adjustment4).id).amount } }
         end
 
         describe "adjustment which is the second next of the adjustment next to the created item" do
-          specify {
-            expect { @create.call }.not_to change{ Item.find(items(:adjustment6).id).amount }
-          }
+          it { expect { @create.call }.not_to change{ Item.find(items(:adjustment6).id).amount } }
         end
 
         describe "monthly pl which is before the created item" do
-          specify {
-            expect { @create.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id) }
-          }
+          it { expect { @create.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id) } }
         end
         
         describe "monthly pl of the same month of the created item" do
-          specify {
-            expect { @create.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id) }
-          }
+          it {  expect { @create.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id) } }
         end
         
         describe "monthly pl of the next month of the created item" do
-          specify {
-            expect { @create.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id) }
-          }
+          it { expect { @create.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id) } }
         end
       end
 
@@ -239,15 +223,11 @@ describe Teller do
         it_should_behave_like "created only itself successfully"
         
         describe "adjustment which is before the created item" do
-          specify { 
-            expect { @create.call }.not_to change{ Item.find(@init_adj2.id).amount }
-          }
+          it { expect { @create.call }.not_to change{ Item.find(@init_adj2.id).amount } }
         end
 
         describe "adjustment which is next to the created item in the same month" do
-          specify { 
-            expect { @create.call }.to change{ Item.find(@init_adj4.id).amount }.by(10000)
-          }
+          it { expect { @create.call }.to change{ Item.find(@init_adj4.id).amount }.by(10000) }
         end
 
         describe "affected_item_ids" do
@@ -268,33 +248,22 @@ describe Teller do
         end
         
         describe "adjustment which is second next to the created item in the next month" do
-          specify { 
-            expect { @create.call }.not_to change{ Item.find(@init_adj6.id).amount }
-          }
+          it { expect { @create.call }.not_to change{ Item.find(@init_adj6.id).amount } }
         end
         
         describe "the adjusted account's monthly_pl of the last month of the created item" do
-          specify {
-            expect { @create.call }.not_to change{ 
-              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount
-            }
-          }
+          it { expect { @create.call }.not_to change{
+              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount }}
         end
 
         describe "the adjusted account's monthly_pl of the same month as that of the created item" do
-          specify {
-            expect { @create.call }.not_to change{ 
-              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount
-            }
-          }
+          it { expect { @create.call }.not_to change{
+              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount }}
         end
 
         describe "the adjusted account's monthly_pl of the next month of the created item" do
-          specify {
-            expect { @create.call }.not_to change{ 
-              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount
-            }
-          }
+          it { expect { @create.call }.not_to change{
+              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }}
         end
 
         describe "the non-adjusted account's monthly_pl of the next month of the created item" do
@@ -306,11 +275,9 @@ describe Teller do
         end
 
         describe "the non-adjusted account's monthly_pl of the same month as the created item" do
-          specify {
-            expect { @create.call }.to change{ 
+          it { expect { @create.call }.to change{
               MonthlyProfitLoss.where(:account_id => accounts(:outgo3).id, :month => Date.new(2008,2,1)).first.amount
-            }.by(10000)
-          }
+            }.by(10000) }
         end
         
       end
@@ -324,22 +291,16 @@ describe Teller do
         it_should_behave_like "created only itself successfully"
         
         describe "the adjustment of the month before the item" do
-          specify {
-            expect { @create.call }.not_to change{ Item.find(@init_adj2.id).amount }
-          }
+          it { expect { @create.call }.not_to change{ Item.find(@init_adj2.id).amount } }
         end
         
         describe "the adjustments of the date before the item" do
-          specify {
-            expect { @create.call }.not_to change{ Item.find(@init_adj2.id).amount }
-            expect { @create.call }.not_to change{ Item.find(@init_adj4.id).amount }
-          }
+          it { expect { @create.call }.not_to change{ Item.find(@init_adj2.id).amount } }
+          it { expect { @create.call }.not_to change{ Item.find(@init_adj4.id).amount } }
         end
 
         describe "the adjustments of the next of item" do
-          specify {
-            expect { @create.call }.to change{ Item.find(@init_adj6.id).amount }.by(10000)
-          }
+          it { expect { @create.call }.to change{ Item.find(@init_adj6.id).amount }.by(10000) }
         end
         
         describe "affected_item_ids" do
@@ -360,27 +321,20 @@ describe Teller do
         end
 
         describe "the adjusted account's monthly_pl of the last month of the created item" do
-          specify {
-            expect { @create.call }.not_to change{ 
-              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount
-            }
-          }
+          it { expect { @create.call }.not_to change{
+              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount }}
         end
 
         describe "the adjusted account's monthly_pl of the same month as that of the created item" do
-          specify {
-            expect { @create.call }.to change{ 
+          it { expect { @create.call }.to change{
               MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount
-            }.by(-10000)
-          }
+            }.by(-10000)}
         end
 
         describe "the adjusted account's monthly_pl of the next month of the created item" do
-          specify {
-            expect { @create.call }.to change{ 
+            it { expect { @create.call }.to change{
               MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount
-            }.by(10000)
-          }
+            }.by(10000) }
         end
 
         describe "the non-adjusted account's monthly_pl of the next month of the created item" do
@@ -392,11 +346,9 @@ describe Teller do
         end
 
         describe "the non-adjusted account's monthly_pl of the same month as the created item" do
-          specify {
-            expect { @create.call }.to change{ 
+          it { expect { @create.call }.to change{
               MonthlyProfitLoss.where(:account_id => accounts(:outgo3).id, :month => Date.new(2008,2,1)).first.amount
-            }.by(10000)
-          }
+            }.by(10000) }
         end
       end
 
@@ -408,16 +360,12 @@ describe Teller do
         it_should_behave_like "created only itself successfully"
         
         describe "the adjustment of the month before the item" do
-          specify {
-            expect { @create.call }.not_to change{ Item.find(@init_adj2.id).amount }
-            expect { @create.call }.not_to change{ Item.find(@init_adj4.id).amount }
-          }
+          it { expect { @create.call }.not_to change{ Item.find(@init_adj2.id).amount } }
+          it { expect { @create.call }.not_to change{ Item.find(@init_adj4.id).amount } }
         end
         
         describe "the adjustments of the next of item" do
-          specify {
-            expect { @create.call }.to change{ Item.find(@init_adj6.id).amount }.by(10000)
-          }
+          it { expect { @create.call }.to change{ Item.find(@init_adj6.id).amount }.by(10000) }
         end
 
         
@@ -439,25 +387,16 @@ describe Teller do
         end
 
         describe "the adjusted account's monthly_pl of the last month or before of the created item" do
-          specify {
-            expect { @create.call }.not_to change{ 
-              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount
-            }
-          }
-          
-          specify {
-            expect { @create.call }.not_to change{ 
-              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount
-            }
-          }
+          it { expect { @create.call }.not_to change{
+              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount }}
+
+          it { expect { @create.call }.not_to change{
+              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount }}
         end
 
         describe "the adjusted account's monthly_pl of the same month as that of the created item" do
-          specify {
-            expect { @create.call }.not_to change{ 
-              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount
-            }
-          }
+          it { expect { @create.call }.not_to change{
+              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }}
         end
 
         describe "the non-adjusted account's monthly_pl of the same month as the created item which does not exist before." do
@@ -478,11 +417,9 @@ describe Teller do
         it_should_behave_like "created only itself successfully"
         
         describe "the adjustment of the month before the item" do
-          specify {
-            expect { @create.call }.not_to change{ Item.find(@init_adj2.id).amount }
-            expect { @create.call }.not_to change{ Item.find(@init_adj4.id).amount }
-            expect { @create.call }.not_to change{ Item.find(@init_adj6.id).amount }
-          }
+          it { expect { @create.call }.not_to change{ Item.find(@init_adj2.id).amount }}
+          it { expect { @create.call }.not_to change{ Item.find(@init_adj4.id).amount }}
+          it { expect { @create.call }.not_to change{ Item.find(@init_adj6.id).amount }}
         end
         
         describe "affected_item_ids" do
@@ -494,25 +431,17 @@ describe Teller do
         end
         
         describe "the adjusted account's monthly_pl of the last month or before of the created item" do
-          specify {
-            expect { @create.call }.not_to change{ 
-              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount
-            }
-          }
-          
-          specify {
-            expect { @create.call }.not_to change{ 
-              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount
-            }
-          }
+          it { expect { @create.call }.not_to change{
+              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount }}
+
+          it { expect { @create.call }.not_to change{
+              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount }}
         end
 
         describe "the adjusted account's monthly_pl of the same month as that of the created item" do
-          specify {
-            expect { @create.call }.to change{ 
+          it { expect { @create.call }.to change{
               MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount
-            }.by(-10000)
-          }
+            }.by(-10000)}
         end
 
         describe "the non-adjusted account's monthly_pl of the same month as the created item which does not exist before." do
@@ -558,9 +487,7 @@ describe Teller do
         end
         
         describe "Item.count" do
-          specify {
-            expect { @create.call }.to change{ Item.count }.by(2)
-          }
+          it { expect { @create.call }.to change{ Item.count }.by(2) }
         end
       end
       
