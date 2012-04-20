@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe Item do
   fixtures :items, :users, :accounts, :monthly_profit_losses
-  before do 
+  before do
     @valid_attrs = {
       :name => 'aaaa',
       :year => 2008,
@@ -23,7 +23,7 @@ describe Item do
       @item = users(:user1).items.create!(@valid_attrs)
       @saved_item = Item.find(@item.id)
     end
-    
+
     describe "created item's attributes" do
       subject { @saved_item }
       its(:action_date) { should == Date.new(2008,10,17) }
@@ -571,31 +571,31 @@ describe Item do
         subject { Item.find_partial(users(:user1), @from_date, @to_date, {'remain'=>true}) }
         it { should have(0).entries }
       end
-      
+
       context "when :filter_account_id is specified" do 
         subject { Item.find_partial(users(:user1), @from_date, @to_date, {:filter_account_id=>accounts(:bank11).id}) }
         it { should have(15).entries }
       end
-        
+
       context "when :filter_account_id and :remain is specified" do 
         subject { Item.find_partial(users(:user1), @from_date, @to_date, {:filter_account_id=>accounts(:bank11).id, :remain => true}) }
         it { should have(0).entries }
       end
     end
   end
-  
+
   describe "collect_account_history" do
     describe "amount" do
       before do
         @amount, @items = Item.collect_account_history(users(:user1), accounts(:bank1).id, Date.new(2008,2,1), Date.new(2008,2,29))
       end
-      
-      describe "amount" do 
+
+      describe "amount" do
         subject { @amount }
         it { should == 8000 }
       end
 
-      describe "items" do 
+      describe "items" do
         subject {@items}
         specify {
           subject.each do |item|
@@ -615,7 +615,7 @@ describe Item do
   end
 
   describe "child_item" do
-    before do 
+    before do
       p_it = users(:user1).items.new(name: 'p hogehoge',
                                      from_account_id: 1,
                                      to_account_id: 2,
@@ -795,9 +795,7 @@ describe Item do
     end
 
     context "when amount is '200'.to_i ," do
-      specify {
-        expect { Item.calc_amount("'200'.to_i") }.to raise_error(SyntaxError)
-      }
+      it { expect { Item.calc_amount("'200'.to_i") }.to raise_error(SyntaxError) }
     end
   end
 end

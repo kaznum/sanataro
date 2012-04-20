@@ -269,9 +269,7 @@ describe Account do
       end
 
       describe "count" do
-        specify {
-          expect { @account.destroy }.to change {Account.count}.by(-1)
-        }
+        it { expect { @account.destroy }.to change {Account.count}.by(-1) }
       end
       describe "#errors" do
         before { @account.destroy }
@@ -293,9 +291,7 @@ describe Account do
         end
         
         describe "count" do
-          specify {
-            expect { @account.destroy }.not_to change {Account.count}
-          }
+          it { expect { @account.destroy }.not_to change {Account.count} }
         end
         
         describe "#errors" do
@@ -312,9 +308,7 @@ describe Account do
         end
 
         describe "count" do
-          specify {
-            expect { @account.destroy }.not_to change {Account.count}
-          }
+          it { expect { @account.destroy }.not_to change {Account.count}}
         end
         
         describe "#errors" do
@@ -338,9 +332,7 @@ describe Account do
         end
         
         describe "count" do
-          specify {
-            expect { @account.destroy }.not_to change {Account.count}
-          }
+          it { expect { @account.destroy }.not_to change {Account.count}}
         end
       end
 
@@ -351,9 +343,7 @@ describe Account do
         end
 
         describe "count" do
-          specify {
-            expect { @account.destroy }.not_to change {Account.count}
-          }
+          it { expect { @account.destroy }.not_to change {Account.count}}
         end
         
         describe "#errors" do
