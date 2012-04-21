@@ -32,7 +32,7 @@ group :test do
   gem "simplecov"
   gem 'spork'
   platform :mri do
-    gem "cucumber-rails", require: false
+    gem "cucumber-rails", :require => false
     gem "capybara-webkit"
     gem "growl"
     gem "rb-fsevent"
