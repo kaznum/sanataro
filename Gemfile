@@ -16,6 +16,7 @@ group :development, :test do
   unless ENV['TRAVIS']
     platforms :mri_19 do
       gem 'capistrano'
+      gem 'rvm-capistrano'
       gem 'linecache19', '0.5.13'
       gem 'ruby-debug-base19', '0.11.26'
       gem 'ruby-debug19', :require => 'ruby-debug'

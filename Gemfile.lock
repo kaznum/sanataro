@@ -208,6 +208,8 @@ GEM
     ruby_core_source (0.1.5)
       archive-tar-minitar (>= 0.5.2)
     rubyzip (0.9.7)
+    rvm-capistrano (1.1.0)
+      capistrano (>= 2.0.0)
     sass (3.1.15)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
@@ -285,6 +287,7 @@ DEPENDENCIES
   ruby-debug
   ruby-debug-base19 (= 0.11.26)
   ruby-debug19
+  rvm-capistrano
   sass-rails
   settingslogic
   simplecov
