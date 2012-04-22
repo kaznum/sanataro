@@ -2,14 +2,11 @@
 class MainController < ApplicationController
   before_filter :required_login
   before_filter :_redirect_if_id_is_blank!, only: [:show_parent_child_item]
-  
+
   def reload_config
     redirect_to current_entries_url
   end
 
-  #
-  # クレジットカード支払い情報の決済時、引き落とし時の情報の相互リンクの遷移
-  #
   def show_parent_child_item
     id = params[:id].to_i
     type = params[:type].presence || "parent"
