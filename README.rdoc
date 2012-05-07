@@ -1,4 +1,4 @@
-== Kakeibo Sanataro {<img src="https://secure.travis-ci.org/kaznum/sanataro.png" />}[http://travis-ci.org/kaznum/sanataro]
+== Kakeibo Sanataro {<img src="https://secure.travis-ci.org/kaznum/sanataro.png" />}[http://travis-ci.org/kaznum/sanataro] {<img src="https://gemnasium.com/kaznum/sanataro.png"/>}[https://gemnasium.com/kaznum/sanataro]
 Sanataro - Simple Web Household Account Book.
 built with Ruby on Rails.
 
