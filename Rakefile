@@ -6,7 +6,7 @@ require File.expand_path('../config/application', __FILE__)
 Kakeibo3::Application.load_tasks
 
 task :travis do
-  commands = defined?(JRUBY_VERSION) ? ["rake spec"] : ["rake spec cucumber" ]
+  commands = defined?(JRUBY_VERSION) ? ["rake -v spec"] : ["rake -v spec cucumber" ]
   commands.each do |cmd|
     puts "Starting to run #{cmd}..."
     system("export DISPLAY=:99.0; bundle exec #{cmd}")
