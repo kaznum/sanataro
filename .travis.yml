@@ -1,4 +1,4 @@
-script: "rake travis"
+script: "rake --trace -v travis"
 before_script:
   - "cp -v config/travis/database.yml.travis.${TRAVIS_RUBY_VERSION}.${DB} config/database.yml"
   - "rake --trace db:create db:migrate"
