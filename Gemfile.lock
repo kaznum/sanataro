@@ -121,6 +121,7 @@ PLATFORMS
 
 DEPENDENCIES
   bourbon
+  bundler (= 1.2.0.pre)
   coffee-filter
   coffee-rails
   haml-rails
