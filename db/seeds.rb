@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-user = User.create!(login: "demo",
-                    password_plain: "demo123", password_confirmation: "demo123",
+user = User.new( password_plain: "demo123", password_confirmation: "demo123",
                     email: "sample@example.com",
                     active: true)
+user.login = "demo"
+user.save!
 
 hashed_accounts = [{name: "財布", order_no: 10, type: 'account'},
                    {name: "銀行A", order_no: 20, type: 'account'},
