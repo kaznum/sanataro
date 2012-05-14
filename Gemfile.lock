@@ -100,7 +100,7 @@ GEM
     guard-cucumber (0.8.0)
       cucumber (>= 1.2.0)
       guard (>= 0.8.3)
-    guard-rspec (0.7.1)
+    guard-rspec (0.7.2)
       guard (>= 0.10.0)
     guard-spork (0.8.0)
       guard (>= 0.10.0)
