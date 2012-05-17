@@ -2,7 +2,14 @@
 require 'spec_helper'
 
 describe EmolettHelper do
-  subject { helper.emolettise("あいうえお(笑)かきくけこ") }
-  it { should == "あいうえお<span class='emo'>(笑)</span>かきくけこ" }
+  context "when a emolett exists," do
+    subject { helper.emolettise("あいうえお(笑)かきくけこ") }
+    it { should == "あいうえお<span class='emo'>(笑)</span>かきくけこ" }
+  end
+
+  context "when multiple emoletts exist," do
+    subject { helper.emolettise("あいう(泣)えお(笑)かきくけこ") }
+    it { should == "あいう<span class='emo'>(泣)</span>えお<span class='emo'>(笑)</span>かきくけこ" }
+  end
 end
 
