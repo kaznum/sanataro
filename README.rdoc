@@ -71,4 +71,7 @@ Thank you for the developers of The following libraries.
 * Flot
   * http://code.google.com/p/flot/
   * MIT License
+* Emolett
+  * http://mayuco.github.com/emolett/
+  * SIL Open Font License (OFL)
 
