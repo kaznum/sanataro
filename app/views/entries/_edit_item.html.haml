@@ -26,6 +26,6 @@
     = text_field_tag 'tag_list', item.tag_list(@user), placeholder: t('placeholder.tag')
     %span{:id => "item_operation_#{item.id}"}
       = submit_tag t('button.save'), :id => "edit_button_#{item.id}"
-      = link_to t('link.cancel'), entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :get
+      = link_to t('link.cancel'), entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :get, :class => "trivial_link"
     %span{:id => "item_operation_loading_#{item.id}", :style => "display:none;"}= image_tag "loading.gif", :alt => "loading..."
   %span.warning{:id => "item_warning_#{item.id}"}
