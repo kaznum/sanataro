@@ -122,6 +122,7 @@ ja:
     logout: "ログアウト"
     cancel: "キャンセル"
     toggle_label: "ラベルを表示/隠す"
+    about_emolett: "Emollet表記について"
   placeholder:
     item_name: "ラーメン、弁当など"
     tag: "タグ(スペース区切り)"
