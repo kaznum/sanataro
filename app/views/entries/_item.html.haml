@@ -23,7 +23,7 @@
     .item_date.item_move= l(event_item.action_date)
     .item_name.item_move
       = link_to_confirmation_required(event_item.id, event_item.parent_item.confirmation_required?, tag: @tag, mark: @mark)
-      #{t(".deposit")} (#{link_to l(event_item.parent_item.action_date, format: :short) + ' ' + emolettise(truncate(event_item.parent_item.name, length: 25)), show_parent_child_item_path(:id=>event_item.id, :type=>'parent'), :remote => true})
+      #{t(".deposit")} (#{link_to l(event_item.parent_item.action_date, format: :short) + ' ' + emolettise(h truncate(event_item.parent_item.name, length: 25)), show_parent_child_item_path(:id=>event_item.id, :type=>'parent'), :remote => true})
       - if event_item.tags.size > 0
         [
         - event_item.tags.each do |tag|
@@ -44,7 +44,7 @@
       = l(event_item.action_date)
     %div{:class => "item_name#{item_css_class}"}
       = link_to_confirmation_required(event_item.id, event_item.confirmation_required?, tag: @tag, mark: @mark)
-      = emolettise(truncate(event_item.name, length: 25))
+      = emolettise(h truncate(event_item.name, length: 25))
       (#{link_to l(event_item.child_item.action_date, format: :short) + ' ' + t(".deposit"), show_parent_child_item_path(:id=>event_item.id, :type=>'child'), :remote => true})
       - if event_item.tags.size > 0
         [
@@ -74,7 +74,7 @@
       = l(event_item.action_date)
     %div{:class => "item_name#{item_css_class}"}
       = link_to_confirmation_required(event_item.id, event_item.confirmation_required?, tag: @tag, mark: @mark)
-      = emolettise(truncate(event_item.name))
+      = emolettise(h truncate(event_item.name))
       - if event_item.tags.size > 0
         [
         - event_item.tags.each do |tag|
