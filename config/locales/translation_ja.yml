@@ -121,6 +121,7 @@ ja:
     back: "戻る"
     logout: "ログアウト"
     cancel: "キャンセル"
+    toggle_label: "ラベルを表示/隠す"
   placeholder:
     item_name: "ラーメン、弁当など"
     tag: "タグ(スペース区切り)"
