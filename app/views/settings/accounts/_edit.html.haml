@@ -9,7 +9,7 @@
     = text_field_tag :account_name, @account.name, :size=>20
     = text_field_tag :order_no, @account.order_no, :size=>3
     = submit_tag t('button.save'), :id=>"edit_button_#{@account.id}"
-    = link_to t('link.cancel'), settings_account_path(@account.id), :remote => true, :method => :get
+    = link_to t('link.cancel'), settings_account_path(@account.id), :remote => true, :method => :get, :class => "trivial_link"
     %br/
     = t(".use_bgcolor")
     = check_box_tag :use_bgcolor, '1', (@account.bgcolor.present?), :id => "use_bgcolor_#{@account.id}"
