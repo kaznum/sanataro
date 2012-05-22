@@ -66,7 +66,7 @@ Kakeibo3::Application.configure do
     :user_name            => 'mailclient',
     :password             => '9JH627X',
     :authentication       => 'plain',
-    :enable_starttls_auto => true  }
+    :enable_starttls_auto => false  }
   
 
   config.filter_parameters += [:password]
