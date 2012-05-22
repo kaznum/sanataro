@@ -11,5 +11,9 @@ describe EmolettHelper do
     subject { helper.emolettise("あいう(泣)えお(笑)かきくけこ") }
     it { should == "あいう<span class='emo'>(泣)</span>えお<span class='emo'>(笑)</span>かきくけこ" }
   end
-end
 
+  context "when multibyte parentheses are used," do
+    subject { helper.emolettise("あいう（泣）えお") }
+    it { should == "あいう<span class='emo'>（泣）</span>えお" }
+  end
+end
