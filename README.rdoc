@@ -51,7 +51,7 @@ This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0, 3.1 to 3.2 escalat
 so there are lots of points of old fashion expressions to be fixed.
 * Fixture dependency should be removed and replaced it with Fabrication.
 * Now, there is almost no view spec and cucumber feature.
-* There are some RESTful rule violation in some controllers.(ex. MainController)
+* There are some RESTful rule violations in some controllers.(ex. MainController)
 
 == Credit
 * Author: Kazuya NUMATA <numata@gmail.com>.
