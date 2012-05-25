@@ -168,6 +168,8 @@ class EntriesController < ApplicationController
         action_date = Date.new(year.to_i, month.to_i)
       end
     rescue ArgumentError => ex
+      # do nothing
+      # return default value (Today) as below.
     end
     action_date || today
   end
