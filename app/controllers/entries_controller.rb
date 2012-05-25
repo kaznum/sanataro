@@ -230,18 +230,6 @@ class EntriesController < ApplicationController
   end
 
   def _new_simple
-    separated_accounts = @user.get_categorized_accounts
-    #
-    # FIXME
-    # html escape should be done in Views.
-    #
-    from_accounts = separated_accounts[:from_accounts].map {|a|
-      { :value => a[1], :text => ERB::Util.html_escape(a[0]) }
-    }
-    to_accounts = separated_accounts[:to_accounts].map {|a|
-      { :value => a[1], :text => ERB::Util.html_escape(a[0]) }
-    }
-
     @data = {
       :authenticity_token => form_authenticity_token,
       :year => today.year,
@@ -252,6 +240,22 @@ class EntriesController < ApplicationController
     }
 
     render 'new_simple', :layout => false
+  end
+
+  def from_accounts
+    from_or_to_accounts(:from_accounts)
+  end
+
+  def to_accounts
+    from_or_to_accounts(:to_accounts)
+  end
+
+  def from_or_to_accounts(from_or_to = :from_accounts)
+    @__cat_accounts__ ||= @user.get_categorized_accounts
+
+    # FIXME
+    # html escape should be done in Views.
+    @__cat_accounts__[from_or_to].map {|a| { :value => a[1], :text => ERB::Util.html_escape(a[0]) } }
   end
 
   #
