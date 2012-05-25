@@ -69,7 +69,7 @@ class EntriesController < ApplicationController
   end
 
   def create
-    _xhr_action_wrapper("warning") {
+    _xhr_action("warning") {
       if params[:entry_type] == 'adjustment'
         _create_adjustment
       else
@@ -78,7 +78,7 @@ class EntriesController < ApplicationController
     }
   end
 
-  def _xhr_action_wrapper(warning_selector, &block)
+  def _xhr_action(warning_selector, &block)
     block.call
   rescue ActiveRecord::RecordNotFound => ex
     redirect_js_to current_entries_url
@@ -91,7 +91,7 @@ class EntriesController < ApplicationController
   end
 
   def update
-    _xhr_action_wrapper("item_warning_#{params[:id]}") {
+    _xhr_action("item_warning_#{params[:id]}") {
       id = params[:id].to_i
       if params[:entry_type] == 'adjustment'
         args = {
@@ -126,20 +126,20 @@ class EntriesController < ApplicationController
   end
 
   def destroy
-    _xhr_action_wrapper("warning") {
+    _xhr_action("warning") {
       item = @user.items.find(params[:id])
       _destroy_item(item)
     }
   end
 
   def edit
-    _xhr_action_wrapper("warning") {
+    _xhr_action("warning") {
       @item = @user.items.find(params[:id])
     }
   end
 
   def show
-    _xhr_action_wrapper("warning") {
+    _xhr_action("warning") {
       @item = @user.items.find(params[:id])
     }
   end
@@ -168,6 +168,8 @@ class EntriesController < ApplicationController
         action_date = Date.new(year.to_i, month.to_i)
       end
     rescue ArgumentError => ex
+      # do nothing
+      # return default value (Today) as below.
     end
     action_date || today
   end
@@ -230,18 +232,6 @@ class EntriesController < ApplicationController
   end
 
   def _new_simple
-    separated_accounts = @user.get_categorized_accounts
-    #
-    # FIXME
-    # html escape should be done in Views.
-    #
-    from_accounts = separated_accounts[:from_accounts].map {|a|
-      { :value => a[1], :text => ERB::Util.html_escape(a[0]) }
-    }
-    to_accounts = separated_accounts[:to_accounts].map {|a|
-      { :value => a[1], :text => ERB::Util.html_escape(a[0]) }
-    }
-
     @data = {
       :authenticity_token => form_authenticity_token,
       :year => today.year,
@@ -252,6 +242,22 @@ class EntriesController < ApplicationController
     }
 
     render 'new_simple', :layout => false
+  end
+
+  def from_accounts
+    from_or_to_accounts(:from_accounts)
+  end
+
+  def to_accounts
+    from_or_to_accounts(:to_accounts)
+  end
+
+  def from_or_to_accounts(from_or_to = :from_accounts)
+    @__cat_accounts__ ||= @user.get_categorized_accounts
+
+    # FIXME
+    # html escape should be done in Views.
+    @__cat_accounts__[from_or_to].map {|a| { :value => a[1], :text => ERB::Util.html_escape(a[0]) } }
   end
 
   #

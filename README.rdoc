@@ -20,7 +20,7 @@ built with Ruby on Rails.
 
 == Requirement
 * Ruby: 
-  * MRI (tested continuously with 1.9.2-p290, 1.9.3-p125)
+  * MRI (tested continuously with 1.9.2-p290, 1.9.3-p194)
   * JRuby (tested continuously with version 1.6.7 - 1.9 mode)
 * Ruby on Rails: 3.2 (Check minor version in Gemfile)
 * DB: 
@@ -28,7 +28,7 @@ built with Ruby on Rails.
   * SQLite3
   * PostgreSQL (Heroku available. Demo: http://sanataro.heroku.com/ )
 * Gem: See Gemfile
-* Recommend: Passenger and Webserver such as Apache
+* Recommend: Passenger and Webserver such as Apache / Heroku (see https://github.com/kaznum/sanataro/wiki/Deploying-to-heroku for the guide of specific configuration to sanataro.)
 
 == If you want to try instantly...
 * `git clone git://github.com/kaznum/sanataro.git'
@@ -51,7 +51,7 @@ This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0, 3.1 to 3.2 escalat
 so there are lots of points of old fashion expressions to be fixed.
 * Fixture dependency should be removed and replaced it with Fabrication.
 * Now, there is almost no view spec and cucumber feature.
-* There are some RESTful rule violation in some controllers.(ex. MainController)
+* There are some RESTful rule violations in some controllers.(ex. MainController)
 
 == Credit
 * Author: Kazuya NUMATA <numata@gmail.com>.
