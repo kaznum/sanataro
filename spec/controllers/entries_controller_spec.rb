@@ -402,6 +402,7 @@ describe EntriesController do
         describe "@item" do
           subject { assigns(:item) }
           its(:action_date) { should == Date.today }
+          it { should_not be_adjustment }
         end
       end
 
@@ -419,31 +420,33 @@ describe EntriesController do
         describe "@item" do
           subject { assigns(:item) }
           its(:action_date) { should == Date.new(2008,5) }
+          it { should_not be_adjustment }
         end
       end
 
       context "with entry_type = adjustment in params," do
         shared_examples_for "respond successfully" do
-          describe "response" do 
+          describe "response" do
             subject {response}
             it { should be_success }
-            it { should render_template 'add_adjustment'}
+            it { should render_template 'add_item'}
           end
         end
-        
+
         context "and no year and month in params," do
           before do
             xhr :get, :new, :entry_type => 'adjustment'
           end
-          
+
           it_should_behave_like "respond successfully"
 
-          describe "@action_date" do
-            subject { assigns(:action_date)}
-            it { should == Date.today }
+          describe "item" do
+            subject { assigns(:item)}
+            its(:action_date) { should == Date.today }
+            it { should be_adjustment }
           end
         end
-        
+
         context "and year and month in params," do
           context "and correct date is specified," do
             before do
@@ -452,12 +455,13 @@ describe EntriesController do
 
             it_should_behave_like "respond successfully"
 
-            describe "@action_date" do
-              subject { assigns(:action_date)}
-              it { should == Date.new(2009,5) }
+            describe "@item" do
+              subject { assigns(:item) }
+              its(:action_date) { should == Date.new(2009,5) }
+              it { should be_adjustment }
             end
           end
-          
+
           context "and invalid date is specified," do
             before do
               xhr :get, :new, :entry_type => 'adjustment', :year => '2009', :month => '15'
@@ -465,14 +469,15 @@ describe EntriesController do
 
             it_should_behave_like "respond successfully"
 
-            describe "@action_date" do
-              subject { assigns(:action_date)}
-              it { should == Date.today }
+            describe "item.action_date" do
+              subject { assigns(:item)}
+              its(:action_date) { should == Date.today }
+              it { should be_adjustment }
             end
           end
         end
       end
-      
+
       context "with entry_type = simple in params," do
         let(:mock_user) { users(:user1)}
         before do

@@ -1,5 +1,5 @@
 :plain
   $("#input_item_area").hide();
-  $("#input_item_area").html("#{j(render partial: "add_item", locals: {it: @item})}");
+  $("#input_item_area").html("#{j(render partial: (@item.adjustment? ? "add_adjustment" : "add_item" ), locals: {it: @item})}");
   $("#input_item_area").fadeIn(#{Settings.effect.fade.duration});
 

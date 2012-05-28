@@ -61,10 +61,8 @@ class EntriesController < ApplicationController
     case params[:entry_type]
     when 'simple'
       _new_simple
-    when 'adjustment'
-      _new_adjustment
     else
-      _new_entry
+      _new_entry(params[:entry_type])
     end
   end
 
@@ -146,19 +144,12 @@ class EntriesController < ApplicationController
 
   private
 
-  # this method is called when a link in the field of adding adjustment
-  # which switches to the regular item new entry input.
-  def _new_entry
+  # this method is called when a link in the field of adding regular item or adjustment.
+  # which switches forms each other.
+  def _new_entry(entry_type)
     action_date = _get_date_by_specific_year_and_month_or_today(params[:year], params[:month])
-    @item = Item.new(action_date: action_date)
+    @item = Item.new(action_date: action_date, adjustment: (entry_type == 'adjustment'))
     render "add_item"
-  end
-
-  # this method is called when a link in the field of adding regular item
-  # which switches to the adjustment item new entry input.
-  def _new_adjustment
-    @action_date = _get_date_by_specific_year_and_month_or_today(params[:year], params[:month])
-    render "add_adjustment"
   end
 
   def _get_date_by_specific_year_and_month_or_today(year, month)
