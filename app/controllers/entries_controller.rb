@@ -122,7 +122,7 @@ class EntriesController < ApplicationController
       redirect_js_to login_url
       return false
     end
-    return true
+    true
   end
 
   def destroy
