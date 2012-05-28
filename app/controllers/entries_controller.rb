@@ -61,10 +61,8 @@ class EntriesController < ApplicationController
     case params[:entry_type]
     when 'simple'
       _new_simple
-    when 'adjustment'
-      _new_adjustment
     else
-      _new_entry
+      _new_entry(params[:entry_type])
     end
   end
 
@@ -122,7 +120,7 @@ class EntriesController < ApplicationController
       redirect_js_to login_url
       return false
     end
-    return true
+    true
   end
 
   def destroy
@@ -146,19 +144,12 @@ class EntriesController < ApplicationController
 
   private
 
-  # this method is called when a link in the field of adding adjustment
-  # which switches to the regular item new entry input.
-  def _new_entry
+  # this method is called when a link in the field of adding regular item or adjustment.
+  # which switches forms each other.
+  def _new_entry(entry_type)
     action_date = _get_date_by_specific_year_and_month_or_today(params[:year], params[:month])
-    @item = Item.new(action_date: action_date)
-    render "add_item"
-  end
-
-  # this method is called when a link in the field of adding regular item
-  # which switches to the adjustment item new entry input.
-  def _new_adjustment
-    @action_date = _get_date_by_specific_year_and_month_or_today(params[:year], params[:month])
-    render "add_adjustment"
+    @item = Item.new(action_date: action_date, adjustment: (entry_type == 'adjustment'))
+    render "new"
   end
 
   def _get_date_by_specific_year_and_month_or_today(year, month)
@@ -182,7 +173,8 @@ class EntriesController < ApplicationController
 
     Item.transaction do
       prev_adj = @user.items.find_by_to_account_id_and_action_date_and_adjustment(to_account_id, action_date, true)
-      _do_delete_item(prev_adj.id) if prev_adj
+
+      Teller.destroy_entry(@user, prev_adj.id) if prev_adj
 
       item, updated_item_ids =
         Teller.create_entry(user: @user, action_date: action_date, name: 'Adjustment',
@@ -225,7 +217,7 @@ class EntriesController < ApplicationController
 
   def _destroy_item(item)
     Item.transaction do
-      result_of_delete = _do_delete_item(item.id)
+      result_of_delete = Teller.destroy_entry(@user, item.id)
       updated_items = result_of_delete[0].map {|id| @user.items.find_by_id(id)}.reject(&:nil?)
       render "destroy", locals: { item: item, deleted_ids: result_of_delete[1], updated_items: updated_items }
     end
@@ -286,10 +278,6 @@ class EntriesController < ApplicationController
     Item.find_partial(@user, from_date, to_date,
                       { :filter_account_id => session[:filter_account_id],
                         :remain=>remain, :tag => tag, :mark => mark})
-  end
-
-  def _do_delete_item(item_id)
-    Teller.destroy_entry(@user, item_id)
   end
 end
 
