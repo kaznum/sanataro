@@ -3,8 +3,6 @@
     $("#edit_user")
       .bind("ajax:before", -> $('#change_button').attr("disabled", true))
       .bind("ajax:complete", -> $('#change_button').attr("disabled", false))
-#menu
-  = render 'settings/config_menu'
 - if  @user.login != 'demo'
   #input_area
     = form_tag settings_user_path, :remote => true, :method => :put, :id => "edit_user" do

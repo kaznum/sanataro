@@ -12,86 +12,86 @@
       yearly_outgo: "#{api_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'outgo', format: :json)}",
       yearly_total: "#{api_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'total', format: :json)}"
     })(document);
-#monthlist
-  - calendar_from_date = calendar_from(@user)
-  - calendar_to_date = calendar_to(@user)
-  = monthlist(calendar_from_date.year, calendar_from_date.month, calendar_to_date.year, calendar_to_date.month,cur_year, cur_month,'index')
-#menu
-  = render 'common/menu'
-#pllist
-  %table{:width => "914px"}
-    %tr
-      %td{:valign => "top"}
-        %table{:width => "300px"}
-          %tr
-            %th{:colspan => "3"}= "#{l(displaying_month, format: :year_month)}#{t('.income_section')}"
-          %tr
-            %th=t('label.item')
-            %th=t('label.amount')
-            %th %
-          - @account_incomes.each do |ai|
-            %tr
-              %td!= "#{h ai.name} [#{link_to t('link.revenue'), profit_loss_path(displaying_month.year, displaying_month.month, ai.id), :remote => true, :method => :get}]"
-              %td{:align => "right"}= number_to_currency(-1 * @m_pls[ai.id])
-              %td{:align => "right"}= "#{(@total_income == 0) ? '*' : @m_pls[ai.id] * (-100) / @total_income}%"
-          %tr
-            %td.total=t('label.total_of_income')
-            %td.total{:align => "right"}= number_to_currency(@total_income)
-            %td{:align => "right"} 100%
-          %tr
-            %th{:colspan => "3"}= "#{l(displaying_month, format: :year_month)}#{t('.outgoing_section')}"
-          %tr
-            %th=t('label.item')
-            %th=t('label.amount')
-            %th %
-          - @account_outgos.each do |og|
-            %tr
-              %td!= "#{h og.name} [#{link_to t('link.revenue'), profit_loss_path(displaying_month.year, displaying_month.month, og.id), :remote => true, :method => :get}]"
-              %td{:align => "right"}= number_to_currency(@m_pls[og.id])
-              %td{:align => "right"}= "#{(@total_outgo == 0) ? '*' :@m_pls[og.id] * 100 / @total_outgo}%"
-          %tr
-            %td.total= t('label.total_of_outgoing')
-            %td.total{:align => "right"}= number_to_currency(@total_outgo)
-            %td{:align => "right"} 100%
-          %tr
-            %td.space{:colspan => "3"}
-          %tr
-            %td.all_total
-              = l(displaying_month, format: :year_month)
-              %br/
-              #{t('label.gross_profit')}
-            %td.all_total{:align => "right"}= number_to_currency(@total_income - @total_outgo)
-            %td{:align => "center"} -
-      %td{:valign => "top"}
-        .budget_graph
-          .chart_title
-            = t('label.chart_title_prefix') + t('label.income')
-            = toggle_legend_link "#income_chart"
-            %span#income_chart_hover
-          #income_chart.graph{:style => "width: 600px; height: 200px;"}
-          .spacer &nbsp;
-          .chart_title
-            = t('label.chart_title_prefix') + t('label.outgoing')
-            = toggle_legend_link "#outgo_chart"
-            %span#outgo_chart_hover
-          #outgo_chart.graph{:style => "width: 600px; height: 200px"}
-          .spacer &nbsp;
-          .chart_title
-            = t('label.chart_title_prefix') + t('label.yearly_income')
-            = toggle_legend_link "#yearly_income_chart"
-          #yearly_income_chart_choices
-          #yearly_income_chart.graph{:style => "width: 600px; height: 200px;"}
-          .spacer &nbsp;
-          .chart_title
-            = t('label.chart_title_prefix') + t('label.yearly_outgoing')
-            = toggle_legend_link "#yearly_outgo_chart"
-          #yearly_outgo_chart_choices
-          #yearly_outgo_chart.graph{:style => "width: 600px; height: 200px"}
-          .spacer &nbsp;
-          .chart_title
-            = t('label.chart_title_prefix') + t('label.yearly_total_income_and_total_outgoing')
-            = toggle_legend_link "#yearly_total_chart"
-          #yearly_total_chart_choices
-          #yearly_total_chart.graph{:style => "width: 600px; height: 200px"}
-        %br/
-        #pl_history
+.row
+  .span12
+    #monthlist
+      - calendar_from_date = calendar_from(@user)
+      - calendar_to_date = calendar_to(@user)
+      = monthlist(calendar_from_date.year, calendar_from_date.month, calendar_to_date.year, calendar_to_date.month,cur_year, cur_month,'index')
+    #pllist
+      %table.table
+        %tr
+          %td{:valign => "top"}
+            %table.table{:width => "300px"}
+              %tr
+                %th{:colspan => "3"}= "#{l(displaying_month, format: :year_month)}#{t('.income_section')}"
+              %tr
+                %th=t('label.item')
+                %th=t('label.amount')
+                %th %
+              - @account_incomes.each do |ai|
+                %tr
+                  %td!= "#{h ai.name} [#{link_to t('link.revenue'), profit_loss_path(displaying_month.year, displaying_month.month, ai.id), :remote => true, :method => :get}]"
+                  %td{:align => "right"}= number_to_currency(-1 * @m_pls[ai.id])
+                  %td{:align => "right"}= "#{(@total_income == 0) ? '*' : @m_pls[ai.id] * (-100) / @total_income}%"
+              %tr
+                %td.total=t('label.total_of_income')
+                %td.total{:align => "right"}= number_to_currency(@total_income)
+                %td{:align => "right"} 100%
+              %tr
+                %th{:colspan => "3"}= "#{l(displaying_month, format: :year_month)}#{t('.outgoing_section')}"
+              %tr
+                %th=t('label.item')
+                %th=t('label.amount')
+                %th %
+              - @account_outgos.each do |og|
+                %tr
+                  %td!= "#{h og.name} [#{link_to t('link.revenue'), profit_loss_path(displaying_month.year, displaying_month.month, og.id), :remote => true, :method => :get}]"
+                  %td{:align => "right"}= number_to_currency(@m_pls[og.id])
+                  %td{:align => "right"}= "#{(@total_outgo == 0) ? '*' :@m_pls[og.id] * 100 / @total_outgo}%"
+              %tr
+                %td.total= t('label.total_of_outgoing')
+                %td.total{:align => "right"}= number_to_currency(@total_outgo)
+                %td{:align => "right"} 100%
+              %tr
+                %td.space{:colspan => "3"}
+              %tr
+                %td.all_total
+                  = l(displaying_month, format: :year_month)
+                  %br/
+                  #{t('label.gross_profit')}
+                %td.all_total{:align => "right"}= number_to_currency(@total_income - @total_outgo)
+                %td{:align => "center"} -
+          %td{:valign => "top"}
+            .budget_graph
+              .chart_title
+                = t('label.chart_title_prefix') + t('label.income')
+                = toggle_legend_link "#income_chart"
+                %span#income_chart_hover
+              #income_chart.graph{:style => "width: 600px; height: 200px;"}
+              .spacer &nbsp;
+              .chart_title
+                = t('label.chart_title_prefix') + t('label.outgoing')
+                = toggle_legend_link "#outgo_chart"
+                %span#outgo_chart_hover
+              #outgo_chart.graph{:style => "width: 600px; height: 200px"}
+              .spacer &nbsp;
+              .chart_title
+                = t('label.chart_title_prefix') + t('label.yearly_income')
+                = toggle_legend_link "#yearly_income_chart"
+              #yearly_income_chart_choices
+              #yearly_income_chart.graph{:style => "width: 600px; height: 200px;"}
+              .spacer &nbsp;
+              .chart_title
+                = t('label.chart_title_prefix') + t('label.yearly_outgoing')
+                = toggle_legend_link "#yearly_outgo_chart"
+              #yearly_outgo_chart_choices
+              #yearly_outgo_chart.graph{:style => "width: 600px; height: 200px"}
+              .spacer &nbsp;
+              .chart_title
+                = t('label.chart_title_prefix') + t('label.yearly_total_income_and_total_outgoing')
+                = toggle_legend_link "#yearly_total_chart"
+              #yearly_total_chart_choices
+              #yearly_total_chart.graph{:style => "width: 600px; height: 200px"}
+            %br/
+            #pl_history
