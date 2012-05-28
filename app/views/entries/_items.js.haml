@@ -1,4 +1,4 @@
-! $("#items").html('');
+! $("#items").fadeOut().html('')
 - items.each do |it|
-  ! $("#items").append("#{ j(render partial: "item", locals: {event_item: it}) }");
-! $("#items").append("#{ j(render "remains_link") }");
+  ! .append("#{ j(render partial: "item", locals: {event_item: it}) }")
+! .append("#{ j(render "remains_link") }").fadeIn();

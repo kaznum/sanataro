@@ -85,7 +85,7 @@ describe LoginController do
 
           describe "response" do
             subject {response}
-            it { should redirect_to simple_input_path }
+            it { should redirect_to simple_input_url }
           end
         end
       end
@@ -194,9 +194,9 @@ describe LoginController do
 
       describe "response" do
         subject {response}
-        it {should redirect_by_js_to simple_input_path }
+        it {should redirect_by_js_to simple_input_url }
       end
-      
+
       describe "cookies" do
         subject {cookies}
         its(['user']) { should be == users(:user1).login }
