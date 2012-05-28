@@ -219,7 +219,7 @@ ja:
       explanation: "説明"
       operation: "操作"
       outgoing_to_income: "出金 => 入金"
-    add_item:
+    new_item:
       show_all_confirmation_required: "[すべての★を見る]"
   account_statuses:
     index:
