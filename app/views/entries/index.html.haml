@@ -5,7 +5,7 @@
 .wrapper
   #left_area
     #input_item_area
-      = render partial: 'add_item', locals: { :it => @new_item }
+      = render partial: 'new_item', locals: { :it => @new_item }
     #warning{:style => "color: red"}
     #itemlistarea
       %p#list_item_explain= t("entries.income_outgoing_list")
