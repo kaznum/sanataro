@@ -19,11 +19,7 @@ class LoginController < ApplicationController
       return
     end
 
-    if params[:only_add]
-      redirect_js_to simple_input_path
-    else
-      redirect_js_to current_entries_url
-    end
+    redirect_js_to params[:only_add] ? simple_input_url : current_entries_url
   end
 
   def do_logout
@@ -100,7 +96,7 @@ class LoginController < ApplicationController
     user = _get_user_by_login_and_autologin_key(al_params[:login], al_params[:autologin_key])
     if user
       _do_login(user.login, nil, "1", true, al_params[:only_add])
-      redirect_to (al_params[:only_add] ? simple_input_path : current_entries_url)
+      redirect_to (al_params[:only_add] ? simple_input_url : current_entries_url)
       return false
     else
       return true
