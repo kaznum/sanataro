@@ -123,6 +123,9 @@ ja:
     cancel: "キャンセル"
     toggle_label: "ラベルを表示/隠す"
     about_emolett: "Emolett表記について"
+    tag_list: "タグリスト"
+    confirmation_list: "<span class='item_confirmation_required'>★</span>リスト"
+    status_of_today: "今日(%{date})の状況"
   placeholder:
     item_name: "ラーメン、弁当など"
     tag: "タグ(スペース区切り)"
@@ -130,6 +133,8 @@ ja:
   button:
     register: "登録"
     save: "保存"
+    close: "閉じる"
+    dismiss: "x"
   message:
     register_successfully: "登録しました。"
     save_successfully: "保存しました。"
@@ -152,6 +157,17 @@ ja:
     entries:
       no_cookie_explanation: "あなたがご利用のブラウザは、現在Cookieを受け付けない設定になっています。<br/>本サイトをご利用いただくにはブラウザ設定でCookieを受け付けるよう設定してください。"
       no_javascript_explanation: "あなたがご利用のブラウザは、現在JavaScriptが無効になっています。<br/>本サイトをご利用いただくにはブラウザ設定でJavaScriptを有効にしてください。"
+      items: "出金・入金"
+      profit_loss: "収支集計"
+      balance: "残高"
+      config: "設定"
+      simple_input: "かんたん入力"
+      account: "口座"
+      income: "収入"
+      outgoing: "支出"
+      credit_card: "クレジットカード"
+      user_info: "ユーザ情報"
+      digest: "ダイジェスト"
   balance_sheets:
     index:
       stock_title: "現金の部"
@@ -202,13 +218,6 @@ ja:
     confirmation_error:
       oops: "あれれ、なにかが間違っていますよ?"
       not_activated: "まだアカウントが有効になっていません。こちらから送信されたメールを確認してください。"
-  common:
-    menu:
-      items: "出金・入金"
-      profit_loss: "収支集計"
-      balance: "残高"
-      config: "設定"
-      simple_input: "かんたん入力"
   entries:
     adjustment_explanation: "口座と残高を入力すると、過不足分が自動計算されます。"
     item:
@@ -222,22 +231,16 @@ ja:
     new_item:
       show_all_confirmation_required: "[すべての★を見る]"
   account_statuses:
-    index:
+    show:
       status_of_today: "今日(%{date})の状況"
   tag_statuses:
-    tag_list: "タグリスト"
-  confirmation_statuses:
-    title: "<span class='item_confirmation_required'>★</span>リスト"
     show:
+      tag_list: "タグリスト"
+  confirmation_statuses:
+    show:
+      confirmation_list: "<span class='item_confirmation_required'>★</span>リスト"
       explanation: "説明"
   settings:
-    config_menu:
-      account: "口座"
-      income: "収入"
-      outgoing: "支出"
-      credit_card: "クレジットカード"
-      user_info: "ユーザ情報"
-      back_to_book: "家計簿に戻る"
     users:
       show:
         explanation: "新しいパスワードと新しいパスワード（確認）を入力し、保存ボタンを押してください。"

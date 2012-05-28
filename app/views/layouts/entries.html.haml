@@ -27,18 +27,71 @@
       = javascript_include_tag "flot/excanvas.min.js"
     = javascript_include_tag "flot"
   %body
-    .header
-      - if params[:action] == 'add_item_only_input'
-        = image_tag "logo-s.gif", :alt=> Settings.product_name
-      - else
-        = image_tag "logo.gif", :alt => Settings.product_name
-      :coffeescript
-        coo = "cookietest=ok"
-        document.cookie = coo + "\;"
-        coo = document.cookie
-        if( !coo )
-          document.write "<div class=\"warning\">#{t(".no_cookie_explanation")}</div>"
-      %noscript
-        .warning!= t(".no_javascript_explanation")
-    .main= yield
-    .footer!= t("label.copyright")
+    .container
+      .navbar.navbar-fixed-top
+        .navbar-inner
+          .container
+            = link_to Settings.product_name, root_url, :class => "brand"
+            - if @user
+              - if params[:year].blank? || params[:month].blank?
+                - e_path = current_entries_path
+                - pl_path = current_profit_losses_path
+                - bs_path = current_balance_sheets_path
+              - else
+                - e_path = entries_path(params[:year], params[:month])
+                - pl_path = profit_losses_path(params[:year], params[:month])
+                - bs_path = balance_sheets_path(params[:year], params[:month])
+              - items_class = params[:controller] == 'entries' ? "active" : ""
+              - pl_class = params[:controller] == 'profit_losses' ? "active" : ""
+              - bs_class = params[:controller] == 'balance_sheets' ? "active" : ""
+              - config_class = params[:controller] =~ /^settings\// ?  "active" : ""
+              - items_link = link_to t('.items'), e_path
+              - pl_link = link_to t(".profit_loss"), pl_path
+              - bs_link = link_to t('.balance'), bs_path
+              - simple_input_link = link_to t('.simple_input'), simple_input_path
+              - logout_link = link_to t('link.logout'), logout_path, {:confirm=>t("message.logout_really")}
+              .nav-collapse
+                %ul.nav
+                  %li{class: "#{items_class}"}= items_link
+                  %li{class: "#{pl_class}"}= pl_link
+                  %li{class: "#{bs_class}"}= bs_link
+                  %li= simple_input_link
+                  %li.dropdown
+                    %a.dropdown-toggle{ :href => '#', "data-toggle" => 'dropdown'}
+                      #{t('.digest')}
+                      %b.caret
+                    %ul.dropdown-menu
+                      %li= link_to("#{t("link.status_of_today", date: today)}".html_safe, account_status_path, id: "account_digest", class: "digest_link")
+                      %li= link_to("#{t("link.confirmation_list")}".html_safe, confirmation_status_path, id: "confirmation_digest", class: "digest_link")
+                      %li= link_to("#{t("link.tag_list")}".html_safe, tag_status_path, id: "tag_digest", class: "digest_link")
+                %ul.nav.pull-right
+                  %li.dropdown
+                    %a.dropdown-toggle{ :href => "#", "data-toggle" => "dropdown" }
+                      #{t('.config')}
+                      %b.caret
+                    %ul.dropdown-menu
+                      %li= link_to("<i class='icon-book'></i>#{t('.account')}".html_safe, settings_accounts_path(:account_type=>'account'))
+                      %li= link_to("<i class='icon-hand-right'></i>#{t('.income')}".html_safe, settings_accounts_path(:account_type => 'income'))
+                      %li= link_to("<i class='icon-shopping-cart'></i>#{t('.outgoing')}".html_safe, settings_accounts_path(:account_type => 'outgo'))
+                      %li= link_to("<i class='icon-certificate'></i>#{t('.credit_card')}".html_safe, settings_credit_relations_path)
+                      %li= link_to("<i class='icon-user'></i>#{t('.user_info')}".html_safe, settings_user_path)
+                  %li= logout_link
+      .header
+        :coffeescript
+          coo = "cookietest=ok"
+          document.cookie = coo + "\;"
+          coo = document.cookie
+          if( !coo )
+            document.write "<div class=\"warning\">#{t(".no_cookie_explanation")}</div>"
+        %noscript
+          .warning!= t(".no_javascript_explanation")
+      .main= yield
+      .footer!= t("label.copyright")
+
+    .modal.hide.fade#digest_modal{:style => "display: none;"}
+      .modal-header
+        %button.close{"data-dismiss" => "modal"}= t("button.dismiss")
+        %h3#digest_title= ""
+      .modal-body#digest_body
+      .modal-footer
+        %a.btn{:href => "#", "data-dismiss" => "modal"}= t("button.close")

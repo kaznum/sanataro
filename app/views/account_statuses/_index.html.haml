@@ -1,16 +1,5 @@
-:coffeescript
-  $ ->
-    showTimer = ->
-      $('#account_status_icon').hide()
-      $('#account_status_reload_icon').hide()
-      $('#account_status_loading').show()
-    $("#hide_statuses").bind "click", showTimer
-    $("#reload_statuses").bind "click", showTimer
-#account_status_explain.drawer
-  = link_to "<span id='account_status_icon'>#{t('label.status_open')}</span><span id='account_status_loading' style ='display: none;'>#{image_tag('loading.gif', :alt=>'loading...', :border => 0, :height => 12, :width => 12)}</span> #{t('.status_of_today', date: l(today, format: :short))}".html_safe, account_status_path, :remote => true, :method => :delete, :id => "hide_statuses"
-  = link_to "<span id='account_status_reload_icon'>#{image_tag('reload.png', :alt => 'Reload', :border => 0, :height => 12, :width => 12)}</span>".html_safe, account_status_path, :remote => true, :method => :get, :id => "reload_statuses"
-#account_status_body{:style => "display: none;"}
-  %table#account_status_table
+#account_status_body
+  %table#account_status_table.table.table-condensed
     %tr
       %th= t('label.account')
       %th= t('label.balance')
@@ -24,6 +13,9 @@
       %td.total= t('label.total')
       %td.total{:align => "right", :nowrap => "nowrap", :style => "#{total < 0 ? "color: red" : "" }"}= number_to_currency(total)
     %tr
+      %td
+      %td
+    %tr
       %th= t('label.income')
       %th= t('label.amount')
     - total = 0
@@ -35,6 +27,9 @@
     %tr
       %td.total= t('label.total')
       %td.total{:align => "right", :nowrap => "nowrap", :style => "#{total < 0 ? "color: red;" : "" }"}=number_to_currency(total)
+    %tr
+      %td
+      %td
     %tr
       %th= t('label.outgoing')
       %th= t('label.amount')

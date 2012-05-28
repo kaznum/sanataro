@@ -10,14 +10,14 @@
         $('#item_operation_loading_#{item.id}').hide()
         $('#item_operation_#{item.id}').show())
 .item{:id => "item_#{item.id}"}
-  = form_tag entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :put, :id => "edit_#{item.id}_form" do
+  = form_tag entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :put, :id => "edit_#{item.id}_form", :class => "well" do
     = hidden_field_tag :action_date, l(item.action_date)
     = t('entries.adjustment_explanation')
     %br/
     = l(item.action_date)
     %br/
     = select_tag 'to', options_for_select(@separated_accounts[:to_accounts], item.to_account_id.to_s)
-    #{t('label.balance')}:#{text_field_tag 'adjustment_amount', item.adjustment_amount, :size=>10, :style=>"text-align: right;"}#{t('number.currency.format.unit')}
+    #{t('label.balance')}:#{text_field_tag 'adjustment_amount', item.adjustment_amount, :size=>10, :style=>"text-align: right;", :class => "input-small"}#{t('number.currency.format.unit')}
     %br/
     #{text_field_tag 'tag_list', item.tag_list(@user), placeholder: t('placeholder.tag')}
     %span{:id => "item_operation_#{h item.id}"}

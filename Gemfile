@@ -74,4 +74,4 @@ gem 'jquery-rails'
 gem 'settingslogic'
 gem 'coffee-filter'
 gem "bourbon"
-
+gem "twitter-bootstrap-rails"
