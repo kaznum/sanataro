@@ -6,10 +6,10 @@
     $("#action_date").datepicker()
 %p#add_item_explain
   = t('label.register_adjustment')
-  %span{:style => "font-weight: normal;font-size: 12px;"}= link_to t('link.register_income_outgo'), new_entry_path(:year => date.year, :month => date.month), :remote => true, :method => :get
+  %span{:style => "font-weight: normal;font-size: 12px;"}= link_to t('link.register_income_outgo'), new_entry_path(:year => it.action_date.year, :month => it.action_date.month), :remote => true, :method => :get
 %span= t('entries.adjustment_explanation')
-= form_tag entries_path(date.year, date.month), :remote => true, :method => :post, :id=>'do_add_item' do
-  = text_field_tag :action_date, l(date), size: 12, placeholder: "YYYY/MM/DD"
+= form_tag entries_path(it.action_date.year, it.action_date.month), :remote => true, :method => :post, :id=>'do_add_item' do
+  = text_field_tag :action_date, l(it.action_date), size: 12, placeholder: "YYYY/MM/DD"
   = select_tag 'to', options_for_select(@separated_accounts[:bank_accounts])
   = t('label.balance')
   = text_field_tag 'adjustment_amount', nil, :size=>10, :style=>"text-align: right;", placeholder: t("placeholder.amount")
