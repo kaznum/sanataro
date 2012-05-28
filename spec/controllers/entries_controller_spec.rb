@@ -393,10 +393,10 @@ describe EntriesController do
           xhr :get, :new
         end
 
-        describe "response" do 
+        describe "response" do
           subject { response }
           it { should be_success }
-          it { should render_template "add_item" }
+          it { should render_template "new" }
         end
 
         describe "@item" do
@@ -411,10 +411,10 @@ describe EntriesController do
           xhr :get, :new, :year => '2008', :month => '5'
         end
 
-        describe "response" do 
+        describe "response" do
           subject { response }
           it { should be_success }
-          it { should render_template "add_item" }
+          it { should render_template "new" }
         end
 
         describe "@item" do
@@ -429,7 +429,7 @@ describe EntriesController do
           describe "response" do
             subject {response}
             it { should be_success }
-            it { should render_template 'add_item'}
+            it { should render_template 'new'}
           end
         end
 

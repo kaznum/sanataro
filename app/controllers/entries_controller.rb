@@ -149,7 +149,7 @@ class EntriesController < ApplicationController
   def _new_entry(entry_type)
     action_date = _get_date_by_specific_year_and_month_or_today(params[:year], params[:month])
     @item = Item.new(action_date: action_date, adjustment: (entry_type == 'adjustment'))
-    render "add_item"
+    render "new"
   end
 
   def _get_date_by_specific_year_and_month_or_today(year, month)
