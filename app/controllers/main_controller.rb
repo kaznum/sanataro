@@ -3,10 +3,6 @@ class MainController < ApplicationController
   before_filter :required_login
   before_filter :_redirect_if_id_is_blank!, only: [:show_parent_child_item]
 
-  def reload_config
-    redirect_to current_entries_url
-  end
-
   def show_parent_child_item
     id = params[:id].to_i
     type = params[:type].presence || "parent"

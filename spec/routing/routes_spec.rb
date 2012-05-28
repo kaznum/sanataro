@@ -43,18 +43,6 @@ describe :routes do
     end
   end
 
-  describe "reload_config" do
-    describe 'GET reload_config' do
-      subject { post('/reload_config') }
-      it { should route_to(controller: 'main', action: 'reload_config') }
-    end
-
-    describe 'named route' do
-      subject { post( reload_config_path ) }
-      it { should route_to(controller: 'main', action: 'reload_config') }
-    end
-  end
-
   describe "show_parent_child_item" do
     describe 'GET show_parent_child_item' do
       subject { get('/show_parent_child_item') }
