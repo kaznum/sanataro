@@ -4,28 +4,6 @@ require 'spec_helper'
 describe MainController do
   fixtures :users, :items, :accounts, :credit_relations, :monthly_profit_losses
 
-  describe "#reload_config" do
-    context "before login," do
-      before do
-        get :reload_config
-      end
-
-      it_should_behave_like "Unauthenticated Access"
-    end
-
-    context "after login," do
-      before do
-        login
-        get :reload_config
-      end
-
-      describe "response" do
-        subject { response }
-        it { should redirect_to current_entries_url }
-      end
-    end
-  end
-
   describe "#show_parent_child_item" do
     context "before login," do
       before do
