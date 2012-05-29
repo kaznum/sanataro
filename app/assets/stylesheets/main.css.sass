@@ -1,16 +1,7 @@
-//$border_color: #b8b8b8
 $border_color: silver
 $border_width: 1px
 $border_style: solid
 $default_radius: 6px
-$item_date_width: 80px
-$item_name_width: 200px
-$item_from_width: 100px
-$item_to_width: 100px
-$item_amount_width: 70px
-$item_operation_width: 70px
-$item_margin: 1px
-$item_padding: 1px
 $operation_icon_width: 15px
 $operation_icon_padding: 1px
 $operation_icon_hover_padding: 0px
@@ -30,11 +21,6 @@ a > img.show_icon, a > img.edit_icon, a > img.destroy_icon, a > img.tweet_icon
 a:hover > img.show_icon, a:hover > img.edit_icon, a:hover > img.destroy_icon, a:hover > img.tweet_icon
   @include icon_hover
 
-@mixin default_border
-  border: $border_width $border_style $border_color
-
-@mixin row_column_border
-
 @mixin default_header
   font-weight: bold
 
@@ -45,7 +31,6 @@ a:hover > img.show_icon, a:hover > img.edit_icon, a:hover > img.destroy_icon, a:
 
 @mixin default_item_line
   padding-top: 3px
-  @include row_column_border
 
 .loading
   background: #ffffff url(loading.gif) 50% 50% no-repeat
@@ -93,7 +78,6 @@ div.item_move, tr.item_move
   text-align: left
 
 div#input_item_area
-  @include row_column_border
   margin-top: 0
 
 div#input_item_area p#add_item_explain
@@ -103,7 +87,6 @@ div#input_item_area p#add_item_explain
   margin: 1px
 
 div#itemlistarea
-  @include row_column_border
 
 div#asset_graph
   margin: 1px
@@ -115,27 +98,8 @@ div#itemlistarea p#list_item_explain
     size: 14px
   margin: 1px
 
-div.status_drawer
-  @include row_column_border
-
 table#account_status_table
   width: 100%
-
-div.wrapper
-
-.drawer
-  background: #C9C9C9 url(header-bg.gif) repeat-x
-  @include default_border
-  @include border-top-radius($default_radius)
-  a
-    font:
-      weight: bold
-      size: 1.0em
-    margin-left: 2px
-    color: black
-    text-decoration: none
-  &:hover
-    background: tint(silver, 60%)
 
 div#left_area
 
@@ -159,14 +123,12 @@ div.item_adjustment
 
 div.item_date
   @include default_item_line
-  @include border-left-radius($default_radius)
 
 div.item_headers
   border-bottom: $border_width $border_style $border_color
 
 div.item_date_header
   @include default_item_header
-  @include border-left-radius($default_radius)
 
 div.item_name
   @include default_item_line
@@ -181,7 +143,6 @@ div.item_to
   @include default_item_line
 
 div.item_from_to_header
-  @include row_column_border
   @include default_item_header
   text-align: center
 
@@ -194,31 +155,24 @@ div.item_amount_header
 
 div.item_operation
   @include default_item_line
-  @include border-right-radius($default_radius)
 
 div.item_operation_header
   @include default_item_header
-  @include border-bottom-right-radius($default_radius)
 
 div.cfg_account_list
   background-color: #ffffff
-  @include row_column_border
 
 div.cfg_credit_relation_list
-  @include row_column_border
 
 div.cfg_account
   height: 22px
   border-bottom: $border_width $border_style $border_color
 
 div.cfg_account_name
-  @include row_column_border
 
 div.cfg_account_order
-  @include row_column_border
 
 div.cfg_account_operation
-  @include row_column_border
   text-align: center
 
 div.cfg_account_header
