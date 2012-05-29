@@ -66,5 +66,9 @@ describe ApplicationHelper do
     subject { helper.fadeout_and_remove("#hello") }
     it {should == "$('#hello').fadeOut(#{Settings.effect.fade.duration}, function() {$('#hello').remove();});"}
   end
-  
+
+  describe "#today" do
+    subject { helper.today }
+    it { should == Date.today }
+  end
 end

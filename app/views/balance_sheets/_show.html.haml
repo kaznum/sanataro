@@ -13,8 +13,8 @@
       %th{:width => "80px"}= t('label.date')
       %th= t('label.type')
       %th= t('label.item')
-      %th{:width => "80px"}= t('label.gain_loss')
-      %th{:width => "80px"}= t('label.balance')
+      %th.money{:width => "80px"}= t('label.gain_loss')
+      %th.money{:width => "80px"}= t('label.balance')
     - @items.each do |it|
     - if it.from_account_id == @account_id
       - amount = it.amount * (-1)
@@ -31,4 +31,4 @@
         %td.money{:width => "80px"}= number_to_currency(@remain_amount)
     %tr
       %th{:colspan => "4"}= "#{t('.carried_forward_to_next_month', month: l(displaying_month.end_of_month + 1, format: :year_month))}"
-      %th{:align => "right"}= number_to_currency(@remain_amount)
+      %th.money{:align => "right"}= number_to_currency(@remain_amount)

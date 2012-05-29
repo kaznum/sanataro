@@ -1,23 +1,14 @@
-#menu
-  = render '/common/menu'
-.wrapper
-  #left_area
+.row
+  .span12
     #warning{:style => "color: red"}
     #itemlistarea
-      %p#list_item_explain
-        = t("entries.income_outgoing_list")
-        (mark: #{h (@mark == 'confirmation_required') ? t("label.confirmation_required") : '(' + t("label.unknown") + ')'})
-      = render 'items_header'
-      #items
-        - @items.each do |it|
-          = render partial: 'item', locals: { event_item: it }
-        = render 'remains_link'
-  #right_area
-    #account_status.status_drawer
-      = render 'account_status_blank'
-    #confirmation_status.status_drawer
-      = render 'confirmation_statuses/show_blank'
-    #tag_status.status_drawer
-      = render 'tag_statuses/show_blank'
-    #ad
-      = render 'common/left_ad'
+      .row-fluid
+        .span12
+          %p#list_item_explain
+            %h3= t("entries.income_outgoing_list")
+            (mark: #{h (@mark == 'confirmation_required') ? t("label.confirmation_required") : '(' + t("label.unknown") + ')'})
+          = render 'items_header'
+          #items
+            - @items.each do |it|
+              = render partial: 'item', locals: { event_item: it }
+            = render 'remains_link'

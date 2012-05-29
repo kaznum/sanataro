@@ -1,11 +1,13 @@
-.cfg_account{:id => "account_#{account.id.to_s}"}
-  .cfg_account_name
-    - if account.bgcolor?
-      %span{:style => "background-color: ##{h account.bgcolor};"}= h account.name
-    - else
-      = account.name
-  .cfg_account_order= account.order_no
-  .cfg_account_operation
-    = link_to image_tag("milky/edit.png", alt: t("link.edit"), class: "edit_icon"), edit_settings_account_path(account.id), :method => :get, :remote => true
-    = link_to image_tag("milky/destroy.png", alt: t("link.delete"), class: "destroy_icon"), settings_account_path(account.id), :method => :delete, :confirm => t("message.delete_really"), :remote => true
-.reset
+.row
+  .span5
+    .cfg_account.row{:id => "account_#{account.id.to_s}"}
+      .cfg_account_name.span2
+        - if account.bgcolor?
+          %span{:style => "background-color: ##{h account.bgcolor};"}= h account.name
+        - else
+          = account.name
+      .cfg_account_order.span1= account.order_no
+      .cfg_account_operation.span1
+        = link_to image_tag("milky/edit.png", alt: t("link.edit"), class: "edit_icon"), edit_settings_account_path(account.id), :method => :get, :remote => true
+        = link_to image_tag("milky/destroy.png", alt: t("link.delete"), class: "destroy_icon"), settings_account_path(account.id), :method => :delete, :confirm => t("message.delete_really"), :remote => true
+    //.reset

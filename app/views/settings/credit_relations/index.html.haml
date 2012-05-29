@@ -3,38 +3,45 @@
     $("#add_form")
       .bind("ajax:before", -> $('#add_button').attr("disabled", true))
       .bind("ajax:complete", -> $('#add_button').attr("disabled", false))
-#menu= render 'settings/config_menu'
-.cfg_credit_relation_list
-  %p= t('label.register')
-  %div
-    = form_tag settings_credit_relations_path, {:remote => true, :method => :post, :id => 'add_form'} do
-      %table
-        %tr
-          %th= t('settings.credit_relations.credit_card')
-          %th= t('settings.credit_relations.account_to_draw')
-          %th= t('settings.credit_relations.closing_date')
-          %th= t('settings.credit_relations.due')
-          %th
-        %tr
-          %td= select_tag 'credit_account_id', options_for_select(@separated_accounts[:bank_accounts])
-          %td= select_tag 'payment_account_id', options_for_select(@separated_accounts[:bank_accounts])
-          %td
-            #{t('settings.credit_relations.monthly')} #{select_tag 'settlement_day', options_for_select(CreditRelation::SETTLEMENT_DAYS)}#{t('label.day')}
-          %td
-            = select_tag 'payment_month', options_for_select(CreditRelation::PAYMENT_MONTHS)
-            = select_tag 'payment_day', options_for_select(CreditRelation::PAYMENT_DAYS)
-            = t('label.day')
-          %td= submit_tag t('button.register'), :id=>'add_button'
-  #warning.warning
-  %p= t('label.list_update_delete')
-  #credit_relations_headers
-    .cfg_credit_relation_name.cfg_credit_relation_header= t('settings.credit_relations.credit_card')
-    .cfg_payment_relation_name.cfg_credit_relation_header= t('settings.credit_relations.account_to_draw')
-    .cfg_settlement_day.cfg_credit_relation_header= t('settings.credit_relations.closing_date')
-    .cfg_payment_date.cfg_credit_relation_header= t('settings.credit_relations.due')
-    .cfg_credit_relation_operation.cfg_credit_relation_header
-  .reset
-  #credit_relations
-    - @credit_relations.each do |cr|
-      = render :partial=> 'show', :locals => {:cr => cr}
-      .reset
+.row
+  .span12
+    .cfg_credit_relation_list
+      .row
+        %p= t('label.register')
+      .row
+        = form_tag settings_credit_relations_path, {:remote => true, :method => :post, :id => 'add_form', :class => "well"} do
+          %table
+            %tr
+              %th= t('settings.credit_relations.credit_card')
+              %th= t('settings.credit_relations.account_to_draw')
+              %th= t('settings.credit_relations.closing_date')
+              %th= t('settings.credit_relations.due')
+              %th
+            %tr
+              %td= select_tag 'credit_account_id', options_for_select(@separated_accounts[:bank_accounts])
+              %td= select_tag 'payment_account_id', options_for_select(@separated_accounts[:bank_accounts])
+              %td
+                #{t('settings.credit_relations.monthly')} #{select_tag 'settlement_day', options_for_select(CreditRelation::SETTLEMENT_DAYS), class: "span2"}#{t('label.day')}
+              %td
+                = select_tag 'payment_month', options_for_select(CreditRelation::PAYMENT_MONTHS), class: "span2"
+                = select_tag 'payment_day', options_for_select(CreditRelation::PAYMENT_DAYS), class: "span2"
+                = t('label.day')
+              %td= submit_tag t('button.register'), :id=>'add_button'
+      .row
+        #warning.warning
+      .row
+        %p= t('label.list_update_delete')
+      .row
+        .span12
+          #credit_relations_headers.cfg_credit_relations_header.row
+            .row
+              .cfg_credit_relation_name.cfg_credit_relation_header.span2= t('settings.credit_relations.credit_card')
+              .cfg_payment_relation_name.cfg_credit_relation_header.span2= t('settings.credit_relations.account_to_draw')
+              .cfg_settlement_day.cfg_credit_relation_header.span2= t('settings.credit_relations.closing_date')
+              .cfg_payment_date.cfg_credit_relation_header.span2= t('settings.credit_relations.due')
+              .cfg_credit_relation_operation.cfg_credit_relation_header.span1
+          #credit_relations
+            - @credit_relations.each do |cr|
+              .row
+                = render :partial=> 'show', :locals => {:cr => cr}
+

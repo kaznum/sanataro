@@ -1,7 +1,0 @@
-:coffeescript
-  $ ->
-    showTimer = ->
-      $('#tag_icon').hide()
-      $('#tag_loading').show()
-    $("#show_tags").bind "click", showTimer
-#tag_status_explain.drawer= link_to "<span id='tag_icon'>#{t('label.status_closed')}</span><span id='tag_loading' style ='display: none;'>#{image_tag('loading.gif', :alt=>'loading...', :border => 0, :height => 12, :width => 12)}</span> #{t('tag_statuses.tag_list')}".html_safe,  tag_status_path, :method => :get, :remote => true, :id => "show_tags"
