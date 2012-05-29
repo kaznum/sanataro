@@ -3,18 +3,14 @@
 .row
   .span12
     #monthlist= monthlist(calendar_from_date.year, calendar_from_date.month, calendar_to_date.year, calendar_to_date.month, displaying_month.year, displaying_month.month,'index')
-    .row
-      .span12
-        #input_item_area
-          = render partial: 'new_item', locals: { :it => @new_item }
-        #warning{:style => "color: red"}
-        #itemlistarea
-          .row-fluid
-            .span12
-              %p#list_item_explain
-                %h3= t("entries.income_outgoing_list")
-              = render 'items_header'
-              #items
-                - @items.each do |it|
-                  = render partial: 'item', locals: { event_item: it }
-                = render 'remains_link'
+    #input_item_area
+      = render partial: 'new_item', locals: { :it => @new_item }
+    #warning{:style => "color: red"}
+    #itemlistarea
+      %p#list_item_explain
+        %h3= t("entries.income_outgoing_list")
+      = render 'items_header'
+      #items
+        - @items.each do |it|
+          = render partial: 'item', locals: { event_item: it }
+        = render 'remains_link'
