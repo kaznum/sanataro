@@ -31,7 +31,7 @@
       .navbar.navbar-fixed-top
         .navbar-inner
           .container
-            = link_to Settings.product_name, root_url, :class => "brand"
+            = link_to Settings.product_name, (@user ? current_entries_url : root_url), :class => "brand"
             - if @user
               - if params[:year].blank? || params[:month].blank?
                 - e_path = current_entries_path
