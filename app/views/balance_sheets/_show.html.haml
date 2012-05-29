@@ -1,6 +1,6 @@
 #account_history
 %div{:id => "account_history_#{h @account_id}"}
-  %table{:width => "600"}
+  %table.table
     %tr
       %th{:colspan => "5"}
         - selector = "#account_history_#{ @account_id }"
@@ -10,11 +10,11 @@
       %th{:colspan => "4"}= "#{t('.brought_forward_from_last_month', month: l(displaying_month - 1, format: :year_month))}"
       %th.money= number_to_currency(@remain_amount)
     %tr
-      %th{:width => "80px"}= t('label.date')
+      %th= t('label.date')
       %th= t('label.type')
       %th= t('label.item')
-      %th.money{:width => "80px"}= t('label.gain_loss')
-      %th.money{:width => "80px"}= t('label.balance')
+      %th.money= t('label.gain_loss')
+      %th.money= t('label.balance')
     - @items.each do |it|
     - if it.from_account_id == @account_id
       - amount = it.amount * (-1)
@@ -24,11 +24,11 @@
       - related_account = @separated_accounts[:all_accounts][it.from_account_id]
     - @remain_amount += amount
       %tr
-        %td{:width => "80px"}= l(it.action_date)
+        %td= l(it.action_date)
         %td= related_account
         %td= (it.adjustment?) ? t('label.adjustment') + number_to_currency(it.adjustment_amount) : it.name
-        %td.money{:width => "80px"}= number_to_currency(amount)
-        %td.money{:width => "80px"}= number_to_currency(@remain_amount)
+        %td.money= number_to_currency(amount)
+        %td.money= number_to_currency(@remain_amount)
     %tr
       %th{:colspan => "4"}= "#{t('.carried_forward_to_next_month', month: l(displaying_month.end_of_month + 1, format: :year_month))}"
-      %th.money{:align => "right"}= number_to_currency(@remain_amount)
+      %th.money= number_to_currency(@remain_amount)
