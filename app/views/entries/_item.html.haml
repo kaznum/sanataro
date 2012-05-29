@@ -45,8 +45,8 @@
     .span2.item_amount=number_to_currency(event_item.amount)
     .span1.item_operation
   - elsif event_item.child_item
-    .span2= l(event_item.action_date)
-    .span3
+    .span2.item_date= l(event_item.action_date)
+    .span3.item_name
       = link_to_confirmation_required(event_item.id, event_item.confirmation_required?, tag: @tag, mark: @mark)
       = emolettise(h truncate(event_item.name, length: 25))
       (#{link_to l(event_item.child_item.action_date, format: :short) + ' ' + t(".deposit"), show_parent_child_item_path(:id=>event_item.id, :type=>'child'), :remote => true})
@@ -55,10 +55,10 @@
         - event_item.tags.each do |tag|
           = link_to_tag(tag)
         ]
-    .span2= colored_account_name(event_item.from_account_id)
-    .span2= colored_account_name(event_item.to_account_id)
-    .span2.amount=number_to_currency(event_item.amount)
-    .span1
+    .span2.item_from= colored_account_name(event_item.from_account_id)
+    .span2.item_to= colored_account_name(event_item.to_account_id)
+    .span2.item_amount=number_to_currency(event_item.amount)
+    .span1.item_operation
       %span{:id => "navi_#{h event_item.id}"}
         - if @tag || @mark
           = link_to image_tag("show.png", alt: t("link.show"), class: "show_icon"), entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}"
@@ -68,9 +68,9 @@
           = link_to image_tag('milky/destroy.png', alt: t("link.delete"), class: "destroy_icon"), entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :delete, :confirm => t('message.delete_really')
       %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
   - else
-    .span2
+    .span2.item_date
       = l(event_item.action_date)
-    .span3
+    .span3.item_name
       = link_to_confirmation_required(event_item.id, event_item.confirmation_required?, tag: @tag, mark: @mark)
       = emolettise(h truncate(event_item.name))
       - if event_item.tags.size > 0
@@ -78,10 +78,10 @@
         - event_item.tags.each do |tag|
           = link_to_tag(tag)
         ]
-    .span2= colored_account_name(event_item.from_account_id)
-    .span2= colored_account_name(event_item.to_account_id)
-    .span2.amount=number_to_currency(event_item.amount)
-    .span1
+    .span2.item_from= colored_account_name(event_item.from_account_id)
+    .span2.item_to= colored_account_name(event_item.to_account_id)
+    .span2.item_amount=number_to_currency(event_item.amount)
+    .span1.item_operation
       %span{:id => "navi_#{h event_item.id}"}
         - if @tag || @mark
           = link_to image_tag("milky/show.png", alt: t("link.show"), class: "show_icon"), entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}"

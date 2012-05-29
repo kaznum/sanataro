@@ -26,4 +26,8 @@ gem 'jquery-rails'
 gem 'settingslogic'
 gem 'coffee-filter'
 gem "bourbon"
-gem "twitter-bootstrap-rails"
+
+# make active for jruby (this doesn't require less, therubyracer and libv8)
+#gem 'twitter-bootstrap-rails', :git => "git://github.com/seyhunak/twitter-bootstrap-rails.git", :branch => "static"
+gem 'twitter-bootstrap-rails'
+
