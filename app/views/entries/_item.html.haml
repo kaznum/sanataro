@@ -58,7 +58,7 @@
         ]
     .span2= colored_account_name(event_item.from_account_id)
     .span2= colored_account_name(event_item.to_account_id)
-    .span2=number_to_currency(event_item.amount)
+    .span2.amount=number_to_currency(event_item.amount)
     .span1
       %span{:id => "navi_#{h event_item.id}"}
         - if @tag || @mark
