@@ -47,13 +47,8 @@ td.total_capital
   white-space: nowrap
   text-align: center
 
-td.money, th.money
-  white-space: nowrap
+td.money, th.money, .amount, td.amount, th.amount, td.percent, th.percent
   text-align: right
-
-td.percent
-  text-align: right
-  white-space: nowrap
 
 td.all_total
   font:
@@ -76,6 +71,7 @@ div.item_move, tr.item_move
 
 #monthlist
   text-align: left
+  padding-bottom: 5px
 
 div#input_item_area
   margin-top: 0
@@ -113,7 +109,8 @@ div#warning, .warning
 
 .footer
   clear: both
-  mergin-top: 8px
+  margin-top: 10px
+  color: gray
 
 div.item
   border-bottom: $border_width $border_style $border_color
