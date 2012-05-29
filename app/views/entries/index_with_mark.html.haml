@@ -2,13 +2,11 @@
   .span12
     #warning{:style => "color: red"}
     #itemlistarea
-      .row-fluid
-        .span12
-          %p#list_item_explain
-            %h3= t("entries.income_outgoing_list")
-            (mark: #{h (@mark == 'confirmation_required') ? t("label.confirmation_required") : '(' + t("label.unknown") + ')'})
-          = render 'items_header'
-          #items
-            - @items.each do |it|
-              = render partial: 'item', locals: { event_item: it }
-            = render 'remains_link'
+      %p#list_item_explain
+        %h3= t("entries.income_outgoing_list")
+        (mark: #{h (@mark == 'confirmation_required') ? t("label.confirmation_required") : '(' + t("label.unknown") + ')'})
+      = render 'items_header'
+      #items
+        - @items.each do |it|
+          = render partial: 'item', locals: { event_item: it }
+        = render 'remains_link'
