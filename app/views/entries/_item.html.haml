@@ -32,7 +32,7 @@
       %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
   - elsif event_item.parent_id
     .span2.item_date= l(event_item.action_date)
-    .span4.item_name
+    .span3.item_name
       = link_to_confirmation_required(event_item.id, event_item.parent_item.confirmation_required?, tag: @tag, mark: @mark)
       #{t(".deposit")} (#{link_to l(event_item.parent_item.action_date, format: :short) + ' ' + emolettise(h truncate(event_item.parent_item.name, length: 25)), show_parent_child_item_path(:id=>event_item.id, :type=>'parent'), :remote => true})
       - if event_item.tags.size > 0
@@ -40,13 +40,12 @@
         - event_item.tags.each do |tag|
           = link_to_tag(tag)
         ]
-    .span1.item_from= colored_account_name(event_item.from_account_id)
-    .span1.item_to= colored_account_name(event_item.to_account_id)
+    .span2.item_from= colored_account_name(event_item.from_account_id)
+    .span2.item_to= colored_account_name(event_item.to_account_id)
     .span2.item_amount=number_to_currency(event_item.amount)
-    .span2.item_operation
+    .span1.item_operation
   - elsif event_item.child_item
-    %div{:class => "span2"}
-      = l(event_item.action_date)
+    .span2= l(event_item.action_date)
     .span3
       = link_to_confirmation_required(event_item.id, event_item.confirmation_required?, tag: @tag, mark: @mark)
       = emolettise(h truncate(event_item.name, length: 25))
