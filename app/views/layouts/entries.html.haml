@@ -31,6 +31,10 @@
       .navbar.navbar-fixed-top
         .navbar-inner
           .container
+            %a{:class => "btn btn-navbar", "data-toggle" => "collapse", "data-target" => ".nav-collapse"}
+              %span.icon-bar
+              %span.icon-bar
+              %span.icon-bar
             = link_to Settings.product_name, (@user ? current_entries_url : root_url), :class => "brand"
             - if @user
               - if params[:year].blank? || params[:month].blank?
