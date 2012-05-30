@@ -1,7 +1,6 @@
 $border_color: silver
 $border_width: 1px
 $border_style: solid
-$default_radius: 6px
 $operation_icon_width: 15px
 $operation_icon_padding: 1px
 $operation_icon_hover_padding: 0px
@@ -15,6 +14,8 @@ $operation_icon_hover_padding: 0px
   padding: $operation_icon_hover_padding
   background: tint(#ffff99, 25%)
   width: $operation_icon_width + 2px
+@mixin row_of_div_table
+  border-bottom: $border_width $border_style $border_color
 
 a > img.show_icon, a > img.edit_icon, a > img.destroy_icon, a > img.tweet_icon
   @include operation_icon
@@ -115,7 +116,7 @@ div#warning, .warning
   color: gray
 
 div.item
-  border-bottom: $border_width $border_style $border_color
+  @include row_of_div_table
 
 div.item:hover
   background-color: whiteSmoke
@@ -127,7 +128,7 @@ div.item_date
   @include default_item_line
 
 div.item_headers
-  border-bottom: $border_width $border_style $border_color
+  @include row_of_div_table
 
 div.item_date_header
   @include default_item_header
@@ -168,7 +169,7 @@ div.cfg_credit_relation_list
 
 div.cfg_account
   height: 22px
-  border-bottom: $border_width $border_style $border_color
+  @include row_of_div_table
 
 div.cfg_account_name
 
@@ -183,11 +184,11 @@ div.cfg_account_header
 div.cfg_credit_relations_header
   @include default_header
   height: 22px
-  border-bottom: $border_width $border_style $border_color
+  @include row_of_div_table
 
 div.cfg_credit_relation
   height: 22px
-  border-bottom: $border_width $border_style $border_color
+  @include row_of_div_table
 
 div.cfg_credit_relation_name
 
@@ -200,10 +201,7 @@ div.cfg_payment_date
 div.cfg_credit_relation_operation
 
 div#bslist
-  background-color: #ffffff
-
 div#pllist
-  background-color: #ffffff
 
 div.item_remains
   text-align: right
