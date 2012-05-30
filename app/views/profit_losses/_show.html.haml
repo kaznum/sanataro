@@ -1,29 +1,28 @@
 #pl_history
 %div{:id => "pl_history_#{h @account_id}"}
-  %table.table{:width => "600"}
+  %table.table
     %tr
       %th{:colspan => "5"}
         - selector = "#pl_history_#{@account_id}"
         = @separated_accounts[:all_accounts][@account_id]
         #{t('label.of_history')} (#{link_to_function t('link.hide'), fadeout_and_remove(selector)})
     %tr
-      %th{:width => "80px"}=t('label.date')
+      %th=t('label.date')
       %th=t('label.type')
       %th=t('label.item')
-      %th{:width => "80px"}=t('label.amount')
-      %th{:width => "80px"}=t('label.cumulative')
+      %th.amount=t('label.amount')
+      %th.amount=t('label.cumulative')
     - total = 0
     - @items.each do |it|
     - amount = it.amount
     - related_account = @separated_accounts[:all_accounts][it.from_account_id]
     - total += amount
       %tr
-        %td{:width => "80px"}= l(it.action_date)
+        %td= l(it.action_date)
         %td= related_account
         %td= (it.adjustment?) ? t('label.adjustment') + number_to_currency(it.adjustment_amount) : it.name
-        %td{:align => "right", :width => "80px"}
-          = number_to_currency(amount)
-        %td{:align => "right", :width => "80px"}= number_to_currency(total)
+        %td.amount= number_to_currency(amount)
+        %td.amount= number_to_currency(total)
     %tr
       %th{:colspan => "4"}= t('label.total')
-      %th{:align => "right"}= number_to_currency(total)
+      %th.amount= number_to_currency(total)
