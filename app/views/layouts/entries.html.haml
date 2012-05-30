@@ -42,20 +42,19 @@
                 - pl_path = profit_losses_path(params[:year], params[:month])
                 - bs_path = balance_sheets_path(params[:year], params[:month])
               - items_class = params[:controller] == 'entries' ? "active" : ""
-              - pl_class = params[:controller] == 'profit_losses' ? "active" : ""
-              - bs_class = params[:controller] == 'balance_sheets' ? "active" : ""
               - config_class = params[:controller] =~ /^settings\// ?  "active" : ""
               - items_link = link_to t('.items'), e_path
-              - pl_link = link_to t(".profit_loss"), pl_path
-              - bs_link = link_to t('.balance'), bs_path
-              - simple_input_link = link_to t('.simple_input'), simple_input_path
               - logout_link = link_to t('link.logout'), logout_path, {:confirm=>t("message.logout_really")}
               .nav-collapse
                 %ul.nav
                   %li{class: "#{items_class}"}= items_link
-                  %li{class: "#{pl_class}"}= pl_link
-                  %li{class: "#{bs_class}"}= bs_link
-                  %li= simple_input_link
+                  %li.dropdown
+                    %a.dropdown-toggle{ :href => '#', "data-toggle" => 'dropdown'}
+                      #{t('.addup')}
+                      %b.caret
+                    %ul.dropdown-menu
+                      %li= link_to t(".profit_loss"), pl_path
+                      %li= link_to t('.balance'), bs_path
                   %li.dropdown
                     %a.dropdown-toggle{ :href => '#', "data-toggle" => 'dropdown'}
                       #{t('.digest')}
@@ -65,6 +64,7 @@
                       %li= link_to("#{t("link.confirmation_list")}".html_safe, confirmation_status_path, id: "confirmation_digest", class: "digest_link")
                       %li= link_to("#{t("link.tag_list")}".html_safe, tag_status_path, id: "tag_digest", class: "digest_link")
                 %ul.nav.pull-right
+                  %li= link_to t('.simple_input'), simple_input_path
                   %li.dropdown
                     %a.dropdown-toggle{ :href => "#", "data-toggle" => "dropdown" }
                       #{t('.config')}
