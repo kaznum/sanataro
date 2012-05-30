@@ -25,6 +25,8 @@ matrix:
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-head
+
+matrix:
   exclude:
     - rvm: 1.9.2
       gemfile: gemfiles/Gemfile.jruby
