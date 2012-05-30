@@ -17,8 +17,23 @@ env:
   - DB=postgres
   - DB=sqlite
 
+gemfile:
+  - Gemfile
+  - gemfiles/Gemfile.jruby
+
 matrix:
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-head
+  exclude:
+    - rvm: 1.9.2
+      gemfile: gemfiles/Gemfile.jruby
+    - rvm: 1.9.3
+      gemfile: gemfiles/Gemfile.jruby
+    - rvm: ruby-head
+      gemfile: gemfiles/Gemfile.jruby
+    - jruby-19mode
+      gemfile: Gemfile
+    - jruby-head
+      gemfile: Gemfile
 
