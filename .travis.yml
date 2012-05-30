@@ -17,7 +17,58 @@ env:
   - DB=postgres
   - DB=sqlite
 
+gemfile:
+  - Gemfile
+  - gemfiles/Gemfile.jruby
+
+
 matrix:
+  exclude:
+    - rvm: 1.9.2
+      gemfile: gemfiles/Gemfile.jruby
+      env: DB=mysql
+    - rvm: 1.9.2
+      gemfile: gemfiles/Gemfile.jruby
+      env: DB=postgres
+    - rvm: 1.9.2
+      gemfile: gemfiles/Gemfile.jruby
+      env: DB=sqlite
+    - rvm: 1.9.3
+      gemfile: gemfiles/Gemfile.jruby
+      env: DB=mysql
+    - rvm: 1.9.3
+      gemfile: gemfiles/Gemfile.jruby
+      env: DB=postgres
+    - rvm: 1.9.3
+      gemfile: gemfiles/Gemfile.jruby
+      env: DB=sqlite
+    - rvm: ruby-head
+      gemfile: gemfiles/Gemfile.jruby
+      env: DB=mysql
+    - rvm: ruby-head
+      gemfile: gemfiles/Gemfile.jruby
+      env: DB=postgres
+    - rvm: ruby-head
+      gemfile: gemfiles/Gemfile.jruby
+      env: DB=sqlite
+    - rvm: jruby-19mode
+      gemfile: Gemfile
+      env: DB=mysql
+    - rvm: jruby-19mode
+      gemfile: Gemfile
+      env: DB=postgres
+    - rvm: jruby-19mode
+      gemfile: Gemfile
+      env: DB=sqlite
+    - rvm: jruby-head
+      gemfile: Gemfile
+      env: DB=mysql
+    - rvm: jruby-head
+      gemfile: Gemfile
+      env: DB=postgres
+    - rvm: jruby-head
+      gemfile: Gemfile
+      env: DB=sqlite
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-head
