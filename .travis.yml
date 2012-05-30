@@ -41,7 +41,7 @@ matrix:
       env: DB=postgres
     - rvm: 1.9.3
       gemfile: gemfiles/Gemfile.jruby
-      env: DB=postgres
+      env: DB=sqlite
     - rvm: ruby-head
       gemfile: gemfiles/Gemfile.jruby
       env: DB=mysql
