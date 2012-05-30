@@ -2,43 +2,43 @@
   %table#account_status_table.table.table-condensed
     %tr
       %th= t('label.account')
-      %th= t('label.balance')
+      %th.amount= t('label.balance')
     - total = 0
     - account_statuses['account'].each do |account_status|
     - total += account_status[1]
       %tr
         %td= account_status[0].name
-        %td{:align => "right", :nowrap => "nowrap", :style => "#{account_status[1] < 0 ? "color: red;" : ""}"}= number_to_currency(account_status[1])
+        %td.amount{ :style => "#{account_status[1] < 0 ? "color: red;" : ""}"}= number_to_currency(account_status[1])
     %tr
       %td.total= t('label.total')
-      %td.total{:align => "right", :nowrap => "nowrap", :style => "#{total < 0 ? "color: red" : "" }"}= number_to_currency(total)
+      %td.total.amount{ :style => "#{total < 0 ? "color: red" : "" }"}= number_to_currency(total)
     %tr
       %td
       %td
     %tr
       %th= t('label.income')
-      %th= t('label.amount')
+      %th.amount= t('label.amount')
     - total = 0
     - account_statuses['income'].each do |account_status|
     - total += account_status[1]
       %tr
         %td= account_status[0].name
-        %td{ :align => "right", :nowrap => 'nowrap', :style =>  "#{account_status[1] < 0 ? "color: red;" : "" }"}= number_to_currency(account_status[1])
+        %td.amount{ :style =>  "#{account_status[1] < 0 ? "color: red;" : "" }"}= number_to_currency(account_status[1])
     %tr
       %td.total= t('label.total')
-      %td.total{:align => "right", :nowrap => "nowrap", :style => "#{total < 0 ? "color: red;" : "" }"}=number_to_currency(total)
+      %td.total.amount{ :style => "#{total < 0 ? "color: red;" : "" }"}=number_to_currency(total)
     %tr
       %td
       %td
     %tr
       %th= t('label.outgoing')
-      %th= t('label.amount')
+      %th.amount= t('label.amount')
     - total = 0
     - account_statuses['outgo'].each do |account_status|
     - total += account_status[1]
       %tr
         %td= account_status[0].name
-        %td{:align => "right", :nowrap => "nowrap", :style => "#{account_status[1] < 0 ? "color: red" : ""}"}= number_to_currency(account_status[1])
+        %td.amount{:style => "#{account_status[1] < 0 ? "color: red" : ""}"}= number_to_currency(account_status[1])
     %tr
       %td.total= t('label.total')
-      %td.total{ :align => "right", :nowrap => "nowrap", :style => "#{total < 0 ?  "color: red" : ""}"}= number_to_currency(total)
+      %td.total.amount{ :style => "#{total < 0 ?  "color: red" : ""}"}= number_to_currency(total)
