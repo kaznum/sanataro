@@ -21,10 +21,6 @@ gemfile:
   - Gemfile
   - gemfiles/Gemfile.jruby
 
-matrix:
-  allow_failures:
-    - rvm: ruby-head
-    - rvm: jruby-head
 
 matrix:
   exclude:
@@ -38,4 +34,9 @@ matrix:
       gemfile: Gemfile
     - rvm: jruby-head
       gemfile: Gemfile
+
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+    - rvm: jruby-head
 
