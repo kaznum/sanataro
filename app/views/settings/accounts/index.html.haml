@@ -1,17 +1,17 @@
 = javascript_include_tag 'settings/accounts'
 = javascript_include_tag 'farbtastic'
 = stylesheet_link_tag 'farbtastic'
-.cfg_account_list
-  #input_add= render 'add'
-  #accounts
-    .row
-      .span5
-        .cfg_account.row
+.row
+  .span12
+    .cfg_account_list
+      #input_add= render 'add'
+      #accounts
+        .cfg_account.row-fluid
           .cfg_account_name.cfg_account_header.span2
             = t("settings.accounts.bank_account") if @account_type == 'account'
             = t("settings.accounts.outgoing_account") if @account_type == 'outgo'
             = t("settings.accounts.income_account") if @account_type == 'income'
           .cfg_account_order.cfg_account_header.span1= t("label.position")
           .cfg_account_operation.cfg_account_header.span1 &nbsp;
-    - @accounts.each do |account|
-      = render :partial=>'show', :locals => {:account => account}
+        - @accounts.each do |account|
+          = render :partial=>'show', :locals => {:account => account}

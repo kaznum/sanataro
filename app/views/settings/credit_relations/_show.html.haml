@@ -1,12 +1,11 @@
-.cfg_credit_relation{:id => "credit_relation_#{cr.id}"}
-  .row
-    .cfg_credit_relation_name.span2= @separated_accounts[:all_accounts][cr.credit_account_id]
-    .cfg_payment_relation_name.span2= @separated_accounts[:all_accounts][cr.payment_account_id]
-    .cfg_settlement_day.span2
-      #{t('settings.credit_relations.monthly')} #{h (cr.settlement_day == 99) ? t('settings.credit_relations.final_day') : cr.settlement_day.to_s + t('label.day')}
-    .cfg_payment_date.span2
-      = localize_relative_month(cr.payment_month)
-      = (cr.payment_day < 99) ? cr.payment_day.to_s + t('label.day'): t('settings.credit_relations.final_day')
-    .cfg_credit_relation_operation.span1
-      = link_to image_tag("milky/edit.png", alt: t('link.edit'), class: "edit_icon"), edit_settings_credit_relation_path(cr.id), :remote => true,  :method => :get
-      = link_to image_tag("milky/destroy.png", alt: t('link.delete'), class: "destroy_icon"), settings_credit_relation_path(cr.id), :remote => true, :method => :delete, :confirm=> t('message.delete_really')
+.cfg_credit_relation.row-fluid{:id => "credit_relation_#{cr.id}"}
+  .cfg_credit_relation_name.span2= @separated_accounts[:all_accounts][cr.credit_account_id]
+  .cfg_payment_relation_name.span2= @separated_accounts[:all_accounts][cr.payment_account_id]
+  .cfg_settlement_day.span2
+    #{t('settings.credit_relations.monthly')} #{h (cr.settlement_day == 99) ? t('settings.credit_relations.final_day') : cr.settlement_day.to_s + t('label.day')}
+  .cfg_payment_date.span2
+    = localize_relative_month(cr.payment_month)
+    = (cr.payment_day < 99) ? cr.payment_day.to_s + t('label.day'): t('settings.credit_relations.final_day')
+  .cfg_credit_relation_operation.span1
+    = link_to image_tag("milky/edit.png", alt: t('link.edit'), class: "edit_icon"), edit_settings_credit_relation_path(cr.id), :remote => true,  :method => :get
+    = link_to image_tag("milky/destroy.png", alt: t('link.delete'), class: "destroy_icon"), settings_credit_relation_path(cr.id), :remote => true, :method => :delete, :confirm=> t('message.delete_really')

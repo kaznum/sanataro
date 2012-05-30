@@ -15,17 +15,24 @@
     toggleConfirmationRequired($("#confirmation_required_#{item.id}").attr("value") == "true", "#{item.id}")
 .item{:id => "item_#{item.id}"}
   = form_tag entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :put, :id => "edit_#{item.id}_form", :class => "well"  do
-    = text_field_tag :action_date, l(item.action_date), size: 12, placeholder: "YYYY/MM/DD", id: "action_date_#{item.id}", class: "input-small"
-    = text_field_tag :item_name, item.name, :size=>30, placeholder: t('placeholder.item_name')
-    = hidden_field_tag :confirmation_required, item.confirmation_required?, id: "confirmation_required_#{item.id}"
-    %span.item_confirmation_not_required{id: "confirmation_required_label_#{item.id}"}= t('label.no_confirmation_mark')
-    %br/
-    = select_tag 'from', options_for_select(@separated_accounts[:from_accounts], item.from_account_id.to_s)
-    \=&gt;#{select_tag 'to', options_for_select(@separated_accounts[:to_accounts], item.to_account_id.to_s)} #{text_field_tag 'amount', item.amount, :size=>10, :style=>"text-align: right;", :placeholder => t('placeholder.amount'), class: "input-small"}
-    %br/
-    = text_field_tag 'tag_list', item.tag_list(@user), placeholder: t('placeholder.tag')
-    %span{:id => "item_operation_#{item.id}"}
-      = submit_tag t('button.save'), :id => "edit_button_#{item.id}"
-      = link_to t('link.cancel'), entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :get, :class => "trivial_link"
-    %span{:id => "item_operation_loading_#{item.id}", :style => "display:none;"}= image_tag "loading.gif", :alt => "loading..."
-  %span.warning{:id => "item_warning_#{item.id}"}
+    .row-fluid
+      = text_field_tag :action_date, l(item.action_date), size: 12, placeholder: "YYYY/MM/DD", id: "action_date_#{item.id}", class: "input-small"
+      = text_field_tag :item_name, item.name, placeholder: t('placeholder.item_name')
+      = hidden_field_tag :confirmation_required, item.confirmation_required?, id: "confirmation_required_#{item.id}"
+      %span.item_confirmation_not_required{id: "confirmation_required_label_#{item.id}"}= t('label.no_confirmation_mark')
+    .row-fluid
+      = select_tag 'from', options_for_select(@separated_accounts[:from_accounts], item.from_account_id.to_s), class: "input-medium"
+      \=&gt;
+      = select_tag 'to', options_for_select(@separated_accounts[:to_accounts], item.to_account_id.to_s) , class: "input-medium"
+      %span.input-append
+        = text_field_tag 'amount', item.amount, :style=>"text-align: right;", :placeholder => t('placeholder.amount'), class: "input-small"
+        %span.add-on>= t('number.currency.format.unit')
+    .row-fluid
+      = text_field_tag 'tag_list', item.tag_list(@user), placeholder: t('placeholder.tag'), class: "input-medium"
+    .row-fluid
+      %span{:id => "item_operation_#{item.id}"}
+        = submit_tag t('button.save'), :id => "edit_button_#{item.id}"
+        = link_to t('link.cancel'), entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :get, :class => "trivial_link"
+      %span{:id => "item_operation_loading_#{item.id}", :style => "display:none;"}= image_tag "loading.gif", :alt => "loading..."
+    .row-fluid
+      %span.warning{:id => "item_warning_#{item.id}"}
