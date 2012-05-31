@@ -7,12 +7,12 @@
 - (@separated_accounts[:outgo_ids] + @separated_accounts[:account_ids] + @separated_accounts[:income_ids]).each do |a|
   - all_acnts.push [@separated_accounts[:all_accounts][a], a]
 .item_headers.row-fluid
-  .span2.item_date.item_date_header= t("label.date")
-  .span3.item_name.item_name_header= t(".explanation")
+  .span2.item_date.item_date_header.hidden-phone= t("label.date")
+  .span3.item_name.item_name_header.hidden-phone= t(".explanation")
   .span4.item_from_to_header
     = t(".outgoing_to_income")
     - unless @tag
       %br/
       = select_tag('filter_account_id', options_for_select([[t(".no_filter"), '']] + all_acnts, session[:filter_account_id]))
-  .span2.item_amount.item_amount_header= t("label.amount")
-  .span1
+  .span2.item_amount.item_amount_header.hidden-phone= t("label.amount")
+  .span1.hidden-phone
