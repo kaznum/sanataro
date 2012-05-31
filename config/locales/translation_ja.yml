@@ -265,4 +265,5 @@ ja:
       month_after_next: "翌々月"
       two_month_after_next: "翌々々月"
       final_day: "末日"
-      
+      index:
+        register_credit_relation: "クレジットカード支払い情報の登録"

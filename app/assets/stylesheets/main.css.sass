@@ -17,6 +17,11 @@ $operation_icon_hover_padding: 0px
 @mixin row_of_div_table
   border-bottom: $border_width $border_style $border_color
 
+@mixin row_min_height
+  min-height: 22px
+  height: auto !important
+  height: 22px
+
 a > img.show_icon, a > img.edit_icon, a > img.destroy_icon, a > img.tweet_icon
   @include operation_icon
 a:hover > img.show_icon, a:hover > img.edit_icon, a:hover > img.destroy_icon, a:hover > img.tweet_icon
@@ -76,14 +81,6 @@ div.item_move, tr.item_move
   text-align: left
   padding-bottom: 5px
 
-div#input_item_area
-  margin-top: 0
-
-div#input_item_area p#add_item_explain
-  font:
-    weight: bold
-    size: 1.2em
-  margin: 1px
 
 div#itemlistarea
 
@@ -168,7 +165,7 @@ div.cfg_account_list
 div.cfg_credit_relation_list
 
 div.cfg_account
-  height: 22px
+  @include row_min_height
   @include row_of_div_table
 
 div.cfg_account_name
@@ -176,18 +173,17 @@ div.cfg_account_name
 div.cfg_account_order
 
 div.cfg_account_operation
-  text-align: center
 
 div.cfg_account_header
   @include default_header
 
 div.cfg_credit_relations_header
   @include default_header
-  height: 22px
+  @include row_min_height
   @include row_of_div_table
 
 div.cfg_credit_relation
-  height: 22px
+  @include row_min_height
   @include row_of_div_table
 
 div.cfg_credit_relation_name

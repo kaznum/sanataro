@@ -5,23 +5,28 @@
       .bind("ajax:complete", -> $('#edit_button_#{@cr.id}').attr("disabled", false))
 %div{:id => "credit_relation_#{@cr.id}"}
   = form_tag settings_credit_relation_path(@cr.id), :remote => true, :method => :put, :id => "edit_form_#{@cr.id}", :class => "well" do
-    %table
-      %tr
-        %th= t('settings.credit_relations.credit_card')
-        %th= t('settings.credit_relations.account_to_draw')
-        %th= t('settings.credit_relations.closing_date')
-        %th= t('settings.credit_relations.due')
-        %th
-      %tr
-        %td= select_tag 'credit_account_id', options_for_select(@separated_accounts[:bank_accounts], @cr.credit_account_id.to_s)
-        %td= select_tag 'payment_account_id', options_for_select(@separated_accounts[:bank_accounts], @cr.payment_account_id.to_s)
-        %td
-          #{t('settings.credit_relations.monthly')} #{select_tag 'settlement_day', options_for_select(CreditRelation::SETTLEMENT_DAYS, @cr.settlement_day), class: "span2"} #{t('label.day')}
-        %td
-          = select_tag 'payment_month', options_for_select(CreditRelation::PAYMENT_MONTHS, @cr.payment_month), class: "span2"
-          = select_tag 'payment_day', options_for_select(CreditRelation::PAYMENT_DAYS, @cr.payment_day), class: "span2"
-          = t('label.day')
-        %td
-          = submit_tag t('button.save'), :id=>"edit_button_#{@cr.id}"
-          = link_to t('link.cancel'), settings_credit_relation_path(@cr.id), :remote => true, :method => :get, :class => "trivial_link"
-  %span.warning{:id => "edit_warning_#{@cr.id}"}
+    .row-fluid
+      .span2= t('settings.credit_relations.credit_card')
+      .span10= select_tag 'credit_account_id', options_for_select(@separated_accounts[:bank_accounts], @cr.credit_account_id.to_s), class: "input-medium"
+    .row-fluid
+      .span2= t('settings.credit_relations.account_to_draw')
+      .span10= select_tag 'payment_account_id', options_for_select(@separated_accounts[:bank_accounts], @cr.payment_account_id.to_s), class: "input-medium"
+    .row-fluid
+      .span2= t('settings.credit_relations.closing_date')
+      .span10
+        %div{:class => "input-prepend input-append"}
+          %span.add-on>= t('settings.credit_relations.monthly')
+          = select_tag 'settlement_day', options_for_select(CreditRelation::SETTLEMENT_DAYS, @cr.settlement_day), class: "input-small"
+          %span.add-on>= t('label.day')
+    .row-fluid
+      .span2= t('settings.credit_relations.due')
+      .span10
+        = select_tag 'payment_month', options_for_select(CreditRelation::PAYMENT_MONTHS, @cr.payment_month), class: "input-small"
+        .input-append
+          = select_tag 'payment_day', options_for_select(CreditRelation::PAYMENT_DAYS, @cr.payment_day), class: "input-small"
+          %span.add-on>= t('label.day')
+    .row-fluid
+      .span12
+        = submit_tag t('button.save'), :id=>"edit_button_#{@cr.id}"
+        = link_to t('link.cancel'), settings_credit_relation_path(@cr.id), :remote => true, :method => :get, :class => "trivial_link"
+        .warning{:id => "edit_warning_#{@cr.id}"}

@@ -11,18 +11,27 @@
         $('#item_operation_#{item.id}').show())
 .item{:id => "item_#{item.id}"}
   = form_tag entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :put, :id => "edit_#{item.id}_form", :class => "well" do
-    = hidden_field_tag :action_date, l(item.action_date)
-    = t('entries.adjustment_explanation')
-    %br/
-    = l(item.action_date)
-    %br/
-    = select_tag 'to', options_for_select(@separated_accounts[:to_accounts], item.to_account_id.to_s)
-    #{t('label.balance')}:#{text_field_tag 'adjustment_amount', item.adjustment_amount, :size=>10, :style=>"text-align: right;", :class => "input-small"}#{t('number.currency.format.unit')}
-    %br/
-    #{text_field_tag 'tag_list', item.tag_list(@user), placeholder: t('placeholder.tag')}
-    %span{:id => "item_operation_#{h item.id}"}
-      = submit_tag t('button.save'), id: "edit_button_#{item.id}"
-      = link_to t('link.cancel'), entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :get, :class => "trivial_link"
-    %span{:id => "item_operation_loading_#{h item.id}", :style => "display:none;"}= image_tag "loading.gif", :alt => "loading..."
-    = hidden_field_tag 'entry_type', 'adjustment'
-  %span.warning{:id => "item_warning_#{item.id}"}
+    .row-fluid
+      = hidden_field_tag :action_date, l(item.action_date)
+      = t('entries.adjustment_explanation')
+    .row-fluid
+      %strong= l(item.action_date)
+    .row-fluid
+      = select_tag 'to', options_for_select(@separated_accounts[:to_accounts], item.to_account_id.to_s), class: "input-medium"
+    .row-fluid
+      = t('label.balance')
+      \:
+      %span.input-append
+        %span.input-append
+          = text_field_tag 'adjustment_amount', item.adjustment_amount, :size=>10, :style=>"text-align: right;", :class => "input-small"
+          %span.add-on>= t('number.currency.format.unit')
+    .row-fluid
+      = text_field_tag 'tag_list', item.tag_list(@user), placeholder: t('placeholder.tag'), class: "input-medium"
+    .row-fluid
+      %span{:id => "item_operation_#{h item.id}"}
+        = submit_tag t('button.save'), id: "edit_button_#{item.id}"
+        = link_to t('link.cancel'), entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :get, :class => "trivial_link"
+      %span{:id => "item_operation_loading_#{h item.id}", :style => "display:none;"}= image_tag "loading.gif", :alt => "loading..."
+      = hidden_field_tag 'entry_type', 'adjustment'
+    .row-fluid
+      .warning{:id => "item_warning_#{item.id}"}
