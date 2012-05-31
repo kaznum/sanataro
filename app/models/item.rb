@@ -173,7 +173,7 @@ class Item < ActiveRecord::Base
   def self.future_adjustment(user, action_date, account_id, item_id)
     user.items.where(to_account_id: account_id,
                      adjustment: true).where("(action_date > ? AND id <> ?) OR (action_date = ? AND id > ?)",
-                                                action_date, item_id, action_date, item_id).order("action_date, id").first
+                                             action_date, item_id, action_date, item_id).order("action_date, id").first
   end
 
   #
@@ -187,15 +187,13 @@ class Item < ActiveRecord::Base
   def self.find_partial(user, from_date, to_date, filter_options={})
     options = symbolize_keys(filter_options)
 
+    items = user.items
     if options[:tag].present?
-      ret_items = options[:remain] ? user.items.remainings_by_tag(options[:tag]) :
-        user.items.partials_by_tag(options[:tag])
+      ret_items = options[:remain] ? items.remainings_by_tag(options[:tag]) : items.partials_by_tag(options[:tag])
     else
-      items = user.items
       items = (options[:mark] == 'confirmation_required') ? items.confirmation_required :
         items.action_date_between(from_date, to_date).includes(:user, :tags)
-      options[:filter_account_id].present? &&
-        items = items.only_account(options[:filter_account_id])
+      items = items.only_account(options[:filter_account_id]) if options[:filter_account_id].present?
       items = items.order_for_entries_list
       ret_items = options[:remain] ? items.remaining.all : items.default_limit.all
     end
