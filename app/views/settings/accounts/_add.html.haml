@@ -4,8 +4,18 @@
       .bind("ajax:before", -> $('#submit_button').attr("disabled", true))
       .bind("ajax:complete", -> $('#submit_button').attr("disabled", false))
 = form_tag settings_accounts_path, :remote => true, :method => :post, :id => "create_form", :class => "well inline-form"  do
-  = t("settings.accounts.bank_account") if @account_type == 'account'
-  = t("settings.accounts.outgoing_account") if @account_type == 'outgo'
-  = t("settings.accounts.income_account") if @account_type == 'income'
-  \:#{text_field_tag :account_name, nil, class: "input-small"} #{t("label.position")}:#{text_field_tag :order_no, nil, class: "input-small"}#{hidden_field_tag :account_type, @account_type} #{submit_tag t("button.register"), :id=>"submit_button"}
+  .row-fluid
+    .span1
+      = t("settings.accounts.bank_account") if @account_type == 'account'
+      = t("settings.accounts.outgoing_account") if @account_type == 'outgo'
+      = t("settings.accounts.income_account") if @account_type == 'income'
+    .span2= text_field_tag :account_name, nil, class: "input-medium"
+  .row-fluid
+    .span1
+      = t("label.position")
+    .span2
+      = text_field_tag :order_no, nil, class: "input-small"
+      = hidden_field_tag :account_type, @account_type
+  .row-fluid
+    = submit_tag t("button.register"), :id=>"submit_button"
 #add_warning.warning

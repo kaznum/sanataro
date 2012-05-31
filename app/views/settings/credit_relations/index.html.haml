@@ -34,11 +34,11 @@
             #warning.warning
       %h3= t('label.list_update_delete')
       #credit_relations_headers.cfg_credit_relations_header.row-fluid
-        .cfg_credit_relation_name.cfg_credit_relation_header.span2= t('settings.credit_relations.credit_card')
-        .cfg_payment_relation_name.cfg_credit_relation_header.span2= t('settings.credit_relations.account_to_draw')
-        .cfg_settlement_day.cfg_credit_relation_header.span2= t('settings.credit_relations.closing_date')
-        .cfg_payment_date.cfg_credit_relation_header.span2= t('settings.credit_relations.due')
-        .cfg_credit_relation_operation.cfg_credit_relation_header.span1
+        .cfg_credit_relation_name.cfg_credit_relation_header.span2.hidden-phone= t('settings.credit_relations.credit_card')
+        .cfg_payment_relation_name.cfg_credit_relation_header.span2.hidden-phone= t('settings.credit_relations.account_to_draw')
+        .cfg_settlement_day.cfg_credit_relation_header.span2.hidden-phone= t('settings.credit_relations.closing_date')
+        .cfg_payment_date.cfg_credit_relation_header.span2.hidden-phone= t('settings.credit_relations.due')
+        .cfg_credit_relation_operation.cfg_credit_relation_header.span1.hidden-phone
       #credit_relations
         - @credit_relations.each do |cr|
           = render :partial=> 'show', :locals => {:cr => cr}
