@@ -16,7 +16,7 @@
     = t('label.balance')
     %span.input-append
       = text_field_tag 'adjustment_amount', nil, class: "input-small", style: "text-align: right;", placeholder: t("placeholder.amount")
-      %span.add-on>= t('label.unit')
+      %span.add-on>= t('number.currency.format.unit')
   .row-fluid
     = text_field_tag 'tag_list',nil, placeholder: t('placeholder.tag'), class: "input-medium"
   .row-fluid
