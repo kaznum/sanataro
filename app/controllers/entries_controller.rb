@@ -20,7 +20,7 @@ class EntriesController < ApplicationController
     else
       _index_plain(displaying_month)
     end
-  rescue # 日付が不正の場合がある
+  rescue # in case the date in params has invalid format
     respond_to do |format|
       format.js {  redirect_js_to current_entries_url }
       format.html {  redirect_to current_entries_url }
@@ -29,17 +29,17 @@ class EntriesController < ApplicationController
 
   def _index_with_filter_account_id
     _set_filter_account_id_to_session_from_params
-    @items = _get_items(displaying_month)
+    @items = get_items(month: displaying_month)
     render "index_with_filter_account_id"
   end
 
   def _index_with_tag(tag)
-    @items = _get_items(nil, false, tag, nil)
+    @items = get_items(tag: tag)
     render 'index_with_tag'
   end
 
   def _index_with_mark(mark)
-    @items = _get_items(nil, false, nil, mark)
+    @items = get_items(mark: mark)
     render 'index_with_mark'
   end
 
@@ -53,13 +53,12 @@ class EntriesController < ApplicationController
   end
 
   def _index_plain(month_to_display)
-    @items = _get_items(month_to_display)
+    @items = get_items(month: month_to_display)
     @new_item = Item.new { |item| item.action_date = _default_action_date(month_to_display) }
   end
 
   def new
-    case params[:entry_type]
-    when 'simple'
+    if params[:entry_type] == 'simple'
       _new_simple
     else
       _new_entry(params[:entry_type])
@@ -110,7 +109,7 @@ class EntriesController < ApplicationController
                     action_date: _get_action_date_from_params })
 
       item, updated_item_ids, deleted_item_ids = Teller.update_entry(@user, id, args)
-      items = _get_items(displaying_month)
+      items = get_items(month: displaying_month)
       render "update", locals: { item: item, items: items, updated_item_ids: updated_item_ids }
     }
   end
@@ -181,7 +180,7 @@ class EntriesController < ApplicationController
                             from_account_id: -1, to_account_id: to_account_id,
                             adjustment: true, tag_list: params[:tag_list],
                             adjustment_amount: adjustment_amount)
-      @items = _get_items(displaying_month)
+      @items = get_items(month: displaying_month)
       updated_item_ids << item.try(:id)
 
       render "create_adjustment", locals: { item: item, items: @items, updated_item_ids: updated_item_ids.reject(&:nil?).uniq }
@@ -202,7 +201,7 @@ class EntriesController < ApplicationController
       if params[:only_add]
         render "create_item_simple", locals: { item: item }
       else
-        @items = _get_items(displaying_month)
+        @items = get_items(month: displaying_month)
         affected_item_ids << item.try(:id)
         render "create_item", locals: { item: item, items: @items, updated_item_ids: affected_item_ids.reject(&:nil?).uniq }
       end
@@ -262,24 +261,23 @@ class EntriesController < ApplicationController
       month_to_display = month.beginning_of_month
     end
 
-    @items = _get_items(month_to_display, true, tag, mark)
+    @items = get_items(month: month_to_display, remain: true, tag: tag, mark: mark)
     render 'index_for_remaining'
   end
 
-  #
-  # get items from db
-  # remain  true: 非表示の部分を取得
-  #
-  def _get_items(month, remain=false, tag=nil, mark=nil)
-    if month.present?
-      from_date = month.beginning_of_month
-      to_date = month.end_of_month
+  # options variation
+  #   remain: true: get remaining items which are not shown at first.
+  #   tag: String
+  #   mark: String
+  def get_items(options = {})
+    if options[:month].present?
+      from_date = options[:month].beginning_of_month
+      to_date = options[:month].end_of_month
     end
     Item.find_partial(@user, from_date, to_date,
-                      { :filter_account_id => session[:filter_account_id],
-                        :remain=>remain, :tag => tag, :mark => mark})
+                      filter_account_id: session[:filter_account_id],
+                      remain: options[:remain], tag: options[:tag], mark: options[:mark])
   end
 end
 
-class InvalidDate < Exception
-end
+class InvalidDate < Exception ; end
