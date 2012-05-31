@@ -7,7 +7,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "sel
   step %{I fill in "login" with "user1"}
   step %{I fill in "password" with "123456"}
   step %{I press "ログイン"}
-  find('p#add_item_explain')
+  find('#input_item_area')
 end
 
 前提 /^(.+)年(.+)月の収支入力ページを表示している$/ do |year, month|
@@ -15,7 +15,7 @@ end
   step %{I fill in "login" with "user1"}
   step %{I fill in "password" with "123456"}
   step %{I press "ログイン"}
-  find('p#add_item_explain')
+  find('#input_item_area')
   step %{I am on #{year}年#{month}月の収支入力}
 end
 
@@ -24,7 +24,7 @@ end
   step %{I fill in "login" with "user1"}
   step %{I fill in "password" with "123456"}
   step %{I press "ログイン"}
-  find('p#add_item_explain')
+  find('#input_item_area')
   step %{I follow "残高調整の登録"}
   find('#adjustment_amount')
 end
@@ -34,7 +34,7 @@ end
   step %{I fill in "login" with "user1"}
   step %{I fill in "password" with "123456"}
   step %{I press "ログイン"}
-  find('p#add_item_explain')
+  find('#input_item_area')
   step %{I am on #{year}年#{month}月の収支入力}
   step %{I follow "残高調整の登録"}
   find('#adjustment_amount')

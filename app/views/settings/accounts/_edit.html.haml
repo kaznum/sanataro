@@ -6,13 +6,19 @@
       .bind("ajax:complete", -> $('#edit_button_#{@account.id}').attr('disabled', false))
 %div{:id => "account_#{@account.id}"}
   = form_tag settings_account_path(@account.id), :method => :put, :remote => true, :id => "edit_form_#{@account.id}", :class => "well" do
-    = text_field_tag :account_name, @account.name, class: "input-small"
-    = text_field_tag :order_no, @account.order_no, class: "input-small"
-    = submit_tag t('button.save'), :id=>"edit_button_#{@account.id}"
-    = link_to t('link.cancel'), settings_account_path(@account.id), :remote => true, :method => :get, :class => "trivial_link"
-    %br/
-    = t(".use_bgcolor")
-    = check_box_tag :use_bgcolor, '1', (@account.bgcolor.present?), :id => "use_bgcolor_#{@account.id}"
-    = hidden_field_tag :bgcolor, @account.bgcolor.nil? ? '#ffffff' : "##{@account.bgcolor}", :id => "colorfield_#{@account.id}"
-    .warning{:id => "account_#{@account.id}_warning"}
-    %span{:id => "colorpicker_#{@account.id}"}
+    .row-fluid
+      = text_field_tag :account_name, @account.name, class: "input-medium"
+    .row-fluid
+      = text_field_tag :order_no, @account.order_no, class: "input-small"
+    .row-fluid
+      = submit_tag t('button.save'), :id=>"edit_button_#{@account.id}"
+      = link_to t('link.cancel'), settings_account_path(@account.id), :remote => true, :method => :get, :class => "trivial_link"
+      %br/
+    .row-fluid
+      = t(".use_bgcolor")
+      = check_box_tag :use_bgcolor, '1', (@account.bgcolor.present?), :id => "use_bgcolor_#{@account.id}"
+      = hidden_field_tag :bgcolor, @account.bgcolor.nil? ? '#ffffff' : "##{@account.bgcolor}", :id => "colorfield_#{@account.id}"
+    .row-fluid
+      .warning{:id => "account_#{@account.id}_warning"}
+    .row-fluid
+      %span{:id => "colorpicker_#{@account.id}"}
