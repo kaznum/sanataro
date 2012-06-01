@@ -41,7 +41,7 @@ describe MainController do
                        :amount=>'10,000', :from=>accounts(:credit4).id,
                        :to=>accounts(:outgo3).id, :year => 2008, :month => 2)
 
-          @item = Item.find_by_name('テスト10show_parent_child')
+          @item = Item.find_by_name_and_parent_id('テスト10show_parent_child', nil)
           xhr :get, :show_parent_child_item, :id => @item.id, :type => 'child'
         end
 
@@ -59,7 +59,7 @@ describe MainController do
                        :amount=>'10,000', :from=>accounts(:credit4).id,
                        :to=>accounts(:outgo3).id, :year => 2008, :month => 2)
 
-          @item = Item.find_by_name('テスト10show_parent_child')
+          @item = Item.find_by_name_and_parent_id('テスト10show_parent_child',nil)
           xhr :get, :show_parent_child_item, :id => @item.id, :type => 'parent'
         end
 
