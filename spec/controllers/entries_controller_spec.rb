@@ -226,23 +226,23 @@ describe EntriesController do
         end
 
         context "without other params," do
-          describe "user.items.find_partial" do
+          describe "user.items.partials" do
             it "is called with :remain => true" do
               stub_date_from = Date.new(2008,2)
               stub_date_to = Date.new(2008,2).end_of_month
               mock_items = users(:user1).items
               mock_user.should_receive(:items).and_return(mock_items)
-              mock_items.should_receive(:find_partial).with(stub_date_from, stub_date_to,
+              mock_items.should_receive(:partials).with(stub_date_from, stub_date_to,
                                                             hash_including(:remain => true)).and_return(Item.where(:action_date => Date.new(2008,2)..Date.new(2008,2).end_of_month).all)
               xhr :get, :index, :remaining => 1, :year => 2008, :month => 2
             end
           end
 
-          describe "other than user.items.find_partial" do
+          describe "other than user.items.partials" do
             before do
               mock_items = users(:user1).items
               mock_user.should_receive(:items).and_return(mock_items)
-              mock_items.stub(:find_partial).and_return(Item.where(:action_date => Date.new(2008,2)..Date.new(2008,2).end_of_month).all)
+              mock_items.stub(:partials).and_return(Item.where(:action_date => Date.new(2008,2)..Date.new(2008,2).end_of_month).all)
               xhr :get, :index, :remaining => true, :year => 2008, :month => 2
             end
 
@@ -256,19 +256,19 @@ describe EntriesController do
         end
 
         context "and params[:tag] = 'xxx'," do
-          describe "user.items.find_partial" do
+          describe "user.items.partials" do
             it "called with tag => 'xxx' and :remain => true" do
               mock_items = users(:user1).items
               mock_user.should_receive(:items).and_return(mock_items)
-              mock_items.should_receive(:find_partial).with(nil, nil,
+              mock_items.should_receive(:partials).with(nil, nil,
                                                             hash_including(:tag => 'xxx', :remain => true)).and_return(Item.where(:action_date => Date.new(2008,2)..Date.new(2008,2).end_of_month).all)
               xhr :get, :index, :remaining => true, :year => 2008, :month => 2, :tag => 'xxx'
             end
           end
 
-          describe "other than user.items.find_partial," do
+          describe "other than user.items.partials," do
             before do
-              Item.stub(:find_partial).and_return(Item.where(:action_date => Date.new(2008,2)..Date.new(2008,2).end_of_month).all)
+              Item.stub(:partials).and_return(Item.where(:action_date => Date.new(2008,2)..Date.new(2008,2).end_of_month).all)
               xhr :get, :index, :remaining => true, :year => 2008, :month => 2, :tag => 'xxx'
             end
 
