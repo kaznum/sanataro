@@ -43,7 +43,7 @@ class Item < ActiveRecord::Base
     end
   end
 
-  scope :of_account_id, lambda { |account_id|  where("from_account_id = ? or to_account_id = ?", account_id, account_id) }
+  scope :of_account_id, lambda { |account_id|  where(arel_table[:from_account_id].eq(account_id).or(arel_table[:to_account_id].eq(account_id)) )}
   scope :action_date_between, lambda { |from, to| where(action_date: from..to) }
   scope :confirmation_required, where(confirmation_required: true)
   scope :default_limit, limit(Settings.item_list_count)
