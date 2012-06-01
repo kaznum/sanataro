@@ -184,10 +184,9 @@ class Item < ActiveRecord::Base
   #    :tag タグにより検索(この場合、from_date, to_dateは無視される)
   #    :mark mark(confirmation_requiredなど)により検索(この場合、from_date, to_dateは無視される)
   #
-  def self.find_partial(user, from_date, to_date, filter_options={})
+  def self.partials(from_date, to_date, filter_options={})
     options = symbolize_keys(filter_options)
-
-    items = user.items
+    items = self
     if options[:tag].present?
       ret_items = options[:remain] ? items.remainings_by_tag(options[:tag]) : items.partials_by_tag(options[:tag])
     else
