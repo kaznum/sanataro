@@ -2,7 +2,7 @@
 class User < ActiveRecord::Base
   attr_protected :login
   attr_accessor :password_plain, :password_confirmation
-  acts_as_tagger
+  sanataro_tagger
   has_many :items
   has_many :monthly_profit_losses
   has_many :accounts

@@ -58,7 +58,7 @@ so there are lots of points of old fashion expressions to be fixed.
 * Copyright (c) 2007-2012 Kazuya NUMATA.
 * License: MIT License.  http://opensource.org/licenses/mit-license.php
 
-== Dependency
+== The libraries which this product includes
 Thank you for the developers of The following libraries.
 (These are bundled with, so you don't need additional installation.)
 * Farbtastic 1.2
@@ -74,4 +74,7 @@ Thank you for the developers of The following libraries.
 * Emolett
   * http://mayuco.github.com/emolett/
   * SIL Open Font License (OFL)
-
+* ActsAsTaggableRedux
+  * https://github.com/geemus/acts_as_taggable_redux
+  * Copyright (c) 2010 geemus(Wesley Beary), released under the MIT license
+  * Some code and design concepts in lib/sanataro_taggable comes from ActsAsTaggableRedux.

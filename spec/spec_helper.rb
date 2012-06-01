@@ -53,7 +53,7 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 
-require File.expand_path(File.join(Rails.root, 'lib', 'acts_as_taggable_redux', 'init'))
+require File.expand_path(File.join(Rails.root, 'lib', 'sanataro_taggable', 'init'))
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.

@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 class Item < ActiveRecord::Base
-  acts_as_taggable
+  sanataro_taggable
   attr_protected :user_id
 
   belongs_to :user
-  belongs_to :parent_item, :class_name => "Item", :foreign_key => 'parent_id'
-  has_one :child_item, :class_name => "Item", :foreign_key => 'parent_id', :dependent => :destroy
+  belongs_to :parent_item, :class_name => self.to_s, :foreign_key => 'parent_id'
+  has_one :child_item, :class_name => self.to_s, :foreign_key => 'parent_id', :dependent => :destroy
 
   validate :validates_action_date_range
 
@@ -43,13 +43,12 @@ class Item < ActiveRecord::Base
     end
   end
 
-  ORDER_OF_ENTRIES_LIST = "action_date desc, id desc"
   scope :of_account_id, lambda { |account_id|  where("from_account_id = ? or to_account_id = ?", account_id, account_id) }
   scope :action_date_between, lambda { |from, to| where(action_date: from..to) }
   scope :confirmation_required, where(confirmation_required: true)
   scope :default_limit, limit(Settings.item_list_count)
   scope :remaining, offset(Settings.item_list_count)
-  scope :order_for_entries_list, order(ORDER_OF_ENTRIES_LIST)
+  scope :order_of_entries, order(Item.arel_table[:action_date].desc).order(Item.arel_table[:id].desc)
 
   def validates_action_date_range
     today = Date.today
@@ -193,7 +192,7 @@ class Item < ActiveRecord::Base
       items = (options[:mark] == 'confirmation_required') ? items.confirmation_required :
         items.action_date_between(from_date, to_date).includes(:user, :tags)
       items = items.of_account_id(options[:filter_account_id]) if options[:filter_account_id].present?
-      items = items.order_for_entries_list
+      items = items.order_of_entries
       ret_items = options[:remain] ? items.remaining.all : items.default_limit.all
     end
 
@@ -209,24 +208,14 @@ class Item < ActiveRecord::Base
   end
 
   def self.partials_by_tag(tag)
-    # FIX ME
-    #
-    # In fact, it should call the method like the following
-    # self.find_tagged_with(tag).default_limit.order(ORDER_OF_ENTRIES_LIST)
-    self.find_tagged_with(tag,
-                          :limit => Settings.item_list_count,
-                          :order => ORDER_OF_ENTRIES_LIST)
+    self.tagged_with(tag).order_of_entries.limit(Settings.item_list_count).all
   end
 
   def self.remainings_by_tag(tag)
     # FIX ME
     #
-    # In fact, it should call the method like the following
-    # self.find_tagged_with(tag).remaining.order(ORDER_OF_ENTRIES_LIST)
-    self.find_tagged_with(tag,
-                          :limit => 999999,
-                          :offset => Settings.item_list_count,
-                          :order => ORDER_OF_ENTRIES_LIST)
+    # limit is fixed number.
+    self.tagged_with(tag).order_of_entries.offset(Settings.item_list_count).limit(999999).all
   end
 
   def self.collect_account_history(user, account_id, from_date, to_date)
