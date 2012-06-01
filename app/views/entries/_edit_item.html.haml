@@ -28,7 +28,7 @@
         = text_field_tag 'amount', item.amount, :style=>"text-align: right;", :placeholder => t('placeholder.amount'), class: "input-small"
         %span.add-on>= t('number.currency.format.unit')
     .row-fluid
-      = text_field_tag 'tag_list', item.tag_list(@user), placeholder: t('placeholder.tag'), class: "input-medium"
+      = text_field_tag 'tag_list', item.tag_list, placeholder: t('placeholder.tag'), class: "input-medium"
     .row-fluid
       %span{:id => "item_operation_#{item.id}"}
         = submit_tag t('button.save'), :id => "edit_button_#{item.id}"
