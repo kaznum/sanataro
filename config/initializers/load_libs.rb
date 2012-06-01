@@ -1,3 +1,6 @@
-require File.expand_path('../../../lib/common_util', __FILE__)
-require File.expand_path('../../../lib/array', __FILE__)
-require File.expand_path('../../../lib/record_invalid', __FILE__)
+$:.unshift File.dirname(__FILE__)
+
+require File.expand_path(File.join(Rails.root, 'lib', 'common_util'))
+require File.expand_path(File.join(Rails.root, 'lib', 'array'))
+require File.expand_path(File.join(Rails.root, 'lib', 'record_invalid'))
+
