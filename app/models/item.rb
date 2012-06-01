@@ -44,9 +44,9 @@ class Item < ActiveRecord::Base
   end
 
   ORDER_OF_ENTRIES_LIST = "action_date desc, id desc"
-  scope :only_account, lambda { |account_id|  where("from_account_id = ? or to_account_id = ?", account_id, account_id) }
-  scope :action_date_between, lambda { |from, to| where("action_date between ? and ?", from, to)}
-  scope :confirmation_required, where(:confirmation_required => true)
+  scope :of_account_id, lambda { |account_id|  where("from_account_id = ? or to_account_id = ?", account_id, account_id) }
+  scope :action_date_between, lambda { |from, to| where(action_date: from..to) }
+  scope :confirmation_required, where(confirmation_required: true)
   scope :default_limit, limit(Settings.item_list_count)
   scope :remaining, offset(Settings.item_list_count)
   scope :order_for_entries_list, order(ORDER_OF_ENTRIES_LIST)
@@ -192,7 +192,7 @@ class Item < ActiveRecord::Base
     else
       items = (options[:mark] == 'confirmation_required') ? items.confirmation_required :
         items.action_date_between(from_date, to_date).includes(:user, :tags)
-      items = items.only_account(options[:filter_account_id]) if options[:filter_account_id].present?
+      items = items.of_account_id(options[:filter_account_id]) if options[:filter_account_id].present?
       items = items.order_for_entries_list
       ret_items = options[:remain] ? items.remaining.all : items.default_limit.all
     end
@@ -230,7 +230,7 @@ class Item < ActiveRecord::Base
   end
 
   def self.collect_account_history(user, account_id, from_date, to_date)
-    items = user.items.action_date_between(from_date, to_date).only_account(account_id).order("action_date")
+    items = user.items.action_date_between(from_date, to_date).of_account_id(account_id).order("action_date")
     remain_amount = user.monthly_profit_losses.where("month < ?", from_date).where(account_id: account_id).sum('amount')
     [remain_amount, items]
   end
