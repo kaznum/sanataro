@@ -48,7 +48,10 @@ class Item < ActiveRecord::Base
   scope :confirmation_required, where(confirmation_required: true)
   scope :default_limit, limit(Settings.item_list_count)
   scope :remaining, offset(Settings.item_list_count)
-  scope :order_of_entries, order(Item.arel_table[:action_date].desc).order(Item.arel_table[:id].desc)
+  # FIXME (WHY?)
+  # The following code doesn't work on PostgreSQL Env.
+  #  scope :order_of_entries, order(arel_table[:action_date].desc).order(arel_table[:id].desc)
+  scope :order_of_entries, order("items.action_date desc").order("items.id desc")
 
   def validates_action_date_range
     today = Date.today
