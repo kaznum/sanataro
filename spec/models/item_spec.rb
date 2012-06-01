@@ -443,58 +443,57 @@ describe Item do
       end
      
       context "when :remain is not specified" do
-        subject { Item.find_partial(users(:user1),@from_date, @to_date) }
+        subject { users(:user1).items.find_partial(@from_date, @to_date) }
         it { should have(Settings.item_list_count).entries }
       end
 
       context "when :remain is specified as true" do
-        subject { Item.find_partial(users(:user1), @from_date, @to_date, {:remain=>true}) }
+        subject { users(:user1).items.find_partial(@from_date, @to_date, {:remain=>true}) }
         it { should have(100 - Settings.item_list_count).entries }
       end
 
       context "when :tag is specified" do
-        subject { Item.find_partial(users(:user1),nil, nil, {:tag => 'abc' }) }
+        subject { users(:user1).items.find_partial(nil, nil, {:tag => 'abc' }) }
         it { should have(Settings.item_list_count).entries }
       end
 
       context "when :tag and :remain is specified" do
-        subject { Item.find_partial(users(:user1),nil, nil, {:remain => true, :tag => 'abc' }) }
+        subject { users(:user1).items.find_partial(nil, nil, {:remain => true, :tag => 'abc' }) }
         it { should have(50 - Settings.item_list_count).entries }
       end
 
       context "when :filter_account_id is specified" do
-        subject { Item.find_partial(users(:user1),@from_date, @to_date, {:filter_account_id => accounts(:bank11).id}) }
+        subject { users(:user1).items.find_partial(@from_date, @to_date, {:filter_account_id => accounts(:bank11).id}) }
         it { should have(Settings.item_list_count).entries }
       end
 
       context "when :filter_account_id and :remain is specified" do
-        subject { Item.find_partial(users(:user1),@from_date, @to_date, {:filter_account_id => accounts(:bank11).id, :remain => true}) }
+        subject { users(:user1).items.find_partial(@from_date, @to_date, {:filter_account_id => accounts(:bank11).id, :remain => true}) }
         it { should have(50 - Settings.item_list_count).entries }
       end
 
       context "when confirmation required is specified"  do
         context "when remain not specified" do
-          subject { Item.find_partial(users(:user1),nil, nil, {:mark => 'confirmation_required' }) }
+          subject { users(:user1).items.find_partial(nil, nil, {:mark => 'confirmation_required' }) }
           it { should have(Settings.item_list_count).entries }
         end
-        
+
         context "when remain not specified" do
-          before do 
+          before do
             @cnfmt_rqrd_count = Item.where(:confirmation_required => true, :user_id => users(:user1).id).count
           end
-          
-          subject { Item.find_partial(users(:user1),nil, nil, {:mark => 'confirmation_required', :remain => true }) }
+
+          subject { users(:user1).items.find_partial(nil, nil, {:mark => 'confirmation_required', :remain => true }) }
           it { should have(@cnfmt_rqrd_count - Settings.item_list_count).entries }
         end
-        
       end
     end
-    
-    context "when entries are not so many" do 
+
+    context "when entries are not so many" do
       before(:all) do
         @created_ids = []
         # データの準備
-        Item.transaction do 
+        Item.transaction do
           15.times do |i|
             item = Item.new(:name => 'regular item ' + i.to_s,
                             :from_account_id => 11,
@@ -563,22 +562,22 @@ describe Item do
       end
 
       context "when :remain is not specified" do
-        subject { Item.find_partial(users(:user1), @from_date, @to_date) }
+        subject { users(:user1).items.find_partial(@from_date, @to_date) }
         it { should have(18).entries }
       end
 
-      context "when :remain is true" do 
-        subject { Item.find_partial(users(:user1), @from_date, @to_date, {'remain'=>true}) }
+      context "when :remain is true" do
+        subject { users(:user1).items.find_partial(@from_date, @to_date, {'remain'=>true}) }
         it { should have(0).entries }
       end
 
-      context "when :filter_account_id is specified" do 
-        subject { Item.find_partial(users(:user1), @from_date, @to_date, {:filter_account_id=>accounts(:bank11).id}) }
+      context "when :filter_account_id is specified" do
+        subject { users(:user1).items.find_partial(@from_date, @to_date, {:filter_account_id=>accounts(:bank11).id}) }
         it { should have(15).entries }
       end
 
-      context "when :filter_account_id and :remain is specified" do 
-        subject { Item.find_partial(users(:user1), @from_date, @to_date, {:filter_account_id=>accounts(:bank11).id, :remain => true}) }
+      context "when :filter_account_id and :remain is specified" do
+        subject { users(:user1).items.find_partial(@from_date, @to_date, {:filter_account_id=>accounts(:bank11).id, :remain => true}) }
         it { should have(0).entries }
       end
     end

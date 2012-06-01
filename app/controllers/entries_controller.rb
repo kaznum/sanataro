@@ -274,9 +274,9 @@ class EntriesController < ApplicationController
       from_date = options[:month].beginning_of_month
       to_date = options[:month].end_of_month
     end
-    Item.find_partial(@user, from_date, to_date,
-                      filter_account_id: session[:filter_account_id],
-                      remain: options[:remain], tag: options[:tag], mark: options[:mark])
+    @user.items.find_partial(from_date, to_date,
+                             filter_account_id: session[:filter_account_id],
+                             remain: options[:remain], tag: options[:tag], mark: options[:mark])
   end
 end
 
