@@ -7,5 +7,5 @@ describe ChartHelper do
 
   subject { @returned }
   it { should match /^<a.*class="trivial_link".*>$/ }
-  it { should match /^<a .*onclick="\$\('#sample &gt; \.legend'\)\.toggle\(\); return false;".*>$/ }
+  it { should match /^<a .*onclick="\$\('#sample &gt; \.legend'\)\.toggle\(\);return false;".*>$/ }
 end
