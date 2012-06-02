@@ -57,9 +57,19 @@ Kakeibo3::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
-  config.action_mailer.delivery_method = :sendmail
+  # config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :address              => "67.43.170.127",
+    :port                 => 587,
+    :domain               => 'sanataro-cedar.heroku.com',
+    :user_name            => 'mailclient',
+    :password             => '9JH627X',
+    :authentication       => 'plain',
+    :enable_starttls_auto => false  }
+  
 
   config.filter_parameters += [:password]
 
-  config.action_mailer.default_url_options = { :host => "k.nu-chon.org" }
+  config.action_mailer.default_url_options = { :host => "sanataro.heroku.com" } 
 end
