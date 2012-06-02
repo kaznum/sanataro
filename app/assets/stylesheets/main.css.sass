@@ -202,12 +202,13 @@ div#pllist
 div.item_remains
   text-align: right
 
-.item_confirmation_required
+.item_confirmation_required:link, .item_confirmation_required:hover
+  &:hover
   color: orange
   text-decoration: none
   cursor: pointer
 
-.item_confirmation_not_required
+.item_confirmation_not_required:link, .item_confirmation_not_required:hover
   color: silver
   text-decoration: none
   cursor: pointer
