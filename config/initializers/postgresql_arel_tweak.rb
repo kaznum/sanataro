@@ -6,7 +6,8 @@
 ActiveSupport.on_load(:active_record) do
   module ActiveRecord
     module ConnectionAdapters
-      class PostgreSQLAdapter < AbstractAdapter
+      PostgreSQLAdapter = Class.new(AbstractAdapter) unless const_defined?(:PostgreSQLAdapter)
+      PostgreSQLAdapter.class_eval do
         def distinct(columns, orders) #:nodoc:
           return "DISTINCT #{columns}" if orders.empty?
 
