@@ -1,4 +1,4 @@
-EjsView.prototype.date_tag = function(name, value , html_options) {
+EJS.Helpers.prototype.date_tag = function(name, value , html_options) {
     if(! (value instanceof Date))
 		value = new Date()
 	
@@ -26,7 +26,7 @@ EjsView.prototype.date_tag = function(name, value , html_options) {
     return year_select+month_select+day_select;
 }
 
-EjsView.prototype.form_tag = function(action, html_options) {
+EJS.Helpers.prototype.form_tag = function(action, html_options) {
                  
     
     html_options     = html_options                     || {};
@@ -39,13 +39,13 @@ EjsView.prototype.form_tag = function(action, html_options) {
     return this.start_tag_for('form', html_options)
 }
 
-EjsView.prototype.form_tag_end = function() { return this.tag_end('form'); }
+EJS.Helpers.prototype.form_tag_end = function() { return this.tag_end('form'); }
 
-EjsView.prototype.hidden_field_tag   = function(name, value, html_options) { 
+EJS.Helpers.prototype.hidden_field_tag   = function(name, value, html_options) { 
     return this.input_field_tag(name, value, 'hidden', html_options); 
 }
 
-EjsView.prototype.input_field_tag = function(name, value , inputType, html_options) {
+EJS.Helpers.prototype.input_field_tag = function(name, value , inputType, html_options) {
     
     html_options = html_options || {};
     html_options.id  = html_options.id  || name;
@@ -56,11 +56,11 @@ EjsView.prototype.input_field_tag = function(name, value , inputType, html_optio
     return this.single_tag_for('input', html_options)
 }
 
-EjsView.prototype.is_current_page = function(url) {
+EJS.Helpers.prototype.is_current_page = function(url) {
 	return (window.location.href == url || window.location.pathname == url ? true : false);
 }
 
-EjsView.prototype.link_to = function(name, url, html_options) {
+EJS.Helpers.prototype.link_to = function(name, url, html_options) {
     if(!name) var name = 'null';
     if(!html_options) var html_options = {}
 	
@@ -73,7 +73,7 @@ EjsView.prototype.link_to = function(name, url, html_options) {
     return this.start_tag_for('a', html_options)+name+ this.tag_end('a');
 }
 
-EjsView.prototype.submit_link_to = function(name, url, html_options){
+EJS.Helpers.prototype.submit_link_to = function(name, url, html_options){
 	if(!name) var name = 'null';
     if(!html_options) var html_options = {}
     html_options.onclick = html_options.onclick  || '' ;
@@ -92,11 +92,11 @@ EjsView.prototype.submit_link_to = function(name, url, html_options){
 	return this.start_tag_for('input', html_options)
 }
 
-EjsView.prototype.link_to_if = function(condition, name, url, html_options, post, block) {
+EJS.Helpers.prototype.link_to_if = function(condition, name, url, html_options, post, block) {
 	return this.link_to_unless((condition == false), name, url, html_options, post, block);
 }
 
-EjsView.prototype.link_to_unless = function(condition, name, url, html_options, block) {
+EJS.Helpers.prototype.link_to_unless = function(condition, name, url, html_options, block) {
 	html_options = html_options || {};
 	if(condition) {
 		if(block && typeof block == 'function') {
@@ -108,15 +108,15 @@ EjsView.prototype.link_to_unless = function(condition, name, url, html_options, 
 		return this.link_to(name, url, html_options);
 }
 
-EjsView.prototype.link_to_unless_current = function(name, url, html_options, block) {
+EJS.Helpers.prototype.link_to_unless_current = function(name, url, html_options, block) {
 	html_options = html_options || {};
 	return this.link_to_unless(this.is_current_page(url), name, url, html_options, block)
 }
 
 
-EjsView.prototype.password_field_tag = function(name, value, html_options) { return this.input_field_tag(name, value, 'password', html_options); }
+EJS.Helpers.prototype.password_field_tag = function(name, value, html_options) { return this.input_field_tag(name, value, 'password', html_options); }
 
-EjsView.prototype.select_tag = function(name, value, choices, html_options) {     
+EJS.Helpers.prototype.select_tag = function(name, value, choices, html_options) {     
     html_options = html_options || {};
     html_options.id  = html_options.id  || name;
     html_options.value = value;
@@ -137,11 +137,11 @@ EjsView.prototype.select_tag = function(name, value, choices, html_options) {
     return txt;
 }
 
-EjsView.prototype.single_tag_for = function(tag, html_options) { return this.tag(tag, html_options, '/>');}
+EJS.Helpers.prototype.single_tag_for = function(tag, html_options) { return this.tag(tag, html_options, '/>');}
 
-EjsView.prototype.start_tag_for = function(tag, html_options)  { return this.tag(tag, html_options); }
+EJS.Helpers.prototype.start_tag_for = function(tag, html_options)  { return this.tag(tag, html_options); }
 
-EjsView.prototype.submit_tag = function(name, html_options) {  
+EJS.Helpers.prototype.submit_tag = function(name, html_options) {  
     html_options = html_options || {};
     //html_options.name  = html_options.id  || 'commit';
     html_options.type = html_options.type  || 'submit';
@@ -149,7 +149,7 @@ EjsView.prototype.submit_tag = function(name, html_options) {
     return this.single_tag_for('input', html_options);
 }
 
-EjsView.prototype.tag = function(tag, html_options, end) {
+EJS.Helpers.prototype.tag = function(tag, html_options, end) {
     if(!end) var end = '>'
     var txt = ' '
     for(var attr in html_options) { 
@@ -167,16 +167,16 @@ EjsView.prototype.tag = function(tag, html_options, end) {
     return '<'+tag+txt+end;
 }
 
-EjsView.prototype.tag_end = function(tag)             { return '</'+tag+'>'; }
+EJS.Helpers.prototype.tag_end = function(tag)             { return '</'+tag+'>'; }
 
-EjsView.prototype.text_area_tag = function(name, value, html_options) { 
+EJS.Helpers.prototype.text_area_tag = function(name, value, html_options) { 
     html_options = html_options || {};
     html_options.id  = html_options.id  || name;
     html_options.name  = html_options.name  || name;
 	value = value || ''
     if(html_options.size) {
         html_options.cols = html_options.size.split('x')[0]
-        html_options.rows = html_options.size.split('x')[1]
+        html_options.rows = html_options.size.split('x')[1];
         delete html_options.size
     }
     
@@ -185,14 +185,14 @@ EjsView.prototype.text_area_tag = function(name, value, html_options) {
     
     return  this.start_tag_for('textarea', html_options)+value+this.tag_end('textarea')
 }
-EjsView.prototype.text_tag = EjsView.prototype.text_area_tag
+EJS.Helpers.prototype.text_tag = EJS.Helpers.prototype.text_area_tag
 
-EjsView.prototype.text_field_tag     = function(name, value, html_options) { return this.input_field_tag(name, value, 'text', html_options); }
+EJS.Helpers.prototype.text_field_tag     = function(name, value, html_options) { return this.input_field_tag(name, value, 'text', html_options); }
 
-EjsView.prototype.url_for = function(url) {
+EJS.Helpers.prototype.url_for = function(url) {
         return 'window.location="'+url+'";'
 }
-EjsView.prototype.img_tag = function(image_location, alt, options){
+EJS.Helpers.prototype.img_tag = function(image_location, alt, options){
 	options = options || {};
 	options.src = image_location
 	options.alt = alt

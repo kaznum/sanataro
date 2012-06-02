@@ -19,11 +19,11 @@ built with Ruby on Rails.
 * Locale Support (Now only Japanese, but you can add your own language easily)
 
 == Requirement
-* Ruby: 
+* Ruby:
   * MRI (tested continuously with 1.9.2-p290, 1.9.3-p194)
   * JRuby (tested continuously with version 1.6.7 - 1.9 mode)
 * Ruby on Rails: 3.2 (Check minor version in Gemfile)
-* DB: 
+* DB:
   * MySQL
   * SQLite3
   * PostgreSQL (Heroku available. Demo: http://sanataro.heroku.com/ )
@@ -43,7 +43,7 @@ built with Ruby on Rails.
 * Some other settings are in config/environments/*.rb and config/application.yml
   * /admin/users has basic authentication. Credential username and password can
     be setup by ADMIN_USER and ADMIN_PASSWORD in environment variables or
-    production's admin_user and admin_password settings in config/application.yml 
+    production's admin_user and admin_password settings in config/application.yml
     (see development setting).
 
 == FIXME / TODO
@@ -64,9 +64,9 @@ Thank you for the developers of The following libraries.
 * Farbtastic 1.2
   * Copyright (c) Steven Wittens
   * GPL v2 (GPL Document is in doc directory)
-  * http://acko.net/blog/farbtastic-jquery-color-picker-plug-in/ 
+  * http://acko.net/blog/farbtastic-jquery-color-picker-plug-in/
 * jQuery-util
-  * http://code.google.com/p/jquery-util/ 
+  * http://code.google.com/p/jquery-util/
   * MIT License
 * Flot
   * http://code.google.com/p/flot/
@@ -74,6 +74,9 @@ Thank you for the developers of The following libraries.
 * Emolett
   * http://mayuco.github.com/emolett/
   * SIL Open Font License (OFL)
+* EJS Embedded JavaScript Framework
+  * http://code.google.com/p/embeddedjavascript/
+  * MIT License
 * ActsAsTaggableRedux
   * https://github.com/geemus/acts_as_taggable_redux
   * Copyright (c) 2010 geemus(Wesley Beary), released under the MIT license
