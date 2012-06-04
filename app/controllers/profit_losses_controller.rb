@@ -41,12 +41,12 @@ class ProfitLossesController < ApplicationController
 
   def _setup_incomes(m_pls)
     @account_incomes = @user.accounts.income.order(:order_no).all
-    @total_income = @account_incomes.inject(0) {|sum, ai| sum -= m_pls[ai.id] }
+    @total_income = @account_incomes.inject(0) {|sum, ai| sum - m_pls[ai.id] }
   end
 
   def _setup_outgos(m_pls)
     @account_outgos = @user.accounts.outgo.order(:order_no).all
-    @total_outgo = @account_outgos.inject(0) { |sum, og| sum += @m_pls[og.id] }
+    @total_outgo = @account_outgos.inject(0) { |sum, og| sum + @m_pls[og.id] }
   end
 
   def _append_unknown_account
