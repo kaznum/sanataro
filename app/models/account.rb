@@ -30,34 +30,6 @@ class Account < ActiveRecord::Base
     end
   end
 
-  #
-  # 特定の日付までの残高を取得する
-  # my_id でitemのIDを指定すると、そのItemが除外される。また、
-  # dateと、my_idに該当するitemのaction_dateが同一の場合、
-  # dateと同じ日のitemデータのうち、my_idよりidがおおきいものは残高計算から除外する
-  #
-  def self.asset(user, account_id, date, my_id=nil)
-    my_item = my_id ? user.items.find_by_id(my_id) : nil
-
-    # amountの算出
-    # 前月までのassetを算出
-    asset = self.asset_to_last_month_except_self(user, account_id, my_item, date)
-    # 今月のassetの変化を算出
-    if my_item.nil?
-      asset += self.asset_beginning_of_month_to_date(user, account_id, date)
-    elsif my_item.action_date == date
-      asset += self.asset_to_item_of_this_month_except_self(user, account_id, my_id, date)
-    else
-      asset += self.asset_to_date_of_this_month_except_self(user, account_id, my_id, date)
-    end
-
-    return asset
-  end
-
-  def self.asset_of_month(user, account_ids, month)
-    user.monthly_profit_losses.where(account_id: account_ids).where("month <= ?", month.beginning_of_month).sum(:amount)
-  end
-
   def credit_due_date(action_date)
     cr = payment_relation
     unless cr.nil?
@@ -68,42 +40,34 @@ class Account < ActiveRecord::Base
     return due_date
   end
 
-  private
-  def self.asset_to_last_month_except_self(user, account_id, item, date)
+  class << self
     #
-    # 今月以前はplから抽出してしまうため、SQLではmy_item.amountを除外できない
+    # 特定の日付までの残高を取得する
+    # my_id でitemのIDを指定すると、そのItemが除外される。また、
+    # dateと、my_idに該当するitemのaction_dateが同一の場合、
+    # dateと同じ日のitemデータのうち、my_idよりidがおおきいものは残高計算から除外する
     #
-    asset_of_month(user, account_id, date.beginning_of_month.months_ago(1)) +
-      correlate_for_self(account_id, item, date.beginning_of_month)
-  end
+    def asset(user, account_id, date, my_id=nil)
+      my_item = my_id ? user.items.find_by_id(my_id) : nil
 
-  def self.correlate_for_self(account_id, item, this_month)
-    retval = 0
-    if item && item.action_date < this_month
-      retval = item.from_account_id == account_id ? item.amount : (-1 * item.amount)
+      # amountの算出
+      # 前月までのassetを算出
+      asset = self.asset_to_last_month_except_self(user, account_id, my_item, date)
+      # 今月のassetの変化を算出
+      if my_item.nil?
+        asset += self.asset_beginning_of_month_to_date(user, account_id, date)
+      elsif my_item.action_date == date
+        asset += self.asset_to_item_of_this_month_except_self(user, account_id, my_id, date)
+      else
+        asset += self.asset_to_date_of_this_month_except_self(user, account_id, my_id, date)
+      end
+
+      return asset
     end
-    retval
-  end
 
-  def self.asset_to_date_of_this_month_except_self(user, account_id, item_id, date)
-    items_scope = user.items.action_date_between(date.beginning_of_month, date).where("id <> ?", item_id)
-    outgo = items_scope.where(from_account_id: account_id).sum(:amount)
-    income = items_scope.where(to_account_id: account_id).sum(:amount)
-    income - outgo
-  end
-
-  def self.asset_to_item_of_this_month_except_self(user, account_id, item_id, date)
-    items_scope = user.items.where("(action_date >= ? and action_date < ? and id <> ?) or (action_date = ? and id < ?)", date.beginning_of_month, date, item_id,  date, item_id)
-    outgo = items_scope.where(from_account_id: account_id).sum(:amount)
-    income = items_scope.where(to_account_id: account_id).sum(:amount)
-    income - outgo
-  end
-
-  def self.asset_beginning_of_month_to_date(user, account_id, date)
-    items_scope = user.items.action_date_between(date.beginning_of_month, date)
-    outgo = items_scope.where(from_account_id: account_id).sum(:amount)
-    income = items_scope.where(to_account_id: account_id).sum(:amount)
-    income - outgo
+    def asset_of_month(user, account_ids, month)
+      user.monthly_profit_losses.where(account_id: account_ids).where("month <= ?", month.beginning_of_month).sum(:amount)
+    end
   end
 
   private
@@ -125,5 +89,44 @@ class Account < ActiveRecord::Base
       errors[:base] << I18n.t("error.already_has_relation_to_credit")
     end
     errors.empty?
+  end
+
+  class << self
+    def asset_to_last_month_except_self(user, account_id, item, date)
+      #
+      # 今月以前はplから抽出してしまうため、SQLではmy_item.amountを除外できない
+      #
+      asset_of_month(user, account_id, date.beginning_of_month.months_ago(1)) +
+        correlate_for_self(account_id, item, date.beginning_of_month)
+    end
+
+    def correlate_for_self(account_id, item, this_month)
+      retval = 0
+      if item && item.action_date < this_month
+        retval = item.from_account_id == account_id ? item.amount : (-1 * item.amount)
+      end
+      retval
+    end
+
+    def asset_to_date_of_this_month_except_self(user, account_id, item_id, date)
+      items_scope = user.items.action_date_between(date.beginning_of_month, date).where("id <> ?", item_id)
+      outgo = items_scope.where(from_account_id: account_id).sum(:amount)
+      income = items_scope.where(to_account_id: account_id).sum(:amount)
+      income - outgo
+    end
+
+    def asset_to_item_of_this_month_except_self(user, account_id, item_id, date)
+      items_scope = user.items.where("(action_date >= ? and action_date < ? and id <> ?) or (action_date = ? and id < ?)", date.beginning_of_month, date, item_id,  date, item_id)
+      outgo = items_scope.where(from_account_id: account_id).sum(:amount)
+      income = items_scope.where(to_account_id: account_id).sum(:amount)
+      income - outgo
+    end
+
+    def asset_beginning_of_month_to_date(user, account_id, date)
+      items_scope = user.items.action_date_between(date.beginning_of_month, date)
+      outgo = items_scope.where(from_account_id: account_id).sum(:amount)
+      income = items_scope.where(to_account_id: account_id).sum(:amount)
+      income - outgo
+    end
   end
 end

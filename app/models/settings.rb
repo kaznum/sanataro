@@ -1,5 +1,5 @@
 class Settings < Settingslogic
-  source "#{Rails.root}/config/application.yml"
+  source File.join(Rails.root, "config", "application.yml")
   namespace Rails.env
 end
 
