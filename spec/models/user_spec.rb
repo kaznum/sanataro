@@ -91,7 +91,7 @@ describe User do
       it { should be_new_record }
       specify { subject.errors[:login].should_not be_empty }
     end
-    
+
     context "when login is too long," do
       subject {
         @user.login = '12345678901'
@@ -102,7 +102,7 @@ describe User do
       it { should be_new_record }
       specify { subject.errors[:login].should_not be_empty }
     end
-    
+
     describe "when both of passwords are not set" do
       subject {
         @user.password_plain = nil
@@ -138,7 +138,7 @@ describe User do
       it { should be_new_record }
       specify { subject.errors[:password_plain].should_not be_empty }
     end
-    
+
     context "when both of passwords have invalid chars," do
       subject {
         @user.password_plain = '1234.56'
@@ -150,7 +150,7 @@ describe User do
       it { should be_new_record }
       specify { subject.errors[:password_plain].should_not be_empty }
     end
-    
+
     context "when login has invalid chars," do
       subject {
         @user.login = 'te.st1'
@@ -173,13 +173,13 @@ describe User do
       specify { subject.errors[:login].should_not be_empty }
     end
   end
-  
-  describe "#update" do 
+
+  describe "#update" do
     before do
       @old_user = User.find(1)
       @user = User.find(1)
     end
-    
+
     context "when password changed correctly," do
       subject {
         @user.password_plain = '12-3456'
@@ -191,7 +191,7 @@ describe User do
       specify { subject.errors[:password_plain].should be_empty }
       its(:updated_at) { should > @old_user.updated_at }
     end
-    
+
     context "when without_password" do
       subject {
         @user.password_plain = ''
@@ -199,24 +199,23 @@ describe User do
         @user.login
         @user
       }
-      
+
       specify { subject.errors.should be_empty }
       its(:updated_at) { should == @old_user.updated_at }
     end
   end
 
-  describe "associations" do 
+  describe "associations" do
     describe "it has accounts" do
       subject { users(:user1).accounts }
       it { should_not be_empty }
     end
-    
+
     context "when it has credit_relations," do
       subject { users(:user1).credit_relations }
       it { should_not be_empty }
     end
 
-    
     context "when it has items" do
       subject { users(:user1).items }
 

@@ -10,83 +10,83 @@ describe Account do
       :order_no => 1,
     }
   end
-  
+
   context "when create" do
     before  do
       @account = users(:user1).accounts.new(@valid_params)
     end
-    
+
     it "保存できること" do
       @account.save.should be_true
     end
 
-    context "when name is nil" do 
-      before do 
+    context "when name is nil" do
+      before do
         @account.name = nil
         @retval = @account.save
       end
-      
+
       it "保存できないこと" do
         @retval.should be_false
       end
-      
-      it "nameのvalidationエラーが存在すること" do 
+
+      it "nameのvalidationエラーが存在すること" do
         @account.should have_at_least(1).errors_on(:name)
       end
     end
-    
-    context "when name is empty string" do 
+
+    context "when name is empty string" do
       before do
         @account.name = ""
         @retval = @account.save
       end
-      
+
       it "保存できないこと" do
         @retval.should be_false
       end
-      
-      it "nameのvalidationエラーが存在すること" do 
+
+      it "nameのvalidationエラーが存在すること" do
         @account.should have_at_least(1).errors_on(:name)
       end
     end
 
-    context "when name length is 255" do 
+    context "when name length is 255" do
       before do
         @account.name = "a" * 255
         @retval = @account.save
       end
-      
+
       it "保存できることこと" do
         @retval.should be_true
       end
-      
-      it "nameのvalidationエラーが存在しないこと" do 
+
+      it "nameのvalidationエラーが存在しないこと" do
         @account.should have(0).errors_on(:name)
       end
     end
 
-    context "when name length is larger than 255" do 
+    context "when name length is larger than 255" do
       before do
         @account.name = "a" * 256
         @retval = @account.save
       end
-      
+
       it "保存できないこと" do
         @retval.should be_false
       end
-      
-      it "nameのvalidationエラーが存在すること" do 
+
+      it "nameのvalidationエラーが存在すること" do
         @account.should have_at_least(1).errors_on(:name)
       end
     end
 
     context "when account type is wrong" do
-      before do 
+      before do
         @acc = Account.new(@valid_params)
         @acc.account_type = 'invalid'
         @retval = @acc.save
       end
-      
+
       it "保存できないこと" do
         @retval.should be_false
       end
@@ -103,8 +103,7 @@ describe Account do
           @acc.bgcolor = 'ff0f1f'
           @retval = @acc.save
         end
-        
-        
+
         it "保存できること" do
           @retval.should be_true
         end
@@ -116,7 +115,7 @@ describe Account do
           @acc.bgcolor = '#ff0f1f'
           @retval = @acc.save
         end
-        
+
         it "can save" do
           @retval.should be_true
         end
@@ -126,14 +125,14 @@ describe Account do
         end
       end
     end
-    
+
     context "when bgcolor is exist but wrong" do
-      before do 
+      before do
         @acc = users(:user1).accounts.new(@valid_params)
         @acc.bgcolor = 'f0f2fg'
         @retval = @acc.save
       end
-      
+
       it "保存できないこと" do
         @retval.should be_false
       end
@@ -144,12 +143,12 @@ describe Account do
     end
 
     context "when order_no is nil" do
-      before do 
+      before do
         @acc = users(:user1).accounts.new(@valid_params)
         @acc.order_no = nil
         @retval = @acc.save
       end
-      
+
       it "保存できないこと" do
         @retval.should be_false
       end
@@ -172,7 +171,7 @@ describe Account do
       }
       it {should == 13900}
     end
-    
+
     context "when adj_id を指定(日時はadj_idと同じ)" do
       subject {
         user = users(:user1)
@@ -233,14 +232,14 @@ describe Account do
       subject { @credit.credit_due_date(Date.new(2011,2, 5)) }
       it { should == Date.new(2011,4,4) }
     end
-    
+
     context "when action_date is after the settlemnt_date," do
       subject { @credit.credit_due_date(Date.new(2011,2, 15)) }
       it { should == Date.new(2011,5,4) }
     end
 
     context "when payment_day is 99" do
-      before do 
+      before do
         @relation.update_attributes!(@relation_params.merge(credit_account_id: @credit.id, payment_account_id: @bank.id, payment_day: 99))
       end
 
@@ -248,12 +247,12 @@ describe Account do
         subject { @credit.credit_due_date(Date.new(2011,7, 5)) }
         it { should == Date.new(2011,9,30) }
       end
-    
+
       context "when end_of_month is 31," do
         subject { @credit.credit_due_date(Date.new(2011,7, 31)) }
         it { should == Date.new(2011,10,31) }
       end
-    
+
       context "when end_of_month is 28," do
         subject { @credit.credit_due_date(Date.new(2011,2, 28)) }
         it { should == Date.new(2011,5,31) }
@@ -277,23 +276,23 @@ describe Account do
         it { should be_empty }
       end
     end
-    
+
     context "when child items exist," do
       before do
         @account = Fabricate.build(:account)
         @account.save!
       end
-      
+
       context "when it is used for from_account_id," do
         before do
           item = Fabricate.build(:item, from_account_id: @account.id)
           item.save!
         end
-        
+
         describe "count" do
           it { expect { @account.destroy }.not_to change {Account.count} }
         end
-        
+
         describe "#errors" do
           before { @account.destroy }
           subject { @account.errors.full_messages }
@@ -310,7 +309,7 @@ describe Account do
         describe "count" do
           it { expect { @account.destroy }.not_to change {Account.count}}
         end
-        
+
         describe "#errors" do
           before { @account.destroy }
           subject { @account.errors.full_messages }
@@ -318,7 +317,7 @@ describe Account do
         end
       end
     end
-    
+
     context "when child credit_relations exist," do
       before do
         @account = Fabricate.build(:account)
@@ -330,7 +329,7 @@ describe Account do
           cr = Fabricate.build(:credit_relation, payment_account_id: @account.id)
           cr.save!
         end
-        
+
         describe "count" do
           it { expect { @account.destroy }.not_to change {Account.count}}
         end
@@ -345,7 +344,7 @@ describe Account do
         describe "count" do
           it { expect { @account.destroy }.not_to change {Account.count}}
         end
-        
+
         describe "#errors" do
           before { @account.destroy }
           subject { @account.errors.full_messages }
