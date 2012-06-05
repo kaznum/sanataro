@@ -27,6 +27,84 @@ class EntriesController < ApplicationController
     end
   end
 
+  def new
+    if params[:entry_type] == 'simple'
+      _new_simple
+    else
+      _new_entry(params[:entry_type])
+    end
+  end
+
+  def create
+    _xhr_action("warning") {
+      if params[:entry_type] == 'adjustment'
+        _create_adjustment
+      else
+        _create_entry
+      end
+    }
+  end
+
+  def update
+    _xhr_action("item_warning_#{params[:id]}") {
+      id = params[:id].to_i
+      if params[:entry_type] == 'adjustment'
+        args = {
+          to_account_id: params[:to],
+          adjustment_amount: Item.calc_amount(params[:adjustment_amount])
+        }
+      else
+        args = {
+          name: params[:item_name],
+          from_account_id: params[:from],
+          to_account_id: params[:to],
+          amount: Item.calc_amount(params[:amount])
+        }
+      end
+
+      args.merge!({ confirmation_required: params[:confirmation_required],
+                    tag_list: params[:tag_list],
+                    action_date: _get_action_date_from_params })
+
+      item, updated_item_ids, deleted_item_ids = Teller.update_entry(@user, id, args)
+      items = get_items(month: displaying_month)
+      render "update", locals: { item: item, items: items, updated_item_ids: updated_item_ids }
+    }
+  end
+
+  def destroy
+    _xhr_action("warning") {
+      item = @user.items.find(params[:id])
+      _destroy_item(item)
+    }
+  end
+
+  def edit
+    _xhr_action("warning") {
+      @item = @user.items.find(params[:id])
+    }
+  end
+
+  def show
+    _xhr_action("warning") {
+      @item = @user.items.find(params[:id])
+    }
+  end
+
+  private
+
+  def _xhr_action(warning_selector, &block)
+    block.call
+  rescue ActiveRecord::RecordNotFound => ex
+    redirect_js_to current_entries_url
+  rescue InvalidDate
+    render_js_error :id => warning_selector, :default_message => t("error.date_is_invalid")
+  rescue SyntaxError
+    render_js_error :id => warning_selector, :default_message => t("error.amount_is_invalid")
+  rescue ActiveRecord::RecordInvalid => ex
+    render_js_error(:id => warning_selector, :errors => ex.error_messages, :default_message => t("error.input_is_invalid"))
+  end
+
   def _index_with_filter_account_id
     _set_filter_account_id_to_session_from_params
     @items = get_items(month: displaying_month)
@@ -57,62 +135,6 @@ class EntriesController < ApplicationController
     @new_item = Item.new { |item| item.action_date = _default_action_date(month_to_display) }
   end
 
-  def new
-    if params[:entry_type] == 'simple'
-      _new_simple
-    else
-      _new_entry(params[:entry_type])
-    end
-  end
-
-  def create
-    _xhr_action("warning") {
-      if params[:entry_type] == 'adjustment'
-        _create_adjustment
-      else
-        _create_entry
-      end
-    }
-  end
-
-  def _xhr_action(warning_selector, &block)
-    block.call
-  rescue ActiveRecord::RecordNotFound => ex
-    redirect_js_to current_entries_url
-  rescue InvalidDate
-    render_js_error :id => warning_selector, :default_message => t("error.date_is_invalid")
-  rescue SyntaxError
-    render_js_error :id => warning_selector, :default_message => t("error.amount_is_invalid")
-  rescue ActiveRecord::RecordInvalid => ex
-    render_js_error(:id => warning_selector, :errors => ex.error_messages, :default_message => t("error.input_is_invalid"))
-  end
-
-  def update
-    _xhr_action("item_warning_#{params[:id]}") {
-      id = params[:id].to_i
-      if params[:entry_type] == 'adjustment'
-        args = {
-          to_account_id: params[:to],
-          adjustment_amount: Item.calc_amount(params[:adjustment_amount])
-        }
-      else
-        args = {
-          name: params[:item_name],
-          from_account_id: params[:from],
-          to_account_id: params[:to],
-          amount: Item.calc_amount(params[:amount])
-        }
-      end
-
-      args.merge!({ confirmation_required: params[:confirmation_required],
-                    tag_list: params[:tag_list],
-                    action_date: _get_action_date_from_params })
-
-      item, updated_item_ids, deleted_item_ids = Teller.update_entry(@user, id, args)
-      items = get_items(month: displaying_month)
-      render "update", locals: { item: item, items: items, updated_item_ids: updated_item_ids }
-    }
-  end
 
   def _redirect_to_login_by_js_if_id_is_blank
     if params[:id].blank?
@@ -121,27 +143,6 @@ class EntriesController < ApplicationController
     end
     true
   end
-
-  def destroy
-    _xhr_action("warning") {
-      item = @user.items.find(params[:id])
-      _destroy_item(item)
-    }
-  end
-
-  def edit
-    _xhr_action("warning") {
-      @item = @user.items.find(params[:id])
-    }
-  end
-
-  def show
-    _xhr_action("warning") {
-      @item = @user.items.find(params[:id])
-    }
-  end
-
-  private
 
   # this method is called when a link in the field of adding regular item or adjustment.
   # which switches forms each other.
@@ -244,7 +245,7 @@ class EntriesController < ApplicationController
   end
 
   def from_or_to_accounts(from_or_to = :from_accounts)
-    @__cat_accounts__ ||= @user.get_categorized_accounts
+    @__cat_accounts__ ||= @user.categorized_accounts
 
     # FIXME
     # html escape should be done in Views.

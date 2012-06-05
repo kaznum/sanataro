@@ -122,14 +122,18 @@ class Item < ActiveRecord::Base
         :child_id => child_item.try(:id), :parent_id => parent_id } }
   end
 
-  def self.calc_amount(amount)
-    return 0 if amount.nil?
-    amount_to_calc = amount.gsub(/\s/, '').gsub(/,/, '')
-    unless /^[\.\-\*\+\/\%\d\(\)]+$/ =~ amount_to_calc
-      raise SyntaxError
+  class << self
+    def calc_amount(amount)
+      return 0 unless amount
+
+      amount_to_calc = amount.gsub(/\s/, '').gsub(/,/, '')
+      unless /^[\.\-\*\+\/\%\d\(\)]+$/ =~ amount_to_calc
+        raise SyntaxError
+      end
+
+      amount_to_calc.gsub!(/\//, '/1.0/')
+      eval(amount_to_calc).to_i
     end
-    amount_to_calc.gsub!(/\//, '/1.0/')
-    eval(amount_to_calc).to_i
   end
 
   protected
@@ -169,58 +173,60 @@ class Item < ActiveRecord::Base
     item_adj
   end
 
-  def self.future_adjustment(user, action_date, account_id, item_id)
-    user.items.where(to_account_id: account_id,
-                     adjustment: true).where("(action_date > ? AND id <> ?) OR (action_date = ? AND id > ?)",
-                                             action_date, item_id, action_date, item_id).order("action_date, id").first
-  end
-
-  #
-  # get items from db
-  # options
-  #    :remain  true: 非表示の部分を取得
-  #    :filter_account_id: 抽出するaccount_id
-  #    :tag タグにより検索(この場合、from_date, to_dateは無視される)
-  #    :mark mark(confirmation_requiredなど)により検索(この場合、from_date, to_dateは無視される)
-  #
-  def self.partials(from_date, to_date, filter_options={})
-    options = symbolize_keys(filter_options)
-    items = self
-    if options[:tag].present?
-      ret_items = options[:remain] ? items.remainings_by_tag(options[:tag]) : items.partials_by_tag(options[:tag])
-    else
-      items = (options[:mark] == 'confirmation_required') ? items.confirmation_required :
-        items.action_date_between(from_date, to_date).includes(:user, :tags)
-      items = items.of_account_id(options[:filter_account_id]) if options[:filter_account_id].present?
-      items = items.order_of_entries
-      ret_items = options[:remain] ? items.remaining.all : items.default_limit.all
+  class << self
+    def future_adjustment(user, action_date, account_id, item_id)
+      user.items.where(to_account_id: account_id,
+                       adjustment: true).where("(action_date > ? AND id <> ?) OR (action_date = ? AND id > ?)",
+                                               action_date, item_id, action_date, item_id).order("action_date, id").first
     end
 
-    return ret_items
-  end
-
-  def self.symbolize_keys(args = {})
-    options = {}
-    args.each do |key, value|
-      options[key.to_sym] = value
-    end
-    options
-  end
-
-  def self.partials_by_tag(tag)
-    self.tagged_with(tag).order_of_entries.limit(Settings.item_list_count).all
-  end
-
-  def self.remainings_by_tag(tag)
-    # FIX ME
     #
-    # limit is fixed number.
-    self.tagged_with(tag).order_of_entries.offset(Settings.item_list_count).limit(999999).all
-  end
+    # get items from db
+    # options
+    #    :remain  true: 非表示の部分を取得
+    #    :filter_account_id: 抽出するaccount_id
+    #    :tag タグにより検索(この場合、from_date, to_dateは無視される)
+    #    :mark mark(confirmation_requiredなど)により検索(この場合、from_date, to_dateは無視される)
+    #
+    def partials(from_date, to_date, filter_options={})
+      options = symbolize_keys(filter_options)
+      items = self
+      if options[:tag].present?
+        ret_items = options[:remain] ? items.remainings_by_tag(options[:tag]) : items.partials_by_tag(options[:tag])
+      else
+        items = (options[:mark] == 'confirmation_required') ? items.confirmation_required :
+          items.action_date_between(from_date, to_date).includes(:user, :tags)
+        items = items.of_account_id(options[:filter_account_id]) if options[:filter_account_id].present?
+        items = items.order_of_entries
+        ret_items = options[:remain] ? items.remaining.all : items.default_limit.all
+      end
 
-  def self.collect_account_history(user, account_id, from_date, to_date)
-    items = user.items.action_date_between(from_date, to_date).of_account_id(account_id).order("action_date")
-    remain_amount = user.monthly_profit_losses.where("month < ?", from_date).where(account_id: account_id).sum('amount')
-    [remain_amount, items]
+      return ret_items
+    end
+
+    def symbolize_keys(args = {})
+      options = {}
+      args.each do |key, value|
+        options[key.to_sym] = value
+      end
+      options
+    end
+
+    def partials_by_tag(tag)
+      self.tagged_with(tag).order_of_entries.limit(Settings.item_list_count).all
+    end
+
+    def remainings_by_tag(tag)
+      # FIX ME
+      #
+      # limit is fixed number.
+      self.tagged_with(tag).order_of_entries.offset(Settings.item_list_count).limit(999999).all
+    end
+
+    def collect_account_history(user, account_id, from_date, to_date)
+      items = user.items.action_date_between(from_date, to_date).of_account_id(account_id).order("action_date")
+      remain_amount = user.monthly_profit_losses.where("month < ?", from_date).where(account_id: account_id).sum('amount')
+      [remain_amount, items]
+    end
   end
 end

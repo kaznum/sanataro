@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_categorized_accounts
-    @separated_accounts = @user.get_categorized_accounts if @user
+    @separated_accounts = @user.categorized_accounts if @user
   end
 
   private

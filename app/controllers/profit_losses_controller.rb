@@ -20,7 +20,7 @@ class ProfitLossesController < ApplicationController
 
     @account_id = params[:id].to_i
     @remain_amount, @items = Item.collect_account_history(@user, @account_id, from_date, to_date)
-    @separated_accounts = @user.get_categorized_accounts
+    @separated_accounts = @user.categorized_accounts
   end
 
   private
