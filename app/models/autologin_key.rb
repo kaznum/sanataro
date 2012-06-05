@@ -3,7 +3,7 @@ class AutologinKey < ActiveRecord::Base
   attr_protected :user_id
 
   belongs_to :user
-  validates_presence_of :autologin_key, :if => :required_key?
+  validates_presence_of :autologin_key, :if => :key_required?
   validates_presence_of :user_id
 
   before_save :fill_enc_autologin_key
@@ -13,16 +13,10 @@ class AutologinKey < ActiveRecord::Base
   class << self
     def matched_key(user_id, plain_key)
       user = User.find_by_id(user_id)
-      return nil if user.nil?
+      return nil unless user
 
-      keys = AutologinKey.active.where(user_id: user_id)
-
-      keys.each do |k|
-        if CommonUtil.correct_password?(user.login+plain_key, k.enc_autologin_key)
-          return k
-        end
-      end
-      nil
+      AutologinKey.active.where(user_id: user_id).find { |k|
+        CommonUtil.correct_password?(user.login+plain_key, k.enc_autologin_key) }
     end
 
     def cleanup(user_id)
@@ -32,7 +26,7 @@ class AutologinKey < ActiveRecord::Base
 
   private
 
-  def required_key?
+  def key_required?
     self.enc_autologin_key.nil?
   end
 
