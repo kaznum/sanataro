@@ -104,7 +104,7 @@ describe Settings::AccountsController do
         context "with valid params," do 
           before do
             @before_count = Account.count
-            @before_bgcolors_count = User.find(session[:user_id]).get_categorized_accounts[:account_bgcolors].size
+            @before_bgcolors_count = User.find(session[:user_id]).categorized_accounts[:account_bgcolors].size
             xhr :post, :create, :account_type => 'account', :account_name => 'hogehoge', :order_no => '10'
           end
 
@@ -119,7 +119,7 @@ describe Settings::AccountsController do
           end
 
           describe "count of bgcolors" do
-            subject { User.find(session[:user_id]).get_categorized_accounts[:account_bgcolors].size }
+            subject { User.find(session[:user_id]).categorized_accounts[:account_bgcolors].size }
             it { should be == @before_bgcolors_count }
           end
         end
@@ -127,7 +127,7 @@ describe Settings::AccountsController do
         context "with invalid params," do 
           before do
             @before_count = Account.count
-            @before_bgcolors_count = User.find(session[:user_id]).get_categorized_accounts[:account_bgcolors].size
+            @before_bgcolors_count = User.find(session[:user_id]).categorized_accounts[:account_bgcolors].size
             xhr :post, :create, :account_type => 'acc', :account_name => 'hogehoge', :order_no => '10'
           end
           
@@ -142,7 +142,7 @@ describe Settings::AccountsController do
           end
 
           describe "count of bgcolors" do
-            subject { User.find(session[:user_id]).get_categorized_accounts[:account_bgcolors].size }
+            subject { User.find(session[:user_id]).categorized_accounts[:account_bgcolors].size }
             it { should be == @before_bgcolors_count }
           end
         end
@@ -311,9 +311,9 @@ describe Settings::AccountsController do
             it { should redirect_by_js_to settings_accounts_url(:account_type => accounts(:bank1).account_type) } 
           end
 
-          describe "@user.get_categorized_accounts" do
+          describe "@user.categorized_accounts" do
             before do
-              @separated_accounts = assigns(:user).get_categorized_accounts
+              @separated_accounts = assigns(:user).categorized_accounts
             end
             
             describe "separated_accounts[:all_accounts][id]" do
@@ -338,8 +338,8 @@ describe Settings::AccountsController do
 
             it_should_behave_like "Updated Successfully"
             
-            describe "assigns(:user).get_categorized[:account_bgcolors][id]" do
-              subject { assigns(:user).get_categorized_accounts[:account_bgcolors][accounts(:bank1).id] }
+            describe "assigns(:user).categorized[:account_bgcolors][id]" do
+              subject { assigns(:user).categorized_accounts[:account_bgcolors][accounts(:bank1).id] }
               it { should be == 'cccccc'}
             end
             
@@ -356,8 +356,8 @@ describe Settings::AccountsController do
 
             it_should_behave_like "Updated Successfully"
 
-            describe "assigns(:user).get_categorized_accounts[:account_bgcolors][id]" do
-              subject { assigns(:user).get_categorized_accounts[:account_bgcolors][accounts(:bank1).id] }
+            describe "assigns(:user).categorized_accounts[:account_bgcolors][id]" do
+              subject { assigns(:user).categorized_accounts[:account_bgcolors][accounts(:bank1).id] }
               it { should be_nil }
             end
             

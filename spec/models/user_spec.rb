@@ -239,10 +239,10 @@ describe User do
     end
   end
 
-  describe "#get_categorized_accounts" do
+  describe "#categorized_accounts" do
     before do
       @user1 = users(:user1)
-      @h_accounts = @user1.get_categorized_accounts
+      @h_accounts = @user1.categorized_accounts
     end
 
     subject { @h_accounts }

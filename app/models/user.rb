@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
     self.password = CommonUtil.crypt(login + self.password_plain)
   end
 
-  def get_categorized_accounts
+  def categorized_accounts
     accounts = self.accounts.active.order("account_type, order_no")
     from  = Array.new
     to  = Array.new

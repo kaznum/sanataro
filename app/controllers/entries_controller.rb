@@ -244,7 +244,7 @@ class EntriesController < ApplicationController
   end
 
   def from_or_to_accounts(from_or_to = :from_accounts)
-    @__cat_accounts__ ||= @user.get_categorized_accounts
+    @__cat_accounts__ ||= @user.categorized_accounts
 
     # FIXME
     # html escape should be done in Views.
