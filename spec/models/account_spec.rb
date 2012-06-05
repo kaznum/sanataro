@@ -11,13 +11,15 @@ describe Account do
     }
   end
 
-  context "when create" do
+  context "when create," do
     before  do
       @account = users(:user1).accounts.new(@valid_params)
     end
 
-    it "保存できること" do
-      @account.save.should be_true
+    context "when all attributes are correct," do
+      describe "#save" do
+        it { expect { @account.save! }.not_to raise_error }
+      end
     end
 
     context "when name is nil" do
@@ -26,73 +28,74 @@ describe Account do
         @retval = @account.save
       end
 
-      it "保存できないこと" do
-        @retval.should be_false
+      describe "returned value" do
+        subject { @retval }
+        it { should be_false }
       end
 
-      it "nameのvalidationエラーが存在すること" do
-        @account.should have_at_least(1).errors_on(:name)
+      describe "errors on :name" do
+        subject {@account}
+        it { should have_at_least(1).errors_on(:name) }
       end
     end
 
-    context "when name is empty string" do
+    context "when name is empty string," do
       before do
         @account.name = ""
         @retval = @account.save
       end
 
-      it "保存できないこと" do
-        @retval.should be_false
+      describe "returned value" do
+        subject { @retval }
+        it { should be_false }
       end
 
-      it "nameのvalidationエラーが存在すること" do
-        @account.should have_at_least(1).errors_on(:name)
+      describe "errors on :name" do
+        subject { @account }
+        it { should have_at_least(1).errors_on(:name) }
       end
     end
 
-    context "when name length is 255" do
+    context "when name length is 255," do
       before do
         @account.name = "a" * 255
-        @retval = @account.save
       end
 
-      it "保存できることこと" do
-        @retval.should be_true
-      end
-
-      it "nameのvalidationエラーが存在しないこと" do
-        @account.should have(0).errors_on(:name)
-      end
+      it {expect {@account.save!}.not_to raise_error }
     end
 
-    context "when name length is larger than 255" do
+    context "when name length is larger than 255," do
       before do
         @account.name = "a" * 256
         @retval = @account.save
       end
 
-      it "保存できないこと" do
-        @retval.should be_false
+      describe "returned value" do
+        subject { @retval }
+        it { should be_false }
       end
 
-      it "nameのvalidationエラーが存在すること" do
-        @account.should have_at_least(1).errors_on(:name)
+      describe "errors" do
+        subject { @account }
+        it { should have_at_least(1).errors_on(:name) }
       end
     end
 
-    context "when account type is wrong" do
+    context "when account type is wrong," do
       before do
         @acc = Account.new(@valid_params)
         @acc.account_type = 'invalid'
         @retval = @acc.save
       end
 
-      it "保存できないこと" do
-        @retval.should be_false
+      describe "returned value" do
+        subject { @retval }
+        it { should be_false }
       end
 
-      it "account_typeにvalidation errorが存在すること" do
-        @acc.should have_at_least(1).errors_on(:account_type)
+      describe "errors" do
+        subject { @acc }
+        it { should have_at_least(1).errors_on(:account_type) }
       end
     end
 
@@ -104,8 +107,9 @@ describe Account do
           @retval = @acc.save
         end
 
-        it "保存できること" do
-          @retval.should be_true
+        describe "returned value" do
+          subject { @retval }
+          it { should be_true }
         end
       end
 
@@ -116,12 +120,14 @@ describe Account do
           @retval = @acc.save
         end
 
-        it "can save" do
-          @retval.should be_true
+        describe "returned value" do
+          subject { @retval }
+          it { should be_true }
         end
 
-        it "does not have # in bgcolor" do
-          @acc.bgcolor.should == "ff0f1f"
+        describe "#bgcolor" do
+          subject { @acc.bgcolor }
+          it { should == "ff0f1f" }
         end
       end
     end
@@ -133,33 +139,37 @@ describe Account do
         @retval = @acc.save
       end
 
-      it "保存できないこと" do
-        @retval.should be_false
+      describe "returned value" do
+        subject { @retval }
+        it { should be_false }
       end
 
-      it "bgcolorにvalidation errorが存在すること" do
-        @acc.should have_at_least(1).errors_on(:bgcolor)
+      describe "errors" do
+        subject { @acc }
+        it { should have_at_least(1).errors_on(:bgcolor) }
       end
     end
 
-    context "when order_no is nil" do
+    context "when order_no is nil," do
       before do
         @acc = users(:user1).accounts.new(@valid_params)
         @acc.order_no = nil
         @retval = @acc.save
       end
 
-      it "保存できないこと" do
-        @retval.should be_false
+      describe "returned value" do
+        subject { @retval }
+        it { should be_false }
       end
 
-      it "order_noにvalidation errorが存在すること" do
-        @acc.should have_at_least(1).errors_on(:order_no)
+      describe "errors" do
+        subject { @acc }
+        it { should have_at_least(1).errors_on(:order_no) }
       end
     end
   end
 
-  context "when getting asset balance" do
+  context "when getting asset balance," do
     fixtures :accounts, :items, :monthly_profit_losses, :users
 
     context "when adjustment_id isn't specified" do
@@ -172,7 +182,7 @@ describe Account do
       it {should == 13900}
     end
 
-    context "when adj_id を指定(日時はadj_idと同じ)" do
+    context "when specifying adj_id whose action_date is same as that of original adj_id," do
       subject {
         user = users(:user1)
         ini_bank1 = accounts(:bank1)
@@ -182,7 +192,7 @@ describe Account do
       it {should == 15000}
     end
 
-    context "when bank1がfrom_account_idのitemのid を指定(日時はadjustment4の日時 + 1day)" do
+    context "when specifying id which is same as the account of from_account_id = bank1's id(action_date = adjustment4.action_date + 1day)," do
       subject {
         user = users(:user1)
         ini_bank1 = accounts(:bank1)
@@ -192,7 +202,7 @@ describe Account do
       it { should == 19000 }
     end
 
-    context "when adj_id を指定(日時はadj_idよりも未来にする)" do
+    context "when specifying adj_id whose action_date is after that of adj_id," do
       subject {
         user = users(:user1)
         ini_bank1 = accounts(:bank1)
@@ -238,7 +248,7 @@ describe Account do
       it { should == Date.new(2011,5,4) }
     end
 
-    context "when payment_day is 99" do
+    context "when payment_day is 99," do
       before do
         @relation.update_attributes!(@relation_params.merge(credit_account_id: @credit.id, payment_account_id: @bank.id, payment_day: 99))
       end
