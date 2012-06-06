@@ -310,7 +310,7 @@ describe User do
 
   describe "#store_sample" do
     before do
-      @user = Fabricate(:user, login: "sample")
+      @user = Fabricate(:user)
     end
 
     specify {
