@@ -25,7 +25,7 @@ class BalanceSheetsController < ApplicationController
     end
 
     render :layout => 'entries'
-  rescue ArgumentError => ex # 日付変換等のエラーがあるため
+  rescue ArgumentError => ex # for errors around conversion from string to date
     redirect_to current_entries_path
   end
 

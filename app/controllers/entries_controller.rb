@@ -252,9 +252,6 @@ class EntriesController < ApplicationController
     @__cat_accounts__[from_or_to].map {|a| { :value => a[1], :text => ERB::Util.html_escape(a[0]) } }
   end
 
-  #
-  # 支出一覧の「すべて表示」をクリックした場合の処理
-  #
   def _index_for_remaining(month, tag=nil, mark=nil)
     if tag.present? || mark.present?
       month_to_display = nil
