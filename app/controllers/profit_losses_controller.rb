@@ -10,7 +10,7 @@ class ProfitLossesController < ApplicationController
     _append_unknown_account
 
     render :layout => 'entries'
-  rescue ArgumentError => ex # 日付変換等のエラーがあるため
+  rescue ArgumentError => ex # for error around conversion from string to date
     redirect_to current_entries_url
   end
 
