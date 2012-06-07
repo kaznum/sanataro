@@ -20,9 +20,9 @@ built with Ruby on Rails.
 
 == Requirement
 * Ruby:
-  * MRI (tested continuously with 1.9.2-p290, 1.9.3-p194)
+  * MRI (tested continuously with 1.9.2, 1.9.3)
   * JRuby (tested continuously with version 1.6.7 - 1.9 mode)
-* Ruby on Rails: 3.2 (Check minor version in Gemfile)
+* Ruby on Rails: 3.2 (Check Gemfile for the minor version)
 * DB:
   * MySQL
   * SQLite3
@@ -45,13 +45,6 @@ built with Ruby on Rails.
     be setup by ADMIN_USER and ADMIN_PASSWORD in environment variables or
     production's admin_user and admin_password settings in config/application.yml
     (see development setting).
-
-== FIXME / TODO
-This software has been upgrade from Rails-2.1, 2.2, 2.3, 3.0, 3.1 to 3.2 escalatorily,
-so there are lots of points of old fashion expressions to be fixed.
-* Fixture dependency should be removed and replaced it with Fabrication.
-* Now, there is almost no view spec and cucumber feature.
-* There are some RESTful rule violations in some controllers.(ex. MainController)
 
 == Credit
 * Author: Kazuya NUMATA <numata@gmail.com>.
