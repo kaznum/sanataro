@@ -94,7 +94,7 @@ describe AutologinKey do
         ak.created_at = Time.now - (50 * 24 * 3600)
         ak.save!
         @old_count = AutologinKey.count
-        AutologinKey.cleanup(ak.user_id)
+        AutologinKey.cleanup
       end
 
       describe "records" do

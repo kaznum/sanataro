@@ -153,7 +153,7 @@ describe LoginController do
     
     context "when AutologinKey.cleanup is called," do 
       it "should send AutologinKey.cleanup," do
-        AutologinKey.should_receive(:cleanup).with(users(:user1).id)
+        AutologinKey.should_receive(:cleanup)
         xhr :post, :do_login, :login => users(:user1).login, :password=>'123456', :autologin => "1", :only_add=>'1'
       end
     end

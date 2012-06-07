@@ -37,6 +37,10 @@ class User < ActiveRecord::Base
     self.password = CommonUtil.crypt(login + self.password_plain)
   end
 
+  def password_correct?(pass)
+    CommonUtil.correct_password?(login + pass, password)
+  end
+
   def categorized_accounts
     accounts = self.accounts.active.order("account_type, order_no")
     from  = Array.new

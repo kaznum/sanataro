@@ -19,7 +19,7 @@ class AutologinKey < ActiveRecord::Base
         CommonUtil.correct_password?(user.login+plain_key, k.enc_autologin_key) }
     end
 
-    def cleanup(user_id)
+    def cleanup
       AutologinKey.delete_all(["created_at < ?", Time.now - (30 * 24 * 3600)])
     end
   end

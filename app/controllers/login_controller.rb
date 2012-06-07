@@ -97,9 +97,9 @@ class LoginController < ApplicationController
     if user
       _do_login(user.login, nil, "1", true, al_params[:only_add])
       redirect_to (al_params[:only_add] ? simple_input_url : current_entries_url)
-      return false
+      false
     else
-      return true
+      true
     end
   end
 
@@ -119,13 +119,13 @@ class LoginController < ApplicationController
   def _do_login(login, password, set_autologin, is_autologin=false, is_only_add=false)
     user = User.find_by_login_and_active(login, true)
 
-    unless is_autologin || _password_correct?(login, password, user)
+    unless user && (is_autologin || user.password_correct?(password))
       _clear_user_session
       return
     end
 
     if is_autologin
-      # do nothing(自動ログインの場合は何もしない)
+      # do nothing
     elsif set_autologin == "1"
       key = _secret_key
       _store_cookies(user.login, key, is_only_add)
@@ -134,12 +134,8 @@ class LoginController < ApplicationController
       _clear_cookies
     end
 
-    AutologinKey.cleanup(user.id)
+    AutologinKey.cleanup
     _store_user_session(user)
-  end
-
-  def _password_correct?(login, password, user)
-    user && CommonUtil.correct_password?(login + password, user.password)
   end
 
   def _secret_key
