@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 class Api::YearlyBudgetsController < ApplicationController
+  include Api
   respond_to :json
 
   before_filter :required_login
-  before_filter :_redirect_if_invalid_year_month!
   before_filter :_redirect_if_invalid_budget_type!
 
   def show
@@ -17,14 +17,6 @@ class Api::YearlyBudgetsController < ApplicationController
   end
 
   private
-  def _redirect_if_invalid_year_month!
-    unless CommonUtil.valid_combined_year_month?(params[:id])
-      redirect_to login_url
-      return false
-    end
-    true
-  end
-
   def _redirect_if_invalid_budget_type!
     if ['outgo', 'income', 'total'].include?(params[:budget_type])
       return true

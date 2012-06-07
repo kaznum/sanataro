@@ -4,6 +4,7 @@
 class ApplicationController < ActionController::Base
   # for i18n
   before_filter :set_locale
+  protect_from_forgery
 
   def set_locale
     I18n.locale = available_locale?(params[:locale]) ? params[:locale] : I18n.default_locale
@@ -19,7 +20,6 @@ class ApplicationController < ActionController::Base
     { :locale => I18n.locale }
   end
 
-  protect_from_forgery
   #
   # change month to display
   #
@@ -69,10 +69,6 @@ class ApplicationController < ActionController::Base
 
   def today
     @application_cached_today ||= Date.today
-  end
-
-  def json_date_format(date)
-    date.to_time.to_i * 1000
   end
 
   def displaying_month(year = params[:year], month = params[:month])

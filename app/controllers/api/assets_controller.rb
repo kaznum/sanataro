@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class Api::AssetsController < ApplicationController
+  include Api
   before_filter :required_login
-  before_filter :valid_combined_month?, only: :show
   respond_to :json
 
   def show
@@ -12,11 +12,6 @@ class Api::AssetsController < ApplicationController
   end
 
   private
-  def valid_combined_month?
-    unless CommonUtil.valid_combined_year_month?(params[:id])
-      redirect_to login_url
-    end
-  end
 
   def balances_with_account_of_month(year, month)
     date = Date.new(year.to_i, month.to_i)

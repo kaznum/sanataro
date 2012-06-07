@@ -1,9 +1,9 @@
 # coding: utf-8
 class Api::YearlyAssetsController < ApplicationController
+  include Api
   respond_to :json
 
   before_filter :required_login
-  before_filter :_redirect_if_invalid_year_month!
 
   def show
     year, month = CommonUtil.get_year_month_from_combined(params[:id])
@@ -14,14 +14,6 @@ class Api::YearlyAssetsController < ApplicationController
   end
 
   private
-  def _redirect_if_invalid_year_month!
-    unless CommonUtil.valid_combined_year_month?(params[:id])
-      redirect_to login_url
-      return false
-    end
-    true
-  end
-
   def _json_assets(accounts, date_since)
     results = accounts.inject({}) { |data, a|
       data["account_#{a.id}"] = { "label" => a.name, "data" => _json_account_assets(a.id, date_since)}
