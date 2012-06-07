@@ -116,7 +116,6 @@ describe ProfitLossesController do
       end
       context "when without id,"  do
         before do
-          xhr :post, :change_month, :year=>'2008', :month=>'2', :current_action => :index
           xhr :get, :show, :year=>'2008', :month=>'2'
         end
         describe "response" do
@@ -128,7 +127,6 @@ describe ProfitLossesController do
       context "when correct id is specified," do
         context "when year, month are specified," do 
           before do 
-            xhr :post, :change_month, :year=>'2008', :month=>'2', :current_action => :index
             xhr :get, :show, :id=>accounts(:outgo3).id.to_s, :year=>'2008', :month=>'2'
           end
           describe "response" do

@@ -20,22 +20,6 @@ class ApplicationController < ActionController::Base
     { :locale => I18n.locale }
   end
 
-  #
-  # change month to display
-  #
-  def change_month
-    url = url_for(:action => params[:current_action], :year => displaying_month.year, :month => displaying_month.month)
-    respond_to do |format|
-      format.html { redirect_to url }
-      format.js { redirect_js_to url }
-    end
-  rescue
-    respond_to do |format|
-      format.html { redirect_to current_entries_url }
-      format.js { redirect_js_to current_entries_url }
-    end
-  end
-
   def set_categorized_accounts
     @separated_accounts = @user.categorized_accounts if @user
   end
