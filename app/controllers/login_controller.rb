@@ -9,7 +9,11 @@ class LoginController < ApplicationController
   end
 
   def login
-    render :layout=>'entries'
+    if session[:user_id]
+      redirect_to current_entries_url
+    else
+      render :layout=>'entries'
+    end
   end
 
   def do_login

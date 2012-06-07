@@ -41,6 +41,16 @@ describe LoginController do
       end
     end
 
+    context "with session[:user_id]," do
+      before do
+        session[:user_id] = users(:user1).id
+        get :login
+      end
+
+      subject {response}
+      it {should redirect_to current_entries_url}
+    end
+
     context "with session[:disable_autologin]," do
       before do
         session[:disable_autologin] = true
