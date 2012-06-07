@@ -76,5 +76,5 @@ gem 'coffee-filter'
 
 # make active for jruby (this doesn't require less, therubyracer and libv8)
 #gem 'twitter-bootstrap-rails', :git => "git://github.com/seyhunak/twitter-bootstrap-rails.git", :branch => "static"
-gem 'twitter-bootstrap-rails'
+gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git', :ref => '5269f00'
 
