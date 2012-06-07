@@ -149,8 +149,6 @@ class LoginController < ApplicationController
 
   def _store_user_session(user)
     session[:user_id] = user.id
-    session[:from_date] = today.beginning_of_month
-    session[:to_date] = today.end_of_month
   end
 
   def _clear_user_session
