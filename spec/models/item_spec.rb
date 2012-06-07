@@ -31,13 +31,13 @@ describe Item do
       its(:confirmation_required?) { should be_true }
     end
   end
-    
+
   describe "validation" do
     before do
       @item = users(:user1).items.new(@valid_attrs)
     end
 
-    describe "name" do 
+    describe "name" do
       context "when name is nil" do
         before do
           @item.name = nil
@@ -420,13 +420,16 @@ describe Item do
           end
 
           # データの準備(参照されないデータ)(別ユーザ)
-          from_account = Fabricate.build(:account, user_id: 101)
+          from_account = Fabricate.build(:account)
+          from_account.user_id = 101
           from_account.save!
-          to_account = Fabricate.build(:outgo, user_id: 101)
+          to_account = Fabricate.build(:outgo)
+          to_account.user_id = 101
           to_account.save!
-          
+
           10.times do |i|
-            item = Fabricate.build(:item, user_id: 101, from_account_id: from_account.id, to_account_id: to_account.id, action_date: '2008-09-15', tag_list: 'abc def', confirmation_required: true)
+            item = Fabricate.build(:item, from_account_id: from_account.id, to_account_id: to_account.id, action_date: '2008-09-15', tag_list: 'abc def', confirmation_required: true)
+            item.user_id = 101
             item.save!
             @created_ids << item.id
           end
@@ -534,9 +537,11 @@ describe Item do
           end
 
           # データの準備(参照されないデータ)(別ユーザ)
-          from_account = Fabricate.build(:account, user_id: 101)
+          from_account = Fabricate.build(:account)
+          from_account.user_id = 101
           from_account.save!
-          to_account = Fabricate.build(:outgo, user_id: 101)
+          to_account = Fabricate.build(:outgo)
+          to_account.user_id = 101
           to_account.save!
           20.times do |i|
             item = Item.new(:name => 'regular item ' + i.to_s,
@@ -548,15 +553,14 @@ describe Item do
             item.save!
             @created_ids << item.id
           end
-          
+
         end
         @from_date = Date.new(2008,9,1)
         @to_date = Date.new(2008,9,30)
-        
       end
 
       after(:all) do
-        Item.transaction do 
+        Item.transaction do
           Item.destroy(@created_ids)
         end
       end

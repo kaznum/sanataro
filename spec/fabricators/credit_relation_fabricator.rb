@@ -4,5 +4,5 @@ Fabricator(:credit_relation) do
   settlement_day 99
   payment_month 2
   payment_day 20
-  user_id 1
+  after_build { |item| item.user_id = 1 }
 end
