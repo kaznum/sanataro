@@ -31,7 +31,7 @@ class LoginController < ApplicationController
       autologin_key = cookies[:autologin]
       if autologin_key
         k = AutologinKey.matched_key(session[:user_id], autologin_key)
-        k.destroy unless k.nil?
+        k.try(:destroy)
       end
     end
 
