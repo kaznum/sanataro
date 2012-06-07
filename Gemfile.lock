@@ -42,8 +42,6 @@ GEM
     archive-tar-minitar (0.5.2)
     arel (3.0.2)
     bouncy-castle-java (1.5.0146.1)
-    bourbon (2.1.0)
-      sass (>= 3.1)
     builder (3.0.0)
     capistrano (2.12.0)
       highline
@@ -278,7 +276,6 @@ DEPENDENCIES
   activerecord-jdbcmysql-adapter
   activerecord-jdbcpostgresql-adapter
   activerecord-jdbcsqlite3-adapter
-  bourbon
   capistrano
   capybara-webkit
   coffee-filter

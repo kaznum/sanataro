@@ -10,7 +10,6 @@ $operation_icon_hover_padding: 0px
   width: $operation_icon_width
   border: none
 @mixin icon_hover
-  @include border-radius(2px)
   padding: $operation_icon_hover_padding
   background: tint(#ffff99, 25%)
   width: $operation_icon_width + 2px
@@ -211,13 +210,6 @@ div.item_remains
   color: silver
   text-decoration: none
   cursor: pointer
-
-input[type=submit]
-  @extend .btn
-  @extend .btn-primary
-
-input[type=submit][disabled]
-  color: gray
 
 .trivial_link
   color: gray

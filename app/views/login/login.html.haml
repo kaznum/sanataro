@@ -19,7 +19,7 @@
       %span
         = check_box_tag 'only_add', 1, false, { tabindex: 4 }
         = t('.simple_input_explanation')
-    = submit_tag t('.login'), :id=>'login_button',  tabindex: 5
+    = submit_tag t('.login'), id: 'login_button',  tabindex: 5, class: 'btn btn-primary'
 %h2= t(".lets_try")
 %p= t(".demo_user_explanation")
 %h2= t('.not_user_explanation')

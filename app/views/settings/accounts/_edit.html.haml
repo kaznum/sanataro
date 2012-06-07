@@ -11,7 +11,7 @@
     .row-fluid
       = text_field_tag :order_no, @account.order_no, class: "input-small"
     .row-fluid
-      = submit_tag t('button.save'), :id=>"edit_button_#{@account.id}"
+      = submit_tag t('button.save'), id: "edit_button_#{@account.id}", class: 'btn btn-primary'
       = link_to t('link.cancel'), settings_account_path(@account.id), :remote => true, :method => :get, :class => "trivial_link"
       %br/
     .row-fluid

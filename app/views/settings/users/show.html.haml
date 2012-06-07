@@ -19,6 +19,6 @@
           %td= password_field_tag 'password_confirmation', nil
       %p
         %span#warning.warning
-      = submit_tag t('button.save'), :id=>'change_button'
+      = submit_tag t('button.save'), id: 'change_button', class: 'btn btn-primary'
 - else
   This function is not available for the demo users.

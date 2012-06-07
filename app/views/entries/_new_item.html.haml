@@ -29,6 +29,6 @@
   .row-fluid.input-row
     #{text_field_tag 'tag_list', nil, placeholder: t('placeholder.tag'), class: "input-medium"}
   .row-fluid.input-row
-    #{submit_tag t('button.register'), id: 'new_add_button'}
+    = submit_tag t('button.register'), id: 'new_add_button', class: 'btn btn-primary'
     = link_to t("link.about_emolett"), "http://mayuco.github.com/emolett/", target: "_blank", class: "trivial_link"
 

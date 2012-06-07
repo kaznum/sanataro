@@ -17,5 +17,5 @@
       = text_field_tag :order_no, nil, class: "input-small"
       = hidden_field_tag :account_type, @account_type
   .row-fluid
-    = submit_tag t("button.register"), :id=>"submit_button"
+    = submit_tag t("button.register"), id: "submit_button", class: 'btn btn-primary'
 #add_warning.warning

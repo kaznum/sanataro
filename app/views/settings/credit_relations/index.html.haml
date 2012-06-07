@@ -30,7 +30,7 @@
               %span.add-on>= t('label.day')
         .row-fluid
           .span12
-            = submit_tag t('button.register'), :id=>'add_button'
+            = submit_tag t('button.register'), id: 'add_button', class: 'btn btn-primary'
             #warning.warning
       %h3= t('label.list_update_delete')
       #credit_relations_headers.cfg_credit_relations_header.row-fluid
