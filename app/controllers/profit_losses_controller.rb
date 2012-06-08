@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 class ProfitLossesController < ApplicationController
-  before_filter :required_login
-  before_filter :redirect_if_id_is_blank!, only: :show
+  include MonthlyReports
 
   def index
     @m_pls = _find_account_id_and_amount_by_month(displaying_month)
@@ -20,17 +19,9 @@ class ProfitLossesController < ApplicationController
 
     @account_id = params[:id].to_i
     @remain_amount, @items = Item.collect_account_history(@user, @account_id, from_date, to_date)
-    @separated_accounts = @user.categorized_accounts
   end
 
   private
-  def redirect_if_id_is_blank!
-    if params[:id].blank?
-      redirect_js_to login_url
-      return
-    end
-    true
-  end
 
   def _find_account_id_and_amount_by_month(month)
     pls = { }

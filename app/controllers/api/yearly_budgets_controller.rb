@@ -3,7 +3,6 @@ class Api::YearlyBudgetsController < ApplicationController
   include Api
   respond_to :json
 
-  before_filter :required_login
   before_filter :_redirect_if_invalid_budget_type!
 
   def show

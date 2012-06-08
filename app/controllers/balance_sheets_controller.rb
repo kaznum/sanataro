@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 class BalanceSheetsController < ApplicationController
-  before_filter :required_login
-  before_filter :set_categorized_accounts, :only => [:show]
-  before_filter :_redirect_if_id_is_blank!, :only => [:show]
+  include MonthlyReports
 
   def index
     @bs = _snapshot_of_month(displaying_month)
@@ -46,14 +44,5 @@ class BalanceSheetsController < ApplicationController
       bs[mpl.account_id] += mpl.amount
     end
     bs
-  end
-
-  def _redirect_if_id_is_blank!
-    if params[:id].blank?
-      redirect_js_to login_url
-      return
-    else
-      true
-    end
   end
 end

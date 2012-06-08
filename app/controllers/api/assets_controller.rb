@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 class Api::AssetsController < ApplicationController
   include Api
-  before_filter :required_login
   respond_to :json
 
   def show

@@ -3,8 +3,6 @@ class Api::YearlyAssetsController < ApplicationController
   include Api
   respond_to :json
 
-  before_filter :required_login
-
   def show
     year, month = CommonUtil.get_year_month_from_combined(params[:id])
     date_to = Date.new(year.to_i, month.to_i)
