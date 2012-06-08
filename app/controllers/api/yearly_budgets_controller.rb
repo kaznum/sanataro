@@ -18,10 +18,10 @@ class Api::YearlyBudgetsController < ApplicationController
   private
   def _redirect_if_invalid_budget_type!
     if ['outgo', 'income', 'total'].include?(params[:budget_type])
-      return true
+      true
     else
-      redirect_to login_url
-      return false
+      render status: :not_acceptable, text: "Not Acceptable"
+      false
     end
   end
 

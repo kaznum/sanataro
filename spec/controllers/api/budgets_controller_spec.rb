@@ -23,7 +23,7 @@ describe Api::BudgetsController do
           get :show, :format => :json
         end
         
-        it_should_behave_like "Unauthenticated Access"
+        it_should_behave_like "Not Acceptable"
       end
       
       context "when id's length is not 6 digit," do
@@ -31,7 +31,7 @@ describe Api::BudgetsController do
           get :show, :id => '21222', :format => :json
         end
         
-        it_should_behave_like "Unauthenticated Access"
+        it_should_behave_like "Not Acceptable"
       end
       
       context "when id's initial char is not 0," do
@@ -39,7 +39,7 @@ describe Api::BudgetsController do
           get :show, :id => '021222', :format => :json
         end
         
-        it_should_behave_like "Unauthenticated Access"
+        it_should_behave_like "Not Acceptable"
       end
       
       context "when id has non-numeric char," do
@@ -47,14 +47,14 @@ describe Api::BudgetsController do
           get :show, :id => '2008a2', :format => :json
         end
         
-        it_should_behave_like "Unauthenticated Access"
+        it_should_behave_like "Not Acceptable"
       end
       
       context "when id does not mean correct year-month," do
         before do          get :show, :id => '200815', :format => :json
         end
         
-        it_should_behave_like "Unauthenticated Access"
+        it_should_behave_like "Not Acceptable"
       end
       
       context "When there is no data to send," do

@@ -22,7 +22,7 @@ describe Api::YearlyBudgetsController do
         before do
           get :show, format: :json, budget_type: "outgo"
         end
-        it_should_behave_like "Unauthenticated Access"
+        it_should_behave_like "Not Acceptable"
       end
 
       context "when budget_type is invalid," do
@@ -30,14 +30,14 @@ describe Api::YearlyBudgetsController do
           get :show, id: "200802", budget_type: "out", format: :json
         end
 
-        it_should_behave_like "Unauthenticated Access"
+        it_should_behave_like "Not Acceptable"
       end
 
       context "when id is invalid format," do
         before do
           get :show, id: "2008", budget_type: "outgo", format: :json
         end
-        it_should_behave_like "Unauthenticated Access"
+        it_should_behave_like "Not Acceptable"
       end
 
       context "when params are valid," do
