@@ -10,8 +10,8 @@ class Teller
 
       affected_items = []
       affected_items << item.child_item
-      affected_items += self.future_adjustments_of_item(item)
-      affected_items += self.future_adjustments_of_item(item.child_item)
+      affected_items += future_adjustments_of_item(item)
+      affected_items += future_adjustments_of_item(item.child_item)
 
       [item, affected_items.reject(&:nil?).map(&:id).uniq, false]
     end
@@ -22,19 +22,46 @@ class Teller
       updated_items = []
       deleted_items = []
       deleted_items << item.child_item
-      updated_items += self.future_adjustments_of_item(item)
-      updated_items += self.future_adjustments_of_item(item.child_item)
+      updated_items += future_adjustments_of_item(item)
+      updated_items += future_adjustments_of_item(item.child_item)
 
       Item.transaction do
-        item = item.adjustment? ? self.update_adjustment!(item, args) : self.update_regular_entry!(item, args)
+        item = item.adjustment? ? update_adjustment!(item, args) : update_regular_entry!(item, args)
       end
 
       updated_items << item
       updated_items << item.child_item
-      updated_items += self.future_adjustments_of_item(item)
-      updated_items += self.future_adjustments_of_item(item.child_item)
+      updated_items += future_adjustments_of_item(item)
+      updated_items += future_adjustments_of_item(item.child_item)
 
       [item, updated_items.reject(&:nil?).map(&:id).uniq, deleted_items.reject(&:nil?).map(&:id).uniq]
+    end
+
+
+    def destroy_entry(user, id)
+      item = user.items.find(id)
+
+      deleted_items = []
+      updated_items = []
+      child_item = item.child_item
+
+      ActiveRecord::Base.transaction do
+        item.destroy
+      end
+      deleted_items << item << child_item
+      updated_items += future_adjustments_of_item(item) + future_adjustments_of_item(child_item)
+
+      [updated_items.reject(&:nil?).map(&:id).uniq, deleted_items.reject(&:nil?).map(&:id).uniq]
+    end
+
+    private
+
+    def future_adjustments_of_item(item)
+      item ? future_adjustments(item.user, item.action_date, [item.from_account_id, item.to_account_id], item.id) : []
+    end
+
+    def future_adjustments(user, action_date, account_ids, item_id)
+      account_ids.map { |a_id| Item.future_adjustment(user, action_date, a_id, item_id) }
     end
 
     def update_regular_entry!(item, args)
@@ -75,30 +102,6 @@ class Teller
       item.update_attributes!(attrs)
       item.reload
       item
-    end
-
-    def destroy_entry(user, id)
-      item = user.items.find(id)
-
-      deleted_items = []
-      updated_items = []
-      child_item = item.child_item
-
-      ActiveRecord::Base.transaction do
-        item.destroy
-      end
-      deleted_items << item << child_item
-      updated_items += self.future_adjustments_of_item(item) + self.future_adjustments_of_item(child_item)
-
-      [updated_items.reject(&:nil?).map(&:id).uniq, deleted_items.reject(&:nil?).map(&:id).uniq]
-    end
-
-    def future_adjustments_of_item(item)
-      item ? self.future_adjustments(item.user, item.action_date, [item.from_account_id, item.to_account_id], item.id) : []
-    end
-
-    def future_adjustments(user, action_date, account_ids, item_id)
-      account_ids.map { |a_id| Item.future_adjustment(user, action_date, a_id, item_id) }
     end
   end
 end
