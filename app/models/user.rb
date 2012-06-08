@@ -70,7 +70,7 @@ class User < ActiveRecord::Base
         account_ids.push a.id
       end
       all_accounts[a.id] = a.name
-      account_bgcolors[a.id] = a.bgcolor unless a.bgcolor.nil?
+      account_bgcolors[a.id] = a.bgcolor if a.bgcolor
     end
 
     to += tmp_accounts

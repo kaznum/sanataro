@@ -10,7 +10,7 @@ class ItemObserver < ActiveRecord::Observer
     Item.update_future_balance(user, item.action_date, item.to_account_id, item.id)
     # クレジットカードの処理
     cr = user.credit_relations.find_by_credit_account_id(item.from_account_id)
-    unless cr.nil?
+    if cr
       payment_date = credit_payment_date(user, item.from_account_id, item.action_date)
       user.items.create!(name: item.name, from_account_id: cr.payment_account_id,
                          to_account_id: item.from_account_id, amount: item.amount,
