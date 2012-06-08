@@ -10,7 +10,7 @@ class Api::YearlyBudgetsController < ApplicationController
     date_since = Date.new(year.to_i, month.to_i).months_ago(11)
 
     budget_type = params[:budget_type]
-    results = ['outgo', 'income'].include?(budget_type) ? _get_income_or_outgo_data(budget_type, date_since) : _get_total_data(date_since)
+    results = ['outgo', 'income'].include?(budget_type) ? _formatted_income_or_outgo_data(budget_type, date_since) : _formatted_total_data(date_since)
 
     respond_with results
   end
@@ -25,7 +25,7 @@ class Api::YearlyBudgetsController < ApplicationController
     end
   end
 
-  def _get_income_or_outgo_data(budget_type, date_since)
+  def _formatted_income_or_outgo_data(budget_type, date_since)
     accounts = @user.accounts.where(account_type: budget_type).order("order_no").all
     accounts << Account.new {|a|
       a.id = -1
@@ -51,25 +51,31 @@ class Api::YearlyBudgetsController < ApplicationController
     results
   end
 
-  def _get_total_data(date_since)
+  def _formatted_total_data(date_since)
+    results = _monthly_totals_during_a_year(date_since)
+
+    { outgo: { label: I18n.t('label.outgoing'),
+        data: results[:outgos].map{|a| [a[0].to_milliseconds, a[1]]} },
+      income: { label: I18n.t('label.income'),
+        data: results[:incomes].map{|a| [a[0].to_milliseconds, a[1]]} },
+      total: { label: I18n.t('label.net'),
+        data: results[:totals].map{|a| [a[0].to_milliseconds, a[1]]} }}
+  end
+
+  def _monthly_totals_during_a_year(date_since)
     outgo_ids = @user.accounts.outgo.order("order_no").map(&:id)
     income_ids = @user.accounts.income.order("order_no").map(&:id)
 
-    results = (0..11).inject({incomes: [], outgos: [], totals: []}) { |ret, i|
+    (0..11).inject({incomes: [], outgos: [], totals: []}) { |ret, i|
       month = date_since.months_since(i)
       totals = _monthly_total(month, outgo_ids, income_ids)
-      json_date = month.to_milliseconds
-      ret[:incomes] << [json_date, totals[:income].abs]
-      ret[:outgos] << [json_date, totals[:outgo].abs]
+      ret[:incomes] << [month, totals[:income].abs]
+      ret[:outgos] << [month, totals[:outgo].abs]
 
       # don't use int.abs because total_amount could be minus.
-      ret[:totals] << [json_date, (-1) * totals[:total]]
+      ret[:totals] << [month, (-1) * totals[:total]]
       ret
     }
-
-    { outgo: { label: I18n.t('label.outgoing'), data: results[:outgos] },
-      income: { label: I18n.t('label.income'), data: results[:incomes] },
-      total: { label: I18n.t('label.net'), data: results[:totals] }}
   end
 
   def _monthly_total(month, outgo_ids, income_ids)
