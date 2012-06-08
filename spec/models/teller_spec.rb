@@ -7,7 +7,7 @@ describe Teller do
     context "when validation errors happen," do
       before do
         @initial_count = Item.count
-        @action = lambda { Teller.create_entry(:action_date => Date.today, :name => '', :amount => 10000, :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:outgo3).id, :user => users(:user1), :tag_list => 'hoge fuga') }
+        @action = lambda { Teller.create_entry(users(:user1), :action_date => Date.today, :name => '', :amount => 10000, :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:outgo3).id, :tag_list => 'hoge fuga') }
       end
 
       describe "raise error" do
@@ -48,7 +48,7 @@ describe Teller do
     context "with confimation_required == true," do
       before do 
         @prev_count = Item.count
-        @item, @affected_item_ids, @is_error = Teller.create_entry(:action_date => Date.today, :name => 'テスト', :amount => 10000, :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:outgo3).id, :user => users(:user1), :tag_list => 'hoge fuga', :confirmation_required => true)
+        @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), :action_date => Date.today, :name => 'テスト', :amount => 10000, :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:outgo3).id, :tag_list => 'hoge fuga', :confirmation_required => true)
       end
 
       describe "created_item" do 
@@ -84,7 +84,7 @@ describe Teller do
     context "with confimation_required is nil," do
       before do 
         @prev_count = Item.count
-        @item, @affected_item_ids, @is_error = Teller.create_entry(:action_date => Date.today, :name => 'テスト', :amount => 10000, :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:outgo3).id, :user => users(:user1), :tag_list => 'hoge fuga')
+        @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), :action_date => Date.today, :name => 'テスト', :amount => 10000, :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:outgo3).id, :tag_list => 'hoge fuga')
       end
 
       describe "created_item" do 
@@ -168,7 +168,7 @@ describe Teller do
       
       context "created before adjustment which is in the same month," do
         before do
-          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(:action_date => @init_adj2.action_date - 1, :name => 'テスト10', :amount => 10000, :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:outgo3).id, :user => users(:user1)) }
+          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), :action_date => @init_adj2.action_date - 1, :name => 'テスト10', :amount => 10000, :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:outgo3).id) }
         end
 
         it_should_behave_like "created only itself successfully"
@@ -217,7 +217,7 @@ describe Teller do
 
       context "created between adjustments which both are in the same month of the item to create," do
         before do
-          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(:action_date => @init_adj4.action_date - 1, :name => 'テスト10', :amount => 10000, :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:outgo3).id, :user => users(:user1)) }
+          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), :action_date => @init_adj4.action_date - 1, :name => 'テスト10', :amount => 10000, :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:outgo3).id) }
         end
 
         it_should_behave_like "created only itself successfully"
@@ -285,7 +285,7 @@ describe Teller do
       context "created between adjustments, and the one is on earlier date in the same month and the other is in the next month of the item to create," do
         # adj4とadj6の間(adj4と同じ月)
         before do
-          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(:action_date => @init_adj4.action_date + 1, :name => 'テスト10', :amount => 10000, :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:outgo3).id, :user => users(:user1)) }
+          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), :action_date => @init_adj4.action_date + 1, :name => 'テスト10', :amount => 10000, :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:outgo3).id) }
         end
 
         it_should_behave_like "created only itself successfully"
@@ -354,7 +354,7 @@ describe Teller do
 
       context "created between adjustments, and the one which is after item's date is in the same month and the other is in the previous month of the item to create," do
         before do
-          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(:action_date => @init_adj6.action_date - 1, :name => 'テスト10', :amount => 10000, :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:outgo3).id, :user => users(:user1)) }
+          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), :action_date => @init_adj6.action_date - 1, :name => 'テスト10', :amount => 10000, :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:outgo3).id) }
         end
         
         it_should_behave_like "created only itself successfully"
@@ -411,7 +411,7 @@ describe Teller do
       
       context "created after any adjustments, and the one is item's date is in the same month and the others are in the previous month of the item to create," do
         before do
-          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(:action_date => @init_adj6.action_date + 1, :name => 'テスト10', :amount => 10000, :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:outgo3).id, :user => users(:user1)) }
+          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), :action_date => @init_adj6.action_date + 1, :name => 'テスト10', :amount => 10000, :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:outgo3).id) }
         end
         
         it_should_behave_like "created only itself successfully"
@@ -493,7 +493,7 @@ describe Teller do
       
       context "created item with credit card, purchased before the settlement date of the month," do
         before do 
-          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(:action_date => Date.new(2008,2,10), :name => 'テスト10', :amount => 10000, :from_account_id => accounts(:credit4).id, :to_account_id => accounts(:outgo3).id, :user => users(:user1)) }
+          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), :action_date => Date.new(2008,2,10), :name => 'テスト10', :amount => 10000, :from_account_id => accounts(:credit4).id, :to_account_id => accounts(:outgo3).id) }
         end
 
         let(:credit_item) { Item.where(:action_date => Date.new(2008,2,10),
@@ -560,13 +560,12 @@ describe Teller do
           cr1.save!
 
           @create = lambda { @item, @affected_item_ids, @is_error =
-            Teller.create_entry(:action_date => Date.new(2008,2,25),
+            Teller.create_entry(users(:user1),
+                                :action_date => Date.new(2008,2,25),
                                 :name => 'テスト10', :amount => 10000,
                                 :from_account_id => accounts(:credit4).id,
-                                :to_account_id => accounts(:outgo3).id,
-                                :user => users(:user1)) }
+                                :to_account_id => accounts(:outgo3).id) }
         end
-        
 
         let(:credit_item) {
           Item.where(:action_date => Date.new(2008,2,25),
@@ -635,13 +634,13 @@ describe Teller do
           @cr1.save!
             
           @create = lambda { @item, @affected_item_ids, @is_error =
-            Teller.create_entry(:action_date => Date.new(2008,2,10),
+            Teller.create_entry(users(:user1),
+                                :action_date => Date.new(2008,2,10),
                                 :name => 'テスト10', :amount => 10000,
                                 :from_account_id => accounts(:credit4).id,
-                                :to_account_id => accounts(:outgo3).id,
-                                :user => users(:user1)) }
+                                :to_account_id => accounts(:outgo3).id) }
         end
-        
+
         let(:credit_item) {
           Item.where(:action_date => Date.new(2008,2,10),
                      :from_account_id => accounts(:credit4).id,

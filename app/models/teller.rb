@@ -1,12 +1,16 @@
 # coding: utf-8
 class Teller
   class << self
-    def create_entry(args)
-      item = Item.new(args)
+    def create_entry(user, args = {})
+      item = user.items.build(args)
       ActiveRecord::Base.transaction do
+        if args[:adjustment]
+          prev_adj = user.items.find_by_to_account_id_and_action_date_and_adjustment(args[:to_account_id], args[:action_date], true)
+          destroy_entry(user, prev_adj.id) if prev_adj
+        end
+
         item.save!
       end
-      user = item.user
 
       affected_items = []
       affected_items << item.child_item
