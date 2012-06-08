@@ -13,7 +13,7 @@ module Api
 
     def redirect_if_invalid_year_month!
       unless CommonUtil.valid_combined_year_month?(params[:id])
-        redirect_to login_url
+        render status: :not_acceptable, text: "Not Acceptable"
         return
       end
       true

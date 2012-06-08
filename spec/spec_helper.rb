@@ -153,6 +153,11 @@ unless defined?(CustomSharedExamplesHelper)
       subject { response }
       it { should redirect_by_js_to login_url }
     end
+
+    shared_examples_for "Not Acceptable" do
+      subject { response }
+      its(:status) { should == 406 }
+    end
   end
 end
 
