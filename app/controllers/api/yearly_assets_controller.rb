@@ -30,7 +30,7 @@ class Api::YearlyAssetsController < ApplicationController
       month = date_since.months_since(i)
       mpl = @user.monthly_profit_losses.where(account_id: account_id, month: month).first
       amount += mpl ? mpl.amount : 0
-      json_data << [json_date_format(month), amount]
+      json_data << [month.to_milliseconds, amount]
       amount
     end
     json_data
@@ -43,7 +43,7 @@ class Api::YearlyAssetsController < ApplicationController
       data = total_data[1]
       month = date_since.months_since(i)
       total += MonthlyProfitLoss.where(account_id: account_ids, month: month).sum(:amount)
-      data << [json_date_format(month), total]
+      data << [month.to_milliseconds, total]
       [total, data]
     end
     data
