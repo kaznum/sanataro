@@ -24,7 +24,7 @@ class BalanceSheetsController < ApplicationController
 
     render :layout => 'entries'
   rescue ArgumentError => ex # for errors around conversion from string to date
-    redirect_to current_entries_path
+    redirect_to current_entries_url
   end
 
   def show
