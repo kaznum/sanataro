@@ -34,21 +34,27 @@ class Api::YearlyBudgetsController < ApplicationController
 
     results = accounts.inject({}) { |ret, acc|
       amounts = (0..11).map { |i|
-        mpl = @user.monthly_profit_losses.where(month: date_since.months_since(i), account_id: acc.id).first
-        amount = mpl ? mpl.amount : 0
-        if acc.id == -1
-          if budget_type == 'income'
-            amount = amount < 0 ? amount : 0
-          elsif budget_type == 'outgo'
-            amount = amount > 0 ? amount : 0
-          end
-        end
-        [date_since.months_since(i).to_milliseconds, amount.abs]
+        month = date_since.months_since(i)
+        amount = _monthly_amount_per_account(month, budget_type, acc.id)
+        [month.to_milliseconds, amount.abs]
       }
       ret["account_#{acc.id}"] = { :label => acc.name, :data  => amounts }
       ret
     }
     results
+  end
+
+  def _monthly_amount_per_account(month, budget_type, account_id)
+    mpl = @user.monthly_profit_losses.where(month: month, account_id: account_id).first
+    amount = mpl ? mpl.amount : 0
+    if account_id == -1
+      if budget_type == 'income'
+        amount = amount < 0 ? amount : 0
+      elsif budget_type == 'outgo'
+        amount = amount > 0 ? amount : 0
+      end
+    end
+    amount
   end
 
   def _formatted_total_data(date_since)
