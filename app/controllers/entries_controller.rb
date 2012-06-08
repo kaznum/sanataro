@@ -48,25 +48,7 @@ class EntriesController < ApplicationController
   def update
     _xhr_action("item_warning_#{params[:id]}") {
       id = params[:id].to_i
-      if params[:entry_type] == 'adjustment'
-        args = {
-          to_account_id: params[:to],
-          adjustment_amount: Item.calc_amount(params[:adjustment_amount])
-        }
-      else
-        args = {
-          name: params[:item_name],
-          from_account_id: params[:from],
-          to_account_id: params[:to],
-          amount: Item.calc_amount(params[:amount])
-        }
-      end
-
-      args.merge!({ confirmation_required: params[:confirmation_required],
-                    tag_list: params[:tag_list],
-                    action_date: _get_action_date_from_params })
-
-      item, updated_item_ids, deleted_item_ids = Teller.update_entry(@user, id, args)
+      item, updated_item_ids, deleted_item_ids = Teller.update_entry(@user, id, arguments_for_update)
       items = get_items(month: displaying_month)
       render "update", locals: { item: item, items: items, updated_item_ids: updated_item_ids }
     }
@@ -92,6 +74,26 @@ class EntriesController < ApplicationController
   end
 
   private
+
+  def arguments_for_update
+    if params[:entry_type] == 'adjustment'
+      args = {
+        to_account_id: params[:to],
+        adjustment_amount: Item.calc_amount(params[:adjustment_amount])
+      }
+    else
+      args = {
+        name: params[:item_name],
+        from_account_id: params[:from],
+        to_account_id: params[:to],
+        amount: Item.calc_amount(params[:amount])
+      }
+    end
+
+    args.merge({ confirmation_required: params[:confirmation_required],
+                 tag_list: params[:tag_list],
+                 action_date: _get_action_date_from_params })
+  end
 
   def _xhr_action(warning_selector, &block)
     block.call
