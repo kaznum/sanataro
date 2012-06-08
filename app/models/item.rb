@@ -122,6 +122,16 @@ class Item < ActiveRecord::Base
         :child_id => child_item.try(:id), :parent_id => parent_id } }
   end
 
+  def create_credit_payment!
+    cr = user.credit_relations.find_by_credit_account_id(from_account_id)
+    if cr
+      due_date = user.accounts.where(id: from_account_id).first.credit_due_date(action_date)
+      create_child_item!(name: name, from_account_id: cr.payment_account_id,
+                         to_account_id: from_account_id, amount: amount,
+                         action_date: due_date, user: user)
+    end
+  end
+
   class << self
     def calc_amount(amount)
       return 0 unless amount
@@ -151,29 +161,29 @@ class Item < ActiveRecord::Base
     end
   end
 
-  def self.update_future_balance(user, action_date, account_id, item_id)
-    return if account_id == -1
+  class << self
+    def update_future_balance(user, action_date, account_id, item_id)
+      return if account_id == -1
 
-    item_adj = future_adjustment(user, action_date, account_id, item_id)
+      item_adj = future_adjustment(user, action_date, account_id, item_id)
 
-    if item_adj
-      amount_to_adj = Account.asset(user, account_id, item_adj.action_date, item_adj.id)
-      amount = item_adj.adjustment_amount - amount_to_adj
-      # Do not update without comparing because the following processes is very expensive and ItemObserver
-      # could update other items unnecessorily.
-      if item_adj.amount != amount
-        item_adj.update_attributes!(amount: amount)
-        MonthlyProfitLoss.correct(user, account_id, item_adj.action_date.beginning_of_month)
-        MonthlyProfitLoss.correct(user, -1, item_adj.action_date.beginning_of_month)
-      else
-        item_adj = nil
+      if item_adj
+        amount_to_adj = Account.asset(user, account_id, item_adj.action_date, item_adj.id)
+        amount = item_adj.adjustment_amount - amount_to_adj
+        # Do not update without comparing because the following processes is very expensive and ItemObserver
+        # could update other items unnecessorily.
+        if item_adj.amount != amount
+          item_adj.update_attributes!(amount: amount)
+          MonthlyProfitLoss.correct(user, account_id, item_adj.action_date.beginning_of_month)
+          MonthlyProfitLoss.correct(user, -1, item_adj.action_date.beginning_of_month)
+        else
+          item_adj = nil
+        end
       end
+
+      item_adj
     end
 
-    item_adj
-  end
-
-  class << self
     def future_adjustment(user, action_date, account_id, item_id)
       user.items.where(to_account_id: account_id,
                        adjustment: true).where("(action_date > ? AND id <> ?) OR (action_date = ? AND id > ?)",
