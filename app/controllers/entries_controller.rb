@@ -243,11 +243,9 @@ class EntriesController < ApplicationController
   end
 
   def from_or_to_accounts(from_or_to = :from_accounts)
-    @__cat_accounts__ ||= @user.categorized_accounts
-
     # FIXME
     # html escape should be done in Views.
-    @__cat_accounts__[from_or_to].map {|a| { :value => a[1], :text => ERB::Util.html_escape(a[0]) } }
+    @user.categorized_accounts[from_or_to].map {|a| { :value => a[1], :text => ERB::Util.html_escape(a[0]) } }
   end
 
   def _index_for_remaining(month, tag=nil, mark=nil)

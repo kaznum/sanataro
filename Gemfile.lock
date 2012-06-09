@@ -159,6 +159,7 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    memoist (0.1.0)
     mime-types (1.18)
     multi_json (1.3.6)
     mysql2 (0.3.11)
@@ -299,6 +300,7 @@ DEPENDENCIES
   jruby-openssl
   launchy
   linecache19 (= 0.5.13)
+  memoist
   mysql2
   pg
   rails (= 3.2.5)

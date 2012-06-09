@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 class User < ActiveRecord::Base
+  extend Memoist
+
   attr_protected :login
   attr_accessor :password_plain, :password_confirmation
   sanataro_tagger
@@ -75,16 +77,17 @@ class User < ActiveRecord::Base
 
     to += tmp_accounts
 
-    return { :from_accounts => from,
+    { :from_accounts => from,
       :to_accounts => to,
       :bank_accounts => bank_accounts,
       :all_accounts => all_accounts,
       :income_ids => income_ids,
       :outgo_ids => outgo_ids,
       :account_ids => account_ids,
-      :account_bgcolors => account_bgcolors
-    }
+      :account_bgcolors => account_bgcolors }
   end
+
+  memoize :categorized_accounts
 
   def deliver_signup_confirmation
     Mailer.signup_confirmation(self).deliver

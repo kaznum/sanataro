@@ -73,6 +73,7 @@ gem 'haml-rails'
 gem 'jquery-rails'
 gem 'settingslogic'
 gem 'coffee-filter'
+gem 'memoist'
 
 # make active for jruby (this doesn't require less, therubyracer and libv8)
 #gem 'twitter-bootstrap-rails', :git => "git://github.com/seyhunak/twitter-bootstrap-rails.git", :branch => "static"
