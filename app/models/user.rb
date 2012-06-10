@@ -82,7 +82,7 @@ class User < ActiveRecord::Base
   %w(outgo income account).each do |name|
     method = "#{name}_ids"
     define_method(method.to_sym) do
-      accounts.send(method.to_sym)
+      accounts.active.send(method.to_sym)
     end
     memoize method.to_sym
   end
