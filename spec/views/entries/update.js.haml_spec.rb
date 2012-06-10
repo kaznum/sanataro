@@ -15,11 +15,12 @@ describe "/entries/create_item" do
     @item2 = Fabricate(:item)
     @item2.save!
     @items = [@item1, @item2]
+    mock_user = mock_model(User)
+    mock_user.should_receive(:all_accounts).at_least(:once).and_return({10 => double, 20 => double, 30 => double, 40 => double})
+    mock_user.should_receive(:account_bgcolors).at_least(:once).and_return({20 => "ffffff"})
+    assign(:user, mock_user)
     @updated_item_ids = [10, 20, 30]
-    @separated_accounts = {:income_ids => [10, 30, 40],
-      :account_ids => [20],
-      :all_accounts => {10 => double, 20 => double, 30 => double, 40 => double},
-      :account_bgcolors => { 20 => "ffffff"} }
+    @separated_accounts = {:income_ids => [10, 30, 40], :account_ids => [20]}
     render template: "entries/create_item", locals: { items: @items, item: @item1, updated_item_ids: @updated_item_ids, :displaying_month => 10 }
   end
   subject { rendered }

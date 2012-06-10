@@ -263,11 +263,6 @@ describe User do
     }
 
     specify {
-      actual = @user1.accounts.where(:account_type => ['account','income','outgo']).size
-      subject[:all_accounts].should have(actual).records
-    }
-
-    specify {
       actual = @user1.accounts.where(:account_type => 'income').size
       subject[:income_ids].should have(actual).records
     }
@@ -281,11 +276,33 @@ describe User do
       actual = @user1.accounts.where(:account_type => 'account').size
       subject[:account_ids].should have(actual).records
     }
+  end
 
-    specify {
-      actual = @user1.accounts.where("bgcolor IS NOT NULL").size
-      subject[:account_bgcolors].should have(actual).records
-    }
+  describe "#all_accounts" do
+    let (:user) { users(:user1) }
+    subject { user.all_accounts }
+    its(:size) { should == user.accounts.size }
+  end
+
+  describe "#account_bgcolors" do
+    let (:user) { users(:user1) }
+    subject { user.all_accounts }
+    it { should have(user.accounts.size).records }
+  end
+
+  shared_examples_for "a method for ids of accounts" do |name|
+    describe "size" do
+      let (:user) { users(:user1) }
+      subject { user.send("#{name}_ids".to_sym) }
+      its(:size) { should == user.accounts.where(account_type: name).size }
+      its(:sort) { should == user.accounts.where(account_type: name).map(&:id).sort }
+    end
+  end
+
+  %w(income outgo account).each do |name|
+    describe "##{name}_ids" do
+      it_should_behave_like "a method for ids of accounts", name
+    end
   end
 
   describe "#deliver_signup_confirmation" do

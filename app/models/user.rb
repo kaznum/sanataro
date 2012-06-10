@@ -48,12 +48,9 @@ class User < ActiveRecord::Base
     from  = Array.new
     to  = Array.new
     bank_accounts = Array.new
-    all_accounts  = Hash.new
-    all_accounts.default = "(#{I18n.t('label.unknown')})"
     income_ids = Array.new
     outgo_ids = Array.new
     account_ids = Array.new
-    account_bgcolors = Hash.new
 
     tmp_accounts = Array.new
 
@@ -71,8 +68,6 @@ class User < ActiveRecord::Base
         bank_accounts.push [a.name, a.id.to_s]
         account_ids.push a.id
       end
-      all_accounts[a.id] = a.name
-      account_bgcolors[a.id] = a.bgcolor if a.bgcolor
     end
 
     to += tmp_accounts
@@ -80,14 +75,43 @@ class User < ActiveRecord::Base
     { :from_accounts => from,
       :to_accounts => to,
       :bank_accounts => bank_accounts,
-      :all_accounts => all_accounts,
       :income_ids => income_ids,
       :outgo_ids => outgo_ids,
-      :account_ids => account_ids,
-      :account_bgcolors => account_bgcolors }
+      :account_ids => account_ids }
   end
 
   memoize :categorized_accounts
+
+  def all_accounts
+    results = {}
+    results.default = "(#{I18n.t('label.unknown')})"
+    accounts.each do |a|
+      results[a.id] = a.name
+    end
+    results
+  end
+  memoize :all_accounts
+
+  def account_bgcolors
+    results = {}
+    accounts.where("bgcolor IS NOT NULL").each do |a|
+      results[a.id] = a.bgcolor
+    end
+    results
+  end
+  memoize :account_bgcolors
+
+  def outgo_ids
+    categorized_accounts[:outgo_ids]
+  end
+
+  def income_ids
+    categorized_accounts[:income_ids]
+  end
+
+  def account_ids
+    categorized_accounts[:account_ids]
+  end
 
   def deliver_signup_confirmation
     Mailer.signup_confirmation(self).deliver

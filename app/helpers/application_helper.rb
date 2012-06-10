@@ -6,8 +6,8 @@ module ApplicationHelper
   # 口座名に背景色を付与する
   #
   def colored_account_name(account_id)
-    color = @separated_accounts[:account_bgcolors][account_id]
-    name = @separated_accounts[:all_accounts][account_id]
+    color = @user.account_bgcolors[account_id]
+    name = @user.all_accounts[account_id]
     color ? "<span style='background-color: ##{h(color)}; padding-right:2px;padding-left:2px;'>#{h(name)}</span>".html_safe : h(name)
   end
 

@@ -4,7 +4,7 @@
     %tr
       %th{:colspan => "5"}
         - selector = "#account_history_#{ @account_id }"
-        = @separated_accounts[:all_accounts][@account_id]
+        = @user.all_accounts[@account_id]
         #{t('label.of_history')} (#{link_to_function t('link.hide'), fadeout_and_remove(selector)})
     %tr
       %th{:colspan => "4"}= "#{t('.brought_forward_from_last_month', month: l(displaying_month - 1, format: :year_month))}"
@@ -18,10 +18,10 @@
     - @items.each do |it|
     - if it.from_account_id == @account_id
       - amount = it.amount * (-1)
-      - related_account = @separated_accounts[:all_accounts][it.to_account_id]
+      - related_account = @user.all_accounts[it.to_account_id]
     - else
       - amount = it.amount
-      - related_account = @separated_accounts[:all_accounts][it.from_account_id]
+      - related_account = @user.all_accounts[it.from_account_id]
     - @remain_amount += amount
       %tr
         %td= l(it.action_date)

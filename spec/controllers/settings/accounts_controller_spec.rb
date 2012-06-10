@@ -99,12 +99,12 @@ describe Settings::AccountsController do
       before do
         login
       end
-      
+
      context "via xhr," do
-        context "with valid params," do 
+        context "with valid params," do
           before do
             @before_count = Account.count
-            @before_bgcolors_count = User.find(session[:user_id]).categorized_accounts[:account_bgcolors].size
+            @before_bgcolors_count = User.find(session[:user_id]).account_bgcolors.size
             xhr :post, :create, :account_type => 'account', :account_name => 'hogehoge', :order_no => '10'
           end
 
@@ -119,7 +119,7 @@ describe Settings::AccountsController do
           end
 
           describe "count of bgcolors" do
-            subject { User.find(session[:user_id]).categorized_accounts[:account_bgcolors].size }
+            subject { User.find(session[:user_id]).account_bgcolors.size }
             it { should be == @before_bgcolors_count }
           end
         end
@@ -127,7 +127,7 @@ describe Settings::AccountsController do
         context "with invalid params," do 
           before do
             @before_count = Account.count
-            @before_bgcolors_count = User.find(session[:user_id]).categorized_accounts[:account_bgcolors].size
+            @before_bgcolors_count = User.find(session[:user_id]).account_bgcolors.size
             xhr :post, :create, :account_type => 'acc', :account_name => 'hogehoge', :order_no => '10'
           end
           
@@ -142,7 +142,7 @@ describe Settings::AccountsController do
           end
 
           describe "count of bgcolors" do
-            subject { User.find(session[:user_id]).categorized_accounts[:account_bgcolors].size }
+            subject { User.find(session[:user_id]).account_bgcolors.size }
             it { should be == @before_bgcolors_count }
           end
         end
@@ -311,13 +311,9 @@ describe Settings::AccountsController do
             it { should redirect_by_js_to settings_accounts_url(:account_type => accounts(:bank1).account_type) } 
           end
 
-          describe "@user.categorized_accounts" do
-            before do
-              @separated_accounts = assigns(:user).categorized_accounts
-            end
-            
-            describe "separated_accounts[:all_accounts][id]" do
-              subject { @separated_accounts[:all_accounts][accounts(:bank1).id] }
+          describe "@user.all_accounts" do
+            describe "@user.all_accounts[id]" do
+              subject { assigns(:user).all_accounts[accounts(:bank1).id] }
               it { should be == 'hogehoge'}
             end
 
@@ -329,20 +325,20 @@ describe Settings::AccountsController do
             its(:order_no) { should be 100 }
           end
         end
-        
+
         context "with valid params," do
-          context "with bgcolor," do 
-            before do 
+          context "with bgcolor," do
+            before do
               xhr :put, :update, :id => accounts(:bank1).id, :account_name => 'hogehoge', :order_no => '100', :bgcolor => "cccccc", :use_bgcolor => '1'
             end
 
             it_should_behave_like "Updated Successfully"
-            
-            describe "assigns(:user).categorized[:account_bgcolors][id]" do
-              subject { assigns(:user).categorized_accounts[:account_bgcolors][accounts(:bank1).id] }
+
+            describe "assigns(:user).account_bgcolors[id]" do
+              subject { assigns(:user).account_bgcolors[accounts(:bank1).id] }
               it { should be == 'cccccc'}
             end
-            
+
             describe "updated account record" do
               subject { Account.find(accounts(:bank1).id) }
               its(:bgcolor) { should be == 'cccccc' }
@@ -350,24 +346,24 @@ describe Settings::AccountsController do
           end
 
           context "without use_bgcolor," do
-            before do 
+            before do
               xhr :put, :update, :id => accounts(:bank1).id, :account_name => 'hogehoge', :order_no => '100',  :bgcolor => "cccccc"
             end
 
             it_should_behave_like "Updated Successfully"
 
-            describe "assigns(:user).categorized_accounts[:account_bgcolors][id]" do
-              subject { assigns(:user).categorized_accounts[:account_bgcolors][accounts(:bank1).id] }
+            describe "assigns(:user).account_bgcolors[id]" do
+              subject { assigns(:user).account_bgcolors[accounts(:bank1).id] }
               it { should be_nil }
             end
-            
+
             describe "updated account record" do
               subject { Account.find(accounts(:bank1).id) }
               its(:bgcolor) { should be_nil }
             end
           end
         end
-        
+
         context "with invalid params(name is empty)," do
           before do
             @orig_account = Account.find(accounts(:bank1).id)
@@ -390,7 +386,7 @@ describe Settings::AccountsController do
       end
     end
   end
-  
+
   describe "#show" do
     context "before login," do
       before do
@@ -404,7 +400,7 @@ describe Settings::AccountsController do
       before do
         login
       end
-      
+
       context "when accessed by xhr get," do
         context "with valid params," do 
           before do

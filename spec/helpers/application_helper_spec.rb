@@ -3,13 +3,17 @@ require 'spec_helper'
 describe ApplicationHelper do
   describe "colored_account_name" do
     before do
-      assign(:separated_accounts, { :account_bgcolors => { 1 => "123456" }, :all_accounts => { 1 => "<SAMPLE", 2 => "NOT COLORED>" } })
+      mock_user = mock_model(User)
+      mock_user.should_receive(:all_accounts).at_least(:once).and_return({ 1 => "<SAMPLE", 2 => "NOT COLORED>" })
+      mock_user.should_receive(:account_bgcolors).at_least(:once).and_return({ 1 => "123456" })
+      assign(:user, mock_user)
     end
-    describe "colored" do 
+
+    describe "colored" do
       subject { helper.colored_account_name(1) }
       it { should be == "<span style='background-color: #123456; padding-right:2px;padding-left:2px;'>&lt;SAMPLE</span>".html_safe }
     end
-    describe "not colored" do 
+    describe "not colored" do
       subject { helper.colored_account_name(2) }
       it { should be == "NOT COLORED&gt;".html_safe }
     end

@@ -4,7 +4,7 @@
     %tr
       %th{:colspan => "5"}
         - selector = "#pl_history_#{@account_id}"
-        = @separated_accounts[:all_accounts][@account_id]
+        = @user.all_accounts[@account_id]
         #{t('label.of_history')} (#{link_to_function t('link.hide'), fadeout_and_remove(selector)})
     %tr
       %th=t('label.date')
@@ -15,7 +15,7 @@
     - total = 0
     - @items.each do |it|
     - amount = it.amount
-    - related_account = @separated_accounts[:all_accounts][it.from_account_id]
+    - related_account = @user.all_accounts[it.from_account_id]
     - total += amount
       %tr
         %td= l(it.action_date)
