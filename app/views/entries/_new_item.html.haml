@@ -20,9 +20,9 @@
   .row-fluid.input-row
     #candidates
   .row-fluid.input-row
-    = select_tag 'from', options_for_select(@separated_accounts[:from_accounts], it.from_account_id.to_s), class: "input-medium"
+    = select_tag 'from', options_for_select(@user.from_accounts, it.from_account_id.to_s), class: "input-medium"
     \=&gt;
-    = select_tag 'to', options_for_select(@separated_accounts[:to_accounts], it.to_account_id.to_s), class: "input-medium"
+    = select_tag 'to', options_for_select(@user.to_accounts, it.to_account_id.to_s), class: "input-medium"
     %span.input-append
       = text_field_tag 'amount', ((it.amount.nil? || it.amount == 0) ? nil : number_to_currency(it.amount, format: "%n")), class: "amount input-small", placeholder: t('placeholder.amount')
       %span.add-on>= t('number.currency.format.unit')

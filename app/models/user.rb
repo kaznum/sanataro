@@ -43,44 +43,22 @@ class User < ActiveRecord::Base
     CommonUtil.correct_password?(login + pass, password)
   end
 
-  def categorized_accounts
-    accounts = self.accounts.active.order("account_type, order_no")
-    from  = Array.new
-    to  = Array.new
-    bank_accounts = Array.new
-    income_ids = Array.new
-    outgo_ids = Array.new
-    account_ids = Array.new
-
-    tmp_accounts = Array.new
-
-    accounts.each do |a|
-      case a.account_type
-      when 'outgo'
-        to.push [a.name, a.id.to_s]
-        outgo_ids.push a.id
-      when 'income'
-        from.push [a.name, a.id.to_s]
-        income_ids.push a.id
-      when 'account'
-        tmp_accounts.push [a.name, a.id.to_s]
-        from.push [a.name, a.id.to_s]
-        bank_accounts.push [a.name, a.id.to_s]
-        account_ids.push a.id
-      end
-    end
-
-    to += tmp_accounts
-
-    { :from_accounts => from,
-      :to_accounts => to,
-      :bank_accounts => bank_accounts,
-      :income_ids => income_ids,
-      :outgo_ids => outgo_ids,
-      :account_ids => account_ids }
+  def from_accounts
+    accounts.income.active.map{|a| [a.name, a.id.to_s]} +
+      accounts.account.active.map{ |a| [a.name, a.id.to_s]}
   end
+  memoize :from_accounts
 
-  memoize :categorized_accounts
+  def to_accounts
+    accounts.outgo.active.map{|a| [a.name, a.id.to_s]} +
+      accounts.account.active.map{ |a| [a.name, a.id.to_s]}
+  end
+  memoize :to_accounts
+
+  def bank_accounts
+    accounts.account.active.map{ |a| [a.name, a.id.to_s]}
+  end
+  memoize :bank_accounts
 
   def all_accounts
     results = {}
@@ -101,16 +79,12 @@ class User < ActiveRecord::Base
   end
   memoize :account_bgcolors
 
-  def outgo_ids
-    categorized_accounts[:outgo_ids]
-  end
-
-  def income_ids
-    categorized_accounts[:income_ids]
-  end
-
-  def account_ids
-    categorized_accounts[:account_ids]
+  %w(outgo income account).each do |name|
+    method = "#{name}_ids"
+    define_method(method.to_sym) do
+      accounts.send(method.to_sym)
+    end
+    memoize method.to_sym
   end
 
   def deliver_signup_confirmation

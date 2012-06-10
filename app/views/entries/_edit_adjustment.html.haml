@@ -17,7 +17,7 @@
     .row-fluid.input-row
       = l(item.action_date)
     .row-fluid.input-row
-      = select_tag 'to', options_for_select(@separated_accounts[:to_accounts], item.to_account_id.to_s), class: "input-medium"
+      = select_tag 'to', options_for_select(@user.bank_accounts, item.to_account_id.to_s), class: "input-medium"
       %span.input-append
         = text_field_tag 'adjustment_amount', item.adjustment_amount, :size=>10, :style=>"text-align: right;", :class => "input-small"
         %span.add-on>= t('number.currency.format.unit')

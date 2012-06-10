@@ -20,10 +20,6 @@ class ApplicationController < ActionController::Base
     { :locale => I18n.locale }
   end
 
-  def set_categorized_accounts
-    @separated_accounts = @user.categorized_accounts if @user
-  end
-
   private
 
   def redirect_js_to(path)

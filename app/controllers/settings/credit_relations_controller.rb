@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 class Settings::CreditRelationsController < ApplicationController
   before_filter :required_login
-  before_filter :set_categorized_accounts, :only => [:update, :show, :index, :edit, :destroy, :create]
 
   def index
     @credit_relations = @user.credit_relations.all

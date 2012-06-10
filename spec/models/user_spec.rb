@@ -238,44 +238,28 @@ describe User do
     end
   end
 
-  describe "#categorized_accounts" do
-    before do
-      @user1 = users(:user1)
-      @h_accounts = @user1.categorized_accounts
-    end
+  describe "#from_accounts" do
+    let (:user) { users(:user1) }
+    let (:actual) { user.accounts.where(account_type: ['account', 'income']) }
+    subject { user.from_accounts }
+    it { should have(actual.size).records }
+    its(:sort) { should == actual.map{|a| [a.name, a.id.to_s]}.sort }
+  end
 
-    subject { @h_accounts }
-    its(:size) { should > 0 }
+  describe "#to_accounts" do
+    let (:user) { users(:user1) }
+    let (:actual) { user.accounts.where(account_type: ['account', 'outgo']) }
+    subject { user.to_accounts }
+    it { should have(actual.size).records }
+    its(:sort) { should == actual.map{|a| [a.name, a.id.to_s]}.sort }
+  end
 
-    specify {
-      actual = @user1.accounts.where(:account_type => ['account', 'income']).size
-      subject[:from_accounts].should have(actual).records
-    }
-
-    specify {
-      actual = @user1.accounts.where(:account_type => ['account', 'outgo']).size
-      subject[:to_accounts].should have(actual).records
-    }
-
-    specify {
-      actual = @user1.accounts.where(:account_type => 'account').size
-      subject[:bank_accounts].should have(actual).records
-    }
-
-    specify {
-      actual = @user1.accounts.where(:account_type => 'income').size
-      subject[:income_ids].should have(actual).records
-    }
-
-    specify {
-      actual = @user1.accounts.where(:account_type => 'outgo').size
-      subject[:outgo_ids].should have(actual).records
-    }
-
-    specify {
-      actual = @user1.accounts.where(:account_type => 'account').size
-      subject[:account_ids].should have(actual).records
-    }
+  describe "#bank_accounts" do
+    let (:user) { users(:user1) }
+    let (:actual) { user.accounts.where(account_type: 'account') }
+    subject { user.bank_accounts }
+    it { should have(actual.size).records }
+    its(:sort) { should == actual.map{|a| [a.name, a.id.to_s]}.sort }
   end
 
   describe "#all_accounts" do
@@ -291,7 +275,7 @@ describe User do
   end
 
   shared_examples_for "a method for ids of accounts" do |name|
-    describe "size" do
+    describe "accounts" do
       let (:user) { users(:user1) }
       subject { user.send("#{name}_ids".to_sym) }
       its(:size) { should == user.accounts.where(account_type: name).size }

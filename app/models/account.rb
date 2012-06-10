@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 class Account < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
+  extend Memoist
 
   attr_protected :user_id
 
@@ -24,6 +25,8 @@ class Account < ActiveRecord::Base
   scope :income, where(account_type: 'income')
   scope :outgo, where(account_type: 'outgo')
 
+  default_scope order("order_no")
+
   def trim_bgcolor_if_needed
     if bgcolor =~ /^#/
       self.bgcolor = bgcolor.gsub("#","")
@@ -41,6 +44,22 @@ class Account < ActiveRecord::Base
   end
 
   class << self
+    %w(income outgo account).each do |name|
+      define_method("#{name}_ids".to_sym) do
+        send(name.to_sym).map(&:id)
+      end
+    end
+
+    # def income_ids
+    #   self.income.map&(:id)
+    # end
+    # def outgo_ids
+    #   self.outog.map&(:id)
+    # end
+    # def account_ids
+    #   self.account.map&(:id)
+    # end
+
     #
     # 特定の日付までの残高を取得する
     # my_id でitemのIDを指定すると、そのItemが除外される。また、

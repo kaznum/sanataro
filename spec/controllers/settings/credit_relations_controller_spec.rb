@@ -327,8 +327,6 @@ describe Settings::CreditRelationsController do
     context "after login," do
       before do
         @mock_user = mock_model(User, :id => users(:user1).id)
-        @mock_separated_accounts = [double, double, double]
-        @mock_user.should_receive(:categorized_accounts).and_return(@mock_separated_accounts)
         User.should_receive(:find).with(@mock_user.id).at_least(1).and_return(@mock_user)
         login
       end
@@ -338,21 +336,16 @@ describe Settings::CreditRelationsController do
           @mock_crs = double
           @mock_user.should_receive(:credit_relations).at_least(1).and_return(@mock_crs)
         end
-        
+
         shared_examples_for "Got basic instance variables successfully" do
           describe "@user" do
             subject { assigns(:user) }
             it { should be @mock_user }
           end
-          
-          describe "@separated_accounts" do
-            subject { assigns(:separated_accounts)}
-            it { should == @mock_separated_accounts }
-          end
         end
 
         context "and invalid id in params," do
-          before do 
+          before do
             @mock_crs.should_receive(:find).with("1").and_raise(ActiveRecord::RecordNotFound.new)
             @mock_crs_all = [double, double]
             @mock_crs.should_receive(:all).and_return(@mock_crs_all)

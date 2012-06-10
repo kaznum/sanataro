@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 class EntryCandidatesController < ApplicationController
   before_filter :required_login
-  before_filter :set_categorized_accounts, :only => [:index]
 
-  #
-  # 入力候補の一覧を取得
-  #
   def index
     partial_name = params[:item_name]
 

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 class EntriesController < ApplicationController
   before_filter :required_login
-  before_filter :set_categorized_accounts, :only => [:index, :create, :update, :destroy, :new, :edit, :show]
   before_filter :_redirect_to_login_by_js_if_id_is_blank, :only => [:update]
 
   def index
@@ -245,7 +244,7 @@ class EntriesController < ApplicationController
   def from_or_to_accounts(from_or_to = :from_accounts)
     # FIXME
     # html escape should be done in Views.
-    @user.categorized_accounts[from_or_to].map {|a| { :value => a[1], :text => ERB::Util.html_escape(a[0]) } }
+    @user.send(from_or_to).map {|a| { :value => a[1], :text => ERB::Util.html_escape(a[0]) } }
   end
 
   def _index_for_remaining(month, tag=nil, mark=nil)

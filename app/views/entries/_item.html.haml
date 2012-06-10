@@ -4,9 +4,9 @@
 - elsif event_item.parent_id
   - row_class = "item_move"
 - else
-  - if (@separated_accounts[:income_ids]).include?(event_item.from_account_id)
+  - if @user.income_ids.include?(event_item.from_account_id)
     - row_class = "item_income"
-  - elsif @separated_accounts[:account_ids].include?(event_item.from_account_id) && @separated_accounts[:account_ids].include?(event_item.to_account_id)
+  - elsif @user.account_ids.include?(event_item.from_account_id) && @user.account_ids.include?(event_item.to_account_id)
     - row_class = "item_move"
 
 .item{:id => "item_#{event_item.id}", :class => "row-fluid #{row_class}"}

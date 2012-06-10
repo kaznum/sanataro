@@ -207,16 +207,11 @@ describe EntriesController do
       end
 
       context "with params[:remaining] = true," do
-        shared_examples_for "executed correctly" do 
-          describe "response" do 
+        shared_examples_for "executed correctly" do
+          describe "response" do
             subject { response }
             it { should be_success }
             it { should render_template "index" }
-          end
-
-          describe "@separated_accounts" do
-            subject { assigns(:separated_accounts) }
-            it { should_not be_nil }
           end
         end
 
@@ -485,7 +480,8 @@ describe EntriesController do
         before do
           mock_user
           User.should_receive(:find).with(mock_user.id).and_return(mock_user)
-          mock_user.should_receive(:categorized_accounts).at_least(:once).and_return(:from_accounts => [['a', 'b'],['c','d']], :to_accounts => [['e','f'],['g','h']])
+          mock_user.should_receive(:from_accounts).at_least(:once).and_return([['a', 'b'],['c','d']])
+          mock_user.should_receive(:to_accounts).at_least(:once).and_return([['e','f'],['g','h']])
 
           @controller.should_receive(:form_authenticity_token).and_return("1234567")
           xhr :get, :new, :entry_type => 'simple'

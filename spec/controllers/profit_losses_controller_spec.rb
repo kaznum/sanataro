@@ -139,7 +139,6 @@ describe ProfitLossesController do
             its([:items]) {should_not be_nil}
             its([:account_id]) {should_not be_nil}
             its([:account_id]) { should be accounts(:outgo3).id }
-            its([:separated_accounts]) { should_not be_nil }
 
             describe "items" do
               subject { assigns[:items] }
@@ -168,7 +167,6 @@ describe ProfitLossesController do
             its([:items]) { should_not be_nil }
             its([:account_id]) { should_not be_nil }
             its([:account_id]) { should be accounts(:outgo3).id }
-            its([:separated_accounts]) { should_not be_nil }
 
             describe "items" do
               subject { assigns(:items)}

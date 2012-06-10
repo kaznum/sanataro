@@ -21,7 +21,6 @@ describe "/entries/create_item" do
     @item2.save!
     @items = [@item1, @item2]
     @updated_item_ids = [10, 20, 30]
-    @separated_accounts = {:income_ids => [10, 30, 40], :account_ids => [20]}
     render template: "entries/create_item", locals: { items: @items, item: @item1, updated_item_ids: @updated_item_ids, :displaying_month => 10 }
   end
   subject { rendered }

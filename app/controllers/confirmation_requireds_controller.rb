@@ -1,6 +1,5 @@
 class ConfirmationRequiredsController < ApplicationController
   before_filter :required_login
-  before_filter :set_categorized_accounts
   before_filter :_redirect_to_current_entries_if_params_are_invalid!
 
   def update

@@ -10,10 +10,10 @@
       = form_tag settings_credit_relations_path, {:remote => true, :method => :post, :id => 'add_form', :class => "well"} do
         .row-fluid
           .span2= t('settings.credit_relations.credit_card')
-          .span10= select_tag 'credit_account_id', options_for_select(@separated_accounts[:bank_accounts]), :class => "input-medium"
+          .span10= select_tag 'credit_account_id', options_for_select(@user.bank_accounts), :class => "input-medium"
         .row-fluid
           .span2= t('settings.credit_relations.account_to_draw')
-          .span10= select_tag 'payment_account_id', options_for_select(@separated_accounts[:bank_accounts]), :class => "input-medium"
+          .span10= select_tag 'payment_account_id', options_for_select(@user.bank_accounts), :class => "input-medium"
         .row-fluid
           .span2= t('settings.credit_relations.closing_date')
           .span10

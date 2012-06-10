@@ -5,7 +5,6 @@ module MonthlyReports
 
       before_filter :required_login
       before_filter :redirect_if_id_is_blank!, only: :show
-      before_filter :set_categorized_accounts, only: :show
     end
   end
 
