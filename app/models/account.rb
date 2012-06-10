@@ -50,17 +50,6 @@ class Account < ActiveRecord::Base
       end
     end
 
-    # def income_ids
-    #   self.income.map&(:id)
-    # end
-    # def outgo_ids
-    #   self.outog.map&(:id)
-    # end
-    # def account_ids
-    #   self.account.map&(:id)
-    # end
-
-    #
     # 特定の日付までの残高を取得する
     # my_id でitemのIDを指定すると、そのItemが除外される。また、
     # dateと、my_idに該当するitemのaction_dateが同一の場合、
