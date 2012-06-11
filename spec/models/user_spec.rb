@@ -279,7 +279,7 @@ describe User do
       let (:user) { users(:user1) }
       subject { user.send("#{name}_ids".to_sym) }
       its(:size) { should == user.accounts.where(account_type: name).active.size }
-      its(:sort) { should == user.accounts.where(account_type: name).active.map(&:id).sort }
+      its(:sort) { should == user.accounts.where(account_type: name).active.pluck(:id).sort }
     end
   end
 

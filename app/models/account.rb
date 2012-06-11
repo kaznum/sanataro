@@ -46,7 +46,7 @@ class Account < ActiveRecord::Base
   class << self
     %w(income outgo account).each do |name|
       define_method("#{name}_ids".to_sym) do
-        send(name.to_sym).map(&:id)
+        send(name.to_sym).pluck(:id)
       end
     end
 
