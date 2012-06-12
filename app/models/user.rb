@@ -44,8 +44,8 @@ class User < ActiveRecord::Base
   end
 
   def from_accounts
-    accounts.income.active.map{|a| [a.name, a.id.to_s]} +
-      accounts.account.active.map{ |a| [a.name, a.id.to_s]}
+    accounts.account.active.map{ |a| [a.name, a.id.to_s]} +
+      accounts.income.active.map{|a| [a.name, a.id.to_s]}
   end
   memoize :from_accounts
 

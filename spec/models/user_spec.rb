@@ -240,18 +240,36 @@ describe User do
 
   describe "#from_accounts" do
     let (:user) { users(:user1) }
-    let (:actual) { user.accounts.where(account_type: ['account', 'income']) }
-    subject { user.from_accounts }
-    it { should have(actual.size).records }
-    its(:sort) { should == actual.map{|a| [a.name, a.id.to_s]}.sort }
+
+    describe "size" do
+      let (:actual) { user.accounts.where(account_type: ['account', 'income']) }
+      subject { user.from_accounts }
+      it { should have(actual.size).records }
+    end
+
+    describe "entities" do
+      subject { user.from_accounts }
+      it { should ==
+        user.accounts.where(account_type: 'account').order(:order_no).map{|a| [a.name, a.id.to_s]} +
+        user.accounts.where(account_type: 'income').order(:order_no).map{|a| [a.name, a.id.to_s]}}
+    end
+
   end
 
   describe "#to_accounts" do
     let (:user) { users(:user1) }
-    let (:actual) { user.accounts.where(account_type: ['account', 'outgo']) }
-    subject { user.to_accounts }
-    it { should have(actual.size).records }
-    its(:sort) { should == actual.map{|a| [a.name, a.id.to_s]}.sort }
+    describe "size" do
+      let (:actual) { user.accounts.where(account_type: ['account', 'outgo']) }
+      subject { user.to_accounts }
+      it { should have(actual.size).records }
+    end
+
+    describe "entities" do
+      subject { user.to_accounts }
+      it { should ==
+        user.accounts.where(account_type: 'outgo').order(:order_no).map{|a| [a.name, a.id.to_s]} +
+        user.accounts.where(account_type: 'account').order(:order_no).map{|a| [a.name, a.id.to_s]}}
+    end
   end
 
   describe "#bank_accounts" do
@@ -270,8 +288,8 @@ describe User do
 
   describe "#account_bgcolors" do
     let (:user) { users(:user1) }
-    subject { user.all_accounts }
-    it { should have(user.accounts.size).records }
+    subject { user.account_bgcolors }
+    it { should have(user.accounts.where("bgcolor IS NOT NULL").size).records }
   end
 
   shared_examples_for "a method for ids of accounts" do |name|
