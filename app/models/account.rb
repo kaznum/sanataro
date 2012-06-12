@@ -35,12 +35,12 @@ class Account < ActiveRecord::Base
 
   def credit_due_date(action_date)
     cr = payment_relation
-    unless cr.nil?
-      earliest_month = action_date.beginning_of_month.months_since(cr.payment_month)
-      due_month = action_date.day <= cr.settlement_day ? earliest_month : earliest_month.months_since(1)
+    if cr
+      earliest_month = cr.payment_month.months.since(action_date)
+      due_month = action_date.day <= cr.settlement_day ? earliest_month : 1.month.since(earliest_month)
       due_date = cr.payment_day == 99 ? due_month.end_of_month : Date.new(due_month.year, due_month.month, cr.payment_day)
     end
-    return due_date
+    due_date
   end
 
   class << self
