@@ -149,7 +149,7 @@ class Item < ActiveRecord::Base
     def update_future_balance(user, action_date, account_id, item_id)
       return if account_id == -1
 
-      item_adj = future_adjustment(user, action_date, account_id, item_id)
+      item_adj = user.items.future_adjustment(action_date, account_id, item_id)
 
       if item_adj
         amount_to_adj = Account.asset(user, account_id, item_adj.action_date, item_adj.id)
@@ -168,10 +168,10 @@ class Item < ActiveRecord::Base
       item_adj
     end
 
-    def future_adjustment(user, action_date, account_id, item_id)
-      user.items.where(to_account_id: account_id,
-                       adjustment: true).where("(action_date > ? AND id <> ?) OR (action_date = ? AND id > ?)",
-                                               action_date, item_id, action_date, item_id).order("action_date, id").first
+    def future_adjustment(action_date, account_id, item_id)
+      where(to_account_id: account_id, adjustment: true).
+        where("(action_date > ? AND id <> ?) OR (action_date = ? AND id > ?)",
+              action_date, item_id, action_date, item_id).order("action_date, id").first
     end
 
     #

@@ -65,7 +65,7 @@ class Teller
     end
 
     def future_adjustments(user, action_date, account_ids, item_id)
-      account_ids.map { |a_id| Item.future_adjustment(user, action_date, a_id, item_id) }
+      account_ids.map { |a_id| user.items.future_adjustment(action_date, a_id, item_id) }
     end
 
     def update_regular_entry!(item, args)
