@@ -85,7 +85,7 @@ class Account < ActiveRecord::Base
     item = Item.where(items_table[:from_account_id].eq(id).or(items_table[:to_account_id].eq(id))).first
     if item
       errors[:base] << I18n.t('error.already_used_account') +
-                 "#{I18n.l(item.action_date)} #{item.name} #{number_to_currency(item.amount)}"
+        "#{I18n.l(item.action_date)} #{item.name} #{number_to_currency(item.amount)}"
     end
     errors.empty?
   end
