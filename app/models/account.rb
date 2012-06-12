@@ -65,9 +65,9 @@ class Account < ActiveRecord::Base
       if my_item.nil?
         asset += self.asset_beginning_of_month_to_date(user, account_id, date)
       elsif my_item.action_date == date
-        asset += self.asset_to_item_of_this_month_except_self(user, account_id, my_id, date)
+        asset += self.asset_to_item_of_this_month_except(user, account_id, date, my_id)
       else
-        asset += self.asset_to_date_of_this_month_except_self(user, account_id, my_id, date)
+        asset += self.asset_to_date_of_this_month_except(user, account_id, date, my_id)
       end
 
       asset
@@ -115,7 +115,7 @@ class Account < ActiveRecord::Base
       end
     end
 
-    def asset_to_date_of_this_month_except_self(user, account_id, item_id, date)
+    def asset_to_date_of_this_month_except(user, account_id, date, item_id)
       user.items.action_date_between(date.beginning_of_month, date).where("id <> ?", item_id).scoping do
         outgo = Item.where(from_account_id: account_id).sum(:amount)
         income = Item.where(to_account_id: account_id).sum(:amount)
@@ -123,7 +123,7 @@ class Account < ActiveRecord::Base
       end
     end
 
-    def asset_to_item_of_this_month_except_self(user, account_id, item_id, date)
+    def asset_to_item_of_this_month_except(user, account_id, date, item_id)
       user.items.where("(action_date >= ? and action_date < ? and id <> ?) or (action_date = ? and id < ?)", date.beginning_of_month, date, item_id,  date, item_id).scoping do
         outgo = Item.where(from_account_id: account_id).sum(:amount)
         income = Item.where(to_account_id: account_id).sum(:amount)
