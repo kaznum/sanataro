@@ -27,22 +27,6 @@ class Item < ActiveRecord::Base
   before_validation :set_action_date
   before_validation :fill_amount_for_adjustment_if_needed
 
-  def fill_amount_for_adjustment_if_needed
-    if adjustment? && !amount_changed? && action_date && to_account_id && user && adjustment_amount
-      asset = user.accounts.asset(user, to_account_id, action_date, id)
-      self.amount = adjustment_amount - asset
-    end
-  end
-
-  def account_id_should_be_owned_by_user
-    if from_account_id != -1 && !user.accounts.exists?(id: from_account_id)
-      errors.add(:from_account_id, I18n.t("errors.messages.invalid"))
-    end
-    if !user.accounts.exists?(id: to_account_id)
-      errors.add(:to_account_id, I18n.t("errors.messages.invalid"))
-    end
-  end
-
   scope :of_account_id, lambda { |account_id|  where(arel_table[:from_account_id].eq(account_id).or(arel_table[:to_account_id].eq(account_id)) )}
   scope :action_date_between, lambda { |from, to| where(action_date: from..to) }
   scope :confirmation_required, where(confirmation_required: true)
@@ -237,6 +221,24 @@ class Item < ActiveRecord::Base
       items = user.items.action_date_between(from_date, to_date).of_account_id(account_id).order("action_date")
       remain_amount = user.monthly_profit_losses.where("month < ?", from_date).where(account_id: account_id).sum('amount')
       [remain_amount, items]
+    end
+  end
+
+  private
+
+  def fill_amount_for_adjustment_if_needed
+    if adjustment? && !amount_changed? && action_date && to_account_id && user && adjustment_amount
+      asset = user.accounts.asset(user, to_account_id, action_date, id)
+      self.amount = adjustment_amount - asset
+    end
+  end
+
+  def account_id_should_be_owned_by_user
+    if from_account_id != -1 && !user.accounts.exists?(id: from_account_id)
+      errors.add(:from_account_id, I18n.t("errors.messages.invalid"))
+    end
+    if !user.accounts.exists?(id: to_account_id)
+      errors.add(:to_account_id, I18n.t("errors.messages.invalid"))
     end
   end
 end

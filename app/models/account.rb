@@ -60,7 +60,7 @@ class Account < ActiveRecord::Base
 
       # amountの算出
       # 前月までのassetを算出
-      asset = self.asset_to_last_month_except_self(user, account_id, my_item, date)
+      asset = self.asset_to_last_month(user, account_id, date, except: my_item)
       # 今月のassetの変化を算出
       if my_item.nil?
         asset += self.asset_beginning_of_month_to_date(user, account_id, date)
@@ -70,7 +70,7 @@ class Account < ActiveRecord::Base
         asset += self.asset_to_date_of_this_month_except_self(user, account_id, my_id, date)
       end
 
-      return asset
+      asset
     end
 
     def asset_of_month(user, account_ids, month)
@@ -100,41 +100,43 @@ class Account < ActiveRecord::Base
   end
 
   class << self
-    def asset_to_last_month_except_self(user, account_id, item, date)
-      #
-      # 今月以前はplから抽出してしまうため、SQLではmy_item.amountを除外できない
-      #
+    def asset_to_last_month(user, account_id, date, options = {})
+      # 今月以前はplから抽出してしまうため、SQLではoption[:except]で指定されたitemの.amountを
+      # 除外できない
       asset_of_month(user, account_id, date.beginning_of_month.months_ago(1)) +
-        correlate_for_self(account_id, item, date.beginning_of_month)
+        correlate_for_item(account_id, options[:except], date.beginning_of_month)
     end
 
-    def correlate_for_self(account_id, item, this_month)
-      retval = 0
+    def correlate_for_item(account_id, item, this_month)
       if item && item.action_date < this_month
-        retval = item.from_account_id == account_id ? item.amount : (-1 * item.amount)
+        item.from_account_id == account_id ? item.amount : (-1 * item.amount)
+      else
+        0
       end
-      retval
     end
 
     def asset_to_date_of_this_month_except_self(user, account_id, item_id, date)
-      items_scope = user.items.action_date_between(date.beginning_of_month, date).where("id <> ?", item_id)
-      outgo = items_scope.where(from_account_id: account_id).sum(:amount)
-      income = items_scope.where(to_account_id: account_id).sum(:amount)
-      income - outgo
+      user.items.action_date_between(date.beginning_of_month, date).where("id <> ?", item_id).scoping do
+        outgo = Item.where(from_account_id: account_id).sum(:amount)
+        income = Item.where(to_account_id: account_id).sum(:amount)
+        income - outgo
+      end
     end
 
     def asset_to_item_of_this_month_except_self(user, account_id, item_id, date)
-      items_scope = user.items.where("(action_date >= ? and action_date < ? and id <> ?) or (action_date = ? and id < ?)", date.beginning_of_month, date, item_id,  date, item_id)
-      outgo = items_scope.where(from_account_id: account_id).sum(:amount)
-      income = items_scope.where(to_account_id: account_id).sum(:amount)
-      income - outgo
+      user.items.where("(action_date >= ? and action_date < ? and id <> ?) or (action_date = ? and id < ?)", date.beginning_of_month, date, item_id,  date, item_id).scoping do
+        outgo = Item.where(from_account_id: account_id).sum(:amount)
+        income = Item.where(to_account_id: account_id).sum(:amount)
+        income - outgo
+      end
     end
 
     def asset_beginning_of_month_to_date(user, account_id, date)
-      items_scope = user.items.action_date_between(date.beginning_of_month, date)
-      outgo = items_scope.where(from_account_id: account_id).sum(:amount)
-      income = items_scope.where(to_account_id: account_id).sum(:amount)
-      income - outgo
+      user.items.action_date_between(date.beginning_of_month, date).scoping do
+        outgo = Item.where(from_account_id: account_id).sum(:amount)
+        income = Item.where(to_account_id: account_id).sum(:amount)
+        income - outgo
+      end
     end
   end
 end
