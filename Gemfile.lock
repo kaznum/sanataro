@@ -39,7 +39,6 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     addressable (2.2.8)
-    archive-tar-minitar (0.5.2)
     arel (3.0.2)
     bouncy-castle-java (1.5.0146.1)
     builder (3.0.0)
@@ -83,6 +82,13 @@ GEM
       cucumber (>= 1.1.8)
       nokogiri (>= 1.5.0)
     database_cleaner (0.8.0)
+    debugger (1.1.4)
+      columnize (>= 0.3.1)
+      debugger-linecache (~> 1.1.1)
+      debugger-ruby_core_source (~> 1.1.3)
+    debugger-linecache (1.1.1)
+      debugger-ruby_core_source (>= 1.1.1)
+    debugger-ruby_core_source (1.1.3)
     diff-lcs (1.1.3)
     erubis (2.7.0)
     execjs (1.4.0)
@@ -138,8 +144,6 @@ GEM
     libv8 (3.3.10.4)
     libwebsocket (0.1.3)
       addressable
-    linecache19 (0.5.13)
-      ruby_core_source (>= 0.1.4)
     listen (0.4.4)
       rb-fchange (~> 0.0.5)
       rb-fsevent (~> 0.9.1)
@@ -209,16 +213,6 @@ GEM
       columnize (>= 0.1)
       ruby-debug-base (~> 0.10.4.0)
     ruby-debug-base (0.10.4-java)
-    ruby-debug-base19 (0.11.26)
-      columnize (>= 0.3.1)
-      linecache19 (>= 0.5.11)
-      ruby_core_source (>= 0.1.4)
-    ruby-debug19 (0.11.6)
-      columnize (>= 0.3.1)
-      linecache19 (>= 0.5.11)
-      ruby-debug-base19 (>= 0.11.19)
-    ruby_core_source (0.1.5)
-      archive-tar-minitar (>= 0.5.2)
     rubyzip (0.9.8)
     rvm-capistrano (1.2.2)
       capistrano (>= 2.0.0)
@@ -283,6 +277,7 @@ DEPENDENCIES
   coffee-rails
   cucumber-rails
   database_cleaner
+  debugger
   fabrication
   growl
   guard-cucumber
@@ -293,7 +288,6 @@ DEPENDENCIES
   jquery-rails
   jruby-openssl
   launchy
-  linecache19 (= 0.5.13)
   memoist
   mysql2
   pg
@@ -301,8 +295,6 @@ DEPENDENCIES
   rb-fsevent
   rspec-rails
   ruby-debug
-  ruby-debug-base19 (= 0.11.26)
-  ruby-debug19
   rvm-capistrano
   sass-rails
   settingslogic
