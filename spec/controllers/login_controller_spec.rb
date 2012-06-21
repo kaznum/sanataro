@@ -4,25 +4,6 @@ require 'spec_helper'
 describe LoginController do
   fixtures :users, :autologin_keys
 
-  describe "#index" do
-    context "belore login," do
-      before do
-        get :index
-      end
-      it_should_behave_like "Unauthenticated Access"
-    end
-
-    context "after login," do
-      before do
-        login
-        get :index
-      end
-
-      subject {response}
-      it {should redirect_to login_url }
-    end
-  end
-  
   describe "#login" do
     shared_examples_for "render login" do
       subject {response}

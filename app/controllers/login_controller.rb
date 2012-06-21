@@ -4,10 +4,6 @@ class LoginController < ApplicationController
   before_filter :_render_login_if_forced!, only: [:login]
   before_filter :_autologin_if_required!, only: [:login]
 
-  def index
-    redirect_to login_url
-  end
-
   def login
     if session[:user_id]
       redirect_to current_entries_url

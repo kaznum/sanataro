@@ -272,27 +272,27 @@ describe :routes do
   describe "api" do
 
     %w(assets budgets yearly_assets yearly_budgets).each do |controller|
-      describe "get #{controller}" do
+      describe "get api/#{controller}" do
         subject { get("/api/#{controller}") }
         it {should route_to("api/#{controller}#index") }
       end
-      describe "get #{controller}/10" do
+      describe "get api/#{controller}/10" do
         subject { get("/api/#{controller}/10") }
         it {should route_to("api/#{controller}#show", id: "10") }
       end
-      describe "get #{controller}/10/edit" do
+      describe "get api/#{controller}/10/edit" do
         subject { get("/api/#{controller}/10/edit") }
         it {should route_to("api/#{controller}#edit", id: "10") }
       end
-      describe "put #{controller}/10" do
+      describe "put api/#{controller}/10" do
         subject { put("/api/#{controller}/10") }
         it {should route_to("api/#{controller}#update", id: "10") }
       end
-      describe "delete #{controller}/10" do
+      describe "delete api/#{controller}/10" do
         subject { delete("/api/#{controller}/10") }
         it {should route_to("api/#{controller}#destroy", id: "10") }
       end
-      describe "post #{controller}" do
+      describe "post api/#{controller}" do
         subject { post("/api/#{controller}") }
         it {should route_to("api/#{controller}#create") }
       end
