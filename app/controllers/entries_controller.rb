@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 class EntriesController < ApplicationController
   before_filter :required_login
-  before_filter :_redirect_to_login_by_js_if_id_is_blank, :only => [:update]
 
   def index
     @tag = params[:tag]
@@ -134,15 +133,6 @@ class EntriesController < ApplicationController
   def _index_plain(month_to_display)
     @items = get_items(month: month_to_display)
     @new_item = Item.new { |item| item.action_date = _default_action_date(month_to_display) }
-  end
-
-
-  def _redirect_to_login_by_js_if_id_is_blank
-    if params[:id].blank?
-      redirect_js_to login_url
-      return false
-    end
-    true
   end
 
   # this method is called when a link in the field of adding regular item or adjustment.

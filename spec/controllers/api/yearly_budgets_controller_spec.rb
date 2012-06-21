@@ -18,13 +18,6 @@ describe Api::YearlyBudgetsController do
         login
       end
 
-      context "when id is not specified," do
-        before do
-          get :show, format: :json, budget_type: "outgo"
-        end
-        it_should_behave_like "Not Acceptable"
-      end
-
       context "when budget_type is invalid," do
         before do
           get :show, id: "200802", budget_type: "out", format: :json

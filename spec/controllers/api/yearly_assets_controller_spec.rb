@@ -18,13 +18,6 @@ describe Api::YearlyAssetsController do
         login
       end
 
-      context "when id is not specified," do
-        before do
-          get :show, format: :json
-        end
-        it_should_behave_like "Not Acceptable"
-      end
-
       context "when id is invalid format," do
         before do
           get :show, id: "2008", format: :json

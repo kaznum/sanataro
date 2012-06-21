@@ -298,15 +298,6 @@ describe EntriesController do
         login
       end
 
-      context "when id is missing," do
-        before do
-          xhr :get, :edit
-        end
-
-        subject { response }
-        it { should redirect_by_js_to current_entries_url }
-      end
-
       [:item1, :adjustment2].each do |item_name|
         shared_examples_for "execute edit successfully of #{item_name.to_s}" do
           describe "resposne" do
@@ -349,14 +340,6 @@ describe EntriesController do
     context "after login," do
       before do
         login
-      end
-
-      context "without id," do
-        before do
-          xhr :get, :show
-        end
-        subject { response }
-        it { should redirect_by_js_to current_entries_url }
       end
 
       context "with valid id," do
@@ -534,20 +517,6 @@ describe EntriesController do
         describe "response" do
           subject {response}
           it {should redirect_by_js_to current_entries_url}
-        end
-      end
-
-      context "when id in params is not specified," do
-        let(:mock_items) { double('items') }
-        before do
-          mock_user.should_receive(:items).and_return(mock_items)
-          mock_items.should_receive(:find).with(nil).and_raise(ActiveRecord::RecordNotFound.new)
-          xhr :delete, :destroy
-        end
-
-        describe "response" do
-          subject {response}
-          it {should redirect_by_js_to current_entries_url }
         end
       end
 
@@ -2129,7 +2098,7 @@ describe EntriesController do
   describe "#update" do
     context "before login," do 
       before do
-        xhr :put, :update, :entry_type => 'adjustment', :year => Date.today.year, :month => Date.today.month
+        xhr :put, :update, :entry_type => 'adjustment', :year => Date.today.year, :month => Date.today.month, :id=>items(:adjustment2).id.to_s
       end
 
       describe "response" do 
@@ -2142,20 +2111,6 @@ describe EntriesController do
       before do
         login
       end
-      context "without id" do
-        before do 
-          date = items(:adjustment2).action_date
-          xhr :put, :update, :entry_type => 'adjustment',
-          :action_date => date.strftime("%Y/%m/%d"),
-          :amount=>'3,000', :to=>items(:adjustment2).to_account_id, :year => 2008, :month => 2
-        end
-        
-        describe "response" do 
-          subject {response}
-          it { should redirect_by_js_to login_url }
-        end
-      end
-      
 
       describe "update adjustment" do
         context "without action_year/month/day" do
@@ -2615,18 +2570,6 @@ describe EntriesController do
       end
 
       describe "update item" do
-
-        context "with missing id," do
-          before do
-            # id is missing
-            xhr :put, :update, :year => 2008, :month => 2
-          end
-          
-          describe "response" do 
-            subject {response}
-            it { should redirect_by_js_to login_url }
-          end
-        end
 
         context "with missing params" do
           before do

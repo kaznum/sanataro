@@ -113,13 +113,6 @@ describe BalanceSheetsController do
       before do
         login
       end
-      context "without id," do
-        before do
-          xhr :get, :show, :year => 2008, :month => 2
-        end
-
-        it_should_behave_like "Unauthenticated Access by xhr"
-      end
 
       context "with year and month in params," do
         before do

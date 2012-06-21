@@ -169,7 +169,7 @@ describe Settings::AccountsController do
 
         context "with invalid params[:id]," do
           before do
-            xhr :get, :edit
+            xhr :get, :edit, :id => 4321431
           end
 
           subject { response }
@@ -419,16 +419,7 @@ describe Settings::AccountsController do
           end
         end
 
-        context "without params[:id]," do
-          before do
-            xhr :get, :show
-          end
-
-          subject { response }
-          it { should redirect_by_js_to login_url }
-        end
-
-        context "without the invalid params[:id]," do
+        context "with the invalid params[:id]," do
           before do
             xhr :get, :show, :id => 992143
           end

@@ -111,22 +111,13 @@ describe ProfitLossesController do
     end
 
     context "when logged in," do
-      before do 
+      before do
         login
-      end
-      context "when without id,"  do
-        before do
-          xhr :get, :show, :year=>'2008', :month=>'2'
-        end
-        describe "response" do
-          subject { response }
-          it { should render_template("common/redirect") }
-        end
       end
 
       context "when correct id is specified," do
-        context "when year, month are specified," do 
-          before do 
+        context "when year, month are specified," do
+          before do
             xhr :get, :show, :id=>accounts(:outgo3).id.to_s, :year=>'2008', :month=>'2'
           end
           describe "response" do

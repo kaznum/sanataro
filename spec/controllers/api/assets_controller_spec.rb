@@ -17,14 +17,6 @@ describe Api::AssetsController do
       before do
         login
       end
-      
-      context "when id is not specified," do
-        before do
-          get :show, :format => :json
-        end
-        
-        it_should_behave_like "Not Acceptable"
-      end
 
       context "when id's length is not 6 digit," do
         before do

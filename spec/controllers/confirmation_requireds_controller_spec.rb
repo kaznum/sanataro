@@ -129,9 +129,9 @@ describe ConfirmationRequiredsController do
         end
       end
 
-      context "when entry_id is not set," do
+      context "when entry_id is invalid," do
         before do
-          xhr :put, :update, :confirmation_required => 'false'
+          xhr :put, :update, :confirmation_required => 'false', :entry_id => 324123413
         end
 
         subject { response }
