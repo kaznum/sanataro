@@ -52,7 +52,7 @@ built with Ruby on Rails.
 * License: MIT License.  http://opensource.org/licenses/mit-license.php
 
 == The bundled libraries
-Thank you for the developers of The following libraries.
+This product uses the following libraries.
 (These are bundled with, so you don't need additional installation.)
 * Farbtastic 1.2
   * Copyright (c) Steven Wittens
