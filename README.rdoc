@@ -39,8 +39,8 @@ built with Ruby on Rails.
 * `rake db:migrate'
 * `rake db:seed' if you use 'demo' user (password: demo123).
 * `rails s'
-* Visit http://localhost:3000/ using your favorite web browser.
-* Some other settings are in config/environments/*.rb and config/application.yml
+* Visit http://localhost:3000 with your favorite web browser.
+* Some other configurable parameters are in config/environments/*.rb or config/application.yml
   * /admin/users has basic authentication. Credential username and password can
     be setup by ADMIN_USER and ADMIN_PASSWORD in environment variables or
     production's admin_user and admin_password settings in config/application.yml
@@ -51,7 +51,7 @@ built with Ruby on Rails.
 * Copyright (c) 2007-2012 Kazuya NUMATA.
 * License: MIT License.  http://opensource.org/licenses/mit-license.php
 
-== The libraries which this product includes
+== The bundled libraries
 Thank you for the developers of The following libraries.
 (These are bundled with, so you don't need additional installation.)
 * Farbtastic 1.2
@@ -70,7 +70,7 @@ Thank you for the developers of The following libraries.
 * EJS Embedded JavaScript Framework
   * http://code.google.com/p/embeddedjavascript/
   * MIT License
-* ActsAsTaggableRedux
+* ActsAsTaggableRedux(Refered to as tagging practice architectually)
   * https://github.com/geemus/acts_as_taggable_redux
   * Copyright (c) 2010 geemus(Wesley Beary), released under the MIT license
   * Some code and design concepts in lib/sanataro_taggable comes from ActsAsTaggableRedux.
