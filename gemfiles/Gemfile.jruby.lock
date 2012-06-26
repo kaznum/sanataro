@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/seyhunak/twitter-bootstrap-rails.git
-  revision: db0b1a64be4f81ec2d2b322d965dfe21614015c4
+  revision: ad1b849987a9e4baa780af136ea953afb8bb0876
   branch: static
   specs:
     twitter-bootstrap-rails (2.0.7)
@@ -10,12 +10,12 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
-    actionmailer (3.2.5)
-      actionpack (= 3.2.5)
+    actionmailer (3.2.6)
+      actionpack (= 3.2.6)
       mail (~> 2.4.4)
-    actionpack (3.2.5)
-      activemodel (= 3.2.5)
-      activesupport (= 3.2.5)
+    actionpack (3.2.6)
+      activemodel (= 3.2.6)
+      activesupport (= 3.2.6)
       builder (~> 3.0.0)
       erubis (~> 2.7.0)
       journey (~> 1.0.1)
@@ -23,12 +23,12 @@ GEM
       rack-cache (~> 1.2)
       rack-test (~> 0.6.1)
       sprockets (~> 2.1.3)
-    activemodel (3.2.5)
-      activesupport (= 3.2.5)
+    activemodel (3.2.6)
+      activesupport (= 3.2.6)
       builder (~> 3.0.0)
-    activerecord (3.2.5)
-      activemodel (= 3.2.5)
-      activesupport (= 3.2.5)
+    activerecord (3.2.6)
+      activemodel (= 3.2.6)
+      activesupport (= 3.2.6)
       arel (~> 3.0.2)
       tzinfo (~> 0.3.29)
     activerecord-jdbc-adapter (1.2.2)
@@ -41,25 +41,16 @@ GEM
     activerecord-jdbcsqlite3-adapter (1.2.2)
       activerecord-jdbc-adapter (~> 1.2.2)
       jdbc-sqlite3 (~> 3.7.2)
-    activeresource (3.2.5)
-      activemodel (= 3.2.5)
-      activesupport (= 3.2.5)
-    activesupport (3.2.5)
+    activeresource (3.2.6)
+      activemodel (= 3.2.6)
+      activesupport (= 3.2.6)
+    activesupport (3.2.6)
       i18n (~> 0.6)
       multi_json (~> 1.0)
     addressable (2.2.8)
-    archive-tar-minitar (0.5.2)
     arel (3.0.2)
     bouncy-castle-java (1.5.0146.1)
-    bourbon (2.1.0)
-      sass (>= 3.1)
     builder (3.0.0)
-    capistrano (2.12.0)
-      highline
-      net-scp (>= 1.0.0)
-      net-sftp (>= 2.0.0)
-      net-ssh (>= 2.0.14)
-      net-ssh-gateway (>= 1.1.0)
     coffee-filter (0.1.1)
       coffee-script (>= 2.2.0)
       haml (>= 3.0.18)
@@ -70,13 +61,11 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.3.3)
-    columnize (0.3.6)
     diff-lcs (1.1.3)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    fabrication (2.0.1)
-    ffi (1.0.11)
+    fabrication (2.0.2)
     ffi (1.0.11-java)
     haml (3.1.6)
     haml-rails (0.3.4)
@@ -84,13 +73,12 @@ GEM
       activesupport (~> 3.0)
       haml (~> 3.0)
       railties (~> 3.0)
-    highline (1.6.12)
     hike (1.2.1)
     i18n (0.6.0)
     jdbc-mysql (5.1.13)
     jdbc-postgres (9.1.901)
     jdbc-sqlite3 (3.7.2)
-    journey (1.0.3)
+    journey (1.0.4)
     jquery-rails (2.0.2)
       railties (>= 3.2.0, < 5.0)
       thor (~> 0.14)
@@ -104,22 +92,13 @@ GEM
       addressable (~> 2.2.6)
       ffi (~> 1.0.9)
       spoon (~> 0.0.1)
-    linecache (0.46-java)
-    linecache19 (0.5.13)
-      ruby_core_source (>= 0.1.4)
     mail (2.4.4)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    mime-types (1.18)
+    memoist (0.1.0)
+    mime-types (1.19)
     multi_json (1.3.6)
-    net-scp (1.0.4)
-      net-ssh (>= 1.99.1)
-    net-sftp (2.0.5)
-      net-ssh (>= 2.0.9)
-    net-ssh (2.5.2)
-    net-ssh-gateway (1.1.0)
-      net-ssh (>= 1.99.1)
     polyglot (0.3.3)
     rack (1.4.1)
     rack-cache (1.2)
@@ -128,17 +107,17 @@ GEM
       rack
     rack-test (0.6.1)
       rack (>= 1.0)
-    rails (3.2.5)
-      actionmailer (= 3.2.5)
-      actionpack (= 3.2.5)
-      activerecord (= 3.2.5)
-      activeresource (= 3.2.5)
-      activesupport (= 3.2.5)
+    rails (3.2.6)
+      actionmailer (= 3.2.6)
+      actionpack (= 3.2.6)
+      activerecord (= 3.2.6)
+      activeresource (= 3.2.6)
+      activesupport (= 3.2.6)
       bundler (~> 1.0)
-      railties (= 3.2.5)
-    railties (3.2.5)
-      actionpack (= 3.2.5)
-      activesupport (= 3.2.5)
+      railties (= 3.2.6)
+    railties (3.2.6)
+      actionpack (= 3.2.6)
+      activesupport (= 3.2.6)
       rack-ssl (~> 1.3.2)
       rake (>= 0.8.7)
       rdoc (~> 3.4)
@@ -159,24 +138,6 @@ GEM
       activesupport (>= 3.0)
       railties (>= 3.0)
       rspec (~> 2.10.0)
-    ruby-debug (0.10.4)
-      columnize (>= 0.1)
-      ruby-debug-base (~> 0.10.4.0)
-    ruby-debug-base (0.10.4)
-      linecache (>= 0.3)
-    ruby-debug-base (0.10.4-java)
-    ruby-debug-base19 (0.11.26)
-      columnize (>= 0.3.1)
-      linecache19 (>= 0.5.11)
-      ruby_core_source (>= 0.1.4)
-    ruby-debug19 (0.11.6)
-      columnize (>= 0.3.1)
-      linecache19 (>= 0.5.11)
-      ruby-debug-base19 (>= 0.11.19)
-    ruby_core_source (0.1.5)
-      archive-tar-minitar (>= 0.5.2)
-    rvm-capistrano (1.2.2)
-      capistrano (>= 2.0.0)
     sass (3.1.19)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
@@ -194,15 +155,15 @@ GEM
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
     therubyrhino (1.73.4)
-    thor (0.15.2)
+    thor (0.15.3)
     tilt (1.3.3)
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.33)
-    uglifier (1.2.4)
+    uglifier (1.2.5)
       execjs (>= 0.3.0)
-      multi_json (>= 1.0.2)
+      multi_json (~> 1.3)
 
 PLATFORMS
   java
@@ -212,8 +173,6 @@ DEPENDENCIES
   activerecord-jdbcmysql-adapter
   activerecord-jdbcpostgresql-adapter
   activerecord-jdbcsqlite3-adapter
-  bourbon
-  capistrano
   coffee-filter
   coffee-rails
   fabrication
@@ -222,13 +181,9 @@ DEPENDENCIES
   jquery-rails
   jruby-openssl
   launchy
-  linecache19 (= 0.5.13)
-  rails (= 3.2.5)
+  memoist
+  rails (= 3.2.6)
   rspec-rails
-  ruby-debug
-  ruby-debug-base19 (= 0.11.26)
-  ruby-debug19
-  rvm-capistrano
   sass-rails
   settingslogic
   simplecov
