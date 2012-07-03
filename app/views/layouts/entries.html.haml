@@ -49,7 +49,7 @@
               - items_class = params[:controller] == 'entries' ? "active" : ""
               - config_class = params[:controller] =~ /^settings\// ?  "active" : ""
               - items_link = link_to t('.items'), e_path
-              - logout_link = link_to t('link.logout'), logout_path, {:confirm=>t("message.logout_really")}
+              - logout_link = link_to t('link.logout'), logout_path, :data => { :confirm => t("message.logout_really")}
               .nav-collapse
                 %ul.nav
                   %li{class: "#{items_class}"}= items_link
