@@ -93,7 +93,7 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    fabrication (2.0.3)
+    fabrication (2.1.0)
     ffi (1.0.11)
     ffi (1.0.11-java)
     gherkin (2.11.1)
