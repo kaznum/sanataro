@@ -58,8 +58,8 @@ GEM
     capybara-webkit (0.12.1)
       capybara (>= 1.0.0, < 1.2)
       json
-    childprocess (0.3.3)
-      ffi (~> 1.0.6)
+    childprocess (0.3.4)
+      ffi (~> 1.0, >= 1.0.6)
     coffee-filter (0.1.1)
       coffee-script (>= 2.2.0)
       haml (>= 3.0.18)
