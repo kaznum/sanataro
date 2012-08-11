@@ -53,7 +53,7 @@ end
 ### but 3.2.7 doesn't work because ENV["RAILS_ENV"] is already 'development'
 ### This will be fixed next version.
 ### See https://github.com/rails/rails/issues/7175
-ENV["RAILS_ENV"] = 'test'
+ENV["RAILS_ENV"] ||= 'test'
 
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
