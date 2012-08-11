@@ -24,6 +24,6 @@ describe "/entries/create_item" do
     render template: "entries/create_item", locals: { items: @items, item: @item1, updated_item_ids: @updated_item_ids, :displaying_month => 10 }
   end
   subject { rendered }
-  it { should =~ /&lt;a href=\\'aaa\\'&gt;aaa&lt;\/a&gt;/ }
+  it { should =~ /&lt;a href=&#x27;aaa&#x27;&gt;aaa&lt;\/a&gt;/ }
 end
 
