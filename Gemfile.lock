@@ -216,7 +216,7 @@ GEM
     rubyzip (0.9.9)
     rvm-capistrano (1.2.5)
       capistrano (>= 2.0.0)
-    sass (3.1.20)
+    sass (3.2.0)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
