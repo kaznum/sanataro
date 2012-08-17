@@ -1,9 +1,8 @@
-$ ->
-  bindAccountFilter = (global) ->
+(($, doc) ->
+  $ ->
     $("#filter_account_id").bind "change", ->
       $.ajax {
-        url: global.urls["entries"],
+        url: doc.urls["entries"],
         type: "get",
         data: { filter_account_id: $("#filter_account_id > option:selected").val() }}
-  bindAccountFilter(document)
-
+) jQuery, document
