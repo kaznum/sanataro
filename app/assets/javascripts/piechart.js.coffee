@@ -1,5 +1,5 @@
-$ ->
-  ((global) ->
+(($, that) ->
+  $ ->
     pieChart = (id, data) ->
       series = data.length
       $.plot $(id), data, {
@@ -22,6 +22,5 @@ $ ->
         percent = parseFloat(obj.series.percent).toFixed(0)
         $(id + "_hover").html '<span style="font-weight: bold; color: '+obj.series.color+'">'+obj.series.label+' ('+percent+'%)</span>'
 
-    global.pieChart = pieChart
-  )(window);
-
+    that.pieChart = pieChart
+)(jQuery, this)

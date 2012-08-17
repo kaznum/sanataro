@@ -1,5 +1,5 @@
-$ ->
-  ((global) ->
+(($, global) ->
+  $ ->
     selectedPlot = (plot_id, choices_id, datasets) ->
   	  i = 0
   	  $.each datasets, (key, val) ->
@@ -44,5 +44,4 @@ $ ->
       selectedPlot plot_id, choices_id, data
 
     global.lineChart = lineChart
-  ) window
-
+  ) jQuery, window
