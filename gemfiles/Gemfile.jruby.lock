@@ -79,9 +79,12 @@ GEM
     jdbc-postgres (9.1.901)
     jdbc-sqlite3 (3.7.2)
     journey (1.0.4)
-    jquery-rails (2.0.2)
-      railties (>= 3.2.0, < 5.0)
+    jquery-rails (2.1.0)
+      railties (>= 3.1.0, < 5.0)
       thor (~> 0.14)
+    jquery-ui-rails (1.1.1)
+      jquery-rails
+      railties (>= 3.1.0)
     jruby-openssl (0.7.7)
       bouncy-castle-java (>= 1.5.0146.1)
     json (1.7.4)
@@ -181,6 +184,7 @@ DEPENDENCIES
   haml-rails
   i18n
   jquery-rails
+  jquery-ui-rails
   jruby-openssl
   launchy
   memoist
