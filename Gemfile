@@ -69,6 +69,7 @@ end
 gem "i18n"
 gem 'haml-rails'
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'settingslogic'
 gem 'coffee-filter'
 gem 'memoist'
