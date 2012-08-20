@@ -123,7 +123,7 @@ GEM
     jdbc-postgres (9.1.901)
     jdbc-sqlite3 (3.7.2)
     journey (1.0.4)
-    jquery-rails (2.1.0)
+    jquery-rails (2.1.1)
       railties (>= 3.1.0, < 5.0)
       thor (~> 0.14)
     jquery-ui-rails (1.1.1)
