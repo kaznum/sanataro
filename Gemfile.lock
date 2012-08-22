@@ -42,7 +42,7 @@ GEM
     arel (3.0.2)
     bouncy-castle-java (1.5.0146.1)
     builder (3.0.0)
-    capistrano (2.13.0)
+    capistrano (2.13.3)
       highline
       net-scp (>= 1.0.0)
       net-sftp (>= 2.0.0)
