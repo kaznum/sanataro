@@ -40,7 +40,12 @@
 jQuery ($) ->
   $("#search-form").submit ->
     action = $("#search-form").attr("action")
-    encKeyword = encodeURIComponent($("#keyword").val()).replace(/\./g, " ")
+    encKeyword = $("#keyword").val().replace(/(^\s+)|(\s+$)/g, "")
+    # if "." exists, replaced with a space and trim again.
+    encKeyword = encodeURIComponent(encKeyword).replace(/\./g, " ").replace(/(^\s+)|(\s+$)/g, "")
+    if encKeyword == ""
+      return false
+
     action = action.replace("KEYWORD_PLACEHOLDER", encKeyword)
     $("#keyword").remove()
     $("#search-form").attr("action", action)
