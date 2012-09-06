@@ -71,6 +71,7 @@
                 %ul.nav.pull-right
                   %li
                     = form_tag keyword_entries_path("KEYWORD_PLACEHOLDER"), method: :get, class: "navbar-search", id: "search-form" do
+                      %i.icon-search
                       = text_field_tag :keyword, @keyword, placeholder: "Search", class: "search-query span2"
                   %li= link_to t('.simple_input'), simple_input_path
                   %li.dropdown

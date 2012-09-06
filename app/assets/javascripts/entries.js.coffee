@@ -38,20 +38,29 @@
 ) this
 
 jQuery ($) ->
-  $("#search-form").submit ->
-    action = $("#search-form").attr("action")
-    encKeyword = $("#keyword").val().replace(/(^\s+)|(\s+$)/g, "")
+  trim = (str) -> 
+    str.replace /^\s+|\s+$/g, ""
+  $("form.navbar-search").submit ->
+    action = $(this).attr("action")
+    queryElement = $(this).find(".search-query")
+
+    return false if queryElement.val().match(/^[.\s]*$/)
+
+    encKeyword = trim queryElement.val()
     # if "." exists, replaced with a space and trim again.
-    encKeyword = encodeURIComponent(encKeyword).replace(/\./g, " ").replace(/(^\s+)|(\s+$)/g, "")
-    if encKeyword == ""
-      return false
+    encKeyword = trim encodeURIComponent(encKeyword).replace(/\./g, " ")
+    return false if encKeyword == ""
 
     action = action.replace("KEYWORD_PLACEHOLDER", encKeyword)
-    $("#keyword").remove()
-    $("#search-form").attr("action", action)
+    queryElement.remove()
+    $(this).attr("action", action)
+
+  $("form.navbar-search .icon-search").click ->
+    $(this).parent("form.navbar-search").submit()
 
   $(".item_date, .item_name, .item_from, .item_to, .item_amount").live "click", ->
     edit_link = $(this).parent(".item").find("a.edit_link")
     if edit_link.length > 0
       url = edit_link.attr("href")
       $.ajax({ url: url, method: "get" })
+
