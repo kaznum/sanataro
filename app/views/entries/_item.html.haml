@@ -24,7 +24,7 @@
     .span2.item_amount= number_to_currency(event_item.amount.abs)
     .span1.item_operation
       %span{:id => "navi_#{h event_item.id}"}
-        - if @tag || @mark
+        - if @tag || @mark || @keyword
           = link_to image_tag("show.png", alt: t("link.show"), class: "show_icon"), entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}"
         - else
           = link_to image_tag('milky/edit.png', alt: t("link.edit"), class: "edit_icon"), edit_entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :method => :get, :remote => true, :class => "edit_link"
@@ -33,7 +33,7 @@
   - elsif event_item.parent_id
     .span2.item_date= l(event_item.action_date)
     .span3.item_name
-      = link_to_confirmation_required(event_item.id, event_item.parent_item.confirmation_required?, tag: @tag, mark: @mark)
+      = link_to_confirmation_required(event_item.id, event_item.parent_item.confirmation_required?, tag: @tag, mark: @mark, keyword: @keyword)
       #{t(".deposit")} (#{link_to l(event_item.parent_item.action_date, format: :short) + ' ' + emolettise(h event_item.parent_item.name), show_parent_child_item_path(:id=>event_item.id, :type=>'parent'), :remote => true})
       - if event_item.tags.size > 0
         [
@@ -47,7 +47,7 @@
   - elsif event_item.child_item
     .span2.item_date= l(event_item.action_date)
     .span3.item_name
-      = link_to_confirmation_required(event_item.id, event_item.confirmation_required?, tag: @tag, mark: @mark)
+      = link_to_confirmation_required(event_item.id, event_item.confirmation_required?, tag: @tag, mark: @mark, keyword: @keyword)
       = emolettise(h event_item.name)
       (#{link_to l(event_item.child_item.action_date, format: :short) + ' ' + t(".deposit"), show_parent_child_item_path(:id=>event_item.id, :type=>'child'), :remote => true})
       - if event_item.tags.size > 0
@@ -60,7 +60,7 @@
     .span2.item_amount=number_to_currency(event_item.amount)
     .span1.item_operation
       %span{:id => "navi_#{h event_item.id}"}
-        - if @tag || @mark
+        - if @tag || @mark || @keyword
           = link_to image_tag("show.png", alt: t("link.show"), class: "show_icon"), entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}"
         - else
           = tweet_button(event_item)
@@ -71,7 +71,7 @@
     .span2.item_date
       = l(event_item.action_date)
     .span3.item_name
-      = link_to_confirmation_required(event_item.id, event_item.confirmation_required?, tag: @tag, mark: @mark)
+      = link_to_confirmation_required(event_item.id, event_item.confirmation_required?, tag: @tag, mark: @mark, keyword: @keyword)
       = emolettise(h event_item.name)
       - if event_item.tags.size > 0
         [
@@ -83,7 +83,7 @@
     .span2.item_amount=number_to_currency(event_item.amount)
     .span1.item_operation
       %span{:id => "navi_#{h event_item.id}"}
-        - if @tag || @mark
+        - if @tag || @mark || @keyword
           = link_to image_tag("milky/show.png", alt: t("link.show"), class: "show_icon"), entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}"
         - else
           = tweet_button(event_item)

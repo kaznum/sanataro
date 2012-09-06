@@ -201,6 +201,30 @@ describe :routes do
     end
   end
 
+  describe "/keywords/:keyword/.." do
+    describe 'GET "entries"' do
+      subject { { get: '/keywords/hogehoge/entries' }}
+      it { should route_to(controller: 'entries', action: 'index', keyword: 'hogehoge')}
+    end
+
+    describe 'named route' do
+      subject { { get: keyword_entries_path('hogehoge') }}
+      it { should route_to(controller: 'entries', action: 'index', keyword: 'hogehoge')}
+    end
+  end
+
+  describe '/keywords/:keyword/entries/:entry_id/confirmation_required' do
+    describe 'PUT "confirmation_required"' do
+      subject { { put: '/keywords/hogehoge/entries/10/confirmation_required' }}
+      it { should route_to(controller: 'confirmation_requireds', action: 'update', keyword: 'hogehoge', entry_id: '10')}
+    end
+
+    describe 'named route' do
+      subject { { put: keyword_entry_confirmation_required_path('hogehoge', 10) }}
+      it { should route_to(controller: 'confirmation_requireds', action: 'update', keyword: 'hogehoge', entry_id: '10')}
+    end
+  end
+
   describe '/entries/10/confirmation_required' do
     subject { put("/entries/10/confirmation_required") }
     it { should route_to(controller: 'confirmation_requireds', action: 'update', entry_id: '10') }

@@ -44,6 +44,39 @@ describe ConfirmationRequiredsController do
         end
       end
 
+      context "when keyword is specified," do
+        before do
+          items(:item3).update_attributes!(:confirmation_required => false)
+          xhr :put, :update, :entry_id => items(:item3).id, :confirmation_required => 'true', :keyword => "abc"
+        end
+
+        describe "item" do
+          subject { Item.find(items(:item3).id)}
+          it { should be_confirmation_required }
+        end
+
+        describe "response" do
+          subject { response }
+          it { should be_success }
+          it { should render_template "update" }
+        end
+
+        describe "@keyword" do
+          subject { assigns(:keyword) }
+          it { should == 'abc' }
+        end
+
+        describe "@mark" do
+          subject { assigns(:mark) }
+          it { should be_nil }
+        end
+
+        describe "@tag" do
+          subject { assigns(:tag) }
+          it { should be_nil }
+        end
+      end
+
       context "when mark is specified," do
         before do
           items(:item3).update_attributes!(:confirmation_required => false)

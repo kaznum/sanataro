@@ -38,6 +38,13 @@
 ) this
 
 jQuery ($) ->
+  $("#search-form").submit ->
+    action = $("#search-form").attr("action")
+    encKeyword = encodeURIComponent($("#keyword").val()).replace(/\./g, " ")
+    action = action.replace("KEYWORD_PLACEHOLDER", encKeyword)
+    $("#keyword").remove()
+    $("#search-form").attr("action", action)
+
   $(".item_date, .item_name, .item_from, .item_to, .item_amount").live "click", ->
     edit_link = $(this).parent(".item").find("a.edit_link")
     if edit_link.length > 0

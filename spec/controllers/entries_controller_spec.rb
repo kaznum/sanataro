@@ -107,7 +107,7 @@ describe EntriesController do
         describe "response" do
           subject { response }
           it { should be_success }
-          it { should render_template 'index_with_tag' }
+          it { should render_template 'index_with_tag_keyword' }
         end
 
         describe "@items" do
@@ -143,6 +143,66 @@ describe EntriesController do
               item.should be_confirmation_required
             end
           }
+        end
+      end
+
+      context "with keyword," do
+        before do
+          xhr(:put, :update, :id=>items(:item11).id.to_s, :item_name=>'あああテスト11いいい',
+              :action_date => items(:item11).action_date.strftime("%Y/%m/%d"),
+              :amount=>"100000", :from=>accounts(:bank1).id.to_s, :to=>accounts(:outgo3).id.to_s, :confirmation_required => '1', :year => items(:item11).action_date.year, :month => items(:item11).action_date.month)
+          get :index, :keyword => 'テスト11'
+        end
+
+        describe "response" do
+          subject { response }
+          it { should be_success }
+          it { should render_template "index_with_tag_keyword" }
+        end
+
+        describe "@items" do
+          subject { assigns(:items) }
+          its(:size) { should == 1 }
+        end
+      end
+
+      context "with multiple keywords," do
+        before do
+          xhr(:put, :update, :id=>items(:item11).id.to_s, :item_name=>'あああテスト11いいい',
+              :action_date => items(:item11).action_date.strftime("%Y/%m/%d"),
+              :amount=>"100000", :from=>accounts(:bank1).id.to_s, :to=>accounts(:outgo3).id.to_s, :confirmation_required => '1', :year => items(:item11).action_date.year, :month => items(:item11).action_date.month)
+          get :index, :keyword => 'テスト  い'
+        end
+
+        describe "response" do
+          subject { response }
+          it { should be_success }
+          it { should render_template "index_with_tag_keyword" }
+        end
+
+        describe "@items" do
+          subject { assigns(:items) }
+          its(:size) { should == 1 }
+        end
+      end
+
+      context "with keyword which has % ," do
+        before do
+          xhr(:put, :update, :id=>items(:item11).id.to_s, :item_name=>'あああテスト11%いいい',
+              :action_date => items(:item11).action_date.strftime("%Y/%m/%d"),
+              :amount=>"100000", :from=>accounts(:bank1).id.to_s, :to=>accounts(:outgo3).id.to_s, :confirmation_required => '1', :year => items(:item11).action_date.year, :month => items(:item11).action_date.month)
+          get :index, :keyword => 'テスト11%い'
+        end
+
+        describe "response" do
+          subject { response }
+          it { should be_success }
+          it { should render_template "index_with_tag_keyword" }
+        end
+
+        describe "@items" do
+          subject { assigns(:items) }
+          its(:size) { should == 1 }
         end
       end
 

@@ -69,6 +69,9 @@
                       %li= link_to("#{t("link.confirmation_list")}".html_safe, confirmation_status_path, id: "confirmation_digest", class: "digest_link")
                       %li= link_to("#{t("link.tag_list")}".html_safe, tag_status_path, id: "tag_digest", class: "digest_link")
                 %ul.nav.pull-right
+                  %li
+                    = form_tag keyword_entries_path("KEYWORD_PLACEHOLDER"), method: :get, class: "navbar-search", id: "search-form" do
+                      = text_field_tag :keyword, @keyword, placeholder: "Search", class: "search-query span2"
                   %li= link_to t('.simple_input'), simple_input_path
                   %li.dropdown
                     %a.dropdown-toggle{ :href => "#", "data-toggle" => "dropdown" }

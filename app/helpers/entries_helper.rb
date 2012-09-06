@@ -4,10 +4,13 @@ module EntriesHelper
     css_class = required ? 'item_confirmation_required' : 'item_confirmation_not_required'
     tag = options[:tag]
     mark = options[:mark]
+    keyword = options[:keyword]
     if tag
       url = tag_entry_confirmation_required_path(tag, item_id, confirmation_required: !required)
     elsif mark
       url = mark_entry_confirmation_required_path(mark, item_id, confirmation_required: !required)
+    elsif keyword
+      url = keyword_entry_confirmation_required_path(keyword, item_id, confirmation_required: !required)
     else
       url = entry_confirmation_required_path(item_id, confirmation_required: !required)
     end

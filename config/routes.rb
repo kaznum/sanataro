@@ -22,7 +22,7 @@ Kakeibo3::Application.routes.draw do
     resources :balance_sheets, :as => 'current_balance_sheets'
   end
 
-  %w( tag mark ).each do |s|
+  %w( tag mark keyword ).each do |s|
     scope "/#{s.pluralize}/:#{s}", as: s.to_sym do
       resources :entries do
         resource :confirmation_required

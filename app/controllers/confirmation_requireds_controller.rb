@@ -5,6 +5,7 @@ class ConfirmationRequiredsController < ApplicationController
   def update
     @tag = params[:tag]
     @mark = params[:mark]
+    @keyword = params[:keyword]
 
     @entry = Item.find(params[:entry_id])
     @entry.update_confirmation_required_of_self_or_parent(params[:confirmation_required])

@@ -5,16 +5,19 @@ class EntriesController < ApplicationController
   def index
     @tag = params[:tag]
     @mark = params[:mark]
+    @keyword = params[:keyword]
 
     case
     when params[:remaining]
-      _index_for_remaining(displaying_month, @tag, @mark)
+      _index_for_remaining(displaying_month, @tag, @mark, @keyword)
     when !params[:filter_account_id].nil?
       _index_with_filter_account_id
     when @tag.present?
       _index_with_tag(@tag)
     when @mark.present?
       _index_with_mark(@mark)
+    when @keyword.present?
+      _index_with_keyword(@keyword)
     else
       _index_plain(displaying_month)
     end
@@ -113,7 +116,12 @@ class EntriesController < ApplicationController
 
   def _index_with_tag(tag)
     @items = get_items(tag: tag)
-    render 'index_with_tag'
+    render 'index_with_tag_keyword'
+  end
+
+  def _index_with_keyword(keyword)
+    @items = get_items(keyword: keyword)
+    render 'index_with_tag_keyword'
   end
 
   def _index_with_mark(mark)
@@ -237,14 +245,14 @@ class EntriesController < ApplicationController
     @user.send(from_or_to).map {|a| { :value => a[1], :text => ERB::Util.html_escape(a[0]) } }
   end
 
-  def _index_for_remaining(month, tag=nil, mark=nil)
-    if tag.present? || mark.present?
+  def _index_for_remaining(month, tag=nil, mark=nil, keyword=nil)
+    if tag.present? || mark.present? || keyword.present?
       month_to_display = nil
     else
       month_to_display = month.beginning_of_month
     end
 
-    @items = get_items(month: month_to_display, remain: true, tag: tag, mark: mark)
+    @items = get_items(month: month_to_display, remain: true, tag: tag, mark: mark, keyword: keyword)
     render 'index_for_remaining'
   end
 
@@ -259,7 +267,7 @@ class EntriesController < ApplicationController
     end
     @user.items.partials(from_date, to_date,
                          filter_account_id: session[:filter_account_id],
-                         remain: options[:remain], tag: options[:tag], mark: options[:mark])
+                         remain: options[:remain], tag: options[:tag], mark: options[:mark], keyword: options[:keyword])
   end
 end
 

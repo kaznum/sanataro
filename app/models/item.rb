@@ -187,6 +187,8 @@ class Item < ActiveRecord::Base
       items = self
       if options[:tag].present?
         ret_items = options[:remain] ? items.remainings_by_tag(options[:tag]) : items.partials_by_tag(options[:tag])
+      elsif options[:keyword].present?
+        ret_items = options[:remain] ? items.remainings_by_keyword(options[:keyword]) : items.partials_by_keyword(options[:keyword])
       else
         items = (options[:mark] == 'confirmation_required') ? items.confirmation_required :
           items.action_date_between(from_date, to_date).includes(:user, :tags)
@@ -215,6 +217,23 @@ class Item < ActiveRecord::Base
       #
       # limit is fixed number.
       self.tagged_with(tag).order_of_entries.offset(Settings.item_list_count).limit(999999).all
+    end
+
+    def where_keyword_matches(str)
+      str.strip.split(/\s+/).inject(self) { |joined, key|
+        key = key.gsub("%", "\\%").gsub("_", "\\_")
+        joined.where(self.arel_table[:name].matches("%#{key}%")) }
+    end
+
+    def partials_by_keyword(keyword)
+      self.where_keyword_matches(keyword).order_of_entries.limit(Settings.item_list_count).all
+    end
+
+    def remainings_by_keyword(keyword)
+      # FIX ME
+      #
+      # limit is fixed number.
+      self.where_keyword_matches(keyword).order_of_entries.offset(Settings.item_list_count).limit(999999).all
     end
 
     def collect_account_history(user, account_id, from_date, to_date)
