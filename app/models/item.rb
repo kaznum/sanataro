@@ -220,9 +220,8 @@ class Item < ActiveRecord::Base
     end
 
     def where_keyword_matches(str)
-      str.strip.split(/\s+/).inject(self) { |joined, key|
-        key = key.gsub("%", "\\%").gsub("_", "\\_")
-        joined.where(self.arel_table[:name].matches("%#{key}%")) }
+      keywords = str.strip.split(/\s+/).map{|key| "%#{key.gsub(/[%_!]/) {|s| '!' + s }}%"}
+      where(self.arel_table[:name].matches_all(keywords))
     end
 
     def partials_by_keyword(keyword)
