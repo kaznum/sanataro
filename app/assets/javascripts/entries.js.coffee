@@ -51,9 +51,8 @@ jQuery ($) ->
     encKeyword = trim encodeURIComponent(encKeyword).replace(/\./g, " ")
     return false if encKeyword == ""
 
-    action = action.replace("KEYWORD_PLACEHOLDER", encKeyword)
-    queryElement.remove()
-    $(this).attr("action", action)
+    location.href = action.replace("KEYWORD_PLACEHOLDER", encKeyword)
+    return false
 
   $("form.navbar-search .icon-search").click ->
     $(this).parent("form.navbar-search").submit()
