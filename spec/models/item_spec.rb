@@ -414,7 +414,7 @@ describe Item do
 
           # データの準備(参照されないデータ)
           10.times do |i|
-            item = Fabricate.build(:item, from_account_id: 11, to_account_id: 13, action_date: '2008-10-01', tag_list: 'mno pqr')
+            item = Fabricate.build(:item, name: "NOT REFERED", from_account_id: 11, to_account_id: 13, action_date: '2008-10-01', tag_list: 'mno pqr')
             item.save!
             @created_ids << item.id
           end
@@ -463,6 +463,16 @@ describe Item do
       context "when :tag and :remain is specified" do
         subject { users(:user1).items.partials(nil, nil, {:remain => true, :tag => 'abc' }) }
         it { should have(50 - Settings.item_list_count).entries }
+      end
+
+      context "when :keyword is specified" do
+        subject { users(:user1).items.partials(nil, nil, {:keyword => 'temn' }) }
+        it { should have(Settings.item_list_count).entries }
+      end
+
+      context "when :keyword and :remain is specified" do
+        subject { users(:user1).items.partials(nil, nil, {:remain => true, :keyword => 'temn' }) }
+        it { should have(100 - Settings.item_list_count).entries }
       end
 
       context "when :filter_account_id is specified" do
