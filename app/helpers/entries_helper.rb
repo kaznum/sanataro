@@ -15,6 +15,6 @@ module EntriesHelper
       url = entry_confirmation_required_path(item_id, confirmation_required: !required)
     end
 
-    link_to(label, url, remote: true, method: :put, class: css_class)
+    link_to label, url, remote: true, method: :put, :class => css_class
   end
 end
