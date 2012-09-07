@@ -53,7 +53,7 @@ describe :routes do
       subject { get( create_user_path ) }
       it { should route_to("login#create_user")}
     end
-    
+
     describe 'POST create_user' do
       subject { post('/create_user') }
       it { should route_to("login#do_create_user") }
@@ -64,7 +64,7 @@ describe :routes do
       it { should route_to("login#do_create_user")}
     end
   end
-  
+
   describe "login#confirmation" do
     describe 'GET confirm_user' do
       subject { get('/confirm_user') }
@@ -76,7 +76,7 @@ describe :routes do
       it { should route_to("login#confirmation")}
     end
   end
-  
+
   describe 'current...' do
     %w(entries profit_losses balance_sheets).each do |controller|
       describe "get /current/#{controller}" do
@@ -95,7 +95,7 @@ describe :routes do
         subject { put("/current/#{controller}/10") }
         it { should route_to("#{controller}#update", id: "10")}
       end
-              
+
       describe "delete /current/#{controller}/10" do
         subject { delete("/current/#{controller}/10") }
         it { should route_to("#{controller}#destroy", id: "10")}
@@ -112,17 +112,17 @@ describe :routes do
         subject { { get: current_entries_path }}
         it { should route_to(controller: 'entries', action: 'index') }
       end
-    
+
       describe 'profit_losses' do
         subject { { get: current_profit_losses_path }}
         it { should route_to(controller: 'profit_losses', action: 'index') }
       end
-      
+
       describe 'balance_sheets' do
         subject { { get: current_balance_sheets_path }}
         it { should route_to(controller: 'balance_sheets', action: 'index') }
       end
-    end    
+    end
   end
 
   describe 'months/2000/3/..' do
