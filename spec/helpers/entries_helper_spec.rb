@@ -58,4 +58,51 @@ describe EntriesHelper do
       end
     end
   end
+
+  describe "#relative_path" do
+    fixtures :users, :accounts
+    before do
+      @user = users(:user1)
+      @credit_item = Fabricate.build(:item, amount: 1500, from_account_id: 4, to_account_id: 3,)
+      @credit_item.save!
+      @credit_item.reload
+      @credit_date = @credit_item.action_date
+
+      @payment_item = @credit_item.child_item
+      @payment_date = @payment_item.action_date
+
+      @single_item = Fabricate.build(:item, amount: 2500)
+      @single_item.save!
+      @single_item.reload
+    end
+
+    context "when the owner of params' id is parent item," do
+      subject { helper.relative_path(@credit_item.id) }
+
+      it { should == "/months/#{@payment_date.year}/#{@payment_date.month}/entries#item_#{@payment_item.id}" }
+    end
+
+    context "when the owner of params' id is child item," do
+      subject { helper.relative_path(@payment_item.id) }
+
+      it { should == "/months/#{@credit_item.year}/#{@credit_item.month}/entries#item_#{@credit_item.id}" }
+    end
+
+    context "when the owner of params' id has no relatives," do
+      subject { helper.relative_path(@single_item.id) }
+
+      it { should be_nil }
+    end
+
+    context "when the params' id does not exist," do
+      it { expect { helper.relative_path(31423413) }.to raise_error(ActiveRecord::RecordNotFound) }
+    end
+  end
 end
+
+
+
+
+
+
+

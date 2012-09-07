@@ -17,4 +17,18 @@ module EntriesHelper
 
     link_to label, url, remote: true, method: :put, :class => css_class
   end
+
+  def relative_path(item_id)
+    item = @user.items.find(item_id)
+    relative = item.child_item || item.parent_item
+
+    relative ? entries_path(year: relative.action_date.year, month: relative.action_date.month, anchor: "item_#{relative.id}") : nil
+  end
 end
+
+
+
+
+
+
+

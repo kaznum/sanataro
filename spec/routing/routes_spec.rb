@@ -43,18 +43,6 @@ describe :routes do
     end
   end
 
-  describe "show_parent_child_item" do
-    describe 'GET show_parent_child_item' do
-      subject { get('/show_parent_child_item') }
-      it { should route_to("main#show_parent_child_item") }
-    end
-
-    describe 'named route' do
-      subject { get( show_parent_child_item_path ) }
-      it { should route_to("main#show_parent_child_item") }
-    end
-  end
-
   describe "create_user" do
     describe 'GET create_user' do
       subject { get('/create_user') }
