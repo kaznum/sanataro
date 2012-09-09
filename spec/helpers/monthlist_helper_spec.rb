@@ -16,5 +16,6 @@ describe MonthlistHelper do
   end
   
   subject { @returned }
-  it { should match /^<div id='year_2008'>2008\|(month_link\|){3}<\/div><div id='year_2009'>2009\|(month_link\|){12}<\/div>/ }
+  it { should match /<div id='years'><a href="#year_2008" class="unselected">2008<\/a> \| <a href="#year_2009" class="selected">2009<\/a><\/div>/ }
+  it { should match /<div id='year_2008' style='display: none;'>(month_link(\s\|\s)?){3}<\/div><div id='year_2009' style='display: block;'>(month_link(\s\|\s)?){12}<\/div>/ }
 end
