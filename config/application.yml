@@ -13,6 +13,7 @@ defaults: &defaults
       duration: 1000
       color: "#ff99ff"
   item_list_count: 20
+  enable_tweet: true
 
 development:
   <<: *defaults
