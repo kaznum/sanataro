@@ -1,3 +1,4 @@
 - items.each do |it|
   ! $("#item_#{it.id}").replaceWith("#{j(render partial: "item", locals: {event_item: it})}");
   ! $("#item_#{it.id} div").effect("highlight", {color: '#{ Settings.effect.highlight.color }'}, #{ Settings.effect.highlight.duration });
+! rebind_item_on_click();

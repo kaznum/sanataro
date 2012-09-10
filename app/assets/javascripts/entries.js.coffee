@@ -37,29 +37,39 @@
       $(field_selector).attr "value", "false"
 ) this
 
-jQuery ($) ->
-  trim = (str) -> 
-    str.replace /^\s+|\s+$/g, ""
-  $("form.navbar-search").submit ->
-    action = $(this).attr("action")
-    queryElement = $(this).find(".search-query")
 
-    return false if queryElement.val().match(/^[.\s]*$/)
+((global) ->
+  jQuery ($) ->
+    trim = (str) ->
+      str.replace /^\s+|\s+$/g, ""
+    $("form.navbar-search").submit ->
+      action = $(this).attr("action")
+      queryElement = $(this).find(".search-query")
 
-    encKeyword = trim queryElement.val()
-    # if "." exists, replaced with a space and trim again.
-    encKeyword = trim encodeURIComponent(encKeyword).replace(/\./g, " ")
-    return false if encKeyword == ""
+      return false if queryElement.val().match(/^[.\s]*$/)
 
-    location.href = action.replace("KEYWORD_PLACEHOLDER", encKeyword)
-    return false
+      encKeyword = trim queryElement.val()
+      # if "." exists, replaced with a space and trim again.
+      encKeyword = trim encodeURIComponent(encKeyword).replace(/\./g, " ")
+      return false if encKeyword == ""
 
-  $("form.navbar-search .icon-search").click ->
-    $(this).parent("form.navbar-search").submit()
+      location.href = action.replace("KEYWORD_PLACEHOLDER", encKeyword)
+      return false
 
-  $(".item_date, .item_name, .item_from, .item_to, .item_amount").live "click", ->
-    edit_link = $(this).parent(".item").find("a.edit_link")
-    if edit_link.length > 0
-      url = edit_link.attr("href")
-      $.ajax({ url: url, method: "get" })
+    $("form.navbar-search .icon-search").click ->
+      $(this).parent("form.navbar-search").submit()
 
+    edit_on_click = (element) ->
+      edit_link = $(element).parent(".item").find("a.edit_link")
+      if edit_link.length > 0
+        url = edit_link.attr("href")
+        $.ajax({ url: url, method: "get" })
+
+    $(".item_date, .item_name, .item_from, .item_to, .item_amount").bind "click", ->
+      edit_on_click(this)
+
+    global.rebind_item_on_click = ->
+      $(".item_date, .item_name, .item_from, .item_to, .item_amount").unbind "click"
+      $(".item_date, .item_name, .item_from, .item_to, .item_amount").bind "click", ->
+        edit_on_click(this)
+) this

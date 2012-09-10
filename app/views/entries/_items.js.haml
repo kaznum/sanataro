@@ -1,4 +1,5 @@
 ! $("#items").html('')
 - items.each do |it|
   ! .append("#{ j(render partial: "item", locals: {event_item: it}) }")
-! .append("#{ j(render "remains_link") }")
+! .append("#{ j(render "remains_link") }");
+! rebind_item_on_click();

@@ -2,3 +2,4 @@
   $("#item_#{@item.id}").hide();
   $("#item_#{@item.id}").replaceWith("#{j(render partial: 'item', locals: { event_item: @item })}");
   $("#item_#{@item.id}").fadeIn(#{Settings.effect.fade.duration});
+  rebind_item_on_click();
