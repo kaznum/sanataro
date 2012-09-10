@@ -38,7 +38,7 @@
 ) this
 
 jQuery ($) ->
-  trim = (str) -> 
+  trim = (str) ->
     str.replace /^\s+|\s+$/g, ""
   $("form.navbar-search").submit ->
     action = $(this).attr("action")
@@ -57,9 +57,8 @@ jQuery ($) ->
   $("form.navbar-search .icon-search").click ->
     $(this).parent("form.navbar-search").submit()
 
-  $(".item_date, .item_name, .item_from, .item_to, .item_amount").live "click", ->
+  $("#items").on "click", ".item_date, .item_name, .item_from, .item_to, .item_amount", ->
     edit_link = $(this).parent(".item").find("a.edit_link")
     if edit_link.length > 0
       url = edit_link.attr("href")
       $.ajax({ url: url, method: "get" })
-
