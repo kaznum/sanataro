@@ -3,3 +3,4 @@
   $("#item_#{@item.id}").hide();
   $("#item_#{@item.id}").replaceWith("#{j(render partial: partial, locals: {item: @item})}");
   $("#item_#{@item.id}").slideDown(#{Settings.effect.slide.duration});
+
