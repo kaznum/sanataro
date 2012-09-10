@@ -14,10 +14,9 @@
     })(document);
 .row
   .span12
-    #monthlist
-      - calendar_from_date = calendar_from(@user)
-      - calendar_to_date = calendar_to(@user)
-      = monthlist(calendar_from_date.year, calendar_from_date.month, calendar_to_date.year, calendar_to_date.month,cur_year, cur_month,'index')
+    - calendar_from_date = calendar_from(@user)
+    - calendar_to_date = calendar_to(@user)
+    = monthlist(calendar_from_date.year, calendar_from_date.month, calendar_to_date.year, calendar_to_date.month,cur_year, cur_month,'index')
     #pllist
       .row
         .span4
