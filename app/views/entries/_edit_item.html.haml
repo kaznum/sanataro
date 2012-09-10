@@ -35,4 +35,4 @@
         = link_to t('link.cancel'), entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :get, :class => "trivial_link"
       %span{:id => "item_operation_loading_#{item.id}", :style => "display:none;"}= image_tag "loading.gif", :alt => "loading..."
     .row-fluid
-      %span.warning{:id => "item_warning_#{item.id}"}
+      %div{:id => "item_warning_#{item.id}"}

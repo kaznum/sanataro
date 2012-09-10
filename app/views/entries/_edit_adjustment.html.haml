@@ -29,4 +29,4 @@
       %span{:id => "item_operation_loading_#{h item.id}", :style => "display:none;"}= image_tag "loading.gif", :alt => "loading..."
       = hidden_field_tag 'entry_type', 'adjustment'
     .row-fluid.input-row
-      .warning{:id => "item_warning_#{item.id}"}
+      %div{:id => "item_warning_#{item.id}"}

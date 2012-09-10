@@ -7,7 +7,7 @@
 - if before
   ! #{before}
 
-! $('##{id}').css({'color': 'red'});
+! $('##{id}').attr('class', "alert alert-error");
 - if errors.blank?
   ! $("##{id}").html("#{default_msg}");
 - else
