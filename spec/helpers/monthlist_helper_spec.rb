@@ -10,12 +10,14 @@ describe MonthlistHelper do
     selected_month = 8
     current_action = 'foo'
 
-    helper.stub(:link_to_unless).and_return('month_link')
-    
+    helper.stub!(:link_to).and_return('month_link')
+    helper.should_receive(:link_to).with(2008, "#year_2008", :class => "unselected").and_return("year_2008_link")
+    helper.should_receive(:link_to).with(2009, "#year_2009", :class => "selected").and_return("year_2009_link")
+
     @returned = helper.monthlist(from_year, from_month, to_year, to_month, selected_year, selected_month, current_action)
   end
   
   subject { @returned }
-  it { should match /<div id='years'><a href="#year_2008" class="unselected">2008<\/a> \| <a href="#year_2009" class="selected">2009<\/a><\/div>/ }
-  it { should match /<div id='year_2008' style='display: none;'>(month_link(\s\|\s)?){3}<\/div><div id='year_2009' style='display: block;'>(month_link(\s\|\s)?){12}<\/div>/ }
+  it { should match /<div id='years'>year_2008_linkyear_2009_link<\/div>/ }
+  it { should match /<div id='year_2008' style='display: none;'>(month_link){3}<\/div><div id='year_2009' style='display: block;'>(month_link){12}<\/div>/ }
 end
