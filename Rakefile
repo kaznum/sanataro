@@ -3,7 +3,7 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Kakeibo3::Application.load_tasks
+Sanataro::Application.load_tasks
 
 task :travis => defined?(JRUBY_VERSION) ? [:spec] : [:spec, :cucumber]
 

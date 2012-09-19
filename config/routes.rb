@@ -1,4 +1,4 @@
-Kakeibo3::Application.routes.draw do
+Sanataro::Application.routes.draw do
   root :to => "login#login"
 
   match 'simple', :to => 'entries#new', :entry_type => 'simple', :as => 'simple_input'
