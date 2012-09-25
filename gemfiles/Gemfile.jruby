@@ -20,6 +20,7 @@ platforms :jruby do
   gem "activerecord-jdbcmysql-adapter"
   gem "activerecord-jdbcsqlite3-adapter"
   gem "activerecord-jdbcpostgresql-adapter"
+  gem "activerecord-jdbcmssql-adapter"
   gem "therubyrhino"
 end
 
@@ -38,5 +39,5 @@ gem 'coffee-filter'
 gem 'memoist'
 
 # make active for jruby (this doesn't require less, therubyracer and libv8)
-gem 'twitter-bootstrap-rails', :git => "git://github.com/seyhunak/twitter-bootstrap-rails.git", :branch => "static"
+gem 'twitter-bootstrap-rails', :github => 'seyhunak/twitter-bootstrap-rails'
 
