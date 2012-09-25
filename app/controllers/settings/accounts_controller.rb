@@ -11,7 +11,7 @@ class Settings::AccountsController < ApplicationController
       return
     end
 
-    @accounts = @user.accounts.where(:account_type => @account_type).order(:order_no).all
+    @accounts = @user.accounts.where(:account_type => @account_type).all
     render :layout => 'entries'
   end
 

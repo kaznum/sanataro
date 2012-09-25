@@ -25,7 +25,7 @@ class AccountStatusesController < ApplicationController
 
   def known_account_statuses_between(from, to)
     retval = { 'account' => [], 'income' => [], 'outgo' => [] }
-    @user.accounts.active.order(:order_no).each do |a|
+    @user.accounts.active.each do |a|
       pl_total = a.account_type == 'account' ? amount_to_last_month(a.id, from) : 0
       from_total = ['account', 'income'].include?(a.account_type) ? @user.items.where(:from_account_id => a.id).action_date_between(from, to).sum(:amount) : 0
       to_total = ['account', 'outgo'].include?(a.account_type) ? @user.items.where(:to_account_id => a.id).action_date_between(from, to).sum(:amount) : 0

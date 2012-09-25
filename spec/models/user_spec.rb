@@ -250,8 +250,8 @@ describe User do
     describe "entities" do
       subject { user.from_accounts }
       it { should ==
-        user.accounts.where(account_type: 'account').order(:order_no).map{|a| [a.name, a.id.to_s]} +
-        user.accounts.where(account_type: 'income').order(:order_no).map{|a| [a.name, a.id.to_s]}}
+        user.accounts.where(account_type: 'account').map{|a| [a.name, a.id.to_s]} +
+        user.accounts.where(account_type: 'income').map{|a| [a.name, a.id.to_s]}}
     end
 
   end
@@ -267,8 +267,8 @@ describe User do
     describe "entities" do
       subject { user.to_accounts }
       it { should ==
-        user.accounts.where(account_type: 'outgo').order(:order_no).map{|a| [a.name, a.id.to_s]} +
-        user.accounts.where(account_type: 'account').order(:order_no).map{|a| [a.name, a.id.to_s]}}
+        user.accounts.where(account_type: 'outgo').map{|a| [a.name, a.id.to_s]} +
+        user.accounts.where(account_type: 'account').map{|a| [a.name, a.id.to_s]}}
     end
   end
 
