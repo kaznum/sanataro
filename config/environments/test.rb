@@ -41,4 +41,6 @@ Sanataro::Application.configure do
   config.assets.allow_debugging = true
 
   config.action_mailer.default_url_options = { :host => "sanataro.example.com" }
+
+  config.cache_store = :null_store
 end

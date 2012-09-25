@@ -44,45 +44,57 @@ class User < ActiveRecord::Base
   end
 
   def from_accounts
-    accounts.account.active.map{ |a| [a.name, a.id.to_s]} +
-      accounts.income.active.map{|a| [a.name, a.id.to_s]}
+    Rails.cache.fetch("user_#{id}_from_accounts") do
+      accounts.account.active.map{ |a| [a.name, a.id.to_s]} +
+        accounts.income.active.map{|a| [a.name, a.id.to_s]}
+    end
   end
   memoize :from_accounts
 
   def to_accounts
-    accounts.outgo.active.map{|a| [a.name, a.id.to_s]} +
-      accounts.account.active.map{ |a| [a.name, a.id.to_s]}
+    Rails.cache.fetch("user_#{id}_to_accounts") do
+      accounts.outgo.active.map{|a| [a.name, a.id.to_s]} +
+        accounts.account.active.map{ |a| [a.name, a.id.to_s]}
+    end
   end
   memoize :to_accounts
 
   def bank_accounts
-    accounts.account.active.map{ |a| [a.name, a.id.to_s]}
+    Rails.cache.fetch("user_#{id}_bank_accounts") do
+      accounts.account.active.map{ |a| [a.name, a.id.to_s]}
+    end
   end
   memoize :bank_accounts
 
   def all_accounts
-    results = {}
-    results.default = "(#{I18n.t('label.unknown')})"
-    accounts.each do |a|
-      results[a.id] = a.name
+    Rails.cache.fetch("user_#{id}_all_accounts") do
+      results = {}
+      results.default = "(#{I18n.t('label.unknown')})"
+      accounts.each do |a|
+        results[a.id] = a.name
+      end
+      results
     end
-    results
   end
   memoize :all_accounts
 
   def account_bgcolors
-    results = {}
-    accounts.where("bgcolor IS NOT NULL").each do |a|
-      results[a.id] = a.bgcolor
+    Rails.cache.fetch("user_#{id}_account_bgcolors") do
+      results = {}
+      accounts.where("bgcolor IS NOT NULL").each do |a|
+        results[a.id] = a.bgcolor
+      end
+      results
     end
-    results
   end
   memoize :account_bgcolors
 
   %w(outgo income account).each do |name|
     method = "#{name}_ids"
     define_method(method.to_sym) do
-      accounts.active.send(method.to_sym)
+      Rails.cache.fetch("user_#{id}_#{name}_ids") do
+        accounts.active.send(method.to_sym)
+      end
     end
     memoize method.to_sym
   end

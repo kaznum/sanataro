@@ -13,6 +13,8 @@ class Account < ActiveRecord::Base
   before_destroy :error_if_items_exist
   before_destroy :error_if_credit_relations_exist
 
+  after_save :clear_cache
+
   validates_presence_of :name
   validates_length_of :name, :in =>1..255
   validates_presence_of :order_no
@@ -88,6 +90,10 @@ class Account < ActiveRecord::Base
         "#{I18n.l(item.action_date)} #{item.name} #{number_to_currency(item.amount)}"
     end
     errors.empty?
+  end
+
+  def clear_cache
+    Rails.cache.delete_matched(/^user_#{self.user_id}/)
   end
 
   def error_if_credit_relations_exist
