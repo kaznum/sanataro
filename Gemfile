@@ -1,5 +1,10 @@
 source 'http://rubygems.org'
 
+###
+### This file is for MRI
+### Please see gemfiles/Gemfile.jruby for JRuby env
+###
+
 gem 'rails', '3.2.8'
 
 # Bundle edge Rails instead:
@@ -19,9 +24,6 @@ group :development, :test do
       gem 'rvm-capistrano'
       gem 'debugger'
     end
-    platforms :jruby do
-      gem 'ruby-debug'
-    end
   end
 end
 
@@ -40,14 +42,6 @@ group :test do
     gem "guard-cucumber"
     gem "guard-spork"
   end
-end
-
-platforms :jruby do
-  gem "jruby-openssl"
-  gem "activerecord-jdbcmysql-adapter"
-  gem "activerecord-jdbcsqlite3-adapter"
-  gem "activerecord-jdbcpostgresql-adapter"
-  gem "therubyrhino"
 end
 
 platforms :ruby do
@@ -74,7 +68,5 @@ gem 'settingslogic'
 gem 'coffee-filter'
 gem 'memoist'
 
-# make active for jruby (this doesn't require less, therubyracer and libv8)
-#gem 'twitter-bootstrap-rails', :git => "git://github.com/seyhunak/twitter-bootstrap-rails.git", :branch => "static"
 gem 'twitter-bootstrap-rails'
 
