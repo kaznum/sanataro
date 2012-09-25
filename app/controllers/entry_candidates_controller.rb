@@ -12,9 +12,20 @@ class EntryCandidatesController < ApplicationController
 
     items_table = @user.items.arel_table
 
-    # In fact order("max_id desc").limit(5) is better, but SQL Server doesn't
-    # have limit and Arel generates a special SQL for it but it cannot be 
-    # evaluated by SQL server.
+    #
+    # In fact, order("max_id desc").limit(5) is better.
+    # But SQL Server doesn't have limit and offset clauses.
+    # Arel and the method `replace_limit_offset!' in SqlServerReplaceLimitOffset module
+    # (in activerecord-jdbc-adapter gem) generates SQL to support them and it works well
+    # for simple cases. But SQL Server cannot evaluate the generated query if order('...') 
+    # includes some aliased column names which are defined in select clause with 'AS ...'
+    #
+    # The following statement generates a complex query and using with `limit(5)` hits
+    # the above problem, so it is conditional depending on whether MsSQL or not.
+    # The current code can cost so much high because lots of records could be gotten 
+    # under MsSQL.
+    # This may be better to be replaced with another way to implement.
+    # 
     #
     items = @user.items.
       where(items_table[:name].matches("%#{partial_name}%")).
