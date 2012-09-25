@@ -15,7 +15,7 @@ class EntryCandidatesController < ApplicationController
       where(items_table[:name].matches("%#{partial_name}%")).
       where(:adjustment => false, :parent_id => nil).
       group('name, from_account_id, to_account_id, amount').
-      select('distinct max(id) as max_id, name, from_account_id, to_account_id, amount').
+      select('max(id) as max_id, name, from_account_id, to_account_id, amount').
       order("max_id desc").limit(5)
     render :partial => 'candidate', :collection => items
   end
