@@ -4,6 +4,19 @@ production:
   pool: 5
   timeout: 5000
 
+## For SQL Server JDBC adapter
+## 1. Download sqljdbc4.jar into #{Rails.root}/lib and insert 'require "sqljdbc4.jar"' in config/environments/{production,test,development}.rb file
+## 2. uncomment "gem 'activerecord-jdbcmssql-adapter'" in Gemfile and execute 'bundle install'
+## 3. uncomment the following lines and replace <...> for your environment
+#
+# production:
+#  adapter: jdbcmssql
+#  driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
+#  url: jdbc:sqlserver://<HOSTNAME:PORT>;instanceName=<INSTANCE_NAME>;databaseName=<DB_NAME>
+#  username: <USERNAME>
+#  password: <PASSWORD>
+#
+
 development:
   adapter: sqlite3
   database: db/development.sqlite3

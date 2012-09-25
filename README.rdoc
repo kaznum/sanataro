@@ -25,6 +25,8 @@ built with Ruby on Rails.
   * MySQL
   * SQLite3
   * PostgreSQL (Heroku available. Demo: http://sanataro.heroku.com/ )
+  * (On 9/25/2012, all specs passed under JRuby 1.6.7 and SQL Server 2008 with sqljdbc4.jar JDBC Driver. This will not be tested continuously because CI environment is not available)
+ 
 * Gem: See Gemfile
 * Recommend: Passenger and Webserver such as Apache / Heroku (see https://github.com/kaznum/sanataro/wiki/Deploying-to-heroku for the guide of specific configuration to sanataro.)
 
@@ -43,6 +45,15 @@ built with Ruby on Rails.
     be setup by ADMIN_USER and ADMIN_PASSWORD in environment variables or
     production's admin_user and admin_password settings in config/application.yml
     (see development setting).
+
+== For JRuby environment
+* Use gemfiles/Gemfile.jruby{,.lock} as Gemfile{,.lock}
+
+== For JRuby and SQL Server 2008 (Not Official support)
+* Download sqljdbc4.jar file and place it in 'lib' directory
+* Insert `require 'sqljdbc4.jar'` at the top of config/environments/{test,development,production}.rb
+* Insert `gem 'activerecord-jdbcmssql-adapter'` into Gemfile and execute `bundle install`
+* Edit `config/database.yml` for the connection to SQL Server Database (see `config/database.yml.sample`)
 
 == Credit
 * Author: Kazuya NUMATA <numata@gmail.com>.
