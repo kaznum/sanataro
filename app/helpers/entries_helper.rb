@@ -21,8 +21,6 @@ module EntriesHelper
   def relative_path(item_id)
     item = @user.items.find(item_id)
     relative = item.parent_item || item.child_item
-p item
-p relative
     relative ? entries_path(year: relative.action_date.year, month: relative.action_date.month, anchor: "item_#{relative.id}") : nil
   end
 end
