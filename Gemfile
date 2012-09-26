@@ -69,4 +69,5 @@ gem 'coffee-filter'
 gem 'memoist'
 
 gem 'twitter-bootstrap-rails'
+gem 'dalli'
 
