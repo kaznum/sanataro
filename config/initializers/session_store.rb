@@ -17,4 +17,5 @@ Sanataro::Application.config.session = {
 # (create the session table with "rake db:sessions:create")
 Sanataro::Application.config.session_store = :active_record_store
 # Sanataro::Application.config.session_store = :memory_store
+# Sanataro::Application.config.session_store ActionDispatch::Session::CacheStore, :expire_after => 60.minutes
 
