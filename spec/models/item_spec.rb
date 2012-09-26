@@ -657,6 +657,12 @@ describe Item do
       subject { Item.find(@c_id) }
       it { should_not be_nil }
     end
+
+    describe "child_item from parent_item" do
+      subject { Item.find(@p_id).child_item }
+      it { should_not be_nil }
+      its(:id) { should == @c_id }
+    end
   end
 
   describe "confirmation_required" do
