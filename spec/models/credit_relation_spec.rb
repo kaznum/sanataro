@@ -21,19 +21,42 @@ describe CreditRelation do
         @cr.save
       end
 
-      subject { @cr }
-      specify { subject.errors.should be_empty }
-      specify { CreditRelation.count.should be @init_count + 1 }
-      it { should_not be_new_record }
+      describe "created object" do
+        subject { @cr }
+        it { should have(0).errors }
+        it { should_not be_new_record }
+      end
 
-      specify {
-        new_cr = CreditRelation.find(@cr.id)
-        new_cr.credit_account_id.should be accounts(:bank21).id
-        new_cr.payment_account_id.should be accounts(:bank1).id
-        new_cr.settlement_day.should be 25
-        new_cr.payment_month.should be 2
-        new_cr.payment_day.should be 10
-      }
+      describe "count of records" do
+        subject {CreditRelation.count}
+        it { should be @init_count + 1 }
+      end
+
+      describe "regotten object" do
+        subject { CreditRelation.find(@cr.id) }
+        its(:credit_account_id) { should be accounts(:bank21).id }
+        its(:payment_account_id) { should be accounts(:bank1).id }
+        its(:settlement_day) { should be 25 }
+        its(:payment_month) { should be 2 }
+        its(:payment_day) { should be 10 }
+      end
+    end
+
+    shared_examples "saving invalid param" do |attr|
+      describe "returned value" do
+        subject { @retval }
+        it { should be_false }
+      end
+
+      describe "errors" do
+        subject { @cr.errors[attr] }
+        it { should_not be_empty }
+      end
+
+      describe "count of records" do
+        subject { CreditRelation.count }
+        it { should be @init_count }
+      end
     end
 
     context "when create same account" do
@@ -45,12 +68,7 @@ describe CreditRelation do
         @retval = @cr.save
       end
 
-      subject { @retval }
-      it { should be_false }
-
-      it {
-        @cr.errors[:credit_account_id].should_not be_empty
-      }
+      it_should_behave_like "saving invalid param", :credit_account_id
     end
 
     context "when create same account" do
@@ -62,12 +80,7 @@ describe CreditRelation do
         @retval = @cr.save
       end
 
-      subject { @retval }
-
-      it { should be_false }
-
-      specify { @cr.errors[:credit_account_id].should_not be_empty }
-      specify { CreditRelation.count.should be @init_count }
+      it_should_behave_like "saving invalid param", :credit_account_id
     end
 
     context "when creating the credit_relation whose credit_account is used as payment_account," do
@@ -80,11 +93,7 @@ describe CreditRelation do
         @retval = @cr.save
       end
 
-      subject { @retval }
-
-      it { should be_false }
-      specify { @cr.errors[:credit_account_id].should_not be_empty }
-      specify { CreditRelation.count.should be @init_count }
+      it_should_behave_like "saving invalid param", :credit_account_id
     end
 
     context "when creating the credit_relation whose payment_account is used as credit_account," do
@@ -97,11 +106,7 @@ describe CreditRelation do
         @retval = @cr.save
       end
 
-      subject { @retval }
-
-      it { should be_false }
-      specify { @cr.errors[:payment_account_id].should_not be_empty }
-      specify { CreditRelation.count.should be @init_count }
+      it_should_behave_like "saving invalid param", :payment_account_id
     end
 
     context "when create as same month" do
@@ -117,12 +122,7 @@ describe CreditRelation do
           @retval = @cr.save
         end
 
-        subject { @retval }
-        it { should be_false }
-
-        it {
-          @cr.errors[:settlement_day].should_not be_empty
-        }
+        it_should_behave_like "saving invalid param", :settlement_day
       end
 
       context "settlement_day is smaller than payment_day" do
@@ -145,74 +145,52 @@ describe CreditRelation do
     context "when settlement_day is invalid" do
       context "when settlement_day is 0" do
         before do
+          @init_count = CreditRelation.count
           @invalid_attrs = @valid_attrs.clone
           @invalid_attrs[:settlement_day] = 0
           @cr = users(:user1).credit_relations.new(@invalid_attrs)
           @retval = @cr.save
         end
 
-        it {
-          @retval.should be_false
-        }
-
-        it {
-          @cr.errors[:settlement_day].should_not be_empty
-        }
+        it_should_behave_like "saving invalid param", :settlement_day
       end
 
       context "when settlement_day is greater than 28" do
         before do
+          @init_count = CreditRelation.count
           @invalid_attrs = @valid_attrs.clone
           @invalid_attrs[:settlement_day] = 29
           @cr = users(:user1).credit_relations.new(@invalid_attrs)
-          @retval = @cr.save
+          @rtval = @cr.save
         end
-
-        it {
-          @retval.should be_false
-        }
-
-        it {
-          @cr.errors[:settlement_day].should_not be_empty
-        }
+        it_should_behave_like "saving invalid param", :settlement_day
       end
     end
 
     context "when payment_month is invalid" do
       context "when payment_month is -1" do
         before do
+          @init_count = CreditRelation.count
           @invalid_attrs = @valid_attrs.clone
           @invalid_attrs[:payment_month] = -1
           @cr = users(:user1).credit_relations.new(@invalid_attrs)
           @retval = @cr.save
         end
-
-        it {
-          @retval.should be_false
-        }
-
-        it {
-          @cr.errors[:payment_month].should_not be_empty
-        }
+        it_should_behave_like "saving invalid param", :payment_month
       end
     end
 
     context "when payment_day is invalid" do
       context "when payment_day is 29" do
         before do
+          @init_count = CreditRelation.count
           @invalid_attrs = @valid_attrs.clone
           @invalid_attrs[:payment_day] = 29
           @cr = users(:user1).credit_relations.new(@invalid_attrs)
           @retval = @cr.save
         end
 
-        it {
-          @retval.should be_false
-        }
-
-        it {
-          @cr.errors[:payment_day].should_not be_empty
-        }
+        it_should_behave_like "saving invalid param", :payment_day
       end
     end
 
@@ -222,16 +200,16 @@ describe CreditRelation do
         @invalid_attrs = @valid_attrs.clone
         @invalid_attrs[:payment_day] = 99
         @cr = users(:user1).credit_relations.new(@invalid_attrs)
-        @retval = @cr.save
       end
 
-      it {
-        @retval.should be_true
-      }
+      describe "returned value" do
+        subject { @cr.save }
+        it { should be_true }
+      end
 
-      it {
-        CreditRelation.count.should be @init_count + 1
-      }
+      describe "count of record" do
+        it { expect { @cr.save! }.to change{ CreditRelation.count }.by(1) }
+      end
     end
   end
 end
