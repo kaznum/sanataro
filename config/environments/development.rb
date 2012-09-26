@@ -29,6 +29,6 @@ Sanataro::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  # config.cache_store = :null_store
-  config.cache_store = :memory_store
+  config.cache_store = :null_store
+  # config.cache_store = :memory_store
 end
