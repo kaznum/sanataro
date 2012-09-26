@@ -60,9 +60,11 @@ class ItemObserver < ActiveRecord::Observer
   end
 
   def reset_child_item_after_update(item)
-    if %w(name from_account_id action_date amount).any?{ |key| item.changed_attributes[key] }
+    if %w(from_account_id action_date).any?{ |key| item.changed_attributes[key] }
       item.child_item.destroy if item.child_item
       item.create_credit_payment!
+    elsif %w(name amount).any?{ |key| item.changed_attributes[key] } && item.child_item
+      item.child_item.update_attributes!(name: item.name, amount: item.amount)
     end
   end
 end

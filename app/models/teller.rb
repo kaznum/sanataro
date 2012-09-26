@@ -69,13 +69,18 @@ class Teller
     end
 
     def update_regular_entry!(item, args)
-      item.update_attributes!(name: args[:name],
-                              from_account_id: args[:from_account_id],
-                              to_account_id: args[:to_account_id],
-                              confirmation_required: args[:confirmation_required],
-                              tag_list: args[:tag_list],
-                              action_date: args[:action_date],
-                              amount: args[:amount])
+      if item.parent_item
+        target_attrs = {action_date: args[:action_date]}
+      else
+        target_attrs = {name: args[:name],
+          from_account_id: args[:from_account_id],
+          to_account_id: args[:to_account_id],
+          confirmation_required: args[:confirmation_required],
+          tag_list: args[:tag_list],
+          action_date: args[:action_date],
+          amount: args[:amount]}
+      end
+      item.update_attributes! target_attrs
       item.reload
       item
     end

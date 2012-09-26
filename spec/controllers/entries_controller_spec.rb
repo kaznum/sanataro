@@ -3125,8 +3125,10 @@ describe EntriesController do
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
+              init_payment_item.update_attributes!(action_date: Date.new(2008,6,1))
+
               @action = lambda {
-                xhr(:put, :update, id: init_credit_item.id, item_name: 'テスト10',
+                xhr(:put, :update, id: init_credit_item.id, item_name: 'テスト20',
                     action_date: date.strftime("%Y/%m/%d"),
                     amount: "20000", from: accounts(:credit4).id.to_s,
                     to: accounts(:outgo3).id.to_s, year: init_credit_item.action_date.year,
@@ -3147,11 +3149,12 @@ describe EntriesController do
 
             describe "updated item" do
               it { expect { @action.call }.to change{Item.find(@credit_id).amount}.to(20000)}
-              it { expect { @action.call }.to change{Item.find(@credit_id).child_item.id}}
+              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.id}}
             end
 
             describe "payment item" do
               it { expect { @action.call }.to change{ Item.find(@credit_id).child_item.amount}.to(20000)}
+              it { expect { @action.call }.to change{ Item.find(@credit_id).child_item.name}.to('テスト20')}
               it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.from_account_id}}
               it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.action_date}}
             end
@@ -3159,8 +3162,10 @@ describe EntriesController do
             describe "monthly profit losses" do
               it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,2,1)).first.amount}.by(-10000)}
               it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008,2,1)).first.amount}.by(10000)}
-              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,4,1)).first.amount}.by(10000)}
-              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,4,1)).first.amount}.by(-10000)}
+              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,4,1)).first.amount}}
+              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,4,1)).first.amount}}
+              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,6,1)).first.amount}.by(10000)}
+              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,6,1)).first.amount}.by(-10000)}
             end
           end
 
@@ -3305,6 +3310,204 @@ describe EntriesController do
               it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,4,1)).sum(:amount)}.by(10000)}
               it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 13, month: Date.new(2008,2,1)).sum(:amount)}.by(20000)}
               it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,2,1)).sum(:amount)}}
+            end
+          end
+        end
+
+        context "when change child_item's action_date," do
+          context "with same month," do
+            before do
+              login
+              xhr(:post, :create,
+                  action_date: '2008/2/10',
+                  item_name: 'テスト10', amount: '10,000', from: accounts(:credit4).id,
+                  to: accounts(:outgo3).id, year: '2008', month: '2')
+              init_credit_item = Item.where(action_date: Date.new(2008,2,10),
+                                            from_account_id: accounts(:credit4).id,
+                                            to_account_id: accounts(:outgo3).id).first
+
+              init_payment_item = init_credit_item.child_item
+
+              init_credit_item.amount.should == 10000
+              init_payment_item.amount.should == 10000
+              init_payment_item.to_account_id.should == init_credit_item.from_account_id
+              init_payment_item.from_account_id.should == 1
+              init_payment_item.action_date.should == Date.new(2008,4,20)
+              @credit_id = init_credit_item.id
+              @payment_id = init_payment_item.id
+
+              @action = lambda {
+                xhr(:put, :update, id: init_credit_item.child_item.id,
+                    action_date: Date.new(2008,4,21).strftime("%Y/%m/%d"),
+                    year: init_credit_item.action_date.year,
+                    month: init_credit_item.action_date.month) }
+            end
+
+            describe "response" do
+              before do
+                @action.call
+              end
+              subject {response}
+              it {should be_success}
+            end
+
+            describe "the number of items" do
+              it { expect { @action.call }.not_to change{Item.count}}
+            end
+
+            describe "updated item" do
+              it { expect { @action.call }.not_to change{Item.find(@credit_id).amount}}
+              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.id}}
+            end
+
+            describe "payment item" do
+              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.amount}}
+              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.name}}
+              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.from_account_id}}
+              it { expect { @action.call }.to change{Item.find(@credit_id).child_item.action_date}.by(1)}
+            end
+
+            describe "monthly profit losses" do
+              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,2,1)).first.amount}}
+              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008,2,1)).first.amount}}
+              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,4,1)).first.amount}}
+              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,4,1)).first.amount}}
+            end
+          end
+
+          context "to next month, which is after adjustment anyway," do
+            before do
+              login
+              xhr(:post, :create,
+                  action_date: '2008/1/10',
+                  item_name: 'テスト10', amount: '10,000', from: accounts(:credit4).id,
+                  to: accounts(:outgo3).id, year: '2008', month: '1')
+              init_credit_item = Item.where(action_date: Date.new(2008,1,10),
+                                            from_account_id: accounts(:credit4).id,
+                                            to_account_id: accounts(:outgo3).id).first
+
+              init_payment_item = init_credit_item.child_item
+
+              init_credit_item.amount.should == 10000
+              init_payment_item.amount.should == 10000
+              init_payment_item.to_account_id.should == init_credit_item.from_account_id
+              init_payment_item.from_account_id.should == 1
+              init_payment_item.action_date.should == Date.new(2008,3,20)
+              @credit_id = init_credit_item.id
+              @payment_id = init_payment_item.id
+
+              @action = lambda {
+                xhr(:put, :update, id: init_credit_item.child_item.id,
+                    action_date: Date.new(2008,4,20).strftime("%Y/%m/%d"),
+                    year: init_credit_item.action_date.year,
+                    month: init_credit_item.action_date.month) }
+            end
+
+            describe "response" do
+              before do
+                @action.call
+              end
+              subject {response}
+              it {should be_success}
+            end
+
+            describe "the number of items" do
+              it { expect { @action.call }.not_to change{Item.count}}
+            end
+
+            describe "parent item" do
+              it { expect { @action.call }.not_to change{Item.find(@credit_id).amount}}
+            end
+
+            describe "payment item" do
+              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.id}}
+              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.amount}}
+              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.name}}
+              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.from_account_id}}
+              it { expect { @action.call }.to change{Item.find(@credit_id).child_item.action_date}.to(Date.new(2008,4,20))}
+            end
+
+            describe "monthly profit losses" do
+              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,1,1)).sum(:amount)}}
+              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008,1,1)).sum(:amount)}}
+              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,3,1)).sum(:amount)}.by(-10000)}
+              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,3,1)).sum(:amount)}.by(10000)}
+              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,4,1)).sum(:amount)}.by(10000)}
+              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,4,1)).sum(:amount)}.by(-10000)}
+            end
+          end
+
+          context "when change to next month and which changes the order of adjustment," do
+            before do
+              login
+              credit_relations(:cr1).update_attributes!(payment_day: 19)
+              xhr(:post, :create,
+                  action_date: '2007/12/10',
+                  item_name: 'テスト10', amount: '10,000', from: accounts(:credit4).id,
+                  to: accounts(:outgo3).id, year: '2008', month: '1')
+              init_credit_item = Item.where(action_date: Date.new(2007,12,10),
+                                            from_account_id: accounts(:credit4).id,
+                                            to_account_id: accounts(:outgo3).id).first
+
+              init_payment_item = init_credit_item.child_item
+
+              init_credit_item.amount.should == 10000
+              init_payment_item.amount.should == 10000
+              init_payment_item.to_account_id.should == init_credit_item.from_account_id
+              init_payment_item.from_account_id.should == 1
+              init_payment_item.action_date.should == Date.new(2008,2,19)
+              @credit_id = init_credit_item.id
+              @payment_id = init_payment_item.id
+
+              @action = lambda {
+                xhr(:put, :update, id: init_credit_item.child_item.id,
+                    action_date: Date.new(2008,3,1).strftime("%Y/%m/%d"),
+                    year: init_credit_item.action_date.year,
+                    month: init_credit_item.action_date.month) }
+            end
+
+            describe "response" do
+              before do
+                @action.call
+              end
+              subject {response}
+              it {should be_success}
+            end
+
+            describe "the number of items" do
+              it { expect { @action.call }.not_to change{Item.count}}
+            end
+
+            describe "parent item" do
+              it { expect { @action.call }.not_to change{Item.find(@credit_id).amount}}
+            end
+
+            describe "payment item" do
+              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.id}}
+              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.amount}}
+              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.name}}
+              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.from_account_id}}
+              it { expect { @action.call }.to change{Item.find(@credit_id).child_item.action_date}.to(Date.new(2008,3,1))}
+            end
+
+            describe "adjustment" do
+              it { expect {@action.call}.to change{Item.find(items(:adjustment2).id).amount}.by(-10000)}
+              it { expect {@action.call}.not_to change{Item.find(items(:adjustment4).id).amount}}
+              it { expect {@action.call}.to change{Item.find(items(:adjustment6).id).amount}.by(10000)}
+            end
+
+            describe "monthly profit losses" do
+              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2007,12,1)).sum(:amount)}}
+              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 3, month: Date.new(2007,12,1)).sum(:amount)}}
+              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,1,1)).sum(:amount)}}
+              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008,1,1)).sum(:amount)}}
+              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,2,1)).sum(:amount)}.by(-10000)}
+              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008,2,1)).sum(:amount)}}
+              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,2,1)).sum(:amount)}}
+              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,3,1)).sum(:amount)}.by(10000)}
+              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,3,1)).sum(:amount)}}
+              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,4,1)).sum(:amount)}}
+              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,4,1)).sum(:amount)}}
             end
           end
         end
