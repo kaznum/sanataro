@@ -250,7 +250,7 @@ class Item < ActiveRecord::Base
   def action_date_should_be_larger_than_that_of_parent_item
     p_item = self.parent_item
     if p_item && self.action_date <= p_item.action_date
-      errors.add(:action_date, I18n.t("error.action_date_is_less_than_parent"))
+      errors.add(:action_date, I18n.t("errors.messages.after_credit_item", date: I18n.l(p_item.action_date)))
     end
   end
 

@@ -1,4 +1,9 @@
--  partial = @item.adjustment? ? 'edit_adjustment' : 'edit_item'
+- if @item.adjustment?
+  - partial = 'edit_adjustment'
+- elsif @item.parent_id
+  - partial = 'edit_child_item'
+- else
+  - partial = 'edit_item'
 :plain
   $("#item_#{@item.id}").hide();
   $("#item_#{@item.id}").replaceWith("#{j(render partial: partial, locals: {item: @item})}");

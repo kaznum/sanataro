@@ -45,6 +45,13 @@
     .span2.item_to= colored_account_name(event_item.to_account_id)
     .span2.item_amount=number_to_currency(event_item.amount)
     .span1.item_operation
+      %span{:id => "navi_#{h event_item.id}"}
+        - if @tag || @mark || @keyword
+          = link_to image_tag("milky/show.png", alt: t("link.show"), class: "show_icon"), entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}"
+        - else
+          = tweet_button(event_item)
+          = link_to image_tag('milky/edit.png', alt: t("link.edit"), class: "edit_icon"), edit_entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :get, :class => "edit_link"
+      %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
   - elsif event_item.child_item
     .span2.item_date= l(event_item.action_date)
     .span3.item_name

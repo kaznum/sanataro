@@ -69,8 +69,42 @@ describe CreditRelation do
 
       specify { @cr.errors[:credit_account_id].should_not be_empty }
       specify { CreditRelation.count.should be @init_count }
-     end
-    
+    end
+
+    context "when creating the credit_relation whose credit_account is used as payment_account," do
+      before do
+        @init_count = CreditRelation.count
+        @invalid_attrs = @valid_attrs.clone
+        @invalid_attrs[:credit_account_id] = accounts(:bank1).id
+        @invalid_attrs[:payment_account_id] = accounts(:bank11).id
+        @cr = users(:user1).credit_relations.new(@invalid_attrs)
+        @retval = @cr.save
+      end
+
+      subject { @retval }
+
+      it { should be_false }
+      specify { @cr.errors[:credit_account_id].should_not be_empty }
+      specify { CreditRelation.count.should be @init_count }
+    end
+
+    context "when creating the credit_relation whose payment_account is used as credit_account," do
+      before do
+        @init_count = CreditRelation.count
+        @invalid_attrs = @valid_attrs.clone
+        @invalid_attrs[:credit_account_id] = accounts(:bank11).id
+        @invalid_attrs[:payment_account_id] = accounts(:credit4).id
+        @cr = users(:user1).credit_relations.new(@invalid_attrs)
+        @retval = @cr.save
+      end
+
+      subject { @retval }
+
+      it { should be_false }
+      specify { @cr.errors[:payment_account_id].should_not be_empty }
+      specify { CreditRelation.count.should be @init_count }
+    end
+
     context "when create as same month" do
       context "settlement_day is larger than payment_day" do
         before do

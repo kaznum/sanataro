@@ -25,7 +25,8 @@ ja:
         settlement_day: "決済日"
         payment_month: "支払月"
         payment_day: "支払日"
-        credit_account_id: "引き落とし口座"
+        credit_account_id: "クレジットカード口座"
+        payment_account_id: "引き落とし口座"
 
       item:
         name: "項目名"
@@ -153,7 +154,6 @@ ja:
     already_used_account: "すでに収支情報に使用されているため、削除できません。"
     no_data: "データが存在しません。"
     already_has_relation_to_credit: "クレジットカード支払い情報に関連づけられているため、削除できません。"
-    action_date_is_less_than_parent: "日付はクレジットカード使用日より大きくなければなりません。"
   layouts:
     entries:
       no_cookie_explanation: "あなたがご利用のブラウザは、現在Cookieを受け付けない設定になっています。<br/>本サイトをご利用いただくにはブラウザ設定でCookieを受け付けるよう設定してください。"
@@ -232,6 +232,8 @@ ja:
       outgoing_to_income: "出金 => 入金"
     new_item:
       show_all_confirmation_required: "[すべての★を見る]"
+    edit_child_item:
+      edit_credit_item: "口座、金額を変更する場合は、クレジットカード使用時の項目を変更してください。"
   account_statuses:
     show:
       status_of_today: "今日(%{date})の状況"

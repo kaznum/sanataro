@@ -356,7 +356,7 @@ describe EntriesController do
         login
       end
 
-      [:item1, :adjustment2].each do |item_name|
+      [:item1, :adjustment2, :credit_refill31].each do |item_name|
         shared_examples_for "execute edit successfully of #{item_name.to_s}" do
           describe "resposne" do
             subject { response }
@@ -383,6 +383,13 @@ describe EntriesController do
           xhr :get, :edit, :id => items(:adjustment2).id
         end
         it_should_behave_like "execute edit successfully of adjustment2"
+      end
+
+      context "with child_id," do
+        before do
+          xhr :get, :edit, :id => items(:credit_refill31).id
+        end
+        it_should_behave_like "execute edit successfully of credit_refill31"
       end
     end
   end
