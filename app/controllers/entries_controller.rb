@@ -21,7 +21,7 @@ class EntriesController < ApplicationController
     else
       _index_plain(displaying_month)
     end
-  rescue # in case the date in params has invalid format
+  rescue ArgumentError # in case the date in params has invalid format
     respond_to do |format|
       format.js {  redirect_js_to current_entries_url }
       format.html {  redirect_to current_entries_url }
