@@ -647,7 +647,7 @@ describe Item do
       @p_id = p_it.id
       @c_id = c_it.id
     end
-    
+
     describe "parent_item" do
       subject { Item.find(@p_id) }
       it { should_not be_nil }
@@ -661,9 +661,9 @@ describe Item do
 
   describe "confirmation_required" do
     context "parent_idのないitemでupdate_confirmation_requiredを呼びだすとき" do
-      before do 
+      before do
         @item = items(:item1)
-        @item.update_confirmation_required_of_self_or_parent(false)        
+        @item.update_confirmation_required_of_self_or_parent(false)
       end
 
       subject { Item.find(@item.id) }
@@ -680,7 +680,7 @@ describe Item do
         subject { Item.find(@child_item.id) }
         it { should_not be_confirmation_required }
       end
-      
+
       describe "parent_item" do
         subject { Item.find(@child_item.parent_id) }
         it { should be_confirmation_required }
