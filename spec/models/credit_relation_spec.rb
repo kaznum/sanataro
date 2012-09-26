@@ -12,9 +12,9 @@ describe CreditRelation do
       :payment_day => 10
     }
   end
-  
+
   context "when create is called" do
-    describe "create successfully" do 
+    describe "create successfully" do
       before do
         @init_count = CreditRelation.count
         @cr = users(:user1).credit_relations.new(@valid_attrs)
@@ -25,7 +25,7 @@ describe CreditRelation do
       specify { subject.errors.should be_empty }
       specify { CreditRelation.count.should be @init_count + 1 }
       it { should_not be_new_record }
-      
+
       specify {
         new_cr = CreditRelation.find(@cr.id)
         new_cr.credit_account_id.should be accounts(:bank21).id
@@ -51,7 +51,6 @@ describe CreditRelation do
       it {
         @cr.errors[:credit_account_id].should_not be_empty
       }
-      
     end
 
     context "when create same account" do
@@ -64,7 +63,7 @@ describe CreditRelation do
       end
 
       subject { @retval }
-      
+
       it { should be_false }
 
       specify { @cr.errors[:credit_account_id].should_not be_empty }
@@ -113,7 +112,7 @@ describe CreditRelation do
           @invalid_attrs[:payment_month] = 0
           @invalid_attrs[:payment_day] = 15
           @invalid_attrs[:settlement_day] = 20
-          
+
           @cr = users(:user1).credit_relations.new(@invalid_attrs)
           @retval = @cr.save
         end
@@ -124,9 +123,8 @@ describe CreditRelation do
         it {
           @cr.errors[:settlement_day].should_not be_empty
         }
-        
       end
-      
+
       context "settlement_day is smaller than payment_day" do
         before do
           @init_count = CreditRelation.count
@@ -134,7 +132,7 @@ describe CreditRelation do
           @invalid_attrs[:payment_month] = 0
           @invalid_attrs[:payment_day] = 20
           @invalid_attrs[:settlement_day] = 15
-          
+
           @cr = users(:user1).credit_relations.new(@invalid_attrs)
           @retval = @cr.save
         end
@@ -143,11 +141,10 @@ describe CreditRelation do
         it { should be_true }
       end
     end
-    
 
     context "when settlement_day is invalid" do
       context "when settlement_day is 0" do
-        before do 
+        before do
           @invalid_attrs = @valid_attrs.clone
           @invalid_attrs[:settlement_day] = 0
           @cr = users(:user1).credit_relations.new(@invalid_attrs)
@@ -162,9 +159,9 @@ describe CreditRelation do
           @cr.errors[:settlement_day].should_not be_empty
         }
       end
-      
+
       context "when settlement_day is greater than 28" do
-        before do 
+        before do
           @invalid_attrs = @valid_attrs.clone
           @invalid_attrs[:settlement_day] = 29
           @cr = users(:user1).credit_relations.new(@invalid_attrs)
@@ -183,7 +180,7 @@ describe CreditRelation do
 
     context "when payment_month is invalid" do
       context "when payment_month is -1" do
-        before do 
+        before do
           @invalid_attrs = @valid_attrs.clone
           @invalid_attrs[:payment_month] = -1
           @cr = users(:user1).credit_relations.new(@invalid_attrs)
@@ -197,13 +194,12 @@ describe CreditRelation do
         it {
           @cr.errors[:payment_month].should_not be_empty
         }
-
       end
     end
-    
+
     context "when payment_day is invalid" do
       context "when payment_day is 29" do
-        before do 
+        before do
           @invalid_attrs = @valid_attrs.clone
           @invalid_attrs[:payment_day] = 29
           @cr = users(:user1).credit_relations.new(@invalid_attrs)
@@ -217,11 +213,9 @@ describe CreditRelation do
         it {
           @cr.errors[:payment_day].should_not be_empty
         }
-
       end
-
-      
     end
+
     context "when payment_day is 99(the special value which means the final day of month)" do
       before do
         @init_count = CreditRelation.count
