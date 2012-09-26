@@ -663,6 +663,24 @@ describe Item do
       it { should_not be_nil }
       its(:id) { should == @c_id }
     end
+
+    context "when child_item's action_date is changed," do
+      before do
+        @child_item = Item.find(@c_id)
+        @action = -> { @child_item.update_attributes!(action_date: Date.new(2008,3,20)) }
+      end
+
+      it { expect {@action.call}.not_to change {Item.find(@p_id).action_date} }
+      it { expect {@action.call}.to change {Item.find(@p_id).child_item.action_date}.to(Date.new(2008,3,20)) }
+    end
+
+    context "when child_item's action_date try to be changed but action_date is before that of parent_item," do
+      before do
+        @child_item = Item.find(@c_id)
+        @action = -> { @child_item.update_attributes!(action_date: Date.new(2008,2,9)) }
+      end
+      it { expect {@action.call}.to raise_error ActiveRecord::RecordInvalid}
+    end
   end
 
   describe "confirmation_required" do
@@ -701,13 +719,11 @@ describe Item do
         year: 2008,
         month: 10,
         day: 17,
-        from_account_id: 1,
+        from_account_id: 4,
         to_account_id: 2,
         amount: 10000,
         confirmation_required: true,
         tag_list: 'hoge fuga',
-        child_item: items(:item11),
-        parent_item: items(:item10)
       }
 
       @item = users(:user1).items.create!(@valid_attrs)
@@ -715,7 +731,7 @@ describe Item do
       @item.reload
     end
 
-    describe "item.to_custom_hash" do 
+    describe "item.to_custom_hash" do
       subject { @item.to_custom_hash }
       it { should be_an_instance_of(Hash)}
       its([:entry]) { should be_an_instance_of(Hash)}
@@ -726,20 +742,34 @@ describe Item do
       its([:id]) { should == @item.id }
       its([:name]) { should == "aaaa" }
       its([:action_date]) { should == Date.new(2008,10,17) }
-      its([:from_account_id]) { should == 1 }
+      its([:from_account_id]) { should == 4 }
       its([:to_account_id]) { should == 2 }
       its([:amount]) { should == 10000 }
       its([:confirmation_required]) { should be_true }
       its([:tags]) { should == ['fuga', 'hoge'] }
-      its([:child_id]) { should == items(:item11).id }
-      its([:parent_id]) { should == items(:item10).id }
+      its([:child_id]) { should_not be_nil }
+      its([:child_id]) { should == @item.child_item.id }
+    end
+
+    describe "child_item.to_custom_hash[:entry]" do
+      subject { @item.child_item.to_custom_hash[:entry] }
+      its([:id]) { should == @item.child_item.id }
+      its([:name]) { should == "aaaa" }
+      its([:action_date]) { should == Date.new(2008,12,20) }
+      its([:from_account_id]) { should == 1 }
+      its([:to_account_id]) { should == 4 }
+      its([:amount]) { should == 10000 }
+      its([:confirmation_required]) { should be_false }
+      its([:tags]) { should be_blank }
+      its([:child_id]) { should be_nil }
+      its([:parent_id]) { should ==  @item.id }
     end
   end
-  
+
   describe "items.to_custom_hash" do
     describe "Array#to_custom_hash" do
       before do
-        @items = Item.where(:user_id => users(:user1).id).all 
+        @items = Item.where(:user_id => users(:user1).id).all
       end
       subject { @items.to_custom_hash }
       it { should be_an_instance_of(Array)}

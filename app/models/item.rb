@@ -23,6 +23,7 @@ class Item < ActiveRecord::Base
   validates_format_of :amount, :with => /^-?\d+$/
   validates_presence_of :action_date
   validate :account_id_should_be_owned_by_user
+  validate :action_date_should_be_larger_than_that_of_parent_item
 
   before_validation :set_action_date
   before_validation :fill_amount_for_adjustment_if_needed
@@ -246,6 +247,12 @@ class Item < ActiveRecord::Base
   end
 
   private
+  def action_date_should_be_larger_than_that_of_parent_item
+    p_item = self.parent_item
+    if p_item && self.action_date <= p_item.action_date
+      errors.add(:action_date, I18n.t("error.action_date_is_less_than_parent"))
+    end
+  end
 
   def fill_amount_for_adjustment_if_needed
     if adjustment? && !amount_changed? && action_date && to_account_id && user && adjustment_amount
