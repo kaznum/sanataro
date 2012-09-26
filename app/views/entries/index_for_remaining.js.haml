@@ -2,6 +2,5 @@
   $("#remains").fadeOut(#{Settings.effect.fade.duration}, function() {
     $("#remains").remove();
   });
-- @items.each do |item|
-  :plain
-    $("#items").append("#{j(render partial: "item", locals: { event_item: item })}");
+  $("#items").append("#{j(render partial: "item", collection: @items)}");
+

@@ -10,6 +10,5 @@
           (keyword: #{h @keyword})
       = render 'items_header'
       #items
-        - @items.each do |it|
-          = render partial: 'item', locals: { event_item: it }
+        = render partial: 'item', collection: @items
         = render 'remains_link'

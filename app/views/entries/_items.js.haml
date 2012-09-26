@@ -1,4 +1,4 @@
-! $("#items").html('')
-- items.each do |it|
-  ! .append("#{ j(render partial: "item", locals: {event_item: it}) }")
-! .append("#{ j(render "remains_link") }")
+:plain
+  $("#items").html('')
+  .append("#{ j(render partial: "item", collection: items) }")
+  .append("#{ j(render "remains_link") }")
