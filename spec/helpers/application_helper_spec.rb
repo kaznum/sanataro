@@ -11,7 +11,7 @@ describe ApplicationHelper do
 
     describe "colored" do
       subject { helper.colored_account_name(1) }
-      it { should be == "<span style='background-color: #123456; padding-right:2px;padding-left:2px;'>&lt;SAMPLE</span>".html_safe }
+      it { should be == "<span class='label' style='background-color: #123456;'>&lt;SAMPLE</span>".html_safe }
     end
     describe "not colored" do
       subject { helper.colored_account_name(2) }
