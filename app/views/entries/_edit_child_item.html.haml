@@ -12,9 +12,7 @@
 .item{:id => "item_#{item.id}"}
   = form_tag entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :put, :id => "edit_#{item.id}_form", :class => "well"  do
     .row-fluid
-      %span
-        = t(".edit_credit_item")
-    .row-fluid
+      .alert= t(".edit_credit_item")
       = text_field_tag :action_date, l(item.action_date), size: 12, placeholder: "YYYY/MM/DD", id: "action_date_#{item.id}", class: "input-small"
       = item.name
       %span
@@ -23,7 +21,6 @@
         = @user.all_accounts[item.to_account_id]
       %span
         = number_to_currency(item.amount)
-    .row-fluid
     .row-fluid
       %span{:id => "item_operation_#{item.id}"}
         = submit_tag t('button.save'), :id => "edit_button_#{item.id}", class: 'btn btn-primary'
