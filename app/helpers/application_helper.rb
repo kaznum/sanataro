@@ -8,7 +8,7 @@ module ApplicationHelper
   def colored_account_name(account_id)
     color = @user.account_bgcolors[account_id]
     name = @user.all_accounts[account_id]
-    color ? "<span style='background-color: ##{h(color)}; padding-right:2px;padding-left:2px;'>#{h(name)}</span>".html_safe : h(name)
+    color ? "<span class='label' style='background-color: ##{h(color)};'>#{h(name)}</span>".html_safe : h(name)
   end
 
   def calendar_from(user)

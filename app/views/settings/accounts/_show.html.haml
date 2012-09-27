@@ -1,7 +1,7 @@
 .cfg_account.row-fluid{:id => "account_#{account.id.to_s}"}
   .cfg_account_name.span2
     - if account.bgcolor?
-      %span{:style => "background-color: ##{h account.bgcolor};"}= account.name
+      = colored_account_name(account.id)
     - else
       = account.name
   .cfg_account_order.span1
