@@ -112,6 +112,12 @@ describe EntriesHelper do
         it { should match /href="\/months\/2008\/5\/entries\/#{@item.id}\/edit"/ }
         it { should match /class=".*edit_icon.*"/ }
       end
+
+      context "when disabled," do
+        subject { helper.link_to_edit(@item, false) }
+        it { should_not match /href="\/months\/2008\/5\/entries\/#{@item.id}\/edit"/ }
+        it { should match /class=".*edit_icon.*"/ }
+      end
     end
 
     describe "#link_to_destroy" do
@@ -121,12 +127,25 @@ describe EntriesHelper do
         it { should match /data-method="delete"/ }
         it { should match /class=".*destroy_icon.*"/ }
       end
+
+      context "when disabled," do
+        subject { helper.link_to_destroy(@item, false) }
+        it { should_not match /href="\/months\/2008\/5\/entries\/#{@item.id}"/ }
+        it { should_not match /data-method="delete"/ }
+        it { should match /class=".*destroy_icon.*"/ }
+      end
     end
 
     describe "#link_to_show" do
       describe "link" do
         subject { helper.link_to_show(@item) }
         it { should match /href="\/months\/2008\/5\/entries#item_#{@item.id}"/ }
+        it { should match /class=".*show_icon.*"/ }
+      end
+
+      context "when disabled," do
+        subject { helper.link_to_show(@item, false) }
+        it { should_not match /href="\/months\/2008\/5\/entries#item_#{@item.id}"/ }
         it { should match /class=".*show_icon.*"/ }
       end
     end
