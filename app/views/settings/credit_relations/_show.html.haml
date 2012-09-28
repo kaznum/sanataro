@@ -11,5 +11,5 @@
     = localize_relative_month(cr.payment_month)
     = (cr.payment_day < 99) ? cr.payment_day.to_s + t('label.day'): t('settings.credit_relations.final_day')
   .cfg_credit_relation_operation.span1
-    = link_to image_tag("milky/edit.png", alt: t('link.edit'), class: "edit_icon"), edit_settings_credit_relation_path(cr.id), :remote => true,  :method => :get
-    = link_to image_tag("milky/destroy.png", alt: t('link.delete'), class: "destroy_icon"), settings_credit_relation_path(cr.id), :remote => true, :method => :delete, :confirm=> t('message.delete_really')
+    = link_to icon_edit, edit_settings_credit_relation_path(cr.id), :remote => true,  :method => :get
+    = link_to icon_destroy, settings_credit_relation_path(cr.id), :remote => true, :method => :delete, :confirm=> t('message.delete_really')
