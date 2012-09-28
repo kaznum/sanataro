@@ -36,5 +36,17 @@ module ApplicationHelper
   def fadeout_and_remove(selector)
     "$('#{selector}').fadeOut(#{Settings.effect.fade.duration}, function() {$('#{selector}').remove();});"
   end
+
+  def icon_show
+    '<i class="icon-share-alt show_icon"></i>'.html_safe
+  end
+
+  def icon_edit
+    '<i class="icon-pencil edit_icon"></i>'.html_safe
+  end
+
+  def icon_destroy
+    '<i class="icon-trash destroy_icon"></i>'.html_safe
+  end
 end
 

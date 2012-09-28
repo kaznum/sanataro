@@ -26,10 +26,10 @@
     .span1.item_operation
       %span{:id => "navi_#{h event_item.id}"}
         - if @tag || @mark || @keyword
-          = link_to image_tag("milky/show.png", alt: t("link.show"), class: "show_icon"), entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}"
+          = link_to_show(event_item)
         - else
-          = link_to image_tag('milky/edit.png', alt: t("link.edit"), class: "edit_icon"), edit_entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :method => :get, :remote => true, :class => "edit_link"
-          = link_to image_tag('milky/destroy.png', alt: t("link.delete"), class: "destroy_icon"), entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :method => :delete, :remote => true, :data => { :confirm => t("message.delete_really") }
+          = link_to_edit(event_item)
+          = link_to_destroy(event_item)
       %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
   - elsif event_item.parent_id
     .span2.item_date= l(event_item.action_date)
@@ -47,10 +47,10 @@
     .span1.item_operation
       %span{:id => "navi_#{h event_item.id}"}
         - if @tag || @mark || @keyword
-          = link_to image_tag("milky/show.png", alt: t("link.show"), class: "show_icon"), entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}"
+          = link_to_show(event_item)
         - else
           = tweet_button(event_item)
-          = link_to image_tag('milky/edit.png', alt: t("link.edit"), class: "edit_icon"), edit_entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :get, :class => "edit_link"
+          = link_to_edit(event_item)
       %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
   - elsif event_item.child_item
     .span2.item_date= l(event_item.action_date)
@@ -69,11 +69,11 @@
     .span1.item_operation
       %span{:id => "navi_#{h event_item.id}"}
         - if @tag || @mark || @keyword
-          = link_to image_tag("milky/show.png", alt: t("link.show"), class: "show_icon"), entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}"
+          = link_to_show(event_item)
         - else
           = tweet_button(event_item)
-          = link_to image_tag('milky/edit.png', alt: t("link.edit"), class: "edit_icon"), edit_entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :get, :class => "edit_link"
-          = link_to image_tag('milky/destroy.png', alt: t("link.delete"), class: "destroy_icon"), entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :delete, :data => { :confirm => t('message.delete_really') }
+          = link_to_edit(event_item)
+          = link_to_destroy(event_item)
       %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
   - else
     .span2.item_date
@@ -92,9 +92,9 @@
     .span1.item_operation
       %span{:id => "navi_#{h event_item.id}"}
         - if @tag || @mark || @keyword
-          = link_to image_tag("milky/show.png", alt: t("link.show"), class: "show_icon"), entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}"
+          = link_to_show(event_item)
         - else
           = tweet_button(event_item)
-          = link_to image_tag('milky/edit.png', alt: t("link.edit"), class: "edit_icon"), edit_entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :get, :class => "edit_link"
-          = link_to image_tag('milky/destroy.png', alt: t("link.delete"),  class: "destroy_icon"), entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :delete, :data => { :confirm => t("message.delete_really") }
+          = link_to_edit(event_item)
+          = link_to_destroy(event_item)
       %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."

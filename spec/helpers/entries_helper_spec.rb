@@ -98,6 +98,39 @@ describe EntriesHelper do
       it { expect { helper.relative_path(31423413) }.to raise_error(ActiveRecord::RecordNotFound) }
     end
   end
+
+  describe "operation icons" do
+    before do
+      @item = Fabricate.build(:item, amount: 1500, from_account_id: 1, to_account_id: 3, action_date: Date.new(2008,5,3))
+      @item.save!
+      @item.reload
+    end
+
+    describe "#link_to_edit" do
+      describe "link" do
+        subject { helper.link_to_edit(@item) }
+        it { should match /href="\/months\/2008\/5\/entries\/#{@item.id}\/edit"/ }
+        it { should match /class=".*edit_icon.*"/ }
+      end
+    end
+
+    describe "#link_to_destroy" do
+      describe "link" do
+        subject { helper.link_to_destroy(@item) }
+        it { should match /href="\/months\/2008\/5\/entries\/#{@item.id}"/ }
+        it { should match /data-method="delete"/ }
+        it { should match /class=".*destroy_icon.*"/ }
+      end
+    end
+
+    describe "#link_to_show" do
+      describe "link" do
+        subject { helper.link_to_show(@item) }
+        it { should match /href="\/months\/2008\/5\/entries#item_#{@item.id}"/ }
+        it { should match /class=".*show_icon.*"/ }
+      end
+    end
+  end
 end
 
 

@@ -1,18 +1,21 @@
 $border_color: silver
 $border_width: 1px
 $border_style: solid
-$operation_icon_width: 15px
-$operation_icon_padding: 1px
+$operation_icon_width: 1.0em
+$operation_icon_padding: 0px
 $operation_icon_hover_padding: 0px
 
 @mixin operation_icon
   padding: $operation_icon_padding
   width: $operation_icon_width
   border: none
+  font-size: 1.2em
+  vertical-align: middle
 @mixin icon_hover
   padding: $operation_icon_hover_padding
   background: tint(#ffff99, 25%)
-  width: $operation_icon_width + 2px
+  font-size: 1.2em
+  vertical-align: middle
 @mixin row_of_div_table
   border-bottom: $border_width $border_style $border_color
 
@@ -21,10 +24,16 @@ $operation_icon_hover_padding: 0px
   height: auto !important
   height: 22px
 
-a > img.show_icon, a > img.edit_icon, a > img.destroy_icon, a > img.tweet_icon
+a > .show_icon, a > .edit_icon, a > .destroy_icon, a > img.tweet_icon
   @include operation_icon
-a:hover > img.show_icon, a:hover > img.edit_icon, a:hover > img.destroy_icon, a:hover > img.tweet_icon
+a:hover > .show_icon, a:hover > .edit_icon, a:hover > .destroy_icon, a:hover > img.tweet_icon
   @include icon_hover
+
+a > .edit_icon
+  color: #10721c
+
+a > .destroy_icon
+  color: gray
 
 @mixin default_header
   font-weight: bold
@@ -150,6 +159,7 @@ div.item_amount_header
 
 div.item_operation
   @include default_item_line
+  text-align: right
 
 div.item_operation_header
   @include default_item_header
