@@ -71,7 +71,7 @@
                   %td.total_capital #{t('.debt_net_total')}: #{number_to_currency(@total_plus)}
           .yearly_balance_graph
             .chart_title
-              #{t('label.chart_title_prefix')}#{t('label.change')}
+              %i.icon-th= ' ' + t('label.change')
               = toggle_legend_link "#yearly_chart"
               %span#income_chart_hover
             #yearly_chart_choices
@@ -80,13 +80,13 @@
         .span4
           #asset_graph
             .chart_title
-              #{t('label.chart_title_prefix')}#{t('.stock')}
+              %i.icon-th= ' ' + t('.stock')
               = toggle_legend_link "#asset_chart"
               %span#asset_chart_hover
             #asset_chart.graph{:style => "height: 200px"}
             .spacer &nbsp;
             .chart_title
-              #{t('label.chart_title_prefix')}#{t('.debt')}
+              %i.icon-th= ' ' + t('.debt')
               = toggle_legend_link "#debt_chart"
               %span#debt_chart_hover
             #debt_chart.graph{:style => "height: 200px"}

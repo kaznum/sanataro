@@ -63,31 +63,31 @@
         .span8
           .budget_graph
             .chart_title
-              = t('label.chart_title_prefix') + t('label.income')
+              %i.icon-th= ' ' + t('label.income')
               = toggle_legend_link "#income_chart"
               %span#income_chart_hover
             #income_chart.graph{:style => "height:200px;"}
             .spacer &nbsp;
             .chart_title
-              = t('label.chart_title_prefix') + t('label.outgoing')
+              %i.icon-th= ' ' + t('label.outgoing')
               = toggle_legend_link "#outgo_chart"
               %span#outgo_chart_hover
             #outgo_chart.graph{:style => "height: 200px;"}
             .spacer &nbsp;
             .chart_title
-              = t('label.chart_title_prefix') + t('label.yearly_income')
+              %i.icon-th= ' ' + t('label.yearly_income')
               = toggle_legend_link "#yearly_income_chart"
             #yearly_income_chart_choices
             #yearly_income_chart.graph{:style => "height: 200px;"}
             .spacer &nbsp;
             .chart_title
-              = t('label.chart_title_prefix') + t('label.yearly_outgoing')
+              %i.icon-th= ' ' + t('label.yearly_outgoing')
               = toggle_legend_link "#yearly_outgo_chart"
             #yearly_outgo_chart_choices
             #yearly_outgo_chart.graph{:style => "height: 200px"}
             .spacer &nbsp;
             .chart_title
-              = t('label.chart_title_prefix') + t('label.yearly_total_income_and_total_outgoing')
+              %i.icon-th= ' ' + t('label.yearly_total_income_and_total_outgoing')
               = toggle_legend_link "#yearly_total_chart"
             #yearly_total_chart_choices
             #yearly_total_chart.graph{:style => "height: 200px"}

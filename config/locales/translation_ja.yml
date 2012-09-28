@@ -97,7 +97,6 @@ ja:
     balance: "残高"
     unknown_income: "不明な入金"
     unknown_outgoing: "不明な出金"
-    chart_title_prefix: "■"
     position: "並び順"
     day: "日"
     register: "登録"
