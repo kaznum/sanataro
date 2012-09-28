@@ -33,7 +33,18 @@ a > .edit_icon
   color: #10721c
 
 a > .destroy_icon
-  color: gray
+  color: #444
+
+.disabled
+  &.edit_icon, &.destroy_icon
+    padding: $operation_icon_padding
+    width: $operation_icon_width
+    border: none
+    font-size: 1.2em
+    vertical-align: middle
+    color: #999
+    display: inline-block
+    text-decoration: inherit
 
 @mixin default_header
   font-weight: bold
