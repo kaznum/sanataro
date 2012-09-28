@@ -98,8 +98,6 @@ ja:
     unknown_income: "不明な入金"
     unknown_outgoing: "不明な出金"
     chart_title_prefix: "■"
-    status_open: "▼"
-    status_closed: "◆"
     position: "並び順"
     day: "日"
     register: "登録"
