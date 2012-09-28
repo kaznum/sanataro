@@ -1,6 +1,6 @@
 module EntriesHelper
   def link_to_confirmation_required(item_id, required, options = {})
-    label = required ? I18n.t('label.confirmation_mark') : I18n.t('label.no_confirmation_mark')
+    label = required ? icon_confirmation : icon_no_confirmation
     css_class = required ? 'item_confirmation_required' : 'item_confirmation_not_required'
     tag = options[:tag]
     mark = options[:mark]
@@ -15,7 +15,7 @@ module EntriesHelper
       url = entry_confirmation_required_path(item_id, confirmation_required: !required)
     end
 
-    link_to label.html_safe, url, remote: true, method: :put, :class => css_class
+    link_to label, url, remote: true, method: :put, :class => css_class
   end
 
   def relative_path(item_id)
@@ -46,5 +46,13 @@ module EntriesHelper
     else
       icon_show(enabled)
     end
+  end
+
+  def icon_confirmation
+    '<i class="icon-star item_confirmation_required"></i>'.html_safe
+  end
+
+  def icon_no_confirmation
+    '<i class="icon-star-empty item_confirmation_not_required"></i>'.html_safe
   end
 end

@@ -71,7 +71,7 @@
                       %b.caret
                     %ul.dropdown-menu
                       %li= link_to("#{t("link.status_of_today", date: today)}".html_safe, account_status_path, id: "account_digest", class: "digest_link")
-                      %li= link_to("#{t("link.confirmation_list")}".html_safe, confirmation_status_path, id: "confirmation_digest", class: "digest_link")
+                      %li= link_to("#{t("link.confirmation_list", mark: icon_confirmation)}".html_safe, confirmation_status_path, id: "confirmation_digest", class: "digest_link")
                       %li= link_to("#{t("link.tag_list")}".html_safe, tag_status_path, id: "tag_digest", class: "digest_link")
                 %ul.nav.pull-right
                   %li
@@ -104,7 +104,7 @@
 
     .modal.hide.fade#digest_modal{:style => "display: none;"}
       .modal-header
-        %button.close{"data-dismiss" => "modal"}= t("button.dismiss")
+        %button.close{"data-dismiss" => "modal"}= '&times;'.html_safe
         %h3#digest_title= ""
       .modal-body#digest_body
       .modal-footer
