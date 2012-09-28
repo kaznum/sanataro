@@ -1,9 +1,15 @@
 - event_item ||= item
 - row_class = ""
+- twitter_enabled = true
+- edit_enabled = true
+- destroy_enabled = true
 - if event_item.adjustment?
   - row_class = "item_adjustment"
+  - twitter_enabled = false
 - elsif event_item.parent_id
   - row_class = "item_move"
+  - twitter_enabled = false
+  - destroy_enabled = false
 - else
   - if @user.income_ids.include?(event_item.from_account_id)
     - row_class = "item_income"
@@ -23,14 +29,6 @@
     .span2.item_from= (event_item.amount < 0) ? colored_account_name(event_item.to_account_id) : '(' + t("label.adjustment") + ')'
     .span2.item_to= (event_item.amount >= 0) ? colored_account_name(event_item.to_account_id) : '(' + t("label.adjustment") + ')'
     .span2.item_amount= number_to_currency(event_item.amount.abs)
-    .span1.item_operation
-      %span{:id => "navi_#{h event_item.id}"}
-        - if @tag || @mark || @keyword
-          = link_to_show(event_item)
-        - else
-          = link_to_edit(event_item)
-          = link_to_destroy(event_item)
-      %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
   - elsif event_item.parent_id
     .span2.item_date= l(event_item.action_date)
     .span3.item_name
@@ -44,14 +42,6 @@
     .span2.item_from= colored_account_name(event_item.from_account_id)
     .span2.item_to= colored_account_name(event_item.to_account_id)
     .span2.item_amount=number_to_currency(event_item.amount)
-    .span1.item_operation
-      %span{:id => "navi_#{h event_item.id}"}
-        - if @tag || @mark || @keyword
-          = link_to_show(event_item)
-        - else
-          = tweet_button(event_item)
-          = link_to_edit(event_item)
-      %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
   - elsif event_item.child_item
     .span2.item_date= l(event_item.action_date)
     .span3.item_name
@@ -66,15 +56,6 @@
     .span2.item_from= colored_account_name(event_item.from_account_id)
     .span2.item_to= colored_account_name(event_item.to_account_id)
     .span2.item_amount=number_to_currency(event_item.amount)
-    .span1.item_operation
-      %span{:id => "navi_#{h event_item.id}"}
-        - if @tag || @mark || @keyword
-          = link_to_show(event_item)
-        - else
-          = tweet_button(event_item)
-          = link_to_edit(event_item)
-          = link_to_destroy(event_item)
-      %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
   - else
     .span2.item_date
       = l(event_item.action_date)
@@ -89,12 +70,12 @@
     .span2.item_from= colored_account_name(event_item.from_account_id)
     .span2.item_to= colored_account_name(event_item.to_account_id)
     .span2.item_amount=number_to_currency(event_item.amount)
-    .span1.item_operation
-      %span{:id => "navi_#{h event_item.id}"}
-        - if @tag || @mark || @keyword
-          = link_to_show(event_item)
-        - else
-          = tweet_button(event_item)
-          = link_to_edit(event_item)
-          = link_to_destroy(event_item)
-      %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
+  .span1.item_operation
+    %span{:id => "navi_#{h event_item.id}"}
+      - if @tag || @mark || @keyword
+        = link_to_show(event_item)
+      - else
+        = tweet_button(event_item) if twitter_enabled
+        = link_to_edit(event_item) if edit_enabled
+        = link_to_destroy(event_item) if destroy_enabled
+    %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
