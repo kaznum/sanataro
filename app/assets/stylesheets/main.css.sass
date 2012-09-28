@@ -218,15 +218,26 @@ div#pllist
 div.item_remains
   text-align: right
 
-.item_confirmation_required:link, .item_confirmation_required:hover
-  color: orange
+@mixin confirmation_required
   text-decoration: none
   cursor: pointer
 
-.item_confirmation_not_required:link, .item_confirmation_not_required:hover
-  color: silver
-  text-decoration: none
-  cursor: pointer
+
+.item_confirmation_required
+  &, &:hover
+    color: orange
+    @include confirmation_required
+
+.item_confirmation_not_required
+  &
+    color: #999
+    @include confirmation_required
+  &:hover
+    color: orange
+    @include confirmation_required
+
+.icon-confirmation-required
+  color: orange
 
 .trivial_link
   color: gray

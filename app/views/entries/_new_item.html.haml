@@ -17,8 +17,8 @@
     = text_field_tag :action_date, l(it.action_date), class: "input-small", placeholder: "YYYY/MM/DD"
     = text_field_tag :item_name, it.name, placeholder: t('placeholder.item_name')
     = hidden_field_tag :confirmation_required, it.confirmation_required?
-    %span#confirmation_required_label.item_confirmation_not_required= t('label.no_confirmation_mark')
-    = link_to t('.show_all_confirmation_required'), mark_entries_path(mark: :confirmation_required)
+    %span#confirmation_required_label.item_confirmation_not_required= t('label.no_confirmation_mark').html_safe
+    = link_to t('.show_all_confirmation_required').html_safe, mark_entries_path(mark: :confirmation_required)
   .row-fluid.input-row
     #candidates
   .row-fluid.input-row

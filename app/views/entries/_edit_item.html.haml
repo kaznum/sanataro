@@ -19,7 +19,7 @@
       = text_field_tag :action_date, l(item.action_date), size: 12, placeholder: "YYYY/MM/DD", id: "action_date_#{item.id}", class: "input-small"
       = text_field_tag :item_name, item.name, placeholder: t('placeholder.item_name')
       = hidden_field_tag :confirmation_required, item.confirmation_required?, id: "confirmation_required_#{item.id}"
-      %span.item_confirmation_not_required{id: "confirmation_required_label_#{item.id}"}= t('label.no_confirmation_mark')
+      %span.item_confirmation_not_required{id: "confirmation_required_label_#{item.id}"}= t('label.no_confirmation_mark').html_safe
     .row-fluid
       = select_tag 'from', options_for_select(@user.from_accounts, item.from_account_id.to_s), class: "input-medium"
       \=&gt;

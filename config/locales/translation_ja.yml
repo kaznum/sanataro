@@ -68,8 +68,8 @@ ja:
   label:
     copyright: "Copyright &copy; 2007-2012 Kazuya NUMATA. All rights are reserved."
     author: "Kazuya NUMATA <kaz@nu-chon.org>"
-    confirmation_mark: '★'
-    no_confirmation_mark: '☆'
+    confirmation_mark: '<i class="icon-star"></i>'
+    no_confirmation_mark: '<i class="icon-star-empty"></i>'
     date: "日付"
     type: "種別"
     item: "項目"
@@ -84,7 +84,7 @@ ja:
     outgoing: "支出"
     net: "収支"
     unknown: "不明"
-    confirmation_required: "要確認(★)"
+    confirmation_required: "要確認(<i class='icon-star icon-confirmation-required'></i>)"
     yearly_income: "収入(年間)"
     yearly_outgoing: "支出(年間)"
     yearly_total_income_and_total_outgoing: "総収入・総支出(年間)"
@@ -125,7 +125,7 @@ ja:
     toggle_label: "ラベルを表示/隠す"
     about_emolett: "Emolett表記について"
     tag_list: "タグリスト"
-    confirmation_list: "<span class='item_confirmation_required'>★</span>リスト"
+    confirmation_list: "<span class='item_confirmation_required'><i class='icon-star'></i></span>リスト"
     status_of_today: "今日(%{date})の状況"
   placeholder:
     item_name: "ラーメン、弁当など"
@@ -231,7 +231,7 @@ ja:
       operation: "操作"
       outgoing_to_income: "出金 => 入金"
     new_item:
-      show_all_confirmation_required: "[すべての★を見る]"
+      show_all_confirmation_required: "[すべての<i class='icon-star icon-confirmation-required'></i>を見る]"
     edit_child_item:
       edit_credit_item: "口座、金額を変更する場合は、クレジットカード使用時の項目を変更してください。"
   account_statuses:
@@ -242,7 +242,7 @@ ja:
       tag_list: "タグリスト"
   confirmation_statuses:
     show:
-      confirmation_list: "<span class='item_confirmation_required'>★</span>リスト"
+      confirmation_list: "<span class='item_confirmation_required'><i class='icon-star'></i></span>リスト"
       explanation: "説明"
   settings:
     users:

@@ -7,9 +7,9 @@
       label_selector = "#confirmation_required_label"
       field_selector = "#confirmation_required"
     if isRequired
-      $(label_selector).text("★").attr "class", "item_confirmation_required"
+      $(label_selector).html("<i class='icon-star'></i>").attr "class", "item_confirmation_required"
       $(field_selector).attr "value", "true"
     else
-      $(label_selector).text("☆").attr "class", "item_confirmation_not_required"
+      $(label_selector).text("<i class='icon-star-empty'></i>").attr "class", "item_confirmation_not_required"
       $(field_selector).attr "value", "false"
 )(this)
