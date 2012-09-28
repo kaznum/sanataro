@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe EntriesHelper do
   describe "#link_to_confirmation_required" do
-    fixtures :users, :accounts
+    fixtures :users, :accounts, :credit_relations
     before do
       @item = Fabricate.build(:item, amount: 1500, from_account_id: 1, to_account_id: 3,)
       @item.save!
@@ -45,7 +45,7 @@ describe EntriesHelper do
         it { should ==  link_to(I18n.t('label.no_confirmation_mark'), mark_entry_confirmation_required_path("markmark", @item.id, confirmation_required: true), remote: true, method: :put, class: 'item_confirmation_not_required') }
       end
     end
-    
+
     context "when keyword is specified," do
       context "when now confirmation_required is true," do
         subject { helper.link_to_confirmation_required(@item.id, true, keyword: "keykey" ) }
@@ -63,7 +63,7 @@ describe EntriesHelper do
     fixtures :users, :accounts
     before do
       @user = users(:user1)
-      @credit_item = Fabricate.build(:item, amount: 1500, from_account_id: 4, to_account_id: 3,)
+      @credit_item = Fabricate.build(:item, amount: 1500, from_account_id: 4, to_account_id: 3)
       @credit_item.save!
       @credit_item.reload
       @credit_date = @credit_item.action_date
