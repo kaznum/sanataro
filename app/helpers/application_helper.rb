@@ -37,16 +37,19 @@ module ApplicationHelper
     "$('#{selector}').fadeOut(#{Settings.effect.fade.duration}, function() {$('#{selector}').remove();});"
   end
 
-  def icon_show
-    '<i class="icon-share-alt show_icon"></i>'.html_safe
+  def icon_show(enabled = true)
+    additional = enabled ? "" : "disabled"
+    "<i class=\"icon-share-alt show_icon #{additional}\"></i>".html_safe
   end
 
-  def icon_edit
-    '<i class="icon-pencil edit_icon"></i>'.html_safe
+  def icon_edit(enabled = true)
+    additional = enabled ? "" : "disabled"
+    "<i class=\"icon-pencil edit_icon #{additional}\"></i>".html_safe
   end
 
-  def icon_destroy
-    '<i class="icon-trash destroy_icon"></i>'.html_safe
+  def icon_destroy(enabled = true)
+    additional = enabled ? "" : "disabled"
+    "<i class=\"icon-trash destroy_icon #{additional}\"></i>".html_safe
   end
 end
 

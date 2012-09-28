@@ -28,7 +28,7 @@ module EntriesHelper
     if enabled
       link_to icon_edit, edit_entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :get, :class => "edit_link"
     else
-      icon_edit
+      icon_edit(enabled)
     end
   end
 
@@ -36,7 +36,7 @@ module EntriesHelper
     if enabled
       link_to icon_destroy, entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :delete, :data => { :confirm => t("message.delete_really") }
     else
-      icon_destroy
+      icon_destroy(enabled)
     end
   end
 
@@ -44,7 +44,7 @@ module EntriesHelper
     if enabled
       link_to icon_show, entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}"
     else
-      icon_show
+      icon_show(enabled)
     end
   end
 end

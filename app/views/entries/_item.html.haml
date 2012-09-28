@@ -76,6 +76,6 @@
         = link_to_show(event_item)
       - else
         = tweet_button(event_item) if twitter_enabled
-        = link_to_edit(event_item) if edit_enabled
-        = link_to_destroy(event_item) if destroy_enabled
+        = link_to_edit(event_item, edit_enabled)
+        = link_to_destroy(event_item, destroy_enabled)
     %span{:id => "loading_#{h event_item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
