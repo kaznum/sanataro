@@ -22,7 +22,6 @@
         = text_field_tag 'adjustment_amount', item.adjustment_amount, :size=>10, :style=>"text-align: right;", :class => "input-small"
         %span.add-on>= t('number.currency.format.unit')
       = text_field_tag 'tag_list', item.tag_list, placeholder: t('placeholder.tag'), class: "input-medium"
-    .row-fluid.input-row
       %span{:id => "item_operation_#{h item.id}"}
         = submit_tag t('button.save'), id: "edit_button_#{item.id}", class: 'btn btn-primary'
         = link_to t('link.cancel'), entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :get, :class => "trivial_link"

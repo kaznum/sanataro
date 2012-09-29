@@ -27,10 +27,7 @@
     = select_tag 'to', options_for_select(@user.to_accounts, it.to_account_id.to_s), class: "input-medium"
     %span.input-append
       = text_field_tag 'amount', ((it.amount.nil? || it.amount == 0) ? nil : number_to_currency(it.amount, format: "%n")), class: "amount input-small", placeholder: t('placeholder.amount')
-      %span.add-on= t('number.currency.format.unit')
-    &nbsp;
+      %span.add-on>= t('number.currency.format.unit')
     = text_field_tag 'tag_list', nil, placeholder: t('placeholder.tag'), class: "input-medium"
-  .row-fluid.input-row
     = submit_tag t('button.register'), id: 'new_add_button', class: 'btn btn-primary'
     = link_to t("link.about_emolett"), "http://mayuco.github.com/emolett/", target: "_blank", class: "trivial_link"
-

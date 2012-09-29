@@ -18,6 +18,5 @@
       = text_field_tag 'adjustment_amount', nil, class: "input-small", style: "text-align: right;", placeholder: t("placeholder.amount")
       %span.add-on>= t('number.currency.format.unit')
     = text_field_tag 'tag_list',nil, placeholder: t('placeholder.tag'), class: "input-medium"
-  .row-fluid.input-row
     = submit_tag t('button.register'), id: 'new_add_button', class: 'btn btn-primary'
     = hidden_field_tag 'entry_type', 'adjustment'
