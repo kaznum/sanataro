@@ -59,6 +59,11 @@ jQuery ($) ->
 
   $("#items").on "click", ".item_date, .item_name, .item_from, .item_to, .item_amount", ->
     edit_link = $(this).parent(".item").find("a.edit_link")
+    show_link = $(this).parent(".item").find("a.show_link")
     if edit_link.length > 0
       url = edit_link.attr("href")
       $.ajax({ url: url, method: "get" })
+    else if show_link.length > 0
+      url = show_link.attr("href")
+      location.href = url
+
