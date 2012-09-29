@@ -42,7 +42,7 @@ module EntriesHelper
 
   def link_to_show(event_item, enabled = true)
     if enabled
-      link_to icon_show, entries_path(event_item.action_date.year, event_item.action_date.month) + "#item_#{event_item.id}"
+      link_to icon_show, entries_path(event_item.action_date.year, event_item.action_date.month, anchor: "item_#{event_item.id}"), :class => "show_link"
     else
       icon_show(enabled)
     end
