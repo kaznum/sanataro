@@ -28,5 +28,5 @@
     .row-fluid.input-row
       .span12
         = submit_tag t('button.save'), id: "edit_button_#{@cr.id}", class: 'btn btn-primary'
-        = link_to t('link.cancel'), settings_credit_relation_path(@cr.id), :remote => true, :method => :get, :class => "trivial_link"
+        = link_to t('link.cancel'), settings_credit_relation_path(@cr.id), :remote => true, :method => :get, :class => "btn"
         .warning{:id => "edit_warning_#{@cr.id}"}
