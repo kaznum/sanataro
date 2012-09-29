@@ -7,8 +7,6 @@
       = render partial: 'new_item', locals: { :it => @new_item }
     #warning
     #itemlistarea
-      %p#list_item_explain
-        %h3= t("entries.income_outgoing_list")
       = render 'items_header'
       #items
         = render partial: 'item', collection: @items

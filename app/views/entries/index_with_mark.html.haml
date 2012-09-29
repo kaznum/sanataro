@@ -2,9 +2,8 @@
   .span12
     #warning{:style => "color: red"}
     #itemlistarea
-      %p#list_item_explain
-        %h3= t("entries.income_outgoing_list")
-        (mark: #{h (@mark == 'confirmation_required') ? t("label.confirmation_required", mark: icon_confirmation).html_safe : '(' + t("label.unknown") + ')'})
+      %h3
+        mark: #{h (@mark == 'confirmation_required') ? t("label.confirmation_required", mark: icon_confirmation).html_safe : '(' + t("label.unknown") + ')'}
       = render 'items_header'
       #items
         = render partial: 'item', collection: @items
