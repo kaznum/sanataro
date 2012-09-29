@@ -20,7 +20,7 @@
   - if event_item.adjustment?
     .span2.item_date= l(event_item.action_date)
     .span3.item_name
-      = t("label.adjustment") + " " + number_to_currency(event_item.adjustment_amount)
+      %span.item_name_text= t("label.adjustment") + " " + number_to_currency(event_item.adjustment_amount)
       - if event_item.tags.size > 0
         [
         - event_item.tags.each do |tag|
@@ -33,7 +33,8 @@
     .span2.item_date= l(event_item.action_date)
     .span3.item_name
       = link_to_confirmation_required(event_item.id, event_item.parent_item.confirmation_required?, tag: @tag, mark: @mark, keyword: @keyword)
-      #{t(".deposit")} (#{link_to l(event_item.parent_item.action_date, format: :short) + ' ' + emolettise(h event_item.parent_item.name), relative_path(event_item.id)})
+      %span.item_name_text
+        #{t(".deposit")} (#{link_to l(event_item.parent_item.action_date, format: :short) + ' ' + emolettise(h event_item.parent_item.name), relative_path(event_item.id)})
       - if event_item.tags.size > 0
         [
         - event_item.tags.each do |tag|
@@ -46,7 +47,7 @@
     .span2.item_date= l(event_item.action_date)
     .span3.item_name
       = link_to_confirmation_required(event_item.id, event_item.confirmation_required?, tag: @tag, mark: @mark, keyword: @keyword)
-      = emolettise(h event_item.name)
+      %span.item_name_text= emolettise(h event_item.name)
       (#{link_to l(event_item.child_item.action_date, format: :short) + ' ' + t(".deposit"), relative_path(event_item.id)})
       - if event_item.tags.size > 0
         [
@@ -61,7 +62,7 @@
       = l(event_item.action_date)
     .span3.item_name
       = link_to_confirmation_required(event_item.id, event_item.confirmation_required?, tag: @tag, mark: @mark, keyword: @keyword)
-      = emolettise(h event_item.name)
+      %span.item_name_text= emolettise(h event_item.name)
       - if event_item.tags.size > 0
         [
         - event_item.tags.each do |tag|

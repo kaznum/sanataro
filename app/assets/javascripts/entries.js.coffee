@@ -57,9 +57,9 @@ jQuery ($) ->
   $("form.navbar-search .icon-search").click ->
     $(this).parent("form.navbar-search").submit()
 
-  $("#items").on "click", ".item_date, .item_name, .item_from, .item_to, .item_amount", ->
-    edit_link = $(this).parent(".item").find("a.edit_link")
-    show_link = $(this).parent(".item").find("a.show_link")
+  $("#items").on "click", ".item_date, .item_name_text, .item_from, .item_to, .item_amount", ->
+    edit_link = $(this).parents(".item").find("a.edit_link")
+    show_link = $(this).parents(".item").find("a.show_link")
     if edit_link.length > 0
       url = edit_link.attr("href")
       $.ajax({ url: url, method: "get" })
