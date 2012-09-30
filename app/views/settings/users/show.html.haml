@@ -5,20 +5,20 @@
       .bind("ajax:complete", -> $('#change_button').attr("disabled", false))
 - if  @user.login != 'demo'
   #input_area
-    = form_tag settings_user_path, :remote => true, :method => :put, :id => "edit_user" do
+    = form_tag settings_user_path, :remote => true, :method => :put, :id => "edit_user", :class => "form-horizontal" do
       %p= t('.explanation')
-      %table
-        %tr
-          %th= t('.email')
-          %td= text_field_tag 'email', @user.email
-        %tr
-          %th= t('.new_password')
-          %td= password_field_tag 'password_plain', nil
-        %tr
-          %th= t('.new_password_confirmation')
-          %td= password_field_tag 'password_confirmation', nil
+      .control-group
+        %label.control-label{for: 'email'}= t('.email')
+        .controls= text_field_tag 'email', @user.email
+      .control-group
+        %label.control-label{for: 'password_plain'}= t('.new_password')
+        .controls= password_field_tag 'password_plain', nil
+      .control-group
+        %label.control-label{for: 'password_plain'}= t('.new_password_confirmation')
+        .controls= password_field_tag 'password_confirmation', nil
       %p
         %span#warning.warning
-      = submit_tag t('button.save'), id: 'change_button', class: 'btn btn-primary'
+      .control-group
+        .controls= submit_tag t('button.save'), id: 'change_button', class: 'btn btn-primary'
 - else
   This function is not available for the demo users.

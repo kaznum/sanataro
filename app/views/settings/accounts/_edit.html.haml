@@ -5,20 +5,26 @@
       .bind("ajax:before", -> $('#edit_button_#{@account.id}').attr('disabled', true))
       .bind("ajax:complete", -> $('#edit_button_#{@account.id}').attr('disabled', false))
 %div{:id => "account_#{@account.id}"}
-  = form_tag settings_account_path(@account.id), :method => :put, :remote => true, :id => "edit_form_#{@account.id}", :class => "well" do
-    .row-fluid
-      = text_field_tag :account_name, @account.name, class: "input-medium"
-    .row-fluid
-      = text_field_tag :order_no, @account.order_no, class: "input-small"
-    .row-fluid
-      = submit_tag t('button.save'), id: "edit_button_#{@account.id}", class: 'btn btn-primary'
-      = link_to t('link.cancel'), settings_account_path(@account.id), :remote => true, :method => :get, :class => "btn"
-      %br/
-    .row-fluid
-      = t(".use_bgcolor")
-      = check_box_tag :use_bgcolor, '1', (@account.bgcolor.present?), :id => "use_bgcolor_#{@account.id}"
-      = hidden_field_tag :bgcolor, @account.bgcolor.nil? ? '#ffffff' : "##{@account.bgcolor}", :id => "colorfield_#{@account.id}"
+  = form_tag settings_account_path(@account.id), :method => :put, :remote => true, :id => "edit_form_#{@account.id}", :class => "form-horizontal well" do
+    .control-group
+      %label.control-label{for: "account_name"}
+        = t("settings.accounts.bank_account") if @account.account_type == 'account'
+        = t("settings.accounts.outgoing_account") if @account.account_type == 'outgo'
+        = t("settings.accounts.income_account") if @account.account_type == 'income'
+      .controls= text_field_tag :account_name, @account.name, class: "input-medium"
+    .control-group
+      %label.control-label{for: "order_no"}= t("label.position")
+      .controls= text_field_tag :order_no, @account.order_no, class: "input-small"
+    .control-group
+      %label.control-label{for: "use_bgcolor"}= t(".use_bgcolor")
+      .controls
+        = check_box_tag :use_bgcolor, '1', (@account.bgcolor.present?), :id => "use_bgcolor_#{@account.id}"
+        = hidden_field_tag :bgcolor, @account.bgcolor.nil? ? '#ffffff' : "##{@account.bgcolor}", :id => "colorfield_#{@account.id}"
+        %span{:id => "colorpicker_#{@account.id}"}
+    .control-group
+      .controls
+        = submit_tag t('button.save'), id: "edit_button_#{@account.id}", class: 'btn btn-primary'
+        = link_to t('link.cancel'), settings_account_path(@account.id), :remote => true, :method => :get, :class => "btn"
     .row-fluid
       .warning{:id => "account_#{@account.id}_warning"}
-    .row-fluid
-      %span{:id => "colorpicker_#{@account.id}"}
+
