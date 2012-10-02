@@ -5,7 +5,7 @@ describe EntriesHelper do
   describe "#link_to_confirmation_required" do
     fixtures :users, :accounts, :credit_relations
     before do
-      @item = Fabricate.build(:item, amount: 1500, from_account_id: 1, to_account_id: 3,)
+      @item = Fabricate.build(:item, amount: 1500, from_account_id: 1, to_account_id: 3)
       @item.save!
       @item.reload
     end
@@ -151,6 +151,33 @@ describe EntriesHelper do
         it { should match /class=".*show_icon.*"/ }
         it { should match /class=".*disabled.*"/ }
       end
+    end
+  end
+
+  describe "#tags_for_items" do
+    context "when tags exist, " do
+      fixtures :users, :accounts
+      before do
+        @item = Fabricate.build(:item, tag_list: 'aa bb' )
+        @item.save!
+        @item.reload
+        helper.should_receive(:link_to_tag).with(@item.tags[0]).and_return("_link_#{@item.tags[0].name}_")
+        helper.should_receive(:link_to_tag).with(@item.tags[1]).and_return("_link_#{@item.tags[1].name}_")
+      end
+
+      subject { helper.link_to_tags(@item) }
+      it { should == "[_link_aa_ _link_bb_]" }
+    end
+
+    context "when tags do not exist, " do
+      before do
+        @item = Fabricate.build(:item)
+        @item.save!
+        @item.reload
+      end
+
+      subject { helper.link_to_tags(@item) }
+      it { should == "" }
     end
   end
 end

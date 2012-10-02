@@ -55,4 +55,12 @@ module EntriesHelper
   def icon_no_confirmation
     '<i class="icon-star-empty item_confirmation_not_required"></i>'.html_safe
   end
+
+  def link_to_tags(item)
+    if item.tags.size > 0
+      ("[" + item.tags.map{|tag| link_to_tag(tag) }.join(" ") + "]").html_safe
+    else
+      ""
+    end
+  end
 end
