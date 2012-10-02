@@ -58,7 +58,7 @@ module EntriesHelper
 
   def link_to_tags(item)
     if item.tags.size > 0
-      ("[" + item.tags.map{|tag| link_to_tag(tag) }.join(" ") + "]").html_safe
+      ("[" + item.tags.sort{|a,b| a.name <=> b.name}.map{|tag| link_to_tag(tag) }.join(" ") + "]").html_safe
     else
       ""
     end
