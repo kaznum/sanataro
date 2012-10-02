@@ -181,10 +181,3 @@ describe EntriesHelper do
     end
   end
 end
-
-
-
-
-
-
-
