@@ -63,4 +63,77 @@ module EntriesHelper
       ""
     end
   end
+
+  def item_row_class(item)
+    row_class = ""
+    if item.adjustment?
+      row_class = "item_adjustment"
+    elsif item.parent_id
+      row_class = "item_move"
+    elsif @user.income_ids.include?(item.from_account_id)
+      row_class = "item_income"
+    elsif @user.account_ids.include?(item.from_account_id) && @user.account_ids.include?(item.to_account_id)
+      row_class = "item_move"
+    end
+    row_class
+  end
+
+  def item_row_name(item)
+    if item.adjustment?
+      item_name = t("label.adjustment") + " " + number_to_currency(item.adjustment_amount)
+    elsif item.parent_id
+      item_name = "#{t("entries.item.deposit")} (#{link_to l(item.parent_item.action_date, format: :short) + ' ' + emolettise(h item.parent_item.name), relative_path(item.id)})".html_safe
+    elsif item.child_item
+      item_name = emolettise(h item.name) + " (#{link_to l(item.child_item.action_date, format: :short) + ' ' + t("entries.item.deposit"), relative_path(item.id)})".html_safe
+    else
+      item_name = emolettise(h item.name)
+    end
+
+    item_name
+  end
+
+  def item_row_confirmation_required(item, tag, mark, keyword)
+    if item.adjustment?
+      confirmation_required = ""
+    elsif item.parent_id
+      confirmation_required = link_to_confirmation_required(item.id, item.parent_item.confirmation_required?, tag: tag, mark: mark, keyword: keyword)
+    else
+      confirmation_required = link_to_confirmation_required(item.id, item.confirmation_required?, tag: tag, mark: mark, keyword: keyword)
+    end
+
+    confirmation_required
+  end
+
+  def item_row_from_account(item)
+    if item.adjustment?
+      from_account = (item.amount < 0) ? colored_account_name(item.to_account_id) : '(' + t("label.adjustment") + ')'
+    else
+      from_account = colored_account_name(item.from_account_id)
+    end
+    from_account
+  end
+
+  def item_row_to_account(item)
+    if item.adjustment?
+      to_account = (item.amount >= 0) ? colored_account_name(item.to_account_id) :
+        '(' + t("label.adjustment") + ')'
+    else
+      to_account = colored_account_name(item.to_account_id)
+    end
+    to_account
+  end
+
+  def item_row_twitter_button(item)
+    (item.adjustment? || item.parent_id) ? "" : tweet_button(item)
+  end
+
+  def item_row_operation(item, only_show = false)
+    if only_show
+      link_to_show(item)
+    else
+      (item_row_twitter_button(item) +
+       link_to_edit(item) +
+       link_to_destroy(item, item.parent_id.blank?)).html_safe
+    end
+  end
 end

@@ -155,8 +155,8 @@ describe EntriesHelper do
   end
 
   describe "#tags_for_items" do
+    fixtures :users, :accounts
     context "when tags exist, " do
-      fixtures :users, :accounts
       before do
         @item = Fabricate.build(:item, tag_list: 'aa bb' )
         @item.save!
@@ -178,6 +178,268 @@ describe EntriesHelper do
 
       subject { helper.link_to_tags(@item) }
       it { should == "" }
+    end
+  end
+
+  describe "#item_row_class" do
+    fixtures :users, :accounts
+    context "when item is adjustment," do
+      before do
+        @item = Fabricate.build(:item, adjustment: true)
+        @item.save!
+      end
+
+      subject { helper.item_row_class(@item) }
+      it { should == "item_adjustment" }
+    end
+
+    context "when item has parent," do
+      before do
+        item_parent = Fabricate.build(:item)
+        item_parent.save!
+        @item = Fabricate.build(:item, parent_id: item_parent.id)
+        @item.save
+      end
+
+      subject { helper.item_row_class(@item) }
+      it { should == "item_move" }
+    end
+
+    context "when item is income," do
+      before do
+        @user = users(:user1)
+        @item = Fabricate.build(:item, from_account_id: accounts(:income2).id)
+        @item.save!
+      end
+
+      subject { helper.item_row_class(@item) }
+      it { should == "item_income" }
+    end
+    context "when item is moving," do
+      before do
+        @user = users(:user1)
+        @item = Fabricate.build(:item, from_account_id: accounts(:bank1).id, to_account_id: accounts(:bank11).id)
+        @item.save!
+      end
+
+      subject { helper.item_row_class(@item) }
+      it { should == "item_move" }
+    end
+  end
+
+  describe "#item_row_name" do
+    fixtures :users, :accounts
+    context "when item is adjustment," do
+      before do
+        @item = Fabricate.build(:item, adjustment: true, adjustment_amount: 5000)
+        @item.save!
+      end
+
+      subject { helper.item_row_name(@item) }
+      it { should == "#{t("label.adjustment")} 5,000円" }
+    end
+
+    context "when item has parent," do
+      before do
+        @user = users(:user1)
+        item_parent = Fabricate.build(:item, action_date: Date.new(2012,3,10), name: "hello")
+        item_parent.save!
+        @item = Fabricate.build(:item, parent_id: item_parent.id, action_date: Date.new(2012,5,10), name: "hogehoge")
+        @item.save
+      end
+
+      subject { helper.item_row_name(@item) }
+      it { should match /#{t("entries.item.deposit")} \(<a[^>]+>03\/10 hello<\/a>\)/ }
+    end
+
+    context "when item has child," do
+      before do
+        @user = users(:user1)
+        @item = Fabricate.build(:item, action_date: Date.new(2012,3,10), name: "hello")
+        @item.save!
+        item_child = Fabricate.build(:item, parent_id: @item.id, action_date: Date.new(2012,5,10), name: "hogehoge")
+        item_child.save
+      end
+
+      subject { helper.item_row_name(@item) }
+      it { should match /hello \(<a[^>]+>05\/10 #{t("entries.item.deposit")}<\/a>\)/ }
+    end
+
+    context "when item is a regular one, " do
+      before do
+        @user = users(:user1)
+        @item = Fabricate.build(:item, action_date: Date.new(2012,3,10), name: "hello")
+        @item.save!
+      end
+
+      subject { helper.item_row_name(@item) }
+      it { should ==  "hello" }
+    end
+  end
+
+  describe "#item_row_confirmation_required" do
+    fixtures :users, :accounts
+    context "when item is adjustment, " do
+      before do
+        @item = Fabricate.build(:item, adjustment: true, adjustment_amount: 5000)
+        @item.save!
+      end
+
+      subject { helper.item_row_confirmation_required(@item, nil, nil, nil) }
+      it { should == "" }
+    end
+
+    context "when item has parent, " do
+      before do
+        item_parent = Fabricate.build(:item, action_date: Date.new(2012,3,10), confirmation_required: true, name: "hello")
+        item_parent.save!
+        @item = Fabricate.build(:item, parent_id: item_parent.id, action_date: Date.new(2012,5,10), name: "hogehoge")
+        @item.save
+        helper.should_receive(:link_to_confirmation_required).with(@item.id, true, tag: "TAG", mark: "MARK", keyword: "KEY").and_return("__LINK__")
+      end
+
+      subject { helper.item_row_confirmation_required(@item, "TAG", "MARK", "KEY" ) }
+      it { should == "__LINK__" }
+    end
+
+    context "when item is NOT adjustment, " do
+      before do
+        @item = Fabricate.build(:item, confirmation_required: true)
+        @item.save!
+        helper.should_receive(:link_to_confirmation_required).with(@item.id, true, tag: "TAG", mark: "MARK", keyword: "KEY").and_return("__LINK__")
+      end
+
+      subject { helper.item_row_confirmation_required(@item, "TAG", "MARK", "KEY" ) }
+      it { should == "__LINK__" }
+    end
+  end
+
+  describe "#item_row_from_account" do
+    fixtures :users, :accounts
+    context "when item is adjustment, " do
+      context "amount is less than 0," do
+        before do
+          @item = Fabricate.build(:item, adjustment: true, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: -200000)
+          helper.should_receive(:colored_account_name).with(@item.to_account_id).and_return("ACCOUNT_NAME")
+        end
+
+        subject { helper.item_row_from_account(@item)  }
+        it { should == "ACCOUNT_NAME" }
+      end
+
+      context "amount is more than 0," do
+        before do
+          @item = Fabricate.build(:item, adjustment: true, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200000)
+          helper.should_not_receive(:colored_account_name).with(@item.to_account_id)
+        end
+
+        subject { helper.item_row_from_account(@item)  }
+        it { should == "(#{t("label.adjustment")})" }
+      end
+    end
+    context "when item is NOT adjustment, " do
+      before do
+        @item = Fabricate.build(:item, adjustment: false)
+        @item.save!
+        helper.should_receive(:colored_account_name).with(@item.from_account_id).and_return("ACCOUNT_NAME")
+      end
+
+      subject { helper.item_row_from_account(@item)  }
+      it { should == "ACCOUNT_NAME" }
+    end
+  end
+
+  describe "#item_row_to_account" do
+    fixtures :users, :accounts
+    context "when item is adjustment, " do
+      context "amount is more than 0," do
+        before do
+          @item = Fabricate.build(:item, adjustment: true, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200000)
+          helper.should_receive(:colored_account_name).with(@item.to_account_id).and_return("ACCOUNT_NAME")
+        end
+
+        subject { helper.item_row_to_account(@item)  }
+        it { should == "ACCOUNT_NAME" }
+      end
+
+      context "amount is less than 0," do
+        before do
+          @item = Fabricate.build(:item, adjustment: true, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: -200000)
+          helper.should_not_receive(:colored_account_name).with(@item.to_account_id)
+        end
+
+        subject { helper.item_row_to_account(@item)  }
+        it { should == "(#{t("label.adjustment")})" }
+      end
+    end
+
+    context "when item is NOT adjustment, " do
+      before do
+        @item = Fabricate.build(:item, adjustment: false)
+        @item.save!
+        helper.should_receive(:colored_account_name).with(@item.to_account_id).and_return("ACCOUNT_NAME")
+      end
+
+      subject { helper.item_row_to_account(@item)  }
+      it { should == "ACCOUNT_NAME" }
+    end
+  end
+
+  describe "#item_row_operation" do
+    fixtures :users, :accounts
+    context "when item is adjustment," do
+      context "when only_show is true," do
+        before do
+          @item = Fabricate.build(:item, adjustment: true, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200000)
+          helper.should_receive(:link_to_show).with(@item).and_return("SHOW_LINK")
+        end
+
+        subject { helper.item_row_operation(@item, true)}
+        it { should == "SHOW_LINK" }
+      end
+      context "when only_show is false," do
+        before do
+          @item = Fabricate.build(:item, adjustment: true, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200000)
+          helper.should_not_receive(:link_to_show).with(@item)
+          helper.should_receive(:item_row_twitter_button).with(@item).and_return("_TWEET_")
+          helper.should_receive(:link_to_edit).with(@item).and_return("_EDIT_")
+          helper.should_receive(:link_to_destroy).with(@item, true).and_return("_DESTROY_")
+        end
+
+        subject { helper.item_row_operation(@item)}
+        it { should == "_TWEET__EDIT__DESTROY_" }
+      end
+    end
+  end
+
+  describe "#item_row_twitter_button" do
+    fixtures :users, :accounts
+    context "when item is adjustment," do
+      before do
+        @item = Fabricate.build(:item, adjustment: true, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200000)
+      end
+
+      subject { helper.item_row_twitter_button(@item) }
+      it { should == "" }
+    end
+
+    context "when item has parent," do
+      before do
+        @item = Fabricate.build(:item, parent_id: 20)
+      end
+
+      subject { helper.item_row_twitter_button(@item) }
+      it { should == "" }
+    end
+
+    context "when item is regular," do
+      before do
+        @item = Fabricate.build(:item)
+        helper.should_receive(:tweet_button).with(@item).and_return("__TWEET__")
+      end
+
+      subject { helper.item_row_twitter_button(@item) }
+      it { should == "__TWEET__" }
     end
   end
 end
