@@ -82,11 +82,11 @@ module EntriesHelper
     if item.adjustment?
       item_name = t("label.adjustment") + " " + number_to_currency(item.adjustment_amount)
     elsif item.parent_id
-      item_name = "#{t("entries.item.deposit")} (#{link_to l(item.parent_item.action_date, format: :short) + ' ' + emolettise(h item.parent_item.name), relative_path(item.id)})".html_safe
+      item_name = "#{t("entries.item.deposit")} (#{link_to l(item.parent_item.action_date, format: :short) + ' ' + item.parent_item.name.decorate, relative_path(item.id)})".html_safe
     elsif item.child_item
-      item_name = emolettise(h item.name) + " (#{link_to l(item.child_item.action_date, format: :short) + ' ' + t("entries.item.deposit"), relative_path(item.id)})".html_safe
+      item_name = item.name.decorate + " (#{link_to l(item.child_item.action_date, format: :short) + ' ' + t("entries.item.deposit"), relative_path(item.id)})".html_safe
     else
-      item_name = emolettise(h item.name)
+      item_name = item.name.decorate
     end
 
     item_name

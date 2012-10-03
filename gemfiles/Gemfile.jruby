@@ -40,4 +40,4 @@ gem 'memoist'
 
 # make active for jruby (this doesn't require less, therubyracer and libv8)
 gem 'twitter-bootstrap-rails', :github => 'seyhunak/twitter-bootstrap-rails'
-
+gem 'rails_emoji'
