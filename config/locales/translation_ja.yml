@@ -265,3 +265,6 @@ ja:
       final_day: "末日"
       index:
         register_credit_relation: "クレジットカード支払い情報の登録"
+  emojis:
+    index:
+      emoji: "絵文字"
