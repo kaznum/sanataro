@@ -26,7 +26,7 @@
       %tr
         %td= l(it.action_date)
         %td= related_account
-        %td= (it.adjustment?) ? t('label.adjustment') + number_to_currency(it.adjustment_amount) : it.name
+        %td= (it.adjustment?) ? t('label.adjustment') + number_to_currency(it.adjustment_amount) : it.name.decorate
         %td.money= number_to_currency(amount)
         %td.money= number_to_currency(@remain_amount)
     %tr
