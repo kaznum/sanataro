@@ -24,25 +24,25 @@ module EntriesHelper
     relative ? entries_path(year: relative.action_date.year, month: relative.action_date.month, anchor: "item_#{relative.id}") : nil
   end
 
-  def link_to_edit(event_item, enabled = true)
+  def link_to_edit(item, enabled = true)
     if enabled
-      link_to icon_edit, edit_entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :get, :class => "edit_link"
+      link_to icon_edit, edit_entry_path(item.action_date.year, item.action_date.month, item.id), :remote => true, :method => :get, :class => "edit_link"
     else
       icon_edit(enabled)
     end
   end
 
-  def link_to_destroy(event_item, enabled = true)
+  def link_to_destroy(item, enabled = true)
     if enabled
-      link_to icon_destroy, entry_path(event_item.action_date.year, event_item.action_date.month, event_item.id), :remote => true, :method => :delete, :data => { :confirm => t("message.delete_really") }
+      link_to icon_destroy, entry_path(item.action_date.year, item.action_date.month, item.id), :remote => true, :method => :delete, :data => { :confirm => t("message.delete_really") }
     else
       icon_destroy(enabled)
     end
   end
 
-  def link_to_show(event_item, enabled = true)
+  def link_to_show(item, enabled = true)
     if enabled
-      link_to icon_show, entries_path(event_item.action_date.year, event_item.action_date.month, anchor: "item_#{event_item.id}"), :class => "show_link"
+      link_to icon_show, entries_path(item.action_date.year, item.action_date.month, anchor: "item_#{item.id}"), :class => "show_link"
     else
       icon_show(enabled)
     end
