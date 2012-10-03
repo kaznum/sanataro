@@ -237,43 +237,47 @@ describe EntriesHelper do
 
       subject { helper.item_row_name(@item) }
       it { should == "#{t("label.adjustment")} 5,000円" }
+      it { should be_html_safe }
     end
 
     context "when item has parent," do
       before do
         @user = users(:user1)
-        item_parent = Fabricate.build(:item, action_date: Date.new(2012,3,10), name: "hello")
+        item_parent = Fabricate.build(:item, action_date: Date.new(2012,3,10), name: "hello(笑)")
         item_parent.save!
-        @item = Fabricate.build(:item, parent_id: item_parent.id, action_date: Date.new(2012,5,10), name: "hogehoge")
+        @item = Fabricate.build(:item, parent_id: item_parent.id, action_date: Date.new(2012,5,10), name: "hoge(笑)hoge")
         @item.save
       end
 
       subject { helper.item_row_name(@item) }
-      it { should match /#{t("entries.item.deposit")} \(<a[^>]+>03\/10 hello<\/a>\)/ }
+      it { should match /#{t("entries.item.deposit")} \(<a[^>]+>03\/10 hello<span class='emo'>\(笑\)<\/span><\/a>\)/ }
+      it { should be_html_safe }
     end
 
     context "when item has child," do
       before do
         @user = users(:user1)
-        @item = Fabricate.build(:item, action_date: Date.new(2012,3,10), name: "hello")
+        @item = Fabricate.build(:item, action_date: Date.new(2012,3,10), name: "hello:sushi:")
         @item.save!
         item_child = Fabricate.build(:item, parent_id: @item.id, action_date: Date.new(2012,5,10), name: "hogehoge")
         item_child.save
       end
 
       subject { helper.item_row_name(@item) }
-      it { should match /hello \(<a[^>]+>05\/10 #{t("entries.item.deposit")}<\/a>\)/ }
+      it { should match /hello<img [^>]+> \(<a[^>]+>05\/10 #{t("entries.item.deposit")}<\/a>\)/ }
+      it { should be_html_safe }
     end
 
     context "when item is a regular one, " do
       before do
         @user = users(:user1)
-        @item = Fabricate.build(:item, action_date: Date.new(2012,3,10), name: "hello")
+        @item = Fabricate.build(:item, action_date: Date.new(2012,3,10), name: "hello:sushi:")
         @item.save!
       end
 
       subject { helper.item_row_name(@item) }
-      it { should ==  "hello" }
+      it { should match /^hello<img .+>$/ }
+      it { should be_html_safe }
     end
   end
 
