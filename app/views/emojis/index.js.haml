@@ -1,0 +1,10 @@
+:plain
+  $("#digest_title").html("#{j(t('.Emoji'))}");
+  $("#digest_body").html("#{j(render partial: 'index')}");
+  $("ul.emoji_list img").bind("click", function () {
+    var added = $("##{h params[:form_id]} #item_name").val() + $(this).attr("title");
+    $("##{h params[:form_id]} #item_name").val(added);
+    $("#digest_modal").modal("hide");
+  });
+
+

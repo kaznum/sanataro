@@ -104,7 +104,6 @@
           .warning!= t(".no_javascript_explanation")
       .main= yield
       .footer!= t("label.copyright")
-
     .modal.hide.fade#digest_modal{:style => "display: none;"}
       .modal-header
         %button.close{"data-dismiss" => "modal"}= '&times;'.html_safe
@@ -112,3 +111,5 @@
       .modal-body#digest_body
       .modal-footer
         %a.btn{:href => "#", "data-dismiss" => "modal"}= t("button.close")
+    .emojis_path{ style: "display: none" }= emojis_path
+

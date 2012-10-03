@@ -16,6 +16,7 @@
   .row-fluid.input-row
     = text_field_tag :action_date, l(it.action_date), class: "input-small", placeholder: "YYYY/MM/DD"
     = text_field_tag :item_name, it.name, placeholder: t('placeholder.item_name')
+    = RailsEmoji.render(":smile:", class: "emoji_button").html_safe
     = hidden_field_tag :confirmation_required, it.confirmation_required?
     %span#confirmation_required_label.item_confirmation_not_required= icon_no_confirmation
     = link_to t('.show_all_confirmation_required', mark: icon_confirmation).html_safe, mark_entries_path(mark: :confirmation_required)

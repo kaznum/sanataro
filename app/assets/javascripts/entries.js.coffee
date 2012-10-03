@@ -67,3 +67,11 @@ jQuery ($) ->
       url = show_link.attr("href")
       location.href = url
 
+  $(".emoji_button").live "click", ->
+    $.ajax({
+      url: $(".emojis_path").text()
+      data: { form_id: $(this).parents("form").attr("id") },
+      success: ->
+        $("#digest_modal").removeAttr("style").modal()})
+    false
+
