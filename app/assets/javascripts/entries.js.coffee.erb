@@ -1,9 +1,11 @@
-//= require toggle_confirmation_required
 //= require emoji
 //= require_self
 
 ((global) ->
-  global.itemNameObserver = (url) ->
+  entries = {}
+  global.entries = entries
+
+  entries.itemNameObserver = (url) ->
     $("#do_add_item #item_name").delayedObserver ->
       $.ajax {
         url: url,
@@ -12,7 +14,7 @@
         success: (data) ->
           $("#candidates").html(data) }, 0.3
 
-  global.bindSubmitInNewSimple = () ->
+  entries.bindSubmitInNewSimple = () ->
     $(() ->
       $("#do_add_item").bind("submit", () ->
         $('#new_add_button').attr('disabled', 'disabled')
@@ -23,7 +25,7 @@
           data: $("#do_add_item").serialize()})
         false))
 
-  global.toggleConfirmationRequired = (isRequired, item_id = null) ->
+  entries.toggleConfirmationRequired = (isRequired, item_id = null) ->
     if item_id
       label_selector = "#confirmation_required_label_" + item_id
       field_selector = "#confirmation_required_" + item_id

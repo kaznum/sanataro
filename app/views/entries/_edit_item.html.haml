@@ -10,9 +10,9 @@
       $('#item_operation_#{item.id}').show()
     $("#action_date_#{item.id}").datepicker()
     $("#confirmation_required_label_#{item.id}").bind "click", ->
-      toggleConfirmationRequired($("#confirmation_required_#{item.id}").attr("value") != "true", "#{item.id}")
+      entries.toggleConfirmationRequired($("#confirmation_required_#{item.id}").attr("value") != "true", "#{item.id}")
     #initialize confirmation required just after rendering initialy
-    toggleConfirmationRequired($("#confirmation_required_#{item.id}").attr("value") == "true", "#{item.id}")
+    entries.toggleConfirmationRequired($("#confirmation_required_#{item.id}").attr("value") == "true", "#{item.id}")
 .item{:id => "item_#{item.id}"}
   = form_tag entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :put, :id => "edit_#{item.id}_form", :class => "well"  do
     .row-fluid

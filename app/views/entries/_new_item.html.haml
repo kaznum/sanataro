@@ -1,12 +1,12 @@
 :coffeescript
   $ ->
-    itemNameObserver("#{entry_candidates_path}")
+    entries.itemNameObserver("#{entry_candidates_path}")
     $("#do_add_item")
       .bind("ajax:before", -> $('#new_add_button').attr('disabled', true))
       .bind("ajax:complete", -> $('#new_add_button').attr('disabled', false))
     $("#action_date").datepicker()
     $("#confirmation_required_label").bind "click", ->
-      toggleConfirmationRequired($("#confirmation_required").attr("value") != "true")
+      entries.toggleConfirmationRequired($("#confirmation_required").attr("value") != "true")
 = form_tag entries_path(it.action_date.year, it.action_date.month), :remote => true, :method => :post, :id=>'do_add_item', :class => "well" do
   .row-fluid
     %ul.nav.nav-pills

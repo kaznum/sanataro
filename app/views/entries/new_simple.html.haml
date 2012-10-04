@@ -12,7 +12,7 @@
     $ ->
       new EJS({url: '/ejs/entries/new_simple.ejs?2012020901'}).update("replaced_area",#{@data.to_json})
       observerAddItemOnlyInput '#{@data[:authenticity_token]}'
-      bindSubmitInNewSimple()
+      entries.bindSubmitInNewSimple()
       $("#action_date").datepicker()
       $("#confirmation_required_label").bind "click", ->
-        toggleConfirmationRequired($("#confirmation_required").attr("value") != "true")
+        entries.toggleConfirmationRequired($("#confirmation_required").attr("value") != "true")
