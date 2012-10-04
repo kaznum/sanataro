@@ -16,12 +16,12 @@
  
   constructList = (parent_selector, form_id_store, modal, template_tag) ->
     $.each titles, (id, title) ->
-      $img = $(template_tag.replace(/smile/g, title))
-      $li = $("<li>")
-      $(parent_selector).append $li.append($img)
-    $("#{parent_selector} img").on "click", ->
+      $li = $("<li id='#{title}'>")
+      $li.attr("style", "background-position: -#{id * 20}px 0;")
+      $(parent_selector).append $li
+    $("#{parent_selector} li").on "click", ->
       form_id = $("#{form_id_store}").val()
-      added = $("##{form_id} #item_name").val() + $(this).attr("title")
+      added = $("##{form_id} #item_name").val() + ":" + $(this).attr("id") + ":"
       $("##{form_id} #item_name").val(added)
       $(modal).modal("hide")
 
