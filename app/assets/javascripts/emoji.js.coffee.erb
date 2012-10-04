@@ -1,0 +1,16 @@
+(($, global) ->
+  titles = ["<%= RailsEmoji::EMOJI.join('", "') %>"]
+ 
+  constructList = (parent_selector, form_id_store, modal, template_tag) ->
+    $.each titles, (id, title) ->
+      $li = $("<li id='#{title}'>")
+      $li.attr("style", "background-position: -#{id * 20}px 0;")
+      $(parent_selector).append $li
+    $("#{parent_selector} li").on "click", ->
+      form_id = $("#{form_id_store}").val()
+      added = $("##{form_id} #item_name").val() + ":" + $(this).attr("id") + ":"
+      $("##{form_id} #item_name").val(added)
+      $(modal).modal("hide")
+
+  global.emoji = { titles: titles, constructList: constructList }
+)(jQuery, window)
