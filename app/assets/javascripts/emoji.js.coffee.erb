@@ -1,5 +1,5 @@
 (($, global) ->
-  titles = ["<%= RailsEmoji::EMOJI.join('", "') %>"]
+  titles = <%= RailsEmoji::EMOJI.to_json %>
  
   constructList = (parent_selector, form_id_store, modal, template_tag) ->
     $.each titles, (id, title) ->
