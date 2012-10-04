@@ -103,7 +103,12 @@
         %noscript
           .warning!= t(".no_javascript_explanation")
       .main= yield
-      .footer!= t("label.copyright")
+      .footer
+        != t("label.copyright")
+        %iframe{ src: "http://ghbtns.com/github-btn.html?user=kaznum&repo=sanataro&type=watch&count=true", allowtransparency: "true", frameborder:"0", scrolling:"0", width:"95px",height:"20px" }
+        %iframe{ src: "http://ghbtns.com/github-btn.html?user=kaznum&repo=sanataro&type=fork&count=true", allowtransparency:"true", frameborder:"0", scrolling:"0", width:"95px",height:"20px" }
+        %iframe{ src: "http://ghbtns.com/github-btn.html?user=kaznum&type=follow&count=true", allowtransparency:"true", frameborder:"0", scrolling:"0", width:"170px", height:"20px" }
+
     .modal.hide.fade#digest_modal{:style => "display: none;"}
       .modal-header
         %button.close{"data-dismiss" => "modal"}= '&times;'.html_safe
