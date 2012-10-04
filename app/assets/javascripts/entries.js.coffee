@@ -1,4 +1,5 @@
 //= require toggle_confirmation_required
+//= require emoji
 //= require_self
 
 ((global) ->
@@ -66,12 +67,9 @@ jQuery ($) ->
     else if show_link.length > 0
       url = show_link.attr("href")
       location.href = url
-
   $(".emoji_button").live "click", ->
-    $.ajax({
-      url: $(".emojis_path").text()
-      data: { form_id: $(this).parents("form").attr("id") },
-      success: ->
-        $("#digest_modal").removeAttr("style").modal()})
-    false
+    $("#emojis_modal .current_form").val $(this).parents("form").attr("id")
+    $("#emojis_modal").removeAttr("style").modal()
+
+  $(window.emoji.constructList ".emoji_list", "#emojis_modal .current_form", "#emojis_modal", $("#emojis_modal .emoji_template_tag").html())
 

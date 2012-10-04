@@ -112,4 +112,14 @@
       .modal-footer
         %a.btn{:href => "#", "data-dismiss" => "modal"}= t("button.close")
     .emojis_path{ style: "display: none" }= emojis_path
+    .modal.hide.fade#emojis_modal{:style => "display: none;"}
+      .modal-header
+        %button.close{"data-dismiss" => "modal"}= '&times;'.html_safe
+        %h3#emojis_title= t('.emoji')
+      .modal-body#emojis_body
+        %ul.emoji_list
+      .modal-footer
+        %a.btn{:href => "#", "data-dismiss" => "modal"}= t("button.close")
+      %input.current_form{type: "hidden", name: "current_form"}
+      .emoji_template_tag{style: "display: none"}= ":smile:".emojify.html_safe
 
