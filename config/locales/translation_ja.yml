@@ -165,6 +165,7 @@ ja:
       credit_card: "クレジットカード"
       user_info: "ユーザ情報"
       digest: "ダイジェスト"
+      emoji: "絵文字"
   balance_sheets:
     index:
       stock_title: "現金の部"
@@ -265,6 +266,3 @@ ja:
       final_day: "末日"
       index:
         register_credit_relation: "クレジットカード支払い情報の登録"
-  emojis:
-    index:
-      emoji: "絵文字"
