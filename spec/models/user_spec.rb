@@ -295,14 +295,14 @@ describe User do
   shared_examples_for "a method for ids of accounts" do |name|
     describe "accounts" do
       let (:user) { users(:user1) }
-      let (:type) { Account.account_type_to_type(name) }
+      let (:type) { name.pluralize.to_sym }
       subject { user.send("#{name}_ids".to_sym) }
-      its(:size) { should == user.accounts.where(type: type).active.size }
-      its(:sort) { should == user.accounts.where(type: type).active.pluck(:id).sort }
+      its(:size) { should == user.send(type).active.size }
+      its(:sort) { should == user.send(type).active.pluck(:id).sort }
     end
   end
 
-  %w(income outgo account).each do |name|
+  %w(income expense banking).each do |name|
     describe "##{name}_ids" do
       it_should_behave_like "a method for ids of accounts", name
     end
@@ -334,13 +334,19 @@ describe User do
     end
 
     specify {
-      @user.should_receive(:accounts).exactly(13).times.and_return(@mock_accounts = mock([Account]))
+      @user.should_receive(:bankings).exactly(4).times.and_return(@mock_bankings = mock([Banking]))
+      @user.should_receive(:incomes).exactly(3).times.and_return(@mock_incomes = mock([Income]))
+      @user.should_receive(:expenses).exactly(6).times.and_return(@mock_expenses = mock([Expense]))
       @user.should_receive(:credit_relations).once.and_return(@mock_crs = mock([CreditRelation]))
       @user.should_receive(:items).twice.and_return(@mock_items = mock([Item]))
-      @mock_accounts.should_receive(:create).exactly(13).times.and_return(@account = mock(Account))
-      @account.should_receive(:id).exactly(6).times.and_return(100)
-      @mock_crs.should_receive(:create).once.times
-      @mock_items.should_receive(:create).twice
+      @mock_bankings.should_receive(:create!).exactly(4).times.and_return(@banking = mock(Banking))
+      @mock_incomes.should_receive(:create!).exactly(3).times.and_return(@income = mock(Income))
+      @mock_expenses.should_receive(:create!).exactly(6).times.and_return(@expense = mock(Expense))
+      @banking.should_receive(:id).exactly(4).times.and_return(100)
+      @income.should_receive(:id).exactly(1).times.and_return(200)
+      @expense.should_receive(:id).exactly(1).times.and_return(300)
+      @mock_crs.should_receive(:create!).once.times
+      @mock_items.should_receive(:create!).twice
 
       @user.store_sample
     }

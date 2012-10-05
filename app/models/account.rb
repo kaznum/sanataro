@@ -25,8 +25,10 @@ class Account < ActiveRecord::Base
 
   scope :active, where(:active => true)
   scope :account, where(type: 'Banking')
+  scope :banking, where(type: 'Banking')
   scope :income, where(type: 'Income')
   scope :outgo, where(type: 'Expense')
+  scope :expense, where(type: 'Expense')
 
   default_scope order("order_no")
 
@@ -57,29 +59,11 @@ class Account < ActiveRecord::Base
   end
 
   def account_type
-    case type
-      when "Income"
-        return "income"
-      when "Expense"
-        return "outgo"
-      when "Banking" 
-        return "account"
-      else
-        nil
-    end
+    self.class.type_to_account_type(type)
   end
 
   def account_type=(a_type)
-    case a_type
-      when "income"
-        self.type = "Income"
-      when "outgo"
-        self.type = "Expense"
-      when "account" 
-        self.type = "Banking"
-      else
-        self.type = nil
-    end
+    self.type = self.class.account_type_to_type(a_type)
   end
 
   def trim_bgcolor_if_needed
@@ -99,12 +83,6 @@ class Account < ActiveRecord::Base
   end
 
   class << self
-    %w(income outgo account).each do |name|
-      define_method("#{name}_ids".to_sym) do
-        send(name.to_sym).pluck(:id)
-      end
-    end
-
     # 特定の日付までの残高を取得する
     # my_id でitemのIDを指定すると、そのItemが除外される。また、
     # dateと、my_idに該当するitemのaction_dateが同一の場合、

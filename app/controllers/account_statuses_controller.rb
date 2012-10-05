@@ -12,34 +12,42 @@ class AccountStatusesController < ApplicationController
     retval = known_account_statuses_between(max_month, max_date)
     unknown_total = unknown_amount_between(max_month, max_date)
     unless unknown_total == 0
-      unknown_account = Account.new do |a|
+      typed_accounts = unknown_total < 0 ? :expenses : :incomes
+      unknown_account = @user.send(typed_accounts).build do |a|
         a.name = I18n.t('label.unknown')
         a.order_no = 999999
-        a.account_type = unknown_total < 0 ? 'outgo' : 'income'
       end
-      retval[unknown_account.account_type].push [unknown_account, unknown_total.abs]
+      retval[unknown_account.account_type] << [unknown_account, unknown_total.abs]
     end
 
     retval
   end
 
   def known_account_statuses_between(from, to)
-    retval = { 'account' => [], 'income' => [], 'outgo' => [] }
-    @user.accounts.active.each do |a|
-      pl_total = a.account_type == 'account' ? amount_to_last_month(a.id, from) : 0
-      from_total = ['account', 'income'].include?(a.account_type) ? @user.items.where(:from_account_id => a.id).action_date_between(from, to).sum(:amount) : 0
-      to_total = ['account', 'outgo'].include?(a.account_type) ? @user.items.where(:to_account_id => a.id).action_date_between(from, to).sum(:amount) : 0
+    retval = {'account' => banking_account_statuses_between(from, to),
+      'income' => income_account_statuses_between(from, to),
+      'outgo' => income_account_statuses_between(from, to) }
+  end
 
-      case a.account_type
-      when 'account'
-        retval['account'].push [a, to_total - from_total + pl_total]
-      when 'income'
-        retval['income'].push [a, from_total]
-      when 'outgo'
-        retval['outgo'].push [a, to_total]
-      end
+  def banking_account_statuses_between(from, to)
+    @user.bankings.active.map do |a|
+      pl_total = amount_to_last_month(a.id, from)
+      from_total = @user.items.where(:from_account_id => a.id).action_date_between(from, to).sum(:amount)
+      to_total = @user.items.where(:to_account_id => a.id).action_date_between(from, to).sum(:amount)
+      [a, to_total - from_total + pl_total]
     end
-    retval
+  end
+
+  def income_account_statuses_between(from, to)
+    @user.incomes.active.map do |a|
+      [a, @user.items.where(:from_account_id => a.id).action_date_between(from, to).sum(:amount)]
+    end
+  end
+
+  def expense_account_statuses_between(from, to)
+    @user.incomes.active.map do |a|
+      [a, @user.items.where(:to_account_id => a.id).action_date_between(from, to).sum(:amount)]
+    end
   end
 
   def amount_to_last_month(account_id, month)

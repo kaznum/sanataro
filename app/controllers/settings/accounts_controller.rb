@@ -26,7 +26,8 @@ class Settings::AccountsController < ApplicationController
     end
     message = message.underscore.pluralize
 
-    @account = @user.send(message).create! :name => params[:account_name], :order_no => params[:order_no]
+    @account = @user.send(message).build :name => params[:account_name], :order_no => params[:order_no]
+    @account.save!
     redirect_js_to settings_accounts_url(:account_type => @account.account_type)
   rescue ActiveRecord::RecordInvalid
     render_js_error :id => "add_warning", :errors => @account.errors, :default_message => t("error.input_is_invalid")

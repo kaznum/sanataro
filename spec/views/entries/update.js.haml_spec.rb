@@ -18,7 +18,7 @@ describe "/entries/create_item" do
     mock_user = mock_model(User)
     mock_user.should_receive(:all_accounts).at_least(:once).and_return({10 => double, 20 => double, 30 => double, 40 => double})
     mock_user.should_receive(:income_ids).at_least(:once).and_return([10, 30, 40])
-    mock_user.should_receive(:account_ids).at_least(:once).and_return([20])
+    mock_user.should_receive(:banking_ids).at_least(:once).and_return([20])
     mock_user.should_receive(:account_bgcolors).at_least(:once).and_return({20 => "ffffff"})
     assign(:user, mock_user)
     @updated_item_ids = [10, 20, 30]

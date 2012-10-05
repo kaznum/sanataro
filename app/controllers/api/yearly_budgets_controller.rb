@@ -70,12 +70,12 @@ class Api::YearlyBudgetsController < ApplicationController
   end
 
   def _monthly_totals_during_a_year(date_since)
-    outgo_ids = @user.outgo_ids
+    expense_ids = @user.expense_ids
     income_ids = @user.income_ids
 
     (0..11).inject({incomes: [], outgos: [], totals: []}) { |ret, i|
       month = date_since.months_since(i)
-      totals = _monthly_total(month, outgo_ids, income_ids)
+      totals = _monthly_total(month, expense_ids, income_ids)
       ret[:incomes] << [month, totals[:income].abs]
       ret[:outgos] << [month, totals[:outgo].abs]
 
@@ -85,9 +85,9 @@ class Api::YearlyBudgetsController < ApplicationController
     }
   end
 
-  def _monthly_total(month, outgo_ids, income_ids)
+  def _monthly_total(month, expense_ids, income_ids)
     monthly_pl_scope = @user.monthly_profit_losses.where(month: month)
-    outgo_amount = monthly_pl_scope.where(account_id: outgo_ids).sum(:amount)
+    outgo_amount = monthly_pl_scope.where(account_id: expense_ids).sum(:amount)
     income_amount = monthly_pl_scope.where(account_id: income_ids).sum(:amount)
     unknown_amount = monthly_pl_scope.where(account_id: -1).sum(:amount)
     total_amount = outgo_amount + income_amount + unknown_amount
