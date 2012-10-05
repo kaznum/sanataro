@@ -3,8 +3,8 @@
 
 global = exports ? this
 
-entries = {}
-global.entries = entries
+global.entries = {}
+entries = global.entries
 jQuery ($) ->
   entries.itemNameObserver = (url) ->
     $("#do_add_item #item_name").delayedObserver ->
