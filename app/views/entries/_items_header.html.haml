@@ -1,8 +1,9 @@
-- year = displaying_month.year
-- month = displaying_month.month
-= javascript_include_tag :items
-:coffeescript
-  document.urls = { entries_path: "#{entries_path(:year => year, :month => month)}" }
+- provide :append_head do
+  = javascript_include_tag :items
+  - year = displaying_month.year
+  - month = displaying_month.month
+  :coffeescript
+    this.urls = { entries_path: "#{entries_path(:year => year, :month => month)}" }
 - all_acnts = []
 - (@user.outgo_ids + @user.account_ids + @user.income_ids).each do |a|
   - all_acnts << [@user.all_accounts[a], a]
