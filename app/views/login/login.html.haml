@@ -1,4 +1,5 @@
-= javascript_include_tag 'login'
+- provide :append_head do
+  = javascript_include_tag 'login'
 %h2= t(".login")
 %div
   = form_tag url_for(action: 'do_login'), :remote => true, :id => 'login_form' do
