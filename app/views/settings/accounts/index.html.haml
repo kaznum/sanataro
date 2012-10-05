@@ -1,6 +1,7 @@
-= javascript_include_tag 'settings/accounts'
-= javascript_include_tag 'farbtastic'
-= stylesheet_link_tag 'farbtastic'
+- provide :append_head do
+  = javascript_include_tag 'settings/accounts'
+  = javascript_include_tag 'farbtastic'
+  = stylesheet_link_tag 'farbtastic'
 .row
   .span12
     .cfg_account_list
