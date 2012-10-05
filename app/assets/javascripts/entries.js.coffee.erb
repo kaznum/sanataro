@@ -1,10 +1,11 @@
 //= require emoji
 //= require_self
 
-((global) ->
-  entries = {}
-  global.entries = entries
+global = exports ? this
 
+entries = {}
+global.entries = entries
+jQuery ($) ->
   entries.itemNameObserver = (url) ->
     $("#do_add_item #item_name").delayedObserver ->
       $.ajax {
@@ -14,6 +15,7 @@
         success: (data) ->
           $("#candidates").html(data) }, 0.3
 
+jQuery ($) ->
   entries.bindSubmitInNewSimple = () ->
     $(() ->
       $("#do_add_item").bind("submit", () ->
@@ -25,6 +27,7 @@
           data: $("#do_add_item").serialize()})
         false))
 
+jQuery ($) ->
   entries.toggleConfirmationRequired = (isRequired, item_id = null) ->
     if item_id
       label_selector = "#confirmation_required_label_" + item_id
@@ -38,7 +41,6 @@
     else
       $(label_selector).html("<i class='icon-star-empty'></i>").attr "class", "item_confirmation_not_required"
       $(field_selector).attr "value", "false"
-) this
 
 jQuery ($) ->
   trim = (str) ->
@@ -74,7 +76,7 @@ jQuery ($) ->
     $("#emojis_modal").removeAttr("style").modal()
 
   $ ->
-    window.emoji.constructList ".emoji_list", "#emojis_modal .current_form", "#emojis_modal", $("#emojis_modal .emoji_template_tag").html()
+    global.emoji.constructList ".emoji_list", "#emojis_modal .current_form", "#emojis_modal", $("#emojis_modal .emoji_template_tag").html()
     # preloading large image for emoji selector
     (new Image()).src = "<%= image_path "all-emoji20.jpg" %>"
 

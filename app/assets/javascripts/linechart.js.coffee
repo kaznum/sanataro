@@ -1,4 +1,6 @@
-(($, global) ->
+global = exports ? this
+
+jQuery ($) ->
   $ ->
     selectedPlot = (plot_id, choices_id, datasets) ->
   	  i = 0
@@ -6,7 +8,7 @@
         val.color = i
         ++i
 
-  	  plotAccordingToChoices = ->
+      plotAccordingToChoices = ->
         data = []
         choiceContainer.find("input:checked[rel!=all]").each ->
           key = $(this).attr "name"
@@ -28,8 +30,8 @@
         id = check_prefix + key
         choiceContainer.append '<label class="checkbox" for="' + id + '"><input type="checkbox" name="' + key + '" checked="checked" id="' + id + '">' + val.label + '</label> '
 
-  	  choiceContainer.find("input[rel!=all]").bind "change", plotAccordingToChoices
-  	  choiceContainer.find("input[rel=all]").bind "change", ->
+      choiceContainer.find("input[rel!=all]").bind "change", plotAccordingToChoices
+      choiceContainer.find("input[rel=all]").bind "change", ->
         checked = $(this).attr("checked")
         choiceContainer.find("input[rel!=all]").each ->
           if checked == "checked"
@@ -38,10 +40,9 @@
             $(this).removeAttr "checked"
         plotAccordingToChoices()
 
-    	plotAccordingToChoices()
+      plotAccordingToChoices()
 
     lineChart = (plot_id, choices_id, data) ->
       selectedPlot plot_id, choices_id, data
 
     global.lineChart = lineChart
-  ) jQuery, window
