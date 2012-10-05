@@ -1,4 +1,5 @@
-(($, that) ->
+global = exports ? this
+jQuery ($) ->
   toggleColorPicker = (account_id) ->
     if $("#use_bgcolor_" + account_id + ":checked").val() == '1'
       $("#colorpicker_" + account_id).show()
@@ -7,7 +8,5 @@
     $("#use_bgcolor_" + account_id).bind "change", () ->
       toggleColorPicker account_id
 
-  that.toggleColorPicker = toggleColorPicker
-
-) jQuery, this
+  global.toggleColorPicker = toggleColorPicker
 
