@@ -10,7 +10,8 @@ class Api::YearlyBudgetsController < ApplicationController
     date_since = Date.new(year.to_i, month.to_i).months_ago(11)
 
     budget_type = params[:budget_type]
-    results = ['outgo', 'income'].include?(budget_type) ? _formatted_income_or_outgo_data(budget_type, date_since) : _formatted_total_data(date_since)
+    budget_type = Account.account_type_to_type(budget_type)
+    results = ['Expense', 'Income'].include?(budget_type) ? _formatted_income_or_outgo_data(budget_type, date_since) : _formatted_total_data(date_since)
 
     respond_with results
   end
@@ -26,7 +27,7 @@ class Api::YearlyBudgetsController < ApplicationController
   end
 
   def _formatted_income_or_outgo_data(budget_type, date_since)
-    accounts = @user.accounts.where(account_type: budget_type).order("order_no").all
+    accounts = @user.accounts.where(type: budget_type).order("order_no").all
     accounts << Account.new {|a|
       a.id = -1
       a.name = 'Unknown'
@@ -48,9 +49,9 @@ class Api::YearlyBudgetsController < ApplicationController
     mpl = @user.monthly_profit_losses.where(month: month, account_id: account_id).first
     amount = mpl ? mpl.amount : 0
     if account_id == -1
-      if budget_type == 'income'
+      if budget_type == 'Income'
         amount = amount < 0 ? amount : 0
-      elsif budget_type == 'outgo'
+      elsif budget_type == 'Expense'
         amount = amount > 0 ? amount : 0
       end
     end

@@ -95,7 +95,7 @@ describe Account do
 
       describe "errors" do
         subject { @acc }
-        it { should have_at_least(1).errors_on(:account_type) }
+        it { should have_at_least(1).errors_on(:type) }
       end
     end
 

@@ -242,7 +242,7 @@ describe User do
     let (:user) { users(:user1) }
 
     describe "size" do
-      let (:actual) { user.accounts.where(account_type: ['account', 'income']) }
+      let (:actual) { user.accounts.where(type: ['Banking', 'Income']) }
       subject { user.from_accounts }
       it { should have(actual.size).records }
     end
@@ -250,8 +250,8 @@ describe User do
     describe "entities" do
       subject { user.from_accounts }
       it { should ==
-        user.accounts.where(account_type: 'account').map{|a| [a.name, a.id.to_s]} +
-        user.accounts.where(account_type: 'income').map{|a| [a.name, a.id.to_s]}}
+        user.bankings.map{|a| [a.name, a.id.to_s]} +
+        user.incomes.map{|a| [a.name, a.id.to_s]}}
     end
 
   end
@@ -259,7 +259,7 @@ describe User do
   describe "#to_accounts" do
     let (:user) { users(:user1) }
     describe "size" do
-      let (:actual) { user.accounts.where(account_type: ['account', 'outgo']) }
+      let (:actual) { user.accounts.where(type: ['Banking', 'Expense']) }
       subject { user.to_accounts }
       it { should have(actual.size).records }
     end
@@ -267,14 +267,14 @@ describe User do
     describe "entities" do
       subject { user.to_accounts }
       it { should ==
-        user.accounts.where(account_type: 'outgo').map{|a| [a.name, a.id.to_s]} +
-        user.accounts.where(account_type: 'account').map{|a| [a.name, a.id.to_s]}}
+        user.expenses.map{|a| [a.name, a.id.to_s]} +
+        user.bankings.map{|a| [a.name, a.id.to_s]}}
     end
   end
 
   describe "#bank_accounts" do
     let (:user) { users(:user1) }
-    let (:actual) { user.accounts.where(account_type: 'account') }
+    let (:actual) { user.bankings }
     subject { user.bank_accounts }
     it { should have(actual.size).records }
     its(:sort) { should == actual.map{|a| [a.name, a.id.to_s]}.sort }
@@ -295,9 +295,10 @@ describe User do
   shared_examples_for "a method for ids of accounts" do |name|
     describe "accounts" do
       let (:user) { users(:user1) }
+      let (:type) { Account.account_type_to_type(name) }
       subject { user.send("#{name}_ids".to_sym) }
-      its(:size) { should == user.accounts.where(account_type: name).active.size }
-      its(:sort) { should == user.accounts.where(account_type: name).active.pluck(:id).sort }
+      its(:size) { should == user.accounts.where(type: type).active.size }
+      its(:sort) { should == user.accounts.where(type: type).active.pluck(:id).sort }
     end
   end
 

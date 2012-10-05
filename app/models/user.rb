@@ -10,6 +10,9 @@ class User < ActiveRecord::Base
   has_many :accounts
   has_many :credit_relations
   has_many :autologin_keys
+  has_many :bankings, class_name: "Banking"
+  has_many :incomes, class_name: "Income"
+  has_many :expenses, class_name: "Expense"
 
   validate :validates_password_confirmation
   validates_presence_of :login

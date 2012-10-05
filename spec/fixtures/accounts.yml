@@ -4,7 +4,7 @@ bank1:
   user_id: 1
   name: bank1
   active: true
-  account_type: account
+  type: Banking
   order_no: 10
 
 income2:
@@ -12,7 +12,7 @@ income2:
   user_id: 1
   name: income2
   active: true
-  account_type: income
+  type: Income
   order_no: 10
 
 outgo3:
@@ -20,7 +20,7 @@ outgo3:
   user_id: 1
   name: outgo3
   active: true
-  account_type: outgo
+  type: Expense
   order_no: 10
 
 credit4:
@@ -28,7 +28,7 @@ credit4:
   user_id: 1
   name: credit4
   active: true
-  account_type: account
+  type: Banking
   order_no: 10
 
 bank11:
@@ -36,7 +36,7 @@ bank11:
   user_id: 1
   name: bank11
   active: true
-  account_type: account
+  type: Banking
   order_no: 10
 
 income12:
@@ -44,7 +44,7 @@ income12:
   user_id: 1
   name: income12
   active: true
-  account_type: income
+  type: Income
   order_no: 10
 
 
@@ -53,7 +53,7 @@ outgo13:
   user_id: 1
   name: outgo13
   active: true
-  account_type: outgo
+  type: Expense
   order_no: 10
 
 bank21:
@@ -61,6 +61,6 @@ bank21:
   user_id: 1
   name: bank21
   active: true
-  account_type: account
+  type: Banking
   order_no: 10
 

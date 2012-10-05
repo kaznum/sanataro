@@ -7,7 +7,7 @@ class Api::YearlyAssetsController < ApplicationController
     year, month = CommonUtil.get_year_month_from_combined(params[:id])
     date_to = Date.new(year.to_i, month.to_i)
     date_since = date_to.months_ago(11)
-    accounts = @user.accounts.where(account_type: "account")
+    accounts = @user.bankings
     respond_with _json_assets(accounts, date_since)
   end
 

@@ -63,17 +63,17 @@ describe Api::BudgetsController do
         before do
           Account.destroy_all
           @user = users(:user1)
-          account1 = @user.accounts.create!(:name => "その1", :active => true, :account_type => 'account', :order_no => 10)
-          account2 = @user.accounts.create!(:name => "その2", :active => true, :account_type => 'income', :order_no => 20)
-          account3 = @user.accounts.create!(:name => "その3", :active => true, :account_type => 'account', :order_no => 30)
-          account4 = @user.accounts.create!(:name => "その4", :active => true, :account_type => 'outgo', :order_no => 40)
-          
-          @user.monthly_profit_losses.create(:month => Date.new(1999,5), :account_id => account1.id, :amount => -300 )
-          @user.monthly_profit_losses.create(:month => Date.new(1988,6), :account_id => account1.id, :amount => -100 )
-          @user.monthly_profit_losses.create(:month => Date.new(1999,1), :account_id => account2.id, :amount => -900 )
-          @user.monthly_profit_losses.create(:month => Date.new(1999,1), :account_id => account3.id, :amount => 900 )
-          @user.monthly_profit_losses.create(:month => Date.new(1999,1), :account_id => account4.id, :amount => 200 )
-          @mpl_unknown = @user.monthly_profit_losses.create(:month => Date.new(1999,1), :account_id => -1, :amount => -800 )
+          account1 = @user.bankings.create!(:name => "その1", :active => true, :order_no => 10)
+          account2 = @user.incomes.create!(:name => "その2", :active => true, :order_no => 20)
+          account3 = @user.bankings.create!(:name => "その3", :active => true, :order_no => 30)
+          account4 = @user.expenses.create!(:name => "その4", :active => true, :order_no => 40)
+
+          @user.monthly_profit_losses.create!(:month => Date.new(1999,5), :account_id => account1.id, :amount => -300 )
+          @user.monthly_profit_losses.create!(:month => Date.new(1988,6), :account_id => account1.id, :amount => -100 )
+          @user.monthly_profit_losses.create!(:month => Date.new(1999,1), :account_id => account2.id, :amount => -900 )
+          @user.monthly_profit_losses.create!(:month => Date.new(1999,1), :account_id => account3.id, :amount => 900 )
+          @user.monthly_profit_losses.create!(:month => Date.new(1999,1), :account_id => account4.id, :amount => 200 )
+          @mpl_unknown = @user.monthly_profit_losses.create!(:month => Date.new(1999,1), :account_id => -1, :amount => -800 )
         end
         
         context "when budget_type is not specified," do

@@ -11,15 +11,22 @@ class Settings::AccountsController < ApplicationController
       return
     end
 
-    @accounts = @user.accounts.where(:account_type => @account_type).all
+    message = Account.account_type_to_type(@account_type).underscore.pluralize.to_sym
+    @accounts = @user.send(message).all
     render :layout => 'entries'
   end
 
   def create
-    @account = @user.accounts.new(:name => params[:account_name],
-                                  :order_no => params[:order_no],
-                                  :account_type => params[:account_type])
-    @account.save!
+    @account_type = params[:account_type].presence || 'account'
+    message = Account.account_type_to_type(@account_type)
+    unless message
+      @account = @user.accounts.build :name => params[:account_name], :order_no => params[:order_no]
+      @account.valid?
+      raise ActiveRecord::RecordInvalid, @account
+    end
+    message = message.underscore.pluralize
+
+    @account = @user.send(message).create! :name => params[:account_name], :order_no => params[:order_no]
     redirect_js_to settings_accounts_url(:account_type => @account.account_type)
   rescue ActiveRecord::RecordInvalid
     render_js_error :id => "add_warning", :errors => @account.errors, :default_message => t("error.input_is_invalid")

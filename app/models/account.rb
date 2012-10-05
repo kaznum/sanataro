@@ -19,15 +19,68 @@ class Account < ActiveRecord::Base
   validates_length_of :name, :in =>1..255
   validates_presence_of :order_no
   validates_format_of :order_no, :with => /^\d+$/
-  validates_format_of :account_type, :with => /^account$|^income$|^outgo$/
+  validates_presence_of :type
+  validates_format_of :type, :with => /^Banking$|^Income$|^Expense$/
   validates_format_of :bgcolor, :with => /^[0-9a-f]{6}/i, :allow_nil => true
 
   scope :active, where(:active => true)
-  scope :account, where(account_type: 'account')
-  scope :income, where(account_type: 'income')
-  scope :outgo, where(account_type: 'outgo')
+  scope :account, where(type: 'Banking')
+  scope :income, where(type: 'Income')
+  scope :outgo, where(type: 'Expense')
 
   default_scope order("order_no")
+
+  def self.type_to_account_type(type)
+    case type
+      when "Income"
+        "income"
+      when "Expense"
+        "outgo"
+      when "Banking" 
+        "account"
+      else
+        nil
+    end
+  end
+
+  def self.account_type_to_type(type)
+    case type
+      when "income"
+        return "Income"
+      when "outgo"
+        return "Expense"
+      when "account" 
+        return "Banking"
+      else
+        nil
+    end
+  end
+
+  def account_type
+    case type
+      when "Income"
+        return "income"
+      when "Expense"
+        return "outgo"
+      when "Banking" 
+        return "account"
+      else
+        nil
+    end
+  end
+
+  def account_type=(a_type)
+    case a_type
+      when "income"
+        self.type = "Income"
+      when "outgo"
+        self.type = "Expense"
+      when "account" 
+        self.type = "Banking"
+      else
+        self.type = nil
+    end
+  end
 
   def trim_bgcolor_if_needed
     if bgcolor =~ /^#/
