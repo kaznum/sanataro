@@ -1,5 +1,9 @@
 global = exports ? this
 
+if typeof global.charts != "object"
+  global.charts = {}
+
+charts = global.charts
 jQuery ($) ->
   $ ->
     selectedPlot = (plot_id, choices_id, datasets) ->
@@ -45,4 +49,5 @@ jQuery ($) ->
     lineChart = (plot_id, choices_id, data) ->
       selectedPlot plot_id, choices_id, data
 
-    global.lineChart = lineChart
+    global.charts.lineChart = lineChart
+

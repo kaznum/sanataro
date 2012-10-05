@@ -5,15 +5,15 @@
       url: urls["asset"],
       type: "GET",
       dataType: "json",
-      success: (data) -> pieChart "#asset_chart", data }
+      success: (data) -> charts.pieChart "#asset_chart", data }
     $.ajax {
       url: urls["debt"],
       type: "GET",
       dataType: "json",
-      success: (data) -> pieChart "#debt_chart", data }
+      success: (data) -> charts.pieChart "#debt_chart", data }
     $.ajax {
       url: urls["yearly_asset"],
       type: "GET",
       dataType: "json",
-      success: (data) -> lineChart "#yearly_chart", "#yearly_chart_choices" , data }
+      success: (data) -> charts.lineChart "#yearly_chart", "#yearly_chart_choices" , data }
 ) jQuery, document

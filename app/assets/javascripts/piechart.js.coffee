@@ -1,4 +1,11 @@
-(($, that) ->
+global = exports ? this
+
+if typeof global.charts != "object"
+  global.charts = {}
+
+charts = global.charts
+
+jQuery ($) ->
   $ ->
     pieChart = (id, data) ->
       series = data.length
@@ -22,5 +29,5 @@
         percent = parseFloat(obj.series.percent).toFixed(0)
         $(id + "_hover").html '<span style="font-weight: bold; color: '+obj.series.color+'">'+obj.series.label+' ('+percent+'%)</span>'
 
-    that.pieChart = pieChart
-)(jQuery, this)
+    charts.pieChart = pieChart
+
