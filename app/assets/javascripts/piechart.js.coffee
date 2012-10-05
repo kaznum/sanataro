@@ -5,7 +5,7 @@ if typeof global.charts != "object"
 
 charts = global.charts
 
-jQuery ($) ->
+(($) ->
   $ ->
     pieChart = (id, data) ->
       series = data.length
@@ -30,4 +30,4 @@ jQuery ($) ->
         $(id + "_hover").html '<span style="font-weight: bold; color: '+obj.series.color+'">'+obj.series.label+' ('+percent+'%)</span>'
 
     charts.pieChart = pieChart
-
+) jQuery

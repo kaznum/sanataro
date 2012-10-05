@@ -1,7 +1,7 @@
 global = exports ? this
 if typeof global.accounts == 'undefined'
   global.accounts = {}
-jQuery ($) ->
+(($) ->
   toggleColorPicker = (account_id) ->
     if $("#use_bgcolor_" + account_id + ":checked").val() == '1'
       $("#colorpicker_" + account_id).show()
@@ -11,4 +11,4 @@ jQuery ($) ->
       toggleColorPicker account_id
 
   global.accounts.toggleColorPicker = toggleColorPicker
-
+) jQuery

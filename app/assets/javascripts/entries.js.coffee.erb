@@ -5,7 +5,7 @@ global = exports ? this
 
 global.entries = {}
 entries = global.entries
-jQuery ($) ->
+(($) ->
   entries.itemNameObserver = (url) ->
     $("#do_add_item #item_name").delayedObserver ->
       $.ajax {
@@ -14,8 +14,9 @@ jQuery ($) ->
         type: "get",
         success: (data) ->
           $("#candidates").html(data) }, 0.3
+) jQuery
 
-jQuery ($) ->
+(($) ->
   entries.bindSubmitInNewSimple = () ->
     $(() ->
       $("#do_add_item").bind("submit", () ->
@@ -26,8 +27,9 @@ jQuery ($) ->
           success: (data) -> $('#new_add_button').removeAttr('disabled'),
           data: $("#do_add_item").serialize()})
         false))
+) jQuery
 
-jQuery ($) ->
+(($) ->
   entries.toggleConfirmationRequired = (isRequired, item_id = null) ->
     if item_id
       label_selector = "#confirmation_required_label_" + item_id
@@ -41,8 +43,9 @@ jQuery ($) ->
     else
       $(label_selector).html("<i class='icon-star-empty'></i>").attr "class", "item_confirmation_not_required"
       $(field_selector).attr "value", "false"
+) jQuery
 
-jQuery ($) ->
+(($) ->
   trim = (str) ->
     str.replace /^\s+|\s+$/g, ""
   $("form.navbar-search").submit ->
@@ -79,4 +82,5 @@ jQuery ($) ->
     global.emoji.constructList ".emoji_list", "#emojis_modal .current_form", "#emojis_modal"
     # preloading large image for emoji selector
     (new Image()).src = "<%= image_path "all-emoji20.jpg" %>"
+) jQuery
 

@@ -1,5 +1,5 @@
 global = exports ? this
-jQuery ($) ->
+(($) ->
   $ ->
     urls = global.urls
     $.ajax({
@@ -27,3 +27,4 @@ jQuery ($) ->
       type: "GET",
       dataType: "json",
       success: (data) -> charts.lineChart("#yearly_total_chart", "#yearly_total_chart_choices" , data) })
+) jQuery

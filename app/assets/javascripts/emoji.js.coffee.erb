@@ -1,6 +1,6 @@
 global = exports ? this
 
-jQuery ($) ->
+(($) ->
   titles = <%= RailsEmoji::EMOJI.to_json %>
 
   constructList = (parent_selector, form_id_store, modal) ->
@@ -15,4 +15,4 @@ jQuery ($) ->
       $(modal).modal("hide")
 
   global.emoji = { titles: titles, constructList: constructList }
-
+) jQuery

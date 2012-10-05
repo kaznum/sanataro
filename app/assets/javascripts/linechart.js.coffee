@@ -4,7 +4,7 @@ if typeof global.charts != "object"
   global.charts = {}
 
 charts = global.charts
-jQuery ($) ->
+(($) ->
   $ ->
     selectedPlot = (plot_id, choices_id, datasets) ->
   	  i = 0
@@ -50,4 +50,4 @@ jQuery ($) ->
       selectedPlot plot_id, choices_id, data
 
     global.charts.lineChart = lineChart
-
+) jQuery
