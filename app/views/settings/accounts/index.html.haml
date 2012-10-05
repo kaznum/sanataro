@@ -8,10 +8,7 @@
       #input_add= render 'add'
       #accounts
         .cfg_account.row-fluid
-          .cfg_account_name.cfg_account_header.span2.hidden-phone
-            = t("settings.accounts.bank_account") if @account_type == 'account'
-            = t("settings.accounts.outgoing_account") if @account_type == 'outgo'
-            = t("settings.accounts.income_account") if @account_type == 'income'
+          .cfg_account_name.cfg_account_header.span2.hidden-phone= t("settings.accounts.#{@type}_account")
           .cfg_account_order.cfg_account_header.span1.hidden-phone= t("label.position")
           .cfg_account_operation.cfg_account_header.span1.hidden-phone &nbsp;
         - @accounts.each do |account|

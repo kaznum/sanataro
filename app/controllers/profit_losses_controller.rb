@@ -5,7 +5,7 @@ class ProfitLossesController < ApplicationController
   def index
     @m_pls = _find_account_id_and_amount_by_month(displaying_month)
     _setup_incomes(@m_pls)
-    _setup_outgos(@m_pls)
+    _setup_expenses(@m_pls)
     _append_unknown_account
 
     render :layout => 'entries'
@@ -31,12 +31,12 @@ class ProfitLossesController < ApplicationController
   end
 
   def _setup_incomes(m_pls)
-    @account_incomes = @user.accounts.income.all
+    @account_incomes = @user.incomes.all
     @total_income = @account_incomes.inject(0) {|sum, ai| sum - m_pls[ai.id] }
   end
 
-  def _setup_outgos(m_pls)
-    @account_outgos = @user.accounts.outgo.all
+  def _setup_expenses(m_pls)
+    @account_outgos = @user.expenses.all
     @total_outgo = @account_outgos.inject(0) { |sum, og| sum + @m_pls[og.id] }
   end
 

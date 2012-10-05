@@ -1,15 +1,15 @@
-Fabricator(:account) do
+Fabricator(:banking) do
   name "AccountName"
   active true
-  account_type "account"
+  type "Banking"
   order_no 1
   after_build { |item| item.user_id = 1 }
 end
 
-Fabricator(:outgo, from: :account) do
+Fabricator(:expense, from: :account) do
   name "Outgo Name"
   active true
-  account_type "outgo"
+  type "Expense"
   order_no 1
   after_build { |item| item.user_id = 1 }
 end
@@ -17,7 +17,7 @@ end
 Fabricator(:income, from: :account) do
   name "Income Name"
   active true
-  account_type "income"
+  type "Income"
   order_no 1
   after_build { |item| item.user_id = 1 }
 end

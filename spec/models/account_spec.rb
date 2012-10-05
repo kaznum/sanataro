@@ -273,7 +273,7 @@ describe Account do
   describe "#destroy" do
     context "when child items/credit_relations don't exist," do
       before do
-        @account = Fabricate.build(:account)
+        @account = Fabricate.build(:banking)
         @account.save!
       end
 
@@ -289,7 +289,7 @@ describe Account do
 
     context "when child items exist," do
       before do
-        @account = Fabricate.build(:account)
+        @account = Fabricate.build(:banking)
         @account.save!
       end
 
@@ -330,7 +330,7 @@ describe Account do
 
     context "when child credit_relations exist," do
       before do
-        @account = Fabricate.build(:account)
+        @account = Fabricate.build(:banking)
         @account.save!
       end
 

@@ -420,10 +420,10 @@ describe Item do
           end
 
           # データの準備(参照されないデータ)(別ユーザ)
-          from_account = Fabricate.build(:account)
+          from_account = Fabricate.build(:banking)
           from_account.user_id = 101
           from_account.save!
-          to_account = Fabricate.build(:outgo)
+          to_account = Fabricate.build(:expense)
           to_account.user_id = 101
           to_account.save!
 
@@ -547,10 +547,10 @@ describe Item do
           end
 
           # データの準備(参照されないデータ)(別ユーザ)
-          from_account = Fabricate.build(:account)
+          from_account = Fabricate.build(:banking)
           from_account.user_id = 101
           from_account.save!
-          to_account = Fabricate.build(:outgo)
+          to_account = Fabricate.build(:expense)
           to_account.user_id = 101
           to_account.save!
           20.times do |i|

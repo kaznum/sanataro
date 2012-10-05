@@ -248,8 +248,8 @@ ja:
         new_password: "新しいパスワード"
         new_password_confirmation: "新しいパスワード(確認)"
     accounts:
-      bank_account: "口座の名前"
-      outgoing_account: "支出の名前"
+      banking_account: "口座の名前"
+      expense_account: "支出の名前"
       income_account: "収入の名前"
       edit:
         use_bgcolor: "色をつける"

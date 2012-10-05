@@ -33,13 +33,13 @@ describe AccountStatusesController do
 
         subject { assigns(:account_statuses)}
         it { should_not be_empty }
-        its(['account']) { should_not be_nil }
-        its(['outgo']) { should_not be_nil }
-        its(['income']) { should_not be_nil }
+        its([:bankings]) { should_not be_nil }
+        its([:expenses]) { should_not be_nil }
+        its([:incomes]) { should_not be_nil }
 
         describe "unknown account" do
           it "does exist and amount is 100" do
-            outgoes = assigns(:account_statuses)['outgo']
+            outgoes = assigns(:account_statuses)[:expenses]
             matches = outgoes.select { |account, amount| account.name == I18n.t('label.unknown') }
             matches.should have(1).entry
             matches[0][1].should be == 100

@@ -62,7 +62,7 @@ class Api::YearlyBudgetsController < ApplicationController
     results = _monthly_totals_during_a_year(date_since)
 
     { outgo: { label: I18n.t('label.outgoing'),
-        data: results[:outgos].map{|a| [a[0].to_milliseconds, a[1]]} },
+        data: results[:expenses].map{|a| [a[0].to_milliseconds, a[1]]} },
       income: { label: I18n.t('label.income'),
         data: results[:incomes].map{|a| [a[0].to_milliseconds, a[1]]} },
       total: { label: I18n.t('label.net'),
@@ -73,11 +73,11 @@ class Api::YearlyBudgetsController < ApplicationController
     expense_ids = @user.expense_ids
     income_ids = @user.income_ids
 
-    (0..11).inject({incomes: [], outgos: [], totals: []}) { |ret, i|
+    (0..11).inject({incomes: [], expenses: [], totals: []}) { |ret, i|
       month = date_since.months_since(i)
       totals = _monthly_total(month, expense_ids, income_ids)
       ret[:incomes] << [month, totals[:income].abs]
-      ret[:outgos] << [month, totals[:outgo].abs]
+      ret[:expenses] << [month, totals[:expense].abs]
 
       # don't use int.abs because total_amount could be minus.
       ret[:totals] << [month, (-1) * totals[:total]]
@@ -87,16 +87,16 @@ class Api::YearlyBudgetsController < ApplicationController
 
   def _monthly_total(month, expense_ids, income_ids)
     monthly_pl_scope = @user.monthly_profit_losses.where(month: month)
-    outgo_amount = monthly_pl_scope.where(account_id: expense_ids).sum(:amount)
+    expense_amount = monthly_pl_scope.where(account_id: expense_ids).sum(:amount)
     income_amount = monthly_pl_scope.where(account_id: income_ids).sum(:amount)
     unknown_amount = monthly_pl_scope.where(account_id: -1).sum(:amount)
-    total_amount = outgo_amount + income_amount + unknown_amount
+    total_amount = expense_amount + income_amount + unknown_amount
 
     if unknown_amount < 0
       income_amount += unknown_amount
     else
-      outgo_amount += unknown_amount
+      expense_amount += unknown_amount
     end
-    { income: income_amount, outgo: outgo_amount, total: total_amount }
+    { income: income_amount, expense: expense_amount, total: total_amount }
   end
 end
