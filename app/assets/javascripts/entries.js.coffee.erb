@@ -76,7 +76,7 @@ jQuery ($) ->
     $("#emojis_modal").removeAttr("style").modal()
 
   $ ->
-    global.emoji.constructList ".emoji_list", "#emojis_modal .current_form", "#emojis_modal", $("#emojis_modal .emoji_template_tag").html()
+    global.emoji.constructList ".emoji_list", "#emojis_modal .current_form", "#emojis_modal"
     # preloading large image for emoji selector
     (new Image()).src = "<%= image_path "all-emoji20.jpg" %>"
 

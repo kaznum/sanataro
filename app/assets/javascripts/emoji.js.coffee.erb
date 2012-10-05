@@ -3,7 +3,7 @@ global = exports ? this
 jQuery ($) ->
   titles = <%= RailsEmoji::EMOJI.to_json %>
 
-  constructList = (parent_selector, form_id_store, modal, template_tag) ->
+  constructList = (parent_selector, form_id_store, modal) ->
     $.each titles, (id, title) ->
       $li = $("<li id='#{title}'>")
       $li.attr("style", "background-position: -#{id * 20}px 0;")
