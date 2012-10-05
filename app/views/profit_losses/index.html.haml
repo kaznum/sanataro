@@ -1,17 +1,16 @@
 - cur_year = displaying_month.year
 - cur_month = displaying_month.month
-= javascript_include_tag "piechart"
-= javascript_include_tag "linechart"
-= javascript_include_tag "profit_losses"
-:coffeescript
-  ((global) ->
-    global.urls = {
+- provide :append_head do
+  :coffeescript
+    this.urls = {
       income: "#{api_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), format: :json)}",
       outgo: "#{api_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'outgo', format: :json)}",
       yearly_income: "#{api_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'income', format: :json)}",
       yearly_outgo: "#{api_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'outgo', format: :json)}",
       yearly_total: "#{api_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'total', format: :json)}"
-    })(document);
+    }
+  = render "common/chart_header"
+  = javascript_include_tag "profit_losses"
 .row
   .span12
     - calendar_from_date = calendar_from(@user)

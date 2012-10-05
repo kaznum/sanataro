@@ -21,16 +21,14 @@
       document.createElement( 'article' );
       document.createElement( 'time' );
       </script>
-    = javascript_include_tag "application"
     = stylesheet_link_tag "application"
     - unless Settings.enable_tweet
       %style(type="text/css")
         :sass
           .tweet_button
             display: none
-    /[if lte IE 8]
-      = javascript_include_tag "flot/excanvas.min.js"
-    = javascript_include_tag "flot"
+    = javascript_include_tag "application"
+    = yield :append_head
   %body
     - unless @user
       %a{ href: "https://github.com/kaznum/sanataro/" }

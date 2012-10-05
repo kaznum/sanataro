@@ -1,6 +1,7 @@
-(($, doc) ->
+global = exports ? this
+jQuery ($) ->
   $ ->
-    urls = doc.urls
+    urls = global.urls
     $.ajax {
       url: urls["asset"],
       type: "GET",
@@ -16,4 +17,3 @@
       type: "GET",
       dataType: "json",
       success: (data) -> charts.lineChart "#yearly_chart", "#yearly_chart_choices" , data }
-) jQuery, document
