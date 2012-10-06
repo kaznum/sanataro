@@ -26,7 +26,7 @@ class Api::YearlyBudgetsController < ApplicationController
   end
 
   def _formatted_income_or_expense_data(budget_type, date_since)
-    accounts = @user.accounts.where(type: budget_type).order("order_no").all
+    accounts = @user.send(budget_type.pluralize.to_sym).all
     accounts << Account.new {|a|
       a.id = -1
       a.name = 'Unknown'
