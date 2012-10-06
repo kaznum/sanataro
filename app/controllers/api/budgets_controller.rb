@@ -6,9 +6,9 @@ class Api::BudgetsController < ApplicationController
     year, month = CommonUtil.get_year_month_from_combined(params[:id])
 
     from_date = Date.new(year.to_i, month.to_i)
-    budget_type = params[:budget_type] == 'outgo' ? :expenses : :incomes
+    budget_type = params[:budget_type] == 'expense' ? :expenses : :incomes
 
-    accounts = @user.send(budget_type).order("order_no").all
+    accounts = @user.send(budget_type).all
 
     results = []
     accounts.each do |acc|

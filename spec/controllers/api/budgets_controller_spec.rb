@@ -3,16 +3,16 @@ require 'spec_helper'
 
 describe Api::BudgetsController do
   fixtures :users
-  
+
   describe "#show" do
     context "before login," do
       before do
         get :show, :id => 200802, :format => :json
       end
-      
+
       it_should_behave_like "Unauthenticated Access"
     end
-    
+
     context "after login," do
       before do
         login
@@ -22,33 +22,33 @@ describe Api::BudgetsController do
         before do
           get :show, :id => '21222', :format => :json
         end
-        
+
         it_should_behave_like "Not Acceptable"
       end
-      
+
       context "when id's initial char is not 0," do
         before do
           get :show, :id => '021222', :format => :json
         end
-        
+
         it_should_behave_like "Not Acceptable"
       end
-      
+
       context "when id has non-numeric char," do
         before do
           get :show, :id => '2008a2', :format => :json
         end
-        
+
         it_should_behave_like "Not Acceptable"
       end
-      
+
       context "when id does not mean correct year-month," do
         before do          get :show, :id => '200815', :format => :json
         end
-        
+
         it_should_behave_like "Not Acceptable"
       end
-      
+
       context "When there is no data to send," do
         before do
           Account.destroy_all
@@ -58,7 +58,7 @@ describe Api::BudgetsController do
         it {  should be_success }
         its(:body) { should == "[]"}
       end
-      
+
       context "When there are data to send," do
         before do
           Account.destroy_all
@@ -75,12 +75,12 @@ describe Api::BudgetsController do
           @user.monthly_profit_losses.create!(:month => Date.new(1999,1), :account_id => account4.id, :amount => 200 )
           @mpl_unknown = @user.monthly_profit_losses.create!(:month => Date.new(1999,1), :account_id => -1, :amount => -800 )
         end
-        
+
         context "when budget_type is not specified," do
-          before do 
+          before do
             get :show, :id => '199901', :format => :json
           end
-          
+
           describe "response" do
             subject { response }
             it {  should be_success }
@@ -89,12 +89,12 @@ describe Api::BudgetsController do
             end
           end
         end
-        
-        context "when budget_type is 'outgo'," do
+
+        context "when budget_type is 'expense'," do
           before do
             @mpl_unknown.update_attributes(amount: 500)
 
-            get :show, :id => '199901', :format => :json, :budget_type => 'outgo'
+            get :show, :id => '199901', :format => :json, :budget_type => 'expense'
           end
 
           describe "response" do

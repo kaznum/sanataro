@@ -8,10 +8,10 @@ global = exports ? this
       dataType: "json",
       success: (data) -> charts.pieChart("#income_chart", data) })
     $.ajax({
-      url: urls["outgo"],
+      url: urls["expense"],
       type: "GET",
       dataType: "json",
-      success: (data) -> charts.pieChart("#outgo_chart", data) })
+      success: (data) -> charts.pieChart("#expense_chart", data) })
     $.ajax({
       url: urls["yearly_income"],
       type: "GET",
