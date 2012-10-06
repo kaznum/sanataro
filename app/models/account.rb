@@ -24,47 +24,11 @@ class Account < ActiveRecord::Base
   validates_format_of :bgcolor, :with => /^[0-9a-f]{6}/i, :allow_nil => true
 
   scope :active, where(:active => true)
-  scope :account, where(type: 'Banking')
   scope :banking, where(type: 'Banking')
   scope :income, where(type: 'Income')
-  scope :outgo, where(type: 'Expense')
   scope :expense, where(type: 'Expense')
 
   default_scope order("order_no")
-
-  def self.type_to_account_type(type)
-    case type
-      when "Income"
-        "income"
-      when "Expense"
-        "outgo"
-      when "Banking" 
-        "account"
-      else
-        nil
-    end
-  end
-
-  def self.account_type_to_type(type)
-    case type
-      when "income"
-        return "Income"
-      when "outgo"
-        return "Expense"
-      when "account" 
-        return "Banking"
-      else
-        nil
-    end
-  end
-
-  def account_type
-    self.class.type_to_account_type(type)
-  end
-
-  def account_type=(a_type)
-    self.type = self.class.account_type_to_type(a_type)
-  end
 
   def trim_bgcolor_if_needed
     if bgcolor =~ /^#/

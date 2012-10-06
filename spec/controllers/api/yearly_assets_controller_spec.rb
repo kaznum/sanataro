@@ -59,15 +59,10 @@ describe Api::YearlyAssetsController do
             Account.destroy_all
 
             @user = users(:user1)
-            accs = @user.accounts
-            @account1 = accs.create!(name: "その1", active: true,
-                                    account_type: 'account', order_no: 10)
-            @account2 = accs.create!(name: "その2", active: true,
-                                    account_type: 'income', order_no: 20)
-            @account3 = accs.create!(name: "その3", active: true,
-                                    account_type: 'account', order_no: 30)
-            @account4 = accs.create!(name: "その4", active: true,
-                                                     account_type: 'outgo', order_no: 40)
+            @account1 = @user.bankings.create!(name: "その1", active: true, order_no: 10)
+            @account2 = @user.incomes.create!(name: "その2", active: true, order_no: 20)
+            @account3 = @user.bankings.create!(name: "その3", active: true, order_no: 30)
+            @account4 = @user.expenses.create!(name: "その4", active: true, order_no: 40)
 
             pls = @user.monthly_profit_losses
             pls.create!(month: Date.new(1998,1), account_id: @account1.id, amount: -300 )
