@@ -18,10 +18,10 @@ global = exports ? this
       dataType: "json",
       success: (data) -> charts.lineChart("#yearly_income_chart", "#yearly_income_chart_choices" , data) })
     $.ajax({
-      url: urls["yearly_outgo"],
+      url: urls["yearly_expense"],
       type: "GET",
       dataType: "json",
-      success: (data) -> charts.lineChart("#yearly_outgo_chart", "#yearly_outgo_chart_choices" , data) })
+      success: (data) -> charts.lineChart("#yearly_expense_chart", "#yearly_expense_chart_choices" , data) })
     $.ajax({
       url: urls["yearly_total"],
       type: "GET",

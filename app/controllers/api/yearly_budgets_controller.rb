@@ -10,15 +10,14 @@ class Api::YearlyBudgetsController < ApplicationController
     date_since = Date.new(year.to_i, month.to_i).months_ago(11)
 
     budget_type = params[:budget_type]
-    budget_type = Account.account_type_to_type(budget_type)
-    results = ['Expense', 'Income'].include?(budget_type) ? _formatted_income_or_outgo_data(budget_type, date_since) : _formatted_total_data(date_since)
+    results = ['expense', 'income'].include?(budget_type) ? _formatted_income_or_expense_data(budget_type, date_since) : _formatted_total_data(date_since)
 
     respond_with results
   end
 
   private
   def _redirect_if_invalid_budget_type!
-    if ['outgo', 'income', 'total'].include?(params[:budget_type])
+    if ['expense', 'income', 'total'].include?(params[:budget_type])
       true
     else
       render status: :not_acceptable, text: "Not Acceptable"
@@ -26,7 +25,7 @@ class Api::YearlyBudgetsController < ApplicationController
     end
   end
 
-  def _formatted_income_or_outgo_data(budget_type, date_since)
+  def _formatted_income_or_expense_data(budget_type, date_since)
     accounts = @user.accounts.where(type: budget_type).order("order_no").all
     accounts << Account.new {|a|
       a.id = -1
@@ -49,9 +48,9 @@ class Api::YearlyBudgetsController < ApplicationController
     mpl = @user.monthly_profit_losses.where(month: month, account_id: account_id).first
     amount = mpl ? mpl.amount : 0
     if account_id == -1
-      if budget_type == 'Income'
+      if budget_type == 'income'
         amount = amount < 0 ? amount : 0
-      elsif budget_type == 'Expense'
+      elsif budget_type == 'expense'
         amount = amount > 0 ? amount : 0
       end
     end
@@ -61,7 +60,7 @@ class Api::YearlyBudgetsController < ApplicationController
   def _formatted_total_data(date_since)
     results = _monthly_totals_during_a_year(date_since)
 
-    { outgo: { label: I18n.t('label.outgoing'),
+    { expense: { label: I18n.t('label.outgoing'),
         data: results[:expenses].map{|a| [a[0].to_milliseconds, a[1]]} },
       income: { label: I18n.t('label.income'),
         data: results[:incomes].map{|a| [a[0].to_milliseconds, a[1]]} },

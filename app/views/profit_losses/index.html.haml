@@ -6,7 +6,7 @@
       income: "#{api_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), format: :json)}",
       outgo: "#{api_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'outgo', format: :json)}",
       yearly_income: "#{api_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'income', format: :json)}",
-      yearly_outgo: "#{api_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'outgo', format: :json)}",
+      yearly_expense: "#{api_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'expense', format: :json)}",
       yearly_total: "#{api_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'total', format: :json)}"
     }
   = render "common/chart_header"
@@ -81,9 +81,9 @@
             .spacer &nbsp;
             .chart_title
               %i.icon-th= ' ' + t('label.yearly_outgoing')
-              = toggle_legend_link "#yearly_outgo_chart"
-            #yearly_outgo_chart_choices
-            #yearly_outgo_chart.graph{:style => "height: 200px"}
+              = toggle_legend_link "#yearly_expense_chart"
+            #yearly_expense_chart_choices
+            #yearly_expense_chart.graph{:style => "height: 200px"}
             .spacer &nbsp;
             .chart_title
               %i.icon-th= ' ' + t('label.yearly_total_income_and_total_outgoing')
