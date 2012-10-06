@@ -120,16 +120,16 @@ class User < ActiveRecord::Base
     income2 = self.incomes.create!(:name => '賞与', :order_no => 20)
     income3 = self.incomes.create!(:name => '雑収入', :order_no => 30)
 
-    outgo1 = self.expenses.create!(:name => '食費', :order_no => 10)
-    outgo2 = self.expenses.create!(:name => '光熱費', :order_no => 20)
-    outgo3 = self.expenses.create!(:name => '住居費', :order_no => 30)
-    outgo4 = self.expenses.create!(:name => '美容費', :order_no => 40)
-    outgo5 = self.expenses.create!(:name => '衛生費', :order_no => 50)
-    outgo6 = self.expenses.create!(:name => '雑費', :order_no => 60)
+    expense1 = self.expenses.create!(:name => '食費', :order_no => 10)
+    expense2 = self.expenses.create!(:name => '光熱費', :order_no => 20)
+    expense3 = self.expenses.create!(:name => '住居費', :order_no => 30)
+    expense4 = self.expenses.create!(:name => '美容費', :order_no => 40)
+    expense5 = self.expenses.create!(:name => '衛生費', :order_no => 50)
+    expense6 = self.expenses.create!(:name => '雑費', :order_no => 60)
 
     credit_relation = self.credit_relations.create!(:credit_account_id => account4_cr.id, :payment_account_id => account3.id, :settlement_day => 25, :payment_month => 2, :payment_day => 4)
 
     item_income = self.items.create!(:name => 'サンプル収入(消してかまいません)', :from_account_id => income3.id, :to_account_id => account1.id, :amount => 1000, :action_date => Date.today)
-    item_outgo = self.items.create!(:name => 'サンプル(消してかまいません)', :from_account_id => account1.id, :to_account_id => outgo1.id, :amount => 250, :action_date => Date.today, :tag_list => 'タグもOK')
+    item_expense = self.items.create!(:name => 'サンプル(消してかまいません)', :from_account_id => account1.id, :to_account_id => expense1.id, :amount => 250, :action_date => Date.today, :tag_list => 'タグもOK')
   end
 end
