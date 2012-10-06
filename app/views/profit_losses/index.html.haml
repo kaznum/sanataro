@@ -41,14 +41,14 @@
               %th=t('label.item')
               %th.amount=t('label.amount')
               %th.amount %
-            - @account_outgos.each do |og|
+            - @account_expenses.each do |og|
               %tr
                 %td!= "#{h og.name} [#{link_to t('link.revenue'), profit_loss_path(displaying_month.year, displaying_month.month, og.id), :remote => true, :method => :get}]"
                 %td.amount= number_to_currency(@m_pls[og.id])
-                %td.amount= "#{(@total_outgo == 0) ? '*' :@m_pls[og.id] * 100 / @total_outgo}%"
+                %td.amount= "#{(@total_expense == 0) ? '*' :@m_pls[og.id] * 100 / @total_expense}%"
             %tr
               %td.total= t('label.total_of_outgoing')
-              %td.total.amount= number_to_currency(@total_outgo)
+              %td.total.amount= number_to_currency(@total_expense)
               %td.amount 100%
             %tr
               %td.space{:colspan => "3"}
@@ -57,7 +57,7 @@
                 = l(displaying_month, format: :year_month)
                 %br/
                 #{t('label.gross_profit')}
-              %td.all_total.amount= number_to_currency(@total_income - @total_outgo)
+              %td.all_total.amount= number_to_currency(@total_income - @total_expense)
               %td.amount -
         .span8
           .budget_graph

@@ -36,24 +36,25 @@ class ProfitLossesController < ApplicationController
   end
 
   def _setup_expenses(m_pls)
-    @account_outgos = @user.expenses.all
-    @total_outgo = @account_outgos.inject(0) { |sum, og| sum + @m_pls[og.id] }
+    @account_expenses = @user.expenses.all
+    @total_expense = @account_expenses.inject(0) { |sum, og| sum + @m_pls[og.id] }
   end
 
   def _append_unknown_account
     adjustment_amount = @m_pls[-1]
-    unknown_account = Account.new{ |a| a.id = -1 }
 
     if adjustment_amount < 0
+      unknown_account = @user.incomes.build{|a| a.id = -1}
       unknown_account.name = I18n.t("label.unknown_income")
       @account_incomes << unknown_account
       @total_income -= adjustment_amount
     end
 
     if adjustment_amount > 0
+      unknown_account = @user.expenses.build{|a| a.id = -1}
       unknown_account.name = I18n.t("label.unknown_outgoing")
-      @account_outgos << unknown_account
-      @total_outgo += adjustment_amount
+      @account_expenses << unknown_account
+      @total_expense += adjustment_amount
     end
   end
 end
