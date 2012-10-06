@@ -10,7 +10,7 @@
 = form_tag entries_path(it.action_date.year, it.action_date.month), :remote => true, :method => :post, :id=>'do_add_item', :class => "well" do
   .row-fluid
     %ul.nav.nav-pills
-      %li.active= link_to t('link.register_income_outgo'), new_entry_path(:year => it.action_date.year, :month => it.action_date.month), :remote => true, :method => :get
+      %li.active= link_to t('link.register_income_expense'), new_entry_path(:year => it.action_date.year, :month => it.action_date.month), :remote => true, :method => :get
       %li= link_to t('link.register_adjustment'), new_entry_path(:year => it.action_date.year, :month => it.action_date.month, :entry_type => 'adjustment'), :remote => true, :method => :get
   .row-fluid.input-row
     = text_field_tag :action_date, l(it.action_date), class: "input-small", placeholder: "YYYY/MM/DD"

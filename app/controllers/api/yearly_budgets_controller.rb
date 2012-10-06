@@ -60,7 +60,7 @@ class Api::YearlyBudgetsController < ApplicationController
   def _formatted_total_data(date_since)
     results = _monthly_totals_during_a_year(date_since)
 
-    { expense: { label: I18n.t('label.outgoing'),
+    { expense: { label: I18n.t('label.expense'),
         data: results[:expenses].map{|a| [a[0].to_milliseconds, a[1]]} },
       income: { label: I18n.t('label.income'),
         data: results[:incomes].map{|a| [a[0].to_milliseconds, a[1]]} },

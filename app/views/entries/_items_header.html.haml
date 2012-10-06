@@ -11,7 +11,7 @@
   .span2.item_date.item_date_header.hidden-phone= t("label.date")
   .span3.item_name.item_name_header.hidden-phone= t(".explanation")
   .span4.item_from_to_header
-    = t(".outgoing_to_income")
+    = t(".expense_to_income")
     - unless @tag || @keyword
       %br/
       = select_tag('filter_account_id', options_for_select([[t(".no_filter"), '']] + all_acnts, session[:filter_account_id]))

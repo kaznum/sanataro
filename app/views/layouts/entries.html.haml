@@ -87,7 +87,7 @@
                     %ul.dropdown-menu
                       %li= link_to("<i class='icon-book'></i>#{t('.account')}".html_safe, settings_accounts_path(:type =>'banking'))
                       %li= link_to("<i class='icon-hand-right'></i>#{t('.income')}".html_safe, settings_accounts_path(:type => 'income'))
-                      %li= link_to("<i class='icon-shopping-cart'></i>#{t('.outgoing')}".html_safe, settings_accounts_path(:type => 'expense'))
+                      %li= link_to("<i class='icon-shopping-cart'></i>#{t('.expense')}".html_safe, settings_accounts_path(:type => 'expense'))
                       %li= link_to("<i class='icon-certificate'></i>#{t('.credit_card')}".html_safe, settings_credit_relations_path)
                       %li= link_to("<i class='icon-user'></i>#{t('.user_info')}".html_safe, settings_user_path)
                   %li= logout_link

@@ -52,7 +52,7 @@ class ProfitLossesController < ApplicationController
 
     if adjustment_amount > 0
       unknown_account = @user.expenses.build{|a| a.id = -1}
-      unknown_account.name = I18n.t("label.unknown_outgoing")
+      unknown_account.name = I18n.t("label.unknown_expense")
       @account_expenses << unknown_account
       @total_expense += adjustment_amount
     end
