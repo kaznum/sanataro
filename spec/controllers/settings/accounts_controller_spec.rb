@@ -37,7 +37,7 @@ describe Settings::AccountsController do
           it { should be_success }
           it { should render_template('index') }
 
-          describe "@account_type" do
+          describe "@type" do
             subject { assigns(:type)}
             it { should be == type }
           end
@@ -374,7 +374,7 @@ describe Settings::AccountsController do
             subject { Account.find(accounts(:bank1).id) }
             its(:name) { should be == @orig_account.name }
             its(:order_no) { should be == @orig_account.order_no }
-            its(:account_type) { should be == @orig_account.account_type }
+            its(:type) { should be == @orig_account.type }
             its(:bgcolor) { should be == @orig_account.bgcolor }
           end
         end
