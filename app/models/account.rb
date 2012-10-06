@@ -24,9 +24,6 @@ class Account < ActiveRecord::Base
   validates_format_of :bgcolor, :with => /^[0-9a-f]{6}/i, :allow_nil => true
 
   scope :active, where(:active => true)
-  scope :banking, where(type: 'Banking')
-  scope :income, where(type: 'Income')
-  scope :expense, where(type: 'Expense')
 
   default_scope order("order_no")
 
