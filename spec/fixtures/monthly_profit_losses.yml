@@ -26,28 +26,28 @@ bank1200803:
   account_id: 1
   amount: -1000
 
-outgo3200712:
+expense3200712:
   id: 11
   user_id: 1
   month: 2007-12-1
   account_id: 3
   amount: 300
 
-outgo3200801:
+expense3200801:
   id: 12
   user_id: 1
   month: 2008-01-01
   account_id: 3
   amount: 3000
 
-outgo3200802:
+expense3200802:
   id: 13
   user_id: 1
   month: 2008-02-01
   account_id: 3
   amount: 15100
 
-outgo3200804:
+expense3200804:
   id: 15
   user_id: 1
   month: 2008-04-01
@@ -92,7 +92,7 @@ bank1200802-2:
   account_id: 51
   amount: 5900
 
-outgo3200802-2:
+expense3200802-2:
   id: 61
   user_id: 2
   month: 2008-02-01

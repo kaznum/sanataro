@@ -118,7 +118,7 @@ describe ProfitLossesController do
       context "when correct id is specified," do
         context "when year, month are specified," do
           before do
-            xhr :get, :show, :id=>accounts(:outgo3).id.to_s, :year=>'2008', :month=>'2'
+            xhr :get, :show, :id=>accounts(:expense3).id.to_s, :year=>'2008', :month=>'2'
           end
           describe "response" do
             subject { response }
@@ -129,13 +129,13 @@ describe ProfitLossesController do
             subject { assigns }
             its([:items]) {should_not be_nil}
             its([:account_id]) {should_not be_nil}
-            its([:account_id]) { should be accounts(:outgo3).id }
+            its([:account_id]) { should be accounts(:expense3).id }
 
             describe "items" do
               subject { assigns[:items] }
               specify do
                 subject.each do |item|
-                  item.to_account_id.should be(accounts(:outgo3).id)
+                  item.to_account_id.should be(accounts(:expense3).id)
                   item.action_date.should be_between(Date.new(2008, 2), Date.new(2008,2).end_of_month)
                 end
               end
@@ -145,7 +145,7 @@ describe ProfitLossesController do
 
         context "when year, month are not specified," do
           before do
-            xhr :get, :show, :id=>accounts(:outgo3).id.to_s
+            xhr :get, :show, :id=>accounts(:expense3).id.to_s
           end
 
           describe "response" do
@@ -157,13 +157,13 @@ describe ProfitLossesController do
             subject { assigns }
             its([:items]) { should_not be_nil }
             its([:account_id]) { should_not be_nil }
-            its([:account_id]) { should be accounts(:outgo3).id }
+            its([:account_id]) { should be accounts(:expense3).id }
 
             describe "items" do
               subject { assigns(:items)}
               specify do
                 subject.each do |item|
-                  item.to_account_id.should be accounts(:outgo3).id
+                  item.to_account_id.should be accounts(:expense3).id
                   item.action_date.should be_between(Date.today.beginning_of_month, Date.today.end_of_month)
                 end
               end

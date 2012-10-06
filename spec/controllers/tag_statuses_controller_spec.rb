@@ -16,9 +16,9 @@ describe TagStatusesController do
       before do
         login
         # test data
-        create_entry :action_date => '2008/2/3',  :item_name=>'テスト1' , :amount=>'10,000', :from=>accounts(:bank1).id, :to=>accounts(:outgo3).id, :tag_list => 'abc def', :year => 2008, :month => 2
-        create_entry :action_date => '2008/2/3',  :item_name=>'テスト2' , :amount=>'10,000', :from=>accounts(:bank1).id, :to=>accounts(:outgo3).id, :tag_list => 'abc ', :year => 2008, :month => 2
-        create_entry :action_date => '2008/2/3',  :item_name=>'テスト3' , :amount=>'10,000', :from=>accounts(:bank1).id, :to=>accounts(:outgo3).id, :tag_list => 'def', :year => 2008, :month => 2
+        create_entry :action_date => '2008/2/3',  :item_name=>'テスト1' , :amount=>'10,000', :from=>accounts(:bank1).id, :to=>accounts(:expense3).id, :tag_list => 'abc def', :year => 2008, :month => 2
+        create_entry :action_date => '2008/2/3',  :item_name=>'テスト2' , :amount=>'10,000', :from=>accounts(:bank1).id, :to=>accounts(:expense3).id, :tag_list => 'abc ', :year => 2008, :month => 2
+        create_entry :action_date => '2008/2/3',  :item_name=>'テスト3' , :amount=>'10,000', :from=>accounts(:bank1).id, :to=>accounts(:expense3).id, :tag_list => 'def', :year => 2008, :month => 2
         xhr :get, :show
       end
 

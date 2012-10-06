@@ -39,8 +39,8 @@ describe AccountStatusesController do
 
         describe "unknown account" do
           it "does exist and amount is 100" do
-            outgoes = assigns(:account_statuses)[:expenses]
-            matches = outgoes.select { |account, amount| account.name == I18n.t('label.unknown') }
+            expensees = assigns(:account_statuses)[:expenses]
+            matches = expensees.select { |account, amount| account.name == I18n.t('label.unknown') }
             matches.should have(1).entry
             matches[0][1].should be == 100
           end

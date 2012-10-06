@@ -11,10 +11,10 @@ describe "/profit_losses/index" do
   context "when enough params," do
     before do
       assign :user, users(:user1)
-      assign :m_pls, { accounts(:income2).id => 100, accounts(:income12).id => 200, accounts(:outgo3).id => 300, accounts(:outgo13).id => 400 }
+      assign :m_pls, { accounts(:income2).id => 100, accounts(:income12).id => 200, accounts(:expense3).id => 300, accounts(:expense13).id => 400 }
       assign :account_incomes, [accounts(:income2), accounts(:income12)]
       assign :total_income, 12345
-      assign :account_expenses, [accounts(:outgo3), accounts(:outgo13)]
+      assign :account_expenses, [accounts(:expense3), accounts(:expense13)]
       assign :total_expense, 54321
     end
     describe "no error" do

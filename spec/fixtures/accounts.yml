@@ -15,10 +15,10 @@ income2:
   type: Income
   order_no: 10
 
-outgo3:
+expense3:
   id: 3
   user_id: 1
-  name: outgo3
+  name: expense3
   active: true
   type: Expense
   order_no: 10
@@ -48,10 +48,10 @@ income12:
   order_no: 10
 
 
-outgo13:
+expense13:
   id: 13
   user_id: 1
-  name: outgo13
+  name: expense13
   active: true
   type: Expense
   order_no: 10
