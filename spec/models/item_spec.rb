@@ -20,7 +20,7 @@ describe Item do
 
   describe "create successfully" do
     before do
-      @item = users(:user1).items.create!(@valid_attrs)
+      @item = users(:user1).general_items.create!(@valid_attrs)
       @saved_item = Item.find(@item.id)
     end
 
@@ -34,7 +34,7 @@ describe Item do
 
   describe "validation" do
     before do
-      @item = users(:user1).items.new(@valid_attrs)
+      @item = users(:user1).general_items.new(@valid_attrs)
     end
 
     describe "name" do
@@ -56,7 +56,7 @@ describe Item do
       end
     end
 
-    describe "amount" do 
+    describe "amount" do
       context "when amount is nil" do
         before do
           @item.amount = nil
@@ -73,10 +73,9 @@ describe Item do
           it { should have_at_least(1).errors_on :amount }
         end
       end
-      
     end
 
-    describe "account_id" do 
+    describe "account_id" do
       context "when from_account_id is nil," do
         before do
           @item.from_account_id = nil
@@ -365,7 +364,7 @@ describe Item do
 
     context "adjustment2のitemとaction_dateが同一のitemを追加した場合" do
       before do
-        item = users(:user1).items.create!(:name => 'aaaaa',
+        item = users(:user1).general_items.create!(:name => 'aaaaa',
                                            :action_date => @adj2.action_date,
                                            :from_account_id => 1,
                                            :to_account_id => 3,
@@ -401,7 +400,7 @@ describe Item do
         MonthlyProfitLoss.correct(users(:user1), 1, @adj6.action_date.beginning_of_month)
         MonthlyProfitLoss.correct(users(:user1), 3, @adj6.action_date.beginning_of_month)
 
-        item = users(:user1).items.create!(:id => 105,
+        item = users(:user1).general_items.create!(:id => 105,
                                            :name => 'aaaaa',
                                            :year => @adj6.action_date.year,
                                            :month => @adj6.action_date.month,
@@ -454,21 +453,21 @@ describe Item do
         # データの準備
         Item.transaction do
           50.times do
-            item = Fabricate.build(:item, from_account_id: 11, to_account_id: 13, action_date: '2008-09-15', tag_list: 'abc def', confirmation_required: true)
+            item = Fabricate.build(:general_item, from_account_id: 11, to_account_id: 13, action_date: '2008-09-15', tag_list: 'abc def', confirmation_required: true)
             item.save!
             @created_ids << item.id
           end
 
           # データの準備
           50.times do |i|
-            item = Fabricate.build(:item, from_account_id: 21, to_account_id: 13, action_date: '2008-09-15', tag_list: 'ghi jkl')
+            item = Fabricate.build(:general_item, from_account_id: 21, to_account_id: 13, action_date: '2008-09-15', tag_list: 'ghi jkl')
             item.save!
             @created_ids << item.id
           end
 
           # データの準備(参照されないデータ)
           10.times do |i|
-            item = Fabricate.build(:item, name: "NOT REFERED", from_account_id: 11, to_account_id: 13, action_date: '2008-10-01', tag_list: 'mno pqr')
+            item = Fabricate.build(:general_item, name: "NOT REFERED", from_account_id: 11, to_account_id: 13, action_date: '2008-10-01', tag_list: 'mno pqr')
             item.save!
             @created_ids << item.id
           end
@@ -482,23 +481,23 @@ describe Item do
           to_account.save!
 
           10.times do |i|
-            item = Fabricate.build(:item, from_account_id: from_account.id, to_account_id: to_account.id, action_date: '2008-09-15', tag_list: 'abc def', confirmation_required: true)
+            item = Fabricate.build(:general_item, from_account_id: from_account.id, to_account_id: to_account.id, action_date: '2008-09-15', tag_list: 'abc def', confirmation_required: true)
             item.user_id = 101
             item.save!
             @created_ids << item.id
           end
         end
-        
+
         @from_date = Date.new(2008,9,1)
         @to_date = Date.new(2008,9,30)
       end
 
       after(:all) do
-        Item.transaction do 
+        Item.transaction do
           Item.destroy(@created_ids)
         end
       end
-     
+
       context "when :remain is not specified" do
         subject { users(:user1).items.partials(@from_date, @to_date) }
         it { should have(Settings.item_list_count).entries }
@@ -562,7 +561,7 @@ describe Item do
         # データの準備
         Item.transaction do
           15.times do |i|
-            item = Item.new(:name => 'regular item ' + i.to_s,
+            item = GeneralItem.new(:name => 'regular item ' + i.to_s,
                             :from_account_id => 11,
                             :to_account_id => 13,
                             :action_date => Date.new(2008,9,15),
@@ -576,7 +575,7 @@ describe Item do
 
           # データの準備
           3.times do |i|
-            item = Item.new(:name => 'regular item ' + i.to_s,
+            item = GeneralItem.new(:name => 'regular item ' + i.to_s,
                             :from_account_id => 21,
                             :to_account_id => 13,
                             :action_date => Date.new(2008,9,15),
@@ -589,7 +588,7 @@ describe Item do
 
           # データの準備(参照されないデータ)
           10.times do |i|
-            item = Item.new(:name => 'regular item ' + i.to_s,
+            item = GeneralItem.new(:name => 'regular item ' + i.to_s,
                             :from_account_id => 11,
                             :to_account_id => 13,
                             :action_date => Date.new(2008,10,1), # 参照されない日付
@@ -608,7 +607,7 @@ describe Item do
           to_account.user_id = 101
           to_account.save!
           20.times do |i|
-            item = Item.new(:name => 'regular item ' + i.to_s,
+            item = GeneralItem.new(:name => 'regular item ' + i.to_s,
                             :from_account_id => from_account.id,
                             :to_account_id => to_account.id,
                             :action_date => Date.new(2008,9,15),
@@ -683,12 +682,12 @@ describe Item do
 
   describe "child_item" do
     before do
-      p_it = users(:user1).items.new(name: 'p hogehoge',
+      p_it = users(:user1).general_items.new(name: 'p hogehoge',
                                      from_account_id: 1,
                                      to_account_id: 3,
                                      amount: 500,
                                      action_date: Date.new(2008,2,10))
-      c_it = users(:user1).items.new(name: 'c hogehoge',
+      c_it = users(:user1).general_items.new(name: 'c hogehoge',
                                      from_account_id: 11,
                                      to_account_id: 1,
                                      amount: 500,
@@ -780,7 +779,7 @@ describe Item do
         tag_list: 'hoge fuga',
       }
 
-      @item = users(:user1).items.create!(@valid_attrs)
+      @item = users(:user1).general_items.create!(@valid_attrs)
       # acts_as_taggable plugin has a bug. After creating, #tags returns empty array.
       @item.reload
     end

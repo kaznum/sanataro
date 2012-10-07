@@ -2,10 +2,13 @@
 class Teller
   class << self
     def create_entry(user, args = {})
-      item = user.items.build(args)
+      args = args.dup
+      type = args[:adjustment].to_s.to_bool ? :adjustment : :general_item
+      args.delete(:adjustment)
+      item = user.send(type.to_s.pluralize).build(args)
       ActiveRecord::Base.transaction do
-        if args[:adjustment]
-          prev_adj = user.items.find_by_to_account_id_and_action_date_and_adjustment(args[:to_account_id], args[:action_date], true)
+        if type == :adjustment
+          prev_adj = user.adjustments.find_by_to_account_id_and_action_date(args[:to_account_id], args[:action_date])
           destroy_entry(user, prev_adj.id) if prev_adj
         end
 

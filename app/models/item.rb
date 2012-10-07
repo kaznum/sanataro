@@ -4,8 +4,8 @@ class Item < ActiveRecord::Base
   attr_protected :user_id
 
   belongs_to :user
-  belongs_to :parent_item, :class_name => self.to_s, :foreign_key => 'parent_id'
-  has_one :child_item, :class_name => self.to_s, :foreign_key => 'parent_id', :dependent => :destroy
+  belongs_to :parent_item, :class_name => "GeneralItem", :foreign_key => 'parent_id'
+  has_one :child_item, :class_name => "GeneralItem", :foreign_key => 'parent_id', :dependent => :destroy
 
   validate :validates_action_date_range
 
@@ -22,6 +22,8 @@ class Item < ActiveRecord::Base
   validates_presence_of :amount
   validates_format_of :amount, :with => /^-?\d+$/
   validates_presence_of :action_date
+  validates_presence_of :type
+
   validate :account_id_should_be_owned_by_user
   validate :action_date_should_be_larger_than_that_of_parent_item
   validate :from_account_id_should_not_be_expense
@@ -52,6 +54,10 @@ class Item < ActiveRecord::Base
         errors.add(:action_date, I18n.t("errors.messages.since_until_today", date: I18n.l(since)))
       end
     end
+  end
+
+  def adjustment?
+    self.is_a?(Adjustment) || type == 'Adjustment'
   end
 
   def year
@@ -156,7 +162,7 @@ class Item < ActiveRecord::Base
     def update_future_balance(user, action_date, account_id, item_id)
       return if account_id == -1
 
-      item_adj = user.items.future_adjustment(action_date, account_id, item_id)
+      item_adj = user.adjustments.future_adjustment(action_date, account_id, item_id)
 
       if item_adj
         amount_to_adj = Account.asset(user, account_id, item_adj.action_date, item_adj.id)
@@ -176,7 +182,7 @@ class Item < ActiveRecord::Base
     end
 
     def future_adjustment(action_date, account_id, item_id)
-      where(to_account_id: account_id, adjustment: true).
+      where(to_account_id: account_id, type: 'Adjustment').
         where("(action_date > ? AND id <> ?) OR (action_date = ? AND id > ?)",
               action_date, item_id, action_date, item_id).order("action_date, id").first
     end

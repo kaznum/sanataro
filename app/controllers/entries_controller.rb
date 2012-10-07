@@ -147,7 +147,8 @@ class EntriesController < ApplicationController
   # which switches forms each other.
   def _new_entry(entry_type)
     action_date = _get_date_by_specific_year_and_month_or_today(params[:year], params[:month])
-    @item = Item.new(action_date: action_date, adjustment: (entry_type == 'adjustment'))
+    item_class = entry_type == 'adjustment' ? Adjustment : GeneralItem
+    @item = item_class.new(action_date: action_date)
     render "new"
   end
 

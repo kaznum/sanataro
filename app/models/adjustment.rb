@@ -1,0 +1,3 @@
+class Adjustment < Item
+end
+

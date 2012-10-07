@@ -1,0 +1,3 @@
+class GeneralItem < Item
+end
+

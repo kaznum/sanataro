@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121005062452) do
+ActiveRecord::Schema.define(:version => 20121007043151) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
@@ -51,11 +51,11 @@ ActiveRecord::Schema.define(:version => 20121005062452) do
     t.integer  "amount"
     t.date     "action_date"
     t.datetime "created_at"
-    t.boolean  "adjustment",            :default => false
     t.integer  "adjustment_amount",     :default => 0
     t.integer  "parent_id"
     t.datetime "updated_at"
     t.boolean  "confirmation_required", :default => false
+    t.string   "type"
   end
 
   create_table "monthly_profit_losses", :force => true do |t|

@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe AccountStatusesController do
   fixtures :users, :items, :accounts, :monthly_profit_losses
-  
+
   describe "#show" do
     context "when not logined," do
       specify do
@@ -27,7 +27,7 @@ describe AccountStatusesController do
 
       describe "@account_statuses" do
         before do
-          users(:user1).items.create!(:from_account_id => -1, :to_account_id => accounts(:bank1).id, :amount => -100, :action_date => Date.today, :name => 'unknown')
+          users(:user1).general_items.create!(:from_account_id => -1, :to_account_id => accounts(:bank1).id, :amount => -100, :action_date => Date.today, :name => 'unknown')
           xhr :get, :show
         end
 

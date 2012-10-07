@@ -310,7 +310,7 @@ describe Account do
 
       context "when it is used for from_account_id," do
         before do
-          item = Fabricate.build(:item, from_account_id: @account.id)
+          item = Fabricate.build(:general_item, from_account_id: @account.id)
           item.save!
         end
 
@@ -327,7 +327,7 @@ describe Account do
 
       context "when it is used for to_account_id," do
         before do
-          item = Fabricate.build(:item, to_account_id: @account.id)
+          item = Fabricate.build(:general_item, to_account_id: @account.id)
           item.save!
         end
 

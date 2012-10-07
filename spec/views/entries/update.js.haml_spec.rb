@@ -10,9 +10,9 @@ describe "/entries/create_item" do
   fixtures :all
 
   before(:each) do
-    @item1 = Fabricate(:item, name: "<a href='aaa'>aaa</a>")
+    @item1 = Fabricate(:general_item, name: "<a href='aaa'>aaa</a>")
     @item1.save!
-    @item2 = Fabricate(:item)
+    @item2 = Fabricate(:general_item)
     @item2.save!
     @items = [@item1, @item2]
     mock_user = mock_model(User)

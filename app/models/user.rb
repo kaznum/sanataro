@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   attr_accessor :password_plain, :password_confirmation
   sanataro_tagger
   has_many :items
+  has_many :general_items, class_name: "GeneralItem"
+  has_many :adjustments, class_name: "Adjustment"
   has_many :monthly_profit_losses
   has_many :accounts
   has_many :credit_relations
