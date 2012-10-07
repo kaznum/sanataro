@@ -8,15 +8,7 @@ class AccountStatusesController < ApplicationController
   private
   def _account_status
     retval = known_account_statuses_on(today)
-    unknown_total = unknown_amount_on(today)
-    unless unknown_total == 0
-      typed_accounts = unknown_total < 0 ? :expenses : :incomes
-      unknown_account = @user.send(typed_accounts).build do |a|
-        a.name = I18n.t('label.unknown')
-        a.order_no = 999999
-      end
-      retval[typed_accounts] << [unknown_account, unknown_total.abs]
-    end
+    append_unknown_amount_on(today, retval)
 
     retval
   end
@@ -29,6 +21,17 @@ class AccountStatusesController < ApplicationController
     retval
   end
 
+  def append_unknown_amount_on(date, statuses)
+    unknown_total = unknown_amount_on(date)
+    unless unknown_total == 0
+      typed_accounts = unknown_total < 0 ? :expenses : :incomes
+      unknown_account = @user.send(typed_accounts).build do |a|
+        a.name = I18n.t('label.unknown')
+        a.order_no = 999999
+      end
+      statuses[typed_accounts] << [unknown_account, unknown_total.abs]
+    end
+  end
 
   def unknown_amount_on(date)
     from = date.beginning_of_month
