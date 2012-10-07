@@ -172,7 +172,7 @@ class EntriesController < ApplicationController
       else
         @items = get_items(month: displaying_month)
         affected_item_ids << item.try(:id)
-        template = params[:entry_type] == 'adjustment' ? "create_adjustment" : "create_item"
+        template = item.adjustment? ? "create_adjustment" : "create_item"
         render template, locals: { item: item, items: @items, updated_item_ids: affected_item_ids.reject(&:nil?).uniq }
       end
     end
