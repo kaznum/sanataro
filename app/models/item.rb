@@ -24,6 +24,8 @@ class Item < ActiveRecord::Base
   validates_presence_of :action_date
   validate :account_id_should_be_owned_by_user
   validate :action_date_should_be_larger_than_that_of_parent_item
+  validate :from_account_id_should_not_be_expense
+  validate :to_account_id_should_not_be_income
 
   before_validation :set_action_date
   before_validation :fill_amount_for_adjustment_if_needed
@@ -266,6 +268,18 @@ class Item < ActiveRecord::Base
       errors.add(:from_account_id, I18n.t("errors.messages.invalid"))
     end
     if !user.accounts.exists?(id: to_account_id)
+      errors.add(:to_account_id, I18n.t("errors.messages.invalid"))
+    end
+  end
+
+  def from_account_id_should_not_be_expense
+    if from_account_id != -1 && user.expenses.exists?(id: from_account_id)
+      errors.add(:from_account_id, I18n.t("errors.messages.invalid"))
+    end
+  end
+
+  def to_account_id_should_not_be_income
+    if user.incomes.exists?(id: to_account_id)
       errors.add(:to_account_id, I18n.t("errors.messages.invalid"))
     end
   end
