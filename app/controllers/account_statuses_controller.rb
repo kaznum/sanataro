@@ -21,25 +21,14 @@ class AccountStatusesController < ApplicationController
     retval
   end
 
-  def known_account_statuses_on(to)
+  def known_account_statuses_on(date)
     retval = {}
     [:bankings, :incomes, :expenses].each do |type|
-      retval[type] = send("#{type}_statuses_on", to)
+      retval[type] = @user.send(type).active.map { |a| [a, a.status_of_the_day(date)] }
     end
     retval
   end
 
-  def bankings_statuses_on(date)
-    @user.bankings.active.map { |a| [a, Account.asset(@user, a.id, date)] }
-  end
-
-  def incomes_statuses_on(date)
-    @user.incomes.active.map { |a| [a, (-1) * Account.asset_beginning_of_month_to_date(@user, a.id, date)] }
-  end
-
-  def expenses_statuses_on(date)
-    @user.expenses.active.map{ |a| [a, Account.asset_beginning_of_month_to_date(@user, a.id, date)] }
-  end
 
   def unknown_amount_on(date)
     from = date.beginning_of_month
