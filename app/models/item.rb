@@ -31,7 +31,7 @@ class Item < ActiveRecord::Base
   validate :from_and_to_account_id_should_not_be_same
 
   before_validation :set_action_date
-  before_validation :fill_amount_for_adjustment_if_needed
+  before_validation :fill_amount
 
   scope :of_account_id, lambda { |account_id|  where(arel_table[:from_account_id].eq(account_id).or(arel_table[:to_account_id].eq(account_id)) )}
   scope :action_date_between, lambda { |from, to| where(action_date: from..to) }
@@ -260,13 +260,6 @@ class Item < ActiveRecord::Base
     p_item = self.parent_item
     if p_item && self.action_date <= p_item.action_date
       errors.add(:action_date, I18n.t("errors.messages.after_credit_item", date: I18n.l(p_item.action_date)))
-    end
-  end
-
-  def fill_amount_for_adjustment_if_needed
-    if adjustment? && !amount_changed? && action_date && to_account_id && user && adjustment_amount
-      asset = user.accounts.asset(user, to_account_id, action_date, id)
-      self.amount = adjustment_amount - asset
     end
   end
 
