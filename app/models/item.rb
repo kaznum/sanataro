@@ -26,6 +26,7 @@ class Item < ActiveRecord::Base
   validate :action_date_should_be_larger_than_that_of_parent_item
   validate :from_account_id_should_not_be_expense
   validate :to_account_id_should_not_be_income
+  validate :from_and_to_account_id_should_not_be_same
 
   before_validation :set_action_date
   before_validation :fill_amount_for_adjustment_if_needed
@@ -281,6 +282,12 @@ class Item < ActiveRecord::Base
   def to_account_id_should_not_be_income
     if user.incomes.exists?(id: to_account_id)
       errors.add(:to_account_id, I18n.t("errors.messages.invalid"))
+    end
+  end
+
+  def from_and_to_account_id_should_not_be_same
+    if from_account_id == to_account_id
+      errors.add(:from_account_id, I18n.t("errors.messages.same_account"))
     end
   end
 end

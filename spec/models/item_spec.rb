@@ -211,6 +211,24 @@ describe Item do
           it { should have_at_least(1).errors_on :to_account_id }
         end
       end
+
+      context "when from_account_id and to_account_id are same," do
+        before do
+          @item.from_account_id = 1
+          @item.to_account_id = 1
+          @is_saved = @item.save
+        end
+
+        describe "item was not saved" do
+          subject { @is_saved }
+          it { should be_false }
+        end
+
+        describe "error" do
+          subject { @item }
+          it { should have_at_least(1).errors_on :from_account_id }
+        end
+      end
     end
 
     describe "action_date" do

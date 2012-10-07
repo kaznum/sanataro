@@ -32,6 +32,8 @@ ja:
         name: "項目名"
         currency: "通貨"  #g
         amount: "金額"
+        from_account_id: "支払元"
+        to_account_id: "支払先"
         action_date: "日付"
         adjustment: "残高調整"
         adjustment_amount: "調整金額"
