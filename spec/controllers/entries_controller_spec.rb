@@ -1776,7 +1776,7 @@ describe EntriesController do
                     :year => 2008, :month => 2)
               }
             }
-            describe "created_adjustment" do
+            describe "created_adjustment", :debug => true do
               before { action.call }
               subject { Adjustment.where(action_date: existing_adj.action_date).first }
               its(:adjustment_amount) { should == 50 }
@@ -1789,7 +1789,7 @@ describe EntriesController do
               it { should be_nil }
             end
 
-            describe "future adjustment" do
+            describe "future adjustment", :debug => true do
               it { expect { action.call }.to change{ Item.find(future_adj.id).amount }.by(existing_adj.adjustment_amount - 50) }
             end
 

@@ -7,11 +7,6 @@ class Teller
       args.delete(:adjustment)
       item = user.send(type.to_s.pluralize).build(args)
       ActiveRecord::Base.transaction do
-        if type == :adjustment
-          prev_adj = user.adjustments.find_by_to_account_id_and_action_date(args[:to_account_id], args[:action_date])
-          destroy_entry(user, prev_adj.id) if prev_adj
-        end
-
         item.save!
       end
 
