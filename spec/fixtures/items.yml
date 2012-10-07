@@ -8,7 +8,7 @@ item1:
   to_account_id: 3
   amount: 10000
   confirmation_required: true
-#  memo: memo1
+  type: GeneralItem
 
 adjustment2:
   id: 2
@@ -18,9 +18,9 @@ adjustment2:
   from_account_id: -1
   to_account_id: 1
   amount: 22000
-  adjustment: true
   adjustment_amount: 20000
   confirmation_required: false
+  type: Adjustment
 
 item3:
   id: 3
@@ -31,6 +31,7 @@ item3:
   to_account_id: 3
   amount: 5000
   confirmation_required: false
+  type: GeneralItem
 
 adjustment4:
   id: 4
@@ -40,8 +41,8 @@ adjustment4:
   from_account_id: -1
   to_account_id: 1
   amount: -1000
-  adjustment: true
   adjustment_amount: 14000
+  type: Adjustment
 
 item5:
   id: 5
@@ -51,6 +52,7 @@ item5:
   from_account_id: 1
   to_account_id: 3
   amount: 100
+  type: GeneralItem
 
 adjustment6:
   id: 6
@@ -60,8 +62,8 @@ adjustment6:
   from_account_id: -1
   to_account_id: 1
   amount: -1000
-  adjustment: true
   adjustment_amount: 12900
+  type: Adjustment
 
 item7:
   id: 7
@@ -71,7 +73,8 @@ item7:
   from_account_id: 2
   to_account_id: 1
   amount: 5000
-  
+  type: GeneralItem
+
 item8:
   id: 8
   user_id: 1
@@ -80,6 +83,7 @@ item8:
   from_account_id: 2
   to_account_id: 1
   amount: 3000
+  type: GeneralItem
 
 item9:
   id: 9
@@ -89,6 +93,7 @@ item9:
   from_account_id: 4
   to_account_id: 3
   amount: 3000
+  type: GeneralItem
 
 item10:
   id: 10
@@ -98,6 +103,7 @@ item10:
   from_account_id: 4
   to_account_id: 3
   amount: 300
+  type: GeneralItem
 
 item11:
   id: 11
@@ -107,6 +113,7 @@ item11:
   from_account_id: 1
   to_account_id: 3
   amount: 500
+  type: GeneralItem
 
 item101:
   id: 101
@@ -116,6 +123,7 @@ item101:
   from_account_id: 101
   to_account_id: 103
   amount: 500
+  type: GeneralItem
 
 credit_payment21:
   id: 21
@@ -125,7 +133,8 @@ credit_payment21:
   from_account_id: 4
   to_account_id: 13
   amount: 500
-  
+  type: GeneralItem
+
 credit_refill31:
   id: 31
   user_id: 1
@@ -135,3 +144,4 @@ credit_refill31:
   to_account_id: 4
   amount: 500
   parent_id: 21
+  type: GeneralItem

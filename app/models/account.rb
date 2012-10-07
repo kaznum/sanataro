@@ -19,13 +19,11 @@ class Account < ActiveRecord::Base
   validates_length_of :name, :in =>1..255
   validates_presence_of :order_no
   validates_format_of :order_no, :with => /^\d+$/
-  validates_format_of :account_type, :with => /^account$|^income$|^outgo$/
+  validates_presence_of :type
+  validates_format_of :type, :with => /^Banking$|^Income$|^Expense$/
   validates_format_of :bgcolor, :with => /^[0-9a-f]{6}/i, :allow_nil => true
 
   scope :active, where(:active => true)
-  scope :account, where(account_type: 'account')
-  scope :income, where(account_type: 'income')
-  scope :outgo, where(account_type: 'outgo')
 
   default_scope order("order_no")
 
@@ -46,12 +44,6 @@ class Account < ActiveRecord::Base
   end
 
   class << self
-    %w(income outgo account).each do |name|
-      define_method("#{name}_ids".to_sym) do
-        send(name.to_sym).pluck(:id)
-      end
-    end
-
     # 特定の日付までの残高を取得する
     # my_id でitemのIDを指定すると、そのItemが除外される。また、
     # dateと、my_idに該当するitemのaction_dateが同一の場合、
@@ -123,25 +115,25 @@ class Account < ActiveRecord::Base
 
     def asset_to_date_of_this_month_except(user, account_id, date, item_id)
       user.items.action_date_between(date.beginning_of_month, date).where("id <> ?", item_id).scoping do
-        outgo = Item.where(from_account_id: account_id).sum(:amount)
+        expense = Item.where(from_account_id: account_id).sum(:amount)
         income = Item.where(to_account_id: account_id).sum(:amount)
-        income - outgo
+        income - expense
       end
     end
 
     def asset_to_item_of_this_month_except(user, account_id, date, item_id)
       user.items.where("(action_date >= ? and action_date < ? and id <> ?) or (action_date = ? and id < ?)", date.beginning_of_month, date, item_id,  date, item_id).scoping do
-        outgo = Item.where(from_account_id: account_id).sum(:amount)
+        expense = Item.where(from_account_id: account_id).sum(:amount)
         income = Item.where(to_account_id: account_id).sum(:amount)
-        income - outgo
+        income - expense
       end
     end
 
     def asset_beginning_of_month_to_date(user, account_id, date)
       user.items.action_date_between(date.beginning_of_month, date).scoping do
-        outgo = Item.where(from_account_id: account_id).sum(:amount)
+        expense = Item.where(from_account_id: account_id).sum(:amount)
         income = Item.where(to_account_id: account_id).sum(:amount)
-        income - outgo
+        income - expense
       end
     end
   end

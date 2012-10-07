@@ -5,7 +5,7 @@ class BalanceSheetsController < ApplicationController
   def index
     @bs = _snapshot_of_month(displaying_month)
 
-    @accounts = @user.accounts.account.order("order_no")
+    @accounts = @user.bankings
 
     @bs_plus = { }
     @bs_minus = { }

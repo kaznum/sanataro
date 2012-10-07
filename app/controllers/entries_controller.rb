@@ -38,18 +38,16 @@ class EntriesController < ApplicationController
 
   def create
     _xhr_action("warning") {
-      if params[:entry_type] == 'adjustment'
-        _create_adjustment
-      else
-        _create_entry
-      end
+      _create_entry
     }
   end
 
   def update
     _xhr_action("item_warning_#{params[:id]}") {
       id = params[:id].to_i
+
       item, updated_item_ids, deleted_item_ids = Teller.update_entry(@user, id, arguments_for_update)
+
       items = get_items(month: displaying_month)
       render "update", locals: { item: item, items: items, updated_item_ids: updated_item_ids }
     }
@@ -77,23 +75,16 @@ class EntriesController < ApplicationController
   private
 
   def arguments_for_update
-    if params[:entry_type] == 'adjustment'
-      args = {
-        to_account_id: params[:to],
-        adjustment_amount: Item.calc_amount(params[:adjustment_amount])
-      }
-    else
-      args = {
-        name: params[:item_name],
-        from_account_id: params[:from],
-        to_account_id: params[:to],
-        amount: Item.calc_amount(params[:amount])
-      }
-    end
-
-    args.merge({ confirmation_required: params[:confirmation_required],
-                 tag_list: params[:tag_list],
-                 action_date: _get_action_date_from_params })
+    {
+      name: params[:item_name],
+      from_account_id: params[:from],
+      to_account_id: params[:to],
+      amount: Item.calc_amount(params[:amount]),
+      adjustment_amount: Item.calc_amount(params[:adjustment_amount]),
+      confirmation_required: params[:confirmation_required],
+      tag_list: params[:tag_list],
+      action_date: _get_action_date_from_params
+    }
   end
 
   def _xhr_action(warning_selector, &block)
@@ -147,7 +138,8 @@ class EntriesController < ApplicationController
   # which switches forms each other.
   def _new_entry(entry_type)
     action_date = _get_date_by_specific_year_and_month_or_today(params[:year], params[:month])
-    @item = Item.new(action_date: action_date, adjustment: (entry_type == 'adjustment'))
+    item_class = entry_type == 'adjustment' ? Adjustment : GeneralItem
+    @item = item_class.new(action_date: action_date)
     render "new"
   end
 
@@ -164,42 +156,24 @@ class EntriesController < ApplicationController
     action_date || today
   end
 
-  def _create_adjustment
-    action_date = _get_action_date_from_params
-
-    to_account_id = params[:to].to_i
-    adjustment_amount = Item.calc_amount(params[:adjustment_amount])
-
-    Item.transaction do
-      item, updated_item_ids =
-        Teller.create_entry(@user, action_date: action_date, name: 'Adjustment',
-                            from_account_id: -1, to_account_id: to_account_id,
-                            adjustment: true, tag_list: params[:tag_list],
-                            adjustment_amount: adjustment_amount)
-      @items = get_items(month: displaying_month)
-      updated_item_ids << item.try(:id)
-
-      render "create_adjustment", locals: { item: item, items: @items, updated_item_ids: updated_item_ids.reject(&:nil?).uniq }
-
-    end
-  end
-
   def _create_entry
     Item.transaction do
-      item, affected_item_ids =
-        Teller.create_entry(@user, :name => params[:item_name],
-                            :from_account_id => params[:from], :to_account_id => params[:to],
-                            :amount => Item.calc_amount(params[:amount]),
-                            :action_date => _get_action_date_from_params,
-                            :confirmation_required => params[:confirmation_required],
-                            :tag_list => params[:tag_list])
+      item, affected_item_ids = Teller.create_entry(@user, :name => params[:item_name],
+                                                    :from_account_id => params[:from], :to_account_id => params[:to],
+                                                    :amount => Item.calc_amount(params[:amount]),
+                                                    :action_date => _get_action_date_from_params,
+                                                    :confirmation_required => params[:confirmation_required],
+                                                    :tag_list => params[:tag_list],
+                                                    :adjustment_amount => Item.calc_amount(params[:adjustment_amount]),
+                                                    :adjustment => params[:entry_type] == 'adjustment')
 
       if params[:only_add]
         render "create_item_simple", locals: { item: item }
       else
         @items = get_items(month: displaying_month)
         affected_item_ids << item.try(:id)
-        render "create_item", locals: { item: item, items: @items, updated_item_ids: affected_item_ids.reject(&:nil?).uniq }
+        template = item.adjustment? ? "create_adjustment" : "create_item"
+        render template, locals: { item: item, items: @items, updated_item_ids: affected_item_ids.reject(&:nil?).uniq }
       end
     end
   end

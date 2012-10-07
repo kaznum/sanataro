@@ -1,8 +1,0 @@
-- account_link = (params[:controller] == 'settings/accounts' && (params[:account_type].blank? || params[:account_type] == 'account')) ? link_to(t('.account'), settings_accounts_path(:account_type=>'account'), {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(t('.account'), settings_accounts_path(:account_type=>'account'))
-- income_link = params[:account_type] == 'income' ? link_to(t('.income'), settings_accounts_path(:account_type=>'income'), {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(t('.income'), settings_accounts_path(:account_type => 'income'))
-- outgo_link = params[:account_type] == 'outgo' ? link_to(t('.outgoing'), settings_accounts_path(:account_type => 'outgo'), {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(t('.outgoing'), settings_accounts_path(:account_type => 'outgo'))
-- credit_link = params[:controller] == 'settings/credit_relations' ? link_to(t('.credit_card'), settings_credit_relations_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(t('.credit_card'), settings_credit_relations_path)
-- user_link = params[:controller] == 'settings/users' ? link_to(t('.user_info'), settings_user_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(t('.user_info'), settings_user_path)
-- back_link = link_to t('.back_to_book'), current_entries_path
-- logout_link = link_to t("link.logout"), logout_path, {:confirm=>t('message.logout_really')}
-= account_link + income_link + outgo_link + credit_link + user_link + back_link + logout_link

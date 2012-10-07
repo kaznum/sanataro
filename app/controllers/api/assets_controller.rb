@@ -27,7 +27,7 @@ class Api::AssetsController < ApplicationController
   end
 
   def formatted_assets_or_debts(balances_with_accounts, type=:asset)
-    accounts = @user.accounts.where(:account_type => 'account').order("order_no")
+    accounts = @user.bankings.order("order_no")
     labels_and_data = []
     accounts.each do |a|
       amount = balances_with_accounts[a.id]

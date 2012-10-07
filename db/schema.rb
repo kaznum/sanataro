@@ -11,14 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120201094222) do
+ActiveRecord::Schema.define(:version => 20121007043151) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
     t.string   "name"
     t.datetime "created_at"
-    t.boolean  "active",       :default => true
-    t.string   "account_type"
+    t.boolean  "active",     :default => true
+    t.string   "type"
     t.integer  "order_no"
     t.datetime "updated_at"
     t.string   "bgcolor"
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(:version => 20120201094222) do
   end
 
   create_table "items", :force => true do |t|
-    t.integer  "user_id"
+    t.integer  "user_id",                                  :null => false
     t.string   "name"
     t.integer  "from_account_id"
     t.integer  "to_account_id"
@@ -51,11 +51,11 @@ ActiveRecord::Schema.define(:version => 20120201094222) do
     t.integer  "amount"
     t.date     "action_date"
     t.datetime "created_at"
-    t.boolean  "adjustment",            :default => false
     t.integer  "adjustment_amount",     :default => 0
     t.integer  "parent_id"
     t.datetime "updated_at"
     t.boolean  "confirmation_required", :default => false
+    t.string   "type"
   end
 
   create_table "monthly_profit_losses", :force => true do |t|
@@ -70,8 +70,8 @@ ActiveRecord::Schema.define(:version => 20120201094222) do
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false
     t.text     "data"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"

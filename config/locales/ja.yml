@@ -178,6 +178,7 @@ ja:
       after_credit_item: "はクレジットカード使用日(%{date})以降を入力してください。"
       used_as_payment_account: "はすでに支払い口座として使用されています。"
       used_as_credit_account: "はすでにクレジットカード口座として使用されています。"
+      same_account: "と支払先は異なる値にしてください。"
   activerecord:
     errors:
       template:

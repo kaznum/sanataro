@@ -5,9 +5,9 @@ module TwitterHelper
     from = item.user.accounts.where(id: item.from_account_id).first
     to = item.user.accounts.where(id: item.to_account_id).first
 
-    if from.try(:account_type) == 'income'
+    if from.is_a?(Income)
       escaped_text = URI.escape("#{item.name} [#{from.name}] #{number_to_currency(item.amount)}")
-    elsif to.try(:account_type) == 'outgo'
+    elsif to.is_a?(Expense)
       escaped_text = URI.escape("#{item.name} [#{to.name}] #{number_to_currency(item.amount)}")
     else
       escaped_text = URI.escape("#{item.name} #{number_to_currency(item.amount)}")

@@ -4,7 +4,7 @@
       %th= t('label.account')
       %th.amount= t('label.balance')
     - total = 0
-    - account_statuses['account'].each do |account_status|
+    - account_statuses[:bankings].each do |account_status|
     - total += account_status[1]
       %tr
         %td= account_status[0].name
@@ -19,7 +19,7 @@
       %th= t('label.income')
       %th.amount= t('label.amount')
     - total = 0
-    - account_statuses['income'].each do |account_status|
+    - account_statuses[:incomes].each do |account_status|
     - total += account_status[1]
       %tr
         %td= account_status[0].name
@@ -31,10 +31,10 @@
       %td
       %td
     %tr
-      %th= t('label.outgoing')
+      %th= t('label.expense')
       %th.amount= t('label.amount')
     - total = 0
-    - account_statuses['outgo'].each do |account_status|
+    - account_statuses[:expenses].each do |account_status|
     - total += account_status[1]
       %tr
         %td= account_status[0].name

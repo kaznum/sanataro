@@ -6,14 +6,13 @@ describe Account do
   before do
     @valid_params = {
       :name => "aaaaa",
-      :account_type => "account",
       :order_no => 1,
     }
   end
 
   context "when create," do
     before  do
-      @account = users(:user1).accounts.new(@valid_params)
+      @account = users(:user1).bankings.new(@valid_params)
     end
 
     context "when all attributes are correct," do
@@ -84,7 +83,7 @@ describe Account do
     context "when account type is wrong," do
       before do
         @acc = Account.new(@valid_params)
-        @acc.account_type = 'invalid'
+        @acc.type = 'invalid'
         @retval = @acc.save
       end
 
@@ -95,14 +94,32 @@ describe Account do
 
       describe "errors" do
         subject { @acc }
-        it { should have_at_least(1).errors_on(:account_type) }
+        it { should have_at_least(1).errors_on(:type) }
+      end
+    end
+
+    context "when account type is null," do
+      before do
+        @acc = Account.new(@valid_params)
+        @acc.type = nil
+        @retval = @acc.save
+      end
+
+      describe "returned value" do
+        subject { @retval }
+        it { should be_false }
+      end
+
+      describe "errors" do
+        subject { @acc }
+        it { should have_at_least(1).errors_on(:type) }
       end
     end
 
     context "when bgcolor is exist," do
       context "and bgcolor does not have #," do
         before do
-          @acc = users(:user1).accounts.new(@valid_params)
+          @acc = users(:user1).bankings.new(@valid_params)
           @acc.bgcolor = 'ff0f1f'
           @retval = @acc.save
         end
@@ -115,7 +132,7 @@ describe Account do
 
       context "and bgcolor has #," do
         before do
-          @acc = users(:user1).accounts.new(@valid_params)
+          @acc = users(:user1).bankings.new(@valid_params)
           @acc.bgcolor = '#ff0f1f'
           @retval = @acc.save
         end
@@ -134,7 +151,7 @@ describe Account do
 
     context "when bgcolor is exist but wrong" do
       before do
-        @acc = users(:user1).accounts.new(@valid_params)
+        @acc = users(:user1).bankings.new(@valid_params)
         @acc.bgcolor = 'f0f2fg'
         @retval = @acc.save
       end
@@ -152,7 +169,7 @@ describe Account do
 
     context "when order_no is nil," do
       before do
-        @acc = users(:user1).accounts.new(@valid_params)
+        @acc = users(:user1).bankings.new(@valid_params)
         @acc.order_no = nil
         @retval = @acc.save
       end
@@ -217,13 +234,11 @@ describe Account do
     before do
       @credit_params = {
         name: "credit",
-        account_type: "account",
         order_no: 1
       }
 
       @bank_params = {
         name: "bank",
-        account_type: "account",
         order_no: 10,
       }
 
@@ -233,8 +248,8 @@ describe Account do
         payment_day: 4,
       }
 
-      @credit = users(:user1).accounts.create!(@credit_params)
-      @bank = users(:user1).accounts.create!(@bank_params)
+      @credit = users(:user1).bankings.create!(@credit_params)
+      @bank = users(:user1).bankings.create!(@bank_params)
       @relation = users(:user1).credit_relations.create!(@relation_params.merge(credit_account_id: @credit.id, payment_account_id: @bank.id))
     end
 
@@ -273,7 +288,7 @@ describe Account do
   describe "#destroy" do
     context "when child items/credit_relations don't exist," do
       before do
-        @account = Fabricate.build(:account)
+        @account = Fabricate.build(:banking)
         @account.save!
       end
 
@@ -289,13 +304,13 @@ describe Account do
 
     context "when child items exist," do
       before do
-        @account = Fabricate.build(:account)
+        @account = Fabricate.build(:banking)
         @account.save!
       end
 
       context "when it is used for from_account_id," do
         before do
-          item = Fabricate.build(:item, from_account_id: @account.id)
+          item = Fabricate.build(:general_item, from_account_id: @account.id)
           item.save!
         end
 
@@ -312,7 +327,7 @@ describe Account do
 
       context "when it is used for to_account_id," do
         before do
-          item = Fabricate.build(:item, to_account_id: @account.id)
+          item = Fabricate.build(:general_item, to_account_id: @account.id)
           item.save!
         end
 
@@ -330,7 +345,7 @@ describe Account do
 
     context "when child credit_relations exist," do
       before do
-        @account = Fabricate.build(:account)
+        @account = Fabricate.build(:banking)
         @account.save!
       end
 

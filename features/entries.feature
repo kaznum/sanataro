@@ -27,14 +27,14 @@
     もし "action_date"に"2011/4/12"と入力する
     かつ "item_name"に"テストです"と入力する
     かつ "from"から"bank1"を選択する
-    かつ "to"から"outgo13"を選択する
+    かつ "to"から"expense13"を選択する
     かつ "amount"に"1000"と入力する
     かつ "登録"ボタンをクリックする
     ならば "登録しました。 2011/04/12 テストです 1,000円"と表示されていること
     かつ "div#items > div > div.item_name"に"テストです"と表示されていること
     かつ "div#items > div > div.item_date"に"2011/04/12"と表示されていること
     かつ "div#items > div > div.item_from"に"bank1"と表示されていること
-    かつ "div#items > div > div.item_to"に"outgo13"と表示されていること
+    かつ "div#items > div > div.item_to"に"expense13"と表示されていること
     かつ "div#items > div > div.item_amount"に"1,000円"と表示されていること
 
   シナリオ: "2012年1月の残高調整登録"ページから登録を行う。
@@ -56,7 +56,7 @@
     もし "action_date"に"2011/4/12"と入力する
     かつ "item_name"に"テストです"と入力する
     かつ "from"から"bank1"を選択する
-    かつ "to"から"outgo13"を選択する
+    かつ "to"から"expense13"を選択する
     かつ "amount"に"1000"と入力する
     かつ "登録"ボタンをクリックする
     ならば "登録しました。 2011/04/12 テストです 1,000円"と表示されていること
