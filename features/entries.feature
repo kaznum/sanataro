@@ -34,7 +34,7 @@
     かつ "div#items > div > div.item_name"に"テストです"と表示されていること
     かつ "div#items > div > div.item_date"に"2011/04/12"と表示されていること
     かつ "div#items > div > div.item_from"に"bank1"と表示されていること
-    かつ "div#items > div > div.item_to"に"outgo13"と表示されていること
+    かつ "div#items > div > div.item_to"に"expense13"と表示されていること
     かつ "div#items > div > div.item_amount"に"1,000円"と表示されていること
 
   シナリオ: "2012年1月の残高調整登録"ページから登録を行う。
