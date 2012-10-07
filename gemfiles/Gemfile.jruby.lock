@@ -70,7 +70,7 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    fabrication (2.2.3)
+    fabrication (2.3.0)
     ffi (1.1.5-java)
     haml (3.1.7)
     haml-rails (0.3.5)
@@ -93,10 +93,7 @@ GEM
       railties (>= 3.1.0)
     jruby-openssl (0.7.7)
       bouncy-castle-java (>= 1.5.0146.1)
-    json (1.7.5)
     json (1.7.5-java)
-    launchy (2.1.2)
-      addressable (~> 2.3)
     launchy (2.1.2-java)
       addressable (~> 2.3)
       ffi (~> 1.1.1)
@@ -183,7 +180,6 @@ GEM
 
 PLATFORMS
   java
-  ruby
 
 DEPENDENCIES
   activerecord-jdbcmssql-adapter

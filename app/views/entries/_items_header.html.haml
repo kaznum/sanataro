@@ -5,13 +5,13 @@
   :coffeescript
     this.urls = { entries_path: "#{entries_path(:year => year, :month => month)}" }
 - all_acnts = []
-- (@user.outgo_ids + @user.account_ids + @user.income_ids).each do |a|
+- (@user.expense_ids + @user.banking_ids + @user.income_ids).each do |a|
   - all_acnts << [@user.all_accounts[a], a]
 .item_headers.row-fluid
   .span2.item_date.item_date_header.hidden-phone= t("label.date")
   .span3.item_name.item_name_header.hidden-phone= t(".explanation")
   .span4.item_from_to_header
-    = t(".outgoing_to_income")
+    = t(".expense_to_income")
     - unless @tag || @keyword
       %br/
       = select_tag('filter_account_id', options_for_select([[t(".no_filter"), '']] + all_acnts, session[:filter_account_id]))

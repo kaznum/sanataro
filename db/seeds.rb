@@ -5,25 +5,24 @@ user = User.new( password_plain: "demo123", password_confirmation: "demo123",
 user.login = "demo"
 user.save!
 
-hashed_accounts = [{name: "財布", order_no: 10, type: 'account'},
-                   {name: "銀行A", order_no: 20, type: 'account'},
-                   {name: "銀行B", order_no: 30, type: 'account'},
-                   {name: "クレジットカード", order_no: 30, type: 'account'},
-                   {name: "給与", order_no: 10, type: 'income'},
-                   {name: "賞与", order_no: 20, type: 'income'},
-                   {name: "雑収入", order_no: 30, type: 'income'},
-                   {name: "食費", order_no: 10, type: 'outgo'},
-                   {name: "光熱費", order_no: 10, type: 'outgo'},
-                   {name: "住居費", order_no: 10, type: 'outgo'},
-                   {name: "美容費", order_no: 10, type: 'outgo'},
-                   {name: "衛生費", order_no: 10, type: 'outgo'},
-                   {name: "雑費", order_no: 10, type: 'outgo'},
+hashed_accounts = [{name: "財布", order_no: 10, type: 'bankings'},
+                   {name: "銀行A", order_no: 20, type: 'bankings'},
+                   {name: "銀行B", order_no: 30, type: 'bankings'},
+                   {name: "クレジットカード", order_no: 30, type: 'bankings'},
+                   {name: "給与", order_no: 10, type: 'incomes'},
+                   {name: "賞与", order_no: 20, type: 'incomes'},
+                   {name: "雑収入", order_no: 30, type: 'incomes'},
+                   {name: "食費", order_no: 10, type: 'expenses'},
+                   {name: "光熱費", order_no: 10, type: 'expenses'},
+                   {name: "住居費", order_no: 10, type: 'expenses'},
+                   {name: "美容費", order_no: 10, type: 'expenses'},
+                   {name: "衛生費", order_no: 10, type: 'expenses'},
+                   {name: "雑費", order_no: 10, type: 'expenses'},
                   ]
 
 accounts = []
 hashed_accounts.each do |data|
-  accounts << user.accounts.create!(name: data[:name], order_no: data[:order_no],
-                                    account_type: data[:type])
+  accounts << user.send(data[:type].to_sym).create!(name: data[:name], order_no: data[:order_no])
 end
 
 user.credit_relations.create!(credit_account_id: accounts.find{|a| a.name == "クレジットカード" }.id,

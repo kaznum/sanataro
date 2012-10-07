@@ -4,9 +4,9 @@
   :coffeescript
     this.urls = {
       income: "#{api_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), format: :json)}",
-      outgo: "#{api_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'outgo', format: :json)}",
+      expense: "#{api_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'expense', format: :json)}",
       yearly_income: "#{api_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'income', format: :json)}",
-      yearly_outgo: "#{api_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'outgo', format: :json)}",
+      yearly_expense: "#{api_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'expense', format: :json)}",
       yearly_total: "#{api_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'total', format: :json)}"
     }
   = render "common/chart_header"
@@ -36,19 +36,19 @@
               %td.total.amount= number_to_currency(@total_income)
               %td.amount 100%
             %tr
-              %th{:colspan => "3"}= "#{l(displaying_month, format: :year_month)}#{t('.outgoing_section')}"
+              %th{:colspan => "3"}= "#{l(displaying_month, format: :year_month)}#{t('.expense_section')}"
             %tr
               %th=t('label.item')
               %th.amount=t('label.amount')
               %th.amount %
-            - @account_outgos.each do |og|
+            - @account_expenses.each do |og|
               %tr
                 %td!= "#{h og.name} [#{link_to t('link.revenue'), profit_loss_path(displaying_month.year, displaying_month.month, og.id), :remote => true, :method => :get}]"
                 %td.amount= number_to_currency(@m_pls[og.id])
-                %td.amount= "#{(@total_outgo == 0) ? '*' :@m_pls[og.id] * 100 / @total_outgo}%"
+                %td.amount= "#{(@total_expense == 0) ? '*' :@m_pls[og.id] * 100 / @total_expense}%"
             %tr
-              %td.total= t('label.total_of_outgoing')
-              %td.total.amount= number_to_currency(@total_outgo)
+              %td.total= t('label.total_of_expense')
+              %td.total.amount= number_to_currency(@total_expense)
               %td.amount 100%
             %tr
               %td.space{:colspan => "3"}
@@ -57,7 +57,7 @@
                 = l(displaying_month, format: :year_month)
                 %br/
                 #{t('label.gross_profit')}
-              %td.all_total.amount= number_to_currency(@total_income - @total_outgo)
+              %td.all_total.amount= number_to_currency(@total_income - @total_expense)
               %td.amount -
         .span8
           .budget_graph
@@ -68,10 +68,10 @@
             #income_chart.graph{:style => "height:200px;"}
             .spacer &nbsp;
             .chart_title
-              %i.icon-th= ' ' + t('label.outgoing')
-              = toggle_legend_link "#outgo_chart"
-              %span#outgo_chart_hover
-            #outgo_chart.graph{:style => "height: 200px;"}
+              %i.icon-th= ' ' + t('label.expense')
+              = toggle_legend_link "#expense_chart"
+              %span#expense_chart_hover
+            #expense_chart.graph{:style => "height: 200px;"}
             .spacer &nbsp;
             .chart_title
               %i.icon-th= ' ' + t('label.yearly_income')
@@ -80,13 +80,13 @@
             #yearly_income_chart.graph{:style => "height: 200px;"}
             .spacer &nbsp;
             .chart_title
-              %i.icon-th= ' ' + t('label.yearly_outgoing')
-              = toggle_legend_link "#yearly_outgo_chart"
-            #yearly_outgo_chart_choices
-            #yearly_outgo_chart.graph{:style => "height: 200px"}
+              %i.icon-th= ' ' + t('label.yearly_expense')
+              = toggle_legend_link "#yearly_expense_chart"
+            #yearly_expense_chart_choices
+            #yearly_expense_chart.graph{:style => "height: 200px"}
             .spacer &nbsp;
             .chart_title
-              %i.icon-th= ' ' + t('label.yearly_total_income_and_total_outgoing')
+              %i.icon-th= ' ' + t('label.yearly_total_income_and_total_expense')
               = toggle_legend_link "#yearly_total_chart"
             #yearly_total_chart_choices
             #yearly_total_chart.graph{:style => "height: 200px"}

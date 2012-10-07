@@ -7,10 +7,7 @@
 %div{:id => "account_#{@account.id}"}
   = form_tag settings_account_path(@account.id), :method => :put, :remote => true, :id => "edit_form_#{@account.id}", :class => "form-horizontal well" do
     .control-group
-      %label.control-label{for: "account_name"}
-        = t("settings.accounts.bank_account") if @account.account_type == 'account'
-        = t("settings.accounts.outgoing_account") if @account.account_type == 'outgo'
-        = t("settings.accounts.income_account") if @account.account_type == 'income'
+      %label.control-label{for: "account_name"}= t("settings.accounts.#{@account.type.underscore}_account")
       .controls= text_field_tag :account_name, @account.name, class: "input-medium"
     .control-group
       %label.control-label{for: "order_no"}= t("label.position")

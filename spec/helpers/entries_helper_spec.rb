@@ -5,7 +5,7 @@ describe EntriesHelper do
   describe "#link_to_confirmation_required" do
     fixtures :users, :accounts, :credit_relations
     before do
-      @item = Fabricate.build(:item, amount: 1500, from_account_id: 1, to_account_id: 3)
+      @item = Fabricate.build(:general_item, amount: 1500, from_account_id: 1, to_account_id: 3)
       @item.save!
       @item.reload
     end
@@ -63,7 +63,7 @@ describe EntriesHelper do
     fixtures :users, :accounts
     before do
       @user = users(:user1)
-      @credit_item = Fabricate.build(:item, amount: 1500, from_account_id: 4, to_account_id: 3)
+      @credit_item = Fabricate.build(:general_item, amount: 1500, from_account_id: 4, to_account_id: 3)
       @credit_item.save!
       @credit_item.reload
       @credit_date = @credit_item.action_date
@@ -71,7 +71,7 @@ describe EntriesHelper do
       @payment_item = @credit_item.child_item
       @payment_date = @payment_item.action_date
 
-      @single_item = Fabricate.build(:item, amount: 2500)
+      @single_item = Fabricate.build(:general_item, amount: 2500)
       @single_item.save!
       @single_item.reload
     end
@@ -101,7 +101,7 @@ describe EntriesHelper do
 
   describe "operation icons" do
     before do
-      @item = Fabricate.build(:item, amount: 1500, from_account_id: 1, to_account_id: 3, action_date: Date.new(2008,5,3))
+      @item = Fabricate.build(:general_item, amount: 1500, from_account_id: 1, to_account_id: 3, action_date: Date.new(2008,5,3))
       @item.save!
       @item.reload
     end
@@ -158,7 +158,7 @@ describe EntriesHelper do
     fixtures :users, :accounts
     context "when tags exist, " do
       before do
-        @item = Fabricate.build(:item, tag_list: 'aa bb' )
+        @item = Fabricate.build(:general_item, tag_list: 'aa bb' )
         @item.save!
         @item.reload
         helper.should_receive(:link_to_tag).with(@item.tags[0]).and_return("_link_#{@item.tags[0].name}_")
@@ -171,7 +171,7 @@ describe EntriesHelper do
 
     context "when tags do not exist, " do
       before do
-        @item = Fabricate.build(:item)
+        @item = Fabricate.build(:general_item)
         @item.save!
         @item.reload
       end
@@ -185,7 +185,7 @@ describe EntriesHelper do
     fixtures :users, :accounts
     context "when item is adjustment," do
       before do
-        @item = Fabricate.build(:item, adjustment: true)
+        @item = Fabricate.build(:adjustment)
         @item.save!
       end
 
@@ -195,9 +195,9 @@ describe EntriesHelper do
 
     context "when item has parent," do
       before do
-        item_parent = Fabricate.build(:item)
+        item_parent = Fabricate.build(:general_item)
         item_parent.save!
-        @item = Fabricate.build(:item, parent_id: item_parent.id)
+        @item = Fabricate.build(:general_item, parent_id: item_parent.id)
         @item.save
       end
 
@@ -208,7 +208,7 @@ describe EntriesHelper do
     context "when item is income," do
       before do
         @user = users(:user1)
-        @item = Fabricate.build(:item, from_account_id: accounts(:income2).id)
+        @item = Fabricate.build(:general_item, from_account_id: accounts(:income2).id)
         @item.save!
       end
 
@@ -218,7 +218,7 @@ describe EntriesHelper do
     context "when item is moving," do
       before do
         @user = users(:user1)
-        @item = Fabricate.build(:item, from_account_id: accounts(:bank1).id, to_account_id: accounts(:bank11).id)
+        @item = Fabricate.build(:general_item, from_account_id: accounts(:bank1).id, to_account_id: accounts(:bank11).id)
         @item.save!
       end
 
@@ -231,7 +231,7 @@ describe EntriesHelper do
     fixtures :users, :accounts
     context "when item is adjustment," do
       before do
-        @item = Fabricate.build(:item, adjustment: true, adjustment_amount: 5000)
+        @item = Fabricate.build(:adjustment, adjustment_amount: 5000)
         @item.save!
       end
 
@@ -243,9 +243,9 @@ describe EntriesHelper do
     context "when item has parent," do
       before do
         @user = users(:user1)
-        item_parent = Fabricate.build(:item, action_date: Date.new(2012,3,10), name: "hello(笑)")
+        item_parent = Fabricate.build(:general_item, action_date: Date.new(2012,3,10), name: "hello(笑)")
         item_parent.save!
-        @item = Fabricate.build(:item, parent_id: item_parent.id, action_date: Date.new(2012,5,10), name: "hoge(笑)hoge")
+        @item = Fabricate.build(:general_item, parent_id: item_parent.id, action_date: Date.new(2012,5,10), name: "hoge(笑)hoge")
         @item.save
       end
 
@@ -257,9 +257,9 @@ describe EntriesHelper do
     context "when item has child," do
       before do
         @user = users(:user1)
-        @item = Fabricate.build(:item, action_date: Date.new(2012,3,10), name: "hello:sushi:")
+        @item = Fabricate.build(:general_item, action_date: Date.new(2012,3,10), name: "hello:sushi:")
         @item.save!
-        item_child = Fabricate.build(:item, parent_id: @item.id, action_date: Date.new(2012,5,10), name: "hogehoge")
+        item_child = Fabricate.build(:general_item, parent_id: @item.id, action_date: Date.new(2012,5,10), name: "hogehoge")
         item_child.save
       end
 
@@ -271,7 +271,7 @@ describe EntriesHelper do
     context "when item is a regular one, " do
       before do
         @user = users(:user1)
-        @item = Fabricate.build(:item, action_date: Date.new(2012,3,10), name: "hello:sushi:")
+        @item = Fabricate.build(:general_item, action_date: Date.new(2012,3,10), name: "hello:sushi:")
         @item.save!
       end
 
@@ -285,7 +285,7 @@ describe EntriesHelper do
     fixtures :users, :accounts
     context "when item is adjustment, " do
       before do
-        @item = Fabricate.build(:item, adjustment: true, adjustment_amount: 5000)
+        @item = Fabricate.build(:adjustment, adjustment_amount: 5000)
         @item.save!
       end
 
@@ -295,9 +295,9 @@ describe EntriesHelper do
 
     context "when item has parent, " do
       before do
-        item_parent = Fabricate.build(:item, action_date: Date.new(2012,3,10), confirmation_required: true, name: "hello")
+        item_parent = Fabricate.build(:general_item, action_date: Date.new(2012,3,10), confirmation_required: true, name: "hello")
         item_parent.save!
-        @item = Fabricate.build(:item, parent_id: item_parent.id, action_date: Date.new(2012,5,10), name: "hogehoge")
+        @item = Fabricate.build(:general_item, parent_id: item_parent.id, action_date: Date.new(2012,5,10), name: "hogehoge")
         @item.save
         helper.should_receive(:link_to_confirmation_required).with(@item.id, true, tag: "TAG", mark: "MARK", keyword: "KEY").and_return("__LINK__")
       end
@@ -308,7 +308,7 @@ describe EntriesHelper do
 
     context "when item is NOT adjustment, " do
       before do
-        @item = Fabricate.build(:item, confirmation_required: true)
+        @item = Fabricate.build(:general_item, confirmation_required: true)
         @item.save!
         helper.should_receive(:link_to_confirmation_required).with(@item.id, true, tag: "TAG", mark: "MARK", keyword: "KEY").and_return("__LINK__")
       end
@@ -323,7 +323,7 @@ describe EntriesHelper do
     context "when item is adjustment, " do
       context "amount is less than 0," do
         before do
-          @item = Fabricate.build(:item, adjustment: true, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: -200000)
+          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: -200000)
           helper.should_receive(:colored_account_name).with(@item.to_account_id).and_return("ACCOUNT_NAME")
         end
 
@@ -333,7 +333,7 @@ describe EntriesHelper do
 
       context "amount is more than 0," do
         before do
-          @item = Fabricate.build(:item, adjustment: true, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200000)
+          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200000)
           helper.should_not_receive(:colored_account_name).with(@item.to_account_id)
         end
 
@@ -343,7 +343,7 @@ describe EntriesHelper do
     end
     context "when item is NOT adjustment, " do
       before do
-        @item = Fabricate.build(:item, adjustment: false)
+        @item = Fabricate.build(:general_item)
         @item.save!
         helper.should_receive(:colored_account_name).with(@item.from_account_id).and_return("ACCOUNT_NAME")
       end
@@ -358,7 +358,7 @@ describe EntriesHelper do
     context "when item is adjustment, " do
       context "amount is more than 0," do
         before do
-          @item = Fabricate.build(:item, adjustment: true, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200000)
+          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200000)
           helper.should_receive(:colored_account_name).with(@item.to_account_id).and_return("ACCOUNT_NAME")
         end
 
@@ -368,7 +368,7 @@ describe EntriesHelper do
 
       context "amount is less than 0," do
         before do
-          @item = Fabricate.build(:item, adjustment: true, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: -200000)
+          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: -200000)
           helper.should_not_receive(:colored_account_name).with(@item.to_account_id)
         end
 
@@ -379,7 +379,7 @@ describe EntriesHelper do
 
     context "when item is NOT adjustment, " do
       before do
-        @item = Fabricate.build(:item, adjustment: false)
+        @item = Fabricate.build(:general_item)
         @item.save!
         helper.should_receive(:colored_account_name).with(@item.to_account_id).and_return("ACCOUNT_NAME")
       end
@@ -394,7 +394,7 @@ describe EntriesHelper do
     context "when item is adjustment," do
       context "when only_show is true," do
         before do
-          @item = Fabricate.build(:item, adjustment: true, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200000)
+          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200000)
           helper.should_receive(:link_to_show).with(@item).and_return("SHOW_LINK")
         end
 
@@ -403,7 +403,7 @@ describe EntriesHelper do
       end
       context "when only_show is false," do
         before do
-          @item = Fabricate.build(:item, adjustment: true, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200000)
+          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200000)
           helper.should_not_receive(:link_to_show).with(@item)
           helper.should_receive(:item_row_twitter_button).with(@item).and_return("_TWEET_")
           helper.should_receive(:link_to_edit).with(@item).and_return("_EDIT_")
@@ -420,7 +420,7 @@ describe EntriesHelper do
     fixtures :users, :accounts
     context "when item is adjustment," do
       before do
-        @item = Fabricate.build(:item, adjustment: true, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200000)
+        @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200000)
       end
 
       subject { helper.item_row_twitter_button(@item) }
@@ -429,7 +429,7 @@ describe EntriesHelper do
 
     context "when item has parent," do
       before do
-        @item = Fabricate.build(:item, parent_id: 20)
+        @item = Fabricate.build(:general_item, parent_id: 20)
       end
 
       subject { helper.item_row_twitter_button(@item) }
@@ -438,7 +438,7 @@ describe EntriesHelper do
 
     context "when item is regular," do
       before do
-        @item = Fabricate.build(:item)
+        @item = Fabricate.build(:general_item)
         helper.should_receive(:tweet_button).with(@item).and_return("__TWEET__")
       end
 

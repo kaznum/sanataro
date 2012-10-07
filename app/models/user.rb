@@ -6,10 +6,15 @@ class User < ActiveRecord::Base
   attr_accessor :password_plain, :password_confirmation
   sanataro_tagger
   has_many :items
+  has_many :general_items, class_name: "GeneralItem"
+  has_many :adjustments, class_name: "Adjustment"
   has_many :monthly_profit_losses
   has_many :accounts
   has_many :credit_relations
   has_many :autologin_keys
+  has_many :bankings, class_name: "Banking"
+  has_many :incomes, class_name: "Income"
+  has_many :expenses, class_name: "Expense"
 
   validate :validates_password_confirmation
   validates_presence_of :login
@@ -45,23 +50,23 @@ class User < ActiveRecord::Base
 
   def from_accounts
     Rails.cache.fetch("user_#{id}_from_accounts") do
-      accounts.account.active.map{ |a| [a.name, a.id.to_s]} +
-        accounts.income.active.map{|a| [a.name, a.id.to_s]}
+      bankings.active.map{ |a| [a.name, a.id.to_s]} +
+        incomes.active.map{|a| [a.name, a.id.to_s]}
     end
   end
   memoize :from_accounts
 
   def to_accounts
     Rails.cache.fetch("user_#{id}_to_accounts") do
-      accounts.outgo.active.map{|a| [a.name, a.id.to_s]} +
-        accounts.account.active.map{ |a| [a.name, a.id.to_s]}
+      expenses.active.map{|a| [a.name, a.id.to_s]} +
+        bankings.active.map{ |a| [a.name, a.id.to_s]}
     end
   end
   memoize :to_accounts
 
   def bank_accounts
     Rails.cache.fetch("user_#{id}_bank_accounts") do
-      accounts.account.active.map{ |a| [a.name, a.id.to_s]}
+      bankings.active.map{ |a| [a.name, a.id.to_s]}
     end
   end
   memoize :bank_accounts
@@ -89,11 +94,11 @@ class User < ActiveRecord::Base
   end
   memoize :account_bgcolors
 
-  %w(outgo income account).each do |name|
+  %w(expense income banking).each do |name|
     method = "#{name}_ids"
     define_method(method.to_sym) do
       Rails.cache.fetch("user_#{id}_#{name}_ids") do
-        accounts.active.send(method.to_sym)
+        send(name.pluralize.to_sym).active.pluck(:id)
       end
     end
     memoize method.to_sym
@@ -108,25 +113,25 @@ class User < ActiveRecord::Base
   end
 
   def store_sample
-    account1 = self.accounts.create(:name => '財布', :order_no => 10, :account_type => 'account')
-    account2 = self.accounts.create(:name => '銀行A', :order_no => 20, :account_type => 'account')
-    account3 = self.accounts.create(:name => '銀行B', :order_no => 30, :account_type => 'account')
-    account4_cr = self.accounts.create(:name => 'クレジットカード', :order_no => 40, :account_type => 'account')
+    account1 = self.bankings.create!(:name => '財布', :order_no => 10)
+    account2 = self.bankings.create!(:name => '銀行A', :order_no => 20)
+    account3 = self.bankings.create!(:name => '銀行B', :order_no => 30)
+    account4_cr = self.bankings.create!(:name => 'クレジットカード', :order_no => 40)
 
-    income1 = self.accounts.create(:name => '給与', :order_no => 10, :account_type => 'income')
-    income2 = self.accounts.create(:name => '賞与', :order_no => 20, :account_type => 'income')
-    income3 = self.accounts.create(:name => '雑収入', :order_no => 30, :account_type => 'income')
+    income1 = self.incomes.create!(:name => '給与', :order_no => 10)
+    income2 = self.incomes.create!(:name => '賞与', :order_no => 20)
+    income3 = self.incomes.create!(:name => '雑収入', :order_no => 30)
 
-    outgo1 = self.accounts.create(:name => '食費', :order_no => 10, :account_type => 'outgo')
-    outgo2 = self.accounts.create(:name => '光熱費', :order_no => 20, :account_type => 'outgo')
-    outgo3 = self.accounts.create(:name => '住居費', :order_no => 30, :account_type => 'outgo')
-    outgo4 = self.accounts.create(:name => '美容費', :order_no => 40, :account_type => 'outgo')
-    outgo5 = self.accounts.create(:name => '衛生費', :order_no => 50, :account_type => 'outgo')
-    outgo6 = self.accounts.create(:name => '雑費', :order_no => 60, :account_type => 'outgo')
+    expense1 = self.expenses.create!(:name => '食費', :order_no => 10)
+    expense2 = self.expenses.create!(:name => '光熱費', :order_no => 20)
+    expense3 = self.expenses.create!(:name => '住居費', :order_no => 30)
+    expense4 = self.expenses.create!(:name => '美容費', :order_no => 40)
+    expense5 = self.expenses.create!(:name => '衛生費', :order_no => 50)
+    expense6 = self.expenses.create!(:name => '雑費', :order_no => 60)
 
-    credit_relation = self.credit_relations.create(:credit_account_id => account4_cr.id, :payment_account_id => account3.id, :settlement_day => 25, :payment_month => 2, :payment_day => 4)
+    credit_relation = self.credit_relations.create!(:credit_account_id => account4_cr.id, :payment_account_id => account3.id, :settlement_day => 25, :payment_month => 2, :payment_day => 4)
 
-    item_income = self.items.create(:name => 'サンプル収入(消してかまいません)', :from_account_id => income3.id, :to_account_id => account1.id, :amount => 1000, :action_date => Date.today)
-    item_outgo = self.items.create(:name => 'サンプル(消してかまいません)', :from_account_id => account1.id, :to_account_id => outgo1.id, :amount => 250, :action_date => Date.today, :tag_list => 'タグもOK')
+    item_income = self.items.create!(:name => 'サンプル収入(消してかまいません)', :from_account_id => income3.id, :to_account_id => account1.id, :amount => 1000, :action_date => Date.today)
+    item_expense = self.items.create!(:name => 'サンプル(消してかまいません)', :from_account_id => account1.id, :to_account_id => expense1.id, :amount => 250, :action_date => Date.today, :tag_list => 'タグもOK')
   end
 end

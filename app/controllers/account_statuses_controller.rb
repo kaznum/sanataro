@@ -7,46 +7,35 @@ class AccountStatusesController < ApplicationController
 
   private
   def _account_status
-    max_date = today
-    max_month = max_date.beginning_of_month
-    retval = known_account_statuses_between(max_month, max_date)
-    unknown_total = unknown_amount_between(max_month, max_date)
+    retval = known_account_statuses_on(today)
+    append_unknown_amount_on(today, retval)
+
+    retval
+  end
+
+  def known_account_statuses_on(date)
+    retval = {}
+    [:bankings, :incomes, :expenses].each do |type|
+      retval[type] = @user.send(type).active.map { |a| [a, a.status_of_the_day(date)] }
+    end
+    retval
+  end
+
+  def append_unknown_amount_on(date, statuses)
+    unknown_total = unknown_amount_on(date)
     unless unknown_total == 0
-      unknown_account = Account.new do |a|
+      typed_accounts = unknown_total < 0 ? :expenses : :incomes
+      unknown_account = @user.send(typed_accounts).build do |a|
         a.name = I18n.t('label.unknown')
         a.order_no = 999999
-        a.account_type = unknown_total < 0 ? 'outgo' : 'income'
       end
-      retval[unknown_account.account_type].push [unknown_account, unknown_total.abs]
+      statuses[typed_accounts] << [unknown_account, unknown_total.abs]
     end
-
-    retval
   end
 
-  def known_account_statuses_between(from, to)
-    retval = { 'account' => [], 'income' => [], 'outgo' => [] }
-    @user.accounts.active.each do |a|
-      pl_total = a.account_type == 'account' ? amount_to_last_month(a.id, from) : 0
-      from_total = ['account', 'income'].include?(a.account_type) ? @user.items.where(:from_account_id => a.id).action_date_between(from, to).sum(:amount) : 0
-      to_total = ['account', 'outgo'].include?(a.account_type) ? @user.items.where(:to_account_id => a.id).action_date_between(from, to).sum(:amount) : 0
-
-      case a.account_type
-      when 'account'
-        retval['account'].push [a, to_total - from_total + pl_total]
-      when 'income'
-        retval['income'].push [a, from_total]
-      when 'outgo'
-        retval['outgo'].push [a, to_total]
-      end
-    end
-    retval
-  end
-
-  def amount_to_last_month(account_id, month)
-    @user.monthly_profit_losses.where(account_id: account_id).where("month < ?", month).sum(:amount)
-  end
-
-  def unknown_amount_between(from, to)
+  def unknown_amount_on(date)
+    from = date.beginning_of_month
+    to = date
     @user.items.where(from_account_id: -1).action_date_between(from, to).sum(:amount)
   end
 end

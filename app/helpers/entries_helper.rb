@@ -72,7 +72,7 @@ module EntriesHelper
       row_class = "item_move"
     elsif @user.income_ids.include?(item.from_account_id)
       row_class = "item_income"
-    elsif @user.account_ids.include?(item.from_account_id) && @user.account_ids.include?(item.to_account_id)
+    elsif @user.banking_ids.include?(item.from_account_id) && @user.banking_ids.include?(item.to_account_id)
       row_class = "item_move"
     end
     row_class
