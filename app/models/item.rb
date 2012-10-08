@@ -24,10 +24,10 @@ class Item < ActiveRecord::Base
   validates_presence_of :action_date
   validates_presence_of :type
 
-  validate :account_id_should_be_owned_by_user
   validate :action_date_should_be_larger_than_that_of_parent_item
-  validate :from_account_id_should_not_be_expense
-  validate :to_account_id_should_not_be_income
+
+  validate :from_account_id_should_be_income_or_banking
+  validate :to_account_id_should_be_expense_or_banking
   validate :from_and_to_account_id_should_not_be_same
 
   before_validation :set_action_date
@@ -263,23 +263,14 @@ class Item < ActiveRecord::Base
     end
   end
 
-  def account_id_should_be_owned_by_user
-    if from_account_id != -1 && !user.accounts.exists?(id: from_account_id)
-      errors.add(:from_account_id, I18n.t("errors.messages.invalid"))
-    end
-    if !user.accounts.exists?(id: to_account_id)
-      errors.add(:to_account_id, I18n.t("errors.messages.invalid"))
-    end
-  end
-
-  def from_account_id_should_not_be_expense
-    if from_account_id != -1 && user.expenses.exists?(id: from_account_id)
+  def from_account_id_should_be_income_or_banking
+    if from_account_id != -1 && !user.income_ids.include?(from_account_id) && !user.banking_ids.include?(from_account_id)
       errors.add(:from_account_id, I18n.t("errors.messages.invalid"))
     end
   end
 
-  def to_account_id_should_not_be_income
-    if user.incomes.exists?(id: to_account_id)
+  def to_account_id_should_be_expense_or_banking
+    if !user.expense_ids.include?(to_account_id) && !user.banking_ids.include?(to_account_id)
       errors.add(:to_account_id, I18n.t("errors.messages.invalid"))
     end
   end
