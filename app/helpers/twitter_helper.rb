@@ -2,13 +2,14 @@ module TwitterHelper
   TWITTER_SHARE_URL = "http://twitter.com/intent/tweet"
   def tweet_button(item)
     escaped_url = URI.escape("http://bit.ly/Imx6PT")
-    from = item.user.accounts.where(id: item.from_account_id).first
-    to = item.user.accounts.where(id: item.to_account_id).first
+    accounts = item.user.all_accounts
+    from = item.from_account_id
+    to = item.to_account_id
 
-    if from.is_a?(Income)
-      escaped_text = URI.escape("#{item.name} [#{from.name}] #{number_to_currency(item.amount)}")
-    elsif to.is_a?(Expense)
-      escaped_text = URI.escape("#{item.name} [#{to.name}] #{number_to_currency(item.amount)}")
+    if item.user.income_ids.include?(from)
+      escaped_text = URI.escape("#{item.name} [#{accounts[from]}] #{number_to_currency(item.amount)}")
+    elsif item.user.expense_ids.include?(to)
+      escaped_text = URI.escape("#{item.name} [#{accounts[to]}] #{number_to_currency(item.amount)}")
     else
       escaped_text = URI.escape("#{item.name} #{number_to_currency(item.amount)}")
     end

@@ -204,7 +204,7 @@ class Item < ActiveRecord::Base
         ret_items = options[:remain] ? items.remainings_by_keyword(options[:keyword]) : items.partials_by_keyword(options[:keyword])
       else
         items = (options[:mark] == 'confirmation_required') ? items.confirmation_required :
-          items.action_date_between(from_date, to_date).includes(:user, :tags)
+          items.action_date_between(from_date, to_date).includes(:user, :tags, :child_item)
         items = items.of_account_id(options[:filter_account_id]) if options[:filter_account_id].present?
         items = items.order_of_entries
         ret_items = options[:remain] ? items.remaining.all : items.default_limit.all
