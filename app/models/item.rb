@@ -207,7 +207,7 @@ class Item < ActiveRecord::Base
           items.action_date_between(from_date, to_date).includes(:user, :tags, :child_item)
         items = items.of_account_id(options[:filter_account_id]) if options[:filter_account_id].present?
         items = items.order_of_entries
-        ret_items = options[:remain] ? items.remaining.all : items.default_limit.all
+        ret_items = options[:remain] ? items.remaining : items.default_limit
       end
 
       return ret_items
@@ -222,14 +222,14 @@ class Item < ActiveRecord::Base
     end
 
     def partials_by_tag(tag)
-      self.tagged_with(tag).order_of_entries.limit(Settings.item_list_count).all
+      self.tagged_with(tag).order_of_entries.limit(Settings.item_list_count)
     end
 
     def remainings_by_tag(tag)
       # FIX ME
       #
       # limit is fixed number.
-      self.tagged_with(tag).order_of_entries.offset(Settings.item_list_count).limit(999999).all
+      self.tagged_with(tag).order_of_entries.offset(Settings.item_list_count).limit(999999)
     end
 
     def where_keyword_matches(str)
@@ -238,14 +238,14 @@ class Item < ActiveRecord::Base
     end
 
     def partials_by_keyword(keyword)
-      self.where_keyword_matches(keyword).order_of_entries.limit(Settings.item_list_count).all
+      self.where_keyword_matches(keyword).order_of_entries.limit(Settings.item_list_count)
     end
 
     def remainings_by_keyword(keyword)
       # FIX ME
       #
       # limit is fixed number.
-      self.where_keyword_matches(keyword).order_of_entries.offset(Settings.item_list_count).limit(999999).all
+      self.where_keyword_matches(keyword).order_of_entries.offset(Settings.item_list_count).limit(999999)
     end
 
     def collect_account_history(user, account_id, from_date, to_date)

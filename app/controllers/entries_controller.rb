@@ -102,22 +102,34 @@ class EntriesController < ApplicationController
   def _index_with_filter_account_id
     _set_filter_account_id_to_session_from_params
     @items = get_items(month: displaying_month)
-    render "index_with_filter_account_id"
+    respond_to do |format|
+      format.js { render "index_with_filter_account_id" }
+      format.json { render json: @items.to_json(:include => [:parent_item, :child_item]) }
+    end
   end
 
   def _index_with_tag(tag)
     @items = get_items(tag: tag)
-    render 'index_with_tag_keyword'
+    respond_to do |format|
+      format.html { render 'index_with_tag_keyword'}
+      format.json { render json: @items.to_json(:include => [:parent_item, :child_item]) }
+    end
   end
 
   def _index_with_keyword(keyword)
     @items = get_items(keyword: keyword)
-    render 'index_with_tag_keyword'
+    respond_to do |format|
+      format.html { render 'index_with_tag_keyword'}
+      format.json { render json: @items.to_json(:include => [:parent_item, :child_item]) }
+    end
   end
 
   def _index_with_mark(mark)
     @items = get_items(mark: mark)
-    render 'index_with_mark'
+    respond_to do |format|
+      format.html { render 'index_with_mark' }
+      format.json { render json: @items.to_json(:include => [:parent_item, :child_item]) }
+    end
   end
 
   def _default_action_date(month_to_display)
@@ -132,6 +144,11 @@ class EntriesController < ApplicationController
   def _index_plain(month_to_display)
     @items = get_items(month: month_to_display)
     @new_item = Item.new { |item| item.action_date = _default_action_date(month_to_display) }
+    respond_to do |format|
+      format.html
+      format.js
+      format.json { render json: @items.to_json(:include => [:parent_item, :child_item]) }
+    end
   end
 
   # this method is called when a link in the field of adding regular item or adjustment.
@@ -227,7 +244,11 @@ class EntriesController < ApplicationController
     end
 
     @items = get_items(month: month_to_display, remain: true, tag: tag, mark: mark, keyword: keyword)
-    render 'index_for_remaining'
+    respond_to do |format|
+      format.js { render 'index_for_remaining' }
+      format.json { render json: @items.to_json(:include => [:parent_item, :child_item]) }
+    end
+
   end
 
   # options variation
