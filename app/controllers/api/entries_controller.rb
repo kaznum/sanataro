@@ -10,8 +10,10 @@ class Api::EntriesController < ApplicationController
   end
 
   def show
-    super
-    respond_with @item
+    _json_action do
+      super
+      respond_with @item
+    end
   end
 
   def create
@@ -42,7 +44,8 @@ class Api::EntriesController < ApplicationController
     errors = [t("error.amount_is_invalid")]
     render json: { errors: errors }.to_json, status: :not_acceptable
   rescue InvalidDate # in case the date in params has invalid format
-    render nothing: true, status: :not_acceptable
+    errors = [t("error.date_is_invalid")]
+    render json: { errors: errors }.to_json, status: :not_acceptable
   rescue ActiveRecord::RecordNotFound
     render nothing: true, status: :not_found
   rescue ActiveRecord::RecordInvalid => ex
