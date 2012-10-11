@@ -47,7 +47,7 @@ class EntriesController < ApplicationController
   def destroy
     _xhr_action("warning") {
       super
-      render "destroy", locals: { item: @item, deleted_ids: @deleted_ids, updated_items: @updated_items }
+      render "destroy", locals: { item: @item, deleted_ids: @deleted_item_ids, updated_items: @updated_items }
     }
   end
 

@@ -2,9 +2,13 @@ class Api::EntriesController < ApplicationController
   include Common::Entries
   respond_to :json
 
+  JSON_ATTRS_FOR_ONLY = [:id, :name, :from_account_id, :to_account_id, :action_date, :tag_list, :amount, :adjustment_amount]
+  JSON_INCLUDES = [{parent_item: { only: JSON_ATTRS_FOR_ONLY }}, { child_item: { only: JSON_ATTRS_FOR_ONLY }}]
+  AS_JSON_PARAMS = {only: JSON_ATTRS_FOR_ONLY, include: JSON_INCLUDES}
+
   def index
     super
-    respond_with @items.to_json(:include => [:parent_item, :child_item])
+    respond_with @items.as_json(AS_JSON_PARAMS).to_json
   rescue ArgumentError
     render nothing: true, status: :not_acceptable
   end
@@ -12,28 +16,28 @@ class Api::EntriesController < ApplicationController
   def show
     _json_action do
       super
-      respond_with @item
+      respond_with @item.as_json(AS_JSON_PARAMS).to_json
     end
   end
 
   def create
     _json_action do
       super
-      render json: @item.to_json(:include => [:parent_item, :child_item]), status: :created, :location => api_entries_url(@item.id)
+      render json: { item: @item.as_json(AS_JSON_PARAMS), updated_item_ids: @updated_item_ids }.to_json, status: :created, :location => api_entries_url(@item.id)
     end
   end
 
   def update
     _json_action do
       super
-      render json: @item.to_json(:include => [:parent_item, :child_item]), status: :ok
+      render json: { item: @item.as_json(AS_JSON_PARAMS), updated_item_ids: @updated_items }.to_json, status: :ok
     end
   end
 
   def destroy
     _json_action do
       super
-      render json: @item.to_json(:include => [:parent_item, :child_item]), status: :ok
+      render json: { item: @item.as_json(AS_JSON_PARAMS), updated_item_ids: @updated_items.map(&:id), deleted_item_ids: @deleted_item_ids }.to_json, status: :ok
     end
   end
 

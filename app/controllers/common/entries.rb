@@ -134,7 +134,7 @@ module Common
         Item.transaction do
           result_of_delete = Teller.destroy_entry(@user, item.id)
           @updated_items = result_of_delete[0].map {|id| @user.items.find_by_id(id)}.reject(&:nil?)
-          @deleted_ids = result_of_delete[1]
+          @deleted_item_ids = result_of_delete[1]
           @item = item
         end
       end
