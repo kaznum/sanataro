@@ -19,21 +19,21 @@ class Api::EntriesController < ApplicationController
   def create
     _json_action do
       super
-      render json: @item, status: :created, :location => api_entries_url(@item.id)
+      render json: @item.to_json(:include => [:parent_item, :child_item]), status: :created, :location => api_entries_url(@item.id)
     end
   end
 
   def update
     _json_action do
       super
-      render json: @item, status: :ok
+      render json: @item.to_json(:include => [:parent_item, :child_item]), status: :ok
     end
   end
 
   def destroy
     _json_action do
       super
-      render json: @item, status: :ok
+      render json: @item.to_json(:include => [:parent_item, :child_item]), status: :ok
     end
   end
 
