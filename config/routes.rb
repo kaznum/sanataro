@@ -53,6 +53,7 @@ Sanataro::Application.routes.draw do
     resources :yearly_budgets
     resources :yearly_assets
     resources :entries
+    resources :accounts
   end
 
   resources :emojis

@@ -283,7 +283,7 @@ describe :routes do
 
   describe "api" do
 
-    %w(assets budgets yearly_assets yearly_budgets entries).each do |controller|
+    %w(assets budgets yearly_assets yearly_budgets entries accounts).each do |controller|
       describe "get api/#{controller}" do
         subject { get("/api/#{controller}") }
         it {should route_to("api/#{controller}#index") }
