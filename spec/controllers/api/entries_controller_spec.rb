@@ -31,7 +31,7 @@ describe Api::EntriesController do
         its(:body) { should be_blank }
       end
 
-      shared_examples_for "Success" do
+      shared_examples_for "Success in JSON" do
         describe "response" do
           subject { response }
           it { should be_success }
@@ -44,8 +44,8 @@ describe Api::EntriesController do
         end
       end
 
-      shared_examples_for "no params" do
-        it_should_behave_like "Success"
+      shared_examples_for "no params in JSON" do
+        it_should_behave_like "Success in JSON"
 
         describe "@items" do
           subject { assigns(:items) }
@@ -61,7 +61,7 @@ describe Api::EntriesController do
         before do
           get :index, format: :json
         end
-        it_should_behave_like "no params"
+        it_should_behave_like "no params in JSON"
       end
 
       context "when year and month are specified," do
@@ -69,7 +69,7 @@ describe Api::EntriesController do
           before do
             get :index, :year => Date.today.year, :month => Date.today.month, format: :json
           end
-          it_should_behave_like "no params"
+          it_should_behave_like "no params in JSON"
         end
 
         context "when year and month is specified but they are not today's ones," do
@@ -77,8 +77,7 @@ describe Api::EntriesController do
             get :index, :year => '2008', :month => '2', format: :json
           end
 
-          it_should_behave_like "Success"
-
+          it_should_behave_like "Success in JSON"
           describe "@items" do
             subject { assigns(:items) }
             specify {
@@ -179,7 +178,7 @@ describe Api::EntriesController do
 
       context "with filter change," do
         context "with valid filter_account_id," do
-          shared_examples_for "filtered index" do
+          shared_examples_for "filtered index in JSON" do
             describe "response" do
               subject { response }
               it { should be_success }
@@ -210,14 +209,14 @@ describe Api::EntriesController do
             get :index, :filter_account_id => accounts(:bank1).id, :year => '2008', :month => '2', format: :json
           end
 
-          it_should_behave_like "filtered index"
+          it_should_behave_like "filtered index in JSON"
 
           context "after changing filter, access index with no filter_account_id," do
             before do
               get :index, :year => '2008', :month => '2', format: :json
             end
 
-            it_should_behave_like "filtered index"
+            it_should_behave_like "filtered index in JSON"
           end
 
           context "after changing filter, access with filter_account_id nil," do
@@ -241,7 +240,7 @@ describe Api::EntriesController do
       end
 
       context "with params[:remaining] = true," do
-        shared_examples_for "executed correctly" do
+        shared_examples_for "executed correctly in JSON" do
           describe "response" do
             subject { response }
             it { should be_success }
@@ -274,7 +273,7 @@ describe Api::EntriesController do
               get :index, :remaining => true, :year => 2008, :month => 2, format: :json
             end
 
-            it_should_behave_like "executed correctly"
+            it_should_behave_like "executed correctly in JSON"
 
             describe "@items" do
               subject { assigns(:items) }
@@ -300,7 +299,7 @@ describe Api::EntriesController do
               get :index, :remaining => true, :year => 2008, :month => 2, :tag => 'xxx', format: :json
             end
 
-            it_should_behave_like "executed correctly"
+            it_should_behave_like "executed correctly in JSON"
 
             describe "@items" do
               subject { assigns(:items) }
@@ -703,7 +702,7 @@ describe Api::EntriesController do
         end
       end
 
-      shared_examples_for "created successfully" do
+      shared_examples_for "created successfully by JSON" do
         describe "response" do
           subject { response }
           it { should be_success }
@@ -725,7 +724,7 @@ describe Api::EntriesController do
           post :create, :action_date => Date.today.strftime("%Y/%m/%d"), :item_name=>'test10', :amount=>'10,000', :from=>accounts(:bank1).id, :to=>accounts(:expense3).id, :only_add=>'true', format: :json
         end
 
-        it_should_behave_like "created successfully"
+        it_should_behave_like "created successfully by JSON"
 
         describe "count of Item" do
           subject { Item.count }
@@ -733,7 +732,7 @@ describe Api::EntriesController do
         end
       end
 
-      shared_examples_for "created successfully with tag_list == 'hoge fuga" do
+      shared_examples_for "created successfully with tag_list == 'hoge fuga by JSON" do
         describe "tags" do
           subject { Tag.find_all_by_name('hoge') }
           it { should have(1).tag }
@@ -756,7 +755,7 @@ describe Api::EntriesController do
           post :create, :action_date => Date.today.strftime("%Y/%m/%d"), :item_name=>'テスト10', :amount=>'10,000', :from=>accounts(:bank1).id, :to=>accounts(:expense3).id, :confirmation_required => 'true', :year => Date.today.year.to_s, :month => Date.today.month.to_s, :tag_list => 'hoge fuga', format: :json
         end
 
-        it_should_behave_like "created successfully"
+        it_should_behave_like "created successfully by JSON"
 
         describe "count of items" do
           subject { Item.count }
@@ -775,7 +774,7 @@ describe Api::EntriesController do
           its(:tag_list) { should == "fuga hoge" }
         end
 
-        it_should_behave_like "created successfully with tag_list == 'hoge fuga"
+        it_should_behave_like "created successfully with tag_list == 'hoge fuga by JSON"
       end
 
       context "with confirmation_required == nil" do
@@ -784,7 +783,7 @@ describe Api::EntriesController do
           post :create, :action_date => Date.today.strftime("%Y/%m/%d"), :item_name=>'テスト10', :amount=>'10,000', :from=>accounts(:bank1).id, :to=>accounts(:expense3).id, :year => Date.today.year.to_s, :month => Date.today.month.to_s, :tag_list => 'hoge fuga', format: :json
         end
 
-        it_should_behave_like "created successfully"
+        it_should_behave_like "created successfully by JSON"
 
         describe "count of items" do
           subject { Item.count }
@@ -803,7 +802,7 @@ describe Api::EntriesController do
           its(:tag_list) { should == "fuga hoge" }
         end
 
-        it_should_behave_like "created successfully with tag_list == 'hoge fuga"
+        it_should_behave_like "created successfully with tag_list == 'hoge fuga by JSON"
       end
 
       context "when amount needs to be calcurated, but syntax error exists," do
@@ -848,7 +847,7 @@ describe Api::EntriesController do
                  :year => 2008, :month => 2, format: :json)
           end
 
-          it_should_behave_like "created successfully"
+          it_should_behave_like "created successfully by JSON"
 
           describe "adjustment just next to the created item" do
             subject { Item.find(items(:adjustment2).id) }
