@@ -111,6 +111,8 @@ GEM
     highline (1.6.15)
     hike (1.2.1)
     i18n (0.6.1)
+    jbuilder (0.8.2)
+      activesupport (>= 3.0.0)
     journey (1.0.4)
     jquery-rails (2.1.3)
       railties (>= 3.1.0, < 5.0)
@@ -232,6 +234,7 @@ GEM
     uglifier (1.3.0)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
+    underscore-rails (1.4.1)
     webrat (0.7.3)
       nokogiri (>= 1.2.0)
       rack (>= 1.0)
@@ -258,6 +261,7 @@ DEPENDENCIES
   guard-spork
   haml-rails
   i18n
+  jbuilder
   jquery-rails
   jquery-ui-rails
   launchy
@@ -277,4 +281,5 @@ DEPENDENCIES
   therubyracer
   twitter-bootstrap-rails
   uglifier
+  underscore-rails
   webrat

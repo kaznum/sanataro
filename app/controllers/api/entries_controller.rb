@@ -8,7 +8,7 @@ class Api::EntriesController < ApplicationController
 
   def index
     super
-    respond_with @items.as_json(AS_JSON_PARAMS).to_json
+    #respond_with @items.as_json(AS_JSON_PARAMS).to_json
   rescue ArgumentError
     render nothing: true, status: :not_acceptable
   end
