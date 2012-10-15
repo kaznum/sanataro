@@ -29,7 +29,7 @@
     %span.input-append
       = f.text_field 'amount', value: ((it.amount.nil? || it.amount == 0) ? nil : number_to_currency(it.amount, format: "%n")), class: "amount input-small", placeholder: t('placeholder.amount')
       %span.add-on>= t('number.currency.format.unit')
-    = f.text_field :tag_list, placeholder: t('placeholder.tag'), class: "input-medium"
+    = f.text_field :tag_list, placeholder: t('placeholder.tag'), class: "input-medium tag_list"
     = f.submit t('button.register'), id: 'new_add_button', class: 'btn btn-primary'
     = link_to t("link.about_emolett"), "http://mayuco.github.com/emolett/", target: "_blank", class: "trivial_link"
     = link_to t("link.about_emoji"), "http://www.emoji-cheat-sheet.com/", target: "_blank", class: "trivial_link"
