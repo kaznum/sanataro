@@ -133,7 +133,7 @@ class Item < ActiveRecord::Base
     def calc_amount(amount)
       return 0 unless amount
 
-      amount_to_calc = amount.gsub(/\s/, '').gsub(/,/, '')
+      amount_to_calc = amount.to_s.gsub(/\s/, '').gsub(/,/, '')
       unless /^[\.\-\*\+\/\%\d\(\)]+$/ =~ amount_to_calc
         raise SyntaxError
       end
