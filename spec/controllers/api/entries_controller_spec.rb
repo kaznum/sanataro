@@ -92,9 +92,9 @@ describe Api::EntriesController do
       context "with tag," do
         before do
           tags = ['abc', 'def']
-          put(:update, :id=>items(:item11).id.to_s, :item_name=>'テスト11',
-          :action_date => items(:item11).action_date.strftime("%Y/%m/%d"),
-          :amount=>"100000", :from=>accounts(:bank1).id.to_s, :to=>accounts(:expense3).id.to_s, :tag_list => tags.join(" "), :year => items(:item11).action_date.year, :month => items(:item11).action_date.month, format: :json)
+          put(:update, :id=>items(:item11).id.to_s, :item_name => 'テスト11',
+              :action_date => items(:item11).action_date.strftime("%Y/%m/%d"),
+              :amount => "100000", :from => accounts(:bank1).id.to_s, :to => accounts(:expense3).id.to_s, :tag_list => tags.join(" "), format: :json)
 
           get :index, :tag => 'abc', format: :json
         end
@@ -437,7 +437,7 @@ describe Api::EntriesController do
         context "given there is a future's adjustment whose id is to_account_id," do
           before do
             # prepare data to destroy
-            post :create, item_name: 'test', amount: '1000', action_date: '2008/2/3', from: '2', to: '1', year: "2008", month: "2", format: :json
+            post :create, entry: { name: 'test', amount: '1000', action_date: '2008/2/3', from_account_id: '2', to_account_id: '1'}, year: "2008", month: "2", format: :json
             @item_to_del = Item.where(action_date: Date.new(2008,2,3), from_account_id: 2, to_account_id: 1).first
             @item_to_del.amount.should == 1000
 
@@ -481,7 +481,7 @@ describe Api::EntriesController do
         context "given there is no future's adjustment," do
           before do
             login
-            post :create, :item_name=>'test', :amount=>'1000', :action_date => '2008/2/25', :from=>'11', :to=>'13', :year => 2008, :month => 2, format: :json
+            post :create, entry: { :name => 'test', :amount=>'1000', :action_date => '2008/2/25', :from_account_id =>'11', :to_account_id =>'13'}, :year => 2008, :month => 2, format: :json
             @item = Item.where(:name => 'test', :from_account_id => 11, :to_account_id => 13).first
             @old_bank11pl = MonthlyProfitLoss.find(:first, :conditions=>["account_id = ? and month = ?", 11, Date.new(2008,2)])
             @old_expense13pl = MonthlyProfitLoss.find(:first, :conditions=>["account_id = ? and month = ?", 13, Date.new(2008,2)])
@@ -518,7 +518,7 @@ describe Api::EntriesController do
             before do
               login
               # dummy data
-              post :create, :item_name=>'test', :amount=>'1000', :action_date => '2008/2/10',:from=>'4', :to=>'3', :year => 2008, :month => 2, format: :json
+              post :create, entry: { :name=>'test', :amount=>'1000', :action_date => '2008/2/10',:from_account_id=>'4', :to_account_id => '3'}, :year => 2008, :month => 2, format: :json
               @item = Item.where(name: 'test', from_account_id: 4, to_account_id: 3).first
               @child_item = @item.child_item
             end
@@ -559,7 +559,7 @@ describe Api::EntriesController do
 
               login
               # dummy data
-              post :create, :item_name=>'test', :amount=>'1000', :action_date => '2008/2/10', :from=>'4', :to=>'3', :year => 2008, :month => 2, format: :json
+              post :create, entry: { :name=>'test', :amount=>'1000', :action_date => '2008/2/10', :from_account_id=>'4', :to_account_id => '3'}, :year => 2008, :month => 2, format: :json
               @item = Item.where(name: 'test', from_account_id: 4, to_account_id: 3).first
               @child_item = @item.child_item
             end
@@ -677,7 +677,7 @@ describe Api::EntriesController do
       context "when validation errors happen," do
         before do
           @previous_items = Item.count
-          post :create, :action_date => Date.today.strftime("%Y/%m/%d"),  :item_name=>'', :amount=>'10,000', :from=>accounts(:bank1).id, :to=>accounts(:expense3).id, :year => Date.today.year, :month => Date.today.month, format: :json
+          post :create, entry: { :action_date => Date.today.strftime("%Y/%m/%d"),  :name=>'', :amount=>'10,000', :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:expense3).id}, :year => Date.today.year, :month => Date.today.month, format: :json
         end
 
         it_should_behave_like "not acceptable"
@@ -691,7 +691,7 @@ describe Api::EntriesController do
       context "when input action_year, action_month, action_day is specified but action_date is not," do
         before do
           @previous_items = Item.count
-          post :create, :action_year => Date.today.year.to_s, :action_month => Date.today.month.to_s, :action_day => Date.today.day.to_s,  :item_name => 'TEST11', :amount=>'10,000', :from=>accounts(:bank1).id, :to=>accounts(:expense3).id, :year => Date.today.year, :month => Date.today.month, format: :json
+          post :create, entry: { :action_year => Date.today.year.to_s, :action_month => Date.today.month.to_s, :action_day => Date.today.day.to_s,  :name => 'TEST11', :amount=>'10,000', :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:expense3).id}, :year => Date.today.year, :month => Date.today.month, format: :json
         end
 
         it_should_behave_like "not acceptable"
@@ -713,23 +713,9 @@ describe Api::EntriesController do
       context "when input amount's syntax is incorrect," do
         before do
           @previous_item_count = Item.count
-          post :create, :action_date => Date.today.strftime("%Y/%m/%d"), :item_name=>'hogehoge', :amount=>'1+x', :from=>accounts(:bank1).id, :to=>accounts(:expense3).id, :year => Date.today.year, :month => Date.today.month, format: :json
+          post :create, entry: { :action_date => Date.today.strftime("%Y/%m/%d"), :name => 'hogehoge', :amount=>'1+x', :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:expense3).id}, :year => Date.today.year, :month => Date.today.month, format: :json
         end
         it_should_behave_like "not acceptable"
-      end
-
-      context "#create(only_add)" do
-        before do
-          @init_item_count = Item.count
-          post :create, :action_date => Date.today.strftime("%Y/%m/%d"), :item_name=>'test10', :amount=>'10,000', :from=>accounts(:bank1).id, :to=>accounts(:expense3).id, :only_add=>'true', format: :json
-        end
-
-        it_should_behave_like "created successfully by JSON"
-
-        describe "count of Item" do
-          subject { Item.count }
-          it { should == @init_item_count + 1 }
-        end
       end
 
       shared_examples_for "created successfully with tag_list == 'hoge fuga by JSON" do
@@ -752,7 +738,7 @@ describe Api::EntriesController do
       context "with confirmation_required == true" do
         before do
           @init_item_count = Item.count
-          post :create, :action_date => Date.today.strftime("%Y/%m/%d"), :item_name=>'テスト10', :amount=>'10,000', :from=>accounts(:bank1).id, :to=>accounts(:expense3).id, :confirmation_required => 'true', :year => Date.today.year.to_s, :month => Date.today.month.to_s, :tag_list => 'hoge fuga', format: :json
+          post :create, entry: { :action_date => Date.today.strftime("%Y/%m/%d"), :name => 'テスト10', :amount=>'10,000', :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:expense3).id, :confirmation_required => 'true', :tag_list => 'hoge fuga'}, :year => Date.today.year.to_s, :month => Date.today.month.to_s, format: :json
         end
 
         it_should_behave_like "created successfully by JSON"
@@ -780,7 +766,7 @@ describe Api::EntriesController do
       context "with confirmation_required == nil" do
         before do
           @init_item_count = Item.count
-          post :create, :action_date => Date.today.strftime("%Y/%m/%d"), :item_name=>'テスト10', :amount=>'10,000', :from=>accounts(:bank1).id, :to=>accounts(:expense3).id, :year => Date.today.year.to_s, :month => Date.today.month.to_s, :tag_list => 'hoge fuga', format: :json
+          post :create, entry: { :action_date => Date.today.strftime("%Y/%m/%d"), :name => 'テスト10', :amount=>'10,000', :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:expense3).id, :tag_list => 'hoge fuga' }, :year => Date.today.year.to_s, :month => Date.today.month.to_s, format: :json
         end
 
         it_should_behave_like "created successfully by JSON"
@@ -808,7 +794,7 @@ describe Api::EntriesController do
       context "when amount needs to be calcurated, but syntax error exists," do
         before do
           @init_item_count = Item.count
-          post :create, :action_date => Date.today.strftime("%Y/%m/%d"), :item_name=>'テスト10', :amount=>'(10+20*2.01', :from=>accounts(:bank1).id, :to=>accounts(:expense3).id, :confirmation_required => '', :year => Date.today.year, :month => Date.today.month, format: :json
+          post :create, entry: { :action_date => Date.today.strftime("%Y/%m/%d"), :name=>'テスト10', :amount=>'(10+20*2.01', :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:expense3).id, :confirmation_required => ''}, :year => Date.today.year, :month => Date.today.month, format: :json
         end
 
         describe "response" do
@@ -842,8 +828,9 @@ describe Api::EntriesController do
         context "created before adjustment which is in the same month," do
           before do
             post(:create,
-                 :action_date => @init_adj2.action_date.yesterday.strftime("%Y/%m/%d"),
-                 :item_name=>'テスト10', :amount=>'10,000', :from=>accounts(:bank1).id, :to=>accounts(:expense3).id,
+                 entry: { :action_date => @init_adj2.action_date.yesterday.strftime("%Y/%m/%d"),
+                   :name=>'テスト10', :amount=>'10,000',
+                   :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:expense3).id },
                  :year => 2008, :month => 2, format: :json)
           end
 
@@ -886,8 +873,9 @@ describe Api::EntriesController do
           before do
             login
             post(:create,
-                 :action_date => '2008/02/10',
-                 :item_name=>'テスト10', :amount=>'10,000', :from=>accounts(:credit4).id, :to=>accounts(:expense3).id,
+                 entry: { :action_date => '2008/02/10',
+                   :name=>'テスト10', :amount=>'10,000',
+                   :from_account_id => accounts(:credit4).id, :to_account_id => accounts(:expense3).id },
                  :year => 2008, :month => 2, format: :json)
           end
 
@@ -930,7 +918,7 @@ describe Api::EntriesController do
 
       describe "balance adjustment" do
         context "action_year/month/day is set," do
-          it { expect { post :create, :action_year => '2008', :action_month=>'2', :action_day=>'5', :from=>'-1', :to=>accounts(:bank1).id.to_s, :adjustment_amount=>'3000', :entry_type => 'adjustment', :year => 2008, :month => 2, format: :json }.not_to change { Item.count }}
+          it { expect { post :create, entry: { :action_year => '2008', :action_month=>'2', :action_day=>'5', :from_account_id => '-1', :to_account_id => accounts(:bank1).id.to_s, :adjustment_amount=>'3000', :entry_type => 'adjustment'}, :year => 2008, :month => 2, format: :json }.not_to change { Item.count }}
         end
 
         context "when a validation error occurs," do
@@ -939,7 +927,8 @@ describe Api::EntriesController do
             mock_exception.should_receive(:error_messages).and_return("Error!!!")
             Teller.should_receive(:create_entry).and_raise(mock_exception)
             @action = lambda {
-              post :create, :action_date => '2008/02/05', :from  => '-1', :to => accounts(:bank1).id.to_s, :adjustment_amount => '3000', :entry_type => 'adjustment', :year => 2008, :month => 2, format: :json
+              post :create, entry: { :action_date => '2008/02/05',
+                :from_account_id  => '-1', :to_account_id => accounts(:bank1).id.to_s, :adjustment_amount => '3000', :entry_type => 'adjustment'}, :year => 2008, :month => 2, format: :json
             }
           end
 
@@ -959,7 +948,7 @@ describe Api::EntriesController do
 
         context "with invalid calcuration amount," do
           let(:date) { items(:adjustment2).action_date - 1 }
-          it { expect {post :create, :entry_type => 'adjustment', :action_date => date.strftime("%Y/%m/%d"), :to=>accounts(:bank1).id.to_s, :adjustment_amount=>'3000-(10', :year => 2008, :month => 2, format: :json}.not_to change { Item.count } }
+          it { expect {post :create, entry: { :entry_type => 'adjustment', :action_date => date.strftime("%Y/%m/%d"), :to_account_id => accounts(:bank1).id.to_s, :adjustment_amount=>'3000-(10'}, :year => 2008, :month => 2, format: :json}.not_to change { Item.count } }
         end
 
         context "add adjustment before any of the adjustments," do
@@ -967,9 +956,9 @@ describe Api::EntriesController do
             login
             @date = items(:adjustment2).action_date - 1
             @action = lambda {
-              post(:create, :entry_type => 'adjustment',
+              post(:create, entry: { :entry_type => 'adjustment',
                   :action_date => @date.strftime("%Y/%m/%d"),
-                  :to => accounts(:bank1).id.to_s, :adjustment_amount=>'100*(10+50)/2', :year => "2008", :month => "3", :tag_list => 'hoge fuga', format: :json)
+                  :to_account_id => accounts(:bank1).id.to_s, :adjustment_amount=>'100*(10+50)/2', :tag_list => 'hoge fuga'}, :year => "2008", :month => "3", format: :json)
             }
           end
 
@@ -1023,13 +1012,13 @@ describe Api::EntriesController do
               lambda {
                 date = existing_adj.action_date
                 post(
-                    :create, :entry_type => 'adjustment',
-                    :action_date => date.strftime("%Y/%m/%d"),
-                    :to => accounts(:bank1).id.to_s, :adjustment_amount => '50',
+                    :create, entry: { :entry_type => 'adjustment',
+                       :action_date => date.strftime("%Y/%m/%d"),
+                       :to_account_id => accounts(:bank1).id.to_s, :adjustment_amount => '50' },
                     :year => 2008, :month => 2, format: :json)
               }
             }
-            describe "created_adjustment", :debug => true do
+            describe "created_adjustment" do
               before { action.call }
               subject { Adjustment.where(action_date: existing_adj.action_date).first }
               its(:adjustment_amount) { should == 50 }
@@ -1042,7 +1031,7 @@ describe Api::EntriesController do
               it { should be_nil }
             end
 
-            describe "future adjustment", :debug => true do
+            describe "future adjustment" do
               it { expect { action.call }.to change{ Item.find(future_adj.id).amount }.by(existing_adj.adjustment_amount - 50) }
             end
 
@@ -1058,9 +1047,9 @@ describe Api::EntriesController do
               lambda {
                 date = existing_adj.action_date
                 post(
-                    :create, :entry_type => 'adjustment',
-                    :action_date => date.strftime("%Y/%m/%d"),
-                    :to => accounts(:bank1).id.to_s, :adjustment_amount => 'SDSFSAF * xdfa',
+                    :create, entry: { :entry_type => 'adjustment',
+                       :action_date => date.strftime("%Y/%m/%d"),
+                       :to_account_id => accounts(:bank1).id.to_s, :adjustment_amount => 'SDSFSAF * xdfa' },
                     :year => 2008, :month => 2, format: :json)
               }
             }
@@ -1098,9 +1087,9 @@ describe Api::EntriesController do
               lambda {
                 date = existing_adj.action_date
                 post(
-                    :create, :entry_type => 'adjustment',
-                    :action_year => date.year, :action_month => date.month, :action_day => date.day,
-                    :to => accounts(:bank1).id.to_s, :adjustment_amount => '50000',
+                    :create, entry: { :entry_type => 'adjustment',
+                       :action_year => date.year, :action_month => date.month, :action_day => date.day,
+                       :to_account_id => accounts(:bank1).id.to_s, :adjustment_amount => '50000'},
                     :year => 2008, :month => 2, format: :json)
               }
             }
@@ -1558,9 +1547,9 @@ describe Api::EntriesController do
             before do
               login
               post(:create,
-                   action_date: '2008/2/10',
-                   item_name: 'テスト10', amount: '10,000', from: accounts(:credit4).id,
-                   to: accounts(:expense3).id, year: '2008', month: '2', format: :json)
+                   entry: { action_date: '2008/2/10',
+                     name: 'テスト10', amount: '10,000', from_account_id: accounts(:credit4).id,
+                     to_account_id: accounts(:expense3).id }, year: '2008', month: '2', format: :json)
               init_credit_item = Item.where(action_date: Date.new(2008,2,10),
                                             from_account_id: accounts(:credit4).id,
                                             to_account_id: accounts(:expense3).id).first
@@ -1627,9 +1616,9 @@ describe Api::EntriesController do
             before do
               login
               post(:create,
-                  action_date: '2008/2/10',
-                  item_name: 'テスト10', amount: '10,000', from: accounts(:credit4).id,
-                  to: accounts(:expense3).id, year: '2008', month: '2', format: :json)
+                   entry: { action_date: '2008/2/10',
+                     name: 'テスト10', amount: '10,000', from_account_id: accounts(:credit4).id,
+                     to_account_id: accounts(:expense3).id }, year: '2008', month: '2', format: :json)
               init_credit_item = Item.where(action_date: Date.new(2008,2,10),
                                             from_account_id: accounts(:credit4).id,
                                             to_account_id: accounts(:expense3).id).first

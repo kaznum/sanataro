@@ -4,31 +4,32 @@
     $("#do_add_item")
       .bind("ajax:before", -> $('#new_add_button').attr('disabled', true))
       .bind("ajax:complete", -> $('#new_add_button').attr('disabled', false))
-    $("#action_date").datepicker()
+    $("#do_add_item .datepicker").datepicker()
     $("#confirmation_required_label").bind "click", ->
       entries.toggleConfirmationRequired($("#confirmation_required").attr("value") != "true")
-= form_tag entries_path(it.action_date.year, it.action_date.month), :remote => true, :method => :post, :id=>'do_add_item', :class => "well" do
+= form_for it, as: :entry, url: entries_path(it.action_date.year, it.action_date.month), :remote => true, :method => :post, html: { :id=>'do_add_item', :class => "well"} do |f|
+  - pp f
   .row-fluid
     %ul.nav.nav-pills
       %li.active= link_to t('link.register_income_expense'), new_entry_path(:year => it.action_date.year, :month => it.action_date.month), :remote => true, :method => :get
       %li= link_to t('link.register_adjustment'), new_entry_path(:year => it.action_date.year, :month => it.action_date.month, :entry_type => 'adjustment'), :remote => true, :method => :get
   .row-fluid.input-row
-    = text_field_tag :action_date, l(it.action_date), class: "input-small", placeholder: "YYYY/MM/DD"
-    = text_field_tag :item_name, it.name, placeholder: t('placeholder.item_name')
+    = f.text_field :action_date, value: l(it.action_date), class: "input-small datepicker", placeholder: "YYYY/MM/DD"
+    = f.text_field :name, placeholder: t('placeholder.item_name'), class: "item_name"
     = RailsEmoji.render(":smile:", class: "emoji_button").html_safe
-    = hidden_field_tag :confirmation_required, it.confirmation_required?
+    = f.hidden_field :confirmation_required
     %span#confirmation_required_label.item_confirmation_not_required= icon_no_confirmation
     = link_to t('.show_all_confirmation_required', mark: icon_confirmation).html_safe, mark_entries_path(mark: :confirmation_required)
   .row-fluid.input-row
     #candidates
   .row-fluid.input-row
-    = select_tag 'from', options_for_select(@user.from_accounts, it.from_account_id.to_s), class: "input-medium"
+    = f.select :from_account_id, @user.from_accounts, {}, { class: "input-medium from_account_id" }
     \=&gt;
-    = select_tag 'to', options_for_select(@user.to_accounts, it.to_account_id.to_s), class: "input-medium"
+    = f.select :to_account_id, @user.to_accounts, {}, { class: "input-medium to_account_id"}
     %span.input-append
-      = text_field_tag 'amount', ((it.amount.nil? || it.amount == 0) ? nil : number_to_currency(it.amount, format: "%n")), class: "amount input-small", placeholder: t('placeholder.amount')
+      = f.text_field 'amount', value: ((it.amount.nil? || it.amount == 0) ? nil : number_to_currency(it.amount, format: "%n")), class: "amount input-small", placeholder: t('placeholder.amount')
       %span.add-on>= t('number.currency.format.unit')
-    = text_field_tag 'tag_list', nil, placeholder: t('placeholder.tag'), class: "input-medium"
-    = submit_tag t('button.register'), id: 'new_add_button', class: 'btn btn-primary'
+    = f.text_field :tag_list, placeholder: t('placeholder.tag'), class: "input-medium"
+    = f.submit t('button.register'), id: 'new_add_button', class: 'btn btn-primary'
     = link_to t("link.about_emolett"), "http://mayuco.github.com/emolett/", target: "_blank", class: "trivial_link"
     = link_to t("link.about_emoji"), "http://www.emoji-cheat-sheet.com/", target: "_blank", class: "trivial_link"

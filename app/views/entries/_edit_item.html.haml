@@ -17,7 +17,7 @@
   = form_tag entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :put, :id => "edit_#{item.id}_form", :class => "well"  do
     .row-fluid
       = text_field_tag :action_date, l(item.action_date), size: 12, placeholder: "YYYY/MM/DD", id: "action_date_#{item.id}", class: "input-small"
-      = text_field_tag :item_name, item.name, placeholder: t('placeholder.item_name')
+      = text_field_tag :item_name, item.name, placeholder: t('placeholder.item_name'), class: "item_name"
       = RailsEmoji.render(":smile:", class: "emoji_button").html_safe
       = hidden_field_tag :confirmation_required, item.confirmation_required?, id: "confirmation_required_#{item.id}"
       %span.item_confirmation_not_required{id: "confirmation_required_label_#{item.id}"}= icon_no_confirmation

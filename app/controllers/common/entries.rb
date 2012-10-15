@@ -36,7 +36,6 @@ module Common
 
       def update
         id = params[:id].to_i
-
         @item, @updated_item_ids, @deleted_item_ids = Teller.update_entry(@user, id, arguments_for_update)
 
       end
@@ -111,21 +110,24 @@ module Common
 
       def _create_entry
         Item.transaction do
-          @item, affected_item_ids = Teller.create_entry(@user, :name => params[:item_name],
-                                                        :from_account_id => params[:from], :to_account_id => params[:to],
-                                                        :amount => Item.calc_amount(params[:amount]),
+          @item, affected_item_ids = Teller.create_entry(@user, :name => params[:entry][:name],
+                                                         :from_account_id => params[:entry][:from_account_id],
+                                                         :to_account_id => params[:entry][:to_account_id],
+                                                        :amount => Item.calc_amount(params[:entry][:amount]),
                                                         :action_date => _get_action_date_from_params,
-                                                        :confirmation_required => params[:confirmation_required],
-                                                        :tag_list => params[:tag_list],
-                                                        :adjustment_amount => Item.calc_amount(params[:adjustment_amount]),
-                                                          :adjustment => params[:entry_type] == 'adjustment')
+                                                        :confirmation_required => params[:entry][:confirmation_required],
+                                                        :tag_list => params[:entry][:tag_list],
+                                                        :adjustment_amount => Item.calc_amount(params[:entry][:adjustment_amount]),
+                                                          :adjustment => params[:entry][:entry_type] == 'adjustment')
           affected_item_ids << @item.try(:id)
           @updated_item_ids = affected_item_ids.reject(&:nil?).uniq
         end
       end
 
       def _get_action_date_from_params
-        Date.parse(params[:action_date])
+logger.warn "deprecated"
+        date_str = params[:entry] ? params[:entry][:action_date] : params[:action_date]
+        Date.parse(date_str)
       rescue
         raise InvalidDate
       end
