@@ -1032,6 +1032,24 @@ describe EntriesController do
         describe "response" do
           subject { response }
           it { should be_success }
+          it { should render_js_error :id => 'warning', :default_message => I18n.t("error.input_is_invalid")}
+        end
+
+        describe "the count of items" do
+          subject { Item.count }
+          it { should == @previous_items }
+        end
+      end
+
+      context "when input action_date is invalid," do
+        before do
+          @previous_items = Item.count
+          xhr :post, :create, entry: { action_date: "xxxx/yy/dd",  :name => 'TEST11', :amount=>'10,000', :from_account_id => accounts(:bank1).id, :to_account_id => accounts(:expense3).id }, :year => Date.today.year, :month => Date.today.month
+        end
+
+        describe "response" do
+          subject { response }
+          it { should be_success }
           it { should render_js_error :id => 'warning', :default_message => I18n.t("error.date_is_invalid")}
         end
 
@@ -1802,7 +1820,7 @@ describe EntriesController do
                     :year => 2008, :month => 2)
               }
             }
-            describe "created_adjustment", :debug => true do
+            describe "created_adjustment" do
               before { action.call }
               subject { Adjustment.where(action_date: existing_adj.action_date).first }
               its(:adjustment_amount) { should == 50 }
@@ -1815,7 +1833,7 @@ describe EntriesController do
               it { should be_nil }
             end
 
-            describe "future adjustment", :debug => true do
+            describe "future adjustment" do
               it { expect { action.call }.to change{ Item.find(future_adj.id).amount }.by(existing_adj.adjustment_amount - 50) }
             end
 

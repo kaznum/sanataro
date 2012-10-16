@@ -36,7 +36,7 @@ module Common
 
       def update
         id = params[:id].to_i
-        @item, @updated_item_ids, @deleted_item_ids = Teller.update_entry(@user, id, arguments_for_update)
+        @item, @updated_item_ids, @deleted_item_ids = Teller.update_entry(@user, id, arguments_for_saving)
 
       end
 
@@ -51,7 +51,7 @@ module Common
 
       private
 
-      def arguments_for_update
+      def arguments_for_saving
         return {} if params[:entry].nil?
 
         prms = {}
@@ -115,15 +115,7 @@ module Common
 
       def _create_entry
         Item.transaction do
-          @item, affected_item_ids = Teller.create_entry(@user, :name => params[:entry][:name],
-                                                         :from_account_id => params[:entry][:from_account_id],
-                                                         :to_account_id => params[:entry][:to_account_id],
-                                                        :amount => Item.calc_amount(params[:entry][:amount]),
-                                                        :action_date => _get_action_date_from_params,
-                                                        :confirmation_required => params[:entry][:confirmation_required],
-                                                        :tag_list => params[:entry][:tag_list],
-                                                        :adjustment_amount => Item.calc_amount(params[:entry][:adjustment_amount]),
-                                                          :adjustment => params[:entry][:entry_type] == 'adjustment')
+          @item, affected_item_ids = Teller.create_entry(@user,  arguments_for_saving)
           affected_item_ids << @item.try(:id)
           @updated_item_ids = affected_item_ids.reject(&:nil?).uniq
         end
@@ -186,4 +178,3 @@ logger.warn "deprecated"
     end
   end
 end
-class InvalidDate < Exception ; end

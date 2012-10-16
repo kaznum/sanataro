@@ -2,7 +2,9 @@ class Adjustment < Item
   before_create :remove_previous_adjustment_of_same_action_date
 
   def fill_amount
-    if !amount_changed? || new_record? # && action_date && to_account_id && user && adjustment_amount
+    if !amount_changed? || new_record?
+      raise InvalidDate unless action_date
+
       asset = user.accounts.asset(user, to_account_id, action_date, id)
       self.amount = adjustment_amount - asset
     end

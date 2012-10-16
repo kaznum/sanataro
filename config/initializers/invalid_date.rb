@@ -1,0 +1,1 @@
+class InvalidDate < Exception ; end
