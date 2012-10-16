@@ -2216,11 +2216,13 @@ describe EntriesController do
             end
             subject {response}
             it {should be_success}
-            it { should render_js_error :id => "item_warning_2" }
           end
 
           describe "item to update" do
-            it { expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).updated_at} }
+            it { expect{@action.call}.to change{Item.find(items(:adjustment2).id).updated_at} }
+            it { expect{@action.call}.to change{Item.find(items(:adjustment2).id).adjustment_amount}.to(3000)}
+            it { expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).from_account_id} }
+            it { expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).to_account_id} }
           end
         end
 
@@ -2823,7 +2825,9 @@ describe EntriesController do
                   :action_date => Date.new(old_item1.action_date.year,old_item1.action_date.month,18).strftime("%Y/%m/%d"),
                   :amount => "100000",
                   :from_account_id => accounts(:bank1).id.to_s,
-                  :to_account_id => accounts(:expense3).id.to_s },
+                  :to_account_id => accounts(:expense3).id.to_s,
+                  :confirmation_required => '0'
+                },
                 :year => 2008, :month => 2 }
             end
 

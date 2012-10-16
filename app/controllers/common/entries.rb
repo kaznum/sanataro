@@ -52,30 +52,20 @@ module Common
       private
 
       def arguments_for_update
+        return {} if params[:entry].nil?
+
         prms = {}
-        if params[:entry]
-          prms = {
-            name: params[:entry][:name],
-            from_account_id: params[:entry][:from_account_id],
-            to_account_id: params[:entry][:to_account_id],
-            amount: Item.calc_amount(params[:entry][:amount]),
-            adjustment_amount: Item.calc_amount(params[:entry][:adjustment_amount]),
-            confirmation_required: params[:entry][:confirmation_required],
-            tag_list: params[:entry][:tag_list],
-            action_date: _get_action_date_from_params
-          }
-        else
-          prms = {
-            name: params[:item_name],
-            from_account_id: params[:from],
-            to_account_id: params[:to],
-            amount: Item.calc_amount(params[:amount]),
-            adjustment_amount: Item.calc_amount(params[:adjustment_amount]),
-            confirmation_required: params[:confirmation_required],
-            tag_list: params[:tag_list],
-            action_date: _get_action_date_from_params
-          }
-        end
+        params[:entry].each { |k, v|
+          attr = k.to_sym
+          case attr
+          when :amount, :adjustment_amount
+            prms[attr] = Item.calc_amount(v)
+          when :action_date
+            prms[attr] = _get_action_date_from_params
+          else
+            prms[attr] = v
+          end
+        }
         prms
       end
 

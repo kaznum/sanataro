@@ -1148,7 +1148,7 @@ describe Api::EntriesController do
   describe "#update" do
     context "before login," do
       before do
-        put :update, entry: { :entry_type => 'adjustment', amount: "200", to_account_id: "1" }, :year => Date.today.year, :month => Date.today.month, :id => items(:adjustment2).id.to_s, format: :json
+        put :update, entry: { :entry_type => 'adjustment', adjustment_amount: "200", to_account_id: "1" }, :year => Date.today.year, :month => Date.today.month, :id => items(:adjustment2).id.to_s, format: :json
       end
 
       it_should_behave_like "Unauthenticated Access"
@@ -1179,6 +1179,7 @@ describe Api::EntriesController do
 
         context "without params[:entry][:to_account_id]" do
           before do
+            @init_adj_amount = items(:adjustment2).adjustment_amount
             date = items(:adjustment2).action_date
             @action = lambda { put :update, :id=>items(:adjustment2).id.to_s,
               entry: { :entry_type => 'adjustment',
@@ -1187,10 +1188,20 @@ describe Api::EntriesController do
               format: :json }
           end
 
-          it_should_behave_like "fail to update"
+          describe "response" do
+            before do
+              @action.call
+            end
+
+            subject {response}
+            its(:response_code) {should == 200}
+          end
 
           describe "item to update" do
-            it { expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).updated_at} }
+            it { expect{@action.call}.to change{Item.find(items(:adjustment2).id).updated_at} }
+            it { expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).to_account_id} }
+            it { expect{@action.call}.to change{Item.find(items(:adjustment2).id).adjustment_amount}.to(3000) }
+            it { expect{@action.call}.to change{Item.find(items(:adjustment2).id).amount}.by(3000 - @init_adj_amount) }
           end
         end
 
@@ -1251,18 +1262,6 @@ describe Api::EntriesController do
       end
 
       describe "update item" do
-        context "with missing params" do
-          before do
-            @action = lambda {put :update, :id=>items(:item1).id, format: :json}
-          end
-
-          it_should_behave_like "fail to update"
-
-          describe "item to update" do
-            it { expect {@action.call}.not_to change{Item.find(items(:item1).id).updated_at} }
-          end
-        end
-
         context "with invalid amount function, " do
           before do
             @old_item1 = old_item1 = items(:item1)
@@ -1300,11 +1299,11 @@ describe Api::EntriesController do
               put(:update,
                   :id => old_item1.id,
                   entry: {
-                    :item_name => 'テスト10',
+                    :name => 'テスト10',
                     :action_date => old_item1.action_date.strftime("%Y/%m/%d"),
                     :amount => "1000",
-                    :from => accounts(:bank1).id,
-                    :to => 43214,
+                    :from_account_id => accounts(:bank1).id,
+                    :to_account_id => 43214,
                     :confirmation_required => 'true'
                   }, format: :json)
               }
@@ -1394,7 +1393,9 @@ describe Api::EntriesController do
                   :action_date => Date.new(old_item1.action_date.year,old_item1.action_date.month,18).strftime("%Y/%m/%d"),
                   :amount => "100000",
                   :from_account_id => accounts(:bank1).id.to_s,
-                  :to_account_id => accounts(:expense3).id.to_s },
+                  :to_account_id => accounts(:expense3).id.to_s,
+                  confirmation_required: "false"
+                },
                 format: :json }
             end
 
