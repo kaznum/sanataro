@@ -234,6 +234,7 @@ GEM
     uglifier (1.3.0)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
+    underscore-rails (1.4.1)
     webrat (0.7.3)
       nokogiri (>= 1.2.0)
       rack (>= 1.0)
@@ -280,4 +281,5 @@ DEPENDENCIES
   therubyracer
   twitter-bootstrap-rails
   uglifier
+  underscore-rails
   webrat

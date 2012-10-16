@@ -72,3 +72,5 @@ gem 'twitter-bootstrap-rails'
 gem 'dalli'
 gem 'rails_emoji'
 gem 'jbuilder'
+gem 'underscore-rails'
+
