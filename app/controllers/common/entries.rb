@@ -61,7 +61,7 @@ module Common
           when :amount, :adjustment_amount
             prms[attr] = Item.calc_amount(v)
           when :action_date
-            prms[attr] = _get_action_date_from_params
+            prms[attr] = parse_str_to_date(v)
           else
             prms[attr] = v
           end
@@ -69,6 +69,11 @@ module Common
         prms
       end
 
+      def parse_str_to_date(str)
+        Date.parse(str)
+      rescue
+        raise InvalidDate
+      end
 
       def _index_with_filter_account_id
         _set_filter_account_id_to_session_from_params
@@ -119,14 +124,6 @@ module Common
           affected_item_ids << @item.try(:id)
           @updated_item_ids = affected_item_ids.reject(&:nil?).uniq
         end
-      end
-
-      def _get_action_date_from_params
-logger.warn "deprecated"
-        date_str = params[:entry] ? params[:entry][:action_date] : params[:action_date]
-        Date.parse(date_str)
-      rescue
-        raise InvalidDate
       end
 
       def _destroy_item(item)
