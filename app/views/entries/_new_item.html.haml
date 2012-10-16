@@ -8,7 +8,6 @@
     $("#confirmation_required_label").bind "click", ->
       entries.toggleConfirmationRequired($("#confirmation_required").attr("value") != "true")
 = form_for it, as: :entry, url: entries_path(it.action_date.year, it.action_date.month), :remote => true, :method => :post, html: { :id=>'do_add_item', :class => "well"} do |f|
-  - pp f
   .row-fluid
     %ul.nav.nav-pills
       %li.active= link_to t('link.register_income_expense'), new_entry_path(:year => it.action_date.year, :month => it.action_date.month), :remote => true, :method => :get
