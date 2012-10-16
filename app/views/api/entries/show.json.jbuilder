@@ -1,5 +1,4 @@
 item = @item
-json.key_format! :camelize => :lower
 json.entry do
   json.id item.id
   json.name item.name

@@ -15,7 +15,6 @@ class Api::EntriesController < ApplicationController
   def show
     _json_action do
       super
-      respond_with @item.as_json(AS_JSON_PARAMS).to_json
     end
   end
 
