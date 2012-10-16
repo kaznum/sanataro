@@ -10,22 +10,22 @@
         $('#item_operation_loading_#{item.id}').hide()
         $('#item_operation_#{item.id}').show())
 .item{:id => "item_#{item.id}"}
-  = form_tag entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :put, :id => "edit_#{item.id}_form", :class => "well" do
-    = hidden_field_tag :action_date, l(item.action_date)
+  = form_for item, as: :entry, url: entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :put, html: { :id => "edit_#{item.id}_form", :class => "well"} do |f|
+    = f.hidden_field :action_date, value: l(item.action_date)
     .row-fluid.input-row
       = t('entries.adjustment_explanation')
     .row-fluid.input-row
       = l(item.action_date)
     .row-fluid.input-row
-      = select_tag 'to', options_for_select(@user.bank_accounts, item.to_account_id.to_s), class: "input-medium"
+      = f.select :to_account_id, @user.bank_accounts, {}, { class: "input-medium" }
       %span.input-append
-        = text_field_tag 'adjustment_amount', item.adjustment_amount, :size=>10, :style=>"text-align: right;", :class => "input-small"
+        = f.text_field :adjustment_amount, :size=>10, :style=>"text-align: right;", :class => "input-small adjustment_amount"
         %span.add-on>= t('number.currency.format.unit')
-      = text_field_tag 'tag_list', item.tag_list, placeholder: t('placeholder.tag'), class: "input-medium"
+      = f.text_field :tag_list, placeholder: t('placeholder.tag'), class: "input-medium tag_list"
       %span{:id => "item_operation_#{h item.id}"}
-        = submit_tag t('button.save'), id: "edit_button_#{item.id}", class: 'btn btn-primary'
+        = f.submit t('button.save'), id: "edit_button_#{item.id}", class: 'btn btn-primary'
         = link_to t('link.cancel'), entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :get, :class => "btn"
       %span{:id => "item_operation_loading_#{h item.id}", :style => "display:none;"}= image_tag "loading.gif", :alt => "loading..."
-      = hidden_field_tag 'entry_type', 'adjustment'
+      = f.hidden_field 'entry_type', value: 'adjustment'
     .row-fluid.input-row
       %div{:id => "item_warning_#{item.id}"}
