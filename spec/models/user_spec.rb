@@ -329,26 +329,38 @@ describe User do
   end
 
   describe "#store_sample" do
-    before do
-      @user = Fabricate(:user)
+    describe "called methods" do
+      before do
+        @user = Fabricate(:user)
+      end
+
+      specify {
+        @user.should_receive(:bankings).exactly(4).times.and_return(@mock_bankings = mock([Banking]))
+        @user.should_receive(:incomes).exactly(3).times.and_return(@mock_incomes = mock([Income]))
+        @user.should_receive(:expenses).exactly(6).times.and_return(@mock_expenses = mock([Expense]))
+        @user.should_receive(:credit_relations).once.and_return(@mock_crs = mock([CreditRelation]))
+        @user.should_receive(:general_items).twice.and_return(@mock_items = mock([GeneralItem]))
+        @mock_bankings.should_receive(:create!).exactly(4).times.and_return(@banking = mock(Banking))
+        @mock_incomes.should_receive(:create!).exactly(3).times.and_return(@income = mock(Income))
+        @mock_expenses.should_receive(:create!).exactly(6).times.and_return(@expense = mock(Expense))
+        @banking.should_receive(:id).exactly(4).times.and_return(100)
+        @income.should_receive(:id).exactly(1).times.and_return(200)
+        @expense.should_receive(:id).exactly(1).times.and_return(300)
+        @mock_crs.should_receive(:create!).once.times
+        @mock_items.should_receive(:create!).twice
+
+        @user.store_sample
+      }
     end
+    describe "no error" do
+      before do
+        @user = Fabricate(:user)
+        @user.save!
+      end
 
-    specify {
-      @user.should_receive(:bankings).exactly(4).times.and_return(@mock_bankings = mock([Banking]))
-      @user.should_receive(:incomes).exactly(3).times.and_return(@mock_incomes = mock([Income]))
-      @user.should_receive(:expenses).exactly(6).times.and_return(@mock_expenses = mock([Expense]))
-      @user.should_receive(:credit_relations).once.and_return(@mock_crs = mock([CreditRelation]))
-      @user.should_receive(:items).twice.and_return(@mock_items = mock([Item]))
-      @mock_bankings.should_receive(:create!).exactly(4).times.and_return(@banking = mock(Banking))
-      @mock_incomes.should_receive(:create!).exactly(3).times.and_return(@income = mock(Income))
-      @mock_expenses.should_receive(:create!).exactly(6).times.and_return(@expense = mock(Expense))
-      @banking.should_receive(:id).exactly(4).times.and_return(100)
-      @income.should_receive(:id).exactly(1).times.and_return(200)
-      @expense.should_receive(:id).exactly(1).times.and_return(300)
-      @mock_crs.should_receive(:create!).once.times
-      @mock_items.should_receive(:create!).twice
-
-      @user.store_sample
-    }
+      specify {
+        expect { @user.store_sample }.not_to raise_error
+      }
+    end
   end
 end
