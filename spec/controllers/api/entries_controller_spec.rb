@@ -10,14 +10,14 @@ describe Api::EntriesController do
         get :index, format: :json
       end
 
-      it_should_behave_like "Unauthenticated Access"
+      it_should_behave_like "Unauthenticated Access in API"
     end
 
     context "after login," do
       let(:mock_user) { users(:user1) }
       before do
         mock_user
-        User.should_receive(:find).with(mock_user.id).at_least(1).and_return(mock_user)
+        User.should_receive(:find_by_id).with(mock_user.id).at_least(1).and_return(mock_user)
         login
       end
 
@@ -343,7 +343,7 @@ describe Api::EntriesController do
       before do
         get :show, :id => items(:item1).id, format: :json
       end
-      it_should_behave_like "Unauthenticated Access"
+      it_should_behave_like "Unauthenticated Access in API"
     end
 
     context "after login," do
@@ -384,14 +384,14 @@ describe Api::EntriesController do
       before do
         delete :destroy, :id => 12345, format: :json
       end
-      it_should_behave_like "Unauthenticated Access"
+      it_should_behave_like "Unauthenticated Access in API"
     end
 
     context "after login," do
       let(:mock_user) { users(:user1)}
       before do
         mock_user
-        User.should_receive(:find).with(mock_user.id).at_least(1).and_return(mock_user)
+        User.should_receive(:find_by_id).with(mock_user.id).at_least(1).and_return(mock_user)
         login
       end
 
@@ -669,7 +669,7 @@ describe Api::EntriesController do
       before do
         post :create, format: :json
       end
-      it_should_behave_like "Unauthenticated Access"
+      it_should_behave_like "Unauthenticated Access in API"
     end
 
     context "after login, " do
@@ -1151,7 +1151,7 @@ describe Api::EntriesController do
         put :update, entry: { :entry_type => 'adjustment', adjustment_amount: "200", to_account_id: "1" }, :year => Date.today.year, :month => Date.today.month, :id => items(:adjustment2).id.to_s, format: :json
       end
 
-      it_should_behave_like "Unauthenticated Access"
+      it_should_behave_like "Unauthenticated Access in API"
     end
 
     context "after login," do

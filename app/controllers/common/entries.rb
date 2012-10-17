@@ -3,7 +3,6 @@ module Common
   module Entries
     def self.included(base)
       base.class_eval do
-        before_filter :required_login
         include Common::Entries::InstanceMethods
       end
     end

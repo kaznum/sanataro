@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class Api::AccountsController < ApplicationController
+  include Api
   include ActionView::Helpers::NumberHelper
-  before_filter :required_login
   respond_to :json
 
   def index

@@ -154,6 +154,11 @@ unless defined?(CustomSharedExamplesHelper)
       it { should redirect_to login_url }
     end
 
+    shared_examples_for "Unauthenticated Access in API" do
+      subject { response }
+      its(:response_code) { should == 403 }
+    end
+
     shared_examples_for "Unauthenticated Access by xhr" do
       subject { response }
       it { should redirect_by_js_to login_url }

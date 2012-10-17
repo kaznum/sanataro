@@ -1,4 +1,5 @@
 class Api::EntriesController < ApplicationController
+  include Api
   include Common::Entries
   respond_to :json
 
