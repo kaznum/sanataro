@@ -131,7 +131,7 @@ class User < ActiveRecord::Base
 
     credit_relation = self.credit_relations.create!(:credit_account_id => account4_cr.id, :payment_account_id => account3.id, :settlement_day => 25, :payment_month => 2, :payment_day => 4)
 
-    item_income = self.items.create!(:name => 'サンプル収入(消してかまいません)', :from_account_id => income3.id, :to_account_id => account1.id, :amount => 1000, :action_date => Date.today)
-    item_expense = self.items.create!(:name => 'サンプル(消してかまいません)', :from_account_id => account1.id, :to_account_id => expense1.id, :amount => 250, :action_date => Date.today, :tag_list => 'タグもOK')
+    item_income = self.general_items.create!(:name => 'サンプル収入(消してかまいません)', :from_account_id => income3.id, :to_account_id => account1.id, :amount => 1000, :action_date => Date.today)
+    item_expense = self.general_items.create!(:name => 'サンプル(消してかまいません)', :from_account_id => account1.id, :to_account_id => expense1.id, :amount => 250, :action_date => Date.today, :tag_list => 'タグもOK')
   end
 end
