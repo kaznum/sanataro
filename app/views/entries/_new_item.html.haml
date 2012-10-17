@@ -6,7 +6,7 @@
       .bind("ajax:complete", -> $('#new_add_button').attr('disabled', false))
     $("#do_add_item .datepicker").datepicker()
     $("#do_add_item .confirmation_required_label").bind "click", ->
-      entries.toggleConfirmationRequired(!_.contains(["1", "true"], $("#do_add_item .confirmation_required_field").attr("value")))
+      entries.toggleConfirmationRequired("#do_add_item")
 = form_for it, as: :entry, url: entries_path(it.action_date.year, it.action_date.month), :remote => true, :method => :post, html: { :id=>'do_add_item', :class => "well"} do |f|
   .row-fluid
     %ul.nav.nav-pills

@@ -30,19 +30,20 @@ entries = global.entries
 ) jQuery
 
 (($) ->
-  entries.toggleConfirmationRequired = (isRequired, item_id = null) ->
-    if item_id
-      form_selector = "#edit_" + item_id + "_form"
+  entries.toggleConfirmationRequired = (parent_selector, forced = null) ->
+    label_selector = parent_selector +  " .confirmation_required_label"
+    field_selector = parent_selector +  " .confirmation_required_field"
+    if forced == null
+      current = _.contains(["1", "true"], $(field_selector).val())
     else
-      form_selector = "#do_add_item"
-    label_selector = form_selector +  " .confirmation_required_label"
-    field_selector = form_selector +  " .confirmation_required_field"
-    if isRequired
-      $(label_selector).html("<i class='icon-star'></i>").removeClass("item_confirmation_not_required").addClass("item_confirmation_required")
-      $(field_selector).attr "value", "true"
-    else
+      current = !_.contains(["1", "true", true], forced)
+
+    if current
       $(label_selector).html("<i class='icon-star-empty'></i>").removeClass("item_confirmation_required").addClass("item_confirmation_not_required")
-      $(field_selector).attr "value", "false"
+      $(field_selector).val("false")
+    else
+      $(label_selector).html("<i class='icon-star'></i>").removeClass("item_confirmation_not_required").addClass("item_confirmation_required")
+      $(field_selector).val("true")
 ) jQuery
 
 jQuery ($) ->
