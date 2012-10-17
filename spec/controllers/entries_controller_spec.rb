@@ -2261,8 +2261,10 @@ describe EntriesController do
             it {should be_success}
           end
 
-          describe "count of items" do
-            it { expect{@action.call}.not_to change{Item.count} }
+          describe "item to update" do
+            it { expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).amount} }
+            it { expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).adjustment_amount} }
+            it { expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).updated_at} }
           end
         end
 
