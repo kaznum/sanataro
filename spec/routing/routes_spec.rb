@@ -283,7 +283,7 @@ describe :routes do
 
   describe "api" do
 
-    %w(assets budgets yearly_assets yearly_budgets entries accounts).each do |controller|
+    %w(entries accounts).each do |controller|
       describe "get api/#{controller}" do
         subject { get("/api/#{controller}") }
         it {should route_to("api/#{controller}#index") }
@@ -307,6 +307,36 @@ describe :routes do
       describe "post api/#{controller}" do
         subject { post("/api/#{controller}") }
         it {should route_to("api/#{controller}#create") }
+      end
+    end
+  end
+
+  describe "chart_data" do
+
+    %w(assets budgets yearly_assets yearly_budgets).each do |controller|
+      describe "get chart_data/#{controller}" do
+        subject { get("/chart_data/#{controller}") }
+        it {should route_to("chart_data/#{controller}#index") }
+      end
+      describe "get chart_data/#{controller}/10" do
+        subject { get("/chart_data/#{controller}/10") }
+        it {should route_to("chart_data/#{controller}#show", id: "10") }
+      end
+      describe "get chart_data/#{controller}/10/edit" do
+        subject { get("/chart_data/#{controller}/10/edit") }
+        it {should route_to("chart_data/#{controller}#edit", id: "10") }
+      end
+      describe "put chart_data/#{controller}/10" do
+        subject { put("/chart_data/#{controller}/10") }
+        it {should route_to("chart_data/#{controller}#update", id: "10") }
+      end
+      describe "delete chart_data/#{controller}/10" do
+        subject { delete("/chart_data/#{controller}/10") }
+        it {should route_to("chart_data/#{controller}#destroy", id: "10") }
+      end
+      describe "post chart_data/#{controller}" do
+        subject { post("/chart_data/#{controller}") }
+        it {should route_to("chart_data/#{controller}#create") }
       end
     end
   end

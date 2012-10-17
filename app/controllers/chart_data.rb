@@ -1,7 +1,7 @@
-module Api
+module ChartData
   def self.included(base)
     base.class_eval do
-      include Api::InstanceMethods
+      include ChartData::InstanceMethods
 
       before_filter :required_login
       before_filter :redirect_if_invalid_year_month!

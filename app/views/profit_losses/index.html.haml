@@ -3,11 +3,11 @@
 - provide :append_head do
   :coffeescript
     this.urls = {
-      income: "#{api_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), format: :json)}",
-      expense: "#{api_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'expense', format: :json)}",
-      yearly_income: "#{api_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'income', format: :json)}",
-      yearly_expense: "#{api_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'expense', format: :json)}",
-      yearly_total: "#{api_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'total', format: :json)}"
+      income: "#{chart_data_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), format: :json)}",
+      expense: "#{chart_data_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'expense', format: :json)}",
+      yearly_income: "#{chart_data_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'income', format: :json)}",
+      yearly_expense: "#{chart_data_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'expense', format: :json)}",
+      yearly_total: "#{chart_data_yearly_budget_path(id: sprintf("%04d%02d", cur_year, cur_month), budget_type: 'total', format: :json)}"
     }
   = render "common/chart_header"
   = javascript_include_tag "profit_losses"

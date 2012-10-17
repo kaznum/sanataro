@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe Api::AssetsController do
+describe ChartData::AssetsController do
   fixtures :users
   
   describe "#show" do
