@@ -22,13 +22,7 @@ describe Api::AccountsController do
       describe "response" do
         subject { response }
         it { should be_success }
-      end
-
-      describe "response body" do
-        subject { ActiveSupport::JSON.decode(response.body) }
-        its(["bankings"]) { should have_at_least(1).accounts }
-        its(["incomes"]) { should have_at_least(1).accounts }
-        its(["expenses"]) { should have_at_least(1).accounts }
+        it { should render_template :index }
       end
     end
   end
