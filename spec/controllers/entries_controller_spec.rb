@@ -2257,6 +2257,7 @@ describe EntriesController do
           end
 
           describe "response" do
+            before { @action.call }
             subject {response}
             it {should be_success}
           end
