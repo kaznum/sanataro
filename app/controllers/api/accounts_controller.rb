@@ -5,10 +5,13 @@ class Api::AccountsController < ApplicationController
   respond_to :json
 
   def index
-    accounts = {}
-    %w(bankings incomes expenses).each do |type|
-      accounts[type.to_sym] = Rails.cache.fetch("user_#{@user.id}_api_accounts_#{type}") { @user.send(type.to_s.to_sym)}
-    end
+    accounts = Rails.cache.fetch("user_#{@user.id}_api_accounts") {
+      accts = []
+      %w(bankings incomes expenses).each do |type|
+        accts +=  @user.send(type.to_s.to_sym)
+      end
+      accts
+    }
     render locals: {accounts: accounts}
   end
 end
