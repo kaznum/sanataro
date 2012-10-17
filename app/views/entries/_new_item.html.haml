@@ -5,8 +5,8 @@
       .bind("ajax:before", -> $('#new_add_button').attr('disabled', true))
       .bind("ajax:complete", -> $('#new_add_button').attr('disabled', false))
     $("#do_add_item .datepicker").datepicker()
-    $("#confirmation_required_label").bind "click", ->
-      entries.toggleConfirmationRequired($("#confirmation_required").attr("value") != "true")
+    $("#do_add_item .confirmation_required_label").bind "click", ->
+      entries.toggleConfirmationRequired(!_.contains(["1", "true"], $("#do_add_item .confirmation_required_field").attr("value")))
 = form_for it, as: :entry, url: entries_path(it.action_date.year, it.action_date.month), :remote => true, :method => :post, html: { :id=>'do_add_item', :class => "well"} do |f|
   .row-fluid
     %ul.nav.nav-pills
@@ -16,8 +16,8 @@
     = f.text_field :action_date, value: l(it.action_date), class: "input-small datepicker", placeholder: "YYYY/MM/DD"
     = f.text_field :name, placeholder: t('placeholder.item_name'), class: "item_name"
     = RailsEmoji.render(":smile:", class: "emoji_button").html_safe
-    = f.hidden_field :confirmation_required
-    %span#confirmation_required_label.item_confirmation_not_required= icon_no_confirmation
+    = f.hidden_field :confirmation_required, class: "confirmation_required_field"
+    %span.confirmation_required_label.item_confirmation_not_required= icon_no_confirmation
     = link_to t('.show_all_confirmation_required', mark: icon_confirmation).html_safe, mark_entries_path(mark: :confirmation_required)
   .row-fluid.input-row
     #candidates

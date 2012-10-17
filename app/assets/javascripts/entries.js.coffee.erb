@@ -32,16 +32,16 @@ entries = global.entries
 (($) ->
   entries.toggleConfirmationRequired = (isRequired, item_id = null) ->
     if item_id
-      label_selector = "#confirmation_required_label_" + item_id
-      field_selector = "#confirmation_required_" + item_id
+      form_selector = "#edit_" + item_id + "_form"
     else
-      label_selector = "#confirmation_required_label"
-      field_selector = "#confirmation_required"
+      form_selector = "#do_add_item"
+    label_selector = form_selector +  " .confirmation_required_label"
+    field_selector = form_selector +  " .confirmation_required_field"
     if isRequired
-      $(label_selector).html("<i class='icon-star'></i>").attr "class", "item_confirmation_required"
+      $(label_selector).html("<i class='icon-star'></i>").removeClass("item_confirmation_not_required").addClass("item_confirmation_required")
       $(field_selector).attr "value", "true"
     else
-      $(label_selector).html("<i class='icon-star-empty'></i>").attr "class", "item_confirmation_not_required"
+      $(label_selector).html("<i class='icon-star-empty'></i>").removeClass("item_confirmation_required").addClass("item_confirmation_not_required")
       $(field_selector).attr "value", "false"
 ) jQuery
 
@@ -81,4 +81,3 @@ jQuery ($) ->
   global.emoji.constructList ".emoji_list", "#emojis_modal .current_form", "#emojis_modal"
   # preloading large image for emoji selector
   (new Image()).src = "<%= image_path "all-emoji20.jpg" %>"
-
