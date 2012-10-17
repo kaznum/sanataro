@@ -26,7 +26,7 @@ end
   step %{I press "ログイン"}
   find('#input_item_area')
   step %{I follow "残高調整の登録"}
-  find('#input_item_area #entry_amount')
+  find('#input_item_area #entry_adjustment_amount')
 end
 
 前提 /^(.+)年(.+)月の残高調整登録ページを表示している$/ do |year,month|
