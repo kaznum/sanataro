@@ -2219,7 +2219,7 @@ describe EntriesController do
       end
 
       describe "update adjustment" do
-        context "without params[:to]" do
+        context "without params[:to_account_id]" do
           before do
             date = items(:adjustment2).action_date
             @action = lambda { xhr :put, :update, :id=>items(:adjustment2).id.to_s,
