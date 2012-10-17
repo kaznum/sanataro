@@ -1,6 +1,8 @@
 class Adjustment < Item
   before_create :remove_previous_adjustment_of_same_action_date
 
+  validates_uniqueness_of :action_date, scope: [:action_date, :to_account_id, :type], on: :update
+
   def fill_amount
     if !amount_changed? || new_record?
       raise InvalidDate unless action_date

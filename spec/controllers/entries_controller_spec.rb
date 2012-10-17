@@ -2268,6 +2268,32 @@ describe EntriesController do
           end
         end
 
+        context "with changing action_date which alredy has another adjustment of the same account" do
+          before do
+            login
+            date = items(:adjustment4).action_date
+            @action = lambda { xhr :put, :update, :id=>items(:adjustment2).id,
+              entry: { :entry_type => 'adjustment',
+                :action_date => date.strftime("%Y/%m/%d"),
+                :adjustment_amount=>'300',
+                :to_account_id => items(:adjustment4).to_account_id },
+              :year => 2008, :month => 2 }
+          end
+
+          describe "response" do
+            before { @action.call }
+            subject {response}
+            it {should be_success}
+            it { should render_js_error :id => "item_warning_#{items(:adjustment2).id}" }
+          end
+
+          describe "item to update" do
+            it { expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).amount} }
+            it { expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).adjustment_amount} }
+            it { expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).updated_at} }
+          end
+        end
+
         context "with changing only amount" do
           before do
             @old_adj2 = items(:adjustment2)
