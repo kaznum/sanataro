@@ -1,8 +1,9 @@
 module Api
   def self.included(base)
     base.class_eval do
-      include Api::InstanceMethods
+      skip_before_filter :verify_authenticity_token
       before_filter :authenticate_via_api
+      include Api::InstanceMethods
     end
   end
 
