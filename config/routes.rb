@@ -50,6 +50,7 @@ Sanataro::Application.routes.draw do
   namespace(:api) do
     resources :entries
     resources :accounts
+    resource :session
   end
 
   namespace(:chart_data) do

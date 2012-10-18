@@ -282,6 +282,17 @@ describe :routes do
   end
 
   describe "api" do
+    describe "sessions" do
+      describe "create api/session" do
+        subject { post("/api/session") }
+        it { should route_to("api/sessions#create")}
+      end
+
+      describe "destroy api/session" do
+        subject { delete("/api/session") }
+        it { should route_to("api/sessions#destroy")}
+      end
+    end
 
     %w(entries accounts).each do |controller|
       describe "get api/#{controller}" do
