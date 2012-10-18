@@ -53,6 +53,9 @@ built with Ruby on Rails.
 * Insert `gem 'activerecord-jdbcmssql-adapter'` into Gemfile and execute `bundle install`
 * Edit `config/database.yml` for the connection to SQL Server Database (see `config/database.yml.sample`)
 
+== RESTful API
+* See https://github.com/kaznum/sanataro/wiki/RESTful-API
+
 == Credit
 * Author: Kazuya NUMATA <numata@gmail.com>.
 * Copyright (c) 2007-2012 Kazuya NUMATA.
