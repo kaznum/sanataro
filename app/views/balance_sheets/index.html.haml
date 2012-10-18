@@ -3,9 +3,9 @@
 - provide :append_head do
   :coffeescript
     this.urls = {
-      asset: "#{api_asset_path(id: sprintf("%04d%02d", cur_year, cur_month), format: :json)}",
-      debt: "#{api_asset_path(id: sprintf("%04d%02d", cur_year, cur_month), asset_type: 'debt', format: :json)}",
-      yearly_asset: "#{api_yearly_asset_path(id: sprintf("%04d%02d", cur_year, cur_month), format: :json)}"
+      asset: "#{chart_data_asset_path(id: sprintf("%04d%02d", cur_year, cur_month), format: :json)}",
+      debt: "#{chart_data_asset_path(id: sprintf("%04d%02d", cur_year, cur_month), asset_type: 'debt', format: :json)}",
+      yearly_asset: "#{chart_data_yearly_asset_path(id: sprintf("%04d%02d", cur_year, cur_month), format: :json)}"
     }
   = render 'common/chart_header'
   = javascript_include_tag "balance_sheets"

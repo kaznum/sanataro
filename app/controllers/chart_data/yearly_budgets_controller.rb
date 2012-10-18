@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-class Api::YearlyBudgetsController < ApplicationController
-  include Api
+class ChartData::YearlyBudgetsController < ApplicationController
+  include ChartData
   respond_to :json
 
   before_filter :_redirect_if_invalid_budget_type!

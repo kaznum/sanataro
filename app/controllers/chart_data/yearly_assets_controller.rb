@@ -1,6 +1,6 @@
 # coding: utf-8
-class Api::YearlyAssetsController < ApplicationController
-  include Api
+class ChartData::YearlyAssetsController < ApplicationController
+  include ChartData
   respond_to :json
 
   def show

@@ -10,8 +10,8 @@ global = exports ? this
       $(parent_selector).append $li
     $("#{parent_selector} li").on "click", ->
       form_id = $("#{form_id_store}").val()
-      added = $("##{form_id} #item_name").val() + ":" + $(this).attr("id") + ":"
-      $("##{form_id} #item_name").val(added)
+      added = $("##{form_id} .item_name").val() + ":" + $(this).attr("id") + ":"
+      $("##{form_id} .item_name").val(added)
       $(modal).modal("hide")
 
   global.emoji = { titles: titles, constructList: constructList }

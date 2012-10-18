@@ -1,4 +1,5 @@
 = render partial: "items", locals: { items: items }
 = render partial: "success_message", locals: { selector: "#warning", message: t('message.register_successfully') + ' ' + l(item.action_date) + ' ' + t('label.adjustment') + ' ' + number_to_currency(item.adjustment_amount) }
 = render partial: "highlight_items", locals: { ids: updated_item_ids }
-! $('#do_add_item #adjustment_amount').val('');
+! $('#do_add_item .adjustment_amount').val('');
+! $('#do_add_item .tag_list').val('');

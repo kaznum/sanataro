@@ -3,7 +3,7 @@ class Teller
   class << self
     def create_entry(user, args = {})
       args = args.dup
-      type = args[:adjustment].to_s.to_bool ? :adjustment : :general_item
+      type = args[:entry_type] == 'adjustment' ? :adjustment : :general_item
       item = user.send(type.to_s.pluralize).build
       item.filter_and_assign_attributes(args)
       ActiveRecord::Base.transaction do
