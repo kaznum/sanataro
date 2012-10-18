@@ -1,5 +1,6 @@
 class Api::SessionsController < ApplicationController
   skip_before_filter :verify_authenticity_token
+  after_filter :set_access_control_headers
 
   def create
     unless params[:session]
@@ -18,7 +19,10 @@ class Api::SessionsController < ApplicationController
 
     if authenticated
       session[:user_id] = user.id
-      render nothing: true, status: :ok
+      respond_to do |format|
+        format.json { render json: {}, status: :ok }
+        format.html { render text: "succeeded", status: :ok }
+      end
     else
       render_when_not_login
     end
@@ -26,12 +30,20 @@ class Api::SessionsController < ApplicationController
 
   def destroy
     reset_session
-    render nothing: true, status: :ok
+    respond_to do |format|
+      format.json { render json: {}, status: :ok }
+      format.html { render text: "succeeded", status: :ok }
+    end
   end
 
   private
   def render_when_not_login
     render nothing: true, status: :unauthorized
+  end
+
+  def set_access_control_headers
+    headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Request-Method'] = '*'
   end
 
 end

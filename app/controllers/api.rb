@@ -3,11 +3,17 @@ module Api
     base.class_eval do
       skip_before_filter :verify_authenticity_token
       before_filter :authenticate_via_api
+      after_filter :set_access_control_headers
       include Api::InstanceMethods
     end
   end
 
   module InstanceMethods
+    def set_access_control_headers
+      headers['Access-Control-Allow-Origin'] = '*'
+      headers['Access-Control-Request-Method'] = '*'
+    end
+
     def authenticate_via_api
       # for Web Browser login
       if session[:user_id]
