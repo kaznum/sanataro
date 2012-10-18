@@ -12,6 +12,7 @@ module Api
     def set_access_control_headers
       headers['Access-Control-Allow-Origin'] = '*'
       headers['Access-Control-Request-Method'] = '*'
+      headers["P3P"] = 'CP="IDC MON IVA SAM BUS FIN"'
     end
 
     def authenticate_via_api
