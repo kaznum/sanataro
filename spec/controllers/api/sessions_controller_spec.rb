@@ -85,4 +85,37 @@ describe Api::SessionsController do
       end
     end
   end
+
+  describe "#destroy" do
+
+    describe "when user has not been logged in," do
+      before { delete :destroy }
+      describe "response" do
+        subject { response }
+        its(:response_code) { should == 200 }
+      end
+
+      describe "session" do
+        subject { session }
+        its([:user_id]) { should be_nil }
+      end
+    end
+
+    describe "when user has been logged in," do
+      before do
+        session[:user_id] = users(:user1).id
+        delete :destroy
+      end
+
+      describe "response" do
+        subject { response }
+        its(:response_code) { should == 200 }
+      end
+
+      describe "session" do
+        subject { session }
+        its([:user_id]) { should be_nil }
+      end
+    end
+  end
 end

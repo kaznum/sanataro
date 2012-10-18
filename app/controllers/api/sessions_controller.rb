@@ -1,7 +1,10 @@
 class Api::SessionsController < ApplicationController
+  skip_before_filter :verify_authenticity_token
+  respond_to :json
+
   def create
     unless params[:session]
-      render nothing: true, status: :unauthorized
+      render_when_not_login
       return
     end
 
@@ -18,10 +21,18 @@ class Api::SessionsController < ApplicationController
       session[:user_id] = user.id
       render nothing: true, status: :ok
     else
-      render nothing: true, status: :unauthorized
+      render_when_not_login
     end
   end
 
   def destroy
+    reset_session
+    render nothing: true, status: :ok
   end
+
+  private
+  def render_when_not_login
+    render nothing: true, status: :unauthorized
+  end
+
 end
