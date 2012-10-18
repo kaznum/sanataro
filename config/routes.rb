@@ -48,6 +48,11 @@ Sanataro::Application.routes.draw do
   end
 
   namespace(:api) do
+    resources :entries
+    resources :accounts
+  end
+
+  namespace(:chart_data) do
     resources :assets
     resources :budgets
     resources :yearly_budgets

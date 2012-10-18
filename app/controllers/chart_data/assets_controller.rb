@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-class Api::AssetsController < ApplicationController
-  include Api
+class ChartData::AssetsController < ApplicationController
+  include ChartData
   respond_to :json
 
   def show

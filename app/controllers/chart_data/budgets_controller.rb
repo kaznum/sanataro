@@ -1,5 +1,5 @@
-class Api::BudgetsController < ApplicationController
-  include Api
+class ChartData::BudgetsController < ApplicationController
+  include ChartData
   respond_to :json
 
   def show

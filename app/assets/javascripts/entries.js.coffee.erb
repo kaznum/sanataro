@@ -7,10 +7,10 @@ global.entries = {}
 entries = global.entries
 (($) ->
   entries.itemNameObserver = (url) ->
-    $("#do_add_item #item_name").delayedObserver ->
+    $("#do_add_item .item_name").delayedObserver ->
       $.ajax {
         url: url,
-        data: { item_name : $("#do_add_item #item_name").val() },
+        data: { item_name : $("#do_add_item .item_name").val() },
         type: "get",
         success: (data) ->
           $("#candidates").html(data) }, 0.3
@@ -30,19 +30,20 @@ entries = global.entries
 ) jQuery
 
 (($) ->
-  entries.toggleConfirmationRequired = (isRequired, item_id = null) ->
-    if item_id
-      label_selector = "#confirmation_required_label_" + item_id
-      field_selector = "#confirmation_required_" + item_id
+  entries.toggleConfirmationRequired = (parent_selector, forced = null) ->
+    label_selector = parent_selector +  " .confirmation_required_label"
+    field_selector = parent_selector +  " .confirmation_required_field"
+    if forced == null
+      current = _.contains(["1", "true"], $(field_selector).val())
     else
-      label_selector = "#confirmation_required_label"
-      field_selector = "#confirmation_required"
-    if isRequired
-      $(label_selector).html("<i class='icon-star'></i>").attr "class", "item_confirmation_required"
-      $(field_selector).attr "value", "true"
+      current = !_.contains(["1", "true", true], forced)
+
+    if current
+      $(label_selector).html("<i class='icon-star-empty'></i>").removeClass("item_confirmation_required").addClass("item_confirmation_not_required")
+      $(field_selector).val("false")
     else
-      $(label_selector).html("<i class='icon-star-empty'></i>").attr "class", "item_confirmation_not_required"
-      $(field_selector).attr "value", "false"
+      $(label_selector).html("<i class='icon-star'></i>").removeClass("item_confirmation_not_required").addClass("item_confirmation_required")
+      $(field_selector).val("true")
 ) jQuery
 
 jQuery ($) ->
@@ -81,4 +82,3 @@ jQuery ($) ->
   global.emoji.constructList ".emoji_list", "#emojis_modal .current_form", "#emojis_modal"
   # preloading large image for emoji selector
   (new Image()).src = "<%= image_path "all-emoji20.jpg" %>"
-

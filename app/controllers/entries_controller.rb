@@ -1,26 +1,23 @@
-# -*- coding: utf-8 -*-
 class EntriesController < ApplicationController
+  include Common::Entries
   before_filter :required_login
 
   def index
-    @tag = params[:tag]
-    @mark = params[:mark]
-    @keyword = params[:keyword]
-
+    super
     case
     when params[:remaining]
-      _index_for_remaining(displaying_month, @tag, @mark, @keyword)
-    when !params[:filter_account_id].nil?
-      _index_with_filter_account_id
-    when @tag.present?
-      _index_with_tag(@tag)
+      template = 'index_for_remaining'
+    when params[:filter_account_id].present?
+      template = "index_with_filter_account_id"
+    when @tag.present? || @keyword.present?
+      template = 'index_with_tag_keyword'
     when @mark.present?
-      _index_with_mark(@mark)
-    when @keyword.present?
-      _index_with_keyword(@keyword)
+      template = 'index_with_mark'
     else
-      _index_plain(displaying_month)
+      @new_item = Item.new { |item| item.action_date = _default_action_date(displaying_month) }
+      template = 'index'
     end
+    render template
   rescue ArgumentError # in case the date in params has invalid format
     respond_to do |format|
       format.js {  redirect_js_to current_entries_url }
@@ -36,27 +33,9 @@ class EntriesController < ApplicationController
     end
   end
 
-  def create
+  def show
     _xhr_action("warning") {
-      _create_entry
-    }
-  end
-
-  def update
-    _xhr_action("item_warning_#{params[:id]}") {
-      id = params[:id].to_i
-
-      item, updated_item_ids, deleted_item_ids = Teller.update_entry(@user, id, arguments_for_update)
-
-      items = get_items(month: displaying_month)
-      render "update", locals: { item: item, items: items, updated_item_ids: updated_item_ids }
-    }
-  end
-
-  def destroy
-    _xhr_action("warning") {
-      item = @user.items.find(params[:id])
-      _destroy_item(item)
+      super
     }
   end
 
@@ -66,74 +45,36 @@ class EntriesController < ApplicationController
     }
   end
 
-  def show
+  def destroy
     _xhr_action("warning") {
-      @item = @user.items.find(params[:id])
+      super
+      render "destroy", locals: { item: @item, deleted_ids: @deleted_item_ids, updated_items: @updated_items }
+    }
+  end
+
+  def create
+    _xhr_action("warning") {
+      super
+
+      if params[:only_add]
+        render "create_item_simple", locals: { item: @item }
+      else
+        @items = get_items(month: displaying_month)
+        template = @item.adjustment? ? "create_adjustment" : "create_item"
+        render template, locals: { item: @item, items: @items, updated_item_ids: @updated_item_ids }
+      end
+    }
+  end
+
+  def update
+    _xhr_action("item_warning_#{params[:id]}") {
+      super
+      items = get_items(month: displaying_month)
+      render "update", locals: { item: @item, items: items, updated_item_ids: @updated_item_ids }
     }
   end
 
   private
-
-  def arguments_for_update
-    {
-      name: params[:item_name],
-      from_account_id: params[:from],
-      to_account_id: params[:to],
-      amount: Item.calc_amount(params[:amount]),
-      adjustment_amount: Item.calc_amount(params[:adjustment_amount]),
-      confirmation_required: params[:confirmation_required],
-      tag_list: params[:tag_list],
-      action_date: _get_action_date_from_params
-    }
-  end
-
-  def _xhr_action(warning_selector, &block)
-    block.call
-  rescue ActiveRecord::RecordNotFound => ex
-    redirect_js_to current_entries_url
-  rescue InvalidDate
-    render_js_error :id => warning_selector, :default_message => t("error.date_is_invalid")
-  rescue SyntaxError
-    render_js_error :id => warning_selector, :default_message => t("error.amount_is_invalid")
-  rescue ActiveRecord::RecordInvalid => ex
-    render_js_error(:id => warning_selector, :errors => ex.error_messages, :default_message => t("error.input_is_invalid"))
-  end
-
-  def _index_with_filter_account_id
-    _set_filter_account_id_to_session_from_params
-    @items = get_items(month: displaying_month)
-    render "index_with_filter_account_id"
-  end
-
-  def _index_with_tag(tag)
-    @items = get_items(tag: tag)
-    render 'index_with_tag_keyword'
-  end
-
-  def _index_with_keyword(keyword)
-    @items = get_items(keyword: keyword)
-    render 'index_with_tag_keyword'
-  end
-
-  def _index_with_mark(mark)
-    @items = get_items(mark: mark)
-    render 'index_with_mark'
-  end
-
-  def _default_action_date(month_to_display)
-    month_to_display == today.beginning_of_month ? today : month_to_display
-  end
-
-  def _set_filter_account_id_to_session_from_params
-    account_id = params[:filter_account_id].to_i
-    session[:filter_account_id] = account_id == 0 ? nil : account_id
-  end
-
-  def _index_plain(month_to_display)
-    @items = get_items(month: month_to_display)
-    @new_item = Item.new { |item| item.action_date = _default_action_date(month_to_display) }
-  end
-
   # this method is called when a link in the field of adding regular item or adjustment.
   # which switches forms each other.
   def _new_entry(entry_type)
@@ -141,55 +82,6 @@ class EntriesController < ApplicationController
     item_class = entry_type == 'adjustment' ? Adjustment : GeneralItem
     @item = item_class.new(action_date: action_date)
     render "new"
-  end
-
-  def _get_date_by_specific_year_and_month_or_today(year, month)
-    action_date = nil
-    begin
-      unless today.beginning_of_month == Date.new(year.to_i, month.to_i).beginning_of_month
-        action_date = Date.new(year.to_i, month.to_i)
-      end
-    rescue ArgumentError => ex
-      # do nothing
-      # return default value (Today) as below.
-    end
-    action_date || today
-  end
-
-  def _create_entry
-    Item.transaction do
-      item, affected_item_ids = Teller.create_entry(@user, :name => params[:item_name],
-                                                    :from_account_id => params[:from], :to_account_id => params[:to],
-                                                    :amount => Item.calc_amount(params[:amount]),
-                                                    :action_date => _get_action_date_from_params,
-                                                    :confirmation_required => params[:confirmation_required],
-                                                    :tag_list => params[:tag_list],
-                                                    :adjustment_amount => Item.calc_amount(params[:adjustment_amount]),
-                                                    :adjustment => params[:entry_type] == 'adjustment')
-
-      if params[:only_add]
-        render "create_item_simple", locals: { item: item }
-      else
-        @items = get_items(month: displaying_month)
-        affected_item_ids << item.try(:id)
-        template = item.adjustment? ? "create_adjustment" : "create_item"
-        render template, locals: { item: item, items: @items, updated_item_ids: affected_item_ids.reject(&:nil?).uniq }
-      end
-    end
-  end
-
-  def _get_action_date_from_params
-    Date.parse(params[:action_date])
-  rescue
-    raise InvalidDate
-  end
-
-  def _destroy_item(item)
-    Item.transaction do
-      result_of_delete = Teller.destroy_entry(@user, item.id)
-      updated_items = result_of_delete[0].map {|id| @user.items.find_by_id(id)}.reject(&:nil?)
-      render "destroy", locals: { item: item, deleted_ids: result_of_delete[1], updated_items: updated_items }
-    end
   end
 
   def _new_simple
@@ -205,44 +97,16 @@ class EntriesController < ApplicationController
     render 'new_simple', :layout => false
   end
 
-  def from_accounts
-    from_or_to_accounts(:from_accounts)
-  end
 
-  def to_accounts
-    from_or_to_accounts(:to_accounts)
-  end
-
-  def from_or_to_accounts(from_or_to = :from_accounts)
-    # FIXME
-    # html escape should be done in Views.
-    @user.send(from_or_to).map {|a| { :value => a[1], :text => ERB::Util.html_escape(a[0]) } }
-  end
-
-  def _index_for_remaining(month, tag=nil, mark=nil, keyword=nil)
-    if tag.present? || mark.present? || keyword.present?
-      month_to_display = nil
-    else
-      month_to_display = month.beginning_of_month
-    end
-
-    @items = get_items(month: month_to_display, remain: true, tag: tag, mark: mark, keyword: keyword)
-    render 'index_for_remaining'
-  end
-
-  # options variation
-  #   remain: true: get remaining items which are not shown at first.
-  #   tag: String
-  #   mark: String
-  def get_items(options = {})
-    if options[:month].present?
-      from_date = options[:month].beginning_of_month
-      to_date = options[:month].end_of_month
-    end
-    @user.items.partials(from_date, to_date,
-                         filter_account_id: session[:filter_account_id],
-                         remain: options[:remain], tag: options[:tag], mark: options[:mark], keyword: options[:keyword])
+  def _xhr_action(warning_selector, &block)
+    block.call
+  rescue ActiveRecord::RecordNotFound => ex
+    redirect_js_to current_entries_url
+  rescue InvalidDate
+    render_js_error :id => warning_selector, :default_message => t("error.date_is_invalid")
+  rescue SyntaxError
+    render_js_error :id => warning_selector, :default_message => t("error.amount_is_invalid")
+  rescue ActiveRecord::RecordInvalid => ex
+    render_js_error(:id => warning_selector, :errors => ex.error_messages, :default_message => t("error.input_is_invalid"))
   end
 end
-
-class InvalidDate < Exception ; end
