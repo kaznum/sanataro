@@ -20,7 +20,8 @@ development:
   item_list_count: 100
   admin_user: "admin"
   admin_password: "password"
-
+  oauth_admin_user: "admin"
+  oauth_admin_password: "password"
 test:
   <<: *defaults
   
