@@ -67,7 +67,7 @@ describe Api::SessionsController do
 
     context "when user exists and password matches," do
       before do
-        @action = -> { post :create, session: { login: users(:user1).login, password: "123456"} }
+        @action = -> { post :create, session: { login: users(:user1).login, password: "123456"}, format: :json }
       end
 
       describe "response" do
@@ -75,6 +75,7 @@ describe Api::SessionsController do
         subject { response }
 
         its(:response_code) { should == 200 }
+        its(:body) { should match /{"authenticity_token":".+"}/  }
       end
 
       describe "session" do

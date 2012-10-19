@@ -1,6 +1,8 @@
 class Api::SessionsController < ApplicationController
   include Api::General
 
+  respond_to :json
+
   def create
     unless params[:session]
       render_when_not_login
@@ -18,10 +20,7 @@ class Api::SessionsController < ApplicationController
 
     if authenticated
       session[:user_id] = user.id
-      respond_to do |format|
-        format.json { render json: {}, status: :ok }
-        format.html { render text: "succeeded", status: :ok }
-      end
+      render json: {authenticity_token: form_authenticity_token}.to_json, status: :ok
     else
       render_when_not_login
     end
@@ -29,10 +28,7 @@ class Api::SessionsController < ApplicationController
 
   def destroy
     reset_session
-    respond_to do |format|
-      format.json { render json: {}, status: :ok }
-      format.html { render text: "succeeded", status: :ok }
-    end
+    render json: {}, status: :ok
   end
 
   private
