@@ -39,7 +39,6 @@ module Api
   module General
     def self.included(base)
       base.class_eval do
-        after_filter :set_access_control_headers
         include Api::General::InstanceMethods
         alias_method_chain :verified_request?, :condition
       end
@@ -49,12 +48,6 @@ module Api
       # override the method which checks CSRF token.
       def verified_request_with_condition?
         (doorkeeper_token || request.authorization.present?) ? true : verified_request_without_condition?
-      end
-
-      def set_access_control_headers
-        headers['Access-Control-Allow-Origin'] = '*'
-        headers['Access-Control-Request-Method'] = '*'
-        headers["P3P"] = 'CP="UNI CUR OUR"'
       end
     end
   end
