@@ -156,7 +156,7 @@ unless defined?(CustomSharedExamplesHelper)
 
     shared_examples_for "Unauthenticated Access in API" do
       subject { response }
-      its(:response_code) { should == 403 }
+      its(:response_code) { should == 401 }
     end
 
     shared_examples_for "Unauthenticated Access by xhr" do
