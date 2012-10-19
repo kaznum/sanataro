@@ -1,4 +1,6 @@
 Sanataro::Application.routes.draw do
+  mount Doorkeeper::Engine => '/oauth'
+
   root :to => "login#login"
 
   match 'simple', :to => 'entries#new', :entry_type => 'simple', :as => 'simple_input'
