@@ -1,0 +1,23 @@
+ja:
+  doorkeeper:
+    errors:
+      messages:
+        # Common error messages
+        invalid_request: 'リクエストに必要なパラメタが不足しているか、サポートされていないパラメタが含まれているか、もしくは、パラメタが間違っています。'
+        invalid_redirect_uri: '含まれるリダイレクトURLが正しくありません。'
+        unauthorized_client: 'このリクエストに対しこのメソッドを使う権限のないクライアントです。'
+        access_denied: 'リソース保有者もしくは認証サーバはリクエストを拒否しました。'
+        invalid_scope: '指定されたスコープが不正か、不明か、もしくは間違っています。'
+        server_error: '認証サーバは予期せぬ状態であるため、リクエストを処理できませんでした。'
+        temporarily_unavailable: '認証サーバ高負荷もしくはメンテナンス中であるため、現在リクエストを処理できません。'
+
+        # Access grant errors
+        unsupported_response_type: '認証サーバは指定されたResponse Typeをサポートしていません。'
+
+        # Access token errors
+        invalid_client: 'クライアント認証は次のいずれかの理由で失敗しました。不明なクライアント、クライアント認証が含まれていない、サポートされない認証メソッド'
+        invalid_grant: '指定された認証認可は次のいずれかの状態です。不正、有効期限切れ、無効、リダイレクトURLが異なる、別のクライアントに適用されている。'
+        unsupported_grant_type: 'この認可の種別は認証サーバではサポートされていません。'
+
+        # Password Access token errors
+        invalid_resource_owner: '指定されたリソース保有者の権限は有効ではないか、もしくはリソース保有者が見つかりません。'
