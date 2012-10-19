@@ -17,7 +17,7 @@ describe Api::EntriesController do
       let(:mock_user) { users(:user1) }
       before do
         mock_user
-        User.should_receive(:find_by_id).with(mock_user.id).at_least(1).and_return(mock_user)
+        User.should_receive(:find_by_id_and_active).with(mock_user.id, true).at_least(1).and_return(mock_user)
         login
       end
 
@@ -391,7 +391,7 @@ describe Api::EntriesController do
       let(:mock_user) { users(:user1)}
       before do
         mock_user
-        User.should_receive(:find_by_id).with(mock_user.id).at_least(1).and_return(mock_user)
+        User.should_receive(:find_by_id_and_active).with(mock_user.id,true).at_least(1).and_return(mock_user)
         login
       end
 
