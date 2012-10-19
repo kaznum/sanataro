@@ -74,3 +74,5 @@ gem 'rails_emoji'
 gem 'jbuilder'
 gem 'underscore-rails'
 
+gem 'doorkeeper'
+
