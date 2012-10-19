@@ -1,5 +1,5 @@
 class Api::EntriesController < ApplicationController
-  include Api
+  include Api::Auth
   include Common::Entries
   respond_to :json
 

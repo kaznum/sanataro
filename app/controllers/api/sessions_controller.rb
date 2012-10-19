@@ -1,6 +1,5 @@
 class Api::SessionsController < ApplicationController
-  skip_before_filter :verify_authenticity_token
-  after_filter :set_access_control_headers
+  include Api::General
 
   def create
     unless params[:session]
@@ -40,11 +39,4 @@ class Api::SessionsController < ApplicationController
   def render_when_not_login
     render nothing: true, status: :unauthorized
   end
-
-  def set_access_control_headers
-    headers['Access-Control-Allow-Origin'] = '*'
-    headers['Access-Control-Request-Method'] = '*'
-    headers["P3P"] = 'CP="IDC MON IVA SAM BUS FIN"'
-  end
-
 end

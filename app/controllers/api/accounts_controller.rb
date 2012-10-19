@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class Api::AccountsController < ApplicationController
-  include Api
+  include Api::Auth
   include ActionView::Helpers::NumberHelper
   respond_to :json
 
