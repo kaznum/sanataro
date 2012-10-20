@@ -11,12 +11,18 @@ module Api
 
     module InstanceMethods
       def authenticate_via_api
-        if doorkeeper_token
+        if Settings.api_auth.oauth && doorkeeper_token
           # for OAuth
           user = User.find_by_id_and_active(doorkeeper_token.resource_owner_id,true)
-        elsif session[:user_id]
+        elsif Settings.api_auth.session && session[:user_id]
           # for Web Browser login
           user = User.find_by_id_and_active(session[:user_id],true)
+        elsif Settings.api_auth.basic
+          # for Basic Auth login
+          user = authenticate_with_http_basic { |login, password|
+            challenge_user = User.find_by_login_and_active(login, true)
+            challenge_user && challenge_user.password_correct?(password) ? challenge_user : nil
+          }
         end
 
         if user

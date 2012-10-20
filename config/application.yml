@@ -14,6 +14,10 @@ defaults: &defaults
       color: "#ff99ff"
   item_list_count: 20
   enable_tweet: true
+  api_auth:
+    oauth: true
+    basic: false
+    session: true
 
 development:
   <<: *defaults
@@ -24,6 +28,10 @@ development:
   oauth_admin_password: "password"
 test:
   <<: *defaults
+  api_auth:
+    oauth: true
+    basic: true
+    session: true
   
 production:
   <<: *defaults
