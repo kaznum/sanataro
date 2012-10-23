@@ -1,5 +1,5 @@
 Sanataro::Application.routes.draw do
-  mount Doorkeeper::Engine => '/oauth'
+  use_doorkeeper
 
   root :to => "login#login"
 
