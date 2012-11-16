@@ -3,6 +3,7 @@ before_script:
   - "cp -v config/travis/database.yml.travis.${TRAVIS_RUBY_VERSION}.${DB} config/database.yml"
   - "rake db:create db:migrate"
   - "export DISPLAY=:99.0"
+  - "export JRUBY_OPTS='-Xcompile.invokedynamic=true'"
   - "sh -e /etc/init.d/xvfb start"
 
 rvm:
