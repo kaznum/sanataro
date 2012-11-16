@@ -27,7 +27,7 @@ describe Api::EntriesController do
         end
 
         subject { response }
-        its(:response_code) { should be 406 }
+        its(:response_code) { should == 406 }
         its(:body) { should be_blank }
       end
 
