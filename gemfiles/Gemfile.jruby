@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.8'
+gem 'rails', '3.2.9'
 
 
 group :development, :test do
@@ -44,3 +44,4 @@ gem 'rails_emoji'
 gem 'jbuilder'
 gem 'underscore-rails'
 gem 'doorkeeper'
+gem 'less-rails'
