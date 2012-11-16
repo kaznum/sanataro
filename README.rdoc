@@ -19,7 +19,7 @@ built with Ruby on Rails.
 == Requirement
 * Ruby:
   * MRI (tested continuously with 1.9.2, 1.9.3)
-  * JRuby (tested continuously with version 1.6.7 - 1.9 mode)
+  * JRuby 1.6.7 - 1.7.0 (tested continuously with version 1.6.7 - 1.9 mode)
 * Ruby on Rails: 3.2 (Check Gemfile for the minor version)
 * DB:
   * MySQL
