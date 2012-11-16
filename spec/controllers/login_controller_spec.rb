@@ -350,7 +350,7 @@ describe LoginController do
         mock_user.should_not_receive(:update_attributes!).with(:active => true)
         mock_mailer = double
         mock_mailer.should_not_receive(:deliver)
-        Mailer.should_not_receive(:signup_complete).with(an_instance_of(User)).and_return(mock_mailer)
+        Mailer.should_not_receive(:signup_complete).with(an_instance_of(User))
         get :confirmation, :login => 'test200', :sid => '1234567890'
       end
 

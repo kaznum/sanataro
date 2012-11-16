@@ -219,7 +219,7 @@ describe Settings::CreditRelationsController do
           @mock_user.should_receive(:credit_relations).and_return(mock_crs)
           mock_crs.should_receive(:destroy).with("123456")
           @mock_crs_all = double
-          mock_crs.should_not_receive(:all).and_return(@mock_crs_all)
+          mock_crs.should_not_receive(:all)
           
           xhr :delete, :destroy, :id => 123456
         end
