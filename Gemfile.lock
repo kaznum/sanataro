@@ -72,6 +72,7 @@ GEM
       cucumber (>= 1.1.8)
       nokogiri (>= 1.5.0)
     dalli (2.5.0)
+    dalli-store-extensions (0.0.2)
     database_cleaner (0.9.1)
     debugger (1.2.1)
       columnize (>= 0.3.1)
@@ -264,6 +265,7 @@ DEPENDENCIES
   coffee-rails
   cucumber-rails
   dalli
+  dalli-store-extensions
   database_cleaner
   debugger
   doorkeeper

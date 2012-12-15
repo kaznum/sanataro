@@ -70,6 +70,7 @@ gem 'memoist'
 
 gem 'twitter-bootstrap-rails'
 gem 'dalli'
+gem 'dalli-store-extensions'
 gem 'rails_emoji'
 gem 'jbuilder'
 gem 'underscore-rails'
