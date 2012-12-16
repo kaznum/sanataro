@@ -70,7 +70,8 @@ gem 'memoist'
 
 gem 'twitter-bootstrap-rails'
 gem 'dalli'
-gem 'dalli-store-extensions'
+gem 'dalli-store-extensions', :git => "git://github.com/mqt/dalli-store-extensions.git"
+
 gem 'rails_emoji'
 gem 'jbuilder'
 gem 'underscore-rails'

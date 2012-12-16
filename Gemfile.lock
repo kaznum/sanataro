@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/mqt/dalli-store-extensions.git
+  revision: dd0b5ee7779600e8ff7e63491e23a5b51c647f6d
+  specs:
+    dalli-store-extensions (0.0.1)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -72,7 +78,6 @@ GEM
       cucumber (>= 1.1.8)
       nokogiri (>= 1.5.0)
     dalli (2.5.0)
-    dalli-store-extensions (0.0.2)
     database_cleaner (0.9.1)
     debugger (1.2.1)
       columnize (>= 0.3.1)
@@ -265,7 +270,7 @@ DEPENDENCIES
   coffee-rails
   cucumber-rails
   dalli
-  dalli-store-extensions
+  dalli-store-extensions!
   database_cleaner
   debugger
   doorkeeper
