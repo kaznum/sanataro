@@ -1,0 +1,26 @@
+# 1. Execute the following Ruby script to generate emojis.txt which contains emoji identifier
+rails runner 'RailsEmoji::EMOJI.each { |e| print e + "\n" }' > emojis.txt
+
+# 2. copy emoji image files
+cp -r ~/.rvm/gems/ruby-1.9.3-p194@kakeibo3/gems/rails_emoji-1.6.2/vendor/assets/images/emojis emojis
+
+# resize emoji to geometry 20x20
+cd emojis
+mogrify -resize '20x20' *.png
+cd ..
+
+# copy the first emoji in emojis.txt to joined_emoji.png
+cp emojis/bowtie.png joined_emoji.png
+
+# remove the first line (bowtie)
+vi emojis.txt
+
+# join images
+for i in `cat emojis.txt `                                                 
+do                     
+  echo $i;convert +append joined_emoji.png emojis/${i}.png joined_emoji.png
+done
+
+# Change background from opaque to white and png to jpg
+convert joined_emoji.png \( +clone -alpha opaque -fill white -colorize 100% \) +swap -geometry +0+0 -compose Over -composite -alpha off joined_emoji.jpg
+
