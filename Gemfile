@@ -50,10 +50,6 @@ platforms :ruby do
   gem 'pg'
 end
 
-platforms :mri do
-  gem "therubyracer"
-end
-
 group :assets do
   gem 'sass-rails'
   gem 'coffee-rails'
@@ -77,4 +73,4 @@ gem 'jbuilder'
 gem 'underscore-rails'
 
 gem 'doorkeeper'
-gem 'less-rails'
+
