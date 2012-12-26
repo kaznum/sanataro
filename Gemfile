@@ -44,6 +44,13 @@ group :test do
   end
 end
 
+group :production do
+  platform :mri do
+    gem "therubyracer"
+    gem 'libv8', '~> 3.11.8'
+  end
+end
+
 platforms :ruby do
   gem "mysql2"
   gem 'sqlite3'
