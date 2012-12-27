@@ -2,7 +2,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
-//= require jquery.effects.all
+//= require jquery.ui.effect.all
 //= require jquery.ui.datepicker
 //= require jquery.ui.datepicker-ja
 //= require jquery.utils
