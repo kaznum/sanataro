@@ -38,8 +38,8 @@ group :test do
     gem "rb-fsevent"
     gem "webrat"
     gem "database_cleaner"
-    gem "guard-rspec"
-    gem "guard-cucumber"
+    gem "guard-rspec", "~> 2.4.0"
+    gem "guard-cucumber", "~> 1.3.2"
     gem "guard-spork"
   end
 end
