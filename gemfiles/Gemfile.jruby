@@ -23,9 +23,6 @@ platforms :jruby do
   gem "activerecord-jdbcpostgresql-adapter"
   gem "activerecord-jdbcmssql-adapter"
   gem "therubyrhino"
-  # jdbc-mysql 5.1.22 has bug to load jdbc driver
-  # see https://github.com/jruby/activerecord-jdbc-adapter/commit/3e0467a1c8dee5e29cfe3d69317461accfde86d1
-  gem "jdbc-mysql", "5.1.13"
 end
 
 group :assets do
