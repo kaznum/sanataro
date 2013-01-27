@@ -7,13 +7,13 @@ global.entries = {}
 entries = global.entries
 (($) ->
   entries.itemNameObserver = (url) ->
-    $("#do_add_item .item_name").delayedObserver ->
+    $("#do_add_item .item_name").on "textchange", ->
       $.ajax {
         url: url,
         data: { item_name : $("#do_add_item .item_name").val() },
         type: "get",
         success: (data) ->
-          $("#candidates").html(data) }, 0.3
+          $("#candidates").html(data) }
 ) jQuery
 
 (($) ->
@@ -75,7 +75,7 @@ jQuery ($) ->
     else if show_link.length > 0
       url = show_link.attr("href")
       location.href = url
-  $(".emoji_button").live "click", ->
+  $(".emoji_button").on "click", ->
     $("#emojis_modal .current_form").val $(this).parents("form").attr("id")
     $("#emojis_modal").removeAttr("style").modal()
 
