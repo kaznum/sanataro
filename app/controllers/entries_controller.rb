@@ -7,7 +7,9 @@ class EntriesController < ApplicationController
     case
     when params[:remaining]
       template = 'index_for_remaining'
-    when params[:filter_account_id].present?
+    when !params[:filter_account_id].nil?
+      # when "No filter" is selected, params[:filter_...] is ""
+      # so it should not use blank?/present? in the condition
       template = "index_with_filter_account_id"
     when @tag.present? || @keyword.present?
       template = 'index_with_tag_keyword'

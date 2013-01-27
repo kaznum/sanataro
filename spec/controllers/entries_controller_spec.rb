@@ -285,6 +285,11 @@ describe EntriesController do
               subject { assigns(:items) }
               it { should include(@non_bank1_item) }
             end
+
+            describe "response" do
+              subject { response }
+              it { should render_template "index_with_filter_account_id" }
+            end
           end
         end
       end
