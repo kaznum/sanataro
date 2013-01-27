@@ -78,8 +78,8 @@ This product uses the following libraries.
   * Copyright (c) Steven Wittens
   * GPL v2 (GPL Document is in doc directory)
   * http://acko.net/blog/farbtastic-jquery-color-picker-plug-in/
-* jQuery TextChange Plugin
-  * https://gist.github.com/424774
+* jquery.delayedObserver.js (from jQuery-utils)
+  * http://jquery-utils.googlecode.com/svn/trunk/src/jquery.delayedObserver.js
   * MIT License
 * Flot
   * http://code.google.com/p/flot/

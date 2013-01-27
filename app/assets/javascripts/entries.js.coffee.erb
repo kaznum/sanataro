@@ -7,13 +7,13 @@ global.entries = {}
 entries = global.entries
 (($) ->
   entries.itemNameObserver = (url) ->
-    $("#do_add_item .item_name").on "textchange", ->
+    $("#do_add_item .item_name").delayedObserver( ->
       $.ajax {
         url: url,
         data: { item_name : $("#do_add_item .item_name").val() },
         type: "get",
         success: (data) ->
-          $("#candidates").html(data) }
+          $("#candidates").html(data) }, 0.5)
 ) jQuery
 
 (($) ->

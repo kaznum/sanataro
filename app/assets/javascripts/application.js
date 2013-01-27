@@ -5,7 +5,7 @@
 //= require jquery.ui.effect.all
 //= require jquery.ui.datepicker
 //= require jquery.ui.datepicker-ja
-//= require jquery.textchange
+//= require jquery.delayedObserver
 //= require add_item_input_only
 //= require entries
 //= require twitter
