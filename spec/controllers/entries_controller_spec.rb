@@ -269,7 +269,7 @@ describe EntriesController do
             it_should_behave_like "filtered index"
           end
 
-          context "after changing filter, access with filter_account_id nil," do
+          context "after changing filter, access with filter_account_id = ''," do
             before do
               @non_bank1_item = users(:user1).general_items.create!(:name => "not bank1 entry", :action_date => Date.new(2008,2,15), :from_account_id => accounts(:income2).id, :to_account_id => accounts(:expense3).id, :amount => 1000)
               session[:filter_account_id].should == accounts(:bank1).id
@@ -277,7 +277,7 @@ describe EntriesController do
             end
 
             describe "session[:filter_account_id]" do
-              subject {  session[:filter_account_id] }
+              subject { session[:filter_account_id] }
               it { should be_nil }
             end
 
