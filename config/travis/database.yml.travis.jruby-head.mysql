@@ -1,15 +1,15 @@
 development:
-  adapter: jdbcmysql
+  adapter: mysql
   database: sanataro_development
   username: root
   encoding: utf8
 test:
-  adapter: jdbcmysql
+  adapter: mysql
   database: sanataro_test
   username: root
   encoding: utf8
 production:
-  adapter: jdbcmysql
+  adapter: mysql
   database: sanataro_production
   username: root
   encoding: utf8

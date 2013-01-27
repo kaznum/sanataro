@@ -1,5 +1,5 @@
 test: &test
-  adapter: jdbcsqlite3
+  adapter: sqlite3
   database: "db/test.sqlite3"
   timeout: 5000
 

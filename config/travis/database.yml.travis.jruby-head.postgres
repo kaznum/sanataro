@@ -1,5 +1,5 @@
 test: &test
-  adapter: jdbcpostgresql
+  adapter: postgresql
   database: sanataro_test
   username: postgres
 
