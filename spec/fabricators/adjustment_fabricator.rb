@@ -6,5 +6,5 @@ Fabricator(:adjustment) do
   action_date "2011-12-01"
   adjustment_amount 3000
   confirmation_required false
-  after_build { |item| item.user_id = 1 }
+  user_id 1
 end

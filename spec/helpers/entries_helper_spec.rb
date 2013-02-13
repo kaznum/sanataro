@@ -323,7 +323,7 @@ describe EntriesHelper do
     context "when item is adjustment, " do
       context "amount is less than 0," do
         before do
-          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: -200000)
+          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: -200000, adjustment_amount: -40000)
           helper.should_receive(:colored_account_name).with(@item.to_account_id).and_return("ACCOUNT_NAME")
         end
 
@@ -368,7 +368,7 @@ describe EntriesHelper do
 
       context "amount is less than 0," do
         before do
-          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: -200000)
+          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: -200000, adjustment_amount: -400000)
           helper.should_not_receive(:colored_account_name).with(@item.to_account_id)
         end
 
