@@ -7,8 +7,12 @@ describe Admin::UsersController do
   end
 
   describe "index" do
-    let(:user_objects) { [mock_user, mock_user, mock_user] }
+    after do
+      ENV['ADMIN_USER'] = nil
+      ENV['ADMIN_PASSWORD'] = nil
+    end
 
+    let(:user_objects) { [mock_user, mock_user, mock_user] }
     context "without authentication data in server," do
       describe "response" do
         before do
