@@ -42,6 +42,20 @@ module Sanataro
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
+    # Enable escaping HTML in JSON.
+    config.active_support.escape_html_entities_in_json = true
+
+    # Use SQL instead of Active Record's schema dumper when creating the database.
+    # This is necessary if your schema can't be completely dumped by the schema dumper,
+    # like if you have constraints or database-specific column types
+    # config.active_record.schema_format = :sql
+
+    # Enforce whitelist mode for mass assignment.
+    # This will create an empty whitelist of attributes available for mass-assignment for all models
+    # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
+    # parameters by using an attr_accessible or attr_protected declaration.
+    #config.active_record.whitelist_attributes = true
+
     # Enable the asset pipeline
     config.assets.enabled = true
 
@@ -50,15 +64,6 @@ module Sanataro
     config.generators do |g|
       g.test_framework      :rspec, :fixture => true
       g.fixture_replacement :fabrication
-    end
-
-    # Raise exception on mass assignment protection for Active Record models
-    config.active_record.mass_assignment_sanitizer = :strict
-
-    # Log the query plan for queries taking more than this (works
-    # with SQLite, MySQL, and PostgreSQL)
-    unless defined?(JRUBY_VERSION)
-      config.active_record.auto_explain_threshold_in_seconds = 0.5
     end
   end
 end

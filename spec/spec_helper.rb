@@ -57,6 +57,7 @@ ENV["RAILS_ENV"] ||= 'test'
 
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
+require 'rspec/autorun'
 
 require File.expand_path(File.join(Rails.root, 'lib', 'sanataro_taggable', 'init'))
 
@@ -81,6 +82,9 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
+
+  config.infer_base_class_for_anonymous_controllers = false
+  config.order = "random"
 
   if defined? Capybara
     Capybara.javascript_driver = :webkit
