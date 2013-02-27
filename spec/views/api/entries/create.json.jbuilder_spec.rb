@@ -10,13 +10,14 @@ describe "/api/entries/create" do
   fixtures :all
 
   before(:each) do
-    @item = Fabricate(:general_item, name: '<a href="bbb">aaa</a>')
-    @updated_item_ids = [10,20,30,40,50]
+    item = Fabricate(:general_item, name: '<a href="bbb">aaa</a>')
+    updated_item_ids = [10,20,30,40,50]
 
-    render template: "api/entries/create", locals: { item: @item, updated_item_ids: @updated_item_ids }
+    render template: "api/entries/create", locals: { item: item, updated_item_ids: updated_item_ids }
   end
+
   subject { rendered }
-  it { should match /{"entry":{.*"name":"<a href=\\"bbb\\">aaa<\/a>"/ }
-  it { should match /"updated_entry_ids":\[10,20,30,40,50\]}/ }
+  it { should be =~ /{"entry":{.*"name":"<a href=\\"bbb\\">aaa<\/a>"/ }
+  it { should be =~ /"updated_entry_ids":\[10,20,30,40,50\]}/ }
 end
 
