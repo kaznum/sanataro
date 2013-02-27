@@ -45,7 +45,10 @@ describe ChartData::YearlyBudgetsController do
             describe "response" do
               subject { response }
               it { should be_success }
-              its(:body) {
+            end
+            describe "response.body" do
+              subject { response.body }
+              specify {
                 date = Date.new(2008,2)
                 json = ActiveSupport::JSON.decode(subject)
                 json.should have(1).keys
@@ -88,7 +91,11 @@ describe ChartData::YearlyBudgetsController do
             describe "response" do
               subject { response }
               it { should be_success }
-              its(:body) {
+            end
+
+            describe "response.body" do
+              subject { response.body }
+              specify {
                 date = Date.new(1999,2)
                 json = ActiveSupport::JSON.decode(subject)
                 json.should have(2).keys
@@ -122,7 +129,10 @@ describe ChartData::YearlyBudgetsController do
             describe "response" do
               subject { response }
               it { should be_success }
-              its(:body) {
+            end
+            describe "response.body" do
+              subject { response.body }
+              specify {
                 date = Date.new(2008,2)
                 json = ActiveSupport::JSON.decode(subject)
                 json.should have(1).keys
@@ -163,7 +173,10 @@ describe ChartData::YearlyBudgetsController do
             describe "response" do
               subject { response }
               it { should be_success }
-              its(:body) {
+            end
+            describe "response.body" do
+              subject { response.body }
+              specify {
                 date = Date.new(1999,2)
                 json = ActiveSupport::JSON.decode(subject)
                 json.should have(2).keys
@@ -196,7 +209,10 @@ describe ChartData::YearlyBudgetsController do
             describe "response" do
               subject { response }
               it { should be_success }
-              its(:body) {
+            end
+            describe "response" do
+              subject { response.body }
+              specify {
                 date = Date.new(2008,2)
                 json = ActiveSupport::JSON.decode(subject)
                 json.should have(3).keys
@@ -240,7 +256,10 @@ describe ChartData::YearlyBudgetsController do
             describe "response" do
               subject { response }
               it { should be_success }
-              its(:body) {
+            end
+            describe "response" do
+              subject { response.body }
+              specify {
                 date = Date.new(1999,2)
                 json = ActiveSupport::JSON.decode(subject)
                 json.should have(3).keys
