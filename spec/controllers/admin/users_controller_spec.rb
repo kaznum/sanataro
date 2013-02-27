@@ -16,7 +16,7 @@ describe Admin::UsersController do
         end
 
         subject {response}
-        its(:status) {should == 501 }
+        its(:status) {should == 401 }
         it {should_not render_template "index"}
       end
     end

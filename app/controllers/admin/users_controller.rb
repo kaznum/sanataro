@@ -9,7 +9,7 @@ class Admin::UsersController < ApplicationController
   def authenticate
     admin_user, admin_password = get_correct_credential
     if admin_user.nil? || admin_password.nil?
-      render :nothing => true, :status => :not_implemented
+      render :nothing => true, :status => :unauthorized
       return
     end
 
