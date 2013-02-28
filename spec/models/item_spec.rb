@@ -791,6 +791,7 @@ describe Item do
     end
 
     describe "item.to_custom_hash[:entry]" do
+      fixtures :credit_relations
       subject { @item.to_custom_hash[:entry] }
       its([:id]) { should == @item.id }
       its([:name]) { should == "aaaa" }
@@ -805,6 +806,7 @@ describe Item do
     end
 
     describe "child_item.to_custom_hash[:entry]" do
+      fixtures :credit_relations
       subject { @item.child_item.to_custom_hash[:entry] }
       its([:id]) { should == @item.child_item.id }
       its([:name]) { should == "aaaa" }
