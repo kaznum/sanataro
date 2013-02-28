@@ -12,7 +12,6 @@ before_install:
 bundler_args: --without development production
 
 rvm:
-  - 1.9.2
   - 1.9.3
   - ruby-head
   - jruby-19mode
@@ -30,15 +29,6 @@ gemfile:
 
 matrix:
   exclude:
-    - rvm: 1.9.2
-      gemfile: gemfiles/Gemfile.jruby
-      env: DB=mysql
-    - rvm: 1.9.2
-      gemfile: gemfiles/Gemfile.jruby
-      env: DB=postgres
-    - rvm: 1.9.2
-      gemfile: gemfiles/Gemfile.jruby
-      env: DB=sqlite
     - rvm: 1.9.3
       gemfile: gemfiles/Gemfile.jruby
       env: DB=mysql
@@ -80,12 +70,6 @@ matrix:
       env: DB=mysql
     - rvm: jruby-head
       gemfile: gemfiles/Gemfile.jruby
-      env: DB=postgres
-    - rvm: ruby-head
-      gemfile: Gemfile
-      env: DB=mysql
-    - rvm: ruby-head
-      gemfile: Gemfile
       env: DB=postgres
   allow_failures:
     - rvm: ruby-head
