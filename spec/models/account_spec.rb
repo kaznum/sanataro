@@ -187,7 +187,7 @@ describe Account do
   end
 
   context "when getting asset balance," do
-    fixtures :accounts, :items, :monthly_profit_losses, :users
+    fixtures :accounts, :items, :monthly_profit_losses
 
     context "when adjustment_id isn't specified" do
       subject {
@@ -303,6 +303,7 @@ describe Account do
     end
 
     context "when child items exist," do
+      fixtures :accounts
       before do
         @account = Fabricate.build(:banking)
         @account.save!
