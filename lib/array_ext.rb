@@ -1,4 +1,4 @@
-class Array
+module Sanataro::ArrayExt
   def to_custom_hash
     ret = []
     self.each do |a|
@@ -7,3 +7,4 @@ class Array
     ret
   end
 end
+Array.send(:include, Sanataro::ArrayExt)
