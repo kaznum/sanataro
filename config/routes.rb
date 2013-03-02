@@ -3,10 +3,10 @@ Sanataro::Application.routes.draw do
 
   root :to => "login#login"
 
-  match 'simple', :to => 'entries#new', :entry_type => 'simple', :as => 'simple_input'
+  match 'simple', :to => 'entries#new', :entry_type => 'simple', :as => 'simple_input', :via => :get
   match 'login' => 'login#login', :as => :login, :via => :get
   match 'login' => 'login#do_login', :as => :login, :via => :post
-  match 'logout' => 'login#do_logout', :as => :logout
+  match 'logout' => 'login#do_logout', :as => :logout, :via => :get
   match 'create_user' => 'login#create_user', :as => :create_user, :via => :get
   match 'create_user' => 'login#do_create_user', :as => :create_user, :via => :post
   match 'confirm_user' => 'login#confirmation', :as => :confirm_user, :via => :get
