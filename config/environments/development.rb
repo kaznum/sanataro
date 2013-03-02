@@ -24,12 +24,6 @@ Sanataro::Application.configure do
 
   config.active_record.mass_assignment_sanitizer = :strict
 
-  # Log the query plan for queries taking more than this (works
-  # with SQLite, MySQL, and PostgreSQL)
-  unless defined?(JRUBY_VERSION)
-    config.active_record.auto_explain_threshold_in_seconds = 0.5
-  end
-
   config.assets.compress = false
   # Expands the lines which load the assets
   config.assets.debug = true
