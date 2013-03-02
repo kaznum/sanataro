@@ -37,7 +37,10 @@ module ActiveRecord
             taggings.where(user_id: user_id).destroy_all
             Tag.parse(@tag_list).each do |name|
               tag = Tag.find_or_create_by_name(name)
-              self.taggings.create!(user_id: self.user_id, tag_id: tag.id)
+              tagging = self.taggings.new { |t| 
+                t.user_id = self.user_id
+                t.tag_id = tag.id }
+              tagging.save!
             end
           end
           @tag_list = nil
