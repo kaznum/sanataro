@@ -18,10 +18,10 @@ class Account < ActiveRecord::Base
   validates_presence_of :name
   validates_length_of :name, :in =>1..255
   validates_presence_of :order_no
-  validates_format_of :order_no, :with => /^\d+$/
+  validates_format_of :order_no, :with => /\A\d+\z/
   validates_presence_of :type
-  validates_format_of :type, :with => /^Banking$|^Income$|^Expense$/
-  validates_format_of :bgcolor, :with => /^[0-9a-f]{6}/i, :allow_nil => true
+  validates_format_of :type, :with => /\ABanking\z|\AIncome\z|\AExpense\z/
+  validates_format_of :bgcolor, :with => /\A[0-9a-f]{6}/i, :allow_nil => true
 
   scope :active, where(:active => true)
 
