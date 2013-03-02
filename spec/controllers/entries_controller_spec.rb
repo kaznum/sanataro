@@ -307,7 +307,7 @@ describe EntriesController do
           describe "response" do
             subject { response }
             it { should be_success }
-            it { should render_template "index" }
+            it { should render_template "index_for_remaining" }
           end
         end
 
