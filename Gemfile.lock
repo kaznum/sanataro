@@ -6,7 +6,7 @@ GIT
 
 GIT
   remote: git@github.com:kaznum/doorkeeper.git
-  revision: 1b27222371fdd3016f1ff0d26b962737263b9a23
+  revision: ab991dabe9f14560ee113dc37bc35fb7cba6e6d3
   branch: rails4
   specs:
     doorkeeper (0.6.7)
