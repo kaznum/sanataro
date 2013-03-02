@@ -64,4 +64,6 @@ Sanataro::Application.configure do
   config.filter_parameters += [:password]
 
   config.action_mailer.default_url_options = { :host => "sanataro.example.com" }
+
+  config.eager_load = true
 end

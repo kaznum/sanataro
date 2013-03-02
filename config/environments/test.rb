@@ -45,4 +45,6 @@ Sanataro::Application.configure do
   config.action_mailer.default_url_options = { :host => "sanataro.example.com" }
 
   config.cache_store = :null_store
+
+  config.eager_load = false
 end
