@@ -5,7 +5,7 @@ source 'http://rubygems.org'
 ### Please see gemfiles/Gemfile.jruby for JRuby env
 ###
 
-gem 'rails', '3.2.12'
+gem 'rails', '4.0.0.beta1'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -58,8 +58,8 @@ platforms :ruby do
 end
 
 group :assets do
-  gem 'sass-rails'
-  gem 'coffee-rails'
+  gem 'sass-rails', '4.0.0.beta1'
+  gem 'coffee-rails', '4.0.0.beta1'
   gem 'uglifier'
 end
 
@@ -79,5 +79,12 @@ gem 'rails_emoji'
 gem 'jbuilder'
 gem 'underscore-rails'
 
-gem 'doorkeeper'
+# Just temporally to support rails 4
+gem 'doorkeeper', :git => 'git@github.com:kaznum/doorkeeper.git', :branch => 'rails4'
 
+
+# Just temporally to support rails 4
+# This is not recommended in Rails4
+gem 'protected_attributes'
+
+gem 'rails-observers'
