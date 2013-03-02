@@ -8,4 +8,4 @@
     = account.order_no
   .cfg_account_operation.span1
     = link_to icon_edit, edit_settings_account_path(account.id), :method => :get, :remote => true
-    = link_to icon_destroy, settings_account_path(account.id), :method => :delete, :confirm => t("message.delete_really"), :remote => true
+    = link_to icon_destroy, settings_account_path(account.id), :method => :delete, data: { confirm: t("message.delete_really") }, :remote => true
