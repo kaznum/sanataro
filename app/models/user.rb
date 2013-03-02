@@ -20,13 +20,13 @@ class User < ActiveRecord::Base
   validates_presence_of :login
   validates_presence_of :password_plain, :if => :password_required?
   validates_presence_of :email
-  validates_format_of :login, :with => /^[A-Za-z0-9_-]+$/
+  validates_format_of :login, :with => /\A[A-Za-z0-9_-]+\z/
   validates_length_of :login, :in =>3..10
-  validates_format_of :password_plain, :with => /^[A-Za-z0-9_-]+$/, :if => :password_required?
+  validates_format_of :password_plain, :with => /\A[A-Za-z0-9_-]+\z/, :if => :password_required?
   validates_length_of :password_plain, :in =>6..10, :if => :password_required?
   validates_uniqueness_of :login, :message => I18n.t("errors.messages.exclusion")
 
-  validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
+  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   validates_length_of :email, :in =>5..255
 
   before_save :hash_password
