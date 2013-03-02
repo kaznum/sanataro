@@ -33,4 +33,6 @@ Sanataro::Application.configure do
   # config.cache_store = :dalli_store
 
   config.eager_load = false
+  config.active_record.migration_error = :page_load
 end
+
