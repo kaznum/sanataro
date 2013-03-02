@@ -103,7 +103,7 @@ describe AutologinKey do
       end
 
       describe "current records" do 
-        subject {AutologinKey.where("created_at < ?", Time.now - 30 * 24 * 3600)}
+        subject {AutologinKey.where("created_at < ?", Time.now - 30 * 24 * 3600).to_a}
         it { should have(0).records }
       end
     end
