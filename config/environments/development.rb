@@ -37,4 +37,6 @@ Sanataro::Application.configure do
   config.cache_store = :null_store
   # config.cache_store = :memory_store
   # config.cache_store = :dalli_store
+
+  config.eager_load = false
 end
