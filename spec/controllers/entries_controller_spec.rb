@@ -1728,7 +1728,7 @@ describe EntriesController do
 
         context "when a validation error occurs," do
           before do
-            mock_exception = ActiveRecord::RecordInvalid.new(double.as_null_object)
+            mock_exception = ActiveRecord::RecordInvalid.new(stub_model(Item))
             mock_exception.should_receive(:error_messages).and_return("Error!!!")
             Teller.should_receive(:create_entry).and_raise(mock_exception)
             @action = lambda {
