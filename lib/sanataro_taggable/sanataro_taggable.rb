@@ -36,7 +36,7 @@ module ActiveRecord
           if tag_list != stored_tags.map(&:name).map(&:downcase).sort.join(" ")
             taggings.where(user_id: user_id).destroy_all
             Tag.parse(@tag_list).each do |name|
-              tag = Tag.find_or_create_by_name(name)
+              tag = Tag.find_or_create_by(name: name)
               tagging = self.taggings.new { |t| 
                 t.user_id = self.user_id
                 t.tag_id = tag.id }
