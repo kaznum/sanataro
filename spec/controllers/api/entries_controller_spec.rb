@@ -275,7 +275,7 @@ describe Api::EntriesController do
               mock_items = users(:user1).items
               mock_user.should_receive(:items).and_return(mock_items)
               mock_items.should_receive(:partials).with(stub_date_from, stub_date_to,
-                                                            hash_including(:remain => true)).and_return(Item.where(:action_date => Date.new(2008,2)..Date.new(2008,2).end_of_month).all)
+                                                            hash_including(remain: true)).and_return(Item.where(action_date: Date.new(2008,2)..Date.new(2008,2).end_of_month).to_a)
               get :index, :remaining => 1, :year => 2008, :month => 2, format: :json
             end
           end
@@ -284,7 +284,7 @@ describe Api::EntriesController do
             before do
               mock_items = users(:user1).items
               mock_user.should_receive(:items).and_return(mock_items)
-              mock_items.stub(:partials).and_return(Item.where(:action_date => Date.new(2008,2)..Date.new(2008,2).end_of_month).all)
+              mock_items.stub(:partials).and_return(Item.where(action_date: Date.new(2008,2)..Date.new(2008,2).end_of_month).to_a)
               get :index, :remaining => true, :year => 2008, :month => 2, format: :json
             end
 
@@ -303,14 +303,14 @@ describe Api::EntriesController do
               mock_items = users(:user1).items
               mock_user.should_receive(:items).and_return(mock_items)
               mock_items.should_receive(:partials).with(nil, nil,
-                                                            hash_including(:tag => 'xxx', :remain => true)).and_return(Item.where(:action_date => Date.new(2008,2)..Date.new(2008,2).end_of_month).all)
+                                                            hash_including(:tag => 'xxx', :remain => true)).and_return(Item.where(:action_date => Date.new(2008,2)..Date.new(2008,2).end_of_month).to_a)
               get :index, :remaining => true, :year => 2008, :month => 2, :tag => 'xxx', format: :json
             end
           end
 
           describe "other than user.items.partials," do
             before do
-              Item.stub(:partials).and_return(Item.where(:action_date => Date.new(2008,2)..Date.new(2008,2).end_of_month).all)
+              Item.stub(:partials).and_return(Item.where(:action_date => Date.new(2008,2)..Date.new(2008,2).end_of_month).to_a)
               get :index, :remaining => true, :year => 2008, :month => 2, :tag => 'xxx', format: :json
             end
 
@@ -429,7 +429,7 @@ describe Api::EntriesController do
           end
 
           describe "the specified item" do
-            subject { Item.where(:id => @old_item1.id).all }
+            subject { Item.where(:id => @old_item1.id).to_a }
             it { should have(0).item }
           end
 
@@ -472,7 +472,7 @@ describe Api::EntriesController do
           end
 
           describe "the specified item" do
-            subject { Item.where(:id => @item_to_del.id).all }
+            subject { Item.where(:id => @item_to_del.id).to_a }
             it { should have(0).item }
           end
 
@@ -498,8 +498,8 @@ describe Api::EntriesController do
             login
             post :create, entry: { :name => 'test', :amount=>'1000', :action_date => '2008/2/25', :from_account_id =>'11', :to_account_id =>'13'}, :year => 2008, :month => 2, format: :json
             @item = Item.where(:name => 'test', :from_account_id => 11, :to_account_id => 13).first
-            @old_bank11pl = MonthlyProfitLoss.find(:first, :conditions=>["account_id = ? and month = ?", 11, Date.new(2008,2)])
-            @old_expense13pl = MonthlyProfitLoss.find(:first, :conditions=>["account_id = ? and month = ?", 13, Date.new(2008,2)])
+            @old_bank11pl = MonthlyProfitLoss.where(account_id: 11, month: Date.new(2008,2)).first
+            @old_expense13pl = MonthlyProfitLoss.where(account_id: 13, month: Date.new(2008,2)).first
 
             delete :destroy, :id => @item.id, :year => 2008, :month => 2, format: :json
           end

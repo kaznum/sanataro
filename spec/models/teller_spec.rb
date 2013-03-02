@@ -29,7 +29,7 @@ describe Teller do
 
     shared_examples_for "created successfully with tag_list == 'hoge fuga'" do
       describe "tags" do
-        subject { Tag.find_all_by_name('hoge') }
+        subject { Tag.where(name: 'hoge').to_a }
         it { should have(1).tag }
         specify {
           subject.each do |t|

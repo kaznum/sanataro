@@ -11,7 +11,7 @@ class Settings::AccountsController < ApplicationController
       return
     end
 
-    @accounts = @user.send(@type.to_s.pluralize.to_sym).all
+    @accounts = @user.send(@type.to_s.pluralize.to_sym).to_a
     render :layout => 'entries'
   end
 
