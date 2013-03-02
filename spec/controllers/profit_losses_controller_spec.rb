@@ -84,7 +84,7 @@ describe ProfitLossesController do
 
         context "and Unknown accounts amount > 0," do
           before do
-            MonthlyProfitLoss.find(ActiveRecord::Fixtures.identify(:unknown200802)).update_attributes(amount: 5000)
+            MonthlyProfitLoss.find(ActiveRecord::FixtureSet.identify(:unknown200802)).update_attributes(amount: 5000)
             get :index, :year => '2008', :month => '2'
           end
 
