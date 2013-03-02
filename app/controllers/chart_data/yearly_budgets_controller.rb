@@ -26,7 +26,7 @@ class ChartData::YearlyBudgetsController < ApplicationController
   end
 
   def _formatted_income_or_expense_data(budget_type, date_since)
-    accounts = @user.send(budget_type.pluralize.to_sym).all
+    accounts = @user.send(budget_type.pluralize.to_sym).to_a
     accounts << Account.new {|a|
       a.id = -1
       a.name = 'Unknown'

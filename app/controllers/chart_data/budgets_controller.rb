@@ -8,7 +8,7 @@ class ChartData::BudgetsController < ApplicationController
     from_date = Date.new(year.to_i, month.to_i)
     budget_type = params[:budget_type] == 'expense' ? :expenses : :incomes
 
-    accounts = @user.send(budget_type).all
+    accounts = @user.send(budget_type).to_a
 
     results = []
     accounts.each do |acc|
