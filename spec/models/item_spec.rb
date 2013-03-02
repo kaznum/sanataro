@@ -824,7 +824,7 @@ describe Item do
   describe "items.to_custom_hash" do
     describe "Array#to_custom_hash" do
       before do
-        @items = Item.where(:user_id => users(:user1).id).all
+        @items = Item.where(user_id: users(:user1).id).to_a
       end
       subject { @items.to_custom_hash }
       it { should be_an_instance_of(Array)}
