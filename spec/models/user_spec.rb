@@ -227,7 +227,7 @@ describe User do
       }
 
       specify {
-        subject.where("action_date < ?", Date.new(2008,3)).all.should_not be_empty
+        subject.where("action_date < ?", Date.new(2008,3)).to_a.should_not be_empty
       }
       specify {
         subject.where(:user_id => 101).should have(0).records
