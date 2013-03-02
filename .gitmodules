@@ -1,0 +1,3 @@
+[submodule "app/assets/javascripts/flot"]
+	path = app/assets/javascripts/flot
+	url = git@github.com:flot/flot.git
