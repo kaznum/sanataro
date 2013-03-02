@@ -735,11 +735,11 @@ describe Api::EntriesController do
 
       shared_examples_for "created successfully with tag_list == 'hoge fuga by JSON" do
         describe "tags" do
-          subject { Tag.find_all_by_name('hoge') }
+          subject { Tag.where(name: 'hoge').to_a }
           it { should have(1).tag }
           specify {
             subject.each do |t|
-              taggings = Tagging.find_all_by_tag_id(t.id)
+              taggings = Tagging.where(tag_id: t.id).to_a
               taggings.size.should == 1
               taggings.each do |tag|
                 tag.user_id.should == users(:user1).id
@@ -938,7 +938,7 @@ describe Api::EntriesController do
 
         context "when a validation error occurs," do
           before do
-            mock_exception = ActiveRecord::RecordInvalid.new(double.as_null_object)
+            mock_exception = ActiveRecord::RecordInvalid.new(stub_model(Item))
             mock_exception.should_receive(:error_messages).and_return("Error!!!")
             Teller.should_receive(:create_entry).and_raise(mock_exception)
             @action = lambda {
