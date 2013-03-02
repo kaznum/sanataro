@@ -585,8 +585,8 @@ describe EntriesController do
           its([:year]) { should == Date.today.year }
           its([:month]) { should == Date.today.month }
           its([:day]) { should == Date.today.day}
-          its([:from_accounts]) { should == [{ "value" => 'b', "text" => 'a'}, { "value" => 'd', "text" => 'c'}]}
-          its([:to_accounts]) { should == [{ "value" => 'f', "text" => 'e'}, { "value" => 'h', "text" => 'g'}]}
+          its([:from_accounts]) { should == [{ :value => 'b', :text => 'a'}, { :value => 'd', :text => 'c'}]}
+          its([:to_accounts]) { should == [{ :value => 'f', :text => 'e'}, { :value => 'h', :text => 'g'}]}
         end
       end
     end
