@@ -10,7 +10,8 @@ module ActiveRecord
           has_many :taggings, as: :taggable, dependent: :destroy
           has_many :tags, through: :taggings
 
-          scope :tagged_with, lambda { |tag| includes(:tags).where(Tag.arel_table[:name].eq(tag)) }
+#          scope :tagged_with, lambda { |tag| includes(:tags).where(Tag.arel_table[:name].eq(tag)) }
+          scope :tagged_with, lambda { |tag| includes(:tags).where("tags.name = ?", tag).references(:tags) }
 
           after_save :update_tags
 
