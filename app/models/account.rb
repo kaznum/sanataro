@@ -23,9 +23,9 @@ class Account < ActiveRecord::Base
   validates_format_of :type, :with => /\ABanking\z|\AIncome\z|\AExpense\z/
   validates_format_of :bgcolor, :with => /\A[0-9a-f]{6}/i, :allow_nil => true
 
-  scope :active, where(:active => true)
+  scope :active, -> { where(:active => true) }
 
-  default_scope order("order_no")
+  default_scope { order("order_no") }
 
   def trim_bgcolor_if_needed
     if bgcolor =~ /^#/
