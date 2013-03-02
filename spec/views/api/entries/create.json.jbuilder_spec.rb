@@ -17,7 +17,7 @@ describe "/api/entries/create" do
   end
 
   subject { rendered }
-  it { should be =~ /{"entry":{.*"name":"<a href=\\"bbb\\">aaa<\/a>"/ }
+  it { should be =~ /{"entry":{.*"name":"\\u003Ca href=\\"bbb\\"\\u003Eaaa\\u003C\/a\\u003E"/ }
   it { should be =~ /"updated_entry_ids":\[10,20,30,40,50\]}/ }
 end
 
