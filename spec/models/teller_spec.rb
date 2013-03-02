@@ -33,7 +33,7 @@ describe Teller do
         it { should have(1).tag }
         specify {
           subject.each do |t|
-            taggings = Tagging.find_all_by_tag_id(t.id)
+            taggings = Tagging.where(tag_id: t.id).to_a
             assert_equal 1, taggings.size
             taggings.each do |tag|
               tag.user_id.should == users(:user1).id
