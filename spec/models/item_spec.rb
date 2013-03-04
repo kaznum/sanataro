@@ -448,25 +448,25 @@ describe Item do
 
   describe "partial_items" do
     context "when entries are so many" do
-      before(:all) do
+      before do
         @created_ids = []
         # データの準備
         Item.transaction do
-          50.times do
+          3.times do
             item = Fabricate.build(:general_item, from_account_id: 11, to_account_id: 13, action_date: '2008-09-15', tag_list: 'abc def', confirmation_required: true)
             item.save!
             @created_ids << item.id
           end
 
           # データの準備
-          50.times do |i|
+          3.times do |i|
             item = Fabricate.build(:general_item, from_account_id: 21, to_account_id: 13, action_date: '2008-09-15', tag_list: 'ghi jkl')
             item.save!
             @created_ids << item.id
           end
 
           # データの準備(参照されないデータ)
-          10.times do |i|
+          2.times do |i|
             item = Fabricate.build(:general_item, name: "NOT REFERED", from_account_id: 11, to_account_id: 13, action_date: '2008-10-01', tag_list: 'mno pqr')
             item.save!
             @created_ids << item.id
@@ -480,7 +480,7 @@ describe Item do
           to_account.user_id = 101
           to_account.save!
 
-          10.times do |i|
+          2.times do |i|
             item = Fabricate.build(:general_item, from_account_id: from_account.id, to_account_id: to_account.id, action_date: '2008-09-15', tag_list: 'abc def', confirmation_required: true)
             item.user_id = 101
             item.save!
@@ -490,11 +490,12 @@ describe Item do
 
         @from_date = Date.new(2008,9,1)
         @to_date = Date.new(2008,9,30)
+        Settings.stub!(:item_list_count).and_return(2)
       end
 
-      after(:all) do
+      after do
         Item.transaction do
-          Item.destroy(@created_ids)
+          Item.delete_all
         end
       end
 
@@ -505,7 +506,7 @@ describe Item do
 
       context "when :remain is specified as true" do
         subject { users(:user1).items.partials(@from_date, @to_date, {:remain=>true}) }
-        it { should have(100 - Settings.item_list_count).entries }
+        it { should have(6 - Settings.item_list_count).entries }
       end
 
       context "when :tag is specified" do
@@ -515,7 +516,7 @@ describe Item do
 
       context "when :tag and :remain is specified" do
         subject { users(:user1).items.partials(nil, nil, {:remain => true, :tag => 'abc' }) }
-        it { should have(50 - Settings.item_list_count).entries }
+        it { should have(3 - Settings.item_list_count).entries }
       end
 
       context "when :keyword is specified" do
@@ -525,7 +526,7 @@ describe Item do
 
       context "when :keyword and :remain is specified" do
         subject { users(:user1).items.partials(nil, nil, {:remain => true, :keyword => 'temn' }) }
-        it { should have(100 - Settings.item_list_count).entries }
+        it { should have(6 - Settings.item_list_count).entries }
       end
 
       context "when :filter_account_id is specified" do
@@ -535,7 +536,7 @@ describe Item do
 
       context "when :filter_account_id and :remain is specified" do
         subject { users(:user1).items.partials(@from_date, @to_date, {:filter_account_id => accounts(:bank11).id, :remain => true}) }
-        it { should have(50 - Settings.item_list_count).entries }
+        it { should have(3 - Settings.item_list_count).entries }
       end
 
       context "when confirmation required is specified"  do
@@ -556,11 +557,11 @@ describe Item do
     end
 
     context "when entries are not so many" do
-      before(:all) do
+      before do
         @created_ids = []
         # データの準備
         Item.transaction do
-          15.times do |i|
+          3.times do |i|
             item = GeneralItem.new(:name => 'regular item ' + i.to_s,
                             :from_account_id => 11,
                             :to_account_id => 13,
@@ -574,7 +575,7 @@ describe Item do
           end
 
           # データの準備
-          3.times do |i|
+          1.times do |i|
             item = GeneralItem.new(:name => 'regular item ' + i.to_s,
                             :from_account_id => 21,
                             :to_account_id => 13,
@@ -587,7 +588,7 @@ describe Item do
           end
 
           # データの準備(参照されないデータ)
-          10.times do |i|
+          2.times do |i|
             item = GeneralItem.new(:name => 'regular item ' + i.to_s,
                             :from_account_id => 11,
                             :to_account_id => 13,
@@ -606,7 +607,7 @@ describe Item do
           to_account = Fabricate.build(:expense)
           to_account.user_id = 101
           to_account.save!
-          20.times do |i|
+          2.times do |i|
             item = GeneralItem.new(:name => 'regular item ' + i.to_s,
                             :from_account_id => from_account.id,
                             :to_account_id => to_account.id,
@@ -620,17 +621,18 @@ describe Item do
         end
         @from_date = Date.new(2008,9,1)
         @to_date = Date.new(2008,9,30)
+        Settings.stub!(:item_list_count).and_return(5)
       end
 
-      after(:all) do
+      after do
         Item.transaction do
-          Item.destroy(@created_ids)
+          Item.delete_all
         end
       end
 
       context "when :remain is not specified" do
         subject { users(:user1).items.partials(@from_date, @to_date) }
-        it { should have(18).entries }
+        it { should have(4).entries }
       end
 
       context "when :remain is true" do
@@ -640,7 +642,7 @@ describe Item do
 
       context "when :filter_account_id is specified" do
         subject { users(:user1).items.partials(@from_date, @to_date, {:filter_account_id=>accounts(:bank11).id}) }
-        it { should have(15).entries }
+        it { should have(3).entries }
       end
 
       context "when :filter_account_id and :remain is specified" do
