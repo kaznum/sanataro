@@ -6,7 +6,7 @@
     %meta{name: "author", content: "#{t('label.author')}"}
     %meta{:content => "#{t('headers.keywords')}", :name => "keywords"}
     %meta{:content => "#{t('headers.description')}", :name => "description"}
-    = favicon_link_tag 'favicon.ico'
+    = favicon_link_tag asset_path('favicon.ico')
     %meta{:content => "width=device-width", :name => "viewport"}
     = csrf_meta_tags
     %title= Settings.product_name
