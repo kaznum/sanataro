@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe TagStatusesController do
-  fixtures :items, :accounts
+  fixtures :users, :items, :accounts
 
   describe "show" do
     context "before login" do
