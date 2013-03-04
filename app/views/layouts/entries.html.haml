@@ -22,10 +22,7 @@
       </script>
     = stylesheet_link_tag "application"
     - unless Settings.enable_tweet
-      %style(type="text/css")
-        :sass
-          .tweet_button
-            display: none
+      = stylesheet_link_tag "hide_tweet_button"
     = javascript_include_tag "application"
     = yield :append_head
   %body
