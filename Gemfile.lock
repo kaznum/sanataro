@@ -1,17 +1,11 @@
 GIT
-  remote: git://github.com/mqt/dalli-store-extensions.git
-  revision: dd0b5ee7779600e8ff7e63491e23a5b51c647f6d
-  specs:
-    dalli-store-extensions (0.0.1)
-
-GIT
-  remote: git@github.com:bmabey/database_cleaner.git
+  remote: git://github.com/bmabey/database_cleaner.git
   revision: b3bbd27e9b44da02c4001dd36b74bb41693e5300
   specs:
     database_cleaner (0.9.1)
 
 GIT
-  remote: git@github.com:cucumber/cucumber-rails.git
+  remote: git://github.com/cucumber/cucumber-rails.git
   revision: 62431b66ad93434efb6c0656d81dd7e8c35c440e
   branch: release-1.3.1
   specs:
@@ -21,12 +15,18 @@ GIT
       nokogiri (>= 1.5.6)
 
 GIT
-  remote: git@github.com:kaznum/doorkeeper.git
+  remote: git://github.com/kaznum/doorkeeper.git
   revision: ab991dabe9f14560ee113dc37bc35fb7cba6e6d3
   branch: rails4
   specs:
     doorkeeper (0.6.7)
       railties (>= 3.1, < 5.0)
+
+GIT
+  remote: git://github.com/mqt/dalli-store-extensions.git
+  revision: dd0b5ee7779600e8ff7e63491e23a5b51c647f6d
+  specs:
+    dalli-store-extensions (0.0.1)
 
 GEM
   remote: http://rubygems.org/

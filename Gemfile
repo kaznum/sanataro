@@ -32,13 +32,13 @@ group :test do
   gem "simplecov"
   gem 'spork'
   platform :mri do
-    gem "cucumber-rails", :require => false, :git => 'git@github.com:cucumber/cucumber-rails.git', :branch => "release-1.3.1"
+    gem "cucumber-rails", :require => false, :git => 'git://github.com/cucumber/cucumber-rails.git', :branch => "release-1.3.1"
     gem "capybara-webkit"
     gem "growl"
     gem "rb-fsevent"
     gem "webrat"
     # for https://github.com/bmabey/database_cleaner/pull/153
-    gem "database_cleaner", :git => "git@github.com:bmabey/database_cleaner.git"
+    gem "database_cleaner", :git => "git://github.com/bmabey/database_cleaner.git"
     gem "guard-rspec"
     gem "guard-cucumber"
     gem "guard-spork"
@@ -81,7 +81,7 @@ gem 'jbuilder'
 gem 'underscore-rails'
 
 # Just temporally to support rails 4
-gem 'doorkeeper', :git => 'git@github.com:kaznum/doorkeeper.git', :branch => 'rails4'
+gem 'doorkeeper', :git => 'git://github.com/kaznum/doorkeeper.git', :branch => 'rails4'
 
 
 # Just temporally to support rails 4
