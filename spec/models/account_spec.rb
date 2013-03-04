@@ -288,8 +288,9 @@ describe Account do
   describe "#destroy" do
     context "when child items/credit_relations don't exist," do
       before do
-        @account = Fabricate.build(:banking)
-        @account.save!
+        account = Fabricate.build(:banking)
+        account.save!
+        @account = Account.find(account.id)
       end
 
       describe "count" do
