@@ -32,12 +32,13 @@ group :test do
   gem "simplecov"
   gem 'spork'
   platform :mri do
-    gem "cucumber-rails", :require => false
+    gem "cucumber-rails", :require => false, :git => 'git@github.com:cucumber/cucumber-rails.git', :branch => "release-1.3.1"
     gem "capybara-webkit"
     gem "growl"
     gem "rb-fsevent"
     gem "webrat"
-    gem "database_cleaner"
+    # for https://github.com/bmabey/database_cleaner/pull/153
+    gem "database_cleaner", :git => "git@github.com:bmabey/database_cleaner.git"
     gem "guard-rspec"
     gem "guard-cucumber"
     gem "guard-spork"
