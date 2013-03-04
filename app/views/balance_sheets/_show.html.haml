@@ -5,7 +5,7 @@
       %th{:colspan => "5"}
         - selector = "#account_history_#{ @account_id }"
         = @user.all_accounts[@account_id]
-        #{t('label.of_history')} (#{link_to_function t('link.hide'), fadeout_and_remove(selector)})
+        #{t('label.of_history')} (#{link_to t('link.hide'), '#', onclick: fadeout_and_remove(selector) + "return false;"})
     %tr
       %th{:colspan => "4"}= "#{t('.brought_forward_from_last_month', month: l(displaying_month - 1, format: :year_month))}"
       %th.money= number_to_currency(@remain_amount)
