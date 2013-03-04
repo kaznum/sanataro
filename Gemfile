@@ -47,8 +47,8 @@ end
 
 group :production do
   platform :mri do
-    gem "therubyracer"
-    gem 'libv8', '~> 3.11.8'
+#    gem "therubyracer"
+#    gem 'libv8', '~> 3.11.8'
   end
 end
 
@@ -65,11 +65,14 @@ group :assets do
 end
 
 gem "i18n"
-gem 'haml-rails','0.3.5'
+
+# This is temporally https://github.com/haml/haml/issues/639
+gem "haml", :github => "haml/haml", :branch => "stable"
+
+gem 'haml-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'settingslogic'
-gem 'coffee-filter', '0.1.3'
 gem 'memoist'
 
 gem 'twitter-bootstrap-rails'
@@ -77,7 +80,7 @@ gem 'dalli'
 gem 'dalli-store-extensions', :git => "git://github.com/mqt/dalli-store-extensions.git"
 
 gem 'rails_emoji'
-gem 'jbuilder'
+gem 'jbuilder', '~> 1.0.1'
 gem 'underscore-rails'
 
 # Just temporally to support rails 4
@@ -89,3 +92,4 @@ gem 'doorkeeper', :git => 'git://github.com/kaznum/doorkeeper.git', :branch => '
 gem 'protected_attributes'
 
 gem 'rails-observers'
+
