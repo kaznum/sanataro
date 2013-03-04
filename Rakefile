@@ -5,5 +5,5 @@ require File.expand_path('../config/application', __FILE__)
 
 Sanataro::Application.load_tasks
 
-task :travis => defined?(JRUBY_VERSION) ? [:spec] : [:spec, :cucumber]
+task :travis => defined?(JRUBY_VERSION) ? [:spec] : ["assets:precompile" , :spec, :cucumber]
 
