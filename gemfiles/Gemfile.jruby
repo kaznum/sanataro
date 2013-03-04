@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.12'
+gem 'rails', '4.0.0.beta1'
 
 
 group :development, :test do
@@ -26,8 +26,8 @@ platforms :jruby do
 end
 
 group :assets do
-  gem 'sass-rails'
-  gem 'coffee-rails'
+  gem 'sass-rails', '4.0.0.beta1'
+  gem 'coffee-rails', '4.0.0.beta1'
   gem 'uglifier'
 end
 
@@ -43,5 +43,5 @@ gem 'twitter-bootstrap-rails'
 gem 'rails_emoji'
 gem 'jbuilder'
 gem 'underscore-rails'
-gem 'doorkeeper'
+gem 'doorkeeper', :git => 'git://github.com/kaznum/doorkeeper.git', :branch => 'rails4'
 
