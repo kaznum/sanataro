@@ -114,10 +114,10 @@ end
 ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
 
 Before do
-  ActiveRecord::Fixtures::reset_cache
+  ActiveRecord::FixtureSet::reset_cache
   fixtures_folder = File.join(Rails.root, 'spec', 'fixtures')
   fixtures = Dir[File.join(fixtures_folder, '*.yml')].map {|f| File.basename(f, '.yml') }
-  ActiveRecord::Fixtures::create_fixtures(fixtures_folder, fixtures)
+  ActiveRecord::FixtureSet::create_fixtures(fixtures_folder, fixtures)
 end
 
 ## end of codes for transactional fixtures
