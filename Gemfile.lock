@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/bmabey/database_cleaner.git
-  revision: 0f6af3efc8abd2ce786dba2d141b6bc97400cd5a
+  revision: 83d69e68e3d2b89d5060057e5debac565542c0d6
   specs:
     database_cleaner (0.9.1)
 
@@ -92,7 +92,7 @@ GEM
     coffee-script (2.2.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.5.0)
+    coffee-script-source (1.6.1)
     columnize (0.3.6)
     cucumber (1.2.2)
       builder (>= 2.1.2)
@@ -258,7 +258,7 @@ GEM
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
-    twitter-bootstrap-rails (2.2.4)
+    twitter-bootstrap-rails (2.2.5)
       actionpack (>= 3.1)
       execjs
       railties (>= 3.1)
