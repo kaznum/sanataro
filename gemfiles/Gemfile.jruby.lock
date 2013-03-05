@@ -65,7 +65,7 @@ GEM
     coffee-script (2.2.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.5.0)
+    coffee-script-source (1.6.1)
     diff-lcs (1.2.1)
     erubis (2.7.0)
     execjs (1.4.0)
@@ -175,7 +175,7 @@ GEM
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
-    twitter-bootstrap-rails (2.2.4)
+    twitter-bootstrap-rails (2.2.5)
       actionpack (>= 3.1)
       execjs
       railties (>= 3.1)
