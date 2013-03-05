@@ -6,18 +6,6 @@ require 'rails/all'
 
 Bundler.require(*Rails.groups(:assets => %w(development test)))
 
-
-# This is probably temporaly for JRUBY
-# http://stackoverflow.com/questions/14527816/myappapplicationrailties-constant-missing-with-rails-4-beta-and-jruby-jruby
-if defined?(JRUBY_VERSION)
-  Rails::Engine.class_eval do
-    def railties
-      @railties ||= self.class.const_get(:Railties).new
-    end
-  end
-end
-
-
 module Sanataro
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
