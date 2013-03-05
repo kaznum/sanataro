@@ -1,6 +1,7 @@
 source 'http://rubygems.org'
 
-gem 'rails', '4.0.0.beta1'
+# gem 'rails', '4.0.0.beta1'
+gem 'rails', github: 'rails/rails'
 
 
 group :development, :test do
@@ -18,10 +19,14 @@ end
 platforms :jruby do
   # jruby-openssl is needed under JRuby 1.6.x environment
   # gem "jruby-openssl"
-  gem "activerecord-jdbcmysql-adapter"
-  gem "activerecord-jdbcsqlite3-adapter"
-  gem "activerecord-jdbcpostgresql-adapter"
-  gem "activerecord-jdbcmssql-adapter"
+
+  # for rails4.0.0.base1
+  gem 'krypt-ossl'
+
+  gem "activerecord-jdbcmysql-adapter", github: 'jruby/activerecord-jdbc-adapter'
+  gem "activerecord-jdbcsqlite3-adapter", github: 'jruby/activerecord-jdbc-adapter'
+  gem "activerecord-jdbcpostgresql-adapter", github: 'jruby/activerecord-jdbc-adapter'
+  gem "activerecord-jdbcmssql-adapter", github: 'jruby/activerecord-jdbc-adapter'
   gem "therubyrhino"
 end
 
