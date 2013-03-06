@@ -5,7 +5,7 @@ source 'http://rubygems.org'
 ### Please see gemfiles/Gemfile.jruby for JRuby env
 ###
 
-gem 'rails', '4.0.0.beta1'
+gem 'rails', github: 'rails/rails'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -37,8 +37,11 @@ group :test do
     gem "growl"
     gem "rb-fsevent"
     gem "webrat"
+
+    # TODO
     # for https://github.com/bmabey/database_cleaner/pull/153
-    gem "database_cleaner", :git => "git://github.com/bmabey/database_cleaner.git"
+    gem "database_cleaner", :github => "bmabey/database_cleaner"
+
     gem "guard-rspec"
     gem "guard-cucumber"
     gem "guard-spork"
@@ -59,8 +62,8 @@ platforms :ruby do
 end
 
 group :assets do
-  gem 'sass-rails', '4.0.0.beta1'
-  gem 'coffee-rails', '4.0.0.beta1'
+  gem 'sass-rails', github: 'rails/sass-rails'
+  gem 'coffee-rails', github: 'rails/coffee-rails'
   gem 'uglifier'
 end
 
@@ -77,16 +80,17 @@ gem 'memoist'
 
 gem 'twitter-bootstrap-rails'
 gem 'dalli'
-gem 'dalli-store-extensions', :git => "git://github.com/mqt/dalli-store-extensions.git"
+gem 'dalli-store-extensions', :github => "mqt/dalli-store-extensions"
 
 gem 'rails_emoji'
 gem 'jbuilder', '~> 1.0.1'
 gem 'underscore-rails'
 
+# TODO
 # Just temporally to support rails 4
-gem 'doorkeeper', :git => 'git://github.com/kaznum/doorkeeper.git', :branch => 'rails4'
+gem 'doorkeeper', :git => 'git://github.com/kaznum/doorkeeper.git', :branch => 'support_rails4'
 
-
+# TODO
 # Just temporally to support rails 4
 # This is not recommended in Rails4
 gem 'protected_attributes'

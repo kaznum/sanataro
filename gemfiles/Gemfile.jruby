@@ -31,13 +31,14 @@ platforms :jruby do
 end
 
 group :assets do
-  gem 'sass-rails', '4.0.0.beta1'
-  gem 'coffee-rails', '4.0.0.beta1'
+  gem 'sass-rails', github: 'rails/sass-rails'
+  gem 'coffee-rails', github: 'rails/coffee-rails'
   gem 'uglifier'
 end
 
 gem "i18n"
 
+# TODO
 # This is temporally https://github.com/haml/haml/issues/639
 gem "haml", :github => "haml/haml", :branch => "stable"
 gem 'haml-rails'
@@ -50,9 +51,9 @@ gem 'twitter-bootstrap-rails'
 gem 'rails_emoji'
 gem 'jbuilder'
 gem 'underscore-rails'
-gem 'doorkeeper', :git => 'git://github.com/kaznum/doorkeeper.git', :branch => 'rails4'
+gem 'doorkeeper', :github => 'kaznum/doorkeeper', :branch => 'support_rails4'
 
-
+# TODO
 # Just temporally to support rails 4
 # This is not recommended in Rails4
 gem 'protected_attributes'
