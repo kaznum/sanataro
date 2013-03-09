@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/bmabey/database_cleaner.git
-  revision: 83d69e68e3d2b89d5060057e5debac565542c0d6
+  revision: 8002b4695602bf1e2d1f0b5f7d05d616360608a4
   specs:
     database_cleaner (0.9.1)
 
@@ -46,7 +46,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: ee169329a898d993f0d024af6cce83649fb2f733
+  revision: 3a210da65f7718721f86397d64e43beb534121ef
   specs:
     actionmailer (4.0.0.beta1)
       actionpack (= 4.0.0.beta1)
