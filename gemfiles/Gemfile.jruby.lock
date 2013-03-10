@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/jruby/activerecord-jdbc-adapter.git
-  revision: d00ea39049bbf31b7fb2320e30f5ac0135f70692
+  revision: 4fac0789973803614b7252068fc31f0f03f20f31
   specs:
     activerecord-jdbc-adapter (1.3.0.DEV)
     activerecord-jdbcmssql-adapter (1.3.0.DEV)
@@ -42,7 +42,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: ee169329a898d993f0d024af6cce83649fb2f733
+  revision: dff4d4ad2b7b55283132eb6cf8ac27b13827624c
   specs:
     actionmailer (4.0.0.beta1)
       actionpack (= 4.0.0.beta1)
@@ -109,7 +109,7 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    fabrication (2.6.1)
+    fabrication (2.6.2)
     haml-rails (0.4)
       actionpack (>= 3.1, < 4.1)
       activesupport (>= 3.1, < 4.1)
@@ -175,7 +175,7 @@ GEM
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
-    sass (3.2.6)
+    sass (3.2.7)
     settingslogic (2.0.9)
     simplecov (0.7.1)
       multi_json (~> 1.0)
@@ -198,7 +198,7 @@ GEM
     thor (0.17.0)
     thread_safe (0.1.0)
       atomic
-    tilt (1.3.4)
+    tilt (1.3.5)
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
