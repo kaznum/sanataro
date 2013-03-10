@@ -237,7 +237,6 @@ describe EntriesController do
             describe "response" do
               subject { response }
               it { should be_success }
-              it { should render_template 'index' }
             end
 
             describe "@items" do
@@ -261,11 +260,20 @@ describe EntriesController do
 
           it_should_behave_like "filtered index"
 
+          describe "response" do
+            subject { response }
+            it { should render_template 'index_with_filter_account_id' }
+          end
+
           context "after changing filter, access index with no filter_account_id," do
             before do
               xhr :get, :index, :year => '2008', :month => '2'
             end
 
+            describe "response" do
+              subject { response }
+              it { should render_template 'index' }
+            end
             it_should_behave_like "filtered index"
           end
 
