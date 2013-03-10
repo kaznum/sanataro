@@ -67,6 +67,12 @@ matrix:
     - rvm: jruby-19mode
       gemfile: Gemfile
       env: DB=sqlite
+    - rvm: jruby-19mode
+      gemfile: gemfiles/Gemfile.jruby
+      env: DB=mysql
+    - rvm: jruby-19mode
+      gemfile: gemfiles/Gemfile.jruby
+      env: DB=postgres
     - rvm: jruby-head
       gemfile: Gemfile
       env: DB=mysql
