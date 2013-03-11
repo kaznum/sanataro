@@ -97,3 +97,6 @@ gem 'protected_attributes'
 
 gem 'rails-observers'
 
+## for database cleaner and cucumber
+gem 'connection_pool'
+
