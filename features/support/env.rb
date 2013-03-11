@@ -128,6 +128,6 @@ end
 if ENV['TRAVIS']
   Capybara.default_wait_time = 60
 else
-  Capybara.default_wait_time = 2
+  Capybara.default_wait_time = 5
 end
 
