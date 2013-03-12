@@ -46,7 +46,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: f278deb712b16c7897d63a6565bea3431ec0d38a
+  revision: d25a82280f977664e3b3d49c13bb68502718f6e2
   specs:
     actionmailer (4.0.0.beta1)
       actionpack (= 4.0.0.beta1)
@@ -254,7 +254,7 @@ GEM
       multi_json (~> 1.0)
       simplecov-html (~> 0.7.1)
     simplecov-html (0.7.1)
-    slop (3.4.3)
+    slop (3.4.4)
     spork (0.9.2)
     sprockets (2.9.0)
       hike (~> 1.2)
