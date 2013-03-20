@@ -46,7 +46,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: e61cdf02896ffe0a97cc2205a1a812d54638e19a
+  revision: c81dc8e373143be00cccb60c3ba4af4228274962
   specs:
     actionmailer (4.0.0.beta1)
       actionpack (= 4.0.0.beta1)
@@ -191,7 +191,7 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    memoist (0.2.0)
+    memoist (0.9.0)
     method_source (0.8.1)
     mime-types (1.21)
     minitest (4.7.0)
