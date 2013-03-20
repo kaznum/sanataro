@@ -270,8 +270,7 @@ describe Settings::CreditRelationsController do
         context "with invalid params," do
           before do
             @mock_user.should_receive(:credit_relations).and_return(@mock_crs)
-            mock_cr = double
-            mock_cr.as_null_object
+            mock_cr = stub_model(CreditRelation)
             mock_exception = ActiveRecord::RecordInvalid.new(mock_cr)
             mock_exception.should_receive(:message).and_return("aaa , bbb, ccc ")
             @mock_crs.should_receive(:create!).with(:credit_account_id => "1", :payment_account_id => "2", :settlement_day => "99", :payment_month => "1", :payment_day => "4").and_raise(mock_exception)

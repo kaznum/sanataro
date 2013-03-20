@@ -60,7 +60,8 @@ describe EntriesHelper do
   end
 
   describe "#relative_path" do
-    fixtures :users, :accounts
+    fixtures :users, :accounts, :credit_relations
+
     before do
       @user = users(:user1)
       @credit_item = Fabricate.build(:general_item, amount: 1500, from_account_id: 4, to_account_id: 3)
