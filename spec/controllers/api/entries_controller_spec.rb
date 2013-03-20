@@ -35,12 +35,7 @@ describe Api::EntriesController do
         describe "response" do
           subject { response }
           it { should be_success }
-        end
-
-        describe "response.body" do
-          specify {
-            expect { ActiveSupport::JSON.decode(response.body) }.not_to raise_error
-          }
+          it { should render_template "index" }
         end
       end
 
@@ -107,12 +102,7 @@ describe Api::EntriesController do
         describe "response" do
           subject { response }
           it { should be_success }
-        end
-
-        describe "response.body" do
-          specify {
-            expect { ActiveSupport::JSON.decode(response.body) }.not_to raise_error
-          }
+          it { should render_template "index" }
         end
 
         describe "@items" do
@@ -142,12 +132,7 @@ describe Api::EntriesController do
         describe "response" do
           subject { response }
           it { should be_success }
-        end
-
-        describe "response.body" do
-          specify {
-            expect { ActiveSupport::JSON.decode(response.body) }.not_to raise_error
-          }
+          it { should render_template "index" }
         end
 
         describe "@items" do
@@ -177,12 +162,7 @@ describe Api::EntriesController do
         describe "response" do
           subject { response }
           it { should be_success }
-        end
-
-        describe "response.body" do
-          specify {
-            expect { ActiveSupport::JSON.decode(response.body) }.not_to raise_error
-          }
+          it { should render_template "index" }
         end
 
         describe "@items" do
@@ -197,12 +177,7 @@ describe Api::EntriesController do
             describe "response" do
               subject { response }
               it { should be_success }
-            end
-
-            describe "response.body" do
-              specify {
-                expect { ActiveSupport::JSON.decode(response.body) }.not_to raise_error
-              }
+              it { should render_template "index" }
             end
 
             describe "@items" do
@@ -259,11 +234,7 @@ describe Api::EntriesController do
           describe "response" do
             subject { response }
             it { should be_success }
-          end
-          describe "response.body" do
-            specify {
-              expect { ActiveSupport::JSON.decode(response.body) }.not_to raise_error
-            }
+            it { should render_template "index" }
           end
         end
 
@@ -358,12 +329,13 @@ describe Api::EntriesController do
         describe "response" do
           subject { response }
           it { should be_success }
+          it { should render_template "show" }
         end
 
-        describe "response.body" do
-          specify {
-            expect { ActiveSupport::JSON.decode(response.body) }.not_to raise_error
-          }
+        describe "@item" do
+          subject { assigns(:item) }
+          it { should_not be_nil }
+          it { should be_an_instance_of GeneralItem }
         end
       end
 
