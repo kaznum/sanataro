@@ -16,10 +16,10 @@ GIT
 
 GIT
   remote: git://github.com/haml/haml.git
-  revision: ae9c15890e3ebff69cd2fec5c9f069da9ec08320
+  revision: dcd601a7239c15f4ec82636890334b63c9f6abec
   branch: stable
   specs:
-    haml (4.0.1.rc.1)
+    haml (4.0.1)
       tilt
 
 GIT
@@ -46,7 +46,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: c81dc8e373143be00cccb60c3ba4af4228274962
+  revision: 0d3cb003de66409e8deccddcf8426822a84b3930
   specs:
     actionmailer (4.0.0.beta1)
       actionpack (= 4.0.0.beta1)
@@ -146,7 +146,7 @@ GEM
     execjs (1.4.0)
       multi_json (~> 1.0)
     fabrication (2.6.3)
-    ffi (1.4.0)
+    ffi (1.5.0)
     gherkin (2.11.6)
       json (>= 1.7.6)
     growl (1.0.3)
@@ -204,7 +204,7 @@ GEM
     net-ssh (2.6.6)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
-    nokogiri (1.5.8)
+    nokogiri (1.5.9)
     pg (0.14.1)
     polyglot (0.3.3)
     protected_attributes (1.0.0)
