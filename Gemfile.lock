@@ -46,7 +46,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 0d3cb003de66409e8deccddcf8426822a84b3930
+  revision: 7a872e9d84be2f0205d8ca811698be92195ef0e1
   specs:
     actionmailer (4.0.0.beta1)
       actionpack (= 4.0.0.beta1)
@@ -195,7 +195,7 @@ GEM
     method_source (0.8.1)
     mime-types (1.21)
     minitest (4.7.0)
-    multi_json (1.7.1)
+    multi_json (1.7.2)
     mysql2 (0.3.11)
     net-scp (1.1.0)
       net-ssh (>= 2.6.5)
