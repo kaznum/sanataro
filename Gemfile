@@ -64,11 +64,10 @@ group :assets do
 end
 
 gem "i18n"
-gem 'haml-rails','0.3.5'
+gem 'haml-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'settingslogic'
-gem 'coffee-filter', '0.1.3'
 gem 'memoist'
 
 gem 'twitter-bootstrap-rails'
