@@ -103,7 +103,7 @@ GEM
     guard-cucumber (1.4.0)
       cucumber (>= 1.2.0)
       guard (>= 1.1.0)
-    guard-rspec (2.5.1)
+    guard-rspec (2.5.2)
       guard (>= 1.1)
       rspec (~> 2.11)
     guard-spork (1.5.0)
@@ -277,7 +277,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails
   launchy
-  libv8 (~> 3.11.8)
+  libv8 (>= 3.11.8)
   memoist
   mysql2
   pg
@@ -291,7 +291,7 @@ DEPENDENCIES
   simplecov
   spork
   sqlite3
-  therubyracer
+  therubyracer (>= 0.11.4)
   twitter-bootstrap-rails
   uglifier
   underscore-rails
