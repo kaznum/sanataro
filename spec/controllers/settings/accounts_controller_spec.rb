@@ -224,6 +224,8 @@ describe Settings::AccountsController do
 
         context "when the account is not used yet," do
           before do
+            Item.destroy_all
+            CreditRelation.destroy_all
             @action = -> { xhr :delete, :destroy, :id => @dummy.id }
           end
 
