@@ -16,14 +16,6 @@ GIT
       nokogiri (>= 1.5.6)
 
 GIT
-  remote: git://github.com/haml/haml.git
-  revision: fb0c8328a005b227dd6bd4ec099bacd1e8d9f000
-  branch: stable
-  specs:
-    haml (4.0.2)
-      tilt
-
-GIT
   remote: git://github.com/kaznum/doorkeeper.git
   revision: 73e071d0b024a46dea69b185e0b4e4418871304f
   branch: support_rails4
@@ -169,6 +161,8 @@ GEM
       childprocess (>= 0.2.3)
       guard (>= 1.1)
       spork (>= 0.8.4)
+    haml (4.0.2)
+      tilt
     haml-rails (0.4)
       actionpack (>= 3.1, < 4.1)
       activesupport (>= 3.1, < 4.1)
@@ -312,7 +306,7 @@ DEPENDENCIES
   guard-cucumber
   guard-rspec
   guard-spork
-  haml!
+  haml (>= 4.0.2)
   haml-rails
   i18n
   jbuilder (~> 1.0.1)

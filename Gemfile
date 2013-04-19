@@ -71,8 +71,7 @@ end
 
 gem "i18n"
 
-# This is temporally https://github.com/haml/haml/issues/639
-gem "haml", :github => "haml/haml", :branch => "stable"
+gem "haml", '>= 4.0.2'
 
 gem 'haml-rails'
 gem 'jquery-rails'
