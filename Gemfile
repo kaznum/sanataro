@@ -34,7 +34,7 @@ group :test do
   platform :mri do
     gem "cucumber-rails", :require => false, :github => 'cucumber/cucumber-rails', :branch => "release-1.3.1" 
     # capybara-webkit-0.14.2 does not support capybara-2.1.0 
-    gem "capybara", '2.0.2'
+    gem "capybara", '2.0.3'
     gem "capybara-webkit"
     gem "growl"
     gem "rb-fsevent"
