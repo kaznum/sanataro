@@ -1,8 +1,9 @@
 GIT
   remote: git://github.com/bmabey/database_cleaner.git
-  revision: 7c3fadd6f6cd27935b31fadb9875df711da34d07
+  revision: c86583862e46d5708f3c6aff6b960d78899edc36
+  tag: v1.0.0.RC1
   specs:
-    database_cleaner (0.9.1)
+    database_cleaner (1.0.0.RC1)
 
 GIT
   remote: git://github.com/cucumber/cucumber-rails.git
