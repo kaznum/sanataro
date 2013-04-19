@@ -5,7 +5,7 @@ source 'http://rubygems.org'
 ### Please see gemfiles/Gemfile.jruby for JRuby env
 ###
 
-gem 'rails', github: 'rails/rails'
+gem 'rails', github: 'rails/rails', ref: '7a872e9d84be2f0205d8ca811698be92195ef0e1'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -33,6 +33,7 @@ group :test do
   gem 'spork'
   platform :mri do
     gem "cucumber-rails", :require => false, :git => 'git://github.com/cucumber/cucumber-rails.git', :branch => "release-1.3.1"
+    gem "capybara", '2.0.2'
     gem "capybara-webkit"
     gem "growl"
     gem "rb-fsevent"
