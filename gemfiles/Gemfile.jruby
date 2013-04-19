@@ -1,15 +1,12 @@
 source 'http://rubygems.org'
 
-# gem 'rails', '4.0.0.beta1'
-gem 'rails', github: 'rails/rails'
-
+gem 'rails', '4.0.0.beta1'
 
 group :development, :test do
   gem "rspec-rails"
   gem "launchy"
   gem "fabrication"
 end
-
 
 group :test do
   gem "simplecov"

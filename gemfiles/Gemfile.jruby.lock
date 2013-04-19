@@ -1,16 +1,15 @@
 GIT
   remote: git://github.com/haml/haml.git
-  revision: ae9c15890e3ebff69cd2fec5c9f069da9ec08320
+  revision: fb0c8328a005b227dd6bd4ec099bacd1e8d9f000
   branch: stable
   specs:
-    haml (4.0.1.rc.1)
+    haml (4.0.2)
       tilt
 
 GIT
   remote: git://github.com/jruby/activerecord-jdbc-adapter.git
-  revision: 6628efa3cb756660c7d2d8f0ac733f27b0f3753f
+  revision: e778aeffc47087b0bb99ca4c41fb66d1be6862ca
   specs:
-    activerecord-jdbc-adapter (1.3.0.DEV)
     activerecord-jdbcmssql-adapter (1.3.0.DEV)
       activerecord-jdbc-adapter (~> 1.3.0.DEV)
       jdbc-jtds (>= 1.2.5, < 1.4.0)
@@ -26,7 +25,7 @@ GIT
 
 GIT
   remote: git://github.com/kaznum/doorkeeper.git
-  revision: 8b27a37447425524de86c8ca4dfaa2e8a5099dae
+  revision: f0ee888b72b24c661665b36c8e85bf9719ac69d4
   branch: support_rails4
   specs:
     doorkeeper (0.6.7)
@@ -34,15 +33,24 @@ GIT
 
 GIT
   remote: git://github.com/rails/coffee-rails.git
-  revision: 948fef30464235e7588e34faa513b448a00c0e6b
+  revision: 78d4d7ac5baf4e76a6717f303f51b505c40b9770
   specs:
-    coffee-rails (4.0.0.beta1)
+    coffee-rails (4.0.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0.beta, < 5.0)
 
 GIT
-  remote: git://github.com/rails/rails.git
-  revision: c81dc8e373143be00cccb60c3ba4af4228274962
+  remote: git://github.com/rails/sass-rails.git
+  revision: cfe4d9a15b0ee1fa10c6fec3c693d4069b468d66
+  specs:
+    sass-rails (4.0.0.rc1)
+      railties (>= 4.0.0.beta, < 5.0)
+      sass (>= 3.1.10)
+      sprockets-rails (~> 2.0.0.rc0)
+      tilt (~> 1.3)
+
+GEM
+  remote: http://rubygems.org/
   specs:
     actionmailer (4.0.0.beta1)
       actionpack (= 4.0.0.beta1)
@@ -60,64 +68,38 @@ GIT
       activemodel (= 4.0.0.beta1)
       activerecord-deprecated_finders (~> 0.0.3)
       activesupport (= 4.0.0.beta1)
-      arel (~> 4.0.0.beta2)
+      arel (~> 4.0.0.beta1)
+    activerecord-deprecated_finders (0.0.3)
+    activerecord-jdbc-adapter (1.3.0.beta1)
     activesupport (4.0.0.beta1)
-      i18n (~> 0.6, >= 0.6.4)
+      i18n (~> 0.6.2)
       minitest (~> 4.2)
       multi_json (~> 1.3)
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.33)
-    rails (4.0.0.beta1)
-      actionmailer (= 4.0.0.beta1)
-      actionpack (= 4.0.0.beta1)
-      activerecord (= 4.0.0.beta1)
-      activesupport (= 4.0.0.beta1)
-      bundler (>= 1.3.0, < 2.0)
-      railties (= 4.0.0.beta1)
-      sprockets-rails (~> 2.0.0.rc3)
-    railties (4.0.0.beta1)
-      actionpack (= 4.0.0.beta1)
-      activesupport (= 4.0.0.beta1)
-      rake (>= 0.8.7)
-      rdoc (~> 3.4)
-      thor (>= 0.17.0, < 2.0)
-
-GIT
-  remote: git://github.com/rails/sass-rails.git
-  revision: d435679b0fe528b954a9abd0059f975d94707574
-  specs:
-    sass-rails (4.0.0.beta1)
-      railties (>= 4.0.0.beta, < 5.0)
-      sass (>= 3.1.10)
-      sprockets-rails (~> 2.0.0.rc0)
-      tilt (~> 1.3)
-
-GEM
-  remote: http://rubygems.org/
-  specs:
-    activerecord-deprecated_finders (0.0.3)
-    addressable (2.3.3)
-    arel (4.0.0.beta2)
-    atomic (1.0.1-java)
+    addressable (2.3.4)
+    arel (4.0.0)
+    atomic (1.1.8-java)
     builder (3.1.4)
     coffee-script (2.2.0)
       coffee-script-source
       execjs
     coffee-script-source (1.6.2)
-    diff-lcs (1.2.1)
+    diff-lcs (1.2.3)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    fabrication (2.6.3)
+    fabrication (2.6.5)
     haml-rails (0.4)
       actionpack (>= 3.1, < 4.1)
       activesupport (>= 3.1, < 4.1)
       haml (>= 3.1, < 4.1)
       railties (>= 3.1, < 4.1)
-    hike (1.2.1)
+    hike (1.2.2)
     i18n (0.6.4)
-    jbuilder (1.0.2)
+    jbuilder (1.3.0)
       activesupport (>= 3.0.0)
+      multi_json (>= 1.2.0)
     jdbc-jtds (1.3.0)
     jdbc-mysql (5.1.22.1)
     jdbc-postgres (9.2.1002)
@@ -136,34 +118,47 @@ GEM
     krypt-ossl (0.1.0)
       krypt
     krypt-provider-jdk (0.0.1)
-    launchy (2.2.0-java)
+    launchy (2.3.0)
       addressable (~> 2.3)
-      spoon (~> 0.0.1)
     mail (2.5.3)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     memoist (0.9.0)
-    mime-types (1.21)
-    minitest (4.7.0)
-    multi_json (1.7.1)
+    mime-types (1.22)
+    minitest (4.7.2)
+    multi_json (1.7.2)
     polyglot (0.3.3)
-    protected_attributes (1.0.0)
+    protected_attributes (1.0.1)
       activemodel (>= 4.0.0.beta, < 5.0)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
+    rails (4.0.0.beta1)
+      actionmailer (= 4.0.0.beta1)
+      actionpack (= 4.0.0.beta1)
+      activerecord (= 4.0.0.beta1)
+      activesupport (= 4.0.0.beta1)
+      bundler (>= 1.3.0, < 2.0)
+      railties (= 4.0.0.beta1)
+      sprockets-rails (~> 2.0.0.rc3)
     rails-observers (0.1.1)
       railties (~> 4.0.0.beta)
     rails_emoji (1.6.2)
       rails (>= 3.1.0)
-    rake (10.0.3)
+    railties (4.0.0.beta1)
+      actionpack (= 4.0.0.beta1)
+      activesupport (= 4.0.0.beta1)
+      rake (>= 0.8.7)
+      rdoc (~> 3.4)
+      thor (>= 0.17.0, < 2.0)
+    rake (10.0.4)
     rdoc (3.12.2)
       json (~> 1.4)
     rspec-core (2.13.1)
     rspec-expectations (2.13.0)
       diff-lcs (>= 1.1.3, < 2.0)
-    rspec-mocks (2.13.0)
+    rspec-mocks (2.13.1)
     rspec-rails (2.13.0)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
@@ -177,24 +172,23 @@ GEM
       multi_json (~> 1.0)
       simplecov-html (~> 0.7.1)
     simplecov-html (0.7.1)
-    spoon (0.0.1)
     spork (0.9.2)
-    sprockets (2.9.0)
+    sprockets (2.9.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sprockets-rails (2.0.0.rc3)
+    sprockets-rails (2.0.0.rc4)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
     therubyrhino (2.0.2)
       therubyrhino_jar (>= 1.7.3)
     therubyrhino_jar (1.7.4)
-    thor (0.17.0)
+    thor (0.18.1)
     thread_safe (0.1.0)
       atomic
-    tilt (1.3.6)
+    tilt (1.3.7)
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
@@ -203,10 +197,10 @@ GEM
       execjs
       railties (>= 3.1)
     tzinfo (0.3.37)
-    uglifier (1.3.0)
+    uglifier (2.0.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
-    underscore-rails (1.4.3)
+    underscore-rails (1.4.4)
 
 PLATFORMS
   java
@@ -229,7 +223,7 @@ DEPENDENCIES
   launchy
   memoist
   protected_attributes
-  rails!
+  rails (= 4.0.0.beta1)
   rails-observers
   rails_emoji
   rspec-rails
