@@ -96,7 +96,7 @@ describe EntriesController do
 
       context "with tag," do
         before do
-          tags = ['abc', 'def']
+          tags = ['test_tag', 'def']
           xhr(:put, :update, :id=>items(:item11).id.to_s,
               entry: { name: 'テスト11',
                 :action_date => items(:item11).action_date.strftime("%Y/%m/%d"),
@@ -106,7 +106,7 @@ describe EntriesController do
                 tag_list: tags.join(" ") },
               :year => items(:item11).action_date.year, :month => items(:item11).action_date.month)
 
-          get :index, :tag => 'abc'
+          get :index, :tag => 'test_tag'
         end
 
         describe "response" do
@@ -122,7 +122,7 @@ describe EntriesController do
 
         describe "@tag" do
           subject { assigns(:tag) }
-          it { should be == 'abc' }
+          it { should be == 'test_tag' }
         end
       end
 

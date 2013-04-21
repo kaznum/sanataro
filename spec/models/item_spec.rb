@@ -452,22 +452,24 @@ describe Item do
         @created_ids = []
         # データの準備
         Item.transaction do
-          3.times do
-            item = Fabricate.build(:general_item, from_account_id: 11, to_account_id: 13, action_date: '2008-09-15', tag_list: 'abc def', confirmation_required: true)
+          Item.delete_all
+
+          3.times do |i|
+            item = Fabricate.build(:general_item, from_account_id: 11, to_account_id: 13, name: "itemname#{i}", action_date: '2008-09-15', tag_list: 'abc def', confirmation_required: true)
             item.save!
             @created_ids << item.id
           end
 
           # データの準備
           3.times do |i|
-            item = Fabricate.build(:general_item, from_account_id: 21, to_account_id: 13, action_date: '2008-09-15', tag_list: 'ghi jkl')
+            item = Fabricate.build(:general_item, from_account_id: 21, to_account_id: 13, name: "itemname#{i}", action_date: '2008-09-15', tag_list: 'ghi jkl')
             item.save!
             @created_ids << item.id
           end
 
           # データの準備(参照されないデータ)
           2.times do |i|
-            item = Fabricate.build(:general_item, name: "NOT REFERED", from_account_id: 11, to_account_id: 13, action_date: '2008-10-01', tag_list: 'mno pqr')
+            item = Fabricate.build(:general_item, name: "NOT REFERED #{i}", from_account_id: 11, to_account_id: 13, action_date: '2008-10-01', tag_list: 'mno pqr')
             item.save!
             @created_ids << item.id
           end
@@ -481,7 +483,7 @@ describe Item do
           to_account.save!
 
           2.times do |i|
-            item = Fabricate.build(:general_item, from_account_id: from_account.id, to_account_id: to_account.id, action_date: '2008-09-15', tag_list: 'abc def', confirmation_required: true)
+            item = Fabricate.build(:general_item, from_account_id: from_account.id, to_account_id: to_account.id, name: "itemname#{i}", action_date: '2008-09-15', tag_list: 'abc def', confirmation_required: true)
             item.user_id = 101
             item.save!
             @created_ids << item.id
@@ -491,12 +493,6 @@ describe Item do
         @from_date = Date.new(2008,9,1)
         @to_date = Date.new(2008,9,30)
         Settings.stub!(:item_list_count).and_return(2)
-      end
-
-      after do
-        Item.transaction do
-          Item.delete_all
-        end
       end
 
       context "when :remain is not specified" do
@@ -520,12 +516,12 @@ describe Item do
       end
 
       context "when :keyword is specified" do
-        subject { users(:user1).items.partials(nil, nil, {:keyword => 'temn' }) }
+        subject { users(:user1).items.partials(nil, nil, {:keyword => 'emname' }) }
         it { should have(Settings.item_list_count).entries }
       end
 
       context "when :keyword and :remain is specified" do
-        subject { users(:user1).items.partials(nil, nil, {:remain => true, :keyword => 'temn' }) }
+        subject { users(:user1).items.partials(nil, nil, {:remain => true, :keyword => 'emname' }) }
         it { should have(6 - Settings.item_list_count).entries }
       end
 
