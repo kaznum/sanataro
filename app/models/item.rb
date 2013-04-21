@@ -229,7 +229,7 @@ class Item < ActiveRecord::Base
       # FIX ME
       #
       # limit is fixed number.
-      self.tagged_with(tag).order_of_entries.offset(Settings.item_list_count).limit(999999)
+      self.tagged_with(tag).order_of_entries.remaining
     end
 
     def where_keyword_matches(str)
@@ -245,7 +245,7 @@ class Item < ActiveRecord::Base
       # FIX ME
       #
       # limit is fixed number.
-      self.where_keyword_matches(keyword).order_of_entries.offset(Settings.item_list_count).limit(999999)
+      self.where_keyword_matches(keyword).order_of_entries.remaining
     end
 
     def collect_account_history(user, account_id, from_date, to_date)
