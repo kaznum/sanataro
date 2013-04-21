@@ -5,7 +5,7 @@ source 'http://rubygems.org'
 ### Please see gemfiles/Gemfile.jruby for JRuby env
 ###
 
-gem 'rails', github: 'rails/rails', ref: '7a872e9d84be2f0205d8ca811698be92195ef0e1'
+gem 'rails', github: 'rails/rails'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -15,7 +15,10 @@ gem 'rails', github: 'rails/rails', ref: '7a872e9d84be2f0205d8ca811698be92195ef0
 
 
 group :development, :test do
-  gem "rspec-rails"
+  # TODO
+  # This rspec dependency is for https://github.com/rails/rails/commit/02acd95d5700ea868c34f5d260882fda3cc836d3
+  # This would be fixed on > 2.13
+  gem "rspec-rails", :github => 'rspec/rspec-rails', :branch => '2-13-maintenance'
   gem "launchy"
   gem "fabrication"
   unless ENV['TRAVIS']
