@@ -36,11 +36,11 @@ class Item < ActiveRecord::Base
   scope :of_account_id, lambda { |account_id|  where(arel_table[:from_account_id].eq(account_id).or(arel_table[:to_account_id].eq(account_id)) )}
   scope :action_date_between, lambda { |from, to| where(action_date: from..to) }
   scope :confirmation_required, where(confirmation_required: true)
-  scope :default_limit, limit(Settings.item_list_count)
+  scope :default_limit, -> { limit(Settings.item_list_count) }
   # FIX ME
   #
   # limit is fixed number.
-  scope :remaining, offset(Settings.item_list_count).limit(999999)
+  scope :remaining, -> { offset(Settings.item_list_count).limit(999999) }
   scope :order_of_entries, order(arel_table[:action_date].desc).order(arel_table[:id].desc)
 
   def validates_action_date_range
