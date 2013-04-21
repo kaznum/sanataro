@@ -4,11 +4,15 @@ Sanataro::Application.routes.draw do
   root :to => "login#login"
 
   match 'simple', :to => 'entries#new', :entry_type => 'simple', :as => 'simple_input', :via => :get
-  match 'login' => 'login#login', :as => :login, :via => :get
-  match 'login' => 'login#do_login', :as => :login, :via => :post
+  resource(:login, :path => 'login', :as => 'login', :controller => 'login', :only => [:login, :do_login]) do
+    get '/', :action => 'login', :on => :member
+    post '/', :action => 'do_login', :on => :member
+  end
   match 'logout' => 'login#do_logout', :as => :logout, :via => [:get, :post]
-  match 'create_user' => 'login#create_user', :as => :create_user, :via => :get
-  match 'create_user' => 'login#do_create_user', :as => :create_user, :via => :post
+  resource(:create_user, :path => 'create_user', :as => 'create_user', :controller => 'login', :only => [:create_user, :do_create_user]) do
+    get '/', :action => 'create_user', :on => :member
+    post '/', :action => 'do_create_user', :on => :member
+  end
   match 'confirm_user' => 'login#confirmation', :as => :confirm_user, :via => :get
 
   scope 'months/:year/:month' do
