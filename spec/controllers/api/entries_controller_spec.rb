@@ -86,7 +86,7 @@ describe Api::EntriesController do
 
       context "with tag," do
         before do
-          tags = ['abc', 'def']
+          tags = ['test_tag', 'def']
           put(:update, :id=>items(:item11).id.to_s,
               entry: { :name => 'テスト11',
                 :action_date => items(:item11).action_date.strftime("%Y/%m/%d"),
@@ -96,7 +96,7 @@ describe Api::EntriesController do
                 :tag_list => tags.join(" ") },
               format: :json)
 
-          get :index, :tag => 'abc', format: :json
+          get :index, :tag => 'test_tag', format: :json
         end
 
         describe "response" do
@@ -112,7 +112,7 @@ describe Api::EntriesController do
 
         describe "@tag" do
           subject { assigns(:tag) }
-          it { should be == 'abc' }
+          it { should be == 'test_tag' }
         end
       end
 
