@@ -493,12 +493,6 @@ describe Item do
         Settings.stub!(:item_list_count).and_return(2)
       end
 
-      after do
-        Item.transaction do
-          Item.delete_all
-        end
-      end
-
       context "when :remain is not specified" do
         subject { users(:user1).items.partials(@from_date, @to_date) }
         it { should have(Settings.item_list_count).entries }
