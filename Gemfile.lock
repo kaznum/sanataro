@@ -17,11 +17,11 @@ GIT
 
 GIT
   remote: git://github.com/kaznum/doorkeeper.git
-  revision: f0ee888b72b24c661665b36c8e85bf9719ac69d4
-  branch: support_rails4
+  revision: 79a19941db74d5b10a0e604e7e2555fb246f33dd
+  branch: stas_rails4
   specs:
     doorkeeper (0.6.7)
-      railties (>= 3.1, < 5.0)
+      railties (>= 3.1)
 
 GIT
   remote: git://github.com/mqt/dalli-store-extensions.git
@@ -191,7 +191,7 @@ GEM
     memoist (0.9.0)
     method_source (0.8.1)
     mime-types (1.22)
-    minitest (4.7.2)
+    minitest (4.7.3)
     multi_json (1.7.2)
     mysql2 (0.3.11)
     net-scp (1.1.0)
