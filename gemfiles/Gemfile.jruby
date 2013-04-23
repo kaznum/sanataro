@@ -1,9 +1,11 @@
 source 'http://rubygems.org'
 
-gem 'rails', '4.0.0.beta1'
+gem 'rails', :github => 'rails/rails'
 
 group :development, :test do
-  gem "rspec-rails"
+  # This rspec dependency is for https://github.com/rails/rails/commit/02acd95d5700ea868c34f5d260882fda3cc836d3
+  # This would be fixed on > 2.13
+  gem "rspec-rails", :github => 'rspec/rspec-rails', :branch => '2-13-maintenance'
   gem "launchy"
   gem "fabrication"
 end
@@ -48,7 +50,7 @@ gem 'twitter-bootstrap-rails'
 gem 'rails_emoji'
 gem 'jbuilder'
 gem 'underscore-rails'
-gem 'doorkeeper', :github => 'kaznum/doorkeeper', :branch => 'support_rails4'
+gem 'doorkeeper', :github => 'kaznum/doorkeeper', :branch => 'stas_rails4'
 
 # TODO
 # Just temporally to support rails 4
