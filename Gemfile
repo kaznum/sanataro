@@ -55,8 +55,8 @@ end
 
 group :production do
   platform :mri do
-#    gem "therubyracer"
-#    gem 'libv8', '~> 3.11.8'
+    gem "therubyracer", '>= 0.11.4'
+    gem 'libv8', '>= 3.11.8.12'
   end
 end
 
