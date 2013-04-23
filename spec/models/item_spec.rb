@@ -500,6 +500,15 @@ describe Item do
         it { should have(Settings.item_list_count).entries }
       end
 
+      context "when the action_date's order is not same as those of ids" do
+        before do
+          @item = Fabricate.build(:general_item, from_account_id: 21, to_account_id: 13, name: "itemname_old", action_date: '2008-09-14', tag_list: 'ghi jkl')
+          @item.save!
+        end
+        subject { users(:user1).items.partials(@from_date, @to_date).to_a[0].id }
+        it { should_not == @item.id }
+      end
+
       context "when :remain is specified as true" do
         subject { users(:user1).items.partials(@from_date, @to_date, {:remain=>true}) }
         it { should have(6 - Settings.item_list_count).entries }
