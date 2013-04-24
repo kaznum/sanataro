@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/jruby/activerecord-jdbc-adapter.git
-  revision: 8679e259b620b03f015fb118c112044c7028fa83
+  revision: 34d04ad4ef9517df145ee94f38242b030b379a53
   specs:
     activerecord-jdbcmssql-adapter (1.3.0.DEV)
       activerecord-jdbc-adapter (~> 1.3.0.DEV)
@@ -41,7 +41,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 0fea87c49fd43a2f0d1a0eb66333a189b39afcc8
+  revision: e58f11683003ec1515113103895e18a8c9003aa3
   specs:
     actionmailer (4.0.0.beta1)
       actionpack (= 4.0.0.beta1)
@@ -173,7 +173,7 @@ GEM
     rspec-expectations (2.13.0)
       diff-lcs (>= 1.1.3, < 2.0)
     rspec-mocks (2.13.1)
-    sass (3.2.7)
+    sass (3.2.8)
     settingslogic (2.0.9)
     simplecov (0.7.1)
       multi_json (~> 1.0)
