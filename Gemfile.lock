@@ -39,7 +39,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 8aafb3d33d55130ef40946958f629e269d007bfe
+  revision: 11e23b9561b9a7dc0a7b79e6575f56c36e63acc0
   specs:
     actionmailer (4.0.0.beta1)
       actionpack (= 4.0.0.beta1)
@@ -108,7 +108,7 @@ GEM
     arel (4.0.0)
     atomic (1.1.8)
     builder (3.1.4)
-    capistrano (2.15.2)
+    capistrano (2.15.3)
       highline
       net-scp (>= 1.0.0)
       net-sftp (>= 2.0.0)
