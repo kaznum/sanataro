@@ -39,7 +39,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 11e23b9561b9a7dc0a7b79e6575f56c36e63acc0
+  revision: 7c8caf930d1176503259e9e811ae9935caf1a7b5
   specs:
     actionmailer (4.0.0.beta1)
       actionpack (= 4.0.0.beta1)
@@ -89,10 +89,10 @@ GIT
 
 GIT
   remote: git://github.com/rspec/rspec-rails.git
-  revision: 80a1a559c76f6c9d2786974ce1f9d0c5483f9ea3
+  revision: b05bb577db4c529385f970101b6df746778fdb72
   branch: 2-13-maintenance
   specs:
-    rspec-rails (2.13.0)
+    rspec-rails (2.13.1)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       railties (>= 3.0)
