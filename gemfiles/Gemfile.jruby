@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', :github => 'rails/rails'
+gem 'rails', :github => 'rails/rails', :branch => '4-0-stable'
 
 group :development, :test do
   # This rspec dependency is for https://github.com/rails/rails/commit/02acd95d5700ea868c34f5d260882fda3cc836d3
