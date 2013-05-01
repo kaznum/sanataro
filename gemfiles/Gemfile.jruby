@@ -50,7 +50,7 @@ gem 'twitter-bootstrap-rails'
 gem 'rails_emoji'
 gem 'jbuilder'
 gem 'underscore-rails'
-gem 'doorkeeper', :github => 'kaznum/doorkeeper', :branch => 'stas_rails4'
+gem 'doorkeeper', :git => 'git://github.com/kaznum/doorkeeper.git', :branch => 'remove_has_many_warning'
 
 # TODO
 # Just temporally to support rails 4

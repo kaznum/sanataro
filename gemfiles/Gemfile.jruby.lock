@@ -25,8 +25,8 @@ GIT
 
 GIT
   remote: git://github.com/kaznum/doorkeeper.git
-  revision: 79a19941db74d5b10a0e604e7e2555fb246f33dd
-  branch: stas_rails4
+  revision: da956b9b5c386fa5117abda73f25879253d61bbb
+  branch: remove_has_many_warning
   specs:
     doorkeeper (0.6.7)
       railties (>= 3.1)
@@ -41,7 +41,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: e876f71257efe27345c484f62c8a8ce13de2905b
+  revision: 1296adb90b3ffd478d988186bc82a96757b219db
   branch: 4-0-stable
   specs:
     actionmailer (4.0.0.rc1)
@@ -83,7 +83,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/sass-rails.git
-  revision: 44e8d0d2c478575b1cf5227730a8dc4b07b205bb
+  revision: aa9737b943095f3ce3f7ab0b4319a62518139c38
   specs:
     sass-rails (4.0.0.rc1)
       railties (>= 4.0.0.beta, < 5.0)
@@ -196,7 +196,7 @@ GEM
     thor (0.18.1)
     thread_safe (0.1.0)
       atomic
-    tilt (1.3.7)
+    tilt (1.4.0)
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)

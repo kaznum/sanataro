@@ -92,7 +92,7 @@ gem 'underscore-rails'
 
 # TODO
 # Just temporally to support rails 4
-gem 'doorkeeper', :git => 'git://github.com/kaznum/doorkeeper.git', :branch => 'stas_rails4'
+gem 'doorkeeper', :git => 'git://github.com/kaznum/doorkeeper.git', :branch => 'remove_has_many_warning'
 
 # TODO
 # Just temporally to support rails 4
