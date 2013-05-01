@@ -87,7 +87,7 @@ gem 'dalli'
 gem 'dalli-store-extensions', :github => "mqt/dalli-store-extensions"
 
 gem 'rails_emoji'
-gem 'jbuilder', '~> 1.0.1'
+gem 'jbuilder'
 gem 'underscore-rails'
 
 # TODO
