@@ -31,7 +31,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/coffee-rails.git
-  revision: 78d4d7ac5baf4e76a6717f303f51b505c40b9770
+  revision: cbc4a6f571e87f68d272b9a377db3fb3307464ab
   specs:
     coffee-rails (4.0.0)
       coffee-script (>= 2.2.0)
@@ -39,7 +39,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 1296adb90b3ffd478d988186bc82a96757b219db
+  revision: 48a4d2d6b8936aa9379160279b9089e343d0ac38
   branch: 4-0-stable
   specs:
     actionmailer (4.0.0.rc1)
@@ -81,7 +81,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/sass-rails.git
-  revision: aa9737b943095f3ce3f7ab0b4319a62518139c38
+  revision: 33799418f104c961b1ce41452e77cf1e04930755
   specs:
     sass-rails (4.0.0.rc1)
       railties (>= 4.0.0.beta, < 5.0)
@@ -182,7 +182,7 @@ GEM
     highline (1.6.18)
     hike (1.2.2)
     i18n (0.6.4)
-    jbuilder (1.3.0)
+    jbuilder (1.4.0)
       activesupport (>= 3.0.0)
       multi_json (>= 1.2.0)
     jquery-rails (2.2.1)
@@ -207,8 +207,8 @@ GEM
     memoist (0.9.0)
     method_source (0.8.1)
     mime-types (1.23)
-    minitest (4.7.3)
-    multi_json (1.7.2)
+    minitest (4.7.4)
+    multi_json (1.7.3)
     mysql2 (0.3.11)
     net-scp (1.1.0)
       net-ssh (>= 2.6.5)
