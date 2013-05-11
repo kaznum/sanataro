@@ -10,6 +10,7 @@ GIT
   remote: git://github.com/jruby/activerecord-jdbc-adapter.git
   revision: bc6ea604603b99cb50bcbb63536b7f6b1ad05099
   specs:
+    activerecord-jdbc-adapter (1.3.0.DEV)
     activerecord-jdbcmssql-adapter (1.3.0.DEV)
       activerecord-jdbc-adapter (~> 1.3.0.DEV)
       jdbc-jtds (>= 1.2.5, < 1.4.0)
@@ -22,6 +23,10 @@ GIT
     activerecord-jdbcsqlite3-adapter (1.3.0.DEV)
       activerecord-jdbc-adapter (~> 1.3.0.DEV)
       jdbc-sqlite3 (~> 3.7.2)
+    jdbc-jtds (1.3.0.1)
+    jdbc-mysql (5.1.24)
+    jdbc-postgres (9.2.1002.1)
+    jdbc-sqlite3 (3.7.2.1)
 
 GIT
   remote: git://github.com/kaznum/doorkeeper.git
@@ -41,7 +46,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 19117ff392d34114c995d03c508ef650d1b9a76d
+  revision: 5cdd0bcbc8d98f2cd81ff9fb13f5e885990292ef
   branch: 4-0-stable
   specs:
     actionmailer (4.0.0.rc1)
@@ -107,7 +112,6 @@ GEM
   remote: http://rubygems.org/
   specs:
     activerecord-deprecated_finders (1.0.2)
-    activerecord-jdbc-adapter (1.3.0.beta1)
     addressable (2.3.4)
     arel (4.0.0)
     atomic (1.1.9)
@@ -132,10 +136,6 @@ GEM
     jbuilder (1.4.0)
       activesupport (>= 3.0.0)
       multi_json (>= 1.2.0)
-    jdbc-jtds (1.3.0)
-    jdbc-mysql (5.1.22.1)
-    jdbc-postgres (9.2.1002)
-    jdbc-sqlite3 (3.7.2)
     jquery-rails (2.2.1)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
@@ -174,7 +174,7 @@ GEM
     rspec-expectations (2.13.0)
       diff-lcs (>= 1.1.3, < 2.0)
     rspec-mocks (2.13.1)
-    sass (3.2.8)
+    sass (3.2.9)
     settingslogic (2.0.9)
     simplecov (0.7.1)
       multi_json (~> 1.0)
@@ -215,6 +215,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord-jdbc-adapter!
   activerecord-jdbcmssql-adapter!
   activerecord-jdbcmysql-adapter!
   activerecord-jdbcpostgresql-adapter!
@@ -226,6 +227,10 @@ DEPENDENCIES
   haml-rails
   i18n
   jbuilder
+  jdbc-jtds!
+  jdbc-mysql!
+  jdbc-postgres!
+  jdbc-sqlite3!
   jquery-rails
   jquery-ui-rails
   krypt-ossl

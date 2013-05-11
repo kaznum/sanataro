@@ -22,10 +22,15 @@ platforms :jruby do
   # for rails4.0.0.base1
   gem 'krypt-ossl'
 
+  gem "activerecord-jdbc-adapter", github: 'jruby/activerecord-jdbc-adapter'
   gem "activerecord-jdbcmysql-adapter", github: 'jruby/activerecord-jdbc-adapter'
   gem "activerecord-jdbcsqlite3-adapter", github: 'jruby/activerecord-jdbc-adapter'
   gem "activerecord-jdbcpostgresql-adapter", github: 'jruby/activerecord-jdbc-adapter'
   gem "activerecord-jdbcmssql-adapter", github: 'jruby/activerecord-jdbc-adapter'
+  gem 'jdbc-mysql', github: 'jruby/activerecord-jdbc-adapter'
+  gem 'jdbc-postgres', github: 'jruby/activerecord-jdbc-adapter'
+  gem 'jdbc-sqlite3', github: 'jruby/activerecord-jdbc-adapter'
+  gem 'jdbc-jtds', github: 'jruby/activerecord-jdbc-adapter'
   gem "therubyrhino"
 end
 
