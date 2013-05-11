@@ -4,12 +4,12 @@ class DropTableItemTypes < ActiveRecord::Migration
   end
 
   def self.down
-    create_table :item_types, {} do |t|
-      t.column :name, :string
-      t.column :is_income, :boolean, :default=>false
-      t.column :is_active, :boolean, :default=>true
-      t.column :item_types, :order_no, :integer
-      t.column :item_types, :user_id, :integer
+    create_table :item_types do |t|
+      t.string :name
+      t.boolean :is_income, :default=>false
+      t.boolean :is_active, :default=>true
+      t.integer :order_no
+      t.integer :user_id
     end
   end
 end
