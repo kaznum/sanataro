@@ -1,12 +1,4 @@
 GIT
-  remote: git://github.com/haml/haml.git
-  revision: ec523f5529e5e503b700ebf3149e4084cc9d116b
-  branch: stable
-  specs:
-    haml (4.0.2)
-      tilt
-
-GIT
   remote: git://github.com/jruby/activerecord-jdbc-adapter.git
   revision: bc6ea604603b99cb50bcbb63536b7f6b1ad05099
   specs:
@@ -46,7 +38,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 5cdd0bcbc8d98f2cd81ff9fb13f5e885990292ef
+  revision: 91890330eea295ef61522a307c55d73689a0a780
   branch: 4-0-stable
   specs:
     actionmailer (4.0.0.rc1)
@@ -126,6 +118,8 @@ GEM
     execjs (1.4.0)
       multi_json (~> 1.0)
     fabrication (2.7.0)
+    haml (4.0.2)
+      tilt
     haml-rails (0.4)
       actionpack (>= 3.1, < 4.1)
       activesupport (>= 3.1, < 4.1)
@@ -223,7 +217,7 @@ DEPENDENCIES
   coffee-rails!
   doorkeeper!
   fabrication
-  haml!
+  haml (>= 4.0.2)
   haml-rails
   i18n
   jbuilder
