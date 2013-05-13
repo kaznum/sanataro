@@ -39,7 +39,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 24fb4dc1586dd95361e1b7f978f1c90c920e85c2
+  revision: 6f2bfb0716b42218485bc3ac2ef6bc685ed55051
   branch: 4-0-stable
   specs:
     actionmailer (4.0.0.rc1)
@@ -90,7 +90,7 @@ GIT
 
 GIT
   remote: git://github.com/rspec/rspec-rails.git
-  revision: b05bb577db4c529385f970101b6df746778fdb72
+  revision: 30bbf72ca1a1e78a50177ae4fe8105d210098f86
   branch: 2-13-maintenance
   specs:
     rspec-rails (2.13.1)
@@ -182,7 +182,7 @@ GEM
     highline (1.6.18)
     hike (1.2.2)
     i18n (0.6.4)
-    jbuilder (1.4.0)
+    jbuilder (1.4.1)
       activesupport (>= 3.0.0)
       multi_json (>= 1.2.0)
     jquery-rails (2.2.1)
