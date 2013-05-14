@@ -9,9 +9,11 @@ module ActiveRecord
         def sanataro_taggable(options = {})
           has_many :taggings, as: :taggable, dependent: :destroy
           has_many :tags, through: :taggings
-
-#          scope :tagged_with, lambda { |tag| includes(:tags).where(Tag.arel_table[:name].eq(tag)) }
-          scope :tagged_with, lambda { |tag| includes(:tags).where("tags.name = ?", tag).references(:tags) }
+          # TODO
+          # On JRuby and PosgreSQL, the following statement does not work well
+          # because of the restriction where distinct and order clause needs that the columns which is used in them in select clause.
+          # scope :tagged_with, lambda { |tag| ids = includes(:tags).where("tags.name = ?", tag).references(:tags) }
+          scope :tagged_with, lambda { |tag| ids = includes(:tags).where("tags.name = ?", tag).references(:tags).pluck(:id); where(id: ids) }
 
           after_save :update_tags
 
