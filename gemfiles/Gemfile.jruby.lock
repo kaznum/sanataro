@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/jruby/activerecord-jdbc-adapter.git
-  revision: dd586e1e205dac58981c1d2fd43cb362ee75d24b
+  revision: 00bdbb51b73beb8d38caa84c5acd21d812ea8441
   specs:
     activerecord-jdbc-adapter (1.3.0.DEV)
     activerecord-jdbcmssql-adapter (1.3.0.DEV)
