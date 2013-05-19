@@ -38,7 +38,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 793b21c15c1e056f76144dee2e52376b5d287a0b
+  revision: b20d1502e0c0bbea6237e1281b16ee3cf1655649
   branch: 4-0-stable
   specs:
     actionmailer (4.0.0.rc1)
@@ -89,10 +89,10 @@ GIT
 
 GIT
   remote: git://github.com/rspec/rspec-rails.git
-  revision: a7bd48565c747557bd448b9964be3aaece2a0db8
+  revision: 55bfd60a3ee74a757af19116bbe10674d4654bea
   branch: 2-13-maintenance
   specs:
-    rspec-rails (2.13.1)
+    rspec-rails (2.13.2)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       railties (>= 3.0)
@@ -198,7 +198,7 @@ GEM
       execjs
       railties (>= 3.1)
     tzinfo (0.3.37)
-    uglifier (2.1.0)
+    uglifier (2.1.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
     underscore-rails (1.4.4)
