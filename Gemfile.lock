@@ -39,7 +39,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: b20d1502e0c0bbea6237e1281b16ee3cf1655649
+  revision: b83a7203b85df83026af2b1d8a9135c4d068d807
   branch: 4-0-stable
   specs:
     actionmailer (4.0.0.rc1)
@@ -238,7 +238,7 @@ GEM
       ffi (>= 0.5.0)
     rb-kqueue (0.2.0)
       ffi (>= 0.5.0)
-    ref (1.0.4)
+    ref (1.0.5)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
