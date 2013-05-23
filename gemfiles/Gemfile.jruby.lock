@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/jruby/activerecord-jdbc-adapter.git
-  revision: dd586e1e205dac58981c1d2fd43cb362ee75d24b
+  revision: b1cb2cb59496a7c3ae22799f88c8c4789e6a8cce
   specs:
     activerecord-jdbc-adapter (1.3.0.DEV)
     activerecord-jdbcmssql-adapter (1.3.0.DEV)
@@ -38,7 +38,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: c273cb630872e2d4ff9af7baf2de0c79ac0c9dd7
+  revision: 99fafa9ad538f2e26f8481cdf9f40efeabb1a1d8
   branch: 4-0-stable
   specs:
     actionmailer (4.0.0.rc1)
@@ -89,10 +89,10 @@ GIT
 
 GIT
   remote: git://github.com/rspec/rspec-rails.git
-  revision: b4c5c34483e95055fdaf41d4cece0159778e6e19
+  revision: 55bfd60a3ee74a757af19116bbe10674d4654bea
   branch: 2-13-maintenance
   specs:
-    rspec-rails (2.13.1)
+    rspec-rails (2.13.2)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       railties (>= 3.0)
@@ -117,8 +117,8 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    fabrication (2.7.0)
-    haml (4.0.2)
+    fabrication (2.7.1)
+    haml (4.0.3)
       tilt
     haml-rails (0.4)
       actionpack (>= 3.1, < 4.1)
@@ -133,7 +133,7 @@ GEM
     jquery-rails (2.2.1)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
-    jquery-ui-rails (4.0.2)
+    jquery-ui-rails (4.0.3)
       jquery-rails
       railties (>= 3.1.0)
     krypt (0.0.1)
@@ -198,7 +198,7 @@ GEM
       execjs
       railties (>= 3.1)
     tzinfo (0.3.37)
-    uglifier (2.1.0)
+    uglifier (2.1.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
     underscore-rails (1.4.4)

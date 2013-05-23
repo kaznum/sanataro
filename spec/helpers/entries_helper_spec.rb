@@ -101,6 +101,7 @@ describe EntriesHelper do
   end
 
   describe "operation icons" do
+    fixtures :users, :accounts
     before do
       @item = Fabricate.build(:general_item, amount: 1500, from_account_id: 1, to_account_id: 3, action_date: Date.new(2008,5,3))
       @item.save!

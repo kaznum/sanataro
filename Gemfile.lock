@@ -39,7 +39,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: c273cb630872e2d4ff9af7baf2de0c79ac0c9dd7
+  revision: 99fafa9ad538f2e26f8481cdf9f40efeabb1a1d8
   branch: 4-0-stable
   specs:
     actionmailer (4.0.0.rc1)
@@ -90,10 +90,10 @@ GIT
 
 GIT
   remote: git://github.com/rspec/rspec-rails.git
-  revision: b4c5c34483e95055fdaf41d4cece0159778e6e19
+  revision: 55bfd60a3ee74a757af19116bbe10674d4654bea
   branch: 2-13-maintenance
   specs:
-    rspec-rails (2.13.1)
+    rspec-rails (2.13.2)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       railties (>= 3.0)
@@ -122,7 +122,7 @@ GEM
       rack-test (>= 0.5.4)
       selenium-webdriver (~> 2.0)
       xpath (~> 1.0.0)
-    capybara-webkit (0.14.2)
+    capybara-webkit (1.0.0)
       capybara (~> 2.0, >= 2.0.2)
       json
     childprocess (0.3.9)
@@ -134,7 +134,7 @@ GEM
     coffee-script-source (1.6.2)
     columnize (0.3.6)
     connection_pool (1.0.0)
-    cucumber (1.3.1)
+    cucumber (1.3.2)
       builder (>= 2.1.2)
       diff-lcs (>= 1.1.3)
       gherkin (~> 2.12.0)
@@ -145,12 +145,12 @@ GEM
       debugger-linecache (~> 1.2.0)
       debugger-ruby_core_source (~> 1.2.1)
     debugger-linecache (1.2.0)
-    debugger-ruby_core_source (1.2.1)
+    debugger-ruby_core_source (1.2.2)
     diff-lcs (1.2.4)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    fabrication (2.7.0)
+    fabrication (2.7.1)
     ffi (1.8.1)
     formatador (0.2.4)
     gherkin (2.12.0)
@@ -172,7 +172,7 @@ GEM
       childprocess (>= 0.2.3)
       guard (>= 1.1)
       spork (>= 0.8.4)
-    haml (4.0.2)
+    haml (4.0.3)
       tilt
     haml-rails (0.4)
       actionpack (>= 3.1, < 4.1)
@@ -188,14 +188,14 @@ GEM
     jquery-rails (2.2.1)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
-    jquery-ui-rails (4.0.2)
+    jquery-ui-rails (4.0.3)
       jquery-rails
       railties (>= 3.1.0)
     json (1.8.0)
     launchy (2.3.0)
       addressable (~> 2.3)
     libv8 (3.11.8.17)
-    listen (1.1.1)
+    listen (1.1.3)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
       rb-kqueue (>= 0.2)
@@ -238,7 +238,7 @@ GEM
       ffi (>= 0.5.0)
     rb-kqueue (0.2.0)
       ffi (>= 0.5.0)
-    ref (1.0.4)
+    ref (1.0.5)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
@@ -288,7 +288,7 @@ GEM
       execjs
       railties (>= 3.1)
     tzinfo (0.3.37)
-    uglifier (2.1.0)
+    uglifier (2.1.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
     underscore-rails (1.4.4)
