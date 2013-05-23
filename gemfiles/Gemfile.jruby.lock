@@ -38,7 +38,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 064e30612f1dbbf9d4425e3253ca24d34f4259ba
+  revision: 99fafa9ad538f2e26f8481cdf9f40efeabb1a1d8
   branch: 4-0-stable
   specs:
     actionmailer (4.0.0.rc1)
@@ -117,8 +117,8 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    fabrication (2.7.0)
-    haml (4.0.2)
+    fabrication (2.7.1)
+    haml (4.0.3)
       tilt
     haml-rails (0.4)
       actionpack (>= 3.1, < 4.1)
