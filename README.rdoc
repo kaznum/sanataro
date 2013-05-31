@@ -45,6 +45,11 @@ built with Ruby on Rails.
     be setup by ADMIN_USER and ADMIN_PASSWORD in environment variables or
     production's admin_user and admin_password settings in config/application.yml
     (see development setting).
+== Caution: For Production Environment
+* You should set the environment variables as follows,
+  * ADMIN_USER: user name for admin page
+  * ADMIN_PASSWORD: user password for admin page
+  * SECRET_TOKEN: the secret token (It is good to use the result of `rake secret`)
 
 == For JRuby environment
 * Use gemfiles/Gemfile.jruby{,.lock} as Gemfile{,.lock}
