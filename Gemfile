@@ -28,6 +28,7 @@ group :development, :test do
       gem 'debugger'
     end
   end
+  gem 'dotenv-rails'
 end
 
 
