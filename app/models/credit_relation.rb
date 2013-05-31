@@ -40,7 +40,7 @@ class CreditRelation < ActiveRecord::Base
 
   def should_not_used_as_payment_account
     crs_in_payments = user.credit_relations.where(payment_account_id: credit_account_id)
-    crs_in_payments = crs_in_payments.where("id <> ?", id)  unless new_record?
+    crs_in_payments = crs_in_payments.where.not(id: id)  unless new_record?
     if crs_in_payments.any?
       errors.add("credit_account_id", I18n.t("errors.messages.used_as_payment_account"))
     end
@@ -48,7 +48,7 @@ class CreditRelation < ActiveRecord::Base
 
   def should_not_used_as_credit_account
     crs_in_credits = user.credit_relations.where(credit_account_id: payment_account_id)
-    crs_in_credits = crs_in_credits.where("id <> ?", id)  unless new_record?
+    crs_in_credits = crs_in_credits.where.not(id: id)  unless new_record?
     if crs_in_credits.any?
       errors.add("payment_account_id", I18n.t("errors.messages.used_as_credit_account"))
     end

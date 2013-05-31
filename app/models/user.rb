@@ -86,7 +86,7 @@ class User < ActiveRecord::Base
   def account_bgcolors
     Rails.cache.fetch("user_#{id}_account_bgcolors") do
       results = {}
-      accounts.where("bgcolor IS NOT NULL").each do |a|
+      accounts.where.not(bgcolor: nil).each do |a|
         results[a.id] = a.bgcolor
       end
       results

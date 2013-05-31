@@ -12,12 +12,12 @@ module ApplicationHelper
   end
 
   def calendar_from(user)
-    from_month =  user.monthly_profit_losses.where("amount <> 0").minimum('month') || Date.today.beginning_of_month
+    from_month =  user.monthly_profit_losses.where.not(amount: 0).minimum('month') || Date.today.beginning_of_month
     from_month.months_ago(2).beginning_of_month
   end
 
   def calendar_to(user)
-    to_month = user.monthly_profit_losses.where("amount <> 0").maximum('month') || Date.today.beginning_of_month
+    to_month = user.monthly_profit_losses.where.not(amount: 0).maximum('month') || Date.today.beginning_of_month
     to_month.months_since(2).beginning_of_month
   end
 

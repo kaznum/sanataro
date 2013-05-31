@@ -114,7 +114,7 @@ class Account < ActiveRecord::Base
     end
 
     def asset_to_date_of_this_month_except(user, account_id, date, item_id)
-      user.items.action_date_between(date.beginning_of_month, date).where("id <> ?", item_id).scoping do
+      user.items.action_date_between(date.beginning_of_month, date).where.not(id: item_id).scoping do
         expense = Item.where(from_account_id: account_id).sum(:amount)
         income = Item.where(to_account_id: account_id).sum(:amount)
         income - expense
