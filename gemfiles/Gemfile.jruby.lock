@@ -1,19 +1,19 @@
 GIT
   remote: git://github.com/jruby/activerecord-jdbc-adapter.git
-  revision: afeee445b93e7f0635801f2dc8be74ccd4ca66db
+  revision: a77ac76d2adda35d01aa9d66cafa324b2953e5ea
   specs:
-    activerecord-jdbc-adapter (1.3.0.DEV)
-    activerecord-jdbcmssql-adapter (1.3.0.DEV)
-      activerecord-jdbc-adapter (~> 1.3.0.DEV)
+    activerecord-jdbc-adapter (1.3.0.beta2)
+    activerecord-jdbcmssql-adapter (1.3.0.beta2)
+      activerecord-jdbc-adapter (~> 1.3.0.beta2)
       jdbc-jtds (>= 1.2.5, < 1.4.0)
-    activerecord-jdbcmysql-adapter (1.3.0.DEV)
-      activerecord-jdbc-adapter (~> 1.3.0.DEV)
+    activerecord-jdbcmysql-adapter (1.3.0.beta2)
+      activerecord-jdbc-adapter (~> 1.3.0.beta2)
       jdbc-mysql (~> 5.1.0)
-    activerecord-jdbcpostgresql-adapter (1.3.0.DEV)
-      activerecord-jdbc-adapter (~> 1.3.0.DEV)
+    activerecord-jdbcpostgresql-adapter (1.3.0.beta2)
+      activerecord-jdbc-adapter (~> 1.3.0.beta2)
       jdbc-postgres (>= 9.1, < 9.3)
-    activerecord-jdbcsqlite3-adapter (1.3.0.DEV)
-      activerecord-jdbc-adapter (~> 1.3.0.DEV)
+    activerecord-jdbcsqlite3-adapter (1.3.0.beta2)
+      activerecord-jdbc-adapter (~> 1.3.0.beta2)
       jdbc-sqlite3 (~> 3.7.2)
     jdbc-jtds (1.3.0.1)
     jdbc-mysql (5.1.24)
