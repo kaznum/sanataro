@@ -39,7 +39,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 5037392d2ebba456aff527a3c1683e0661818cdd
+  revision: 79af2c770a765cd18eae4e6a85107da6823612d3
   branch: 4-0-stable
   specs:
     actionmailer (4.0.0.rc1)
@@ -152,7 +152,7 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    fabrication (2.7.1)
+    fabrication (2.7.2)
     ffi (1.8.1)
     formatador (0.2.4)
     gherkin (2.12.0)
