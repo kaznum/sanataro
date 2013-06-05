@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class EntryCandidatesController < ApplicationController
-  before_filter :required_login
+  before_action :required_login
 
   def index
     partial_name = params[:item_name]

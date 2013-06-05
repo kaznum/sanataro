@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class AccountStatusesController < ApplicationController
-  before_filter :required_login
+  before_action :required_login
   def show
     @account_statuses = _account_status
   end

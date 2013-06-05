@@ -1,6 +1,6 @@
 class EntriesController < ApplicationController
   include Common::Entries
-  before_filter :required_login
+  before_action :required_login
 
   def index
     super

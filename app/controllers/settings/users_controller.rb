@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class Settings::UsersController < ApplicationController
-  before_filter :required_login
+  before_action :required_login
 
   def show
     render :layout => 'entries'

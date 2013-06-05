@@ -1,5 +1,5 @@
 class Admin::UsersController < ApplicationController
-  before_filter :authenticate
+  before_action :authenticate
   def index
     @users = User.all
     render :action => :index, :layout => 'admin'

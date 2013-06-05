@@ -3,7 +3,7 @@ module MonthlyReports
     base.class_eval do
       include ::MonthlyReports::InstanceMethods
 
-      before_filter :required_login
+      before_action :required_login
     end
   end
 

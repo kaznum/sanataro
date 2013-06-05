@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 class LoginController < ApplicationController
-  before_filter :required_login, :except=>[:login, :do_login, :create_user, :do_create_user, :do_logout, :confirmation]
-  before_filter :_render_login_if_forced!, only: [:login]
-  before_filter :_autologin_if_required!, only: [:login]
+  before_action :required_login, :except=>[:login, :do_login, :create_user, :do_create_user, :do_logout, :confirmation]
+  before_action :_render_login_if_forced!, only: [:login]
+  before_action :_autologin_if_required!, only: [:login]
 
   def login
     if session[:user_id]

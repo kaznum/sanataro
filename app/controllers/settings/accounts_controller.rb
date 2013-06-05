@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 class Settings::AccountsController < ApplicationController
   include ActionView::Helpers::NumberHelper
-  before_filter :required_login
-  before_filter :_retrieve_account_or_redirect!, only: [:edit, :update, :destroy, :show]
+  before_action :required_login
+  before_action :_retrieve_account_or_redirect!, only: [:edit, :update, :destroy, :show]
 
   def index
     @type = (params[:type].presence || 'banking').to_sym

@@ -3,7 +3,7 @@
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
   # for i18n
-  before_filter :set_locale
+  before_action :set_locale
   protect_from_forgery
 
   def set_locale

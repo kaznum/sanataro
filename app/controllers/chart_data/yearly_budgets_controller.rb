@@ -3,7 +3,7 @@ class ChartData::YearlyBudgetsController < ApplicationController
   include ChartData
   respond_to :json
 
-  before_filter :_redirect_if_invalid_budget_type!
+  before_action :_redirect_if_invalid_budget_type!
 
   def show
     year, month = CommonUtil.get_year_month_from_combined(params[:id])

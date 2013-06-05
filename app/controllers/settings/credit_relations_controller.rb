@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class Settings::CreditRelationsController < ApplicationController
-  before_filter :required_login
+  before_action :required_login
 
   def index
     @credit_relations = @user.credit_relations.all
