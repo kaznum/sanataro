@@ -1,14 +1,20 @@
-if defined?(Fabrication::Generator::ActiveRecord4)
+# this can be used with `protected_attributes' gem
+# for fabrication >= 2.7.2 (https://github.com/paulelliott/fabrication/commit/44d9942375475aa2e4f4a31336f8cce08f736acd)
+if defined?(Fabrication::Generator::ActiveRecord)
   module Sanataro::FabricationMassAssignment
-    # this can be used with `protected_attributes' gem
-    def build_instance_with_mass_assignment
-      self.__instance = __klass.new(__attributes, without_protection: true)
+    def self.included(base)
+      base.extend ClassMethods
+      class << base
+        alias_method_chain :without_protection?, :mass_assignment
+      end
+    end
+    module ClassMethods
+      def without_protection_with_mass_assignment?
+        true
+      end
     end
   end
 
-  Fabrication::Generator::ActiveRecord4.send(:include,
-                                             Sanataro::FabricationMassAssignment)
-  Fabrication::Generator::ActiveRecord4.send(:alias_method_chain, 
-                                             :build_instance, :mass_assignment)
+  Fabrication::Generator::ActiveRecord.send :include, Sanataro::FabricationMassAssignment
 end
 
