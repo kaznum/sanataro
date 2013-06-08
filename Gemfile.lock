@@ -81,19 +81,6 @@ GIT
       sass (>= 3.1.10)
       sprockets-rails (~> 2.0.0.rc4)
 
-GIT
-  remote: git://github.com/rspec/rspec-rails.git
-  revision: 55bfd60a3ee74a757af19116bbe10674d4654bea
-  branch: 2-13-maintenance
-  specs:
-    rspec-rails (2.13.2)
-      actionpack (>= 3.0)
-      activesupport (>= 3.0)
-      railties (>= 3.0)
-      rspec-core (~> 2.13.0)
-      rspec-expectations (~> 2.13.0)
-      rspec-mocks (~> 2.13.0)
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -243,6 +230,13 @@ GEM
     rspec-expectations (2.13.0)
       diff-lcs (>= 1.1.3, < 2.0)
     rspec-mocks (2.13.1)
+    rspec-rails (2.13.2)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      railties (>= 3.0)
+      rspec-core (~> 2.13.0)
+      rspec-expectations (~> 2.13.0)
+      rspec-mocks (~> 2.13.0)
     rvm-capistrano (1.3.0)
       capistrano (>= 2.0.0)
     sass (3.2.9)
@@ -326,7 +320,7 @@ DEPENDENCIES
   rails-observers
   rails_emoji
   rb-fsevent
-  rspec-rails!
+  rspec-rails (>= 2.13.1)
   rvm-capistrano
   sass-rails!
   settingslogic

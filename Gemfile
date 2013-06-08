@@ -13,12 +13,8 @@ gem 'rails', github: 'rails/rails', :branch => '4-0-stable'
 # Use unicorn as the web server
 # gem 'unicorn'
 
-
 group :development, :test do
-  # TODO
-  # This rspec dependency is for https://github.com/rails/rails/commit/02acd95d5700ea868c34f5d260882fda3cc836d3
-  # This would be fixed on > 2.13
-  gem "rspec-rails", :github => 'rspec/rspec-rails', :branch => '2-13-maintenance'
+  gem "rspec-rails", ">= 2.13.1"
   gem "launchy"
   gem "fabrication"
   unless ENV['TRAVIS']
