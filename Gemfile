@@ -42,10 +42,7 @@ group :test do
     gem "rb-fsevent"
     gem "webrat"
 
-    # TODO
-    # for https://github.com/bmabey/database_cleaner/pull/153
-    gem "database_cleaner", :github => "bmabey/database_cleaner", :tag => 'v1.0.0.RC1'
-
+    gem "database_cleaner", '>= 1.0.0'
     gem "guard-rspec"
     gem "guard-cucumber"
     gem "guard-spork"

@@ -1,11 +1,4 @@
 GIT
-  remote: git://github.com/bmabey/database_cleaner.git
-  revision: c86583862e46d5708f3c6aff6b960d78899edc36
-  tag: v1.0.0.RC1
-  specs:
-    database_cleaner (1.0.0.RC1)
-
-GIT
   remote: git://github.com/cucumber/cucumber-rails.git
   revision: 62431b66ad93434efb6c0656d81dd7e8c35c440e
   branch: release-1.3.1
@@ -139,6 +132,7 @@ GEM
       gherkin (~> 2.12.0)
       multi_json (~> 1.3)
     dalli (2.6.4)
+    database_cleaner (1.0.1)
     debugger (1.6.0)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.2.0)
@@ -307,7 +301,7 @@ DEPENDENCIES
   cucumber-rails!
   dalli
   dalli-store-extensions!
-  database_cleaner!
+  database_cleaner (>= 1.0.0)
   debugger
   doorkeeper!
   dotenv-rails
