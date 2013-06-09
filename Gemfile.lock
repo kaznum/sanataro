@@ -32,7 +32,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 2fc4793dd35a567b7885989ff5948fc9816d1839
+  revision: 927df2d49a49f9db40e000a528d2b2989b99e877
   branch: 4-0-stable
   specs:
     actionmailer (4.0.0.rc1)
@@ -189,6 +189,7 @@ GEM
     memoist (0.9.0)
     method_source (0.8.1)
     mime-types (1.23)
+    mini_portile (0.5.0)
     minitest (4.7.4)
     multi_json (1.7.6)
     mysql2 (0.3.11)
@@ -199,7 +200,8 @@ GEM
     net-ssh (2.6.7)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
-    nokogiri (1.5.10)
+    nokogiri (1.6.0)
+      mini_portile (~> 0.5.0)
     pg (0.15.1)
     polyglot (0.3.3)
     protected_attributes (1.0.1)
