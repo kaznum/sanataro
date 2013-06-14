@@ -38,7 +38,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 4c938bf80d4ca1cae7ee5cc08bd9fe94c14c0edf
+  revision: 09191d5df6af9f73eeb1ddd786e32f77e1066007
   branch: 4-0-stable
   specs:
     actionmailer (4.0.0.rc1)
@@ -141,7 +141,7 @@ GEM
     memoist (0.9.0)
     mime-types (1.23)
     minitest (4.7.4)
-    multi_json (1.7.6)
+    multi_json (1.7.7)
     polyglot (0.3.3)
     protected_attributes (1.0.1)
       activemodel (>= 4.0.0.beta, < 5.0)

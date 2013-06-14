@@ -32,7 +32,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 4c938bf80d4ca1cae7ee5cc08bd9fe94c14c0edf
+  revision: 09191d5df6af9f73eeb1ddd786e32f77e1066007
   branch: 4-0-stable
   specs:
     actionmailer (4.0.0.rc1)
@@ -191,7 +191,7 @@ GEM
     mime-types (1.23)
     mini_portile (0.5.0)
     minitest (4.7.4)
-    multi_json (1.7.6)
+    multi_json (1.7.7)
     mysql2 (0.3.11)
     net-scp (1.1.1)
       net-ssh (>= 2.6.5)
