@@ -32,7 +32,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 09191d5df6af9f73eeb1ddd786e32f77e1066007
+  revision: ba7d18743719cbee10c3e2ee9b75fe2d363e6703
   branch: 4-0-stable
   specs:
     actionmailer (4.0.0.rc1)
