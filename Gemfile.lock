@@ -32,7 +32,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 57c51e7bf44fa4e64303c58ce774aad89d4136b6
+  revision: b4d294319cecf0c14e1bcbb55a719158bca4a6d2
   branch: 4-0-stable
   specs:
     actionmailer (4.0.0.rc1)
@@ -178,7 +178,7 @@ GEM
     launchy (2.3.0)
       addressable (~> 2.3)
     libv8 (3.11.8.17)
-    listen (1.2.1)
+    listen (1.2.2)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
       rb-kqueue (>= 0.2)
