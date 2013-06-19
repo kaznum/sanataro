@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/jruby/activerecord-jdbc-adapter.git
-  revision: dbe5641ab1ae9d9be025bfdbef10ec820d9bf2c0
+  revision: 168c87954f88f4e08bbeb9cfda984478737f6352
   specs:
     activerecord-jdbc-adapter (1.3.0.beta2)
     activerecord-jdbcmssql-adapter (1.3.0.beta2)
@@ -38,7 +38,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: f81dd3640317b1ef9adedd79b4917499c784e94d
+  revision: 6ed17e2a65c9cad6f5bf73080493a732828da2d5
   branch: 4-0-stable
   specs:
     actionmailer (4.0.0.rc1)
