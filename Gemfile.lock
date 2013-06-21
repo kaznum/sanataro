@@ -32,7 +32,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 84bb0b0e90267af61b38805f69c6ee9b2cb36d8f
+  revision: ad0681a7a83e1bad7cffb6a02ae8545daa326d82
   branch: 4-0-stable
   specs:
     actionmailer (4.0.0.rc1)
@@ -151,7 +151,7 @@ GEM
     guard-rspec (3.0.2)
       guard (>= 1.8)
       rspec (~> 2.13)
-    guard-spork (1.5.0)
+    guard-spork (1.5.1)
       childprocess (>= 0.2.3)
       guard (>= 1.1)
       spork (>= 0.8.4)
