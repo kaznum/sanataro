@@ -5,10 +5,7 @@ source 'http://rubygems.org'
 ### Please see gemfiles/Gemfile.jruby for JRuby env
 ###
 
-gem 'rails', github: 'rails/rails', :branch => '4-0-stable'
-
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
+gem 'rails', '>= 4.0.0'
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -32,7 +29,7 @@ group :test do
   gem "simplecov"
   gem 'spork'
   platform :mri do
-    gem "cucumber-rails", :require => false, :github => 'cucumber/cucumber-rails', :branch => "release-1.3.1" 
+    gem "cucumber-rails"
     gem "capybara-webkit", '>= 1.0.0'
     gem "growl"
     gem "rb-fsevent"
@@ -59,8 +56,8 @@ platforms :ruby do
 end
 
 group :assets do
-  gem 'sass-rails', github: 'rails/sass-rails'
-  gem 'coffee-rails', github: 'rails/coffee-rails'
+  gem 'sass-rails'
+  gem 'coffee-rails'
   gem 'uglifier'
 end
 

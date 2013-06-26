@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', :github => 'rails/rails', :branch => '4-0-stable'
+gem 'rails', '>= 4.0.0'
 
 group :development, :test do
   gem "rspec-rails", ">= 2.13.1"
@@ -21,21 +21,21 @@ platforms :jruby do
   # for rails4.0.0.base1
   gem 'krypt-ossl'
 
-  gem "activerecord-jdbc-adapter", github: 'jruby/activerecord-jdbc-adapter'
-  gem "activerecord-jdbcmysql-adapter", github: 'jruby/activerecord-jdbc-adapter'
-  gem "activerecord-jdbcsqlite3-adapter", github: 'jruby/activerecord-jdbc-adapter'
-  gem "activerecord-jdbcpostgresql-adapter", github: 'jruby/activerecord-jdbc-adapter'
-  gem "activerecord-jdbcmssql-adapter", github: 'jruby/activerecord-jdbc-adapter'
-  gem 'jdbc-mysql', github: 'jruby/activerecord-jdbc-adapter'
-  gem 'jdbc-postgres', github: 'jruby/activerecord-jdbc-adapter'
-  gem 'jdbc-sqlite3', github: 'jruby/activerecord-jdbc-adapter'
-  gem 'jdbc-jtds', github: 'jruby/activerecord-jdbc-adapter'
+  gem "activerecord-jdbc-adapter", '>= 1.3.0.beta2'
+  gem "activerecord-jdbcmysql-adapter", '>= 1.3.0.beta2'
+  gem "activerecord-jdbcsqlite3-adapter", '>= 1.3.0.beta2'
+  gem "activerecord-jdbcpostgresql-adapter",'>= 1.3.0.beta2'
+  gem "activerecord-jdbcmssql-adapter", '>= 1.3.0.beta2'
+  gem 'jdbc-mysql'
+  gem 'jdbc-postgres'
+  gem 'jdbc-sqlite3'
+  gem 'jdbc-jtds'
   gem "therubyrhino"
 end
 
 group :assets do
-  gem 'sass-rails', github: 'rails/sass-rails'
-  gem 'coffee-rails', github: 'rails/coffee-rails'
+  gem 'sass-rails'
+  gem 'coffee-rails'
   gem 'uglifier'
 end
 

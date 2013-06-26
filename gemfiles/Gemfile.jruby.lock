@@ -1,26 +1,4 @@
 GIT
-  remote: git://github.com/jruby/activerecord-jdbc-adapter.git
-  revision: 168c87954f88f4e08bbeb9cfda984478737f6352
-  specs:
-    activerecord-jdbc-adapter (1.3.0.beta2)
-    activerecord-jdbcmssql-adapter (1.3.0.beta2)
-      activerecord-jdbc-adapter (~> 1.3.0.beta2)
-      jdbc-jtds (>= 1.2.5, < 1.4.0)
-    activerecord-jdbcmysql-adapter (1.3.0.beta2)
-      activerecord-jdbc-adapter (~> 1.3.0.beta2)
-      jdbc-mysql (~> 5.1.0)
-    activerecord-jdbcpostgresql-adapter (1.3.0.beta2)
-      activerecord-jdbc-adapter (~> 1.3.0.beta2)
-      jdbc-postgres (>= 9.1, < 9.3)
-    activerecord-jdbcsqlite3-adapter (1.3.0.beta2)
-      activerecord-jdbc-adapter (~> 1.3.0.beta2)
-      jdbc-sqlite3 (~> 3.7.2)
-    jdbc-jtds (1.3.0.1)
-    jdbc-mysql (5.1.25)
-    jdbc-postgres (9.2.1002.1)
-    jdbc-sqlite3 (3.7.2.1)
-
-GIT
   remote: git://github.com/kaznum/doorkeeper.git
   revision: da956b9b5c386fa5117abda73f25879253d61bbb
   branch: remove_has_many_warning
@@ -28,22 +6,12 @@ GIT
     doorkeeper (0.6.7)
       railties (>= 3.1)
 
-GIT
-  remote: git://github.com/rails/coffee-rails.git
-  revision: c812f4da1f5adc226ef834b57c2498467761cb2c
-  specs:
-    coffee-rails (4.0.0)
-      coffee-script (>= 2.2.0)
-      railties (>= 4.0.0, < 5.0)
-
-GIT
-  remote: git://github.com/rails/rails.git
-  revision: 90a60d370b1cb1db7aea3403c1467e5426a2988b
-  branch: 4-0-stable
+GEM
+  remote: http://rubygems.org/
   specs:
     actionmailer (4.0.0)
       actionpack (= 4.0.0)
-      mail (~> 2.5.4)
+      mail (~> 2.5.3)
     actionpack (4.0.0)
       activesupport (= 4.0.0)
       builder (~> 3.1.0)
@@ -58,44 +26,34 @@ GIT
       activerecord-deprecated_finders (~> 1.0.2)
       activesupport (= 4.0.0)
       arel (~> 4.0.0)
+    activerecord-deprecated_finders (1.0.3)
+    activerecord-jdbc-adapter (1.3.0.beta2)
+    activerecord-jdbcmssql-adapter (1.3.0.beta2)
+      activerecord-jdbc-adapter (~> 1.3.0.beta2)
+      jdbc-jtds (>= 1.2.5, < 1.4.0)
+    activerecord-jdbcmysql-adapter (1.3.0.beta2)
+      activerecord-jdbc-adapter (~> 1.3.0.beta2)
+      jdbc-mysql (~> 5.1.0)
+    activerecord-jdbcpostgresql-adapter (1.3.0.beta2)
+      activerecord-jdbc-adapter (~> 1.3.0.beta2)
+      jdbc-postgres (>= 9.1, < 9.3)
+    activerecord-jdbcsqlite3-adapter (1.3.0.beta2)
+      activerecord-jdbc-adapter (~> 1.3.0.beta2)
+      jdbc-sqlite3 (~> 3.7.2)
     activesupport (4.0.0)
       i18n (~> 0.6, >= 0.6.4)
       minitest (~> 4.2)
       multi_json (~> 1.3)
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
-    rails (4.0.0)
-      actionmailer (= 4.0.0)
-      actionpack (= 4.0.0)
-      activerecord (= 4.0.0)
-      activesupport (= 4.0.0)
-      bundler (>= 1.3.0, < 2.0)
-      railties (= 4.0.0)
-      sprockets-rails (~> 2.0.0)
-    railties (4.0.0)
-      actionpack (= 4.0.0)
-      activesupport (= 4.0.0)
-      rake (>= 0.8.7)
-      thor (>= 0.18.1, < 2.0)
-
-GIT
-  remote: git://github.com/rails/sass-rails.git
-  revision: 31f756f208ee71af935454ab4dfb34786d15e891
-  specs:
-    sass-rails (4.0.0)
-      railties (>= 4.0.0, < 5.0)
-      sass (>= 3.1.10)
-      sprockets-rails (~> 2.0.0)
-
-GEM
-  remote: http://rubygems.org/
-  specs:
-    activerecord-deprecated_finders (1.0.3)
     addressable (2.3.4)
     arel (4.0.0)
     atomic (1.1.9)
     atomic (1.1.9-java)
     builder (3.1.4)
+    coffee-rails (4.0.0)
+      coffee-script (>= 2.2.0)
+      railties (>= 4.0.0.beta, < 5.0)
     coffee-script (2.2.0)
       coffee-script-source
       execjs
@@ -120,6 +78,10 @@ GEM
     jbuilder (1.4.2)
       activesupport (>= 3.0.0)
       multi_json (>= 1.2.0)
+    jdbc-jtds (1.3.0.1)
+    jdbc-mysql (5.1.25)
+    jdbc-postgres (9.2.1002.1)
+    jdbc-sqlite3 (3.7.2.1)
     jquery-rails (3.0.1)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
@@ -148,10 +110,23 @@ GEM
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
+    rails (4.0.0)
+      actionmailer (= 4.0.0)
+      actionpack (= 4.0.0)
+      activerecord (= 4.0.0)
+      activesupport (= 4.0.0)
+      bundler (>= 1.3.0, < 2.0)
+      railties (= 4.0.0)
+      sprockets-rails (~> 2.0.0)
     rails-observers (0.1.1)
       railties (~> 4.0.0.beta)
     rails_emoji (1.6.2)
       rails (>= 3.1.0)
+    railties (4.0.0)
+      actionpack (= 4.0.0)
+      activesupport (= 4.0.0)
+      rake (>= 0.8.7)
+      thor (>= 0.18.1, < 2.0)
     rake (10.1.0)
     rspec-core (2.13.1)
     rspec-expectations (2.13.0)
@@ -165,6 +140,10 @@ GEM
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
     sass (3.2.9)
+    sass-rails (4.0.0)
+      railties (>= 4.0.0.beta, < 5.0)
+      sass (>= 3.1.10)
+      sprockets-rails (~> 2.0.0)
     settingslogic (2.0.9)
     simplecov (0.7.1)
       multi_json (~> 1.0)
@@ -206,12 +185,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord-jdbc-adapter!
-  activerecord-jdbcmssql-adapter!
-  activerecord-jdbcmysql-adapter!
-  activerecord-jdbcpostgresql-adapter!
-  activerecord-jdbcsqlite3-adapter!
-  coffee-rails!
+  activerecord-jdbc-adapter (>= 1.3.0.beta2)
+  activerecord-jdbcmssql-adapter (>= 1.3.0.beta2)
+  activerecord-jdbcmysql-adapter (>= 1.3.0.beta2)
+  activerecord-jdbcpostgresql-adapter (>= 1.3.0.beta2)
+  activerecord-jdbcsqlite3-adapter (>= 1.3.0.beta2)
+  coffee-rails
   doorkeeper!
   dotenv-rails
   fabrication
@@ -219,21 +198,21 @@ DEPENDENCIES
   haml-rails
   i18n
   jbuilder
-  jdbc-jtds!
-  jdbc-mysql!
-  jdbc-postgres!
-  jdbc-sqlite3!
+  jdbc-jtds
+  jdbc-mysql
+  jdbc-postgres
+  jdbc-sqlite3
   jquery-rails
   jquery-ui-rails
   krypt-ossl
   launchy
   memoist
   protected_attributes
-  rails!
+  rails (>= 4.0.0)
   rails-observers
   rails_emoji
   rspec-rails (>= 2.13.1)
-  sass-rails!
+  sass-rails
   settingslogic
   simplecov
   spork
