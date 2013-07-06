@@ -16,8 +16,6 @@ group :development, :test do
   gem "fabrication"
   unless ENV['TRAVIS']
     platforms :mri_19 do
-      gem 'capistrano'
-      gem 'rvm-capistrano'
       gem 'debugger'
     end
   end
