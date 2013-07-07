@@ -1127,28 +1127,28 @@ describe Api::EntriesController do
     end
 
     context "after login," do
+      shared_examples_for "fail to update" do
+        describe "response" do
+          before do
+            @action.call
+          end
+
+          subject {response}
+          its(:response_code) {should == 406}
+        end
+
+        describe "response body" do
+          before { @action.call }
+          subject { ActiveSupport::JSON.decode(response.body)["errors"] }
+          it { should have_at_least(1).errors }
+        end
+      end
+
       before do
         login
       end
 
       describe "update adjustment" do
-        shared_examples_for "fail to update" do
-          describe "response" do
-            before do
-              @action.call
-            end
-
-            subject {response}
-            its(:response_code) {should == 406}
-          end
-
-          describe "response body" do
-            before { @action.call }
-            subject { ActiveSupport::JSON.decode(response.body)["errors"] }
-            it { should have_at_least(1).errors }
-          end
-        end
-
         context "without params[:entry][:to_account_id]" do
           before do
             @init_adj_amount = items(:adjustment2).adjustment_amount
