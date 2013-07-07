@@ -492,7 +492,7 @@ describe Item do
 
         @from_date = Date.new(2008,9,1)
         @to_date = Date.new(2008,9,30)
-        Settings.stub!(:item_list_count).and_return(2)
+        Settings.stub(:item_list_count).and_return(2)
       end
 
       context "when :remain is not specified" do
@@ -626,7 +626,7 @@ describe Item do
         end
         @from_date = Date.new(2008,9,1)
         @to_date = Date.new(2008,9,30)
-        Settings.stub!(:item_list_count).and_return(5)
+        Settings.stub(:item_list_count).and_return(5)
       end
 
       after do

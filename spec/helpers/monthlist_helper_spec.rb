@@ -10,7 +10,7 @@ describe MonthlistHelper do
     selected_month = 8
     current_action = 'foo'
 
-    helper.stub!(:link_to).and_return('month_link')
+    helper.stub(:link_to).and_return('month_link')
     helper.should_receive(:link_to).with(2008, "#year_2008", :class => "unselected").and_return("year_2008_link")
     helper.should_receive(:link_to).with(2009, "#year_2009", :class => "selected").and_return("year_2009_link")
 
