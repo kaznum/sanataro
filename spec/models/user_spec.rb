@@ -335,14 +335,14 @@ describe User do
       end
 
       specify {
-        @user.should_receive(:bankings).exactly(4).times.and_return(@mock_bankings = mock([Banking]))
-        @user.should_receive(:incomes).exactly(3).times.and_return(@mock_incomes = mock([Income]))
-        @user.should_receive(:expenses).exactly(6).times.and_return(@mock_expenses = mock([Expense]))
-        @user.should_receive(:credit_relations).once.and_return(@mock_crs = mock([CreditRelation]))
-        @user.should_receive(:general_items).twice.and_return(@mock_items = mock([GeneralItem]))
-        @mock_bankings.should_receive(:create!).exactly(4).times.and_return(@banking = mock(Banking))
-        @mock_incomes.should_receive(:create!).exactly(3).times.and_return(@income = mock(Income))
-        @mock_expenses.should_receive(:create!).exactly(6).times.and_return(@expense = mock(Expense))
+        @user.should_receive(:bankings).exactly(4).times.and_return(@mock_bankings = double([Banking]))
+        @user.should_receive(:incomes).exactly(3).times.and_return(@mock_incomes = double([Income]))
+        @user.should_receive(:expenses).exactly(6).times.and_return(@mock_expenses = double([Expense]))
+        @user.should_receive(:credit_relations).once.and_return(@mock_crs = double([CreditRelation]))
+        @user.should_receive(:general_items).twice.and_return(@mock_items = double([GeneralItem]))
+        @mock_bankings.should_receive(:create!).exactly(4).times.and_return(@banking = double(Banking))
+        @mock_incomes.should_receive(:create!).exactly(3).times.and_return(@income = double(Income))
+        @mock_expenses.should_receive(:create!).exactly(6).times.and_return(@expense = double(Expense))
         @banking.should_receive(:id).exactly(4).times.and_return(100)
         @income.should_receive(:id).exactly(1).times.and_return(200)
         @expense.should_receive(:id).exactly(1).times.and_return(300)
