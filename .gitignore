@@ -10,5 +10,7 @@ config/deploy.rb
 config/database.yml
 .rspec
 .rvmrc
+.ruby-version
+.ruby-gemset
 .rbx/*
 lib/sqljdbc4.jar
