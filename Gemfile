@@ -15,9 +15,7 @@ group :development, :test do
   gem "launchy"
   gem "fabrication"
   unless ENV['TRAVIS']
-    platforms :mri_19 do
-      gem 'debugger'
-    end
+    gem 'debugger'
   end
   gem 'dotenv-rails'
 end
@@ -26,25 +24,21 @@ end
 group :test do
   gem "simplecov"
   gem 'spork'
-  platform :mri do
-    gem "cucumber-rails"
-    gem "capybara-webkit", '>= 1.0.0'
-    gem "growl"
-    gem "rb-fsevent"
-    gem "webrat"
+  gem "cucumber-rails"
+  gem "capybara-webkit", '>= 1.0.0'
+  gem "growl"
+  gem "rb-fsevent"
+  gem "webrat"
 
-    gem "database_cleaner", '>= 1.0.0'
-    gem "guard-rspec"
-    gem "guard-cucumber"
-    gem "guard-spork"
-  end
+  gem "database_cleaner", '>= 1.0.0'
+  gem "guard-rspec"
+  gem "guard-cucumber"
+  gem "guard-spork"
 end
 
 group :production do
-  platform :mri do
-    gem "therubyracer", '>= 0.11.4'
-    gem 'libv8', '>= 3.11.8.12'
-  end
+  gem "therubyracer", '>= 0.11.4'
+  gem 'libv8', '>= 3.11.8.12'
 end
 
 platforms :ruby do
