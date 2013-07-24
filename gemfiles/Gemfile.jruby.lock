@@ -163,7 +163,9 @@ GEM
       therubyrhino_jar (>= 1.7.3)
     therubyrhino_jar (1.7.4)
     thor (0.18.1)
-    thread_safe (0.1.0)
+    thread_safe (0.1.2)
+      atomic
+    thread_safe (0.1.2-java)
       atomic
     tilt (1.4.1)
     treetop (1.4.14)
