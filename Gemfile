@@ -78,11 +78,6 @@ gem 'underscore-rails'
 # Just temporally to support rails 4
 gem 'doorkeeper', :git => 'git://github.com/kaznum/doorkeeper.git', :branch => 'remove_has_many_warning'
 
-# TODO
-# Just temporally to support rails 4
-# This is not recommended in Rails4
-gem 'protected_attributes'
-
 gem 'rails-observers'
 
 ## for database cleaner and cucumber
