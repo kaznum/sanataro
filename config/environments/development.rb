@@ -22,8 +22,6 @@ Sanataro::Application.configure do
   config.action_mailer.default_url_options = { :host => "127.0.0.1:3000" }
   config.action_mailer.delivery_method = :sendmail
 
-  config.active_record.mass_assignment_sanitizer = :strict
-
   config.assets.compress = false
   # Expands the lines which load the assets
   config.assets.debug = true
