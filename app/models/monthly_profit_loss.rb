@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 class MonthlyProfitLoss < ActiveRecord::Base
-  attr_protected :user_id
   belongs_to :user
 
   class << self

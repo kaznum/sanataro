@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 class CreditRelation < ActiveRecord::Base
-
-  attr_protected :user_id
   belongs_to :user
 
   SETTLEMENT_DAYS = PAYMENT_DAYS = [['1', 1], ['2', 2], ['3', 3], ['4', 4], ['5', 5],

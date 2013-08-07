@@ -2,7 +2,6 @@
 class User < ActiveRecord::Base
   extend Memoist
 
-  attr_protected :login
   attr_accessor :password_plain, :password_confirmation
   sanataro_tagger
   has_many :items

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 class Item < ActiveRecord::Base
   sanataro_taggable
-  attr_protected :user_id
 
   belongs_to :user
   belongs_to :parent_item, :class_name => "GeneralItem", :foreign_key => 'parent_id'

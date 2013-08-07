@@ -3,8 +3,6 @@ class Account < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
   extend Memoist
 
-  attr_protected :user_id
-
   belongs_to :user
   has_one :payment_relation, foreign_key: :credit_account_id, class_name: "CreditRelation"
   has_many :credit_relations, foreign_key: :payment_account_id, class_name: "CreditRelation"
