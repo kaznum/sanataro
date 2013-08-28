@@ -64,7 +64,7 @@ GEM
     dotenv-rails (0.8.0)
       dotenv (= 0.8.0)
     erubis (2.7.0)
-    execjs (2.0.0)
+    execjs (2.0.1)
     fabrication (2.7.2)
     haml (4.0.3)
       tilt
