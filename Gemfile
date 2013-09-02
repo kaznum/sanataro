@@ -24,7 +24,7 @@ end
 group :test do
   gem "simplecov"
   gem 'spork'
-  gem "cucumber-rails"
+  gem "cucumber-rails", require: false
   gem "capybara-webkit", '>= 1.0.0'
   gem "growl"
   gem "rb-fsevent"
