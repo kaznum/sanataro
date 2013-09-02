@@ -1,12 +1,4 @@
 GIT
-  remote: git://github.com/kaznum/doorkeeper.git
-  revision: da956b9b5c386fa5117abda73f25879253d61bbb
-  branch: remove_has_many_warning
-  specs:
-    doorkeeper (0.6.7)
-      railties (>= 3.1)
-
-GIT
   remote: git://github.com/mqt/dalli-store-extensions.git
   revision: dd0b5ee7779600e8ff7e63491e23a5b51c647f6d
   specs:
@@ -84,6 +76,9 @@ GEM
     debugger-linecache (1.2.0)
     debugger-ruby_core_source (1.2.3)
     diff-lcs (1.2.4)
+    doorkeeper (0.7.1)
+      jquery-rails (~> 3.0.4)
+      railties (>= 3.1)
     dotenv (0.9.0)
     dotenv-rails (0.9.0)
       dotenv (= 0.9.0)
@@ -260,7 +255,7 @@ DEPENDENCIES
   dalli-store-extensions!
   database_cleaner (>= 1.0.0, < 1.1.0)
   debugger
-  doorkeeper!
+  doorkeeper (>= 0.7.1)
   dotenv-rails
   fabrication
   growl

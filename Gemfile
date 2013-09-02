@@ -74,9 +74,7 @@ gem 'rails_emoji'
 gem 'jbuilder'
 gem 'underscore-rails'
 
-# TODO
-# Just temporally to support rails 4
-gem 'doorkeeper', :git => 'git://github.com/kaznum/doorkeeper.git', :branch => 'remove_has_many_warning'
+gem 'doorkeeper', '>= 0.7.1'
 
 gem 'rails-observers'
 
