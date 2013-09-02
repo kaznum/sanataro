@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe ChartData::YearlyAssetsController do
-    fixtures :users
+  fixtures :users
   
   describe "#show" do
     context "before login," do
