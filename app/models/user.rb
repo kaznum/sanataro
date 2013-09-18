@@ -5,15 +5,15 @@ class User < ActiveRecord::Base
   attr_accessor :password_plain, :password_confirmation
   sanataro_tagger
   has_many :items
-  has_many :general_items, class_name: "GeneralItem"
-  has_many :adjustments, class_name: "Adjustment"
+  has_many :general_items, class_name: 'GeneralItem'
+  has_many :adjustments, class_name: 'Adjustment'
   has_many :monthly_profit_losses
   has_many :accounts
   has_many :credit_relations
   has_many :autologin_keys
-  has_many :bankings, class_name: "Banking"
-  has_many :incomes, class_name: "Income"
-  has_many :expenses, class_name: "Expense"
+  has_many :bankings, class_name: 'Banking'
+  has_many :incomes, class_name: 'Income'
+  has_many :expenses, class_name: 'Expense'
 
   validate :validates_password_confirmation
   validates_presence_of :login
@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   validates_length_of :login, in: 3..10
   validates_format_of :password_plain, with: /\A[A-Za-z0-9_-]+\z/, if: :password_required?
   validates_length_of :password_plain, in: 6..10, if: :password_required?
-  validates_uniqueness_of :login, message: I18n.t("errors.messages.exclusion")
+  validates_uniqueness_of :login, message: I18n.t('errors.messages.exclusion')
 
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   validates_length_of :email, in: 5..255
@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
   before_save :hash_password
 
   def validates_password_confirmation
-    errors.add("password_plain", I18n.t("errors.messages.confirmation")) if self.password_required? && self.password_plain != self.password_confirmation
+    errors.add('password_plain', I18n.t('errors.messages.confirmation')) if self.password_required? && self.password_plain != self.password_confirmation
   end
 
   def password_required?
