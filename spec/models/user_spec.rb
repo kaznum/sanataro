@@ -248,12 +248,11 @@ describe User do
     end
 
     describe "entities" do
+      let(:bankings) { user.bankings.map { |a| [a.name, a.id.to_s] } }
+      let(:incomes) { user.incomes.map { |a| [a.name, a.id.to_s] } }
       subject { user.from_accounts }
-      it { should ==
-        user.bankings.map{|a| [a.name, a.id.to_s]} +
-        user.incomes.map{|a| [a.name, a.id.to_s]}}
+      it { should == bankings + incomes }
     end
-
   end
 
   describe "#to_accounts" do
@@ -265,10 +264,10 @@ describe User do
     end
 
     describe "entities" do
+      let(:expenses) { user.expenses.map { |a| [a.name, a.id.to_s] } }
+      let(:bankings) { user.bankings.map { |a| [a.name, a.id.to_s] } }
       subject { user.to_accounts }
-      it { should ==
-        user.expenses.map{|a| [a.name, a.id.to_s]} +
-        user.bankings.map{|a| [a.name, a.id.to_s]}}
+      it { should == expenses + bankings }
     end
   end
 

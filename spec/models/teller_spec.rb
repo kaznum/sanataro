@@ -252,18 +252,15 @@ describe Teller do
         end
         
         describe "the adjusted account's monthly_pl of the last month of the created item" do
-          it { expect { @create.call }.not_to change{
-              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount }}
+          it { expect { @create.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
         end
 
         describe "the adjusted account's monthly_pl of the same month as that of the created item" do
-          it { expect { @create.call }.not_to change{
-              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount }}
+          it { expect { @create.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
         end
 
         describe "the adjusted account's monthly_pl of the next month of the created item" do
-          it { expect { @create.call }.not_to change{
-              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }}
+          it { expect { @create.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount } }
         end
 
         describe "the non-adjusted account's monthly_pl of the next month of the created item" do
@@ -275,9 +272,7 @@ describe Teller do
         end
 
         describe "the non-adjusted account's monthly_pl of the same month as the created item" do
-          it { expect { @create.call }.to change{
-              MonthlyProfitLoss.where(:account_id => accounts(:expense3).id, :month => Date.new(2008,2,1)).first.amount
-            }.by(10000) }
+          it { expect { @create.call }.to change { MonthlyProfitLoss.where(:account_id => accounts(:expense3).id, :month => Date.new(2008,2,1)).first.amount }.by(10000) }
         end
         
       end
@@ -321,20 +316,15 @@ describe Teller do
         end
 
         describe "the adjusted account's monthly_pl of the last month of the created item" do
-          it { expect { @create.call }.not_to change{
-              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount }}
+          it { expect { @create.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
         end
 
         describe "the adjusted account's monthly_pl of the same month as that of the created item" do
-          it { expect { @create.call }.to change{
-              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount
-            }.by(-10000)}
+          it { expect { @create.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount }.by(-10000) }
         end
 
         describe "the adjusted account's monthly_pl of the next month of the created item" do
-            it { expect { @create.call }.to change{
-              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount
-            }.by(10000) }
+            it { expect { @create.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(10000) }
         end
 
         describe "the non-adjusted account's monthly_pl of the next month of the created item" do
@@ -346,9 +336,7 @@ describe Teller do
         end
 
         describe "the non-adjusted account's monthly_pl of the same month as the created item" do
-          it { expect { @create.call }.to change{
-              MonthlyProfitLoss.where(:account_id => accounts(:expense3).id, :month => Date.new(2008,2,1)).first.amount
-            }.by(10000) }
+          it { expect { @create.call }.to change{ MonthlyProfitLoss.where(:account_id => accounts(:expense3).id, :month => Date.new(2008,2,1)).first.amount }.by(10000) }
         end
       end
 
@@ -387,16 +375,13 @@ describe Teller do
         end
 
         describe "the adjusted account's monthly_pl of the last month or before of the created item" do
-          it { expect { @create.call }.not_to change{
-              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount }}
+          it { expect { @create.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
 
-          it { expect { @create.call }.not_to change{
-              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount }}
+          it { expect { @create.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
         end
 
         describe "the adjusted account's monthly_pl of the same month as that of the created item" do
-          it { expect { @create.call }.not_to change{
-              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }}
+          it { expect { @create.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount } }
         end
 
         describe "the non-adjusted account's monthly_pl of the same month as the created item which does not exist before." do
@@ -431,17 +416,13 @@ describe Teller do
         end
         
         describe "the adjusted account's monthly_pl of the last month or before of the created item" do
-          it { expect { @create.call }.not_to change{
-              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount }}
+          it { expect { @create.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
 
-          it { expect { @create.call }.not_to change{
-              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount }}
+          it { expect { @create.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
         end
 
         describe "the adjusted account's monthly_pl of the same month as that of the created item" do
-          it { expect { @create.call }.to change{
-              MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount
-            }.by(-10000)}
+          it { expect { @create.call }.to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(-10000) }
         end
 
         describe "the non-adjusted account's monthly_pl of the same month as the created item which does not exist before." do
@@ -496,11 +477,13 @@ describe Teller do
           @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), :action_date => Date.new(2008,2,10), :name => 'テスト10', :amount => 10000, :from_account_id => accounts(:credit4).id, :to_account_id => accounts(:expense3).id) }
         end
 
-        let(:credit_item) { Item.where(:action_date => Date.new(2008,2,10),
+        let(:credit_item) {
+          Item.where(:action_date => Date.new(2008,2,10),
                                        :from_account_id => accounts(:credit4).id,
                                        :to_account_id => accounts(:expense3).id,
                                        :amount => 10000,
-                                       :parent_id => nil).find{|i| i.child_item } }
+                                       :parent_id => nil).find{ |i| i.child_item }
+        }
 
         it_should_behave_like "created itself and credit payment item successfully"
           
@@ -559,12 +542,13 @@ describe Teller do
           cr1.settlement_day = 15
           cr1.save!
 
-          @create = lambda { @item, @affected_item_ids, @is_error =
-            Teller.create_entry(users(:user1),
-                                :action_date => Date.new(2008,2,25),
-                                :name => 'テスト10', :amount => 10000,
-                                :from_account_id => accounts(:credit4).id,
-                                :to_account_id => accounts(:expense3).id) }
+          @create = -> {
+            @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1),
+                                                                       :action_date => Date.new(2008,2,25),
+                                                                       :name => 'テスト10', :amount => 10000,
+                                                                       :from_account_id => accounts(:credit4).id,
+                                                                       :to_account_id => accounts(:expense3).id)
+          }
         end
 
         let(:credit_item) {
@@ -580,13 +564,13 @@ describe Teller do
           before do
             @create.call
           end
-            subject { credit_item }
-            it { should_not be_nil }
-            its(:amount) { should == 10000 }
-            its(:parent_id) { should be_nil }
-            its(:child_item) { should_not be_nil }
-            its(:action_date) { should == Date.new(2008,2,25)}
-          end
+          subject { credit_item }
+          it { should_not be_nil }
+          its(:amount) { should == 10000 }
+          its(:parent_id) { should be_nil }
+          its(:child_item) { should_not be_nil }
+          its(:action_date) { should == Date.new(2008,2,25)}
+        end
 
         describe "child item" do
           before do
