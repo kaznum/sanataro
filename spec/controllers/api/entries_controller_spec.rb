@@ -866,11 +866,13 @@ describe Api::EntriesController do
                  :year => 2008, :month => 2, format: :json)
           end
 
-          let(:credit_item) { Item.where(:action_date => Date.new(2008,2,10),
-                                         :from_account_id => accounts(:credit4).id,
-                                         :to_account_id => accounts(:expense3).id,
-                                         :amount => 10000,
-                                         :parent_id => nil).find{|i| i.child_item } }
+          let(:credit_item) {
+            Item.where(:action_date => Date.new(2008,2,10),
+                       :from_account_id => accounts(:credit4).id,
+                       :to_account_id => accounts(:expense3).id,
+                       :amount => 10000,
+                       :parent_id => nil).find{|i| i.child_item }
+          }
 
           describe "response" do
             subject { response }
@@ -1153,11 +1155,13 @@ describe Api::EntriesController do
           before do
             @init_adj_amount = items(:adjustment2).adjustment_amount
             date = items(:adjustment2).action_date
-            @action = lambda { put :update, :id=>items(:adjustment2).id.to_s,
-              entry: { :entry_type => 'adjustment',
-                :action_date => date.strftime("%Y/%m/%d"),
-                :adjustment_amount=>'3,000' },
-              format: :json }
+            @action = -> {
+              put(:update, :id=>items(:adjustment2).id.to_s,
+                  entry: { :entry_type => 'adjustment',
+                    :action_date => date.strftime("%Y/%m/%d"),
+                    :adjustment_amount=>'3,000' },
+                  format: :json)
+            }
           end
 
           describe "response" do
@@ -1181,10 +1185,12 @@ describe Api::EntriesController do
           before do
             login
             date = items(:adjustment2).action_date
-            @action = lambda { put :update, :id=>items(:adjustment2).id,
-              entry: { :entry_type => 'adjustment', :action_date => date.strftime("%Y/%m/%d"),
-                :adjustment_amount=>'(20*30)/(10+1', :to_account_id => items(:adjustment2).to_account_id },
-              format: :json }
+            @action = -> {
+              put(:update, :id=>items(:adjustment2).id,
+                  entry: { :entry_type => 'adjustment', :action_date => date.strftime("%Y/%m/%d"),
+                    :adjustment_amount=>'(20*30)/(10+1', :to_account_id => items(:adjustment2).to_account_id },
+                  format: :json)
+            }
           end
 
           it_should_behave_like "fail to update"
@@ -1199,12 +1205,15 @@ describe Api::EntriesController do
             @old_adj4 = items(:adjustment4)
             date = @old_adj4.action_date
             # 金額のみ変更
-            @action = lambda { put :update,
-              :id => @old_adj4.id,
-              entry: { :entry_type => 'adjustment',
-                :action_date => date.strftime("%Y/%m/%d"),
-                :adjustment_amount => '3,000', :to_account_id => @old_adj4.to_account_id} ,
-              format: :json }
+            @action = -> {
+              put(:update,
+                  :id => @old_adj4.id,
+                  entry: { :entry_type => 'adjustment',
+                    :action_date => date.strftime("%Y/%m/%d"),
+                    :adjustment_amount => '3,000',
+                    :to_account_id => @old_adj4.to_account_id} ,
+                  format: :json)
+            }
           end
 
           describe "response" do
@@ -1237,7 +1246,7 @@ describe Api::EntriesController do
         context "with invalid amount function, " do
           before do
             @old_item1 = old_item1 = items(:item1)
-            @action = lambda {
+            @action = -> {
               put(:update,
                   :id => old_item1.id,
                   entry: {
@@ -1248,7 +1257,7 @@ describe Api::EntriesController do
                     :to_account_id => accounts(:expense3).id,
                     :confirmation_required => 'true'
                   }, format: :json)
-              }
+            }
           end
 
           it_should_behave_like "fail to update"
@@ -1267,7 +1276,7 @@ describe Api::EntriesController do
         context "with to_account_id which is not owned the user, " do
           before do
             @old_item1 = old_item1 = items(:item1)
-            @action = lambda {
+            @action = -> {
               put(:update,
                   :id => old_item1.id,
                   entry: {
@@ -1278,7 +1287,7 @@ describe Api::EntriesController do
                     :to_account_id => 43214,
                     :confirmation_required => 'true'
                   }, format: :json)
-              }
+            }
           end
 
           it_should_behave_like "fail to update"
@@ -1360,15 +1369,17 @@ describe Api::EntriesController do
           context "when there are adjustment in the same and future month," do
             let(:old_action_date) { old_item1.action_date }
             before do
-              @action = lambda { put :update, :id => old_item1.id,
-                entry: { :name => 'テスト10',
-                  :action_date => Date.new(old_item1.action_date.year,old_item1.action_date.month,18).strftime("%Y/%m/%d"),
-                  :amount => "100000",
-                  :from_account_id => accounts(:bank1).id.to_s,
-                  :to_account_id => accounts(:expense3).id.to_s,
-                  confirmation_required: "false"
-                },
-                format: :json }
+              @action = -> {
+                put(:update, :id => old_item1.id,
+                    entry: { :name => 'テスト10',
+                      :action_date => Date.new(old_item1.action_date.year,old_item1.action_date.month,18).strftime("%Y/%m/%d"),
+                      :amount => "100000",
+                      :from_account_id => accounts(:bank1).id.to_s,
+                      :to_account_id => accounts(:expense3).id.to_s,
+                      confirmation_required: "false"
+                    },
+                    format: :json)
+              }
             end
 
             describe "response" do
@@ -1440,14 +1451,16 @@ describe Api::EntriesController do
 
           describe "when tags are input," do
             before do
-              @action = lambda { put :update, :id=>old_item1.id,
-                entry: { :name=>'テスト10',
-                  :action_date => Date.new(old_item1.action_date.year,old_item1.action_date.month,18).strftime("%Y/%m/%d"),
-                  :amount=>"100000",
-                  :from_account_id => accounts(:bank1).id.to_s,
-                  :to_account_id => accounts(:expense3).id.to_s,
-                  :confirmation_required => 'true', :tag_list => 'hoge fuga'},
-                format: :json }
+              @action = -> {
+                put(:update, :id=>old_item1.id,
+                    entry: { :name=>'テスト10',
+                      :action_date => Date.new(old_item1.action_date.year,old_item1.action_date.month,18).strftime("%Y/%m/%d"),
+                      :amount=>"100000",
+                      :from_account_id => accounts(:bank1).id.to_s,
+                      :to_account_id => accounts(:expense3).id.to_s,
+                      :confirmation_required => 'true', :tag_list => 'hoge fuga'},
+                    format: :json)
+              }
             end
 
             describe "tags" do
@@ -1561,14 +1574,15 @@ describe Api::EntriesController do
 
               init_payment_item.update_attributes!(action_date: Date.new(2008,6,1))
 
-              @action = lambda {
+              @action = -> {
                 put(:update, id: init_credit_item.id,
                     entry: { name: 'テスト20',
                       action_date: date.strftime("%Y/%m/%d"),
                       amount: "20000",
                       from_account_id: accounts(:credit4).id.to_s,
                       to_account_id: accounts(:expense3).id.to_s },
-                    format: :json) }
+                    format: :json)
+              }
             end
 
             describe "response" do
@@ -1629,10 +1643,11 @@ describe Api::EntriesController do
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
-              @action = lambda {
+              @action = -> {
                 put(:update, id: init_credit_item.child_item.id,
                     entry: { action_date: Date.new(2008,4,21).strftime("%Y/%m/%d") },
-                    format: :json) }
+                    format: :json)
+              }
             end
 
             describe "response" do
