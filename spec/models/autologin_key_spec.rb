@@ -34,22 +34,27 @@ describe AutologinKey do
     end
   end
 
-  context "when update" do
-    it "should be able to save" do
-      old_ak = autologin_keys(:autologin_key1)
-      new_ak = AutologinKey.find(autologin_keys(:autologin_key1).id)
-      new_ak.autologin_key = '88345687'
-      assert (new_ak.save)
-      assert_not_equal old_ak.enc_autologin_key, new_ak.enc_autologin_key
+  context "when update," do
+    let!(:old_ak) { autologin_keys(:autologin_key1) }
+    context "when params are valid," do
+      before do
+        new_ak = AutologinKey.find(old_ak.id)
+        new_ak.autologin_key = '88345687'
+        @action = -> { new_ak.save! }
+      end
+      specify { expect { @action.call }.not_to raise_error }
+      specify { expect { @action.call }.to change { AutologinKey.find(old_ak.id).enc_autologin_key } }
     end
 
-    context "when no user_id" do
-      it "保存できないこと" do
-        new_ak = AutologinKey.find(autologin_keys(:autologin_key1).id)
-        new_ak.user_id = nil
-        new_ak.save.should be_false
-        new_ak.errors[:user_id].should_not be_empty
-      end
+    context "when user_id is nil," do
+      let(:invalid_ak) {
+        ak = AutologinKey.find(old_ak.id)
+        ak.user_id = nil
+        ak
+      }
+
+      specify { expect(invalid_ak.save).to be_false }
+      specify { expect(!invalid_ak.save && invalid_ak).to have_at_least(1).errors_on :user_id }
     end
   end
 
