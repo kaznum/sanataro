@@ -65,7 +65,7 @@ describe ChartData::AssetsController do
           Account.destroy_all
           @user = users(:user1)
           account1 = users(:user1).bankings.create!(:name => "その1", :active => true, :order_no => 10)
-          account2 = users(:user1).incomes.create!(:name => "その2", :active => true, :order_no => 20)
+          _ = users(:user1).incomes.create!(:name => "その2", :active => true, :order_no => 20)
           account3 = users(:user1).bankings.create!(:name => "その3", :active => true, :order_no => 30)
           account4 = users(:user1).bankings.create!(:name => "その4", :active => true, :order_no => 40)
           

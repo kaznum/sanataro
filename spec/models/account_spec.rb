@@ -220,11 +220,12 @@ describe Account do
     end
 
     context "when specifying adj_id whose action_date is after that of adj_id," do
+      let(:user) { users(:user1) }
       subject {
-        user = users(:user1)
-        ini_bank1 = accounts(:bank1)
-        date = items(:adjustment6).action_date + 1
-        total = user.accounts.asset(user, ini_bank1.id, date, items(:adjustment4).id)
+        user.accounts.asset(user,
+                            accounts(:bank1).id,
+                            items(:adjustment6).action_date + 1,
+                            items(:adjustment4).id)
       }
       it { should == 13900 }
     end

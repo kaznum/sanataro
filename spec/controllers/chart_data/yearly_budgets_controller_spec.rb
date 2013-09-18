@@ -260,7 +260,6 @@ describe ChartData::YearlyBudgetsController do
             describe "response" do
               subject { response.body }
               specify {
-                date = Date.new(1999,2)
                 json = ActiveSupport::JSON.decode(subject)
                 json.should have(3).keys
                 json["expense"]["label"].should == "支出"

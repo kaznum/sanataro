@@ -3341,7 +3341,6 @@ describe EntriesController do
                                             to_account_id: accounts(:expense3).id).first
 
               init_payment_item = init_credit_item.child_item
-              date = init_credit_item.action_date
 
               init_credit_item.amount.should == 10000
               init_payment_item.amount.should == 10000
@@ -3422,7 +3421,6 @@ describe EntriesController do
                                             to_account_id: accounts(:expense3).id).first
 
               init_payment_item = Item.find(init_credit_item.child_item.id)
-              date = init_credit_item.action_date
 
               init_credit_item.amount.should == 10000
               init_payment_item.amount.should == 10000

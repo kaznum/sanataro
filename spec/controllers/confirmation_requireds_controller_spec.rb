@@ -144,7 +144,6 @@ describe ConfirmationRequiredsController do
 
       context "when parent_id exists," do
         before do
-          old_credit_payment = items(:credit_payment21)
           old_credit_refill = items(:credit_refill31)
 
           xhr :put, :update, :entry_id => old_credit_refill.id, :confirmation_required => 'true'

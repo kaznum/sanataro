@@ -45,7 +45,6 @@ describe AutologinKey do
 
     context "when no user_id" do
       it "保存できないこと" do
-        old_ak = autologin_keys(:autologin_key1)
         new_ak = AutologinKey.find(autologin_keys(:autologin_key1).id)
         new_ak.user_id = nil
         new_ak.save.should be_false
