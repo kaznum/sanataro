@@ -47,7 +47,7 @@ module Api
     module InstanceMethods
       # override the method which checks CSRF token.
       def verified_request_with_condition?
-        (doorkeeper_token || request.authorization.present?) ? true : verified_request_without_condition?
+        doorkeeper_token || request.authorization.present? || verified_request_without_condition?
       end
     end
   end
