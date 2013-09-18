@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
     locale && I18n.available_locales.include?(locale.to_sym) && locale.to_sym != :en
   end
 
-  def default_url_options(options={})
+  def default_url_options(options = {})
     { :locale => I18n.locale }
   end
 
