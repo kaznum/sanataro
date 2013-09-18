@@ -17,16 +17,16 @@ class User < ActiveRecord::Base
 
   validate :validates_password_confirmation
   validates_presence_of :login
-  validates_presence_of :password_plain, :if => :password_required?
+  validates_presence_of :password_plain, if: :password_required?
   validates_presence_of :email
-  validates_format_of :login, :with => /\A[A-Za-z0-9_-]+\z/
-  validates_length_of :login, :in =>3..10
-  validates_format_of :password_plain, :with => /\A[A-Za-z0-9_-]+\z/, :if => :password_required?
-  validates_length_of :password_plain, :in =>6..10, :if => :password_required?
-  validates_uniqueness_of :login, :message => I18n.t("errors.messages.exclusion")
+  validates_format_of :login, with: /\A[A-Za-z0-9_-]+\z/
+  validates_length_of :login, in: 3..10
+  validates_format_of :password_plain, with: /\A[A-Za-z0-9_-]+\z/, if: :password_required?
+  validates_length_of :password_plain, in: 6..10, if: :password_required?
+  validates_uniqueness_of :login, message: I18n.t("errors.messages.exclusion")
 
-  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
-  validates_length_of :email, :in =>5..255
+  validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+  validates_length_of :email, in: 5..255
 
   before_save :hash_password
 
@@ -112,25 +112,25 @@ class User < ActiveRecord::Base
   end
 
   def store_sample
-    account1 = self.bankings.create!(:name => '財布', :order_no => 10)
-    account2 = self.bankings.create!(:name => '銀行A', :order_no => 20)
-    account3 = self.bankings.create!(:name => '銀行B', :order_no => 30)
-    account4_cr = self.bankings.create!(:name => 'クレジットカード', :order_no => 40)
+    account1 = self.bankings.create!(name: '財布', order_no: 10)
+    account2 = self.bankings.create!(name: '銀行A', order_no: 20)
+    account3 = self.bankings.create!(name: '銀行B', order_no: 30)
+    account4_cr = self.bankings.create!(name: 'クレジットカード', order_no: 40)
 
-    income1 = self.incomes.create!(:name => '給与', :order_no => 10)
-    income2 = self.incomes.create!(:name => '賞与', :order_no => 20)
-    income3 = self.incomes.create!(:name => '雑収入', :order_no => 30)
+    income1 = self.incomes.create!(name: '給与', order_no: 10)
+    income2 = self.incomes.create!(name: '賞与', order_no: 20)
+    income3 = self.incomes.create!(name: '雑収入', order_no: 30)
 
-    expense1 = self.expenses.create!(:name => '食費', :order_no => 10)
-    expense2 = self.expenses.create!(:name => '光熱費', :order_no => 20)
-    expense3 = self.expenses.create!(:name => '住居費', :order_no => 30)
-    expense4 = self.expenses.create!(:name => '美容費', :order_no => 40)
-    expense5 = self.expenses.create!(:name => '衛生費', :order_no => 50)
-    expense6 = self.expenses.create!(:name => '雑費', :order_no => 60)
+    expense1 = self.expenses.create!(name: '食費', order_no: 10)
+    expense2 = self.expenses.create!(name: '光熱費', order_no: 20)
+    expense3 = self.expenses.create!(name: '住居費', order_no: 30)
+    expense4 = self.expenses.create!(name: '美容費', order_no: 40)
+    expense5 = self.expenses.create!(name: '衛生費', order_no: 50)
+    expense6 = self.expenses.create!(name: '雑費', order_no: 60)
 
-    credit_relation = self.credit_relations.create!(:credit_account_id => account4_cr.id, :payment_account_id => account3.id, :settlement_day => 25, :payment_month => 2, :payment_day => 4)
+    credit_relation = self.credit_relations.create!(credit_account_id: account4_cr.id, payment_account_id: account3.id, settlement_day: 25, payment_month: 2, payment_day: 4)
 
-    item_income = self.general_items.create!(:name => 'サンプル収入(消してかまいません)', :from_account_id => income3.id, :to_account_id => account1.id, :amount => 1000, :action_date => Date.today)
-    item_expense = self.general_items.create!(:name => 'サンプル(消してかまいません)', :from_account_id => account1.id, :to_account_id => expense1.id, :amount => 250, :action_date => Date.today, :tag_list => 'タグもOK')
+    item_income = self.general_items.create!(name: 'サンプル収入(消してかまいません)', from_account_id: income3.id, to_account_id: account1.id, amount: 1000, action_date: Date.today)
+    item_expense = self.general_items.create!(name: 'サンプル(消してかまいません)', from_account_id: account1.id, to_account_id: expense1.id, amount: 250, action_date: Date.today, tag_list: 'タグもOK')
   end
 end
