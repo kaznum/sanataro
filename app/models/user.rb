@@ -49,23 +49,23 @@ class User < ActiveRecord::Base
 
   def from_accounts
     Rails.cache.fetch("user_#{id}_from_accounts") do
-      bankings.active.map{ |a| [a.name, a.id.to_s]} +
-        incomes.active.map{|a| [a.name, a.id.to_s]}
+      bankings.active.map { |a| [a.name, a.id.to_s] } +
+        incomes.active.map { |a| [a.name, a.id.to_s] }
     end
   end
   memoize :from_accounts
 
   def to_accounts
     Rails.cache.fetch("user_#{id}_to_accounts") do
-      expenses.active.map{|a| [a.name, a.id.to_s]} +
-        bankings.active.map{ |a| [a.name, a.id.to_s]}
+      expenses.active.map { |a| [a.name, a.id.to_s] } +
+        bankings.active.map { |a| [a.name, a.id.to_s] }
     end
   end
   memoize :to_accounts
 
   def bank_accounts
     Rails.cache.fetch("user_#{id}_bank_accounts") do
-      bankings.active.map{ |a| [a.name, a.id.to_s]}
+      bankings.active.map { |a| [a.name, a.id.to_s] }
     end
   end
   memoize :bank_accounts
