@@ -15,15 +15,16 @@ describe Teller do
       end
 
       describe "Item.count" do
-        before do
+        let(:item_count) {
           begin
             @action.call
+            raise "DO NOT PASS THROUGH HERE"
           rescue
-            # do nothing
+            return Item.count
           end
-        end
-        subject { Item.count }
-        it { should == @initial_count }
+        }
+        subject { item_count }
+        it { should be == @initial_count }
       end
     end
 
