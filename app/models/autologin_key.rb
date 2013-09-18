@@ -15,7 +15,9 @@ class AutologinKey < ActiveRecord::Base
       return nil unless user
 
       AutologinKey.active.where(user_id: user_id).find { |k|
-        CommonUtil.correct_password?(user.login+plain_key, k.enc_autologin_key) }
+        CommonUtil.correct_password?(user.login+plain_key,
+                                     k.enc_autologin_key)
+      }
     end
 
     def cleanup
