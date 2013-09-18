@@ -38,7 +38,7 @@ class ChartData::YearlyAssetsController < ApplicationController
 
   def _json_total_assets(account_ids, date_since)
     initial_total = Account.asset_of_month(@user, account_ids, date_since.months_ago(1))
-    ignored, data = (0..11).inject([initial_total, []]) do |total_data, i|
+    _ignored, data = (0..11).inject([initial_total, []]) do |total_data, i|
       total = total_data[0]
       data = total_data[1]
       month = date_since.months_since(i)
