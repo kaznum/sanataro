@@ -42,7 +42,8 @@ module ActiveRecord
               tag = Tag.find_or_create_by(name: name)
               tagging = self.taggings.new { |t| 
                 t.user_id = self.user_id
-                t.tag_id = tag.id }
+                t.tag_id = tag.id
+              }
               tagging.save!
             end
           end
