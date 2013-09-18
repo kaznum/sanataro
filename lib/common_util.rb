@@ -20,10 +20,10 @@ class CommonUtil
     def valid_combined_year_month?(year_month)
       return false if year_month.blank? || year_month !~ /^([1-9][0-9]{3})([0-9]{2})$/
 
-      year = Regexp.last_match(1).to_i
+      _ = Regexp.last_match(1).to_i
       month = Regexp.last_match(2).to_i
       
-      (month < 1 || 12 < month) ? false : true
+      month.in? 1..12
     end
 
     def get_year_month_from_combined(str)
