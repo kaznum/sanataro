@@ -45,7 +45,8 @@ describe Settings::AccountsController do
           describe "@accounts" do
             subject { assigns(:accounts) }
             it { should_not be_empty }
-            specify { subject.each do |a|
+            specify {
+              subject.each do |a|
                 a.type.should be == type.to_s.capitalize
               end
             }
@@ -100,7 +101,7 @@ describe Settings::AccountsController do
         login
       end
 
-     context "via xhr," do
+      context "via xhr," do
         context "with valid params," do
           before do
             @before_count = Account.count

@@ -181,7 +181,7 @@ describe Settings::CreditRelationsController do
         login
       end
 
-     context "with invalid id in params," do
+      context "with invalid id in params," do
         before do
           @mock_user = users(:user1)
           mock_crs = double
@@ -330,7 +330,7 @@ describe Settings::CreditRelationsController do
         login
       end
 
-     context "with valid method," do
+      context "with valid method," do
         before do
           @mock_crs = double
           @mock_user.should_receive(:credit_relations).at_least(1).and_return(@mock_crs)
