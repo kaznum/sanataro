@@ -102,7 +102,7 @@ class EntriesController < ApplicationController
 
   def _xhr_action(warning_selector, &block)
     block.call
-  rescue ActiveRecord::RecordNotFound => ex
+  rescue ActiveRecord::RecordNotFound
     redirect_js_to current_entries_url
   rescue InvalidDate
     render_js_error :id => warning_selector, :default_message => t("error.date_is_invalid")

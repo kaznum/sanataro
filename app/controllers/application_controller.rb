@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
   #
   def required_login
     @user = User.find(session[:user_id])
-  rescue ActiveRecord::RecordNotFound => ex
+  rescue ActiveRecord::RecordNotFound
     respond_to do |format|
       format.html { redirect_to login_url }
       format.js { redirect_js_to login_url }

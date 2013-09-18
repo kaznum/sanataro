@@ -110,7 +110,7 @@ module Common
           unless today.beginning_of_month == Date.new(year.to_i, month.to_i).beginning_of_month
             action_date = Date.new(year.to_i, month.to_i)
           end
-        rescue ArgumentError => ex
+        rescue ArgumentError
           # do nothing
           # return default value (Today) as below.
         end
