@@ -111,8 +111,7 @@ module Common
             action_date = Date.new(year.to_i, month.to_i)
           end
         rescue ArgumentError
-          # do nothing
-          # return default value (Today) as below.
+          action_date = today
         end
         action_date || today
       end
