@@ -29,20 +29,26 @@ describe Teller do
     end
 
     shared_examples_for "created successfully with tag_list == 'hoge fuga'" do
-      describe "tags" do
+      let(:tag_ids) { Tag.where(name: 'hoge').pluck(:id) }
+        
+      describe "tags count" do
         subject { Tag.where(name: 'hoge').to_a }
         it { should have(1).tag }
-        specify {
-          subject.each do |t|
-            taggings = Tagging.where(tag_id: t.id).to_a
-            assert_equal 1, taggings.size
-            taggings.each do |tag|
-              tag.user_id.should == users(:user1).id
-              tag.taggable_type.should == 'Item'
-            end
-          end
-        }
-        
+      end
+
+      describe "taggings' size" do
+        subject { Tagging.where(tag_id: tag_ids).size }
+        it { should be == 1 }
+      end
+
+      describe "taggings' user_id" do
+        subject { Tagging.where(tag_id: tag_ids).pluck(:user_id).all? { |i| users(:user1).id == i } }
+        it { should be_true }
+      end
+      
+      describe "taggings' taggable_type" do
+        subject { Tagging.where(tag_id: tag_ids).pluck(:taggable_type).all? { |t| t == 'Item' } }
+        it { should be_true }
       end
     end
 
