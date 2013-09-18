@@ -239,10 +239,10 @@ describe User do
   end
 
   describe "#from_accounts" do
-    let (:user) { users(:user1) }
+    let(:user) { users(:user1) }
 
     describe "size" do
-      let (:actual) { user.accounts.where(type: ['Banking', 'Income']) }
+      let(:actual) { user.accounts.where(type: ['Banking', 'Income']) }
       subject { user.from_accounts }
       it { should have(actual.size).records }
     end
@@ -257,9 +257,9 @@ describe User do
   end
 
   describe "#to_accounts" do
-    let (:user) { users(:user1) }
+    let(:user) { users(:user1) }
     describe "size" do
-      let (:actual) { user.accounts.where(type: ['Banking', 'Expense']) }
+      let(:actual) { user.accounts.where(type: ['Banking', 'Expense']) }
       subject { user.to_accounts }
       it { should have(actual.size).records }
     end
@@ -273,29 +273,29 @@ describe User do
   end
 
   describe "#bank_accounts" do
-    let (:user) { users(:user1) }
-    let (:actual) { user.bankings }
+    let(:user) { users(:user1) }
+    let(:actual) { user.bankings }
     subject { user.bank_accounts }
     it { should have(actual.size).records }
     its(:sort) { should == actual.map{|a| [a.name, a.id.to_s]}.sort }
   end
 
   describe "#all_accounts" do
-    let (:user) { users(:user1) }
+    let(:user) { users(:user1) }
     subject { user.all_accounts }
     its(:size) { should == user.accounts.size }
   end
 
   describe "#account_bgcolors" do
-    let (:user) { users(:user1) }
+    let(:user) { users(:user1) }
     subject { user.account_bgcolors }
     it { should have(user.accounts.where("bgcolor IS NOT NULL").size).records }
   end
 
   shared_examples_for "a method for ids of accounts" do |name|
     describe "accounts" do
-      let (:user) { users(:user1) }
-      let (:type) { name.pluralize.to_sym }
+      let(:user) { users(:user1) }
+      let(:type) { name.pluralize.to_sym }
       subject { user.send("#{name}_ids".to_sym) }
       its(:size) { should == user.send(type).active.size }
       its(:sort) { should == user.send(type).active.pluck(:id).sort }
