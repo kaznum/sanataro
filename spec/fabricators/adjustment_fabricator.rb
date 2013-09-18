@@ -1,6 +1,6 @@
 Fabricator(:adjustment) do
   name "ItemName"
-  from_account_id -1
+  from_account_id(-1)
   to_account_id 1
   amount 1000
   action_date "2011-12-01"
