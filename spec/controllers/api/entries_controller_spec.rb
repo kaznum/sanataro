@@ -212,16 +212,28 @@ describe Api::EntriesController do
           context "after changing filter, access with filter_account_id nil," do
             before do
               @non_bank1_item = users(:user1).general_items.create!(:name => "not bank1 entry", :action_date => Date.new(2008,2,15), :from_account_id => accounts(:income2).id, :to_account_id => accounts(:expense3).id, :amount => 1000)
-              session[:filter_account_id].should == accounts(:bank1).id
-              get :index, :filter_account_id => "", :year => '2008', :month => '2', format: :json
+            end
+
+            describe "check of setup" do
+              describe "previous session" do
+                subject { session[:filter_account_id] }
+                it { should == accounts(:bank1).id }
+              end
             end
 
             describe "session[:filter_account_id]" do
+              before do
+                get :index, :filter_account_id => "", :year => '2008', :month => '2', format: :json
+              end
+              
               subject {  session[:filter_account_id] }
               it { should be_nil }
             end
 
             describe "@items" do
+              before do
+                get :index, :filter_account_id => "", :year => '2008', :month => '2', format: :json
+              end
               subject { assigns(:items) }
               it { should include(@non_bank1_item) }
             end
@@ -426,7 +438,7 @@ describe Api::EntriesController do
             # prepare data to destroy
             post :create, entry: { name: 'test', amount: '1000', action_date: '2008/2/3', from_account_id: '2', to_account_id: '1'}, year: "2008", month: "2", format: :json
             @item_to_del = Item.where(action_date: Date.new(2008,2,3), from_account_id: 2, to_account_id: 1).first
-            @item_to_del.amount.should == 1000
+            @previous_amount = @item_to_del.amount
 
             @old_adj2 = items(:adjustment2)
             @old_bank1 = monthly_profit_losses(:bank1200802)
@@ -435,6 +447,11 @@ describe Api::EntriesController do
             login
             date = @item_to_del.action_date
             delete :destroy, id: @item_to_del.id, year: date.year.to_s, month: date.month.to_s, day: date.day, format: :json
+          end
+
+          describe "previous amount" do
+            subject { @previous_amount }
+            it { should == 1000 }
           end
 
           describe "response" do
@@ -707,18 +724,34 @@ describe Api::EntriesController do
 
       shared_examples_for "created successfully with tag_list == 'hoge fuga by JSON" do
         describe "tags" do
-          subject { Tag.where(name: 'hoge').to_a }
-          it { should have(1).tag }
-          specify {
-            subject.each do |t|
-              taggings = Tagging.where(tag_id: t.id).to_a
-              taggings.size.should == 1
-              taggings.each do |tag|
-                tag.user_id.should == users(:user1).id
-                tag.taggable_type.should == 'Item'
-              end
+          describe "tag size" do
+            subject { Tag.where(name: 'hoge').to_a }
+            it { should have(1).tag }
+          end
+          describe "taggings" do
+            let(:tag_ids) { Tag.where(name: 'hoge').pluck(:id) }
+
+            describe "taggings' size" do
+              subject { Tagging.where(tag_id: tag_ids).to_a }
+              it { should have(1).tagging }
             end
-          }
+
+            describe "taggings' user_id" do
+              subject {
+                uids = Tagging.where(tag_id: tag_ids).pluck(:user_id)
+                uids.all? { |u| u == users(:user1).id }
+              }
+              it { should be_true }
+            end
+
+            describe "taggings' taggable_type" do
+              subject {
+                types = Tagging.where(tag_id: tag_ids).pluck(:taggable_type)
+                types.all? { |t| t == 'Item' }
+              }
+              it { should be_true }
+            end
+          end
         end
       end
 
@@ -1557,18 +1590,13 @@ describe Api::EntriesController do
                    entry: { action_date: '2008/2/10',
                      name: 'テスト10', amount: '10,000', from_account_id: accounts(:credit4).id,
                      to_account_id: accounts(:expense3).id }, year: '2008', month: '2', format: :json)
-              init_credit_item = Item.where(action_date: Date.new(2008,2,10),
+              @init_credit_item = init_credit_item = Item.where(action_date: Date.new(2008,2,10),
                                             from_account_id: accounts(:credit4).id,
                                             to_account_id: accounts(:expense3).id).first
 
-              init_payment_item = init_credit_item.child_item
+              @init_payment_item = init_payment_item = init_credit_item.child_item
               date = init_credit_item.action_date
 
-              init_credit_item.amount.should == 10000
-              init_payment_item.amount.should == 10000
-              init_payment_item.to_account_id.should == init_credit_item.from_account_id
-              init_payment_item.from_account_id.should == 1
-              init_payment_item.action_date.should == Date.new(2008,4,20)
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
@@ -1583,6 +1611,21 @@ describe Api::EntriesController do
                       to_account_id: accounts(:expense3).id.to_s },
                     format: :json)
               }
+            end
+
+            describe "previous state" do
+              describe "initial credit item" do
+                subject { @init_credit_item }
+                its(:amount) { should be == 10000 }
+              end
+              
+              describe "initial payment item" do
+                subject { @init_payment_item }
+                its(:amount) { should be == 10000 }
+                its(:to_account_id) { should be == @init_credit_item.from_account_id }
+                its(:from_account_id) { should be == 1 }
+                its(:action_date) { should be == Date.new(2008, 6, 1) }
+              end
             end
 
             describe "response" do
@@ -1629,17 +1672,12 @@ describe Api::EntriesController do
                    entry: { action_date: '2008/2/10',
                      name: 'テスト10', amount: '10,000', from_account_id: accounts(:credit4).id,
                      to_account_id: accounts(:expense3).id }, year: '2008', month: '2', format: :json)
-              init_credit_item = Item.where(action_date: Date.new(2008,2,10),
-                                            from_account_id: accounts(:credit4).id,
-                                            to_account_id: accounts(:expense3).id).first
+              @init_credit_item = init_credit_item = Item.where(action_date: Date.new(2008,2,10),
+                                                                from_account_id: accounts(:credit4).id,
+                                                                to_account_id: accounts(:expense3).id).first
 
-              init_payment_item = init_credit_item.child_item
+              @init_payment_item = init_payment_item = init_credit_item.child_item
 
-              init_credit_item.amount.should == 10000
-              init_payment_item.amount.should == 10000
-              init_payment_item.to_account_id.should == init_credit_item.from_account_id
-              init_payment_item.from_account_id.should == 1
-              init_payment_item.action_date.should == Date.new(2008,4,20)
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
@@ -1648,6 +1686,21 @@ describe Api::EntriesController do
                     entry: { action_date: Date.new(2008,4,21).strftime("%Y/%m/%d") },
                     format: :json)
               }
+            end
+
+            describe "previous states" do
+              describe "initial credit item" do
+                subject { @init_credit_item }
+                its(:amount) { should be == 10000 }
+              end
+              
+              describe "initial payment item" do
+                subject { @init_payment_item }
+                its(:amount) { should be == 10000 }
+                its(:to_account_id) { should be == @init_credit_item.from_account_id }
+                its(:from_account_id) { should be == 1 }
+                its(:action_date) { should be == Date.new(2008,4,20) }
+              end
             end
 
             describe "response" do
