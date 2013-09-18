@@ -31,16 +31,16 @@ class User < ActiveRecord::Base
   before_save :hash_password
 
   def validates_password_confirmation
-    errors.add('password_plain', I18n.t('errors.messages.confirmation')) if self.password_required? && self.password_plain != self.password_confirmation
+    errors.add('password_plain', I18n.t('errors.messages.confirmation')) if password_required? && password_plain != password_confirmation
   end
 
   def password_required?
-    self.password.blank? || !self.password_plain.blank?
+    password.blank? || !password_plain.blank?
   end
 
   def hash_password
-    return if self.password_plain.blank?
-    self.password = CommonUtil.crypt(login + self.password_plain)
+    return if password_plain.blank?
+    self.password = CommonUtil.crypt(login + password_plain)
   end
 
   def password_correct?(pass)
@@ -112,25 +112,25 @@ class User < ActiveRecord::Base
   end
 
   def store_sample
-    account1 = self.bankings.create!(name: '財布', order_no: 10)
-    self.bankings.create!(name: '銀行A', order_no: 20)
-    account3 = self.bankings.create!(name: '銀行B', order_no: 30)
-    account4_cr = self.bankings.create!(name: 'クレジットカード', order_no: 40)
+    account1 = bankings.create!(name: '財布', order_no: 10)
+    bankings.create!(name: '銀行A', order_no: 20)
+    account3 = bankings.create!(name: '銀行B', order_no: 30)
+    account4_cr = bankings.create!(name: 'クレジットカード', order_no: 40)
 
-    self.incomes.create!(name: '給与', order_no: 10)
-    self.incomes.create!(name: '賞与', order_no: 20)
-    income3 = self.incomes.create!(name: '雑収入', order_no: 30)
+    incomes.create!(name: '給与', order_no: 10)
+    incomes.create!(name: '賞与', order_no: 20)
+    income3 = incomes.create!(name: '雑収入', order_no: 30)
 
-    expense1 = self.expenses.create!(name: '食費', order_no: 10)
-    self.expenses.create!(name: '光熱費', order_no: 20)
-    self.expenses.create!(name: '住居費', order_no: 30)
-    self.expenses.create!(name: '美容費', order_no: 40)
-    self.expenses.create!(name: '衛生費', order_no: 50)
-    self.expenses.create!(name: '雑費', order_no: 60)
+    expense1 = expenses.create!(name: '食費', order_no: 10)
+    expenses.create!(name: '光熱費', order_no: 20)
+    expenses.create!(name: '住居費', order_no: 30)
+    expenses.create!(name: '美容費', order_no: 40)
+    expenses.create!(name: '衛生費', order_no: 50)
+    expenses.create!(name: '雑費', order_no: 60)
 
-    self.credit_relations.create!(credit_account_id: account4_cr.id, payment_account_id: account3.id, settlement_day: 25, payment_month: 2, payment_day: 4)
+    credit_relations.create!(credit_account_id: account4_cr.id, payment_account_id: account3.id, settlement_day: 25, payment_month: 2, payment_day: 4)
 
-    self.general_items.create!(name: 'サンプル収入(消してかまいません)', from_account_id: income3.id, to_account_id: account1.id, amount: 1000, action_date: Date.today)
-    self.general_items.create!(name: 'サンプル(消してかまいません)', from_account_id: account1.id, to_account_id: expense1.id, amount: 250, action_date: Date.today, tag_list: 'タグもOK')
+    general_items.create!(name: 'サンプル収入(消してかまいません)', from_account_id: income3.id, to_account_id: account1.id, amount: 1000, action_date: Date.today)
+    general_items.create!(name: 'サンプル(消してかまいません)', from_account_id: account1.id, to_account_id: expense1.id, amount: 250, action_date: Date.today, tag_list: 'タグもOK')
   end
 end
