@@ -10,6 +10,3 @@ class Mailer < ActionMailer::Base
     mail(to: user.email, from: Settings.system_mail_address, subject: "[#{Settings.product_name}] #{I18n.t('mailer.subject.registered_user_successfully')}")
   end
 end
-
-
-

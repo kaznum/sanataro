@@ -20,4 +20,3 @@ class GeneralItem < Item
     new_attrs
   end
 end
-
