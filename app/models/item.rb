@@ -3,23 +3,23 @@ class Item < ActiveRecord::Base
   sanataro_taggable
 
   belongs_to :user
-  belongs_to :parent_item, :class_name => "GeneralItem", :foreign_key => 'parent_id'
-  has_one :child_item, :class_name => "GeneralItem", :foreign_key => 'parent_id', :dependent => :destroy
+  belongs_to :parent_item, class_name: "GeneralItem", foreign_key: 'parent_id'
+  has_one :child_item, class_name: "GeneralItem", foreign_key: 'parent_id', dependent: :destroy
 
   validate :validates_action_date_range
 
   attr_accessor :p_year, :p_month, :p_day
 
   validates_presence_of :user_id
-  validates_format_of :user_id, :with => /\A\d+\z/
+  validates_format_of :user_id, with: /\A\d+\z/
   validates_presence_of :name
   validates_length_of :name, in: 1..255
   validates_presence_of :from_account_id
-  validates_format_of :from_account_id, :with => /\A-?\d+\z/
+  validates_format_of :from_account_id, with: /\A-?\d+\z/
   validates_presence_of :to_account_id
-  validates_format_of :to_account_id, :with => /\A\d+\z/
+  validates_format_of :to_account_id, with: /\A\d+\z/
   validates_presence_of :amount
-  validates_format_of :amount, :with => /\A-?\d+\z/
+  validates_format_of :amount, with: /\A-?\d+\z/
   validates_presence_of :action_date
   validates_presence_of :type
 
@@ -107,19 +107,19 @@ class Item < ActiveRecord::Base
 
   def update_confirmation_required_of_self_or_parent(required)
     if self.parent_item
-      self.parent_item.update_attributes(:confirmation_required => required)
+      self.parent_item.update_attributes(confirmation_required: required)
     else
-      self.update_attributes(:confirmation_required => required)
+      self.update_attributes(confirmation_required: required)
     end
   end
 
   def to_custom_hash
-    { :entry => {
-        :id => id, :name => name, :action_date => action_date,
-        :from_account_id => from_account_id, :to_account_id => to_account_id,
-        :amount => amount, :confirmation_required => confirmation_required?,
-        :tags => tag_list.split(' ').sort,
-        :child_id => child_item.try(:id), :parent_id => parent_id } }
+    { entry: {
+        id: id, name: name, action_date: action_date,
+        from_account_id: from_account_id, to_account_id: to_account_id,
+        amount: amount, confirmation_required: confirmation_required?,
+        tags: tag_list.split(' ').sort,
+        child_id: child_item.try(:id), parent_id: parent_id } }
   end
 
   def create_credit_payment!
