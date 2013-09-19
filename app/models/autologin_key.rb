@@ -2,8 +2,8 @@ class AutologinKey < ActiveRecord::Base
   attr_accessor :autologin_key
 
   belongs_to :user
-  validates_presence_of :autologin_key, :if => :key_required?
-  validates_presence_of :user_id
+  validates :autologin_key, presence: { :if => :key_required? }
+  validates :user_id, presence: true
 
   before_save :fill_enc_autologin_key
 

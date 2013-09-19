@@ -16,17 +16,10 @@ class User < ActiveRecord::Base
   has_many :expenses, class_name: 'Expense'
 
   validate :validates_password_confirmation
-  validates_presence_of :login
-  validates_presence_of :password_plain, if: :password_required?
-  validates_presence_of :email
-  validates_format_of :login, with: /\A[A-Za-z0-9_-]+\z/
-  validates_length_of :login, in: 3..10
-  validates_format_of :password_plain, with: /\A[A-Za-z0-9_-]+\z/, if: :password_required?
-  validates_length_of :password_plain, in: 6..10, if: :password_required?
-  validates_uniqueness_of :login, message: I18n.t('errors.messages.exclusion')
-
-  validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
-  validates_length_of :email, in: 5..255
+  validates :login, presence: true, format: { with: /\A[A-Za-z0-9_-]+\z/ }, length: { in: 3..10 }, uniqueness: { message: I18n.t('errors.messages.exclusion') }
+  validates :password_plain, presence: { :if => :password_required? }
+  validates :email, presence: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }, length: { in: 5..255 }
+  validates :password_plain, format: { with: /\A[A-Za-z0-9_-]+\z/, :if => :password_required? }, length: { in: 6..10, :if => :password_required? }
 
   before_save :hash_password
 

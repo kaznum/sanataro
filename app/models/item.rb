@@ -10,18 +10,13 @@ class Item < ActiveRecord::Base
 
   attr_accessor :p_year, :p_month, :p_day
 
-  validates_presence_of :user_id
-  validates_format_of :user_id, with: /\A\d+\z/
-  validates_presence_of :name
-  validates_length_of :name, in: 1..255
-  validates_presence_of :from_account_id
-  validates_format_of :from_account_id, with: /\A-?\d+\z/
-  validates_presence_of :to_account_id
-  validates_format_of :to_account_id, with: /\A\d+\z/
-  validates_presence_of :amount
-  validates_format_of :amount, with: /\A-?\d+\z/
-  validates_presence_of :action_date
-  validates_presence_of :type
+  validates :user_id, presence: true, format: { with: /\A\d+\z/ }
+  validates :name, presence: true, length: { in: 1..255 }
+  validates :from_account_id, presence: true, format: { with: /\A-?\d+\z/ }
+  validates :to_account_id, presence: true, format: { with: /\A-?\d+\z/ }
+  validates :amount, presence: true, format: { with: /\A-?\d+\z/ }
+  validates :action_date, presence: true
+  validates :type, presence: true
 
   validate :action_date_should_be_larger_than_that_of_parent_item
 

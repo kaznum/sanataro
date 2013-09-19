@@ -14,10 +14,9 @@ class CreditRelation < ActiveRecord::Base
                      [I18n.t('label.two_month_after_next'), 3]]
 
   validate :validate_on_save
-  validates_uniqueness_of   :credit_account_id
-  validates_numericality_of :credit_account_id
-  validates_numericality_of :payment_account_id
-  validates_inclusion_of :payment_month, in: 0..3
+  validates :credit_account_id, uniqueness: true, numericality: true
+  validates :payment_account_id, numericality: true
+  validates :payment_month, inclusion: { in: 0..3 }
   validate :should_not_used_as_payment_account
   validate :should_not_used_as_credit_account
 

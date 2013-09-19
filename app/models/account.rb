@@ -13,13 +13,10 @@ class Account < ActiveRecord::Base
 
   after_save :clear_cache
 
-  validates_presence_of :name
-  validates_length_of :name, in: 1..255
-  validates_presence_of :order_no
-  validates_format_of :order_no, with: /\A\d+\z/
-  validates_presence_of :type
-  validates_format_of :type, with: /\ABanking\z|\AIncome\z|\AExpense\z/
-  validates_format_of :bgcolor, with: /\A[0-9a-f]{6}/i, allow_nil: true
+  validates :name, presence: true, length: { in: 1..255 }
+  validates :order_no, presence: true, format: { with: /\A\d+\z/ }
+  validates :type, presence: true, format: { with: /\ABanking\z|\AIncome\z|\AExpense\z/ }
+  validates :bgcolor, format: { with: /\A[0-9a-f]{6}/i, allow_blank: true }
 
   scope :active, -> { where(active: true) }
 
