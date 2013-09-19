@@ -38,7 +38,7 @@ class Adjustment < Item
 
   def filter_and_assign_attributes(attrs)
     if persisted?
-      adjusted_attrs = attrs.select { |key, value| [:to_account_id,:action_date, :adjustment_amount, :tag_list].include?(key.to_sym) }
+      adjusted_attrs = attrs.select { |key, value| [:to_account_id, :action_date, :adjustment_amount, :tag_list].include?(key.to_sym) }
     else
       adjusted_attrs = attrs.select { |key, value| [:to_account_id, :confirmation_required, :tag_list, :action_date, :adjustment_amount].include?(key.to_sym) }
       adjusted_attrs[:name] = 'Adjustment'

@@ -13,7 +13,7 @@ class Item < ActiveRecord::Base
   validates_presence_of :user_id
   validates_format_of :user_id, :with => /\A\d+\z/
   validates_presence_of :name
-  validates_length_of :name, :in =>1..255
+  validates_length_of :name, in: 1..255
   validates_presence_of :from_account_id
   validates_format_of :from_account_id, :with => /\A-?\d+\z/
   validates_presence_of :to_account_id
@@ -32,7 +32,7 @@ class Item < ActiveRecord::Base
   before_validation :set_action_date
   before_validation :fill_amount
 
-  scope :of_account_id, lambda { |account_id|  where(arel_table[:from_account_id].eq(account_id).or(arel_table[:to_account_id].eq(account_id)) ) }
+  scope :of_account_id, lambda { |account_id| where(arel_table[:from_account_id].eq(account_id).or(arel_table[:to_account_id].eq(account_id))) }
   scope :action_date_between, lambda { |from, to| where(action_date: from..to) }
   scope :confirmation_required, -> { where(confirmation_required: true) }
   scope :default_limit, -> { limit(Settings.item_list_count) }
@@ -198,7 +198,7 @@ class Item < ActiveRecord::Base
     #    :tag タグにより検索(この場合、from_date, to_dateは無視される)
     #    :mark mark(confirmation_requiredなど)により検索(この場合、from_date, to_dateは無視される)
     #
-    def partials(from_date, to_date, filter_options={})
+    def partials(from_date, to_date, filter_options = {})
       options = symbolize_keys(filter_options)
       items = self
       if options[:tag].present?

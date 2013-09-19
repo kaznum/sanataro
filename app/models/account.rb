@@ -27,7 +27,7 @@ class Account < ActiveRecord::Base
 
   def trim_bgcolor_if_needed
     if bgcolor =~ /^#/
-      self.bgcolor = bgcolor.gsub("#","")
+      self.bgcolor = bgcolor.gsub("#", "")
     end
   end
 
@@ -47,7 +47,7 @@ class Account < ActiveRecord::Base
     # dateと、my_idに該当するitemのaction_dateが同一の場合、
     # dateと同じ日のitemデータのうち、my_idよりidがおおきいものは残高計算から除外する
     #
-    def asset(user, account_id, date, my_id=nil)
+    def asset(user, account_id, date, my_id = nil)
       my_item = my_id ? user.items.find_by_id(my_id) : nil
 
       # amountの算出
