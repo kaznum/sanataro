@@ -185,9 +185,9 @@ class Item < ActiveRecord::Base
     end
 
     def future_adjustment(action_date, account_id, item_id)
-      where(to_account_id: account_id, type: 'Adjustment').
-        where("(action_date > ? AND id <> ?) OR (action_date = ? AND id > ?)",
-              action_date, item_id, action_date, item_id).order("action_date, id").first
+      where(to_account_id: account_id, type: 'Adjustment')
+        .where("(action_date > ? AND id <> ?) OR (action_date = ? AND id > ?)",
+               action_date, item_id, action_date, item_id).order("action_date, id").first
     end
 
     #
