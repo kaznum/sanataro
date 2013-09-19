@@ -30,7 +30,7 @@ class ItemObserver < ActiveRecord::Observer
   end
 
   def update_pl_after_update(item)
-    if %w(from_account_id to_account_id action_date amount).any?{ |key| item.changed_attributes[key] }
+    if %w(from_account_id to_account_id action_date amount).any? { |key| item.changed_attributes[key] }
       adjust_pl_of_previous_relatives(item)
       adjust_pl_of(item)
     end
@@ -45,7 +45,7 @@ class ItemObserver < ActiveRecord::Observer
   end
 
   def update_future_balance_after_update(item)
-    if %w(from_account_id to_account_id action_date amount).any?{ |key| item.changed_attributes[key] }
+    if %w(from_account_id to_account_id action_date amount).any? { |key| item.changed_attributes[key] }
       adjust_future_balance_of_previous_relatives(item)
       adjust_future_balance_of(item)
     end
@@ -60,10 +60,10 @@ class ItemObserver < ActiveRecord::Observer
   end
 
   def reset_child_item_after_update(item)
-    if %w(from_account_id action_date).any?{ |key| item.changed_attributes[key] }
+    if %w(from_account_id action_date).any? { |key| item.changed_attributes[key] }
       item.child_item.destroy if item.child_item
       item.create_credit_payment!
-    elsif %w(name amount).any?{ |key| item.changed_attributes[key] } && item.child_item
+    elsif %w(name amount).any? { |key| item.changed_attributes[key] } && item.child_item
       item.child_item.update_attributes!(name: item.name, amount: item.amount)
     end
   end

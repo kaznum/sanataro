@@ -40,9 +40,7 @@ class Adjustment < Item
     if persisted?
       adjusted_attrs = attrs.select { |key, value| [:to_account_id,:action_date, :adjustment_amount, :tag_list].include?(key.to_sym) }
     else
-      adjusted_attrs = attrs.select {|key, value|
-        [:to_account_id, :confirmation_required, :tag_list, :action_date, :adjustment_amount].include?(key.to_sym)
-      }
+      adjusted_attrs = attrs.select { |key, value| [:to_account_id, :confirmation_required, :tag_list, :action_date, :adjustment_amount].include?(key.to_sym) }
       adjusted_attrs[:name] = 'Adjustment'
       adjusted_attrs[:from_account_id] = -1
     end

@@ -14,9 +14,7 @@ class GeneralItem < Item
     if persisted? && parent_item
       new_attrs = attrs.select { |key, value| key.to_sym == :action_date }
     else
-      new_attrs = attrs.select {|key, value|
-        [:name, :from_account_id, :to_account_id, :confirmation_required, :tag_list, :action_date, :amount].include?(key.to_sym)
-      }
+      new_attrs = attrs.select { |key, value| [:name, :from_account_id, :to_account_id, :confirmation_required, :tag_list, :action_date, :amount].include?(key.to_sym) }
     end
     assign_attributes(new_attrs)
     new_attrs
