@@ -49,11 +49,11 @@ class Item < ActiveRecord::Base
   def validates_action_date_range
     today = Date.today
     if action_date
-      if self.action_date >= 2.years.since(Date.today)
+      if action_date >= 2.years.since(Date.today)
         errors.add(:action_date, I18n.t("errors.messages.until_since_today", year: 2, date: I18n.l(Date.new(today.year + 2, today.month, 1) - 1, format: :year_month)))
       end
       since = Date.new(2006, 1, 1)
-      if self.action_date < since
+      if action_date < since
         errors.add(:action_date, I18n.t("errors.messages.since_until_today", date: I18n.l(since)))
       end
     end
@@ -64,15 +64,15 @@ class Item < ActiveRecord::Base
   end
 
   def year
-    self.p_year.presence || self.action_date.try(:year)
+    p_year.presence || action_date.try(:year)
   end
 
   def month
-    self.p_month.presence || self.action_date.try(:month)
+    p_month.presence || action_date.try(:month)
   end
 
   def day
-    self.p_day.presence || self.action_date.try(:day)
+    p_day.presence || action_date.try(:day)
   end
 
   def year=(y)
@@ -106,10 +106,10 @@ class Item < ActiveRecord::Base
   end
 
   def update_confirmation_required_of_self_or_parent(required)
-    if self.parent_item
-      self.parent_item.update_attributes(confirmation_required: required)
+    if parent_item
+      parent_item.update_attributes(confirmation_required: required)
     else
-      self.update_attributes(confirmation_required: required)
+      update_attributes(confirmation_required: required)
     end
   end
 
@@ -149,13 +149,13 @@ class Item < ActiveRecord::Base
   protected
 
   def set_action_date
-    if self.p_year.blank? && self.p_month.blank? && self.p_day.blank?
+    if p_year.blank? && p_month.blank? && p_day.blank?
       # DO NOTHING
-    elsif self.p_year.blank? || self.p_month.blank? || self.p_day.blank?
+    elsif p_year.blank? || p_month.blank? || p_day.blank?
       # どれか一つ入力されている場合、日付が間違っている、もしくは入力不足の可能性がある。
       self.action_date = nil
-    elsif Date.valid_date?(self.p_year, self.p_month, self.p_day)
-      self.action_date = Date.new(self.p_year, self.p_month, self.p_day)
+    elsif Date.valid_date?(p_year, p_month, p_day)
+      self.action_date = Date.new(p_year, p_month, p_day)
     else
       self.action_date = nil
     end
@@ -225,30 +225,30 @@ class Item < ActiveRecord::Base
     end
 
     def partials_by_tag(tag)
-      self.tagged_with(tag).order_of_entries.limit(Settings.item_list_count)
+      tagged_with(tag).order_of_entries.limit(Settings.item_list_count)
     end
 
     def remainings_by_tag(tag)
       # FIX ME
       #
       # limit is fixed number.
-      self.tagged_with(tag).order_of_entries.remaining
+      tagged_with(tag).order_of_entries.remaining
     end
 
     def where_keyword_matches(str)
       keywords = str.strip.split(/\s+/).map { |key| "%#{key.gsub(/[%_!]/) { |s| '!' + s }}%" }
-      where(self.arel_table[:name].matches_all(keywords))
+      where(arel_table[:name].matches_all(keywords))
     end
 
     def partials_by_keyword(keyword)
-      self.where_keyword_matches(keyword).order_of_entries.limit(Settings.item_list_count)
+      where_keyword_matches(keyword).order_of_entries.limit(Settings.item_list_count)
     end
 
     def remainings_by_keyword(keyword)
       # FIX ME
       #
       # limit is fixed number.
-      self.where_keyword_matches(keyword).order_of_entries.remaining
+      where_keyword_matches(keyword).order_of_entries.remaining
     end
 
     def collect_account_history(user, account_id, from_date, to_date)
@@ -261,8 +261,8 @@ class Item < ActiveRecord::Base
   private
 
   def action_date_should_be_larger_than_that_of_parent_item
-    p_item = self.parent_item
-    if p_item && self.action_date <= p_item.action_date
+    p_item = parent_item
+    if p_item && action_date <= p_item.action_date
       errors.add(:action_date, I18n.t("errors.messages.after_credit_item", date: I18n.l(p_item.action_date)))
     end
   end

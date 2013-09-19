@@ -52,14 +52,14 @@ class Account < ActiveRecord::Base
 
       # amountの算出
       # 前月までのassetを算出
-      asset = self.asset_to_last_month(user, account_id, date, except: my_item)
+      asset = asset_to_last_month(user, account_id, date, except: my_item)
       # 今月のassetの変化を算出
       if my_item.nil?
-        asset += self.asset_beginning_of_month_to_date(user, account_id, date)
+        asset += asset_beginning_of_month_to_date(user, account_id, date)
       elsif my_item.action_date == date
-        asset += self.asset_to_item_of_this_month_except(user, account_id, date, my_id)
+        asset += asset_to_item_of_this_month_except(user, account_id, date, my_id)
       else
-        asset += self.asset_to_date_of_this_month_except(user, account_id, date, my_id)
+        asset += asset_to_date_of_this_month_except(user, account_id, date, my_id)
       end
 
       asset
@@ -83,7 +83,7 @@ class Account < ActiveRecord::Base
   end
 
   def clear_cache
-    Rails.cache.delete_matched(/^user_#{self.user_id}/)
+    Rails.cache.delete_matched(/^user_#{user_id}/)
   end
 
   def error_if_credit_relations_exist

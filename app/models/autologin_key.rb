@@ -25,13 +25,13 @@ class AutologinKey < ActiveRecord::Base
   private
 
   def key_required?
-    self.enc_autologin_key.nil?
+    enc_autologin_key.nil?
   end
 
   def fill_enc_autologin_key
-    if self.autologin_key.present? && self.user_id.present?
-      user = User.find_by_id(self.user_id)
-      self.enc_autologin_key = CommonUtil.crypt(user.login + self.autologin_key) if user
+    if autologin_key.present? && user_id.present?
+      user = User.find_by_id(user_id)
+      self.enc_autologin_key = CommonUtil.crypt(user.login + autologin_key) if user
     end
   end
 end
