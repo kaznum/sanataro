@@ -7,7 +7,7 @@ class AutologinKey < ActiveRecord::Base
 
   before_save :fill_enc_autologin_key
 
-  scope :active, lambda { where("created_at > ?", Time.now - 30 * 24 * 3600) }
+  scope :active, -> { where("created_at > ?", Time.now - 30 * 24 * 3600) }
 
   class << self
     def matched_key(user_id, plain_key)
