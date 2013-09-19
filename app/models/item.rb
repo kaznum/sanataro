@@ -39,7 +39,7 @@ class Item < ActiveRecord::Base
   # FIX ME
   #
   # limit is fixed number.
-  scope :remaining, -> { offset(Settings.item_list_count).limit(999999) }
+  scope :remaining, -> { offset(Settings.item_list_count).limit(999_999) }
   # TODO
   #
   # ActiveRecord 4 generates the SQL's order-clause by the different order from AR3's one
