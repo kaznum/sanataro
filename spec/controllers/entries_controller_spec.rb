@@ -1955,7 +1955,7 @@ describe EntriesController do
             end
             subject { @created_adj }
             its(:adjustment_amount) { should eq 3000 }
-            its(:from_account_id) { should eq -1 }
+            its(:from_account_id) { should eq(-1) }
             its(:amount) { should eq 3000 - @amount_before }
           end
 
@@ -2028,7 +2028,7 @@ describe EntriesController do
             end
             subject { @created_adj }
             its(:adjustment_amount) { should eq 3000 }
-            its(:from_account_id) { should eq -1 }
+            its(:from_account_id) { should eq(-1) }
             its(:amount) { should eq 3000 - @amount_before }
           end
 
@@ -2100,7 +2100,7 @@ describe EntriesController do
             end
             subject { @created_adj }
             its(:adjustment_amount) { should eq 3000 }
-            its(:from_account_id) { should eq -1 }
+            its(:from_account_id) { should eq(-1) }
             its(:amount) { should eq 3000 - @amount_before }
           end
 
@@ -2171,7 +2171,7 @@ describe EntriesController do
             end
             subject { @created_adj }
             its(:adjustment_amount) { should eq 3000 }
-            its(:from_account_id) { should eq -1 }
+            its(:from_account_id) { should eq(-1) }
             its(:amount) { should eq 3000 - @amount_before }
           end
 
@@ -2865,7 +2865,7 @@ describe EntriesController do
             subject {Item.find(@old_item1.id)}
             its(:name) {should eq 'テスト10000'}
             its(:action_date) {should eq @date}
-            its(:amount) {should eq (80*1.007).to_i }
+            its(:amount) { should eq((80*1.007).to_i) }
             its(:from_account_id) {should eq accounts(:bank1).id}
             its(:to_account_id) {should eq accounts(:expense3).id}
             it {should be_confirmation_required}
