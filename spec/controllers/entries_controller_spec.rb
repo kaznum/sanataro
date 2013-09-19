@@ -43,7 +43,7 @@ describe EntriesController do
 
         describe "@new_item" do
           subject { assigns(:new_item)}
-          its(:action_date) { should == Date.today }
+          its(:action_date) { should be == Date.today }
         end
 
         describe "@items" do
@@ -80,7 +80,7 @@ describe EntriesController do
 
           describe "@new_item" do
             subject { assigns(:new_item)}
-            its(:action_date) { should == Date.new(2008,2) }
+            its(:action_date) { should be == Date.new(2008,2) }
           end
 
           describe "@items" do
@@ -177,7 +177,7 @@ describe EntriesController do
 
         describe "@items" do
           subject { assigns(:items) }
-          its(:size) { should == 1 }
+          its(:size) { should be == 1 }
         end
       end
 
@@ -202,7 +202,7 @@ describe EntriesController do
 
         describe "@items" do
           subject { assigns(:items) }
-          its(:size) { should == 1 }
+          its(:size) { should be == 1 }
         end
       end
 
@@ -227,7 +227,7 @@ describe EntriesController do
 
         describe "@items" do
           subject { assigns(:items) }
-          its(:size) { should == 1 }
+          its(:size) { should be == 1 }
         end
       end
 
@@ -280,7 +280,7 @@ describe EntriesController do
           context "after changing filter, access with filter_account_id = ''," do
             before do
               @non_bank1_item = users(:user1).general_items.create!(:name => "not bank1 entry", :action_date => Date.new(2008,2,15), :from_account_id => accounts(:income2).id, :to_account_id => accounts(:expense3).id, :amount => 1000)
-              session[:filter_account_id].should == accounts(:bank1).id
+              session[:filter_account_id].should be == accounts(:bank1).id
               xhr :get, :index, :filter_account_id => "", :year => '2008', :month => '2'
             end
 
@@ -484,7 +484,7 @@ describe EntriesController do
 
         describe "@item" do
           subject { assigns(:item) }
-          its(:action_date) { should == Date.today }
+          its(:action_date) { should be == Date.today }
           it { should_not be_adjustment }
         end
       end
@@ -502,7 +502,7 @@ describe EntriesController do
 
         describe "@item" do
           subject { assigns(:item) }
-          its(:action_date) { should == Date.new(2008,5) }
+          its(:action_date) { should be == Date.new(2008,5) }
           it { should_not be_adjustment }
         end
       end
@@ -525,7 +525,7 @@ describe EntriesController do
 
           describe "item" do
             subject { assigns(:item)}
-            its(:action_date) { should == Date.today }
+            its(:action_date) { should be == Date.today }
             it { should be_adjustment }
           end
         end
@@ -540,7 +540,7 @@ describe EntriesController do
 
             describe "@item" do
               subject { assigns(:item) }
-              its(:action_date) { should == Date.new(2009,5) }
+              its(:action_date) { should be == Date.new(2009,5) }
               it { should be_adjustment }
             end
           end
@@ -554,7 +554,7 @@ describe EntriesController do
 
             describe "item.action_date" do
               subject { assigns(:item)}
-              its(:action_date) { should == Date.today }
+              its(:action_date) { should be == Date.today }
               it { should be_adjustment }
             end
           end
@@ -581,12 +581,12 @@ describe EntriesController do
 
         describe "@data" do
           subject { assigns(:data) }
-          its([:authenticity_token]) { should == "1234567" }
-          its([:year]) { should == Date.today.year }
-          its([:month]) { should == Date.today.month }
-          its([:day]) { should == Date.today.day}
-          its([:from_accounts]) { should == [{ :value => 'b', :text => 'a'}, { :value => 'd', :text => 'c'}]}
-          its([:to_accounts]) { should == [{ :value => 'f', :text => 'e'}, { :value => 'h', :text => 'g'}]}
+          its([:authenticity_token]) { should be == "1234567" }
+          its([:year]) { should be == Date.today.year }
+          its([:month]) { should be == Date.today.month }
+          its([:day]) { should be == Date.today.day}
+          its([:from_accounts]) { should be == [{ :value => 'b', :text => 'a'}, { :value => 'd', :text => 'c'}]}
+          its([:to_accounts]) { should be == [{ :value => 'f', :text => 'e'}, { :value => 'h', :text => 'g'}]}
         end
       end
     end
@@ -639,7 +639,7 @@ describe EntriesController do
           describe "response" do
             subject { response }
             it { should be_success }
-            its(:content_type) { should == "text/javascript"}
+            its(:content_type) { should be == "text/javascript"}
           end
 
           describe "the specified item" do
@@ -649,17 +649,17 @@ describe EntriesController do
 
           describe "the future adjustment item" do
             subject { Item.find(@old_adj2.id) }
-            its(:amount) { should == @old_adj2.amount - @old_item1.amount }
+            its(:amount) { should be == @old_adj2.amount - @old_item1.amount }
           end
 
           describe "amount of Montly profit loss of from_account" do
             subject { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id) }
-            its(:amount) { should == @old_bank1pl.amount }
+            its(:amount) { should be == @old_bank1pl.amount }
           end
 
           describe "amount of Montly profit loss of to_account" do
             subject { MonthlyProfitLoss.find(monthly_profit_losses(:expense3200802).id) }
-            its(:amount) { should == @old_expense3pl.amount - @old_item1.amount }
+            its(:amount) { should be == @old_expense3pl.amount - @old_item1.amount }
           end
         end
 
@@ -668,7 +668,7 @@ describe EntriesController do
             # prepare data to destroy
             xhr :post, :create, entry: {name: 'test', amount: '1000', action_date: '2008/2/3', from_account_id: '2', to_account_id: '1'}, year: "2008", month: "2"
             @item_to_del = Item.where(action_date: Date.new(2008,2,3), from_account_id: 2, to_account_id: 1).first
-            @item_to_del.amount.should == 1000
+            @item_to_del.amount.should be == 1000
 
             @old_adj2 = items(:adjustment2)
             @old_bank1 = monthly_profit_losses(:bank1200802)
@@ -682,7 +682,7 @@ describe EntriesController do
           describe "response" do
             subject { response }
             it { should be_success }
-            its(:content_type) { should == "text/javascript"}
+            its(:content_type) { should be == "text/javascript"}
           end
 
           describe "the specified item" do
@@ -692,18 +692,18 @@ describe EntriesController do
 
           describe "the future adjustment item" do
             subject { Item.find(@old_adj2.id) }
-            its(:amount) { should == @old_adj2.amount + @item_to_del.amount }
+            its(:amount) { should be == @old_adj2.amount + @item_to_del.amount }
           end
 
           describe "amount of Montly profit loss of from_account" do
 
             subject { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id) }
-            its(:amount) { should == @old_bank1.amount }
+            its(:amount) { should be == @old_bank1.amount }
           end
 
           describe "amount of Montly profit loss of to_account" do
             subject { MonthlyProfitLoss.find(@old_income.id) }
-            its(:amount) { should == @old_income.amount + @item_to_del.amount }
+            its(:amount) { should be == @old_income.amount + @item_to_del.amount }
           end
         end
 
@@ -725,7 +725,7 @@ describe EntriesController do
 
           describe "amount of from_account" do
             subject { MonthlyProfitLoss.find(@old_bank11pl.id) }
-            its(:amount) { should == @old_bank11pl.amount + @item.amount}
+            its(:amount) { should be == @old_bank11pl.amount + @item.amount}
           end
 
           describe "specified item" do
@@ -737,7 +737,7 @@ describe EntriesController do
 
           describe "amount of to_account" do
             subject { MonthlyProfitLoss.find(@old_expense13pl.id) }
-            its(:amount) {should ==  @old_expense13pl.amount - @item.amount }
+            its(:amount) {should be ==  @old_expense13pl.amount - @item.amount }
           end
         end
 
@@ -797,7 +797,7 @@ describe EntriesController do
               before { action.call}
               subject { response }
               it { should be_success }
-              its(:content_type) { should == 'text/javascript'}
+              its(:content_type) { should be == 'text/javascript'}
             end
 
             describe "specified item" do
@@ -893,7 +893,7 @@ describe EntriesController do
             describe "response" do
               subject { response }
               it { should be_success }
-              its(:content_type) { should == "text/javascript" }
+              its(:content_type) { should be == "text/javascript" }
             end
 
             describe "previous adjustment(adj2)" do
@@ -908,27 +908,27 @@ describe EntriesController do
 
             describe "next adjustment(adj6" do
               subject { Item.find_by_id(@init_adj6.id) }
-              its(:amount) {should == @init_adj6.amount + @init_adj4.amount}
+              its(:amount) {should be == @init_adj6.amount + @init_adj4.amount}
             end
 
             describe "bank_2_pl" do
               subject { MonthlyProfitLoss.find(@init_bank_2_pl.id) }
-              its(:amount) { should == @init_bank_2_pl.amount - @init_adj4.amount}
+              its(:amount) { should be == @init_bank_2_pl.amount - @init_adj4.amount}
             end
 
             describe "bank_3_pl" do
               subject { MonthlyProfitLoss.find(@init_bank_3_pl.id) }
-              its(:amount) { should == @init_bank_3_pl.amount + @init_adj4.amount}
+              its(:amount) { should be == @init_bank_3_pl.amount + @init_adj4.amount}
             end
 
             describe "unknown_2_pl" do
               subject { MonthlyProfitLoss.find(@init_unknown_2_pl.id)}
-              its(:amount) { should == @init_unknown_2_pl.amount + @init_adj4.amount }
+              its(:amount) { should be == @init_unknown_2_pl.amount + @init_adj4.amount }
             end
 
             describe "unknown_3_pl" do
               subject { MonthlyProfitLoss.find(@init_unknown_3_pl.id)}
-              its(:amount) { should == @init_unknown_3_pl.amount - @init_adj4.amount }
+              its(:amount) { should be == @init_unknown_3_pl.amount - @init_adj4.amount }
             end
           end
 
@@ -960,17 +960,17 @@ describe EntriesController do
             describe "response" do
               subject { response }
               it { should be_success }
-              its(:content_type) { should == "text/javascript" }
+              its(:content_type) { should be == "text/javascript" }
             end
 
             describe "the adj before last adj(adj2)" do
               subject {Item.find_by_id(@init_adj2.id)}
-              its(:amount) { should == @init_adj2.amount }
+              its(:amount) { should be == @init_adj2.amount }
             end
 
             describe "the last adj(adj4)" do
               subject {Item.find_by_id(@init_adj4.id)}
-              its(:amount) { should == @init_adj4.amount }
+              its(:amount) { should be == @init_adj4.amount }
             end
 
             describe "specified adjustment(adj6)" do
@@ -980,12 +980,12 @@ describe EntriesController do
 
             describe "bank_2_pl" do
               subject { MonthlyProfitLoss.find(@init_bank_2_pl.id) }
-              its(:amount) { should == @init_bank_2_pl.amount }
+              its(:amount) { should be == @init_bank_2_pl.amount }
             end
 
             describe "bank_3_pl" do
               subject { MonthlyProfitLoss.find(@init_bank_3_pl.id) }
-              its(:amount) { should == @init_bank_3_pl.amount - @init_adj6.amount }
+              its(:amount) { should be == @init_bank_3_pl.amount - @init_adj6.amount }
             end
 
             describe "unknown_2" do
@@ -1032,7 +1032,7 @@ describe EntriesController do
 
         describe "the count of items" do
           subject { Item.count }
-          it { should == @previous_items }
+          it { should be == @previous_items }
         end
       end
 
@@ -1050,7 +1050,7 @@ describe EntriesController do
 
         describe "the count of items" do
           subject { Item.count }
-          it { should == @previous_items }
+          it { should be == @previous_items }
         end
       end
 
@@ -1068,7 +1068,7 @@ describe EntriesController do
 
         describe "the count of items" do
           subject { Item.count }
-          it { should == @previous_items }
+          it { should be == @previous_items }
         end
       end
 
@@ -1092,7 +1092,7 @@ describe EntriesController do
 
         describe "count of Item" do
           subject { Item.count }
-          it { should == @previous_item_count }
+          it { should be == @previous_item_count }
         end
       end
 
@@ -1106,7 +1106,7 @@ describe EntriesController do
 
         describe "count of Item" do
           subject { Item.count }
-          it { should == @init_item_count + 1 }
+          it { should be == @init_item_count + 1 }
         end
       end
 
@@ -1117,10 +1117,10 @@ describe EntriesController do
           specify {
             subject.each do |t|
               taggings = Tagging.where(tag_id: t.id).load
-              taggings.size.should == 1
+              taggings.size.should be == 1
               taggings.each do |tag|
-                tag.user_id.should == users(:user1).id
-                tag.taggable_type.should == 'Item'
+                tag.user_id.should be == users(:user1).id
+                tag.taggable_type.should be == 'Item'
               end
             end
           }
@@ -1137,7 +1137,7 @@ describe EntriesController do
 
         describe "count of items" do
           subject { Item.count }
-          it { should == @init_item_count + 1 }
+          it { should be == @init_item_count + 1 }
         end
 
         describe "created item" do
@@ -1146,10 +1146,10 @@ describe EntriesController do
             Item.find_by_id(id)
           }
 
-          its(:name) { should == 'テスト10' }
-          its(:amount) { should == 10000 }
+          its(:name) { should be == 'テスト10' }
+          its(:amount) { should be == 10000 }
           it { should be_confirmation_required }
-          its(:tag_list) { should == "fuga hoge" }
+          its(:tag_list) { should be == "fuga hoge" }
         end
 
         it_should_behave_like "created successfully with tag_list == 'hoge fuga"
@@ -1165,7 +1165,7 @@ describe EntriesController do
 
         describe "count of items" do
           subject { Item.count }
-          it { should == @init_item_count + 1 }
+          it { should be == @init_item_count + 1 }
         end
 
         describe "created item" do
@@ -1174,10 +1174,10 @@ describe EntriesController do
             Item.find_by_id(id)
           }
 
-          its(:name) { should == 'テスト10' }
-          its(:amount) { should == 10000 }
+          its(:name) { should be == 'テスト10' }
+          its(:amount) { should be == 10000 }
           it { should be_confirmation_required }
-          its(:tag_list) { should == "fuga hoge" }
+          its(:tag_list) { should be == "fuga hoge" }
         end
 
         it_should_behave_like "created successfully with tag_list == 'hoge fuga"
@@ -1193,7 +1193,7 @@ describe EntriesController do
 
         describe "count of items" do
           subject { Item.count }
-          it { should == @init_item_count + 1 }
+          it { should be == @init_item_count + 1 }
         end
 
         describe "created item" do
@@ -1202,10 +1202,10 @@ describe EntriesController do
             Item.find_by_id(id)
           }
 
-          its(:name) { should == 'テスト10' }
-          its(:amount) { should == 10000 }
+          its(:name) { should be == 'テスト10' }
+          its(:amount) { should be == 10000 }
           it { should_not be_confirmation_required }
-          its(:tag_list) { should == "fuga hoge" }
+          its(:tag_list) { should be == "fuga hoge" }
         end
 
         it_should_behave_like "created successfully with tag_list == 'hoge fuga"
@@ -1222,7 +1222,7 @@ describe EntriesController do
 
         describe "count of items" do
           subject { Item.count }
-          it { should == @init_item_count + 1 }
+          it { should be == @init_item_count + 1 }
         end
 
         describe "created item" do
@@ -1231,10 +1231,10 @@ describe EntriesController do
             Item.find_by_id(id)
           }
 
-          its(:name) { should == 'テスト10' }
-          its(:amount) { should == 10000 }
+          its(:name) { should be == 'テスト10' }
+          its(:amount) { should be == 10000 }
           it { should_not be_confirmation_required }
-          its(:tag_list) { should == "fuga hoge" }
+          its(:tag_list) { should be == "fuga hoge" }
         end
 
         it_should_behave_like "created successfully with tag_list == 'hoge fuga"
@@ -1257,12 +1257,12 @@ describe EntriesController do
 
         describe "count of items" do
           subject { Item.count}
-          it { should == @init_item_count + 1 }
+          it { should be == @init_item_count + 1 }
         end
 
         describe "new record" do
           subject { id = Item.maximum('id');  Item.find_by_id(id) }
-          its(:amount) { should == 10 }
+          its(:amount) { should be == 10 }
         end
       end
 
@@ -1279,7 +1279,7 @@ describe EntriesController do
 
         describe "count of items" do
           subject { Item.count}
-          it { should == @init_item_count }
+          it { should be == @init_item_count }
         end
       end
 
@@ -1298,7 +1298,7 @@ describe EntriesController do
 
         describe "count of items" do
           subject { Item.count }
-          it { should == @init_item_count }
+          it { should be == @init_item_count }
         end
       end
 
@@ -1326,32 +1326,32 @@ describe EntriesController do
 
           describe "adjustment just next to the created item" do
             subject { Item.find(items(:adjustment2).id) }
-            its(:amount) { should == @init_adj2.amount + 10000 }
+            its(:amount) { should be == @init_adj2.amount + 10000 }
           end
 
           describe "adjustment which is the next of the adjustment next to the created item" do
             subject { Item.find(items(:adjustment4).id) }
-            its(:amount) { should == @init_adj4.amount }
+            its(:amount) { should be == @init_adj4.amount }
           end
 
           describe "adjustment which is the second next of the adjustment next to the created item" do
             subject { Item.find(items(:adjustment6).id)}
-            its(:amount) { should == @init_adj6.amount }
+            its(:amount) { should be == @init_adj6.amount }
           end
 
           describe "monthly pl which is before the created item" do
             subject { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id) }
-            its(:amount) { should == @init_pl0801.amount }
+            its(:amount) { should be == @init_pl0801.amount }
           end
 
           describe "monthly pl of the same month of the created item" do
             subject { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id) }
-            its(:amount) { should == @init_pl0802.amount }
+            its(:amount) { should be == @init_pl0802.amount }
           end
 
           describe "monthly pl of the next month of the created item" do
             subject { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id) }
-            its(:amount) { should == @init_pl0803.amount }
+            its(:amount) { should be == @init_pl0803.amount }
           end
         end
 
@@ -1507,7 +1507,7 @@ describe EntriesController do
               @post.call
             end
             subject { MonthlyProfitLoss.where(:account_id => accounts(:expense3).id, :month => Date.new(2008,3,1)).first.amount }
-            it { should == 10000 }
+            it { should be == 10000 }
           end
         end
 
@@ -1550,7 +1550,7 @@ describe EntriesController do
               @post.call
             end
             subject { MonthlyProfitLoss.where(:account_id => accounts(:expense3).id, :month => Date.new(2008,3,1)).first.amount }
-            it { should == 10000 }
+            it { should be == 10000 }
           end
         end
       end
@@ -1576,30 +1576,30 @@ describe EntriesController do
           describe "response" do
             subject { response }
             it { should be_success }
-            its(:content_type) { should == "text/javascript" }
+            its(:content_type) { should be == "text/javascript" }
           end
 
           describe "created credit item" do
             subject { credit_item }
             it { should_not be_nil }
-            its(:amount) { should == 10000 }
+            its(:amount) { should be == 10000 }
             its(:parent_id) { should be_nil }
             its(:child_item) { should_not be_nil }
           end
 
           describe "child item's count" do
             subject { Item.where(:parent_id => credit_item.id) }
-            its(:count) { should == 1 }
+            its(:count) { should be == 1 }
           end
 
           describe "child item" do
             subject { Item.where(:parent_id => credit_item.id).find{|i| i.child_item.nil?} }
             its(:child_item) { should be_nil }
-            its(:parent_item) { should == credit_item }
-            its(:action_date) { should == Date.new(2008, 2 + credit_relations(:cr1).payment_month,credit_relations(:cr1).payment_day) }
-            its(:from_account_id) { should == credit_relations(:cr1).payment_account_id }
-            its(:to_account_id) { should == credit_relations(:cr1).credit_account_id }
-            its(:amount) { should == 10000 }
+            its(:parent_item) { should be == credit_item }
+            its(:action_date) { should be == Date.new(2008, 2 + credit_relations(:cr1).payment_month,credit_relations(:cr1).payment_day) }
+            its(:from_account_id) { should be == credit_relations(:cr1).payment_account_id }
+            its(:to_account_id) { should be == credit_relations(:cr1).credit_account_id }
+            its(:amount) { should be == 10000 }
           end
         end
 
@@ -1620,7 +1620,7 @@ describe EntriesController do
           describe "response" do
             subject { response }
             it { should be_success }
-            its(:content_type) { should == "text/javascript" }
+            its(:content_type) { should be == "text/javascript" }
           end
 
           let(:credit_item) {
@@ -1633,27 +1633,27 @@ describe EntriesController do
           describe "created credit item" do
             subject { credit_item }
             it { should_not be_nil }
-            its(:amount) { should == 10000 }
+            its(:amount) { should be == 10000 }
             its(:parent_id) { should be_nil }
             its(:child_item) { should_not be_nil }
-            its(:action_date) { should == Date.new(2008,2,25)}
+            its(:action_date) { should be == Date.new(2008,2,25)}
           end
 
           describe "child item" do
             describe "child item count" do
               subject { Item.where(:parent_id => credit_item.id) }
-              its(:count) { should == 1 }
+              its(:count) { should be == 1 }
             end
 
             describe "child item" do
               subject { Item.where(:parent_id => credit_item.id).first }
               its(:child_item) { should be_nil }
-              its(:parent_id) { should == credit_item.id }
-              its(:id) { should == credit_item.child_item.id }
-              its(:action_date) { should == Date.new(2008, 3 + credit_relations(:cr1).payment_month,credit_relations(:cr1).payment_day) }
-              its(:from_account_id) { should == credit_relations(:cr1).payment_account_id }
-              its(:to_account_id) { should == credit_relations(:cr1).credit_account_id }
-              its(:amount) { should == 10000 }
+              its(:parent_id) { should be == credit_item.id }
+              its(:id) { should be == credit_item.child_item.id }
+              its(:action_date) { should be == Date.new(2008, 3 + credit_relations(:cr1).payment_month,credit_relations(:cr1).payment_day) }
+              its(:from_account_id) { should be == credit_relations(:cr1).payment_account_id }
+              its(:to_account_id) { should be == credit_relations(:cr1).credit_account_id }
+              its(:amount) { should be == 10000 }
             end
           end
         end
@@ -1675,7 +1675,7 @@ describe EntriesController do
           describe "response" do
             subject { response }
             it { should be_success }
-            its(:content_type) { should == "text/javascript" }
+            its(:content_type) { should be == "text/javascript" }
           end
 
           let(:credit_item) {
@@ -1688,26 +1688,26 @@ describe EntriesController do
           describe "created credit item" do
             subject { credit_item }
             it { should_not be_nil }
-            its(:amount) { should == 10000 }
+            its(:amount) { should be == 10000 }
             its(:parent_id) { should be_nil }
             its(:child_item) { should_not be_nil }
-            its(:action_date) { should == Date.new(2008,2,10)}
+            its(:action_date) { should be == Date.new(2008,2,10)}
           end
 
           describe "child item's count" do
             subject { Item.where(:parent_id => credit_item.id) }
-            its(:count) { should == 1 }
+            its(:count) { should be == 1 }
           end
 
           describe "child item" do
             subject { Item.where(:parent_id => credit_item.id).first }
             its(:child_item) { should be_nil }
-            its(:parent_id) { should == credit_item.id }
-            its(:id) { should == credit_item.child_item.id }
-            its(:action_date) { should == Date.new(2008, 2 + @cr1.payment_month,1).end_of_month }
-            its(:from_account_id) { should == @cr1.payment_account_id }
-            its(:to_account_id) { should == @cr1.credit_account_id }
-            its(:amount) { should == 10000 }
+            its(:parent_id) { should be == credit_item.id }
+            its(:id) { should be == credit_item.child_item.id }
+            its(:action_date) { should be == Date.new(2008, 2 + @cr1.payment_month,1).end_of_month }
+            its(:from_account_id) { should be == @cr1.payment_account_id }
+            its(:to_account_id) { should be == @cr1.credit_account_id }
+            its(:amount) { should be == 10000 }
           end
         end
       end
@@ -1731,7 +1731,7 @@ describe EntriesController do
             before { @action.call }
             subject {response}
             it { should be_success }
-            its(:content_type) { should == 'text/javascript' }
+            its(:content_type) { should be == 'text/javascript' }
             it { should render_js_error id: "warning" }
           end
         end
@@ -1777,10 +1777,10 @@ describe EntriesController do
             subject { @created_item }
 
             it { should be_adjustment }
-            its(:adjustment_amount) { should == 100*(10+50)/2 }
-            its(:amount) { should == 100*(10+50)/2 - @prev_total }
-            its(:amount) { should == 100*(10+50)/2 - @init_total }
-            its(:tag_list) { should == "fuga hoge"}
+            its(:adjustment_amount) { should be == 100*(10+50)/2 }
+            its(:amount) { should be == 100*(10+50)/2 - @prev_total }
+            its(:amount) { should be == 100*(10+50)/2 - @init_total }
+            its(:tag_list) { should be == "fuga hoge"}
           end
 
           describe "profit losses" do
@@ -1819,8 +1819,8 @@ describe EntriesController do
             describe "created_adjustment" do
               before { action.call }
               subject { Adjustment.where(action_date: existing_adj.action_date).first }
-              its(:adjustment_amount) { should == 50 }
-              its(:amount) { should == existing_adj.amount + 50 - existing_adj.adjustment_amount }
+              its(:adjustment_amount) { should be == 50 }
+              its(:amount) { should be == existing_adj.amount + 50 - existing_adj.adjustment_amount }
             end
 
             describe "existed adjustment" do
@@ -1954,9 +1954,9 @@ describe EntriesController do
               @created_adj = Adjustment.where(:user_id => users(:user1).id, :action_date => date, :to_account_id => accounts(:bank1).id).first
             end
             subject { @created_adj }
-            its(:adjustment_amount) { should == 3000 }
-            its(:from_account_id) { should == -1 }
-            its(:amount) { should == 3000 - @amount_before }
+            its(:adjustment_amount) { should be == 3000 }
+            its(:from_account_id) { should be == -1 }
+            its(:amount) { should be == 3000 - @amount_before }
           end
 
           def total_amount_to(the_date)
@@ -1969,7 +1969,7 @@ describe EntriesController do
               action.call
             end
             subject { total_amount_to(date) }
-            it { should == 3000 }
+            it { should be == 3000 }
           end
 
           describe "total of amounts to the date which has the next adjustment" do
@@ -1977,7 +1977,7 @@ describe EntriesController do
               action.call
             end
             subject {  total_amount_to(next_adj_date) }
-            it { should == items(:adjustment4).adjustment_amount }
+            it { should be == items(:adjustment4).adjustment_amount }
           end
 
           describe "profit losses" do
@@ -2027,9 +2027,9 @@ describe EntriesController do
               @created_adj = Adjustment.where(:user_id => users(:user1).id, :action_date => date, :to_account_id => accounts(:bank1).id).first
             end
             subject { @created_adj }
-            its(:adjustment_amount) { should == 3000 }
-            its(:from_account_id) { should == -1 }
-            its(:amount) { should == 3000 - @amount_before }
+            its(:adjustment_amount) { should be == 3000 }
+            its(:from_account_id) { should be == -1 }
+            its(:amount) { should be == 3000 - @amount_before }
           end
 
           describe "next adjustment" do
@@ -2041,7 +2041,7 @@ describe EntriesController do
               action.call
             end
             subject { total_amount_to(date) }
-            it { should == 3000 }
+            it { should be == 3000 }
           end
 
           describe "total of amounts to the date which has the next adjustment" do
@@ -2049,7 +2049,7 @@ describe EntriesController do
               action.call
             end
             subject {  total_amount_to(next_adj_date) }
-            it { should == items(:adjustment6).adjustment_amount }
+            it { should be == items(:adjustment6).adjustment_amount }
           end
 
           describe "profit losses" do
@@ -2099,9 +2099,9 @@ describe EntriesController do
               @created_adj = Adjustment.where(:user_id => users(:user1).id, :action_date => date, :to_account_id => accounts(:bank1).id).first
             end
             subject { @created_adj }
-            its(:adjustment_amount) { should == 3000 }
-            its(:from_account_id) { should == -1 }
-            its(:amount) { should == 3000 - @amount_before }
+            its(:adjustment_amount) { should be == 3000 }
+            its(:from_account_id) { should be == -1 }
+            its(:amount) { should be == 3000 - @amount_before }
           end
 
           describe "next adjustment" do
@@ -2113,7 +2113,7 @@ describe EntriesController do
               action.call
             end
             subject { total_amount_to(date) }
-            it { should == 3000 }
+            it { should be == 3000 }
           end
 
           describe "total of amounts to the date which has the next adjustment" do
@@ -2121,7 +2121,7 @@ describe EntriesController do
               action.call
             end
             subject {  total_amount_to(next_adj_date) }
-            it { should == items(:adjustment6).adjustment_amount }
+            it { should be == items(:adjustment6).adjustment_amount }
           end
 
           describe "profit losses" do
@@ -2170,9 +2170,9 @@ describe EntriesController do
               @created_adj = Adjustment.where(:user_id => users(:user1).id, :action_date => date, :to_account_id => accounts(:bank1).id).first
             end
             subject { @created_adj }
-            its(:adjustment_amount) { should == 3000 }
-            its(:from_account_id) { should == -1 }
-            its(:amount) { should == 3000 - @amount_before }
+            its(:adjustment_amount) { should be == 3000 }
+            its(:from_account_id) { should be == -1 }
+            its(:amount) { should be == 3000 - @amount_before }
           end
 
           describe "total of amounts to the date" do
@@ -2180,7 +2180,7 @@ describe EntriesController do
               action.call
             end
             subject { total_amount_to(date) }
-            it { should == 3000 }
+            it { should be == 3000 }
           end
 
           describe "profit losses" do
@@ -2330,11 +2330,11 @@ describe EntriesController do
               @action.call
             end
             subject {Item.find(@old_adj2.id)}
-            its(:adjustment_amount) { should == 3000 }
-            its(:action_date) { should == @old_adj2.action_date }
+            its(:adjustment_amount) { should be == 3000 }
+            its(:action_date) { should be == @old_adj2.action_date }
             it { should be_adjustment }
-            its(:amount) {should == 3000 - @old_adj2.adjustment_amount + @old_adj2.amount}
-            its(:tag_list) {should == 'fuga hoge'}
+            its(:amount) {should be == 3000 - @old_adj2.adjustment_amount + @old_adj2.amount}
+            its(:tag_list) {should be == 'fuga hoge'}
           end
 
           describe "the adjustment item next to the updated item" do
@@ -2342,7 +2342,7 @@ describe EntriesController do
               @action.call
             end
             subject {Item.find(@old_adj4.id)}
-            its(:amount) {should == @old_adj4.amount + @old_adj2.adjustment_amount - 3000 }
+            its(:amount) {should be == @old_adj4.amount + @old_adj2.adjustment_amount - 3000 }
           end
 
           describe "the adjustment item second next to the updated item" do
@@ -2350,7 +2350,7 @@ describe EntriesController do
               @action.call
             end
             subject {Item.find(@old_adj6.id)}
-            its(:amount) {should == @old_adj6.amount }
+            its(:amount) {should be == @old_adj6.amount }
           end
 
           describe "monthly pl" do
@@ -2523,8 +2523,8 @@ describe EntriesController do
           describe "updated adjustment" do
             before {@action.call}
             subject { Item.find(adj2_id) }
-            its(:adjustment_amount) { should == 3000 }
-            its(:action_date) { should == @date }
+            its(:adjustment_amount) { should be == 3000 }
+            its(:action_date) { should be == @date }
             its(:to_account_id) { 13 }
           end
 
@@ -2593,10 +2593,10 @@ describe EntriesController do
           describe "updated adjustment" do
             before { @action.call }
             subject { Item.find(items(:adjustment2).id) }
-            its(:adjustment_amount) { should == 3000 }
+            its(:adjustment_amount) { should be == 3000 }
             it { should be_adjustment }
-            its(:action_date) { should == date }
-            its(:amount) { should == 3000 - Account.asset(users(:user1), items(:adjustment2).to_account_id, date, items(:adjustment2).id )}
+            its(:action_date) { should be == date }
+            its(:amount) { should be == 3000 - Account.asset(users(:user1), items(:adjustment2).to_account_id, date, items(:adjustment2).id )}
           end
 
           describe "other adjustments" do
@@ -2618,7 +2618,7 @@ describe EntriesController do
             describe "balance at new adjustment2 date" do
               before { @action.call }
               subject { Account.asset(users(:user1), items(:adjustment2).to_account_id, date) }
-              it { should == 3000 }
+              it { should be == 3000 }
             end
           end
 
@@ -2660,9 +2660,9 @@ describe EntriesController do
             end
 
             subject { Item.find(updated_id) }
-            its(:adjustment_amount) { should == 3000 }
-            its(:amount) { should == 3000 - Item.find(@init_adj6).adjustment_amount }
-            its(:action_date) { should == @init_adj6.action_date.tomorrow }
+            its(:adjustment_amount) { should be == 3000 }
+            its(:amount) { should be == 3000 - Item.find(@init_adj6).adjustment_amount }
+            its(:action_date) { should be == @init_adj6.action_date.tomorrow }
             it {should be_adjustment }
           end
 
@@ -2713,9 +2713,9 @@ describe EntriesController do
             end
 
             subject { Item.find(updated_id) }
-            its(:adjustment_amount) { should == 3000 }
-            its(:amount) { should == 3000 - @asset}
-            its(:action_date) { should == date }
+            its(:adjustment_amount) { should be == 3000 }
+            its(:amount) { should be == 3000 - @asset}
+            its(:action_date) { should be == date }
             it {should be_adjustment }
           end
 
@@ -2832,11 +2832,11 @@ describe EntriesController do
 
           describe "updated item" do
             subject {Item.find(@old_item11.id)}
-            its(:name) {should == 'テスト11'}
-            its(:action_date) {should == @old_item11.action_date}
-            its(:amount) {should == 100000}
-            its(:from_account_id) {should == accounts(:bank1).id}
-            its(:to_account_id) {should == accounts(:expense3).id}
+            its(:name) {should be == 'テスト11'}
+            its(:action_date) {should be == @old_item11.action_date}
+            its(:amount) {should be == 100000}
+            its(:from_account_id) {should be == accounts(:bank1).id}
+            its(:to_account_id) {should be == accounts(:expense3).id}
           end
         end
 
@@ -2863,11 +2863,11 @@ describe EntriesController do
 
           describe "updated item" do
             subject {Item.find(@old_item1.id)}
-            its(:name) {should == 'テスト10000'}
-            its(:action_date) {should == @date}
-            its(:amount) {should == (80*1.007).to_i }
-            its(:from_account_id) {should == accounts(:bank1).id}
-            its(:to_account_id) {should == accounts(:expense3).id}
+            its(:name) {should be == 'テスト10000'}
+            its(:action_date) {should be == @date}
+            its(:amount) {should be == (80*1.007).to_i }
+            its(:from_account_id) {should be == accounts(:bank1).id}
+            its(:to_account_id) {should be == accounts(:expense3).id}
             it {should be_confirmation_required}
           end
 
@@ -2905,11 +2905,11 @@ describe EntriesController do
                 @action.call
               end
               subject { Item.find(old_item1.id)}
-              its(:name) { should == 'テスト10'}
-              its(:action_date) {should == Date.new(old_action_date.year, old_action_date.month, 18)}
-              its(:amount) { should == 100000 }
-              its(:from_account_id) { should == accounts(:bank1).id}
-              its(:to_account_id) { should == accounts(:expense3).id}
+              its(:name) { should be == 'テスト10'}
+              its(:action_date) {should be == Date.new(old_action_date.year, old_action_date.month, 18)}
+              its(:amount) { should be == 100000 }
+              its(:from_account_id) { should be == accounts(:bank1).id}
+              its(:to_account_id) { should be == accounts(:expense3).id}
               it {should_not be_confirmation_required }
             end
 
@@ -2999,7 +2999,7 @@ describe EntriesController do
               end
 
               subject { Item.find(old_item1.id)}
-              its(:tag_list) { should == 'fuga hoge'}
+              its(:tag_list) { should be == 'fuga hoge'}
             end
           end
         end
@@ -3032,11 +3032,11 @@ describe EntriesController do
           describe "updated item" do
             before {@action.call}
             subject {Item.find(item1_id)}
-            its(:name) { should == "テスト20" }
-            its(:amount) { should == 20000 }
-            its(:from_account_id) { should == accounts(:bank1).id }
-            its(:to_account_id) { should == accounts(:expense3).id }
-            its(:action_date) { should == date }
+            its(:name) { should be == "テスト20" }
+            its(:amount) { should be == 20000 }
+            its(:from_account_id) { should be == accounts(:bank1).id }
+            its(:to_account_id) { should be == accounts(:expense3).id }
+            its(:action_date) { should be == date }
           end
 
           describe "adjustment changes" do
@@ -3102,17 +3102,17 @@ describe EntriesController do
             before { @action.call }
             subject { response }
             it { should be_success }
-            its(:content_type) { should == 'text/javascript' }
+            its(:content_type) { should be == 'text/javascript' }
           end
 
           describe "updated item" do
             before { @action.call }
             subject { Item.find(@item5.id) }
-            its(:name) { should == 'テスト50' }
-            its(:amount) { should == 20000 }
-            its(:action_date) { should == @item5.action_date }
-            its(:from_account_id) { should == accounts(:bank1).id }
-            its(:to_account_id) { should == accounts(:expense3).id }
+            its(:name) { should be == 'テスト50' }
+            its(:amount) { should be == 20000 }
+            its(:action_date) { should be == @item5.action_date }
+            its(:from_account_id) { should be == accounts(:bank1).id }
+            its(:to_account_id) { should be == accounts(:expense3).id }
           end
 
           describe "adjustments" do
@@ -3149,17 +3149,17 @@ describe EntriesController do
             before { @action.call }
             subject { response }
             it { should be_success }
-            its(:content_type) { should == 'text/javascript' }
+            its(:content_type) { should be == 'text/javascript' }
           end
 
           describe "updated item" do
             before { @action.call }
             subject { Item.find(@item3.id) }
-            its(:name) { should == 'テスト30' }
-            its(:amount) { should == 300 }
-            its(:action_date) { should == @date }
-            its(:from_account_id) { should == accounts(:bank1).id }
-            its(:to_account_id) { should == accounts(:expense3).id }
+            its(:name) { should be == 'テスト30' }
+            its(:amount) { should be == 300 }
+            its(:action_date) { should be == @date }
+            its(:from_account_id) { should be == accounts(:bank1).id }
+            its(:to_account_id) { should be == accounts(:expense3).id }
           end
 
           describe "adjustments" do
@@ -3197,17 +3197,17 @@ describe EntriesController do
             before { @action.call }
             subject { response }
             it { should be_success }
-            its(:content_type) { should == 'text/javascript' }
+            its(:content_type) { should be == 'text/javascript' }
           end
 
           describe "updated item" do
             before { @action.call }
             subject { Item.find(@item3.id) }
-            its(:name) { should == 'テスト50' }
-            its(:amount) { should == 300 }
-            its(:action_date) { should == @date }
-            its(:from_account_id) { should == accounts(:bank1).id }
-            its(:to_account_id) { should == accounts(:expense3).id }
+            its(:name) { should be == 'テスト50' }
+            its(:amount) { should be == 300 }
+            its(:action_date) { should be == @date }
+            its(:from_account_id) { should be == accounts(:bank1).id }
+            its(:to_account_id) { should be == accounts(:expense3).id }
           end
 
           describe "adjustments" do
@@ -3245,17 +3245,17 @@ describe EntriesController do
             before { @action.call }
             subject { response }
             it { should be_success }
-            its(:content_type) { should == 'text/javascript' }
+            its(:content_type) { should be == 'text/javascript' }
           end
 
           describe "updated item" do
             before { @action.call }
             subject { Item.find(@item1.id) }
-            its(:name) { should == 'テストXX' }
-            its(:amount) { should == 300 }
-            its(:action_date) { should == @date }
-            its(:from_account_id) { should == @item1.from_account_id }
-            its(:to_account_id) { should == @item1.to_account_id }
+            its(:name) { should be == 'テストXX' }
+            its(:amount) { should be == 300 }
+            its(:action_date) { should be == @date }
+            its(:from_account_id) { should be == @item1.from_account_id }
+            its(:to_account_id) { should be == @item1.to_account_id }
           end
 
           describe "adjustments" do
@@ -3286,11 +3286,11 @@ describe EntriesController do
               init_payment_item = init_credit_item.child_item
               date = init_credit_item.action_date
 
-              init_credit_item.amount.should == 10000
-              init_payment_item.amount.should == 10000
-              init_payment_item.to_account_id.should == init_credit_item.from_account_id
-              init_payment_item.from_account_id.should == 1
-              init_payment_item.action_date.should == Date.new(2008,4,20)
+              init_credit_item.amount.should be == 10000
+              init_payment_item.amount.should be == 10000
+              init_payment_item.to_account_id.should be == init_credit_item.from_account_id
+              init_payment_item.from_account_id.should be == 1
+              init_payment_item.action_date.should be == Date.new(2008,4,20)
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
@@ -3356,11 +3356,11 @@ describe EntriesController do
 
               init_payment_item = init_credit_item.child_item
 
-              init_credit_item.amount.should == 10000
-              init_payment_item.amount.should == 10000
-              init_payment_item.to_account_id.should == init_credit_item.from_account_id
-              init_payment_item.from_account_id.should == 1
-              init_payment_item.action_date.should == Date.new(2008,4,20)
+              init_credit_item.amount.should be == 10000
+              init_payment_item.amount.should be == 10000
+              init_payment_item.to_account_id.should be == init_credit_item.from_account_id
+              init_payment_item.from_account_id.should be == 1
+              init_payment_item.action_date.should be == Date.new(2008,4,20)
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
@@ -3437,11 +3437,11 @@ describe EntriesController do
 
               init_payment_item = Item.find(init_credit_item.child_item.id)
 
-              init_credit_item.amount.should == 10000
-              init_payment_item.amount.should == 10000
-              init_payment_item.to_account_id.should == init_credit_item.from_account_id
-              init_payment_item.from_account_id.should == 1
-              init_payment_item.action_date.should == Date.new(2008,4,20)
+              init_credit_item.amount.should be == 10000
+              init_payment_item.amount.should be == 10000
+              init_payment_item.to_account_id.should be == init_credit_item.from_account_id
+              init_payment_item.from_account_id.should be == 1
+              init_payment_item.action_date.should be == Date.new(2008,4,20)
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
@@ -3511,11 +3511,11 @@ describe EntriesController do
 
               init_payment_item = init_credit_item.child_item
 
-              init_credit_item.amount.should == 10000
-              init_payment_item.amount.should == 10000
-              init_payment_item.to_account_id.should == init_credit_item.from_account_id
-              init_payment_item.from_account_id.should == 1
-              init_payment_item.action_date.should == Date.new(2008,4,20)
+              init_credit_item.amount.should be == 10000
+              init_payment_item.amount.should be == 10000
+              init_payment_item.to_account_id.should be == init_credit_item.from_account_id
+              init_payment_item.from_account_id.should be == 1
+              init_payment_item.action_date.should be == Date.new(2008,4,20)
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
@@ -3572,11 +3572,11 @@ describe EntriesController do
 
               init_payment_item = init_credit_item.child_item
 
-              init_credit_item.amount.should == 10000
-              init_payment_item.amount.should == 10000
-              init_payment_item.to_account_id.should == init_credit_item.from_account_id
-              init_payment_item.from_account_id.should == 1
-              init_payment_item.action_date.should == Date.new(2008,3,20)
+              init_credit_item.amount.should be == 10000
+              init_payment_item.amount.should be == 10000
+              init_payment_item.to_account_id.should be == init_credit_item.from_account_id
+              init_payment_item.from_account_id.should be == 1
+              init_payment_item.action_date.should be == Date.new(2008,3,20)
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
@@ -3638,11 +3638,11 @@ describe EntriesController do
 
               init_payment_item = init_credit_item.child_item
 
-              init_credit_item.amount.should == 10000
-              init_payment_item.amount.should == 10000
-              init_payment_item.to_account_id.should == init_credit_item.from_account_id
-              init_payment_item.from_account_id.should == 1
-              init_payment_item.action_date.should == Date.new(2008,2,19)
+              init_credit_item.amount.should be == 10000
+              init_payment_item.amount.should be == 10000
+              init_payment_item.to_account_id.should be == init_credit_item.from_account_id
+              init_payment_item.from_account_id.should be == 1
+              init_payment_item.action_date.should be == Date.new(2008,2,19)
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
