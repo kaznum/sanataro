@@ -213,7 +213,7 @@ class Item < ActiveRecord::Base
         ret_items = options[:remain] ? items.remaining : items.default_limit
       end
 
-      return ret_items
+      ret_items
     end
 
     def symbolize_keys(args = {})
