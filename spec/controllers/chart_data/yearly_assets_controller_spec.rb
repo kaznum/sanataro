@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe ChartData::YearlyAssetsController do
   fixtures :users
-  
+
   describe "#show" do
     context "before login," do
       before do
@@ -51,7 +51,7 @@ describe ChartData::YearlyAssetsController do
             }
           end
         end
-        
+
         context "when there is some assets information," do
           before do
             Item.destroy_all
@@ -73,7 +73,7 @@ describe ChartData::YearlyAssetsController do
             pls.create!(month: Date.new(1999,1), account_id: -1, amount: 800 )
             pls.create!(month: Date.new(1999,2), account_id: -1, amount: -300 )
             pls.create!(month: Date.new(2000,5), account_id: @account1.id, amount: -300 )
-            
+
             get :show, id: "199902", format: :json
           end
 
