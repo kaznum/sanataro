@@ -39,7 +39,6 @@ class Teller
       [item, updated_items.reject(&:nil?).map(&:id).uniq, deleted_items.reject(&:nil?).map(&:id).uniq]
     end
 
-
     def destroy_entry(user, id)
       item = user.items.find(id)
 
