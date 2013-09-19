@@ -50,6 +50,7 @@ class Adjustment < Item
   end
 
   private
+
   def remove_previous_adjustment_of_same_action_date
     prev_adj = user.adjustments.find_by_to_account_id_and_action_date(to_account_id, action_date)
     prev_adj.destroy if prev_adj

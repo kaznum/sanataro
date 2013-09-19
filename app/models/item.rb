@@ -259,6 +259,7 @@ class Item < ActiveRecord::Base
   end
 
   private
+
   def action_date_should_be_larger_than_that_of_parent_item
     p_item = self.parent_item
     if p_item && self.action_date <= p_item.action_date
