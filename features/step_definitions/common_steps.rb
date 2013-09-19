@@ -10,15 +10,15 @@ require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "sel
         sleep 0.1
         path = URI.parse(current_url).path
       end
+
+      if path.respond_to? :should
+        path.should == path_to(page_name)
+      else
+        assert_equal path_to(page_name), path
+      end
     end
   rescue TimeoutError
-    # do nothing
-  end
-
-  if path.respond_to? :should
-    path.should == path_to(page_name)
-  else
-    assert_equal path_to(page_name), path
+    assert(false, "'#{page_name}'ページにリダイレクトしませんでした。")
   end
 end
 
