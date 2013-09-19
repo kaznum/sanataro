@@ -92,10 +92,10 @@ describe ChartData::YearlyAssetsController do
                 json[key]["data"].should have(12).entries
               end
 
-              json["account_#{@account1.id}"]["label"].should == "その1"
-              json["account_#{@account3.id}"]["label"].should == "その3"
-              json["total"]["label"].should == "合計"
-              
+              json["account_#{@account1.id}"]["label"].should be == "その1"
+              json["account_#{@account3.id}"]["label"].should be == "その3"
+              json["total"]["label"].should be == "合計"
+
               json["account_#{@account1.id}"]["data"].should include([date.months_ago(9).to_time.to_i*1000, -300])
               json["account_#{@account1.id}"]["data"].should include([date.months_ago(8).to_time.to_i*1000, -400])
               json["account_#{@account1.id}"]["data"].should include([date.months_ago(0).to_time.to_i*1000, -400])
