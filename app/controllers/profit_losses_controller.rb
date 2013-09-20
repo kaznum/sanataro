@@ -8,7 +8,7 @@ class ProfitLossesController < ApplicationController
     _setup_expenses(@m_pls)
     _append_unknown_account
 
-    render :layout => 'entries'
+    render layout: 'entries'
   rescue ArgumentError # for error around conversion from string to date
     redirect_to current_entries_url
   end
