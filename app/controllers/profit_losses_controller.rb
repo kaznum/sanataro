@@ -26,13 +26,13 @@ class ProfitLossesController < ApplicationController
   def _find_account_id_and_amount_by_month(month)
     pls = { }
     pls.default = 0
-    @user.monthly_profit_losses.where(month: month).each {|pl| pls[pl.account_id] = pl.amount}
+    @user.monthly_profit_losses.where(month: month).each { |pl| pls[pl.account_id] = pl.amount }
     pls
   end
 
   def _setup_incomes(m_pls)
     @account_incomes = @user.incomes.to_a
-    @total_income = @account_incomes.inject(0) {|sum, ai| sum - m_pls[ai.id] }
+    @total_income = @account_incomes.inject(0) { |sum, ai| sum - m_pls[ai.id] }
   end
 
   def _setup_expenses(m_pls)
@@ -44,14 +44,14 @@ class ProfitLossesController < ApplicationController
     adjustment_amount = @m_pls[-1]
 
     if adjustment_amount < 0
-      unknown_account = @user.incomes.build{|a| a.id = -1}
+      unknown_account = @user.incomes.build { |a| a.id = -1 }
       unknown_account.name = I18n.t("label.unknown_income")
       @account_incomes << unknown_account
       @total_income -= adjustment_amount
     end
 
     if adjustment_amount > 0
-      unknown_account = @user.expenses.build{|a| a.id = -1}
+      unknown_account = @user.expenses.build { |a| a.id = -1 }
       unknown_account.name = I18n.t("label.unknown_expense")
       @account_expenses << unknown_account
       @total_expense += adjustment_amount
