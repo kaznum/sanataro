@@ -9,6 +9,7 @@ module ChartData
   end
 
   module InstanceMethods
+
     private
 
     def redirect_if_invalid_year_month!
