@@ -77,7 +77,7 @@ class LoginController < ApplicationController
 
   def _confirmation_key
     a_char = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a
-    Array.new(15){a_char[rand(a_char.size)]}.join
+    Array.new(15) { a_char[rand(a_char.size)] }.join
   end
 
   def _render_login_if_forced!
@@ -116,7 +116,7 @@ class LoginController < ApplicationController
     matched_autologin_key ? user : nil
   end
 
-  def _do_login(login, password, set_autologin, is_autologin=false, is_only_add=false)
+  def _do_login(login, password, set_autologin, is_autologin = false, is_only_add = false)
     user = User.find_by_login_and_active(login, true)
 
     unless user && (is_autologin || user.password_correct?(password))
@@ -140,7 +140,7 @@ class LoginController < ApplicationController
 
   def _secret_key
     a = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a
-    Array.new(16){a[rand(a.size)]}.join
+    Array.new(16) { a[rand(a.size)] }.join
   end
 
   def _store_user_session(user)
@@ -148,7 +148,7 @@ class LoginController < ApplicationController
   end
 
   def _clear_user_session
-      session[:user_id] = nil
+    session[:user_id] = nil
   end
 
   def _store_cookies(login, key, is_only_add)
