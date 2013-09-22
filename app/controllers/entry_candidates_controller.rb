@@ -35,9 +35,3 @@ class EntryCandidatesController < ApplicationController
     render partial: 'candidate', collection: items
   end
 end
-
-
-
-
-
-
