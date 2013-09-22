@@ -6,6 +6,7 @@ class AccountStatusesController < ApplicationController
   end
 
   private
+
   def _account_status
     retval = known_account_statuses_on(today)
     append_unknown_amount_on(today, retval)
