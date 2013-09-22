@@ -28,7 +28,7 @@ class AccountStatusesController < ApplicationController
       typed_accounts = unknown_total < 0 ? :expenses : :incomes
       unknown_account = @user.send(typed_accounts).build do |a|
         a.name = I18n.t('label.unknown')
-        a.order_no = 999999
+        a.order_no = 999_999
       end
       statuses[typed_accounts] << [unknown_account, unknown_total.abs]
     end
