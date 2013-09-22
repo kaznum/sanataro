@@ -40,4 +40,3 @@ class AccountStatusesController < ApplicationController
     @user.items.where(from_account_id: -1).action_date_between(from, to).sum(:amount)
   end
 end
-
