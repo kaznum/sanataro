@@ -6,6 +6,7 @@ class Admin::UsersController < ApplicationController
   end
 
   private
+
   def authenticate
     admin_user, admin_password = get_correct_credential
     if admin_user.nil? || admin_password.nil?
