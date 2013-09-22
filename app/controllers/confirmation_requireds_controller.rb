@@ -18,8 +18,9 @@ class ConfirmationRequiredsController < ApplicationController
   def _redirect_to_current_entries_if_params_are_invalid!
     if params[:confirmation_required].nil?
       redirect_js_to current_entries_url
-      return false
+      false
+    else
+      true
     end
-    return true
   end
 end
