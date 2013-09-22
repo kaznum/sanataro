@@ -6,7 +6,7 @@ class EntryCandidatesController < ApplicationController
     partial_name = params[:item_name]
 
     if partial_name.blank?
-      render :text => ''
+      render text: ''
       return
     end
 
@@ -28,10 +28,10 @@ class EntryCandidatesController < ApplicationController
     #
     items = @user.general_items.
       where(items_table[:name].matches("%#{partial_name}%")).
-      where(:parent_id => nil).
+      where(parent_id: nil).
       group('name, from_account_id, to_account_id, amount').
       select('max(id) as max_id, name, from_account_id, to_account_id, amount').order("max_id desc")
     items = ActiveRecord::Base.connection.adapter_name == 'MsSQL' ? items[0..4] : items.limit(5)
-    render :partial => 'candidate', :collection => items
+    render partial: 'candidate', collection: items
   end
 end
