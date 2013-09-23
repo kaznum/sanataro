@@ -14,11 +14,10 @@ module TwitterHelper
       escaped_text = URI.escape("#{item.name} #{number_to_currency(item.amount)}")
     end
 
-    tags = item.tags.to_a.sort{|a,b| a.name <=> b.name}
+    tags = item.tags.to_a.sort{ |a, b| a.name <=> b.name }
     tags << "sanataro"
     escaped_hashtags = URI.escape(tags.join(","))
 
     link_to(url_for("#{TWITTER_SHARE_URL}?url=#{escaped_url}&text=#{escaped_text}&hashtags=#{escaped_hashtags}&source=tweetbutton&lang=ja"), class: "tweet_button", onclick: "open_twitter(this.getAttribute('href'));return false;") { image_tag("twitter_icon.png", alt: "Tweet", class: "tweet_icon") }
   end
 end
-
