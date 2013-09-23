@@ -45,6 +45,7 @@ class Settings::AccountsController < ApplicationController
   end
 
   private
+
   def _retrieve_account_or_redirect!
     @account = @user.accounts.find(params[:id])
   rescue ActiveRecord::RecordNotFound
