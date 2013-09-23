@@ -39,7 +39,7 @@ class ChartData::YearlyBudgetsController < ApplicationController
         amount = _monthly_amount_per_account(month, budget_type, acc.id)
         [month.to_milliseconds, amount.abs]
       }
-      ret["account_#{acc.id}"] = { :label => acc.name, :data  => amounts }
+      ret["account_#{acc.id}"] = { label: acc.name, data: amounts }
       ret
     }
     results
