@@ -127,7 +127,7 @@ module Common
       def _destroy_item(item)
         Item.transaction do
           result_of_delete = Teller.destroy_entry(@user, item.id)
-          @updated_items = result_of_delete[0].map {|id| @user.items.find_by_id(id)}.reject(&:nil?)
+          @updated_items = result_of_delete[0].map { |id| @user.items.find_by_id(id) }.reject(&:nil?)
           @deleted_item_ids = result_of_delete[1]
           @item = item
         end
@@ -144,7 +144,7 @@ module Common
       def from_or_to_accounts(from_or_to = :from_accounts)
         # FIXME
         # html escape should be done in Views.
-        @user.send(from_or_to).map {|a| { :value => a[1], :text => ERB::Util.html_escape(a[0]) } }
+        @user.send(from_or_to).map { |a| { :value => a[1], :text => ERB::Util.html_escape(a[0]) } }
       end
 
       def _index_for_remaining(month, tag=nil, mark=nil, keyword=nil)
