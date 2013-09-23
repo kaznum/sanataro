@@ -28,7 +28,7 @@ class ChartData::YearlyBudgetsController < ApplicationController
 
   def _formatted_income_or_expense_data(budget_type, date_since)
     accounts = @user.send(budget_type.pluralize.to_sym).to_a
-    accounts << Account.new {|a|
+    accounts << Account.new { |a|
       a.id = -1
       a.name = 'Unknown'
     }
@@ -61,19 +61,26 @@ class ChartData::YearlyBudgetsController < ApplicationController
   def _formatted_total_data(date_since)
     results = _monthly_totals_during_a_year(date_since)
 
-    { expense: { label: I18n.t('label.expense'),
-        data: results[:expenses].map{|a| [a[0].to_milliseconds, a[1]]} },
-      income: { label: I18n.t('label.income'),
-        data: results[:incomes].map{|a| [a[0].to_milliseconds, a[1]]} },
-      total: { label: I18n.t('label.net'),
-        data: results[:totals].map{|a| [a[0].to_milliseconds, a[1]]} }}
+    { expense: {
+        label: I18n.t('label.expense'),
+        data: results[:expenses].map { |a| [a[0].to_milliseconds, a[1]] }
+      },
+      income: {
+        label: I18n.t('label.income'),
+        data: results[:incomes].map { |a| [a[0].to_milliseconds, a[1]] }
+      },
+      total: {
+        label: I18n.t('label.net'),
+        data: results[:totals].map { |a| [a[0].to_milliseconds, a[1]] }
+      }
+    }
   end
 
   def _monthly_totals_during_a_year(date_since)
     expense_ids = @user.expense_ids
     income_ids = @user.income_ids
 
-    (0..11).inject({incomes: [], expenses: [], totals: []}) { |ret, i|
+    (0..11).inject({ incomes: [], expenses: [], totals: [] }) { |ret, i|
       month = date_since.months_since(i)
       totals = _monthly_total(month, expense_ids, income_ids)
       ret[:incomes] << [month, totals[:income].abs]
