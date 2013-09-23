@@ -147,7 +147,7 @@ module Common
         @user.send(from_or_to).map { |a| { value: a[1], text: ERB::Util.html_escape(a[0]) } }
       end
 
-      def _index_for_remaining(month, tag=nil, mark=nil, keyword=nil)
+      def _index_for_remaining(month, tag = nil, mark = nil, keyword = nil)
         if tag.present? || mark.present? || keyword.present?
           month_to_display = nil
         else
