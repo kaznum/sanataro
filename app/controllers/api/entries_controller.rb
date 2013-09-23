@@ -39,6 +39,7 @@ class Api::EntriesController < ApplicationController
   end
 
   private
+
   def _json_action(&block)
     block.call
   rescue SyntaxError
