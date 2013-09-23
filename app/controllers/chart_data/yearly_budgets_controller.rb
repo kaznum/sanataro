@@ -10,14 +10,14 @@ class ChartData::YearlyBudgetsController < ApplicationController
     date_since = Date.new(year.to_i, month.to_i).months_ago(11)
 
     budget_type = params[:budget_type]
-    results = ['expense', 'income'].include?(budget_type) ? _formatted_income_or_expense_data(budget_type, date_since) : _formatted_total_data(date_since)
+    results = %w(expense income).include?(budget_type) ? _formatted_income_or_expense_data(budget_type, date_since) : _formatted_total_data(date_since)
 
     respond_with results
   end
 
   private
   def _redirect_if_invalid_budget_type!
-    if ['expense', 'income', 'total'].include?(params[:budget_type])
+    if %w(expense income total).include?(params[:budget_type])
       true
     else
       render status: :not_acceptable, text: "Not Acceptable"
