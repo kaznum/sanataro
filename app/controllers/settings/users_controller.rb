@@ -3,7 +3,7 @@ class Settings::UsersController < ApplicationController
   before_action :required_login
 
   def show
-    render :layout => 'entries'
+    render layout: 'entries'
   end
 
   def update
@@ -13,7 +13,7 @@ class Settings::UsersController < ApplicationController
                                        password_confirmation: params[:password_confirmation])
     session[:user_id] = @user.id
   rescue ActiveRecord::RecordInvalid
-    render_js_error :id => "warning", :errors => @user_to_change.errors, :default_message => t('error.input_is_invalid')
+    render_js_error id: "warning", errors: @user_to_change.errors, default_message: t('error.input_is_invalid')
   end
 
 end
