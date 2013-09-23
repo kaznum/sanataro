@@ -16,6 +16,7 @@ class ChartData::YearlyBudgetsController < ApplicationController
   end
 
   private
+
   def _redirect_if_invalid_budget_type!
     if %w(expense income total).include?(params[:budget_type])
       true
