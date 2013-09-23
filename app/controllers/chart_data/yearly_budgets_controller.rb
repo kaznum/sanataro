@@ -33,7 +33,7 @@ class ChartData::YearlyBudgetsController < ApplicationController
       a.name = 'Unknown'
     }
 
-    results = accounts.inject({}) { |ret, acc|
+    results = accounts.reduce({}) { |ret, acc|
       amounts = (0..11).map { |i|
         month = date_since.months_since(i)
         amount = _monthly_amount_per_account(month, budget_type, acc.id)
@@ -80,7 +80,7 @@ class ChartData::YearlyBudgetsController < ApplicationController
     expense_ids = @user.expense_ids
     income_ids = @user.income_ids
 
-    (0..11).inject({ incomes: [], expenses: [], totals: [] }) { |ret, i|
+    (0..11).reduce({ incomes: [], expenses: [], totals: [] }) { |ret, i|
       month = date_since.months_since(i)
       totals = _monthly_total(month, expense_ids, income_ids)
       ret[:incomes] << [month, totals[:income].abs]
