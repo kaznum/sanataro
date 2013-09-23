@@ -55,4 +55,3 @@ class Api::EntriesController < ApplicationController
     render json: { errors: errors }.to_json, status: :not_acceptable
   end
 end
-
