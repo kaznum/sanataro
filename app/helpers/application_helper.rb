@@ -22,7 +22,7 @@ module ApplicationHelper
   end
 
   def link_to_tag(tag)
-    link_to(tag.name, tag_entries_path(:tag => tag.name), :rel => 'tag')
+    link_to(tag.name, tag_entries_path(tag: tag.name), rel: 'tag')
   end
 
   def today
