@@ -52,4 +52,3 @@ module ApplicationHelper
     "<i class=\"icon-trash destroy_icon #{additional}\"></i>".html_safe
   end
 end
-
