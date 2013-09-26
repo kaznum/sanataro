@@ -69,7 +69,7 @@ GEM
       rails (>= 3.0.0)
     dalli (2.6.4)
     database_cleaner (1.0.1)
-    debugger (1.6.1)
+    debugger (1.6.2)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.2.0)
       debugger-ruby_core_source (~> 1.2.3)
