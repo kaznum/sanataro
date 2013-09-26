@@ -21,4 +21,3 @@ module TwitterHelper
     link_to(url_for("#{TWITTER_SHARE_URL}?url=#{escaped_url}&text=#{escaped_text}&hashtags=#{escaped_hashtags}&source=tweetbutton&lang=ja"), class: "tweet_button", onclick: "open_twitter(this.getAttribute('href'));return false;") { image_tag("twitter_icon.png", alt: "Tweet", class: "tweet_icon") }
   end
 end
-
