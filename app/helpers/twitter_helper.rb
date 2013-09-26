@@ -14,7 +14,7 @@ module TwitterHelper
       escaped_text = URI.escape("#{item.name} #{number_to_currency(item.amount)}")
     end
 
-    tags = item.tags.to_a.sort{|a,b| a.name <=> b.name}
+    tags = item.tags.to_a.sort { |a, b| a.name <=> b.name }
     tags << "sanataro"
     escaped_hashtags = URI.escape(tags.join(","))
 
