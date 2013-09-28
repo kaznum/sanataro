@@ -23,4 +23,3 @@ module MonthlistHelper
     out.html_safe
   end
 end
-
