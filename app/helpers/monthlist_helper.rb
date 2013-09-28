@@ -8,13 +8,13 @@ module MonthlistHelper
       if y == to_year
         out += month.upto(to_month).map { |m|
           css_class = (selected_year == y && selected_month == m) ? "selected" : "unselected"
-          link_to(m.to_s, { :action => current_action, :year => y, :month => m }, { :class => css_class } )
+          link_to(m.to_s, { action: current_action, year: y, month: m }, { class: css_class } )
         }.join
         out += "</div></div>"
       else
         out += month.upto(12).map { |m|
           css_class = selected_year == y && selected_month == m ? "selected" : "unselected"
-          link_to(m.to_s, { :action => current_action, :year => y, :month=>m }, { class: css_class })
+          link_to(m.to_s, { action: current_action, year: y, month: m }, { class: css_class })
         }.join
         month = 1
         out += "</div><div class='year_#{y + 1}' style='display: #{y + 1 == selected_year ? 'block;' : 'none;'}'>"
