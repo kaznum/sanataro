@@ -15,7 +15,7 @@ module EntriesHelper
       url = entry_confirmation_required_path(item_id, confirmation_required: !required)
     end
 
-    link_to label, url, remote: true, method: :put, :class => css_class
+    link_to label, url, remote: true, method: :put, class: css_class
   end
 
   def relative_path(item_id)
@@ -26,7 +26,7 @@ module EntriesHelper
 
   def link_to_edit(item, enabled = true)
     if enabled
-      link_to icon_edit, edit_entry_path(item.action_date.year, item.action_date.month, item.id), :remote => true, :method => :get, :class => "edit_link"
+      link_to icon_edit, edit_entry_path(item.action_date.year, item.action_date.month, item.id), remote: true, method: :get, class: "edit_link"
     else
       icon_edit(enabled)
     end
@@ -34,7 +34,7 @@ module EntriesHelper
 
   def link_to_destroy(item, enabled = true)
     if enabled
-      link_to icon_destroy, entry_path(item.action_date.year, item.action_date.month, item.id), :remote => true, :method => :delete, :data => { :confirm => t("message.delete_really") }
+      link_to icon_destroy, entry_path(item.action_date.year, item.action_date.month, item.id), remote: true, method: :delete, data: { confirm: t("message.delete_really") }
     else
       icon_destroy(enabled)
     end
@@ -42,7 +42,7 @@ module EntriesHelper
 
   def link_to_show(item, enabled = true)
     if enabled
-      link_to icon_show, entries_path(item.action_date.year, item.action_date.month, anchor: "item_#{item.id}"), :class => "show_link"
+      link_to icon_show, entries_path(item.action_date.year, item.action_date.month, anchor: "item_#{item.id}"), class: "show_link"
     else
       icon_show(enabled)
     end
