@@ -58,7 +58,7 @@ module EntriesHelper
 
   def link_to_tags(item)
     if item.tags.size > 0
-      ("[" + item.tags.sort{|a,b| a.name <=> b.name}.map{|tag| link_to_tag(tag) }.join(" ") + "]").html_safe
+      ("[" + item.tags.sort { |a, b| a.name <=> b.name }.map { |tag| link_to_tag(tag) }.join(" ") + "]").html_safe
     else
       ""
     end
@@ -109,7 +109,7 @@ module EntriesHelper
 
   def item_row_from_account(item)
     if item.adjustment?
-      from_account = (item.amount < 0) ? colored_account_name(item.to_account_id) : '(' + t("label.adjustment") + ')'
+      from_account = item.amount < 0 ? colored_account_name(item.to_account_id) : '(' + t("label.adjustment") + ')'
     else
       from_account = colored_account_name(item.from_account_id)
     end
@@ -118,7 +118,7 @@ module EntriesHelper
 
   def item_row_to_account(item)
     if item.adjustment?
-      to_account = (item.amount >= 0) ? colored_account_name(item.to_account_id) :
+      to_account = item.amount >= 0 ? colored_account_name(item.to_account_id) :
         '(' + t("label.adjustment") + ')'
     else
       to_account = colored_account_name(item.to_account_id)
@@ -127,7 +127,11 @@ module EntriesHelper
   end
 
   def item_row_twitter_button(item)
-    (item.adjustment? || item.parent_id) ? "" : tweet_button(item)
+    if item.adjustment? || item.parent_id
+      ""
+    else
+      tweet_button(item)
+    end
   end
 
   def item_row_operation(item, only_show = false)
