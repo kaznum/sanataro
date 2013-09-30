@@ -4,19 +4,19 @@ class Settings::CreditRelationsController < ApplicationController
 
   def index
     @credit_relations = @user.credit_relations.all
-    render :layout=>'entries'
+    render layout: 'entries'
   end
 
   def create
-    @cr = @user.credit_relations.create!(:credit_account_id => params[:credit_account_id],
-                                         :payment_account_id => params[:payment_account_id],
-                                         :settlement_day => params[:settlement_day],
-                                         :payment_month => params[:payment_month],
-                                         :payment_day => params[:payment_day])
+    @cr = @user.credit_relations.create!(credit_account_id: params[:credit_account_id],
+                                         payment_account_id: params[:payment_account_id],
+                                         settlement_day: params[:settlement_day],
+                                         payment_month: params[:payment_month],
+                                         payment_day: params[:payment_day])
 
     @credit_relations = @user.credit_relations.all
   rescue ActiveRecord::RecordInvalid => ex
-    render_js_error :id => "warning", :errors => ex.error_messages, :default_message => t('error.input_is_invalid')
+    render_js_error id: "warning", errors: ex.error_messages, default_message: t('error.input_is_invalid')
   end
 
   def destroy
@@ -31,21 +31,21 @@ class Settings::CreditRelationsController < ApplicationController
   def edit
     @cr = @user.credit_relations.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    render_js_error :id => "warning", :default_errors => t('error.no_data')
+    render_js_error id: "warning", default_errors: t('error.no_data')
   end
 
   def update
     @cr = @user.credit_relations.find(params[:id])
-    @cr.update_attributes!(:credit_account_id => params[:credit_account_id],
-                           :payment_account_id => params[:payment_account_id],
-                           :settlement_day => params[:settlement_day],
-                           :payment_month => params[:payment_month],
-                           :payment_day => params[:payment_day])
+    @cr.update_attributes!(credit_account_id: params[:credit_account_id],
+                           payment_account_id: params[:payment_account_id],
+                           settlement_day: params[:settlement_day],
+                           payment_month: params[:payment_month],
+                           payment_day: params[:payment_day])
   rescue ActiveRecord::RecordNotFound
     @credit_relations = @user.credit_relations.all
     render "no_record"
   rescue ActiveRecord::RecordInvalid
-    render_js_error :id => "edit_warning_#{@cr.id}", :errors => @cr.errors, :default_message => t('error.input_is_invalid')
+    render_js_error id: "edit_warning_#{@cr.id}", errors: @cr.errors, default_message: t('error.input_is_invalid')
   end
 
   def show

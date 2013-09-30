@@ -6,6 +6,7 @@ class AccountStatusesController < ApplicationController
   end
 
   private
+
   def _account_status
     retval = known_account_statuses_on(today)
     append_unknown_amount_on(today, retval)
@@ -27,7 +28,7 @@ class AccountStatusesController < ApplicationController
       typed_accounts = unknown_total < 0 ? :expenses : :incomes
       unknown_account = @user.send(typed_accounts).build do |a|
         a.name = I18n.t('label.unknown')
-        a.order_no = 999999
+        a.order_no = 999_999
       end
       statuses[typed_accounts] << [unknown_account, unknown_total.abs]
     end
@@ -39,4 +40,3 @@ class AccountStatusesController < ApplicationController
     @user.items.where(from_account_id: -1).action_date_between(from, to).sum(:amount)
   end
 end
-

@@ -2,14 +2,15 @@ class Admin::UsersController < ApplicationController
   before_action :authenticate
   def index
     @users = User.all
-    render :action => :index, :layout => 'admin'
+    render action: :index, layout: 'admin'
   end
 
   private
+
   def authenticate
     admin_user, admin_password = get_correct_credential
     if admin_user.nil? || admin_password.nil?
-      render :nothing => true, :status => :unauthorized
+      render nothing: true, status: :unauthorized
       return
     end
 

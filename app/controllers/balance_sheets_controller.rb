@@ -22,7 +22,7 @@ class BalanceSheetsController < ApplicationController
       end
     end
 
-    render :layout => 'entries'
+    render layout: 'entries'
   rescue ArgumentError # for errors around conversion from string to date
     redirect_to current_entries_url
   end
@@ -36,6 +36,7 @@ class BalanceSheetsController < ApplicationController
   end
 
   private
+
   def _snapshot_of_month(month)
     mpls = @user.monthly_profit_losses.where("month <= ?", month)
     bs = {}

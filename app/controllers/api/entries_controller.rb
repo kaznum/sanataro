@@ -20,7 +20,7 @@ class Api::EntriesController < ApplicationController
   def create
     _json_action do
       super
-      render locals: { item: @item, updated_item_ids: @updated_item_ids }, status: :created, :location => api_entries_url(@item.id)
+      render locals: { item: @item, updated_item_ids: @updated_item_ids }, status: :created, location: api_entries_url(@item.id)
     end
   end
 
@@ -39,6 +39,7 @@ class Api::EntriesController < ApplicationController
   end
 
   private
+
   def _json_action(&block)
     block.call
   rescue SyntaxError
@@ -54,4 +55,3 @@ class Api::EntriesController < ApplicationController
     render json: { errors: errors }.to_json, status: :not_acceptable
   end
 end
-

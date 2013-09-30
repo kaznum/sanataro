@@ -12,6 +12,6 @@ class Api::AccountsController < ApplicationController
       end
       accts
     }
-    render locals: {accounts: accounts}
+    render locals: { accounts: accounts }
   end
 end
