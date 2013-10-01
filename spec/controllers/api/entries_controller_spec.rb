@@ -86,7 +86,7 @@ describe Api::EntriesController do
 
       context "with tag," do
         before do
-          tags = ['test_tag', 'def']
+          tags = %w(test_tag def)
           put(:update,
               id: items(:item11).id.to_s,
               entry: {
