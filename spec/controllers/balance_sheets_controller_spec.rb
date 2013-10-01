@@ -41,7 +41,7 @@ describe BalanceSheetsController do
 
       context "without month in params and which has minus value in an account," do
         before do
-          users(:user1).monthly_profit_losses.create(month: Date.new(2006,12,1), account_id: 1, amount: -2000000)
+          users(:user1).monthly_profit_losses.create(month: Date.new(2006, 12, 1), account_id: 1, amount: -2000000)
           get :index
         end
 
@@ -120,7 +120,7 @@ describe BalanceSheetsController do
         end
 
         describe "response" do
-          subject {response}
+          subject { response }
           it { should be_success }
           it { should render_template "show" }
         end
@@ -130,17 +130,17 @@ describe BalanceSheetsController do
           its([:remain_amount]) { should == 8000 }
           its([:items]) { should_not be_nil }
           its([:account_id]) { should_not be_nil }
-          its([:account_id]) { should == accounts(:bank1).id}
+          its([:account_id]) { should == accounts(:bank1).id }
         end
 
         describe "assigns[:items]" do
-          subject { assigns[:items]}
+          subject { assigns[:items] }
           specify do
             subject.each do |item|
               (item.from_account_id == accounts(:bank1).id ||
                item.to_account_id == accounts(:bank1).id).should be_true
 
-              month0802 = Date.new(2008,2)
+              month0802 = Date.new(2008, 2)
               item.action_date.should be_between month0802, month0802.end_of_month
             end
           end
@@ -153,7 +153,7 @@ describe BalanceSheetsController do
         end
 
         describe "response" do
-          subject {response}
+          subject { response }
           it { should be_success }
           it { should render_template "show" }
         end
@@ -163,11 +163,11 @@ describe BalanceSheetsController do
           its([:remain_amount]) { should_not be_nil }
           its([:items]) { should_not be_nil }
           its([:account_id]) { should_not be_nil }
-          its([:account_id]) { should == accounts(:bank1).id}
+          its([:account_id]) { should == accounts(:bank1).id }
         end
 
         describe "assigns[:items]" do
-          subject { assigns[:items]}
+          subject { assigns[:items] }
           specify do
             subject.each do |item|
               (item.from_account_id == accounts(:bank1).id ||
