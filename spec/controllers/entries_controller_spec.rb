@@ -97,14 +97,18 @@ describe EntriesController do
       context "with tag," do
         before do
           tags = ['test_tag', 'def']
-          xhr(:put, :update, id: items(:item11).id.to_s,
-              entry: { name: 'テスト11',
+          xhr(:put, :update,
+              id: items(:item11).id.to_s,
+              entry: {
+                name: 'テスト11',
                 action_date: items(:item11).action_date.strftime("%Y/%m/%d"),
                 amount: "100000",
                 from_account_id: accounts(:bank1).id.to_s,
                 to_account_id: accounts(:expense3).id.to_s,
-                tag_list: tags.join(" ") },
-              year: items(:item11).action_date.year, month: items(:item11).action_date.month)
+                tag_list: tags.join(" ")
+              },
+              year: items(:item11).action_date.year,
+              month: items(:item11).action_date.month)
 
           get :index, tag: 'test_tag'
         end
@@ -128,14 +132,18 @@ describe EntriesController do
 
       context "with mark," do
         before do
-          xhr(:put, :update, id: items(:item11).id.to_s,
-              entry: { name: 'テスト11',
+          xhr(:put, :update,
+              id: items(:item11).id.to_s,
+              entry: {
+                name: 'テスト11',
                 action_date: items(:item11).action_date.strftime("%Y/%m/%d"),
                 amount: "100000",
                 from_account_id: accounts(:bank1).id.to_s,
                 to_account_id: accounts(:expense3).id.to_s,
-                confirmation_required: '1' },
-              year: items(:item11).action_date.year, month: items(:item11).action_date.month)
+                confirmation_required: '1'
+              },
+              year: items(:item11).action_date.year,
+              month: items(:item11).action_date.month)
           get :index, mark: 'confirmation_required'
         end
 
@@ -158,14 +166,18 @@ describe EntriesController do
 
       context "with keyword," do
         before do
-          xhr(:put, :update, id: items(:item11).id.to_s,
-              entry: { name: 'あああテスト11いいい',
+          xhr(:put, :update,
+              id: items(:item11).id.to_s,
+              entry: {
+                name: 'あああテスト11いいい',
                 action_date: items(:item11).action_date.strftime("%Y/%m/%d"),
                 amount: "100000",
                 from_account_id: accounts(:bank1).id.to_s,
                 to_account_id: accounts(:expense3).id.to_s,
-                confirmation_required: '1' },
-              year: items(:item11).action_date.year, month: items(:item11).action_date.month)
+                confirmation_required: '1'
+              },
+              year: items(:item11).action_date.year,
+              month: items(:item11).action_date.month)
           get :index, keyword: 'テスト11'
         end
 
@@ -183,14 +195,18 @@ describe EntriesController do
 
       context "with multiple keywords," do
         before do
-          xhr(:put, :update, id: items(:item11).id.to_s,
-              entry: { name: 'あああテスト11いいい',
+          xhr(:put, :update,
+              id: items(:item11).id.to_s,
+              entry: {
+                name: 'あああテスト11いいい',
                 action_date: items(:item11).action_date.strftime("%Y/%m/%d"),
                 amount: "100000",
                 from_account_id: accounts(:bank1).id.to_s,
                 to_account_id: accounts(:expense3).id.to_s,
-                confirmation_required: '1' },
-              year: items(:item11).action_date.year, month: items(:item11).action_date.month)
+                confirmation_required: '1'
+              },
+              year: items(:item11).action_date.year,
+              month: items(:item11).action_date.month)
           get :index, keyword: 'テスト  い'
         end
 
@@ -208,14 +224,18 @@ describe EntriesController do
 
       context "with keyword which has % ," do
         before do
-          xhr(:put, :update, id: items(:item11).id.to_s,
-              entry: { name: 'あああテスト11%いいい',
+          xhr(:put, :update,
+              id: items(:item11).id.to_s,
+              entry: {
+                name: 'あああテスト11%いいい',
                 action_date: items(:item11).action_date.strftime("%Y/%m/%d"),
                 amount: "100000",
                 from_account_id: accounts(:bank1).id.to_s,
                 to_account_id: accounts(:expense3).id.to_s,
-                confirmation_required: '1' },
-              year: items(:item11).action_date.year, month: items(:item11).action_date.month)
+                confirmation_required: '1'
+              },
+              year: items(:item11).action_date.year,
+              month: items(:item11).action_date.month)
           get :index, keyword: 'テスト11%い'
         end
 
@@ -319,7 +339,7 @@ describe EntriesController do
               mock_items = users(:user1).items
               mock_user.should_receive(:items).and_return(mock_items)
               mock_items.should_receive(:partials).with(stub_date_from, stub_date_to,
-                                                            hash_including(remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
+                                                        hash_including(remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
               xhr :get, :index, remaining: 1, year: 2008, month: 2
             end
           end
@@ -347,7 +367,7 @@ describe EntriesController do
               mock_items = users(:user1).items
               mock_user.should_receive(:items).and_return(mock_items)
               mock_items.should_receive(:partials).with(nil, nil,
-                                                            hash_including(tag: 'xxx', remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
+                                                        hash_including(tag: 'xxx', remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
               xhr :get, :index, remaining: true, year: 2008, month: 2, tag: 'xxx'
             end
           end
@@ -1317,9 +1337,15 @@ describe EntriesController do
         context "created before adjustment which is in the same month," do
           before do
             xhr(:post, :create,
-                entry: { action_date: @init_adj2.action_date.yesterday.strftime("%Y/%m/%d"),
-                  name: 'テスト10', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id },
-                year: 2008, month: 2)
+                entry: {
+                  action_date: @init_adj2.action_date.yesterday.strftime("%Y/%m/%d"),
+                  name: 'テスト10',
+                  amount: '10,000',
+                  from_account_id: accounts(:bank1).id,
+                  to_account_id: accounts(:expense3).id
+                },
+                year: 2008,
+                month: 2)
           end
 
           it_should_behave_like "created successfully"
@@ -1359,9 +1385,15 @@ describe EntriesController do
           before do
             @post = lambda {
               xhr(:post, :create,
-                  entry: { action_date: @init_adj4.action_date.yesterday.strftime("%Y/%m/%d"),
-                    name: 'テスト10', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id },
-                  year: 2008, month: 2)
+                  entry: {
+                    action_date: @init_adj4.action_date.yesterday.strftime("%Y/%m/%d"),
+                    name: 'テスト10',
+                    amount: '10,000',
+                    from_account_id: accounts(:bank1).id,
+                    to_account_id: accounts(:expense3).id
+                  },
+                  year: 2008,
+                  month: 2)
             }
           end
 
@@ -1414,9 +1446,15 @@ describe EntriesController do
           before do
             @post = -> {
               xhr(:post, :create,
-                  entry: { action_date: @init_adj4.action_date.tomorrow.strftime("%Y/%m/%d"),
-                    name: 'テスト10', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id },
-                  year: 2008, month: 2)
+                  entry: {
+                    action_date: @init_adj4.action_date.tomorrow.strftime("%Y/%m/%d"),
+                    name: 'テスト10',
+                    amount: '10,000',
+                    from_account_id: accounts(:bank1).id,
+                    to_account_id: accounts(:expense3).id
+                  },
+                  year: 2008,
+                  month: 2)
             }
           end
 
@@ -1469,9 +1507,15 @@ describe EntriesController do
           before do
             @post = -> {
               xhr(:post, :create,
-                  entry: { action_date: @init_adj6.action_date.yesterday.strftime("%Y/%m/%d"),
-                    name: 'テスト10', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id },
-                  year: 2008, month: 2)
+                  entry: {
+                    action_date: @init_adj6.action_date.yesterday.strftime("%Y/%m/%d"),
+                    name: 'テスト10',
+                    amount: '10,000',
+                    from_account_id: accounts(:bank1).id,
+                    to_account_id: accounts(:expense3).id
+                  },
+                  year: 2008,
+                  month: 2)
             }
           end
 
@@ -1515,9 +1559,15 @@ describe EntriesController do
           before do
             @post = -> {
               xhr(:post, :create,
-                  entry: { action_date: @init_adj6.action_date.tomorrow.strftime("%Y/%m/%d"),
-                    name: 'テスト10', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id },
-                  year: 2008, month: 2)
+                  entry: {
+                    action_date: @init_adj6.action_date.tomorrow.strftime("%Y/%m/%d"),
+                    name: 'テスト10',
+                    amount: '10,000',
+                    from_account_id: accounts(:bank1).id,
+                    to_account_id: accounts(:expense3).id
+                  },
+                  year: 2008,
+                  month: 2)
             }
           end
 
@@ -1558,10 +1608,16 @@ describe EntriesController do
         context "created item with credit card, purchased before the settlement date of the month" do
           before do
             login
-            xhr :post, :create,
-            entry: { action_date: '2008/02/10',
-              name: 'テスト10', amount: '10,000', from_account_id: accounts(:credit4).id, to_account_id: accounts(:expense3).id },
-            year: 2008, month: 2
+            xhr(:post, :create,
+                entry: {
+                  action_date: '2008/02/10',
+                  name: 'テスト10',
+                  amount: '10,000',
+                  from_account_id: accounts(:credit4).id,
+                  to_account_id: accounts(:expense3).id
+                },
+                year: 2008,
+                month: 2)
           end
 
           let(:credit_item) {
@@ -1610,10 +1666,15 @@ describe EntriesController do
             cr1.save.should be_true
 
             xhr(:post, :create,
-                entry: { action_date: '2008/02/25',
-                  name: 'テスト10', amount: '10,000',
-                  from_account_id: accounts(:credit4).id, to_account_id: accounts(:expense3).id },
-                year: 2008, month: 2)
+                entry: {
+                  action_date: '2008/02/25',
+                  name: 'テスト10',
+                  amount: '10,000',
+                  from_account_id: accounts(:credit4).id,
+                  to_account_id: accounts(:expense3).id
+                },
+                year: 2008,
+                month: 2)
           end
 
           describe "response" do
@@ -1667,7 +1728,10 @@ describe EntriesController do
             xhr(:post, :create,
                 entry: {
                   action_date: '2008/2/10',
-                  name: 'テスト10', amount: '10,000', from_account_id: accounts(:credit4).id, to_account_id: accounts(:expense3).id
+                  name: 'テスト10',
+                  amount: '10,000',
+                  from_account_id: accounts(:credit4).id,
+                  to_account_id: accounts(:expense3).id
                 },
                 year: 2008,
                 month: 2)
@@ -1747,10 +1811,16 @@ describe EntriesController do
             login
             @date = items(:adjustment2).action_date - 1
             @action = lambda {
-              xhr(:post, :create, entry: { entry_type: 'adjustment',
+              xhr(:post, :create,
+                  entry: {
+                    entry_type: 'adjustment',
                     action_date: @date.strftime("%Y/%m/%d"),
-                    to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '100*(10+50)/2', tag_list: 'hoge fuga' },
-                  year: "2008", month: "3")
+                    to_account_id: accounts(:bank1).id.to_s,
+                    adjustment_amount: '100*(10+50)/2',
+                    tag_list: 'hoge fuga'
+                  },
+                  year: "2008",
+                  month: "3")
             }
           end
 
@@ -1809,11 +1879,15 @@ describe EntriesController do
             let(:action) {
               lambda {
                 date = existing_adj.action_date
-                xhr(:post,
-                    :create, entry: { entry_type: 'adjustment',
+                xhr(:post, :create,
+                    entry: {
+                      entry_type: 'adjustment',
                       action_date: date.strftime("%Y/%m/%d"),
-                      to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '50' },
-                    year: 2008, month: 2)
+                      to_account_id: accounts(:bank1).id.to_s,
+                      adjustment_amount: '50'
+                    },
+                    year: 2008,
+                    month: 2)
               }
             }
             describe "created_adjustment" do
@@ -1844,11 +1918,14 @@ describe EntriesController do
             let(:action) {
               lambda {
                 date = existing_adj.action_date
-                xhr(:post,
-                    :create, entry: { entry_type: 'adjustment',
+                xhr(:post, :create,
+                    entry: {
+                      entry_type: 'adjustment',
                       action_date: date.strftime("%Y/%m/%d"),
-                      to_account_id: accounts(:bank1).id.to_s, adjustment_amount: 'SDSFSAF * xdfa' },
-                    year: 2008, month: 2)
+                      to_account_id: accounts(:bank1).id.to_s, adjustment_amount: 'SDSFSAF * xdfa'
+                    },
+                    year: 2008,
+                    month: 2)
               }
             }
 
@@ -1884,11 +1961,17 @@ describe EntriesController do
             let(:action) {
               lambda {
                 date = existing_adj.action_date
-                xhr(:post,
-                    :create, entry: { entry_type: 'adjustment',
-                      action_year: date.year, action_month: date.month, action_day: date.day,
-                    to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '50000' },
-                    year: 2008, month: 2)
+                xhr(:post, :create,
+                    entry: {
+                      entry_type: 'adjustment',
+                      action_year: date.year,
+                      action_month: date.month,
+                      action_day: date.day,
+                      to_account_id: accounts(:bank1).id.to_s,
+                      adjustment_amount: '50000'
+                    },
+                    year: 2008,
+                    month: 2)
               }
             }
 
@@ -1923,11 +2006,15 @@ describe EntriesController do
           let(:date) { items(:adjustment4).action_date - 1 }
           let(:next_adj_date) { items(:adjustment4).action_date }
           let(:action) do
-            lambda { xhr(:post,
-                         :create, entry: { entry_type: 'adjustment',
+            lambda { xhr(:post, :create,
+                         entry: {
+                           entry_type: 'adjustment',
                            action_date: date.strftime("%Y/%m/%d"),
-                           to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '3000' },
-                         year: "2008", month: "2")
+                           to_account_id: accounts(:bank1).id.to_s,
+                           adjustment_amount: '3000'
+                         },
+                         year: "2008",
+                         month: "2")
             }
           end
 
@@ -1992,11 +2079,16 @@ describe EntriesController do
           let(:date) { items(:adjustment4).action_date + 1 }
           let(:next_adj_date) { items(:adjustment6).action_date }
           let(:action) do
-            lambda { xhr(:post,
-                         :create, entry: { entry_type: 'adjustment',
-                           action_date: date.strftime("%Y/%m/%d"),
-                           to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '3000' },
-                         year: 2008, month: 2)
+            lambda {
+              xhr(:post, :create,
+                  entry: {
+                    entry_type: 'adjustment',
+                    action_date: date.strftime("%Y/%m/%d"),
+                    to_account_id: accounts(:bank1).id.to_s,
+                    adjustment_amount: '3000'
+                  },
+                  year: 2008,
+                  month: 2)
             }
           end
 
@@ -2064,11 +2156,15 @@ describe EntriesController do
           let(:date) { items(:adjustment6).action_date - 1 }
           let(:next_adj_date) { items(:adjustment6).action_date }
           let(:action) do
-            lambda { xhr(:post,
-                         :create, entry: { entry_type: 'adjustment',
+            lambda { xhr(:post, :create,
+                         entry: {
+                           entry_type: 'adjustment',
                            action_date: date.strftime("%Y/%m/%d"),
-                           to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '3000' },
-                         year: 2008.to_s, month: 2.to_s)
+                           to_account_id: accounts(:bank1).id.to_s,
+                           adjustment_amount: '3000'
+                         },
+                         year: 2008.to_s,
+                         month: 2.to_s)
             }
           end
 
@@ -2135,11 +2231,15 @@ describe EntriesController do
         context "create adjustment after all adjustments," do
           let(:date) { items(:adjustment6).action_date + 1 }
           let(:action) do
-            lambda { xhr(:post,
-                         :create, entry: { entry_type: 'adjustment',
+            lambda { xhr(:post, :create,
+                         entry: {
+                           entry_type: 'adjustment',
                            action_date: date.strftime("%Y/%m/%d"),
-                           to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '3000' },
-                         year: 2008, month: 2)
+                           to_account_id: accounts(:bank1).id.to_s,
+                           adjustment_amount: '3000'
+                         },
+                         year: 2008,
+                         month: 2)
             }
           end
 
@@ -2197,10 +2297,14 @@ describe EntriesController do
   describe "#update" do
     context "before login," do
       before do
-        xhr :put, :update,
-        entry: { entry_type: 'adjustment', adjustment_amoount: "500" },
-        year: Date.today.year, month: Date.today.month,
-        id: items(:adjustment2).id.to_s
+        xhr(:put, :update,
+            entry: {
+              entry_type: 'adjustment',
+              adjustment_amoount: "500"
+            },
+            year: Date.today.year,
+            month: Date.today.month,
+            id: items(:adjustment2).id.to_s)
       end
 
       describe "response" do
@@ -2219,11 +2323,15 @@ describe EntriesController do
           before do
             date = items(:adjustment2).action_date
             @action = -> {
-              xhr(:put, :update, id: items(:adjustment2).id.to_s,
-                  entry: { entry_type: 'adjustment',
+              xhr(:put, :update,
+                  id: items(:adjustment2).id.to_s,
+                  entry: {
+                    entry_type: 'adjustment',
                     action_date: date.strftime("%Y/%m/%d"),
-                    adjustment_amount: '3,000' },
-                  year: 2008, month: 2)
+                    adjustment_amount: '3,000'
+                  },
+                  year: 2008,
+                  month: 2)
             }
           end
           describe "response" do
@@ -2247,12 +2355,16 @@ describe EntriesController do
             login
             date = items(:adjustment2).action_date
             @action = -> {
-              xhr(:put, :update, id: items(:adjustment2).id,
-                  entry: { entry_type: 'adjustment',
+              xhr(:put, :update,
+                  id: items(:adjustment2).id,
+                  entry: {
+                    entry_type: 'adjustment',
                     action_date: date.strftime("%Y/%m/%d"),
                     adjustment_amount: '(20*30)/(10+1',
-                    to_account_id: items(:adjustment2).to_account_id },
-                  year: 2008, month: 2)
+                    to_account_id: items(:adjustment2).to_account_id
+                  },
+                  year: 2008,
+                  month: 2)
             }
           end
 
@@ -2274,12 +2386,16 @@ describe EntriesController do
             login
             date = items(:adjustment4).action_date
             @action = -> {
-              xhr(:put, :update, id: items(:adjustment2).id,
-                  entry: { entry_type: 'adjustment',
+              xhr(:put, :update,
+                  id: items(:adjustment2).id,
+                  entry: {
+                    entry_type: 'adjustment',
                     action_date: date.strftime("%Y/%m/%d"),
                     adjustment_amount: '300',
-                    to_account_id: items(:adjustment4).to_account_id },
-                  year: 2008, month: 2)
+                    to_account_id: items(:adjustment4).to_account_id
+                  },
+                  year: 2008,
+                  month: 2)
             }
           end
 
@@ -2307,13 +2423,18 @@ describe EntriesController do
             date = items(:adjustment2).action_date
 
             @action = -> {
-              xhr(:put, :update, id: items(:adjustment2).id,
-                  entry: { entry_type: 'adjustment',
+              xhr(:put, :update,
+                  id: items(:adjustment2).id,
+                  entry: {
+                    entry_type: 'adjustment',
                     action_date: date.strftime("%Y/%m/%d"),
                     adjustment_amount: '(10+50)*200/4',
                     to_account_id: items(:adjustment2).to_account_id,
-                    tag_list: 'hoge fuga' },
-                  year: 2008, month: 2, tag_list: 'hoge fuga')
+                    tag_list: 'hoge fuga'
+                  },
+                  year: 2008,
+                  month: 2,
+                  tag_list: 'hoge fuga')
             }
           end
 
@@ -2363,12 +2484,16 @@ describe EntriesController do
             @old_adj6 = items(:adjustment6)
             date = items(:adjustment6).action_date
             @action = -> {
-              xhr(:put, :update, id: items(:adjustment6).id,
-                  entry: { entry_type: 'adjustment',
+              xhr(:put, :update,
+                  id: items(:adjustment6).id,
+                  entry: {
+                    entry_type: 'adjustment',
                     action_date: date.strftime("%Y/%m/%d"),
                     adjustment_amount: '3,000',
-                    to_account_id: items(:adjustment6).to_account_id },
-                  year: date.year, month: date.month)
+                    to_account_id: items(:adjustment6).to_account_id
+                  },
+                  year: date.year,
+                  month: date.month)
             }
           end
 
@@ -2407,11 +2532,14 @@ describe EntriesController do
             @action = -> {
               xhr(:put, :update,
                   id: @old_adj4.id,
-                  entry: { entry_type: 'adjustment',
+                  entry: {
+                    entry_type: 'adjustment',
                     action_date: date.strftime("%Y/%m/%d"),
                     adjustment_amount: '3,000',
-                    to_account_id: @old_adj4.to_account_id },
-                  year: date.year, month: date.month)
+                    to_account_id: @old_adj4.to_account_id
+                  },
+                  year: date.year,
+                  month: date.month)
             }
           end
 
@@ -2454,7 +2582,8 @@ describe EntriesController do
                     adjustment_amount: '3,000',
                     to_account_id: items(:adjustment2).to_account_id
                   },
-                  year: date.year, month: date.month)
+                  year: date.year,
+                  month: date.month)
             }
           end
 
@@ -2494,10 +2623,14 @@ describe EntriesController do
             @old_adj2 = old_adj2 = items(:adjustment2)
             @old_adj4 = old_adj4 = items(:adjustment4)
             @old_adj6 = old_adj6 = items(:adjustment6)
-            xhr(:post, :create, entry: { entry_type: 'adjustment',
-                   action_date: old_adj6.action_date.strftime("%Y/%m/%d"),
-                   to_account_id: 13, adjustment_amount: '1000' },
-                 year: old_adj4.action_date.year, month: old_adj4.action_date.month)
+            xhr(:post, :create,
+                entry: {
+                  entry_type: 'adjustment',
+                  action_date: old_adj6.action_date.strftime("%Y/%m/%d"),
+                  to_account_id: 13, adjustment_amount: '1000'
+                },
+                year: old_adj4.action_date.year,
+                month: old_adj4.action_date.month)
             @future_adj = Adjustment.where(action_date: old_adj6.action_date, to_account_id: 13).first
             @date = date = old_adj2.action_date
             @old_mpl = MonthlyProfitLoss.where(month: date.beginning_of_month, account_id: old_adj2.to_account_id).first
@@ -2506,11 +2639,14 @@ describe EntriesController do
             @action = -> {
               xhr(:put, :update,
                   id: items(:adjustment2).id,
-                  entry: { entry_type: 'adjustment',
+                  entry: {
+                    entry_type: 'adjustment',
                     action_date: date.strftime("%Y/%m/%d"),
                     adjustment_amount: '3,000',
-                    to_account_id: 13 },
-                  year: date.year, month: date.month)
+                    to_account_id: 13
+                  },
+                  year: date.year,
+                  month: date.month)
             }
           end
 
@@ -2574,13 +2710,17 @@ describe EntriesController do
         context "when action_date is changed to the next month and before adjustment," do
           let(:date) { items(:adjustment6).action_date - 1 }
           before do
-            @action = lambda { xhr :put, :update,
-              id: items(:adjustment2).id,
-              entry: { entry_type: 'adjustment',
-              action_date: date.strftime("%Y/%m/%d"),
-                adjustment_amount: '3,000',
-                to_account_id: items(:adjustment2).to_account_id },
-              year: date.year, month: date.month
+            @action = lambda {
+              xhr(:put, :update,
+                  id: items(:adjustment2).id,
+                  entry: {
+                    entry_type: 'adjustment',
+                    action_date: date.strftime("%Y/%m/%d"),
+                    adjustment_amount: '3,000',
+                    to_account_id: items(:adjustment2).to_account_id
+                  },
+                  year: date.year,
+                  month: date.month)
             }
           end
 
@@ -2639,11 +2779,14 @@ describe EntriesController do
             @action = lambda {
               xhr(:put, :update,
                   id: items(:adjustment2).id,
-                  entry: { entry_type: 'adjustment',
+                  entry: {
+                    entry_type: 'adjustment',
                     action_date: date.strftime("%Y/%m/%d"),
                     adjustment_amount: '3,000',
-                    to_account_id: items(:adjustment2).to_account_id },
-                  year: date.year, month: date.month)
+                    to_account_id: items(:adjustment2).to_account_id
+                  },
+                  year: date.year,
+                  month: date.month)
             }
           end
 
@@ -2689,13 +2832,16 @@ describe EntriesController do
             @init_adj6 = items(:adjustment6)
 
             @action = lambda {
-              xhr :put, :update,
-              id: updated_id,
-              entry: { entry_type: 'adjustment',
-                action_date: date.strftime("%Y/%m/%d"),
-                adjustment_amount: '3,000',
-                to_account_id: items(:adjustment6).to_account_id },
-              year: date.year, month: date.month
+              xhr(:put, :update,
+                  id: updated_id,
+                  entry: {
+                    entry_type: 'adjustment',
+                    action_date: date.strftime("%Y/%m/%d"),
+                    adjustment_amount: '3,000',
+                    to_account_id: items(:adjustment6).to_account_id
+                  },
+                  year: date.year,
+                  month: date.month)
             }
           end
 
@@ -2755,8 +2901,10 @@ describe EntriesController do
                     amount: "(100-20)*(10",
                     from_account_id: accounts(:bank1).id,
                     to_account_id: accounts(:expense3).id,
-                    confirmation_required: 'true' },
-                  year: 2008, month: 2)
+                    confirmation_required: 'true'
+                  },
+                  year: 2008,
+                  month: 2)
             }
           end
 
@@ -2791,7 +2939,8 @@ describe EntriesController do
                     to_account_id: 43_214,
                     confirmation_required: 'true'
                   },
-                  year: 2008, month: 2)
+                  year: 2008,
+                  month: 2)
             }
           end
 
@@ -2816,13 +2965,17 @@ describe EntriesController do
         context "without changing date, " do
           before do
             @old_item11 = items(:item11)
-            xhr(:put, :update, id: @old_item11.id,
-                entry: { name: 'テスト11',
+            xhr(:put, :update,
+                id: @old_item11.id,
+                entry: {
+                  name: 'テスト11',
                   action_date: @old_item11.action_date.strftime("%Y/%m/%d"),
                   amount: "100000",
                   from_account_id: accounts(:bank1).id,
-                  to_account_id: accounts(:expense3).id },
-                year: 2008, month: 2)
+                  to_account_id: accounts(:expense3).id
+                },
+                year: 2008,
+                month: 2)
           end
 
           describe "response" do
@@ -2853,7 +3006,8 @@ describe EntriesController do
                   from_account_id: accounts(:bank1).id,
                   to_account_id: accounts(:expense3).id,
                   confirmation_required: 'true' },
-                year: 2008, month: 2)
+                year: 2008,
+                month: 2)
           end
 
           describe "response" do
@@ -2878,15 +3032,18 @@ describe EntriesController do
             let(:old_action_date) { old_item1.action_date }
             before do
               @action = -> {
-                xhr(:put, :update, id: old_item1.id,
-                    entry: { name: 'テスト10',
+                xhr(:put, :update,
+                    id: old_item1.id,
+                    entry: {
+                      name: 'テスト10',
                       action_date: Date.new(old_item1.action_date.year, old_item1.action_date.month, 18).strftime("%Y/%m/%d"),
                       amount: "100000",
                       from_account_id: accounts(:bank1).id.to_s,
                       to_account_id: accounts(:expense3).id.to_s,
                       confirmation_required: '0'
                     },
-                    year: 2008, month: 2)
+                    year: 2008,
+                    month: 2)
               }
             end
 
@@ -2959,14 +3116,18 @@ describe EntriesController do
           context "when confirmation is true in HTML form," do
             before do
               @action = -> {
-                xhr(:put, :update, id: old_item1.id,
-                    entry: { name: 'テスト10',
+                xhr(:put, :update,
+                    id: old_item1.id,
+                    entry: {
+                      name: 'テスト10',
                       action_date: Date.new(old_item1.action_date.year, old_item1.action_date.month, 18).strftime("%Y/%m/%d"),
                       amount: "100000",
                       from_account_id: accounts(:bank1).id.to_s,
                       to_account_id: accounts(:expense3).id.to_s,
-                      confirmation_required: 'true' },
-                    year: 2008, month: 2)
+                      confirmation_required: 'true'
+                    },
+                    year: 2008,
+                    month: 2)
               }
             end
 
@@ -2977,8 +3138,10 @@ describe EntriesController do
           describe "when tags are input," do
             before do
               @action = -> {
-                xhr(:put, :update, id: old_item1.id,
-                    entry: { name: 'テスト10',
+                xhr(:put, :update,
+                    id: old_item1.id,
+                    entry: {
+                      name: 'テスト10',
                       action_date: Date.new(old_item1.action_date.year,
                                             old_item1.action_date.month,
                                             18).strftime("%Y/%m/%d"),
@@ -2986,8 +3149,10 @@ describe EntriesController do
                       from_account_id: accounts(:bank1).id.to_s,
                       to_account_id: accounts(:expense3).id.to_s,
                       confirmation_required: 'true',
-                      tag_list: 'hoge fuga' },
-                    year: 2008, month: 2)
+                      tag_list: 'hoge fuga'
+                    },
+                    year: 2008,
+                    month: 2)
               }
             end
 
@@ -3011,13 +3176,17 @@ describe EntriesController do
 
           before do
             @action = lambda {
-              xhr :put, :update, id: items(:item1).id,
-              entry: { name: 'テスト20',
-                action_date: date.strftime("%Y/%m/%d"),
-                amount: "20000",
-                from_account_id: accounts(:bank1).id.to_s,
-                to_account_id: accounts(:expense3).id.to_s },
-              year: items(:item1).action_date.year, month: items(:item1).action_date.month
+              xhr(:put, :update,
+                  id: items(:item1).id,
+                  entry: {
+                    name: 'テスト20',
+                    action_date: date.strftime("%Y/%m/%d"),
+                    amount: "20000",
+                    from_account_id: accounts(:bank1).id.to_s,
+                    to_account_id: accounts(:expense3).id.to_s
+                  },
+                  year: items(:item1).action_date.year,
+                  month: items(:item1).action_date.month)
             }
           end
 
@@ -3085,14 +3254,17 @@ describe EntriesController do
             @pl200803 = monthly_profit_losses(:bank1200803)
 
             @action = lambda {
-              xhr :put, :update, id: @item5.id,
-              entry: { name: 'テスト50',
-                action_date: @item5.action_date.strftime("%Y/%m/%d"),
-                amount: "20000",
-                from_account_id: @item5.from_account_id.to_s,
-                to_account_id: @item5.to_account_id.to_s
-              },
-              year: "2008", month: "2"
+              xhr(:put, :update,
+                  id: @item5.id,
+                  entry: {
+                    name: 'テスト50',
+                    action_date: @item5.action_date.strftime("%Y/%m/%d"),
+                    amount: "20000",
+                    from_account_id: @item5.from_account_id.to_s,
+                    to_account_id: @item5.to_account_id.to_s
+                  },
+                  year: "2008",
+                  month: "2")
             }
           end
 
@@ -3133,13 +3305,17 @@ describe EntriesController do
             @pl200803 = MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id)
             @date = @adj6.action_date - 1
             @action = -> {
-              xhr(:put, :update, id: @item3.id,
-                  entry: { name: 'テスト30',
+              xhr(:put, :update,
+                  id: @item3.id,
+                  entry: {
+                    name: 'テスト30',
                     action_date: @date.strftime("%Y/%m/%d"),
                     amount: "300",
                     from_account_id: accounts(:bank1).id.to_s,
-                    to_account_id: accounts(:expense3).id.to_s },
-                  year: @item3.action_date.year.to_s, month: @item3.action_date.month.to_s)
+                    to_account_id: accounts(:expense3).id.to_s
+                  },
+                  year: @item3.action_date.year.to_s,
+                  month: @item3.action_date.month.to_s)
             }
           end
 
@@ -3181,13 +3357,17 @@ describe EntriesController do
 
             @date = @adj6.action_date - 1
             @action = -> {
-              xhr(:put, :update, id: @item3.id,
-                  entry: { name: 'テスト50',
+              xhr(:put, :update,
+                  id: @item3.id,
+                  entry: {
+                    name: 'テスト50',
                     action_date: @date.strftime("%Y/%m/%d"),
                     amount: "300",
                     from_account_id: accounts(:bank1).id.to_s,
-                    to_account_id: accounts(:expense3).id.to_s },
-                  year: @item3.action_date.year.to_s, month: @item3.action_date.month.to_s)
+                    to_account_id: accounts(:expense3).id.to_s
+                  },
+                  year: @item3.action_date.year.to_s,
+                  month: @item3.action_date.month.to_s)
             }
           end
 
@@ -3229,13 +3409,17 @@ describe EntriesController do
             @pl200803 = monthly_profit_losses(:bank1200803)
             @date = @adj6.action_date + 1
             @action = -> {
-              xhr(:put, :update, id: @item1.id,
-                  entry: { name: 'テストXX',
+              xhr(:put, :update,
+                  id: @item1.id,
+                  entry: {
+                    name: 'テストXX',
                     action_date: @date.strftime("%Y/%m/%d"),
                     amount: "300",
                     from_account_id: @item1.from_account_id.to_s,
-                    to_account_id: @item1.to_account_id.to_s },
-                  year: @item1.action_date.year, month: @item1.action_date.month)
+                    to_account_id: @item1.to_account_id.to_s
+                  },
+                  year: @item1.action_date.year,
+                  month: @item1.action_date.month)
             }
           end
 
@@ -3273,10 +3457,15 @@ describe EntriesController do
             before do
               login
               xhr(:post, :create,
-                  entry: { action_date: '2008/2/10',
-                    name: 'テスト10', amount: '10,000', from_account_id: accounts(:credit4).id,
-                    to_account_id: accounts(:expense3).id },
-                  year: '2008', month: '2')
+                  entry: {
+                    action_date: '2008/2/10',
+                    name: 'テスト10',
+                    amount: '10,000',
+                    from_account_id: accounts(:credit4).id,
+                    to_account_id: accounts(:expense3).id
+                  },
+                  year: '2008',
+                  month: '2')
               init_credit_item = Item.where(action_date: Date.new(2008, 2, 10),
                                             from_account_id: accounts(:credit4).id,
                                             to_account_id: accounts(:expense3).id).first
@@ -3295,12 +3484,15 @@ describe EntriesController do
               init_payment_item.update_attributes!(action_date: Date.new(2008, 6, 1))
 
               @action = -> {
-                xhr(:put, :update, id: init_credit_item.id,
-                    entry: { name: 'テスト20',
+                xhr(:put, :update,
+                    id: init_credit_item.id,
+                    entry: {
+                      name: 'テスト20',
                       action_date: date.strftime("%Y/%m/%d"),
                       amount: "20_000",
                       from_account_id: accounts(:credit4).id.to_s,
-                      to_account_id: accounts(:expense3).id.to_s },
+                      to_account_id: accounts(:expense3).id.to_s
+                    },
                     year: init_credit_item.action_date.year,
                     month: init_credit_item.action_date.month)
               }
@@ -3344,10 +3536,15 @@ describe EntriesController do
             before do
               login
               xhr(:post, :create,
-                  entry: { action_date: '2008/2/10',
-                    name: 'テスト10', amount: '10,000', from_account_id: accounts(:credit4).id,
-                    to_account_id: accounts(:expense3).id },
-                  year: '2008', month: '2')
+                  entry: {
+                    action_date: '2008/2/10',
+                    name: 'テスト10',
+                    amount: '10,000',
+                    from_account_id: accounts(:credit4).id,
+                    to_account_id: accounts(:expense3).id
+                  },
+                  year: '2008',
+                  month: '2')
               init_credit_item = Item.where(action_date: Date.new(2008, 2, 10),
                                             from_account_id: accounts(:credit4).id,
                                             to_account_id: accounts(:expense3).id).first
@@ -3363,12 +3560,15 @@ describe EntriesController do
               @payment_id = init_payment_item.id
 
               @action = -> {
-                xhr(:put, :update, id: init_credit_item.id,
-                    entry: { name: 'テスト10',
+                xhr(:put, :update,
+                    id: init_credit_item.id,
+                    entry: {
+                      name: 'テスト10',
                       action_date: '2008/3/10',
                       amount: "20000",
                       from_account_id: accounts(:credit4).id.to_s,
-                      to_account_id: accounts(:expense3).id.to_s },
+                      to_account_id: accounts(:expense3).id.to_s
+                    },
                     year: init_credit_item.action_date.year,
                     month: init_credit_item.action_date.month)
               }
@@ -3424,11 +3624,15 @@ describe EntriesController do
             before do
               login
               xhr(:post, :create,
-                  entry: { action_date: '2008/2/10',
-                    name: 'テスト10', amount: '10,000',
+                  entry: {
+                    action_date: '2008/2/10',
+                    name: 'テスト10',
+                    amount: '10,000',
                     from_account_id: accounts(:credit4).id,
-                    to_account_id: accounts(:expense3).id },
-                  year: '2008', month: '2')
+                    to_account_id: accounts(:expense3).id
+                  },
+                  year: '2008',
+                  month: '2')
               init_credit_item = Item.where(action_date: Date.new(2008, 2, 10),
                                             from_account_id: accounts(:credit4).id,
                                             to_account_id: accounts(:expense3).id).first
@@ -3444,12 +3648,15 @@ describe EntriesController do
               @payment_id = init_payment_item.id
 
               @action = -> {
-                xhr(:put, :update, id: init_credit_item.id,
-                    entry: { name: 'テストUpdate10',
+                xhr(:put, :update,
+                    id: init_credit_item.id,
+                    entry: {
+                      name: 'テストUpdate10',
                       action_date: '2008/2/10',
                       amount: "20000",
                       from_account_id: accounts(:bank1).id.to_s,
-                      to_account_id: accounts(:expense13).id.to_s },
+                      to_account_id: accounts(:expense13).id.to_s
+                    },
                     year: init_credit_item.action_date.year.to_s,
                     month: init_credit_item.action_date.month.to_s)
               }
@@ -3498,10 +3705,14 @@ describe EntriesController do
             before do
               login
               xhr(:post, :create,
-                  entry: { action_date: '2008/2/10',
+                  entry: {
+                    action_date: '2008/2/10',
                     name: 'テスト10', amount: '10,000',
                     from_account_id: accounts(:credit4).id,
-                    to_account_id: accounts(:expense3).id }, year: '2008', month: '2')
+                    to_account_id: accounts(:expense3).id
+                  },
+                  year: '2008',
+                  month: '2')
               init_credit_item = Item.where(action_date: Date.new(2008, 2, 10),
                                             from_account_id: accounts(:credit4).id,
                                             to_account_id: accounts(:expense3).id).first
@@ -3517,7 +3728,8 @@ describe EntriesController do
               @payment_id = init_payment_item.id
 
               @action = -> {
-                xhr(:put, :update, id: init_credit_item.child_item.id,
+                xhr(:put, :update,
+                    id: init_credit_item.child_item.id,
                     entry: { action_date: Date.new(2008, 4, 21).strftime("%Y/%m/%d") },
                     year: init_credit_item.action_date.year,
                     month: init_credit_item.action_date.month)
@@ -3559,10 +3771,16 @@ describe EntriesController do
           context "to next month, which is after adjustment anyway," do
             before do
               login
-              xhr(:post, :create, entry: {
+              xhr(:post, :create,
+                  entry: {
                     action_date: '2008/1/10',
-                    name: 'テスト10', amount: '10,000', from_account_id: accounts(:credit4).id,
-                    to_account_id: accounts(:expense3).id }, year: '2008', month: '1')
+                    name: 'テスト10',
+                    amount: '10,000',
+                    from_account_id: accounts(:credit4).id,
+                    to_account_id: accounts(:expense3).id
+                  },
+                  year: '2008',
+                  month: '1')
               init_credit_item = Item.where(action_date: Date.new(2008, 1, 10),
                                             from_account_id: accounts(:credit4).id,
                                             to_account_id: accounts(:expense3).id).first
@@ -3578,7 +3796,8 @@ describe EntriesController do
               @payment_id = init_payment_item.id
 
               @action = -> {
-                xhr(:put, :update, id: init_credit_item.child_item.id,
+                xhr(:put, :update,
+                    id: init_credit_item.child_item.id,
                     entry: { action_date: Date.new(2008, 4, 20).strftime("%Y/%m/%d") },
                     year: init_credit_item.action_date.year,
                     month: init_credit_item.action_date.month)
@@ -3624,11 +3843,15 @@ describe EntriesController do
               login
               credit_relations(:cr1).update_attributes!(payment_day: 19)
               xhr(:post, :create,
-                  entry: { action_date: '2007/12/10',
-                    name: 'テスト10', amount: '10,000',
+                  entry: {
+                    action_date: '2007/12/10',
+                    name: 'テスト10',
+                    amount: '10,000',
                     from_account_id: accounts(:credit4).id,
-                    to_account_id: accounts(:expense3).id },
-                  year: '2008', month: '1')
+                    to_account_id: accounts(:expense3).id
+                  },
+                  year: '2008',
+                  month: '1')
               init_credit_item = Item.where(action_date: Date.new(2007, 12, 10),
                                             from_account_id: accounts(:credit4).id,
                                             to_account_id: accounts(:expense3).id).first
@@ -3644,7 +3867,8 @@ describe EntriesController do
               @payment_id = init_payment_item.id
 
               @action = -> {
-                xhr(:put, :update, id: init_credit_item.child_item.id,
+                xhr(:put, :update,
+                    id: init_credit_item.child_item.id,
                     entry: { action_date: Date.new(2008, 3, 1).strftime("%Y/%m/%d") },
                     year: init_credit_item.action_date.year,
                     month: init_credit_item.action_date.month)
