@@ -1491,7 +1491,6 @@ describe EntriesController do
             it { expect { @post.call }.to change { Item.find(@init_adj6.id).amount }.by(10_000) }
           end
 
-
           describe "the adjusted account's monthly_pl of the last month or before of the created item" do
             it { expect { @post.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
 
@@ -1801,7 +1800,6 @@ describe EntriesController do
             it { expect { @action.call }.to change { Tagging.where(user_id: users(:user1).id, taggable_type: 'Item').count }.by(2) }
           end
         end
-
 
         context "create adjustment to the same day as another ajustment's one," do
           context "input values are valid," do
@@ -2872,9 +2870,7 @@ describe EntriesController do
             its(:to_account_id) { should eq accounts(:expense3).id }
             it { should be_confirmation_required }
           end
-
         end
-
 
         describe "update without change month" do
           let(:old_item1) { items(:item1) }
@@ -3481,7 +3477,6 @@ describe EntriesController do
             describe "payment item" do
               it { expect { @action.call }.to change { Item.find_by_id(@payment_id) }.to(nil) }
             end
-
 
             describe "adjustment" do
               it { expect { @action.call }.to change { Item.find(items(:adjustment2).id).amount }.by(20_000) }
