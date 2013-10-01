@@ -9,7 +9,7 @@ describe Settings::UsersController do
       end
 
       describe "response" do
-        subject {response}
+        subject { response }
         it { should redirect_to login_url }
       end
     end
@@ -24,9 +24,9 @@ describe Settings::UsersController do
           get :show
         end
 
-        subject {response}
-        it {should be_success }
-        it {should render_template "show"}
+        subject { response }
+        it { should be_success }
+        it { should render_template "show" }
       end
     end
   end
@@ -38,8 +38,8 @@ describe Settings::UsersController do
       end
 
       describe "response" do
-        subject {response}
-        it {should redirect_by_js_to login_url }
+        subject { response }
+        it { should redirect_by_js_to login_url }
       end
     end
 
@@ -63,19 +63,19 @@ describe Settings::UsersController do
           end
 
           describe "response" do
-            subject {response}
-            it {should be_success}
-            it {should render_template "update"}
+            subject { response }
+            it { should be_success }
+            it { should render_template "update" }
           end
 
           describe "session" do
-            subject {session}
-            its([:user_id]) {should == users(:user1).id}
+            subject { session }
+            its([:user_id]) { should == users(:user1).id }
           end
 
           describe "@user_to_change" do
-            subject {assigns(:user_to_change)}
-            its(:object_id) {should == @user1.object_id}
+            subject { assigns(:user_to_change) }
+            its(:object_id) { should == @user1.object_id }
           end
         end
         context "when validation error happens." do
@@ -91,8 +91,8 @@ describe Settings::UsersController do
           end
 
           describe "response" do
-            subject {response}
-            it {should render_js_error  id: "warning", errors: @user1.errors, default_message: I18n.t('error.input_is_invalid')}
+            subject { response }
+            it { should render_js_error  id: "warning", errors: @user1.errors, default_message: I18n.t('error.input_is_invalid') }
           end
         end
       end
