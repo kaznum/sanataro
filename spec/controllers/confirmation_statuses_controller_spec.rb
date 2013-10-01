@@ -23,7 +23,7 @@ describe ConfirmationStatusesController do
       end
 
       describe "@entries" do
-        subject { assigns(:entries)}
+        subject { assigns(:entries) }
         it { should_not be_empty }
       end
     end
