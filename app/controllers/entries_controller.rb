@@ -100,7 +100,6 @@ class EntriesController < ApplicationController
     render 'new_simple', layout: false
   end
 
-
   def _xhr_action(warning_selector, &block)
     block.call
   rescue ActiveRecord::RecordNotFound
