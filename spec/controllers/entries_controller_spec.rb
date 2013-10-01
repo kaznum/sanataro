@@ -42,7 +42,7 @@ describe EntriesController do
         it_should_behave_like "Success"
 
         describe "@new_item" do
-          subject { assigns(:new_item)}
+          subject { assigns(:new_item) }
           its(:action_date) { should eq Date.today }
         end
 
@@ -79,15 +79,15 @@ describe EntriesController do
           it_should_behave_like "Success"
 
           describe "@new_item" do
-            subject { assigns(:new_item)}
-            its(:action_date) { should eq Date.new(2008,2) }
+            subject { assigns(:new_item) }
+            its(:action_date) { should eq Date.new(2008, 2) }
           end
 
           describe "@items" do
             subject { assigns(:items) }
             specify {
               subject.each do |item|
-                item.action_date.should be_between(Date.new(2008,2), Date.new(2008,2).end_of_month)
+                item.action_date.should be_between(Date.new(2008, 2), Date.new(2008, 2).end_of_month)
               end
             }
           end
@@ -116,7 +116,7 @@ describe EntriesController do
         end
 
         describe "@items" do
-          subject { assigns(:items)}
+          subject { assigns(:items) }
           it { should have(1).items }
         end
 
@@ -240,7 +240,7 @@ describe EntriesController do
             end
 
             describe "@items" do
-              subject { assigns(:items)}
+              subject { assigns(:items) }
               specify {
                 subject.each do |item|
                   [item.from_account_id, item.to_account_id].should include(accounts(:bank1).id)
@@ -279,7 +279,7 @@ describe EntriesController do
 
           context "after changing filter, access with filter_account_id = ''," do
             before do
-              @non_bank1_item = users(:user1).general_items.create!(name: "not bank1 entry", action_date: Date.new(2008,2,15), from_account_id: accounts(:income2).id, to_account_id: accounts(:expense3).id, amount: 1000)
+              @non_bank1_item = users(:user1).general_items.create!(name: "not bank1 entry", action_date: Date.new(2008, 2, 15), from_account_id: accounts(:income2).id, to_account_id: accounts(:expense3).id, amount: 1000)
               session[:filter_account_id].should eq accounts(:bank1).id
               xhr :get, :index, filter_account_id: "", year: '2008', month: '2'
             end
@@ -314,12 +314,12 @@ describe EntriesController do
         context "without other params," do
           describe "user.items.partials" do
             it "is called with :remain => true" do
-              stub_date_from = Date.new(2008,2)
-              stub_date_to = Date.new(2008,2).end_of_month
+              stub_date_from = Date.new(2008, 2)
+              stub_date_to = Date.new(2008, 2).end_of_month
               mock_items = users(:user1).items
               mock_user.should_receive(:items).and_return(mock_items)
               mock_items.should_receive(:partials).with(stub_date_from, stub_date_to,
-                                                            hash_including(remain: true)).and_return(Item.where(action_date: Date.new(2008,2)..Date.new(2008,2).end_of_month).load)
+                                                            hash_including(remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
               xhr :get, :index, remaining: 1, year: 2008, month: 2
             end
           end
@@ -328,7 +328,7 @@ describe EntriesController do
             before do
               mock_items = users(:user1).items
               mock_user.should_receive(:items).and_return(mock_items)
-              mock_items.stub(:partials).and_return(Item.where(action_date: Date.new(2008,2)..Date.new(2008,2).end_of_month).load)
+              mock_items.stub(:partials).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
               xhr :get, :index, remaining: true, year: 2008, month: 2
             end
 
@@ -347,14 +347,14 @@ describe EntriesController do
               mock_items = users(:user1).items
               mock_user.should_receive(:items).and_return(mock_items)
               mock_items.should_receive(:partials).with(nil, nil,
-                                                            hash_including(tag: 'xxx', remain: true)).and_return(Item.where(action_date: Date.new(2008,2)..Date.new(2008,2).end_of_month).load)
+                                                            hash_including(tag: 'xxx', remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
               xhr :get, :index, remaining: true, year: 2008, month: 2, tag: 'xxx'
             end
           end
 
           describe "other than user.items.partials," do
             before do
-              Item.stub(:partials).and_return(Item.where(action_date: Date.new(2008,2)..Date.new(2008,2).end_of_month).load)
+              Item.stub(:partials).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
               xhr :get, :index, remaining: true, year: 2008, month: 2, tag: 'xxx'
             end
 
@@ -502,7 +502,7 @@ describe EntriesController do
 
         describe "@item" do
           subject { assigns(:item) }
-          its(:action_date) { should eq Date.new(2008,5) }
+          its(:action_date) { should eq Date.new(2008, 5) }
           it { should_not be_adjustment }
         end
       end
@@ -510,9 +510,9 @@ describe EntriesController do
       context "with entry_type = adjustment in params," do
         shared_examples_for "respond successfully" do
           describe "response" do
-            subject {response}
+            subject { response }
             it { should be_success }
-            it { should render_template 'new'}
+            it { should render_template 'new' }
           end
         end
 
@@ -524,7 +524,7 @@ describe EntriesController do
           it_should_behave_like "respond successfully"
 
           describe "item" do
-            subject { assigns(:item)}
+            subject { assigns(:item) }
             its(:action_date) { should eq Date.today }
             it { should be_adjustment }
           end
@@ -540,7 +540,7 @@ describe EntriesController do
 
             describe "@item" do
               subject { assigns(:item) }
-              its(:action_date) { should eq Date.new(2009,5) }
+              its(:action_date) { should eq Date.new(2009, 5) }
               it { should be_adjustment }
             end
           end
@@ -553,7 +553,7 @@ describe EntriesController do
             it_should_behave_like "respond successfully"
 
             describe "item.action_date" do
-              subject { assigns(:item)}
+              subject { assigns(:item) }
               its(:action_date) { should eq Date.today }
               it { should be_adjustment }
             end
@@ -562,7 +562,7 @@ describe EntriesController do
       end
 
       context "with entry_type = simple in params," do
-        let(:mock_user) { users(:user1)}
+        let(:mock_user) { users(:user1) }
         before do
           mock_user
           User.should_receive(:find).with(mock_user.id).and_return(mock_user)
@@ -574,9 +574,9 @@ describe EntriesController do
         end
 
         describe "response" do
-          subject {response}
+          subject { response }
           it { should be_success }
-          it { should render_template 'new_simple'}
+          it { should render_template 'new_simple' }
         end
 
         describe "@data" do
@@ -585,8 +585,8 @@ describe EntriesController do
           its([:year]) { should eq Date.today.year }
           its([:month]) { should eq Date.today.month }
           its([:day]) { should eq Date.today.day}
-          its([:from_accounts]) { should eq [{ value: 'b', text: 'a'}, { value: 'd', text: 'c'}]}
-          its([:to_accounts]) { should eq [{ value: 'f', text: 'e'}, { value: 'h', text: 'g'}]}
+          its([:from_accounts]) { should eq [{ value: 'b', text: 'a'}, { value: 'd', text: 'c' }] }
+          its([:to_accounts]) { should eq [{ value: 'f', text: 'e'}, { value: 'h', text: 'g' }] }
         end
       end
     end
@@ -597,12 +597,12 @@ describe EntriesController do
       before do
         xhr :delete, :destroy, id: 12345
       end
-      subject {response}
-      it {should redirect_by_js_to login_url }
+      subject { response }
+      it { should redirect_by_js_to login_url }
     end
 
     context "after login," do
-      let(:mock_user) { users(:user1)}
+      let(:mock_user) { users(:user1) }
       before do
         mock_user
         User.should_receive(:find).with(mock_user.id).at_least(1).and_return(mock_user)
@@ -618,8 +618,8 @@ describe EntriesController do
         end
 
         describe "response" do
-          subject {response}
-          it {should redirect_by_js_to current_entries_url}
+          subject { response }
+          it { should redirect_by_js_to current_entries_url }
         end
       end
 
@@ -639,7 +639,7 @@ describe EntriesController do
           describe "response" do
             subject { response }
             it { should be_success }
-            its(:content_type) { should eq "text/javascript"}
+            its(:content_type) { should eq "text/javascript" }
           end
 
           describe "the specified item" do
@@ -666,13 +666,13 @@ describe EntriesController do
         context "given there is a future's adjustment whose id is to_account_id," do
           before do
             # prepare data to destroy
-            xhr :post, :create, entry: {name: 'test', amount: '1000', action_date: '2008/2/3', from_account_id: '2', to_account_id: '1'}, year: "2008", month: "2"
-            @item_to_del = Item.where(action_date: Date.new(2008,2,3), from_account_id: 2, to_account_id: 1).first
+            xhr :post, :create, entry: { name: 'test', amount: '1000', action_date: '2008/2/3', from_account_id: '2', to_account_id: '1' }, year: "2008", month: "2"
+            @item_to_del = Item.where(action_date: Date.new(2008, 2, 3), from_account_id: 2, to_account_id: 1).first
             @item_to_del.amount.should eq 1000
 
             @old_adj2 = items(:adjustment2)
             @old_bank1 = monthly_profit_losses(:bank1200802)
-            @old_income = MonthlyProfitLoss.where(user_id: users(:user1).id, account_id: accounts(:income2).id, month: Date.new(2008,2)).first
+            @old_income = MonthlyProfitLoss.where(user_id: users(:user1).id, account_id: accounts(:income2).id, month: Date.new(2008, 2)).first
 
             login
             date = @item_to_del.action_date
@@ -682,7 +682,7 @@ describe EntriesController do
           describe "response" do
             subject { response }
             it { should be_success }
-            its(:content_type) { should eq "text/javascript"}
+            its(:content_type) { should eq "text/javascript" }
           end
 
           describe "the specified item" do
@@ -712,8 +712,8 @@ describe EntriesController do
             login
             xhr :post, :create, entry: { name: 'test', amount: '1000', action_date: '2008/2/25', from_account_id: '11', to_account_id: '13' }, year: 2008, month: 2
             @item = Item.where(name: 'test', from_account_id: 11, to_account_id: 13).first
-            @old_bank11pl = MonthlyProfitLoss.where(account_id: 11, month: Date.new(2008,2)).first
-            @old_expense13pl = MonthlyProfitLoss.where(account_id: 13, month: Date.new(2008,2)).first
+            @old_bank11pl = MonthlyProfitLoss.where(account_id: 11, month: Date.new(2008, 2)).first
+            @old_expense13pl = MonthlyProfitLoss.where(account_id: 13, month: Date.new(2008, 2)).first
 
             xhr :delete, :destroy, id: @item.id, year: 2008, month: 2
           end
@@ -725,97 +725,97 @@ describe EntriesController do
 
           describe "amount of from_account" do
             subject { MonthlyProfitLoss.find(@old_bank11pl.id) }
-            its(:amount) { should eq @old_bank11pl.amount + @item.amount}
+            its(:amount) { should eq @old_bank11pl.amount + @item.amount }
           end
 
           describe "specified item" do
 
             it "should does not exist" do
-              expect{ Item.find(@item.id) }.to raise_error(ActiveRecord::RecordNotFound)
+              expect { Item.find(@item.id) }.to raise_error(ActiveRecord::RecordNotFound)
             end
           end
 
           describe "amount of to_account" do
             subject { MonthlyProfitLoss.find(@old_expense13pl.id) }
-            its(:amount) {should eq  @old_expense13pl.amount - @item.amount }
+            its(:amount) { should eq  @old_expense13pl.amount - @item.amount }
           end
         end
 
         context "when destroy the item which is assigned to credit card account," do
           context "and payment date is in 2 months," do
-            let(:action) { lambda {xhr :delete, :destroy, id: @item.id, year: 2008, month: 2}}
+            let(:action) { lambda { xhr :delete, :destroy, id: @item.id, year: 2008, month: 2 } }
             before do
               login
               # dummy data
-              xhr :post, :create, entry: {name: 'test', amount: '1000', action_date: '2008/2/10', from_account_id: '4', to_account_id: '3'}, year: 2008, month: 2
+              xhr :post, :create, entry: { name: 'test', amount: '1000', action_date: '2008/2/10', from_account_id: '4', to_account_id: '3' }, year: 2008, month: 2
               @item = Item.where(name: 'test', from_account_id: 4, to_account_id: 3).first
               @child_item = @item.child_item
             end
 
             describe "response" do
-              before { action.call}
+              before { action.call }
               subject { response }
               it { should be_success }
             end
 
             describe "specified item" do
-              before { action.call}
+              before { action.call }
               it 'should not exist' do
-                expect {Item.find(@item.id)}.to raise_error(ActiveRecord::RecordNotFound)
+                expect { Item.find(@item.id) }.to raise_error(ActiveRecord::RecordNotFound)
               end
             end
 
             describe "child item of the specified item" do
               before { action.call}
               it 'should not exist' do
-                expect {Item.find(@child_item.id)}.to raise_error(ActiveRecord::RecordNotFound)
+                expect { Item.find(@child_item.id) }.to raise_error(ActiveRecord::RecordNotFound)
               end
             end
 
             describe "profit_losses" do
-              it { expect { action.call }.to change{ MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,2)).sum(:amount)}.by(1000)}
-              it { expect { action.call }.to change{ MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008,2)).sum(:amount)}.by(-1000)}
-              it { expect { action.call }.to change{ MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,4)).sum(:amount)}.by(1000)}
-              it { expect { action.call }.to change{ MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,4)).sum(:amount)}.by(-1000)}
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 2)).sum(:amount) }.by(1000) }
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008, 2)).sum(:amount) }.by(-1000) }
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 4)).sum(:amount) }.by(1000) }
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 4)).sum(:amount) }.by(-1000) }
             end
           end
 
           context "and payment date is in same months," do
-            let(:action) { lambda {xhr :delete, :destroy, id: @item.id, year: 2008, month: 2}}
+            let(:action) { lambda { xhr :delete, :destroy, id: @item.id, year: 2008, month: 2 } }
             before do
               cr = credit_relations(:cr1)
               cr.update_attributes!(payment_month: 0, payment_day: 25, settlement_day: 11)
 
               login
               # dummy data
-              xhr :post, :create, entry: {name: 'test', amount: '1000', action_date: '2008/2/10', from_account_id: '4', to_account_id: '3'}, year: 2008, month: 2
+              xhr :post, :create, entry: { name: 'test', amount: '1000', action_date: '2008/2/10', from_account_id: '4', to_account_id: '3' }, year: 2008, month: 2
               @item = Item.where(name: 'test', from_account_id: 4, to_account_id: 3).first
               @child_item = @item.child_item
             end
 
             describe "response" do
-              before { action.call}
+              before { action.call }
               subject { response }
               it { should be_success }
-              its(:content_type) { should eq 'text/javascript'}
+              its(:content_type) { should eq 'text/javascript' }
             end
 
             describe "specified item" do
-              before { action.call}
+              before { action.call }
               it 'should not exist' do
-                expect {Item.find(@item.id)}.to raise_error(ActiveRecord::RecordNotFound)
+                expect { Item.find(@item.id) }.to raise_error(ActiveRecord::RecordNotFound)
               end
             end
 
             describe "future adjustment" do
-              it { expect { action.call }.to change{ Item.find(items(:adjustment6).id).amount }.by(-1000) }
+              it { expect { action.call }.to change { Item.find(items(:adjustment6).id).amount }.by(-1000) }
             end
 
             describe "profit_losses" do
-              it { expect { action.call }.not_to change{ MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,2)).sum(:amount)}}
-              it { expect { action.call }.to change{ MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008,2)).sum(:amount)}.by(-1000)}
-              it { expect { action.call }.to change{ MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,2)).sum(:amount)}.by(1000)}
-              it { expect { action.call }.to change{ MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,3)).sum(:amount)}.by(-1000)}
+              it { expect { action.call }.not_to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 2)).sum(:amount) } }
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008, 2)).sum(:amount) }.by(-1000) }
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 2)).sum(:amount) }.by(1000) }
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 3)).sum(:amount) }.by(-1000) }
             end
           end
         end
@@ -829,8 +829,8 @@ describe EntriesController do
             mock_items.should_receive(:find).with("20000").and_raise(ActiveRecord::RecordNotFound.new)
             xhr :delete, :destroy, id: 20000, year: Date.today.year, month: Date.today.month
           end
-          subject {response}
-          it {should redirect_by_js_to current_entries_url}
+          subject { response }
+          it { should redirect_by_js_to current_entries_url }
         end
 
         context "with correct id," do
@@ -843,7 +843,7 @@ describe EntriesController do
               @init_adj6 = Item.find(items(:adjustment6).id)
               @init_bank_pl = monthly_profit_losses(:bank1200802)
               @init_bank_pl = monthly_profit_losses(:bank1200802)
-              @init_unknown_pl = MonthlyProfitLoss.where(month: Date.new(2008,2), account_id: -1, user_id: users(:user1).id).first
+              @init_unknown_pl = MonthlyProfitLoss.where(month: Date.new(2008, 2), account_id: -1, user_id: users(:user1).id).first
 
               @action = lambda { xhr :delete, :destroy, id: items(:adjustment2).id, year: 2008, month: 2 }
             end
@@ -857,19 +857,19 @@ describe EntriesController do
             describe "specified item(adjustment2)" do
               before { @action.call }
               subject { Item.where(id: @init_adj2.id).first }
-              it {should be_nil}
+              it { should be_nil }
             end
 
             describe "adjustment4 which is next future adjustment" do
-              it { expect { @action.call }.to change{ Item.find(@init_adj4.id).amount }.by(@init_adj2.amount) }
+              it { expect { @action.call }.to change { Item.find(@init_adj4.id).amount }.by(@init_adj2.amount) }
             end
 
             describe "bank_pl amount" do
-              it { expect { @action.call}.not_to change { MonthlyProfitLoss.find(@init_bank_pl.id).amount}}
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(@init_bank_pl.id).amount } }
             end
 
             describe "unknown pl amount" do
-              it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(@init_unknown_pl.id).amount }}
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(@init_unknown_pl.id).amount } }
             end
           end
 
@@ -908,26 +908,26 @@ describe EntriesController do
 
             describe "next adjustment(adj6" do
               subject { Item.find_by_id(@init_adj6.id) }
-              its(:amount) {should eq @init_adj6.amount + @init_adj4.amount}
+              its(:amount) {should eq @init_adj6.amount + @init_adj4.amount }
             end
 
             describe "bank_2_pl" do
               subject { MonthlyProfitLoss.find(@init_bank_2_pl.id) }
-              its(:amount) { should eq @init_bank_2_pl.amount - @init_adj4.amount}
+              its(:amount) { should eq @init_bank_2_pl.amount - @init_adj4.amount }
             end
 
             describe "bank_3_pl" do
               subject { MonthlyProfitLoss.find(@init_bank_3_pl.id) }
-              its(:amount) { should eq @init_bank_3_pl.amount + @init_adj4.amount}
+              its(:amount) { should eq @init_bank_3_pl.amount + @init_adj4.amount }
             end
 
             describe "unknown_2_pl" do
-              subject { MonthlyProfitLoss.find(@init_unknown_2_pl.id)}
+              subject { MonthlyProfitLoss.find(@init_unknown_2_pl.id) }
               its(:amount) { should eq @init_unknown_2_pl.amount + @init_adj4.amount }
             end
 
             describe "unknown_3_pl" do
-              subject { MonthlyProfitLoss.find(@init_unknown_3_pl.id)}
+              subject { MonthlyProfitLoss.find(@init_unknown_3_pl.id) }
               its(:amount) { should eq @init_unknown_3_pl.amount - @init_adj4.amount }
             end
           end
@@ -942,13 +942,13 @@ describe EntriesController do
               @init_bank_2_pl = monthly_profit_losses(:bank1200802)
               @init_bank_3_pl = monthly_profit_losses(:bank1200803)
               @init_unknown_2_pl = MonthlyProfitLoss.new
-              @init_unknown_2_pl.month = Date.new(2008,2)
+              @init_unknown_2_pl.month = Date.new(2008, 2)
               @init_unknown_2_pl.account_id = -1
               @init_unknown_2_pl.amount = 100
               @init_unknown_2_pl.user_id = users(:user1).id
               @init_unknown_2_pl.save!
               @init_unknown_3_pl = MonthlyProfitLoss.new
-              @init_unknown_3_pl.month = Date.new(2008,3)
+              @init_unknown_3_pl.month = Date.new(2008, 3)
               @init_unknown_3_pl.account_id = -1
               @init_unknown_3_pl.amount = 311
               @init_unknown_3_pl.user_id = users(:user1).id
@@ -964,17 +964,17 @@ describe EntriesController do
             end
 
             describe "the adj before last adj(adj2)" do
-              subject {Item.find_by_id(@init_adj2.id)}
+              subject { Item.find_by_id(@init_adj2.id) }
               its(:amount) { should eq @init_adj2.amount }
             end
 
             describe "the last adj(adj4)" do
-              subject {Item.find_by_id(@init_adj4.id)}
+              subject { Item.find_by_id(@init_adj4.id) }
               its(:amount) { should eq @init_adj4.amount }
             end
 
             describe "specified adjustment(adj6)" do
-              subject {Item.find_by_id(@init_adj6.id)}
+              subject { Item.find_by_id(@init_adj6.id) }
               it { should be_nil }
             end
 
@@ -1045,7 +1045,7 @@ describe EntriesController do
         describe "response" do
           subject { response }
           it { should be_success }
-          it { should render_js_error id: 'warning', default_message: I18n.t("error.input_is_invalid")}
+          it { should render_js_error id: 'warning', default_message: I18n.t("error.input_is_invalid") }
         end
 
         describe "the count of items" do
@@ -1063,7 +1063,7 @@ describe EntriesController do
         describe "response" do
           subject { response }
           it { should be_success }
-          it { should render_js_error id: 'warning', default_message: I18n.t("error.date_is_invalid")}
+          it { should render_js_error id: 'warning', default_message: I18n.t("error.date_is_invalid") }
         end
 
         describe "the count of items" do
@@ -1082,7 +1082,7 @@ describe EntriesController do
       context "when input amount's syntax is incorrect," do
         before do
           @previous_item_count = Item.count
-          xhr :post, :create, entry: { action_date: Date.today.strftime("%Y/%m/%d"), name: 'hogehoge', amount: '1+x', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id}, year: Date.today.year, month: Date.today.month
+          xhr :post, :create, entry: { action_date: Date.today.strftime("%Y/%m/%d"), name: 'hogehoge', amount: '1+x', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id }, year: Date.today.year, month: Date.today.month
         end
         describe "response" do
           subject { response }
@@ -1099,7 +1099,7 @@ describe EntriesController do
       context "#create(only_add)" do
         before do
           @init_item_count = Item.count
-          xhr :post, :create, entry: { action_date: Date.today.strftime("%Y/%m/%d"), name: 'test10', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id}, only_add: 'true'
+          xhr :post, :create, entry: { action_date: Date.today.strftime("%Y/%m/%d"), name: 'test10', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id }, only_add: 'true'
         end
 
         it_should_behave_like "created successfully"
@@ -1158,7 +1158,7 @@ describe EntriesController do
       context "with confirmation_required == true" do
         before do
           @init_item_count = Item.count
-          xhr :post, :create, entry: { action_date: Date.today.strftime("%Y/%m/%d"), name: 'テスト10', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, confirmation_required: 'true', tag_list: 'hoge fuga'}, year: Date.today.year.to_s, month: Date.today.month.to_s
+          xhr :post, :create, entry: { action_date: Date.today.strftime("%Y/%m/%d"), name: 'テスト10', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, confirmation_required: 'true', tag_list: 'hoge fuga' }, year: Date.today.year.to_s, month: Date.today.month.to_s
         end
 
         it_should_behave_like "created successfully"
@@ -1186,7 +1186,7 @@ describe EntriesController do
       context "with confirmation_required == nil" do
         before do
           @init_item_count = Item.count
-          xhr :post, :create, entry: { action_date: Date.today.strftime("%Y/%m/%d"), name: 'テスト10', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, tag_list: 'hoge fuga'}, year: Date.today.year.to_s, month: Date.today.month.to_s
+          xhr :post, :create, entry: { action_date: Date.today.strftime("%Y/%m/%d"), name: 'テスト10', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, tag_list: 'hoge fuga' }, year: Date.today.year.to_s, month: Date.today.month.to_s
         end
 
         it_should_behave_like "created successfully"
@@ -1250,13 +1250,13 @@ describe EntriesController do
       context "when amount needs to be calcurated," do
         before do
           @init_item_count = Item.count
-          xhr :post, :create, entry: { action_date: Date.today.strftime("%Y/%m/%d"), name: 'テスト10', amount: '(10 + 10)/40*20', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, confirmation_required: ''}, year: Date.today.year, month: Date.today.month
+          xhr :post, :create, entry: { action_date: Date.today.strftime("%Y/%m/%d"), name: 'テスト10', amount: '(10 + 10)/40*20', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, confirmation_required: '' }, year: Date.today.year, month: Date.today.month
         end
 
         it_should_behave_like "created successfully"
 
         describe "count of items" do
-          subject { Item.count}
+          subject { Item.count }
           it { should eq @init_item_count + 1 }
         end
 
@@ -1269,7 +1269,7 @@ describe EntriesController do
       context "when amount needs to be calcurated, but syntax error exists," do
         before do
           @init_item_count = Item.count
-          xhr :post, :create, entry: { action_date: Date.today.strftime("%Y/%m/%d"), name: 'テスト10', amount: '(10+20*2.01', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, confirmation_required: ''}, year: Date.today.year, month: Date.today.month
+          xhr :post, :create, entry: { action_date: Date.today.strftime("%Y/%m/%d"), name: 'テスト10', amount: '(10+20*2.01', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, confirmation_required: '' }, year: Date.today.year, month: Date.today.month
         end
 
         describe "response" do
@@ -1278,7 +1278,7 @@ describe EntriesController do
         end
 
         describe "count of items" do
-          subject { Item.count}
+          subject { Item.count }
           it { should eq @init_item_count }
         end
       end
@@ -1287,7 +1287,7 @@ describe EntriesController do
         before do
           @init_item_count = Item.count
           login
-          xhr :post, :create, entry: { action_date: Date.today.strftime("%Y/%m/%d"), name: '', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id}, only_add: 'true'
+          xhr :post, :create, entry: { action_date: Date.today.strftime("%Y/%m/%d"), name: '', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id }, only_add: 'true'
         end
 
         describe "response" do
@@ -1317,7 +1317,7 @@ describe EntriesController do
         context "created before adjustment which is in the same month," do
           before do
             xhr(:post, :create,
-                entry: {action_date: @init_adj2.action_date.yesterday.strftime("%Y/%m/%d"),
+                entry: { action_date: @init_adj2.action_date.yesterday.strftime("%Y/%m/%d"),
                   name: 'テスト10', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id },
                 year: 2008, month: 2)
           end
@@ -1335,7 +1335,7 @@ describe EntriesController do
           end
 
           describe "adjustment which is the second next of the adjustment next to the created item" do
-            subject { Item.find(items(:adjustment6).id)}
+            subject { Item.find(items(:adjustment6).id) }
             its(:amount) { should eq @init_adj6.amount }
           end
 
@@ -1373,39 +1373,39 @@ describe EntriesController do
           end
 
           describe "adjustment which is before the created item" do
-            it { expect { @post.call }.not_to change{ Item.find(@init_adj2.id).amount }}
+            it { expect { @post.call }.not_to change{ Item.find(@init_adj2.id).amount } }
           end
 
           describe "adjustment which is next to the created item in the same month" do
-            it { expect { @post.call }.to change{ Item.find(@init_adj4.id).amount }.by(10000)}
+            it { expect { @post.call }.to change { Item.find(@init_adj4.id).amount }.by(10000) }
           end
 
           describe "adjustment which is second next to the created item in the next month" do
-            it { expect { @post.call }.not_to change{ Item.find(@init_adj6.id).amount }}
+            it { expect { @post.call }.not_to change { Item.find(@init_adj6.id).amount } }
           end
 
           describe "the adjusted account's monthly_pl of the last month of the created item" do
-            it { expect { @post.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
+            it { expect { @post.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
           end
 
           describe "the adjusted account's monthly_pl of the same month as that of the created item" do
-            it { expect { @post.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
+            it { expect { @post.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
           end
 
           describe "the adjusted account's monthly_pl of the next month of the created item" do
-            it { expect { @post.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount } }
+            it { expect { @post.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount } }
           end
 
           describe "the non-adjusted account's monthly_pl of the next month of the created item" do
             before do
               @post.call
             end
-            subject { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008,3,1)).first }
+            subject { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 3, 1)).first }
             it { should be_nil }
           end
 
           describe "the non-adjusted account's monthly_pl of the same month as the created item" do
-            it { expect { @post.call }.to change{ MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008,2,1)).first.amount }.by(10000) }
+            it { expect { @post.call }.to change{ MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 2, 1)).first.amount }.by(10000) }
           end
         end
 
@@ -1414,8 +1414,8 @@ describe EntriesController do
           before do
             @post = -> {
               xhr(:post, :create,
-                  entry: {action_date: @init_adj4.action_date.tomorrow.strftime("%Y/%m/%d"),
-                    name: 'テスト10', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id},
+                  entry: { action_date: @init_adj4.action_date.tomorrow.strftime("%Y/%m/%d"),
+                    name: 'テスト10', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id },
                   year: 2008, month: 2)
             }
           end
@@ -1428,40 +1428,40 @@ describe EntriesController do
           end
 
           describe "the adjustment of the month before the item" do
-            it { expect { @post.call }.not_to change{ Item.find(@init_adj2.id).amount } }
+            it { expect { @post.call }.not_to change { Item.find(@init_adj2.id).amount } }
           end
 
           describe "the adjustments of the date before the item" do
-            it { expect { @post.call }.not_to change{ Item.find(@init_adj2.id).amount } }
-            it { expect { @post.call }.not_to change{ Item.find(@init_adj4.id).amount } }
+            it { expect { @post.call }.not_to change { Item.find(@init_adj2.id).amount } }
+            it { expect { @post.call }.not_to change { Item.find(@init_adj4.id).amount } }
           end
 
           describe "the adjustments of the next of item" do
-            it { expect { @post.call }.to change{ Item.find(@init_adj6.id).amount }.by(10000) }
+            it { expect { @post.call }.to change { Item.find(@init_adj6.id).amount }.by(10000) }
           end
 
           describe "the adjusted account's monthly_pl of the last month of the created item" do
-            it { expect { @post.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
+            it { expect { @post.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
           end
 
           describe "the adjusted account's monthly_pl of the same month as that of the created item" do
-            it { expect { @post.call }.to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount }.by(-10000) }
+            it { expect { @post.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount }.by(-10000) }
           end
 
           describe "the adjusted account's monthly_pl of the next month of the created item" do
-            it { expect { @post.call }.to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(10000) }
+            it { expect { @post.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(10000) }
           end
 
           describe "the non-adjusted account's monthly_pl of the next month of the created item" do
             before do
               @post.call
             end
-            subject { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008,3,1)).first }
+            subject { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 3, 1)).first }
             it { should be_nil }
           end
 
           describe "the non-adjusted account's monthly_pl of the same month as the created item" do
-            it { expect { @post.call }.to change{ MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008,2,1)).first.amount }.by(10000) }
+            it { expect { @post.call }.to change { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 2, 1)).first.amount }.by(10000) }
           end
         end
 
@@ -1469,8 +1469,8 @@ describe EntriesController do
           before do
             @post = -> {
               xhr(:post, :create,
-                  entry: {action_date: @init_adj6.action_date.yesterday.strftime("%Y/%m/%d"),
-                    name: 'テスト10', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id},
+                  entry: { action_date: @init_adj6.action_date.yesterday.strftime("%Y/%m/%d"),
+                    name: 'テスト10', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id },
                   year: 2008, month: 2)
             }
           end
@@ -1483,30 +1483,30 @@ describe EntriesController do
           end
 
           describe "the adjustment of the month before the item" do
-            it { expect { @post.call }.not_to change{ Item.find(@init_adj2.id).amount } }
-            it { expect { @post.call }.not_to change{ Item.find(@init_adj4.id).amount } }
+            it { expect { @post.call }.not_to change { Item.find(@init_adj2.id).amount } }
+            it { expect { @post.call }.not_to change { Item.find(@init_adj4.id).amount } }
           end
 
           describe "the adjustments of the next of item" do
-            it { expect { @post.call }.to change{ Item.find(@init_adj6.id).amount }.by(10000) }
+            it { expect { @post.call }.to change { Item.find(@init_adj6.id).amount }.by(10000) }
           end
 
 
           describe "the adjusted account's monthly_pl of the last month or before of the created item" do
-            it { expect { @post.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
+            it { expect { @post.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
 
-            it { expect { @post.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
+            it { expect { @post.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
           end
 
           describe "the adjusted account's monthly_pl of the same month as that of the created item" do
-            it { expect { @post.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount } }
+            it { expect { @post.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount } }
           end
 
           describe "the non-adjusted account's monthly_pl of the same month as the created item which does not exist before." do
             before do
               @post.call
             end
-            subject { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008,3,1)).first.amount }
+            subject { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 3, 1)).first.amount }
             it { should eq 10000 }
           end
         end
@@ -1516,8 +1516,8 @@ describe EntriesController do
           before do
             @post = -> {
               xhr(:post, :create,
-                  entry: {action_date: @init_adj6.action_date.tomorrow.strftime("%Y/%m/%d"),
-                    name: 'テスト10', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id},
+                  entry: { action_date: @init_adj6.action_date.tomorrow.strftime("%Y/%m/%d"),
+                    name: 'テスト10', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id },
                   year: 2008, month: 2)
             }
           end
@@ -1530,26 +1530,26 @@ describe EntriesController do
           end
 
           describe "the adjustments before the item" do
-            it { expect { @post.call }.not_to change{ Item.find(@init_adj2.id).amount }}
-            it { expect { @post.call }.not_to change{ Item.find(@init_adj4.id).amount }}
-            it { expect { @post.call }.not_to change{ Item.find(@init_adj6.id).amount }}
+            it { expect { @post.call }.not_to change { Item.find(@init_adj2.id).amount } }
+            it { expect { @post.call }.not_to change { Item.find(@init_adj4.id).amount } }
+            it { expect { @post.call }.not_to change { Item.find(@init_adj6.id).amount } }
           end
 
           describe "the adjusted account's monthly_pl of the last month or before of the created item" do
-            it { expect { @post.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
+            it { expect { @post.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
 
-            it { expect { @post.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
+            it { expect { @post.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
           end
 
           describe "the adjusted account's monthly_pl of the same month as that of the created item" do
-            it { expect { @post.call }.to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(-10000) }
+            it { expect { @post.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(-10000) }
           end
 
           describe "the non-adjusted account's monthly_pl of the same month as the created item which does not exist before." do
             before do
               @post.call
             end
-            subject { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008,3,1)).first.amount }
+            subject { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 3, 1)).first.amount }
             it { should eq 10000 }
           end
         end
@@ -1566,7 +1566,7 @@ describe EntriesController do
           end
 
           let(:credit_item) {
-            Item.where(action_date: Date.new(2008,2,10),
+            Item.where(action_date: Date.new(2008, 2, 10),
                        from_account_id: accounts(:credit4).id,
                        to_account_id: accounts(:expense3).id,
                        amount: 10000,
@@ -1596,7 +1596,7 @@ describe EntriesController do
             subject { Item.where(parent_id: credit_item.id).find{|i| i.child_item.nil?} }
             its(:child_item) { should be_nil }
             its(:parent_item) { should eq credit_item }
-            its(:action_date) { should eq Date.new(2008, 2 + credit_relations(:cr1).payment_month,credit_relations(:cr1).payment_day) }
+            its(:action_date) { should eq Date.new(2008, 2 + credit_relations(:cr1).payment_month, credit_relations(:cr1).payment_day) }
             its(:from_account_id) { should eq credit_relations(:cr1).payment_account_id }
             its(:to_account_id) { should eq credit_relations(:cr1).credit_account_id }
             its(:amount) { should eq 10000 }
@@ -1611,9 +1611,9 @@ describe EntriesController do
             cr1.save.should be_true
 
             xhr(:post, :create,
-                entry: {action_date: '2008/02/25',
+                entry: { action_date: '2008/02/25',
                   name: 'テスト10', amount: '10,000',
-                  from_account_id: accounts(:credit4).id, to_account_id: accounts(:expense3).id},
+                  from_account_id: accounts(:credit4).id, to_account_id: accounts(:expense3).id },
                 year: 2008, month: 2)
           end
 
@@ -1624,7 +1624,7 @@ describe EntriesController do
           end
 
           let(:credit_item) {
-            Item.where(action_date: Date.new(2008,2,25),
+            Item.where(action_date: Date.new(2008, 2, 25),
                        from_account_id: accounts(:credit4).id,
                        to_account_id: accounts(:expense3).id,
                        amount: 10000, parent_id: nil).find{|i| i.child_item }
@@ -1636,7 +1636,7 @@ describe EntriesController do
             its(:amount) { should eq 10000 }
             its(:parent_id) { should be_nil }
             its(:child_item) { should_not be_nil }
-            its(:action_date) { should eq Date.new(2008,2,25)}
+            its(:action_date) { should eq Date.new(2008, 2, 25) }
           end
 
           describe "child item" do
@@ -1650,7 +1650,7 @@ describe EntriesController do
               its(:child_item) { should be_nil }
               its(:parent_id) { should eq credit_item.id }
               its(:id) { should eq credit_item.child_item.id }
-              its(:action_date) { should eq Date.new(2008, 3 + credit_relations(:cr1).payment_month,credit_relations(:cr1).payment_day) }
+              its(:action_date) { should eq Date.new(2008, 3 + credit_relations(:cr1).payment_month, credit_relations(:cr1).payment_day) }
               its(:from_account_id) { should eq credit_relations(:cr1).payment_account_id }
               its(:to_account_id) { should eq credit_relations(:cr1).credit_account_id }
               its(:amount) { should eq 10000 }
@@ -1681,7 +1681,7 @@ describe EntriesController do
           end
 
           let(:credit_item) {
-            Item.where(action_date: Date.new(2008,2,10),
+            Item.where(action_date: Date.new(2008, 2, 10),
                        from_account_id: accounts(:credit4).id,
                        to_account_id: accounts(:expense3).id,
                        amount: 10000, parent_id: nil).find{|i| i.child_item }
@@ -1693,7 +1693,7 @@ describe EntriesController do
             its(:amount) { should eq 10000 }
             its(:parent_id) { should be_nil }
             its(:child_item) { should_not be_nil }
-            its(:action_date) { should eq Date.new(2008,2,10)}
+            its(:action_date) { should eq Date.new(2008, 2, 10) }
           end
 
           describe "child item's count" do
@@ -1706,7 +1706,7 @@ describe EntriesController do
             its(:child_item) { should be_nil }
             its(:parent_id) { should eq credit_item.id }
             its(:id) { should eq credit_item.child_item.id }
-            its(:action_date) { should eq Date.new(2008, 2 + @cr1.payment_month,1).end_of_month }
+            its(:action_date) { should eq Date.new(2008, 2 + @cr1.payment_month, 1).end_of_month }
             its(:from_account_id) { should eq @cr1.payment_account_id }
             its(:to_account_id) { should eq @cr1.credit_account_id }
             its(:amount) { should eq 10000 }
@@ -1731,7 +1731,7 @@ describe EntriesController do
 
           describe "response" do
             before { @action.call }
-            subject {response}
+            subject { response }
             it { should be_success }
             its(:content_type) { should eq 'text/javascript' }
             it { should render_js_error id: "warning" }
@@ -1756,13 +1756,13 @@ describe EntriesController do
           end
 
           describe "count of Item" do
-            it { expect {@action.call}.to change { Item.count }.by(1) }
+            it { expect { @action.call}.to change { Item.count }.by(1) }
           end
 
           describe "@items" do
             before { @action.call }
 
-            subject { assigns(:items).all?{|it| (Date.new(2008,3,1)..Date.new(2008,3,31)).cover?(it.action_date) } }
+            subject { assigns(:items).all?{|it| (Date.new(2008, 3, 1)..Date.new(2008, 3, 31)).cover?(it.action_date) } }
             it { should be_true }
           end
 
@@ -1786,19 +1786,19 @@ describe EntriesController do
           end
 
           describe "profit losses" do
-            it { expect { @action.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200712).id).amount } }
-            it { expect { @action.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
-            it { expect { @action.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
-            it { expect { @action.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount } }
+            it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200712).id).amount } }
+            it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
+            it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
+            it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount } }
           end
 
           describe "tag" do
-            it { expect {@action.call}.to change{Tag.where(name: 'hoge').count}.by(1) }
-            it { expect {@action.call}.to change{Tag.where(name: 'fuga').count}.by(1) }
+            it { expect { @action.call}.to change {Tag.where(name: 'hoge').count }.by(1) }
+            it { expect { @action.call}.to change {Tag.where(name: 'fuga').count }.by(1) }
           end
 
           describe "taggings" do
-            it { expect {@action.call}.to change{Tagging.where(user_id: users(:user1).id, taggable_type: 'Item').count}.by(2) }
+            it { expect { @action.call}.to change {Tagging.where(user_id: users(:user1).id, taggable_type: 'Item').count }.by(2) }
           end
         end
 
@@ -1832,11 +1832,11 @@ describe EntriesController do
             end
 
             describe "future adjustment" do
-              it { expect { action.call }.to change{ Item.find(future_adj.id).amount }.by(existing_adj.adjustment_amount - 50) }
+              it { expect { action.call }.to change { Item.find(future_adj.id).amount }.by(existing_adj.adjustment_amount - 50) }
             end
 
             describe "monthly_pl" do
-              it { expect { action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount} }
+              it { expect { action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
             end
           end
 
@@ -1861,22 +1861,22 @@ describe EntriesController do
             end
 
             describe "all adjustments count" do
-              it { expect { action.call }.not_to change{ Adjustment.count } }
+              it { expect { action.call }.not_to change { Adjustment.count } }
             end
             describe "all item count" do
-              it { expect { action.call }.not_to change{ Item.count } }
+              it { expect { action.call }.not_to change { Item.count } }
             end
 
             describe "existing_adj" do
-              it { expect { action.call }.not_to change{ Item.find(existing_adj.id).amount }}
+              it { expect { action.call }.not_to change { Item.find(existing_adj.id).amount } }
             end
 
             describe "future adjustment" do
-              it { expect { action.call }.not_to change{ Item.find(future_adj.id).amount }}
+              it { expect { action.call }.not_to change { Item.find(future_adj.id).amount } }
             end
 
             describe "profit_losses" do
-              it { expect { action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount}}
+              it { expect { action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
             end
           end
 
@@ -1901,22 +1901,22 @@ describe EntriesController do
             end
 
             describe "all adjustments count" do
-              it { expect { action.call }.not_to change{ Adjustment.count } }
+              it { expect { action.call }.not_to change { Adjustment.count } }
             end
             describe "all item count" do
-              it { expect { action.call }.not_to change{ Item.count }}
+              it { expect { action.call }.not_to change { Item.count } }
             end
 
             describe "existing_adj" do
-              it { expect { action.call }.not_to change{ Item.find(existing_adj.id).amount }}
+              it { expect { action.call }.not_to change { Item.find(existing_adj.id).amount } }
             end
 
             describe "future adjustment" do
-              it { expect { action.call }.not_to change{ Item.find(future_adj.id).amount } }
+              it { expect { action.call }.not_to change { Item.find(future_adj.id).amount } }
             end
 
             describe "profit_losses" do
-              it { expect { action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount} }
+              it { expect { action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
             end
           end
         end
@@ -1947,7 +1947,7 @@ describe EntriesController do
           end
 
           describe "count of items" do
-            it { expect { action.call }.to change{ Item.count }.by(1) }
+            it { expect { action.call }.to change { Item.count }.by(1) }
           end
 
           describe "created adjustment" do
@@ -1983,10 +1983,10 @@ describe EntriesController do
           end
 
           describe "profit losses" do
-            it { expect { action.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200712).id).amount } }
-            it { expect { action.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
-            it { expect { action.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
-            it { expect { action.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount } }
+            it { expect { action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200712).id).amount } }
+            it { expect { action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
+            it { expect { action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
+            it { expect { action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount } }
           end
         end
 
@@ -2015,7 +2015,7 @@ describe EntriesController do
           end
 
           describe "count of items" do
-            it { expect { action.call }.to change{ Item.count }.by(1)}
+            it { expect { action.call }.to change { Item.count }.by(1) }
           end
 
           def total_amount_to(the_date)
@@ -2055,10 +2055,10 @@ describe EntriesController do
           end
 
           describe "profit losses" do
-            it { expect { action.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200712).id).amount } }
-            it { expect { action.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
-            it { expect { action.call }.to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount }.by(3000 - @amount_before)}
-            it { expect { action.call }.to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(@amount_before - 3000) }
+            it { expect { action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200712).id).amount } }
+            it { expect { action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
+            it { expect { action.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount }.by(3000 - @amount_before) }
+            it { expect { action.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(@amount_before - 3000) }
           end
         end
 
@@ -2087,7 +2087,7 @@ describe EntriesController do
           end
 
           describe "count of items" do
-            it { expect { action.call }.to change{ Item.count }.by(1) }
+            it { expect { action.call }.to change { Item.count }.by(1) }
           end
 
           def total_amount_to(the_date)
@@ -2127,10 +2127,10 @@ describe EntriesController do
           end
 
           describe "profit losses" do
-            it { expect { action.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200712).id).amount } }
-            it { expect { action.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
-            it { expect { action.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
-            it { expect { action.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount } }
+            it { expect { action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200712).id).amount } }
+            it { expect { action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
+            it { expect { action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
+            it { expect { action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount } }
           end
         end
 
@@ -2158,7 +2158,7 @@ describe EntriesController do
           end
 
           describe "count of items" do
-            it { expect { action.call }.to change{ Item.count }.by(1) }
+            it { expect { action.call }.to change { Item.count }.by(1) }
           end
 
           def total_amount_to(the_date)
@@ -2186,10 +2186,10 @@ describe EntriesController do
           end
 
           describe "profit losses" do
-            it { expect { action.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200712).id).amount } }
-            it { expect { action.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
-            it { expect { action.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
-            it { expect { action.call }.to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(3000 - @amount_before) }
+            it { expect { action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200712).id).amount } }
+            it { expect { action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
+            it { expect { action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
+            it { expect { action.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(3000 - @amount_before) }
           end
         end
       end
@@ -2206,7 +2206,7 @@ describe EntriesController do
       end
 
       describe "response" do
-        subject {response}
+        subject { response }
         it { should redirect_by_js_to login_url }
       end
     end
@@ -2232,15 +2232,15 @@ describe EntriesController do
             before do
               @action.call
             end
-            subject {response}
-            it {should be_success}
+            subject { response }
+            it { should be_success }
           end
 
           describe "item to update" do
-            it { expect{@action.call}.to change{Item.find(items(:adjustment2).id).updated_at} }
-            it { expect{@action.call}.to change{Item.find(items(:adjustment2).id).adjustment_amount}.to(3000)}
-            it { expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).from_account_id} }
-            it { expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).to_account_id} }
+            it { expect{ @action.call}.to change { Item.find(items(:adjustment2).id).updated_at } }
+            it { expect{ @action.call}.to change { Item.find(items(:adjustment2).id).adjustment_amount }.to(3000) }
+            it { expect{ @action.call}.not_to change { Item.find(items(:adjustment2).id).from_account_id } }
+            it { expect{ @action.call}.not_to change { Item.find(items(:adjustment2).id).to_account_id } }
           end
         end
 
@@ -2260,14 +2260,14 @@ describe EntriesController do
 
           describe "response" do
             before { @action.call }
-            subject {response}
-            it {should be_success}
+            subject { response }
+            it { should be_success }
           end
 
           describe "item to update" do
-            it { expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).amount} }
-            it { expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).adjustment_amount} }
-            it { expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).updated_at} }
+            it { expect{ @action.call}.not_to change { Item.find(items(:adjustment2).id).amount } }
+            it { expect{ @action.call}.not_to change { Item.find(items(:adjustment2).id).adjustment_amount } }
+            it { expect{ @action.call}.not_to change { Item.find(items(:adjustment2).id).updated_at } }
           end
         end
 
@@ -2287,15 +2287,15 @@ describe EntriesController do
 
           describe "response" do
             before { @action.call }
-            subject {response}
-            it {should be_success}
-            it { should render_js_error id: "item_warning_#{items(:adjustment2).id}" }
+            subject { response }
+            it { should be_success }
+            it { should render_js_error id: "item_warning_#{items(:adjustment2).id }" }
           end
 
           describe "item to update" do
-            it { expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).amount} }
-            it { expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).adjustment_amount} }
-            it { expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).updated_at} }
+            it { expect{ @action.call}.not_to change { Item.find(items(:adjustment2).id).amount } }
+            it { expect{ @action.call}.not_to change { Item.find(items(:adjustment2).id).adjustment_amount } }
+            it { expect{ @action.call}.not_to change { Item.find(items(:adjustment2).id).updated_at } }
           end
         end
 
@@ -2323,19 +2323,19 @@ describe EntriesController do
             before do
               @action.call
             end
-            subject {response}
-            it {should be_success}
+            subject { response }
+            it { should be_success }
           end
 
           describe "updated item" do
             before do
               @action.call
             end
-            subject {Item.find(@old_adj2.id)}
+            subject { Item.find(@old_adj2.id) }
             its(:adjustment_amount) { should eq 3000 }
             its(:action_date) { should eq @old_adj2.action_date }
             it { should be_adjustment }
-            its(:amount) {should eq 3000 - @old_adj2.adjustment_amount + @old_adj2.amount}
+            its(:amount) {should eq 3000 - @old_adj2.adjustment_amount + @old_adj2.amount }
             its(:tag_list) {should eq 'fuga hoge'}
           end
 
@@ -2343,7 +2343,7 @@ describe EntriesController do
             before do
               @action.call
             end
-            subject {Item.find(@old_adj4.id)}
+            subject { Item.find(@old_adj4.id) }
             its(:amount) {should eq @old_adj4.amount + @old_adj2.adjustment_amount - 3000 }
           end
 
@@ -2351,12 +2351,12 @@ describe EntriesController do
             before do
               @action.call
             end
-            subject {Item.find(@old_adj6.id)}
+            subject { Item.find(@old_adj6.id) }
             its(:amount) {should eq @old_adj6.amount }
           end
 
           describe "monthly pl" do
-            it { expect {@action.call}.not_to change{MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount} }
+            it { expect { @action.call}.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
           end
         end
 
@@ -2376,25 +2376,25 @@ describe EntriesController do
 
           describe "response" do
             before { @action.call }
-            subject {response}
-            it {should be_success}
+            subject { response }
+            it { should be_success }
           end
 
           describe "updated item" do
-            it { expect{@action.call}.to change{Item.find(items(:adjustment6).id).updated_at} }
-            it { expect{@action.call}.not_to change{Item.find(items(:adjustment6).id).action_date} }
-            it { expect{@action.call}.not_to change{Item.find(items(:adjustment6).id).adjustment?} }
-            it { expect{@action.call}.to change{Item.find(items(:adjustment6).id).adjustment_amount}.to(3000) }
-            it { expect{@action.call}.to change{Item.find(items(:adjustment6).id).amount}.by(3000 - @old_adj6.adjustment_amount) }
+            it { expect{ @action.call}.to change { Item.find(items(:adjustment6).id).updated_at } }
+            it { expect{ @action.call}.not_to change { Item.find(items(:adjustment6).id).action_date} }
+            it { expect{ @action.call}.not_to change { Item.find(items(:adjustment6).id).adjustment?} }
+            it { expect{ @action.call}.to change { Item.find(items(:adjustment6).id).adjustment_amount }.to(3000) }
+            it { expect{ @action.call}.to change { Item.find(items(:adjustment6).id).amount }.by(3000 - @old_adj6.adjustment_amount) }
           end
 
           describe "other adjustments" do
-            it { expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).amount} }
-            it { expect{@action.call}.not_to change{Item.find(items(:adjustment4).id).amount} }
+            it { expect{ @action.call}.not_to change { Item.find(items(:adjustment2).id).amount } }
+            it { expect{ @action.call}.not_to change { Item.find(items(:adjustment4).id).amount } }
           end
 
           describe "monthly pl" do
-            it { expect{@action.call}.to change{MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount}.by(3000 - @old_adj6.adjustment_amount) }
+            it { expect{ @action.call}.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(3000 - @old_adj6.adjustment_amount) }
           end
         end
 
@@ -2418,27 +2418,27 @@ describe EntriesController do
           end
 
           describe "response" do
-            before {@action.call}
-            subject {response}
-            it {should be_success}
+            before { @action.call}
+            subject { response }
+            it { should be_success }
           end
 
           describe "updated item" do
-            it { expect{@action.call}.to change{Item.find(items(:adjustment4).id).updated_at}}
-            it { expect{@action.call}.not_to change{Item.find(items(:adjustment4).id).action_date} }
-            it { expect{@action.call}.not_to change{Item.find(items(:adjustment4).id).adjustment?} }
-            it { expect{@action.call}.to change{Item.find(items(:adjustment4).id).adjustment_amount}.to(3000)}
-            it { expect{@action.call}.to change{Item.find(items(:adjustment4).id).amount}.by(3000 - @old_adj4.adjustment_amount)}
+            it { expect{ @action.call}.to change { Item.find(items(:adjustment4).id).updated_at } }
+            it { expect{ @action.call}.not_to change { Item.find(items(:adjustment4).id).action_date} }
+            it { expect{ @action.call}.not_to change { Item.find(items(:adjustment4).id).adjustment?} }
+            it { expect{ @action.call}.to change { Item.find(items(:adjustment4).id).adjustment_amount }.to(3000) }
+            it { expect{ @action.call}.to change { Item.find(items(:adjustment4).id).amount }.by(3000 - @old_adj4.adjustment_amount) }
           end
 
           describe "other adjustments" do
-            it { expect{@action.call}.not_to change{Item.find(items(:adjustment2).id).amount}}
-            it { expect{@action.call}.to change{Item.find(items(:adjustment6).id).amount}.by(@old_adj4.adjustment_amount - 3000)}
+            it { expect{ @action.call}.not_to change { Item.find(items(:adjustment2).id).amount } }
+            it { expect{ @action.call}.to change { Item.find(items(:adjustment6).id).amount }.by(@old_adj4.adjustment_amount - 3000) }
           end
 
           describe "monthly pl" do
-            it { expect{@action.call}.to change{MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount}.by(3000 - @old_adj4.adjustment_amount)}
-            it { expect{@action.call}.to change{MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount}.by(@old_adj4.adjustment_amount - 3000)}
+            it { expect{ @action.call}.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount }.by(3000 - @old_adj4.adjustment_amount) }
+            it { expect{ @action.call}.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(@old_adj4.adjustment_amount - 3000) }
           end
         end
 
@@ -2464,28 +2464,28 @@ describe EntriesController do
             before do
               @action.call
             end
-            subject {response}
-            it {should be_success}
+            subject { response }
+            it { should be_success }
           end
 
           describe "updated item" do
             def item
               Item.find(items(:adjustment2).id)
             end
-            it { expect{@action.call}.to change{item.adjustment_amount}.to(3000)}
-            it { expect{@action.call}.to change{item.action_date}.to(@date)}
-            it { expect{@action.call}.not_to change{item.adjustment?}}
-            it { expect{@action.call}.to change{item.amount}.by(3000 - @init_adj2.adjustment_amount)}
+            it { expect{ @action.call}.to change {item.adjustment_amount }.to(3000) }
+            it { expect{ @action.call}.to change {item.action_date }.to(@date) }
+            it { expect{ @action.call}.not_to change {item.adjustment?} }
+            it { expect{ @action.call}.to change {item.amount }.by(3000 - @init_adj2.adjustment_amount) }
           end
 
           describe "other adjustment items" do
-            it { expect{@action.call}.to change{Item.find(items(:adjustment4).id).amount}.by(@init_adj2.adjustment_amount - 3000)}
-            it { expect{@action.call}.not_to change{Item.find(items(:adjustment6).id).amount}}
+            it { expect{ @action.call}.to change { Item.find(items(:adjustment4).id).amount }.by(@init_adj2.adjustment_amount - 3000) }
+            it { expect{ @action.call}.not_to change { Item.find(items(:adjustment6).id).amount } }
           end
 
           describe "monthly pls" do
-            it { expect{@action.call}.not_to change{MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount} }
-            it { expect{@action.call}.not_to change{MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount} }
+            it { expect{ @action.call}.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
+            it { expect{ @action.call}.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount } }
           end
         end
 
@@ -2517,13 +2517,13 @@ describe EntriesController do
           end
 
           describe "response" do
-            before {@action.call}
-            subject {response}
-            it {should be_success}
+            before { @action.call}
+            subject { response }
+            it { should be_success }
           end
 
           describe "updated adjustment" do
-            before {@action.call}
+            before { @action.call}
             subject { Item.find(adj2_id) }
             its(:adjustment_amount) { should eq 3000 }
             its(:action_date) { should eq @date }
@@ -2568,7 +2568,7 @@ describe EntriesController do
                 scoped_items = Item.where("action_date < ?", @date)
                 scoped_items.where(to_account_id: 13).sum(:amount) - scoped_items.where(from_account_id: 13).sum(:amount)
               }
-              it { expect { @action.call }.to change { MonthlyProfitLoss.find(@new_adj_mpl.id).amount }.by(total - 3000)}
+              it { expect { @action.call }.to change { MonthlyProfitLoss.find(@new_adj_mpl.id).amount }.by(total - 3000) }
             end
           end
         end
@@ -2598,24 +2598,24 @@ describe EntriesController do
             its(:adjustment_amount) { should eq 3000 }
             it { should be_adjustment }
             its(:action_date) { should eq date }
-            its(:amount) { should eq 3000 - Account.asset(users(:user1), items(:adjustment2).to_account_id, date, items(:adjustment2).id )}
+            its(:amount) { should eq 3000 - Account.asset(users(:user1), items(:adjustment2).to_account_id, date, items(:adjustment2).id ) }
           end
 
           describe "other adjustments" do
             describe "adjustment4" do
-              before { @old_adj2 = items(:adjustment2)}
+              before { @old_adj2 = items(:adjustment2) }
               it { expect { @action.call }.to change { Item.find(items(:adjustment4).id).amount }.by(@old_adj2.amount) }
             end
 
             describe "adjustment6" do
-              before { @old_adj6 = items(:adjustment6)}
-              it { expect{ @action.call }.to change{ Item.find(items(:adjustment6).id).amount }.to(@old_adj6.adjustment_amount - 3000) }
+              before { @old_adj6 = items(:adjustment6) }
+              it { expect{ @action.call }.to change { Item.find(items(:adjustment6).id).amount }.to(@old_adj6.adjustment_amount - 3000) }
             end
           end
 
           describe "balance" do
-            it { expect {@action.call}.not_to change { Account.asset(users(:user1), items(:adjustment2).to_account_id, items(:adjustment4).action_date)} }
-            it { expect {@action.call}.not_to change { Account.asset(users(:user1), items(:adjustment2).to_account_id, items(:adjustment6).action_date)} }
+            it { expect { @action.call}.not_to change { Account.asset(users(:user1), items(:adjustment2).to_account_id, items(:adjustment4).action_date) } }
+            it { expect { @action.call}.not_to change { Account.asset(users(:user1), items(:adjustment2).to_account_id, items(:adjustment6).action_date) } }
 
             describe "balance at new adjustment2 date" do
               before { @action.call }
@@ -2625,8 +2625,8 @@ describe EntriesController do
           end
 
           describe "profit losses" do
-            it { expect {@action.call}.not_to change { MonthlyProfitLoss.where(month: Date.new(2008,2), account_id: items(:adjustment2).to_account_id).first.amount } }
-            it { expect {@action.call}.not_to change { MonthlyProfitLoss.where(month: Date.new(2008,3), account_id: items(:adjustment2).to_account_id).first.amount } }
+            it { expect { @action.call}.not_to change { MonthlyProfitLoss.where(month: Date.new(2008, 2), account_id: items(:adjustment2).to_account_id).first.amount } }
+            it { expect { @action.call}.not_to change { MonthlyProfitLoss.where(month: Date.new(2008, 3), account_id: items(:adjustment2).to_account_id).first.amount } }
           end
         end
 
@@ -2669,16 +2669,16 @@ describe EntriesController do
           end
 
           describe "the adjustment which was next to updated adjustment" do
-            it { expect { @action.call }.to change{Item.find(@init_adj4.id).amount}.by(@init_adj2.amount) }
+            it { expect { @action.call }.to change { Item.find(@init_adj4.id).amount }.by(@init_adj2.amount) }
           end
 
           describe "the adjustment which is in front of updated adjustment" do
-            it { expect { @action.call }.not_to change{Item.find(@init_adj6.id).amount} }
+            it { expect { @action.call }.not_to change { Item.find(@init_adj6.id).amount } }
           end
 
           describe "monthly profit losses" do
-            it { expect { @action.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount} }
-            it { expect { @action.call }.to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(3000 - @init_adj6.adjustment_amount) }
+            it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
+            it { expect { @action.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(3000 - @init_adj6.adjustment_amount) }
           end
         end
 
@@ -2716,19 +2716,19 @@ describe EntriesController do
 
             subject { Item.find(updated_id) }
             its(:adjustment_amount) { should eq 3000 }
-            its(:amount) { should eq 3000 - @asset}
+            its(:amount) { should eq 3000 - @asset }
             its(:action_date) { should eq date }
             it {should be_adjustment }
           end
 
           describe "the adjustment which is next to updated adjustment" do
             before { @asset = Account.asset(users(:user1), @init_adj6.to_account_id, date, updated_id) }
-            it { expect { @action.call }.to change{Item.find(@init_adj2.id).amount}.by(@asset - 3000) }
+            it { expect { @action.call }.to change { Item.find(@init_adj2.id).amount }.by(@asset - 3000) }
           end
 
           describe "monthly profit losses" do
-            it { expect { @action.call }.not_to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount} }
-            it { expect { @action.call }.to change{ MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by((-1) * @init_adj6.amount) }
+            it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
+            it { expect { @action.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by((-1) * @init_adj6.amount) }
           end
         end
       end
@@ -2741,7 +2741,7 @@ describe EntriesController do
           end
 
           describe "item to update" do
-            it { expect {@action.call}.not_to change{Item.find(items(:item1).id).updated_at} }
+            it { expect { @action.call}.not_to change { Item.find(items(:item1).id).updated_at } }
           end
         end
 
@@ -2763,19 +2763,19 @@ describe EntriesController do
           end
 
           describe "response" do
-            before {@action.call}
-            subject {response}
-            it {should be_success}
+            before { @action.call}
+            subject { response }
+            it { should be_success }
           end
 
           describe "item to update" do
             def item
               Item.find(@old_item1.id)
             end
-            it { expect {@action.call}.not_to change{item.updated_at} }
-            it { expect {@action.call}.not_to change{item.name}}
-            it { expect {@action.call}.not_to change{item.action_date}}
-            it { expect {@action.call}.not_to change{item.amount}}
+            it { expect { @action.call}.not_to change {item.updated_at } }
+            it { expect { @action.call}.not_to change {item.name} }
+            it { expect { @action.call}.not_to change {item.action_date} }
+            it { expect { @action.call}.not_to change {item.amount } }
           end
         end
 
@@ -2798,20 +2798,20 @@ describe EntriesController do
           end
 
           describe "response" do
-            before {@action.call}
-            subject {response}
-            it {should be_success}
-            it { should render_js_error id: "item_warning_#{@old_item1.id}" }
+            before { @action.call}
+            subject { response }
+            it { should be_success }
+            it { should render_js_error id: "item_warning_#{ @old_item1.id }" }
           end
 
           describe "item to update" do
             def item
               Item.find(@old_item1.id)
             end
-            it { expect {@action.call}.not_to change{item.updated_at}}
-            it { expect {@action.call}.not_to change{item.name}}
-            it { expect {@action.call}.not_to change{item.action_date}}
-            it { expect {@action.call}.not_to change{item.amount}}
+            it { expect { @action.call}.not_to change {item.updated_at } }
+            it { expect { @action.call}.not_to change {item.name} }
+            it { expect { @action.call}.not_to change {item.action_date} }
+            it { expect { @action.call}.not_to change {item.amount } }
           end
         end
 
@@ -2828,17 +2828,17 @@ describe EntriesController do
           end
 
           describe "response" do
-            subject {response}
-            it {should be_success}
+            subject { response }
+            it { should be_success }
           end
 
           describe "updated item" do
-            subject {Item.find(@old_item11.id)}
+            subject { Item.find(@old_item11.id) }
             its(:name) {should eq 'テスト11'}
             its(:action_date) {should eq @old_item11.action_date}
             its(:amount) {should eq 100000}
-            its(:from_account_id) {should eq accounts(:bank1).id}
-            its(:to_account_id) {should eq accounts(:expense3).id}
+            its(:from_account_id) {should eq accounts(:bank1).id }
+            its(:to_account_id) {should eq accounts(:expense3).id }
           end
         end
 
@@ -2859,18 +2859,18 @@ describe EntriesController do
           end
 
           describe "response" do
-            subject {response}
-            it {should be_success}
+            subject { response }
+            it { should be_success }
           end
 
           describe "updated item" do
-            subject {Item.find(@old_item1.id)}
+            subject { Item.find(@old_item1.id) }
             its(:name) {should eq 'テスト10000'}
             its(:action_date) {should eq @date}
             its(:amount) { should eq((80*1.007).to_i) }
-            its(:from_account_id) {should eq accounts(:bank1).id}
-            its(:to_account_id) {should eq accounts(:expense3).id}
-            it {should be_confirmation_required}
+            its(:from_account_id) {should eq accounts(:bank1).id }
+            its(:to_account_id) {should eq accounts(:expense3).id }
+            it {should be_confirmation_required }
           end
 
         end
@@ -2884,7 +2884,7 @@ describe EntriesController do
               @action = -> {
                 xhr(:put, :update, id: old_item1.id,
                     entry: { name: 'テスト10',
-                      action_date: Date.new(old_item1.action_date.year,old_item1.action_date.month,18).strftime("%Y/%m/%d"),
+                      action_date: Date.new(old_item1.action_date.year, old_item1.action_date.month,18).strftime("%Y/%m/%d"),
                       amount: "100000",
                       from_account_id: accounts(:bank1).id.to_s,
                       to_account_id: accounts(:expense3).id.to_s,
@@ -2898,7 +2898,7 @@ describe EntriesController do
               before do
                 @action.call
               end
-              subject {response}
+              subject { response }
               it { should be_success }
             end
 
@@ -2906,25 +2906,25 @@ describe EntriesController do
               before do
                 @action.call
               end
-              subject { Item.find(old_item1.id)}
+              subject { Item.find(old_item1.id) }
               its(:name) { should eq 'テスト10'}
-              its(:action_date) {should eq Date.new(old_action_date.year, old_action_date.month, 18)}
+              its(:action_date) {should eq Date.new(old_action_date.year, old_action_date.month, 18) }
               its(:amount) { should eq 100000 }
-              its(:from_account_id) { should eq accounts(:bank1).id}
-              its(:to_account_id) { should eq accounts(:expense3).id}
+              its(:from_account_id) { should eq accounts(:bank1).id }
+              its(:to_account_id) { should eq accounts(:expense3).id }
               it {should_not be_confirmation_required }
             end
 
             describe "adjustment which is in the same month" do
               let(:adj_id) { items(:adjustment2).id }
-              it { expect { @action.call }.to change{ Item.find(adj_id).amount }.by(100000 - old_item1.amount) }
+              it { expect { @action.call }.to change { Item.find(adj_id).amount }.by(100000 - old_item1.amount) }
             end
 
             describe "adjustment which is in the next month or after" do
               let(:id4) { items(:adjustment4).id }
               let(:id6) { items(:adjustment6).id }
-              it { expect { @action.call }.not_to change{ Item.find(id4).amount} }
-              it { expect { @action.call }.not_to change{ Item.find(id6).amount} }
+              it { expect { @action.call }.not_to change { Item.find(id4).amount } }
+              it { expect { @action.call }.not_to change { Item.find(id6).amount } }
             end
 
             describe "profit losses of the months before the updated item" do
@@ -2932,21 +2932,21 @@ describe EntriesController do
               let(:in200801_id) { monthly_profit_losses(:bank1200801).id }
               let(:out200712_id) { monthly_profit_losses(:expense3200712).id }
               let(:out200801_id) { monthly_profit_losses(:expense3200801).id }
-              it { expect { @action.call }.not_to change{ MonthlyProfitLoss.find(in200712_id).amount} }
-              it { expect { @action.call }.not_to change{ MonthlyProfitLoss.find(in200801_id).amount} }
-              it { expect { @action.call }.not_to change{ MonthlyProfitLoss.find(out200712_id).amount} }
-              it { expect { @action.call }.not_to change{ MonthlyProfitLoss.find(out200801_id).amount} }
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(in200712_id).amount } }
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(in200801_id).amount } }
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(out200712_id).amount } }
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(out200801_id).amount } }
             end
 
             describe "profit loss whose account has some adjustments in the same month (> day) as the updated item" do
               let(:in200802_id) { monthly_profit_losses(:bank1200802).id }
-              it { expect { @action.call }.not_to change{ MonthlyProfitLoss.find(in200802_id).amount} }
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(in200802_id).amount } }
             end
 
             describe "profit loss of the future months" do
               context "when profit loss exists," do
                 let(:in200803_id) { monthly_profit_losses(:bank1200803).id }
-                it { expect { @action.call }.not_to change{ MonthlyProfitLoss.find(in200803_id).amount} }
+                it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(in200803_id).amount } }
               end
 
               describe "when profit loss doesnot exist" do
@@ -2954,7 +2954,7 @@ describe EntriesController do
                   @action.call
                 end
 
-                subject { MonthlyProfitLoss.where(user_id: users(:user1).id, account_id: accounts(:expense3).id, month: Date.new(2008,3,1)).first}
+                subject { MonthlyProfitLoss.where(user_id: users(:user1).id, account_id: accounts(:expense3).id, month: Date.new(2008, 3, 1)).first }
                 it { should be_nil }
               end
             end
@@ -2965,7 +2965,7 @@ describe EntriesController do
               @action = -> {
                 xhr(:put, :update, id: old_item1.id,
                     entry: { name: 'テスト10',
-                      action_date: Date.new(old_item1.action_date.year,old_item1.action_date.month,18).strftime("%Y/%m/%d"),
+                      action_date: Date.new(old_item1.action_date.year, old_item1.action_date.month,18).strftime("%Y/%m/%d"),
                       amount: "100000",
                       from_account_id: accounts(:bank1).id.to_s,
                       to_account_id: accounts(:expense3).id.to_s,
@@ -3000,7 +3000,7 @@ describe EntriesController do
                 @action.call
               end
 
-              subject { Item.find(old_item1.id)}
+              subject { Item.find(old_item1.id) }
               its(:tag_list) { should eq 'fuga hoge'}
             end
           end
@@ -3032,8 +3032,8 @@ describe EntriesController do
           end
 
           describe "updated item" do
-            before {@action.call}
-            subject {Item.find(item1_id)}
+            before { @action.call}
+            subject { Item.find(item1_id) }
             its(:name) { should eq "テスト20" }
             its(:amount) { should eq 20000 }
             its(:from_account_id) { should eq accounts(:bank1).id }
@@ -3047,17 +3047,17 @@ describe EntriesController do
               before do
                 @old_adj2 = items(:adjustment2)
               end
-              it { expect{@action.call}.to change{Item.find(adj2_id).amount}.by( -1 *  @old_item1.amount)}
+              it { expect{ @action.call}.to change { Item.find(adj2_id).amount }.by( -1 *  @old_item1.amount) }
             end
 
             describe "adj4" do
               before { @old_adj4 = items(:adjustment4) }
-              it { expect{@action.call}.not_to change{Item.find(adj4_id).amount}}
+              it { expect{ @action.call}.not_to change { Item.find(adj4_id).amount } }
             end
 
             describe "adj6" do
               before { @old_adj4 = items(:adjustment4) }
-              it { expect{@action.call}.to change{Item.find(adj6_id).amount}.by(20000) }
+              it { expect{ @action.call}.to change { Item.find(adj6_id).amount }.by(20000) }
             end
           end
 
@@ -3073,10 +3073,10 @@ describe EntriesController do
               @old_pl200803 = monthly_profit_losses(:bank1200803)
             end
 
-            it { expect {@action.call}.not_to change{MonthlyProfitLoss.find(@old_pl200712.id).amount}}
-            it { expect {@action.call}.not_to change{MonthlyProfitLoss.find(@old_pl200801.id).amount}}
-            it { expect {@action.call}.to change{MonthlyProfitLoss.find(@old_pl200802.id).amount}.by(-20000) }
-            it { expect {@action.call}.to change{MonthlyProfitLoss.find(@old_pl200803.id).amount}.by(20000)}
+            it { expect { @action.call}.not_to change { MonthlyProfitLoss.find(@old_pl200712.id).amount } }
+            it { expect { @action.call}.not_to change { MonthlyProfitLoss.find(@old_pl200801.id).amount } }
+            it { expect { @action.call}.to change { MonthlyProfitLoss.find(@old_pl200802.id).amount }.by(-20000) }
+            it { expect { @action.call}.to change { MonthlyProfitLoss.find(@old_pl200803.id).amount }.by(20000) }
           end
         end
 
@@ -3118,13 +3118,13 @@ describe EntriesController do
           end
 
           describe "adjustments" do
-            it { expect { @action.call }.not_to change{ Item.find(@adj4.id).amount }}
-            it { expect { @action.call }.to change{ Item.find(@adj6.id).amount }.by(20000 - @item5.amount)}
+            it { expect { @action.call }.not_to change { Item.find(@adj4.id).amount } }
+            it { expect { @action.call }.to change { Item.find(@adj6.id).amount }.by(20000 - @item5.amount) }
           end
 
           describe "monthly pls" do
-            it { expect { @action.call }.to change{ MonthlyProfitLoss.find(@pl200802.id).amount }.by(-20000 + @item5.amount)}
-            it { expect { @action.call }.to change{ MonthlyProfitLoss.find(@pl200803.id).amount }.by(20000 - @item5.amount)}
+            it { expect { @action.call }.to change { MonthlyProfitLoss.find(@pl200802.id).amount }.by(-20000 + @item5.amount) }
+            it { expect { @action.call }.to change { MonthlyProfitLoss.find(@pl200803.id).amount }.by(20000 - @item5.amount) }
           end
         end
 
@@ -3165,13 +3165,13 @@ describe EntriesController do
           end
 
           describe "adjustments" do
-            it { expect { @action.call }.to change{ Item.find(@adj4.id).amount }.by((-1) * @item3.amount)}
-            it { expect { @action.call }.to change{ Item.find(@adj6.id).amount }.by(300)}
+            it { expect { @action.call }.to change { Item.find(@adj4.id).amount }.by((-1) * @item3.amount) }
+            it { expect { @action.call }.to change { Item.find(@adj6.id).amount }.by(300) }
           end
 
           describe "monthly pls" do
-            it { expect { @action.call }.not_to change{ MonthlyProfitLoss.find(@pl200802.id).amount }}
-            it { expect { @action.call }.not_to change{ MonthlyProfitLoss.find(@pl200803.id).amount }}
+            it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(@pl200802.id).amount } }
+            it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(@pl200803.id).amount } }
           end
         end
 
@@ -3213,13 +3213,13 @@ describe EntriesController do
           end
 
           describe "adjustments" do
-            it { expect { @action.call }.to change{ Item.find(@adj4.id).amount }.by((-1)*@item3.amount)}
-            it { expect { @action.call }.to change{ Item.find(@adj6.id).amount }.by(300)}
+            it { expect { @action.call }.to change { Item.find(@adj4.id).amount }.by((-1)*@item3.amount) }
+            it { expect { @action.call }.to change { Item.find(@adj6.id).amount }.by(300) }
           end
 
           describe "monthly pls" do
-            it { expect { @action.call }.not_to change{ MonthlyProfitLoss.find(@pl200802.id).amount }}
-            it { expect { @action.call }.not_to change{ MonthlyProfitLoss.find(@pl200803.id).amount }}
+            it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(@pl200802.id).amount } }
+            it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(@pl200803.id).amount } }
           end
         end
 
@@ -3261,14 +3261,14 @@ describe EntriesController do
           end
 
           describe "adjustments" do
-            it { expect { @action.call }.to change{ Item.find(@adj2.id).amount }.by((-1)*@item1.amount)}
-            it { expect { @action.call }.not_to change{ Item.find(@adj4.id).amount }}
-            it { expect { @action.call }.not_to change{ Item.find(@adj6.id).amount }}
+            it { expect { @action.call }.to change { Item.find(@adj2.id).amount }.by((-1)*@item1.amount) }
+            it { expect { @action.call }.not_to change { Item.find(@adj4.id).amount } }
+            it { expect { @action.call }.not_to change { Item.find(@adj6.id).amount } }
           end
 
           describe "monthly pls" do
-            it { expect { @action.call }.not_to change{ MonthlyProfitLoss.find(@pl200802.id).amount }}
-            it { expect { @action.call }.to change{ MonthlyProfitLoss.find(@pl200803.id).amount }.by(-300)}
+            it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(@pl200802.id).amount } }
+            it { expect { @action.call }.to change { MonthlyProfitLoss.find(@pl200803.id).amount }.by(-300) }
           end
         end
 
@@ -3277,11 +3277,11 @@ describe EntriesController do
             before do
               login
               xhr(:post, :create,
-                  entry: {action_date: '2008/2/10',
+                  entry: { action_date: '2008/2/10',
                     name: 'テスト10', amount: '10,000', from_account_id: accounts(:credit4).id,
-                    to_account_id: accounts(:expense3).id},
+                    to_account_id: accounts(:expense3).id },
                   year: '2008', month: '2')
-              init_credit_item = Item.where(action_date: Date.new(2008,2,10),
+              init_credit_item = Item.where(action_date: Date.new(2008, 2, 10),
                                             from_account_id: accounts(:credit4).id,
                                             to_account_id: accounts(:expense3).id).first
 
@@ -3292,11 +3292,11 @@ describe EntriesController do
               init_payment_item.amount.should eq 10000
               init_payment_item.to_account_id.should eq init_credit_item.from_account_id
               init_payment_item.from_account_id.should eq 1
-              init_payment_item.action_date.should eq Date.new(2008,4,20)
+              init_payment_item.action_date.should eq Date.new(2008, 4, 20)
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
-              init_payment_item.update_attributes!(action_date: Date.new(2008,6,1))
+              init_payment_item.update_attributes!(action_date: Date.new(2008, 6, 1))
 
               @action = -> {
                 xhr(:put, :update, id: init_credit_item.id,
@@ -3314,33 +3314,33 @@ describe EntriesController do
               before do
                 @action.call
               end
-              subject {response}
-              it {should be_success}
+              subject { response }
+              it { should be_success }
             end
 
             describe "the number of items" do
-              it { expect { @action.call }.not_to change{Item.count}}
+              it { expect { @action.call }.not_to change { Item.count } }
             end
 
             describe "updated item" do
-              it { expect { @action.call }.to change{Item.find(@credit_id).amount}.to(20000)}
-              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.id}}
+              it { expect { @action.call }.to change { Item.find(@credit_id).amount }.to(20000) }
+              it { expect { @action.call }.not_to change { Item.find(@credit_id).child_item.id } }
             end
 
             describe "payment item" do
-              it { expect { @action.call }.to change{ Item.find(@credit_id).child_item.amount}.to(20000)}
-              it { expect { @action.call }.to change{ Item.find(@credit_id).child_item.name}.to('テスト20')}
-              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.from_account_id}}
-              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.action_date}}
+              it { expect { @action.call }.to change { Item.find(@credit_id).child_item.amount }.to(20000) }
+              it { expect { @action.call }.to change { Item.find(@credit_id).child_item.name}.to('テスト20') }
+              it { expect { @action.call }.not_to change { Item.find(@credit_id).child_item.from_account_id } }
+              it { expect { @action.call }.not_to change { Item.find(@credit_id).child_item.action_date} }
             end
 
             describe "monthly profit losses" do
-              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,2,1)).first.amount}.by(-10000)}
-              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008,2,1)).first.amount}.by(10000)}
-              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,4,1)).first.amount}}
-              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,4,1)).first.amount}}
-              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,6,1)).first.amount}.by(10000)}
-              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,6,1)).first.amount}.by(-10000)}
+              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 2, 1)).first.amount }.by(-10000) }
+              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008, 2, 1)).first.amount }.by(10000) }
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 4, 1)).first.amount } }
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 4, 1)).first.amount } }
+              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 6, 1)).first.amount }.by(10000) }
+              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 6, 1)).first.amount }.by(-10000) }
             end
           end
 
@@ -3350,9 +3350,9 @@ describe EntriesController do
               xhr(:post, :create,
                   entry: { action_date: '2008/2/10',
                     name: 'テスト10', amount: '10,000', from_account_id: accounts(:credit4).id,
-                    to_account_id: accounts(:expense3).id},
+                    to_account_id: accounts(:expense3).id },
                   year: '2008', month: '2')
-              init_credit_item = Item.where(action_date: Date.new(2008,2,10),
+              init_credit_item = Item.where(action_date: Date.new(2008, 2, 10),
                                             from_account_id: accounts(:credit4).id,
                                             to_account_id: accounts(:expense3).id).first
 
@@ -3362,7 +3362,7 @@ describe EntriesController do
               init_payment_item.amount.should eq 10000
               init_payment_item.to_account_id.should eq init_credit_item.from_account_id
               init_payment_item.from_account_id.should eq 1
-              init_payment_item.action_date.should eq Date.new(2008,4,20)
+              init_payment_item.action_date.should eq Date.new(2008, 4, 20)
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
@@ -3382,44 +3382,44 @@ describe EntriesController do
               before do
                 @action.call
               end
-              subject {response}
-              it {should be_success}
+              subject { response }
+              it { should be_success }
             end
 
             describe "the number of items" do
-              it { expect { @action.call }.not_to change{Item.count}}
+              it { expect { @action.call }.not_to change { Item.count } }
             end
 
             describe "updated item" do
-              it { expect { @action.call }.to change{Item.find(@credit_id).amount}.to(20000)}
-              it { expect { @action.call }.to change{Item.find(@credit_id).action_date}.to(Date.new(2008,3,10))}
-              it { expect { @action.call }.to change{Item.find(@credit_id).child_item.id}}
+              it { expect { @action.call }.to change { Item.find(@credit_id).amount }.to(20000) }
+              it { expect { @action.call }.to change { Item.find(@credit_id).action_date }.to(Date.new(2008, 3, 10)) }
+              it { expect { @action.call }.to change { Item.find(@credit_id).child_item.id } }
             end
 
             describe "payment item" do
-              it { expect { @action.call }.to change{Item.find(Item.find(@credit_id).child_item.id).amount}.to(20000)}
-              it { expect { @action.call }.not_to change{Item.find(Item.find(@credit_id).child_item.id).from_account_id}}
-              it { expect { @action.call }.to change{Item.find(Item.find(@credit_id).child_item.id).action_date}.to(Date.new(2008,5,20))}
+              it { expect { @action.call }.to change { Item.find(Item.find(@credit_id).child_item.id).amount }.to(20000) }
+              it { expect { @action.call }.not_to change { Item.find(Item.find(@credit_id).child_item.id).from_account_id } }
+              it { expect { @action.call }.to change { Item.find(Item.find(@credit_id).child_item.id).action_date }.to(Date.new(2008, 5, 20)) }
             end
 
             describe "monthly profit losses" do
               describe "credit prev action_date's month" do
-                it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,2,1)).sum(:amount)}.by(10000)}
-                it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008,2,1)).sum(:amount)}.by(-10000)}
+                it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 2, 1)).sum(:amount) }.by(10000) }
+                it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008, 2, 1)).sum(:amount) }.by(-10000) }
               end
 
               describe "payment prev action_date's month" do
-                it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,4,1)).sum(:amount)}.by(-10000)}
-                it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,4,1)).sum(:amount)}.by(10000)}
+                it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 4, 1)).sum(:amount) }.by(-10000) }
+                it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 4, 1)).sum(:amount) }.by(10000) }
               end
               describe "credit new action_date's month" do
-                it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,3,1)).sum(:amount)}.by(-20000) }
-                it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008,3,1)).sum(:amount)}.by(20000)}
+                it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 3, 1)).sum(:amount) }.by(-20000) }
+                it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008, 3, 1)).sum(:amount) }.by(20000) }
               end
 
               describe "payment new action_date's month" do
-                it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,5,1)).sum(:amount)}.by(20000)}
-                it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,5,1)).sum(:amount)}.by(-20000)}
+                it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 5, 1)).sum(:amount) }.by(20000) }
+                it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 5, 1)).sum(:amount) }.by(-20000) }
               end
             end
           end
@@ -3431,9 +3431,9 @@ describe EntriesController do
                   entry: { action_date: '2008/2/10',
                     name: 'テスト10', amount: '10,000',
                     from_account_id: accounts(:credit4).id,
-                    to_account_id: accounts(:expense3).id},
+                    to_account_id: accounts(:expense3).id },
                   year: '2008', month: '2')
-              init_credit_item = Item.where(action_date: Date.new(2008,2,10),
+              init_credit_item = Item.where(action_date: Date.new(2008, 2, 10),
                                             from_account_id: accounts(:credit4).id,
                                             to_account_id: accounts(:expense3).id).first
 
@@ -3443,7 +3443,7 @@ describe EntriesController do
               init_payment_item.amount.should eq 10000
               init_payment_item.to_account_id.should eq init_credit_item.from_account_id
               init_payment_item.from_account_id.should eq 1
-              init_payment_item.action_date.should eq Date.new(2008,4,20)
+              init_payment_item.action_date.should eq Date.new(2008, 4, 20)
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
@@ -3463,37 +3463,37 @@ describe EntriesController do
               before do
                 @action.call
               end
-              subject {response}
-              it {should be_success}
+              subject { response }
+              it { should be_success }
             end
 
             describe "the number of items" do
-              it { expect { @action.call }.to change{Item.count}.by(-1)}
+              it { expect { @action.call }.to change { Item.count }.by(-1) }
             end
 
             describe "updated item" do
-              it { expect { @action.call }.to change{Item.find(@credit_id).amount}.to(20000)}
-              it { expect { @action.call }.not_to change{Item.find(@credit_id).action_date}}
-              it { expect { @action.call }.to change{Item.find(@credit_id).from_account_id}.to(1)}
-              it { expect { @action.call }.to change{Item.find(@credit_id).to_account_id}.to(13)}
+              it { expect { @action.call }.to change { Item.find(@credit_id).amount }.to(20000) }
+              it { expect { @action.call }.not_to change { Item.find(@credit_id).action_date} }
+              it { expect { @action.call }.to change { Item.find(@credit_id).from_account_id }.to(1) }
+              it { expect { @action.call }.to change { Item.find(@credit_id).to_account_id }.to(13) }
             end
 
             describe "payment item" do
-              it { expect { @action.call }.to change{Item.find_by_id(@payment_id)}.to(nil)}
+              it { expect { @action.call }.to change { Item.find_by_id(@payment_id) }.to(nil) }
             end
 
 
             describe "adjustment" do
-              it { expect { @action.call }.to change{Item.find(items(:adjustment2).id).amount}.by(20000)}
+              it { expect { @action.call }.to change { Item.find(items(:adjustment2).id).amount }.by(20000) }
             end
 
             describe "monthly profit losses" do
-              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,2,1)).sum(:amount)}.by(10000)}
-              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008,2,1)).sum(:amount)}.by(-10000)}
-              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,4,1)).sum(:amount)}.by(-10000)}
-              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,4,1)).sum(:amount)}.by(10000)}
-              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 13, month: Date.new(2008,2,1)).sum(:amount)}.by(20000)}
-              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,2,1)).sum(:amount)}}
+              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 2, 1)).sum(:amount) }.by(10000) }
+              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008, 2, 1)).sum(:amount) }.by(-10000) }
+              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,4, 1)).sum(:amount) }.by(-10000) }
+              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,4, 1)).sum(:amount) }.by(10000) }
+              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 13, month: Date.new(2008, 2, 1)).sum(:amount) }.by(20000) }
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 2, 1)).sum(:amount) } }
             end
           end
         end
@@ -3506,8 +3506,8 @@ describe EntriesController do
                   entry: { action_date: '2008/2/10',
                     name: 'テスト10', amount: '10,000',
                     from_account_id: accounts(:credit4).id,
-                    to_account_id: accounts(:expense3).id}, year: '2008', month: '2')
-              init_credit_item = Item.where(action_date: Date.new(2008,2,10),
+                    to_account_id: accounts(:expense3).id }, year: '2008', month: '2')
+              init_credit_item = Item.where(action_date: Date.new(2008, 2, 10),
                                             from_account_id: accounts(:credit4).id,
                                             to_account_id: accounts(:expense3).id).first
 
@@ -3517,13 +3517,13 @@ describe EntriesController do
               init_payment_item.amount.should eq 10000
               init_payment_item.to_account_id.should eq init_credit_item.from_account_id
               init_payment_item.from_account_id.should eq 1
-              init_payment_item.action_date.should eq Date.new(2008,4,20)
+              init_payment_item.action_date.should eq Date.new(2008, 4, 20)
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
               @action = -> {
                 xhr(:put, :update, id: init_credit_item.child_item.id,
-                    entry: { action_date: Date.new(2008,4,21).strftime("%Y/%m/%d") },
+                    entry: { action_date: Date.new(2008, 4, 21).strftime("%Y/%m/%d") },
                     year: init_credit_item.action_date.year,
                     month: init_credit_item.action_date.month)
               }
@@ -3533,31 +3533,31 @@ describe EntriesController do
               before do
                 @action.call
               end
-              subject {response}
-              it {should be_success}
+              subject { response }
+              it { should be_success }
             end
 
             describe "the number of items" do
-              it { expect { @action.call }.not_to change{Item.count}}
+              it { expect { @action.call }.not_to change { Item.count } }
             end
 
             describe "updated item" do
-              it { expect { @action.call }.not_to change{Item.find(@credit_id).amount}}
-              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.id}}
+              it { expect { @action.call }.not_to change { Item.find(@credit_id).amount } }
+              it { expect { @action.call }.not_to change { Item.find(@credit_id).child_item.id } }
             end
 
             describe "payment item" do
-              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.amount}}
-              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.name}}
-              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.from_account_id}}
-              it { expect { @action.call }.to change{Item.find(@credit_id).child_item.action_date}.by(1)}
+              it { expect { @action.call }.not_to change { Item.find(@credit_id).child_item.amount } }
+              it { expect { @action.call }.not_to change { Item.find(@credit_id).child_item.name} }
+              it { expect { @action.call }.not_to change { Item.find(@credit_id).child_item.from_account_id } }
+              it { expect { @action.call }.to change { Item.find(@credit_id).child_item.action_date}.by(1) }
             end
 
             describe "monthly profit losses" do
-              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,2,1)).first.amount}}
-              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008,2,1)).first.amount}}
-              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,4,1)).first.amount}}
-              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,4,1)).first.amount}}
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 2, 1)).first.amount } }
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008, 2, 1)).first.amount } }
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 4, 1)).first.amount } }
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 4, 1)).first.amount } }
             end
           end
 
@@ -3567,8 +3567,8 @@ describe EntriesController do
               xhr(:post, :create, entry: {
                     action_date: '2008/1/10',
                     name: 'テスト10', amount: '10,000', from_account_id: accounts(:credit4).id,
-                    to_account_id: accounts(:expense3).id}, year: '2008', month: '1')
-              init_credit_item = Item.where(action_date: Date.new(2008,1,10),
+                    to_account_id: accounts(:expense3).id }, year: '2008', month: '1')
+              init_credit_item = Item.where(action_date: Date.new(2008, 1, 10),
                                             from_account_id: accounts(:credit4).id,
                                             to_account_id: accounts(:expense3).id).first
 
@@ -3578,13 +3578,13 @@ describe EntriesController do
               init_payment_item.amount.should eq 10000
               init_payment_item.to_account_id.should eq init_credit_item.from_account_id
               init_payment_item.from_account_id.should eq 1
-              init_payment_item.action_date.should eq Date.new(2008,3,20)
+              init_payment_item.action_date.should eq Date.new(2008, 3, 20)
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
               @action = -> {
                 xhr(:put, :update, id: init_credit_item.child_item.id,
-                    entry: { action_date: Date.new(2008,4,20).strftime("%Y/%m/%d") },
+                    entry: { action_date: Date.new(2008, 4, 20).strftime("%Y/%m/%d") },
                     year: init_credit_item.action_date.year,
                     month: init_credit_item.action_date.month)
               }
@@ -3594,33 +3594,33 @@ describe EntriesController do
               before do
                 @action.call
               end
-              subject {response}
-              it {should be_success}
+              subject { response }
+              it { should be_success }
             end
 
             describe "the number of items" do
-              it { expect { @action.call }.not_to change{Item.count}}
+              it { expect { @action.call }.not_to change { Item.count } }
             end
 
             describe "parent item" do
-              it { expect { @action.call }.not_to change{Item.find(@credit_id).amount}}
+              it { expect { @action.call }.not_to change { Item.find(@credit_id).amount } }
             end
 
             describe "payment item" do
-              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.id}}
-              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.amount}}
-              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.name}}
-              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.from_account_id}}
-              it { expect { @action.call }.to change{Item.find(@credit_id).child_item.action_date}.to(Date.new(2008,4,20))}
+              it { expect { @action.call }.not_to change { Item.find(@credit_id).child_item.id } }
+              it { expect { @action.call }.not_to change { Item.find(@credit_id).child_item.amount } }
+              it { expect { @action.call }.not_to change { Item.find(@credit_id).child_item.name } }
+              it { expect { @action.call }.not_to change { Item.find(@credit_id).child_item.from_account_id } }
+              it { expect { @action.call }.to change { Item.find(@credit_id).child_item.action_date }.to(Date.new(2008, 4, 20)) }
             end
 
             describe "monthly profit losses" do
-              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,1,1)).sum(:amount)}}
-              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008,1,1)).sum(:amount)}}
-              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,3,1)).sum(:amount)}.by(-10000)}
-              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,3,1)).sum(:amount)}.by(10000)}
-              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,4,1)).sum(:amount)}.by(10000)}
-              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,4,1)).sum(:amount)}.by(-10000)}
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 1, 1)).sum(:amount) } }
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008, 1, 1)).sum(:amount) } }
+              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 3, 1)).sum(:amount) }.by(-10000) }
+              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 3, 1)).sum(:amount) }.by(10000) }
+              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,4, 1)).sum(:amount) }.by(10000) }
+              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,4, 1)).sum(:amount) }.by(-10000) }
             end
           end
 
@@ -3632,9 +3632,9 @@ describe EntriesController do
                   entry: { action_date: '2007/12/10',
                     name: 'テスト10', amount: '10,000',
                     from_account_id: accounts(:credit4).id,
-                    to_account_id: accounts(:expense3).id},
+                    to_account_id: accounts(:expense3).id },
                   year: '2008', month: '1')
-              init_credit_item = Item.where(action_date: Date.new(2007,12,10),
+              init_credit_item = Item.where(action_date: Date.new(2007, 12, 10),
                                             from_account_id: accounts(:credit4).id,
                                             to_account_id: accounts(:expense3).id).first
 
@@ -3644,13 +3644,13 @@ describe EntriesController do
               init_payment_item.amount.should eq 10000
               init_payment_item.to_account_id.should eq init_credit_item.from_account_id
               init_payment_item.from_account_id.should eq 1
-              init_payment_item.action_date.should eq Date.new(2008,2,19)
+              init_payment_item.action_date.should eq Date.new(2008, 2, 19)
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
               @action = -> {
                 xhr(:put, :update, id: init_credit_item.child_item.id,
-                    entry: { action_date: Date.new(2008,3,1).strftime("%Y/%m/%d") },
+                    entry: { action_date: Date.new(2008, 3, 1).strftime("%Y/%m/%d") },
                     year: init_credit_item.action_date.year,
                     month: init_credit_item.action_date.month)
               }
@@ -3660,44 +3660,44 @@ describe EntriesController do
               before do
                 @action.call
               end
-              subject {response}
-              it {should be_success}
+              subject { response }
+              it { should be_success }
             end
 
             describe "the number of items" do
-              it { expect { @action.call }.not_to change{Item.count}}
+              it { expect { @action.call }.not_to change { Item.count } }
             end
 
             describe "parent item" do
-              it { expect { @action.call }.not_to change{Item.find(@credit_id).amount}}
+              it { expect { @action.call }.not_to change { Item.find(@credit_id).amount } }
             end
 
             describe "payment item" do
-              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.id}}
-              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.amount}}
-              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.name}}
-              it { expect { @action.call }.not_to change{Item.find(@credit_id).child_item.from_account_id}}
-              it { expect { @action.call }.to change{Item.find(@credit_id).child_item.action_date}.to(Date.new(2008,3,1))}
+              it { expect { @action.call }.not_to change { Item.find(@credit_id).child_item.id } }
+              it { expect { @action.call }.not_to change { Item.find(@credit_id).child_item.amount } }
+              it { expect { @action.call }.not_to change { Item.find(@credit_id).child_item.name } }
+              it { expect { @action.call }.not_to change { Item.find(@credit_id).child_item.from_account_id } }
+              it { expect { @action.call }.to change { Item.find(@credit_id).child_item.action_date }.to(Date.new(2008, 3, 1)) }
             end
 
             describe "adjustment" do
-              it { expect {@action.call}.to change{Item.find(items(:adjustment2).id).amount}.by(-10000)}
-              it { expect {@action.call}.not_to change{Item.find(items(:adjustment4).id).amount}}
-              it { expect {@action.call}.to change{Item.find(items(:adjustment6).id).amount}.by(10000)}
+              it { expect { @action.call}.to change { Item.find(items(:adjustment2).id).amount }.by(-10000) }
+              it { expect { @action.call}.not_to change { Item.find(items(:adjustment4).id).amount } }
+              it { expect { @action.call}.to change { Item.find(items(:adjustment6).id).amount }.by(10000) }
             end
 
             describe "monthly profit losses" do
-              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2007,12,1)).sum(:amount)}}
-              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 3, month: Date.new(2007,12,1)).sum(:amount)}}
-              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,1,1)).sum(:amount)}}
-              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008,1,1)).sum(:amount)}}
-              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,2,1)).sum(:amount)}.by(-10000)}
-              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008,2,1)).sum(:amount)}}
-              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,2,1)).sum(:amount)}}
-              it { expect { @action.call }.to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,3,1)).sum(:amount)}.by(10000)}
-              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,3,1)).sum(:amount)}}
-              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,4,1)).sum(:amount)}}
-              it { expect { @action.call }.not_to change{MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,4,1)).sum(:amount)}}
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2007, 12, 1)).sum(:amount) } }
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2007, 12, 1)).sum(:amount) } }
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 1, 1)).sum(:amount) } }
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008, 1, 1)).sum(:amount) } }
+              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 2, 1)).sum(:amount) }.by(-10000) }
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008, 2, 1)).sum(:amount) } }
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 2, 1)).sum(:amount) } }
+              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 3, 1)).sum(:amount) }.by(10000) }
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 3, 1)).sum(:amount) } }
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 4, 1)).sum(:amount) } }
+              it { expect { @action.call }.not_to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 4, 1)).sum(:amount) } }
             end
           end
         end
