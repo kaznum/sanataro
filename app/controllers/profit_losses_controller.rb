@@ -32,12 +32,12 @@ class ProfitLossesController < ApplicationController
 
   def _setup_incomes(m_pls)
     @account_incomes = @user.incomes.to_a
-    @total_income = @account_incomes.inject(0) { |sum, ai| sum - m_pls[ai.id] }
+    @total_income = @account_incomes.reduce(0) { |a, e| a - m_pls[e.id] }
   end
 
   def _setup_expenses(m_pls)
     @account_expenses = @user.expenses.to_a
-    @total_expense = @account_expenses.inject(0) { |sum, og| sum + @m_pls[og.id] }
+    @total_expense = @account_expenses.reduce(0) { |a, e| a + @m_pls[e.id] }
   end
 
   def _append_unknown_account
