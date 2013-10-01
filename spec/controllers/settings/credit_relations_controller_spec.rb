@@ -44,7 +44,7 @@ describe Settings::CreditRelationsController do
   describe "#show" do
     context "before login," do
       before do
-        xhr :get, :show, :id=>credit_relations(:cr1).id
+        xhr :get, :show, id: credit_relations(:cr1).id
       end
 
       it_should_behave_like "Unauthenticated Access by xhr"
@@ -63,7 +63,7 @@ describe Settings::CreditRelationsController do
           @mock_credit_relation = mock_model(CreditRelation)
           @mock_user.should_receive(:credit_relations).and_return(@mock_credit_relations)
           @mock_credit_relations.should_receive(:find).with("11111").and_return(@mock_credit_relation)
-          xhr :get, :show, :id => 11111
+          xhr :get, :show, id: 11111
         end
 
         describe "@user" do
@@ -90,7 +90,7 @@ describe Settings::CreditRelationsController do
           User.should_receive(:find).with(@mock_user.id).and_return(@mock_user)
           @mock_user.should_receive(:credit_relations).and_return(@mock_credit_relations)
           @mock_credit_relations.should_receive(:find).with("11111").and_raise(ActiveRecord::RecordNotFound.new)
-          xhr :get, :show, :id => 11111
+          xhr :get, :show, id: 11111
         end
 
         describe "@user" do
@@ -109,7 +109,7 @@ describe Settings::CreditRelationsController do
   describe "#edit" do
     context "before login," do
       before do
-        xhr :get, :edit, :id => 123456
+        xhr :get, :edit, id: 123456
       end
 
       it_should_behave_like "Unauthenticated Access by xhr"
@@ -129,12 +129,12 @@ describe Settings::CreditRelationsController do
             mock_user.should_receive(:credit_relations).and_return(mock_credit_relations)
             mock_credit_relations.should_receive(:find).with("341341").and_raise(ActiveRecord::RecordNotFound.new)
 
-            xhr :get, :edit, :id => 341341
+            xhr :get, :edit, id: 341341
           end
 
           describe "response" do
             subject { response }
-            it { should render_js_error :id => "warning", :default_errors => "データが存在しません。" }
+            it { should render_js_error id: "warning", default_errors: "データが存在しません。" }
           end
         end
 
@@ -144,10 +144,10 @@ describe Settings::CreditRelationsController do
             User.should_receive(:find).with(users(:user1).id).and_return(mock_user)
             mock_credit_relations = double
             mock_user.should_receive(:credit_relations).and_return(mock_credit_relations)
-            @mock_credit_relation = mock_model(CreditRelation, :id => 341341)
+            @mock_credit_relation = mock_model(CreditRelation, id: 341341)
             mock_credit_relations.should_receive(:find).with("341341").and_return(@mock_credit_relation)
 
-            xhr :get, :edit, :id => 341341
+            xhr :get, :edit, id: 341341
           end
 
           describe "response" do
@@ -168,7 +168,7 @@ describe Settings::CreditRelationsController do
   describe "#destroy" do
     context "before login," do
       before do
-        xhr :delete, :destroy, :id => 123456
+        xhr :delete, :destroy, id: 123456
       end
 
       describe "response" do
@@ -191,7 +191,7 @@ describe Settings::CreditRelationsController do
           @mock_crs_all = double
           mock_crs.should_receive(:all).and_return(@mock_crs_all)
 
-          xhr :delete, :destroy, :id => 123456
+          xhr :delete, :destroy, id: 123456
         end
 
         describe "response" do
@@ -221,7 +221,7 @@ describe Settings::CreditRelationsController do
           @mock_crs_all = double
           mock_crs.should_not_receive(:all)
 
-          xhr :delete, :destroy, :id => 123456
+          xhr :delete, :destroy, id: 123456
         end
 
         describe "response" do
@@ -247,7 +247,7 @@ describe Settings::CreditRelationsController do
     fixtures :accounts
     context "before login," do
       before do
-        xhr :post, :create, :credit_account_id => accounts(:bank21).id, :payment_account_id => accounts(:bank1).id, :settlement_day => 99, :payment_month => 1, :payment_day => 4
+        xhr :post, :create, credit_account_id: accounts(:bank21).id, payment_account_id:  accounts(:bank1).id, settlement_day: 99, payment_month: 1, payment_day: 4
       end
 
       subject { response }
@@ -273,15 +273,15 @@ describe Settings::CreditRelationsController do
             mock_cr = stub_model(CreditRelation)
             mock_exception = ActiveRecord::RecordInvalid.new(mock_cr)
             mock_exception.should_receive(:message).and_return("aaa , bbb, ccc ")
-            @mock_crs.should_receive(:create!).with(:credit_account_id => "1", :payment_account_id => "2", :settlement_day => "99", :payment_month => "1", :payment_day => "4").and_raise(mock_exception)
+            @mock_crs.should_receive(:create!).with(credit_account_id: "1", payment_account_id:  "2", settlement_day: "99", payment_month: "1", payment_day: "4").and_raise(mock_exception)
             @mock_crs.should_not_receive(:all)
 
-            xhr :post, :create, :credit_account_id => 1, :payment_account_id => 2, :settlement_day => 99, :payment_month => 1, :payment_day => 4
+            xhr :post, :create, credit_account_id: 1, payment_account_id:  2, settlement_day: 99, payment_month: 1, payment_day: 4
           end
 
           describe "response" do
             subject { response }
-            it { should render_js_error :id => "warning", :errors => ["aaa","bbb","ccc"], :default_message => I18n.t("error.input_is_invalid") }
+            it { should render_js_error id: "warning", errors: ["aaa","bbb","ccc"], default_message: I18n.t("error.input_is_invalid") }
           end
 
           describe "@user" do
@@ -293,9 +293,9 @@ describe Settings::CreditRelationsController do
         context "with valid params," do
           before do
             @mock_user.should_receive(:credit_relations).at_least(1).and_return(@mock_crs)
-@mock_crs.should_receive(:create!).with(:credit_account_id => "1", :payment_account_id => "2", :settlement_day => "99", :payment_month => "1", :payment_day => "4").and_return(@mock_cr)
+@mock_crs.should_receive(:create!).with(credit_account_id: "1", payment_account_id:  "2", settlement_day: "99", payment_month: "1", payment_day: "4").and_return(@mock_cr)
             @mock_crs.should_receive(:all).and_return(@mock_crs)
-            xhr :post, :create, :credit_account_id => 1, :payment_account_id => 2, :settlement_day => 99, :payment_month => 1, :payment_day => 4
+            xhr :post, :create, credit_account_id: 1, payment_account_id:  2, settlement_day: 99, payment_month: 1, payment_day: 4
           end
 
           describe "response" do
@@ -315,7 +315,7 @@ describe Settings::CreditRelationsController do
   describe "#update" do
     context "before login," do
       before do
-        xhr :put, :update, :id => 1, :credit_account_id => 2,:payment_account_id => 3, :settlement_day => 25, :payment_month => 2, :payment_day => 10
+        xhr :put, :update, id: 1, credit_account_id: 2,payment_account_id:  3, settlement_day: 25, payment_month: 2, payment_day: 10
       end
 
       subject { response }
@@ -324,7 +324,7 @@ describe Settings::CreditRelationsController do
 
     context "after login," do
       before do
-        @mock_user = mock_model(User, :id => users(:user1).id)
+        @mock_user = mock_model(User, id: users(:user1).id)
         User.should_receive(:find).with(@mock_user.id).at_least(1).and_return(@mock_user)
         login
       end
@@ -348,7 +348,7 @@ describe Settings::CreditRelationsController do
             @mock_crs_all = [double, double]
             @mock_crs.should_receive(:all).and_return(@mock_crs_all)
 
-            xhr :put, :update, :id => 1, :credit_account_id => 2,:payment_account_id => 3, :settlement_day => 25, :payment_month => 2, :payment_day => 10
+            xhr :put, :update, id: 1, credit_account_id: 2,payment_account_id:  3, settlement_day: 25, payment_month: 2, payment_day: 10
           end
 
           it_should_behave_like "Got basic instance variables successfully"
@@ -367,18 +367,18 @@ describe Settings::CreditRelationsController do
 
         context "and validation error happens," do
           before do
-            @mock_cr = mock_model(CreditRelation, :id => 1)
+            @mock_cr = mock_model(CreditRelation, id: 1)
             @mock_crs.should_receive(:find).with("1").and_return(@mock_cr)
-            @mock_cr.should_receive(:update_attributes!).with(:credit_account_id => "2",:payment_account_id => "3", :settlement_day => "25", :payment_month => "2", :payment_day => "10").and_raise(ActiveRecord::RecordInvalid.new(@mock_cr))
+            @mock_cr.should_receive(:update_attributes!).with(credit_account_id: "2",payment_account_id:  "3", settlement_day: "25", payment_month: "2", payment_day: "10").and_raise(ActiveRecord::RecordInvalid.new(@mock_cr))
             @mock_errors = [double, double, double]
             @mock_cr.should_receive(:errors).and_return(@mock_errors)
 
-            xhr :put, :update, :id => 1, :credit_account_id => 2,:payment_account_id => 3, :settlement_day => 25, :payment_month => 2, :payment_day => 10
+            xhr :put, :update, id: 1, credit_account_id: 2,payment_account_id:  3, settlement_day: 25, payment_month: 2, payment_day: 10
           end
 
           describe "response" do
             subject { response }
-            it { should render_js_error :id => "edit_warning_1", :errors => @mock_errors, :default_message => I18n.t("error.input_is_invalid") }
+            it { should render_js_error id: "edit_warning_1", errors: @mock_errors, default_message: I18n.t("error.input_is_invalid") }
           end
 
           it_should_behave_like "Got basic instance variables successfully"
@@ -391,11 +391,11 @@ describe Settings::CreditRelationsController do
 
         context "and valid requests," do
           before do
-            @mock_cr = mock_model(CreditRelation, :id => 1)
+            @mock_cr = mock_model(CreditRelation, id: 1)
             @mock_crs.should_receive(:find).with("1").and_return(@mock_cr)
-            @mock_cr.should_receive(:update_attributes!).with(:credit_account_id => "2",:payment_account_id => "3", :settlement_day => "25", :payment_month => "2", :payment_day => "10").and_return(true)
+            @mock_cr.should_receive(:update_attributes!).with(credit_account_id: "2",payment_account_id:  "3", settlement_day: "25", payment_month: "2", payment_day: "10").and_return(true)
 
-            xhr :put, :update, :id => 1, :credit_account_id => 2,:payment_account_id => 3, :settlement_day => 25, :payment_month => 2, :payment_day => 10
+            xhr :put, :update, id: 1, credit_account_id: 2, payment_account_id: 3, settlement_day: 25, payment_month: 2, payment_day: 10
           end
 
           describe "response" do
