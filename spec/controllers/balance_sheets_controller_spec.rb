@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe BalanceSheetsController do
   fixtures :users, :items, :accounts, :credit_relations, :monthly_profit_losses
-  describe "#index" do 
+  describe "#index" do
     context "when without login," do
       before do
         get :index
@@ -38,7 +38,7 @@ describe BalanceSheetsController do
           its([:total_minus]) { should_not be_nil }
         end
       end
-      
+
       context "without month in params and which has minus value in an account," do
         before do
           users(:user1).monthly_profit_losses.create(month: Date.new(2006,12,1), account_id: 1, amount: -2000000)
@@ -135,7 +135,7 @@ describe BalanceSheetsController do
 
         describe "assigns[:items]" do
           subject { assigns[:items]}
-          specify do 
+          specify do
             subject.each do |item|
               (item.from_account_id == accounts(:bank1).id ||
                item.to_account_id == accounts(:bank1).id).should be_true
@@ -145,9 +145,8 @@ describe BalanceSheetsController do
             end
           end
         end
-        
       end
-      
+
       context "without year and month in params," do
         before do
           xhr :get, :show, id: accounts(:bank1).id.to_s
@@ -169,7 +168,7 @@ describe BalanceSheetsController do
 
         describe "assigns[:items]" do
           subject { assigns[:items]}
-          specify do 
+          specify do
             subject.each do |item|
               (item.from_account_id == accounts(:bank1).id ||
                item.to_account_id == accounts(:bank1).id).should be_true
