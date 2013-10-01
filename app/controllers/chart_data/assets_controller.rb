@@ -15,7 +15,10 @@ class ChartData::AssetsController < ApplicationController
   def balances_with_account_of_month(year, month)
     date = Date.new(year.to_i, month.to_i)
     mpls = @user.monthly_profit_losses.where("month <= ?", date)
-    mpls.inject(Hash.new(0)) { |result, mpl| result[mpl.account_id] += mpl.amount; result }
+    mpls.reduce(Hash.new(0)) do |a, e|
+      a[e.account_id] += e.amount
+      a
+    end
   end
 
   def formatted_debts(balances_with_accounts)
