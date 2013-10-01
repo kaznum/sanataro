@@ -3493,7 +3493,7 @@ describe EntriesController do
                     entry: {
                       name: 'テスト20',
                       action_date: date.strftime("%Y/%m/%d"),
-                      amount: "20_000",
+                      amount: "20000",
                       from_account_id: accounts(:credit4).id.to_s,
                       to_account_id: accounts(:expense3).id.to_s
                     },
