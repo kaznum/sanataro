@@ -7,7 +7,7 @@ describe Api::AccountsController do
   describe "#index" do
     context "before login," do
       before do
-        get :index, :format => :json
+        get :index, format: :json
       end
 
       it_should_behave_like "Unauthenticated Access in API"
