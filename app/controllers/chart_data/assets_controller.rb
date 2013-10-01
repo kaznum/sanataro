@@ -29,7 +29,7 @@ class ChartData::AssetsController < ApplicationController
     formatted_assets_or_debts(balances_with_accounts, :asset)
   end
 
-  def formatted_assets_or_debts(balances_with_accounts, type=:asset)
+  def formatted_assets_or_debts(balances_with_accounts, type = :asset)
     accounts = @user.bankings.order("order_no")
     labels_and_data = []
     accounts.each do |a|
