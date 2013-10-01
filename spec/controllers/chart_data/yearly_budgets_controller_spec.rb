@@ -49,7 +49,7 @@ describe ChartData::YearlyBudgetsController do
             describe "response.body" do
               subject { response.body }
               specify {
-                date = Date.new(2008,2)
+                date = Date.new(2008, 2)
                 json = ActiveSupport::JSON.decode(subject)
                 json.should have(1).keys
                 json["account_-1"]["label"].should be == "Unknown"
@@ -78,13 +78,13 @@ describe ChartData::YearlyBudgetsController do
                                                                    order_no: 40)
 
               pls = @user.monthly_profit_losses
-              pls.create!(month: Date.new(1999,5), account_id: account1.id, amount: -300 )
-              pls.create!(month: Date.new(1988,6), account_id: account1.id, amount: -100 )
-              pls.create!(month: Date.new(1999,1), account_id: account2.id, amount: -900 )
-              pls.create!(month: Date.new(1999,1), account_id: account3.id, amount: 900 )
-              pls.create!(month: Date.new(1999,1), account_id: account4.id, amount: 200 )
-              pls.create!(month: Date.new(1999,1), account_id: -1, amount: 800 )
-              pls.create!(month: Date.new(1999,2), account_id: -1, amount: -300 )
+              pls.create!(month: Date.new(1999, 5), account_id: account1.id, amount: -300 )
+              pls.create!(month: Date.new(1988, 6), account_id: account1.id, amount: -100 )
+              pls.create!(month: Date.new(1999, 1), account_id: account2.id, amount: -900 )
+              pls.create!(month: Date.new(1999, 1), account_id: account3.id, amount: 900 )
+              pls.create!(month: Date.new(1999, 1), account_id: account4.id, amount: 200 )
+              pls.create!(month: Date.new(1999, 1), account_id: -1, amount: 800 )
+              pls.create!(month: Date.new(1999, 2), account_id: -1, amount: -300 )
 
               get :show, id: "199902", budget_type: "expense", format: :json
             end
@@ -96,7 +96,7 @@ describe ChartData::YearlyBudgetsController do
             describe "response.body" do
               subject { response.body }
               specify {
-                date = Date.new(1999,2)
+                date = Date.new(1999, 2)
                 json = ActiveSupport::JSON.decode(subject)
                 json.should have(2).keys
                 json["account_-1"]["label"].should be == "Unknown"
@@ -133,7 +133,7 @@ describe ChartData::YearlyBudgetsController do
             describe "response.body" do
               subject { response.body }
               specify {
-                date = Date.new(2008,2)
+                date = Date.new(2008, 2)
                 json = ActiveSupport::JSON.decode(subject)
                 json.should have(1).keys
                 json["account_-1"]["label"].should be == "Unknown"
@@ -161,12 +161,12 @@ describe ChartData::YearlyBudgetsController do
                                                 order_no: 40)
 
               pls = @user.monthly_profit_losses
-              pls.create!(month: Date.new(1999,5), account_id: account1.id, amount: -300 )
-              pls.create!(month: Date.new(1988,6), account_id: account1.id, amount: -100 )
-              pls.create!(month: Date.new(1999,1), account_id: account2.id, amount: -900 )
-              pls.create!(month: Date.new(1999,1), account_id: account3.id, amount: 900 )
-              pls.create!(month: Date.new(1999,1), account_id: account4.id, amount: 200 )
-              pls.create!(month: Date.new(1999,1), account_id: -1, amount: -800 )
+              pls.create!(month: Date.new(1999, 5), account_id: account1.id, amount: -300 )
+              pls.create!(month: Date.new(1988, 6), account_id: account1.id, amount: -100 )
+              pls.create!(month: Date.new(1999, 1), account_id: account2.id, amount: -900 )
+              pls.create!(month: Date.new(1999, 1), account_id: account3.id, amount: 900 )
+              pls.create!(month: Date.new(1999, 1), account_id: account4.id, amount: 200 )
+              pls.create!(month: Date.new(1999, 1), account_id: -1, amount: -800 )
 
               get :show, id: "199902", budget_type: "income", format: :json
             end
@@ -177,7 +177,7 @@ describe ChartData::YearlyBudgetsController do
             describe "response.body" do
               subject { response.body }
               specify {
-                date = Date.new(1999,2)
+                date = Date.new(1999, 2)
                 json = ActiveSupport::JSON.decode(subject)
                 json.should have(2).keys
                 json["account_-1"]["label"].should be == "Unknown"
@@ -213,7 +213,7 @@ describe ChartData::YearlyBudgetsController do
             describe "response" do
               subject { response.body }
               specify {
-                date = Date.new(2008,2)
+                date = Date.new(2008, 2)
                 json = ActiveSupport::JSON.decode(subject)
                 json.should have(3).keys
                 json["expense"]["label"].should be == "支出"
@@ -244,12 +244,12 @@ describe ChartData::YearlyBudgetsController do
                                                 order_no: 40)
 
               pls = @user.monthly_profit_losses
-              pls.create!(month: Date.new(1999,5), account_id: account1.id, amount: -300 )
-              pls.create!(month: Date.new(1988,6), account_id: account1.id, amount: -100 )
-              pls.create!(month: Date.new(1999,1), account_id: account2.id, amount: -900 )
-              pls.create!(month: Date.new(1999,1), account_id: account3.id, amount: 900 )
-              pls.create!(month: Date.new(1999,1), account_id: account4.id, amount: 200 )
-              pls.create!(month: Date.new(1999,1), account_id: -1, amount: -800 )
+              pls.create!(month: Date.new(1999, 5), account_id: account1.id, amount: -300 )
+              pls.create!(month: Date.new(1988, 6), account_id: account1.id, amount: -100 )
+              pls.create!(month: Date.new(1999, 1), account_id: account2.id, amount: -900 )
+              pls.create!(month: Date.new(1999, 1), account_id: account3.id, amount: 900 )
+              pls.create!(month: Date.new(1999, 1), account_id: account4.id, amount: 200 )
+              pls.create!(month: Date.new(1999, 1), account_id: -1, amount: -800 )
               get :show, id: "199902", budget_type: "total", format: :json
             end
 
@@ -268,15 +268,15 @@ describe ChartData::YearlyBudgetsController do
                 ["expense", "income", "total"].each do |type|
                   json[type]["data"].should have(12).entries
                 end
-                json["expense"]["data"].should include([Date.new(1999,1).to_time.to_i * 1000, 200])
-                json["expense"]["data"].should include([Date.new(1999,2).to_time.to_i * 1000, 0])
-                json["expense"]["data"].should include([Date.new(1998,3).to_time.to_i * 1000, 0])
-                json["income"]["data"].should include([Date.new(1999,1).to_time.to_i * 1000, 1700])
-                json["income"]["data"].should include([Date.new(1999,2).to_time.to_i * 1000, 0])
-                json["income"]["data"].should include([Date.new(1998,3).to_time.to_i * 1000, 0])
-                json["total"]["data"].should include([Date.new(1999,1).to_time.to_i * 1000, 1500])
-                json["total"]["data"].should include([Date.new(1999,2).to_time.to_i * 1000, 0])
-                json["total"]["data"].should include([Date.new(1998,3).to_time.to_i * 1000, 0])
+                json["expense"]["data"].should include([Date.new(1999, 1).to_time.to_i * 1000, 200])
+                json["expense"]["data"].should include([Date.new(1999, 2).to_time.to_i * 1000, 0])
+                json["expense"]["data"].should include([Date.new(1998, 3).to_time.to_i * 1000, 0])
+                json["income"]["data"].should include([Date.new(1999, 1).to_time.to_i * 1000, 1700])
+                json["income"]["data"].should include([Date.new(1999, 2).to_time.to_i * 1000, 0])
+                json["income"]["data"].should include([Date.new(1998, 3).to_time.to_i * 1000, 0])
+                json["total"]["data"].should include([Date.new(1999, 1).to_time.to_i * 1000, 1500])
+                json["total"]["data"].should include([Date.new(1999, 2).to_time.to_i * 1000, 0])
+                json["total"]["data"].should include([Date.new(1998, 3).to_time.to_i * 1000, 0])
               }
             end
           end
