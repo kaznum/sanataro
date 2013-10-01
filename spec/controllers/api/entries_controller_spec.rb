@@ -353,7 +353,7 @@ describe Api::EntriesController do
 
       context "with invalid id," do
         before do
-          get :show, id: 341341, format: :json
+          get :show, id: 341_341, format: :json
         end
         describe "response" do
           subject { response }
@@ -366,7 +366,7 @@ describe Api::EntriesController do
   describe "#destroy" do
     context "before login," do
       before do
-        delete :destroy, id: 12345, format: :json
+        delete :destroy, id: 12_345, format: :json
       end
       it_should_behave_like "Unauthenticated Access in API"
     end
@@ -384,7 +384,7 @@ describe Api::EntriesController do
         before do
           mock_user.should_receive(:items).and_return(mock_items)
           mock_items.should_receive(:find).with("12345").and_raise(ActiveRecord::RecordNotFound.new)
-          delete :destroy, id: 12345, format: :json
+          delete :destroy, id: 12_345, format: :json
         end
 
         describe "response" do
@@ -549,9 +549,9 @@ describe Api::EntriesController do
 
             describe "profit_losses" do
               it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,2)).sum(:amount) }.by(1000) }
-              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008,2)).sum(:amount) }.by(-1000) }
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008,2)).sum(:amount) }.by(-1_000) }
               it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,4)).sum(:amount) }.by(1000) }
-              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,4)).sum(:amount) }.by(-1000) }
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,4)).sum(:amount) }.by(-1_000) }
             end
           end
 
@@ -583,14 +583,14 @@ describe Api::EntriesController do
             end
 
             describe "future adjustment" do
-              it { expect { action.call }.to change { Item.find(items(:adjustment6).id).amount }.by(-1000) }
+              it { expect { action.call }.to change { Item.find(items(:adjustment6).id).amount }.by(-1_000) }
             end
 
             describe "profit_losses" do
               it { expect { action.call }.not_to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 2)).sum(:amount) } }
-              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008, 2)).sum(:amount) }.by(-1000) }
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008, 2)).sum(:amount) }.by(-1_000) }
               it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 2)).sum(:amount) }.by(1000) }
-              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 3)).sum(:amount) }.by(-1000) }
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 3)).sum(:amount) }.by(-1_000) }
             end
           end
         end
@@ -602,7 +602,7 @@ describe Api::EntriesController do
           before do
             mock_user.should_receive(:items).and_return(mock_items)
             mock_items.should_receive(:find).with("20000").and_raise(ActiveRecord::RecordNotFound.new)
-            delete :destroy, id: 20000, year: Date.today.year, month: Date.today.month, format: :json
+            delete :destroy, id: 20_000, year: Date.today.year, month: Date.today.month, format: :json
           end
           subject { response }
           its(:response_code) { should == 404 }
@@ -775,7 +775,7 @@ describe Api::EntriesController do
           }
 
           its(:name) { should == 'テスト10' }
-          its(:amount) { should == 10000 }
+          its(:amount) { should == 10_000 }
           it { should be_confirmation_required }
           its(:tag_list) { should == "fuga hoge" }
         end
@@ -803,7 +803,7 @@ describe Api::EntriesController do
           }
 
           its(:name) { should == 'テスト10' }
-          its(:amount) { should == 10000 }
+          its(:amount) { should == 10_000 }
           it { should_not be_confirmation_required }
           its(:tag_list) { should == "fuga hoge" }
         end
@@ -858,7 +858,7 @@ describe Api::EntriesController do
 
           describe "adjustment just next to the created item" do
             subject { Item.find(items(:adjustment2).id) }
-            its(:amount) { should == @init_adj2.amount + 10000 }
+            its(:amount) { should == @init_adj2.amount + 10_000 }
           end
 
           describe "adjustment which is the next of the adjustment next to the created item" do
@@ -903,7 +903,7 @@ describe Api::EntriesController do
             Item.where(action_date: Date.new(2008, 2, 10),
                        from_account_id: accounts(:credit4).id,
                        to_account_id: accounts(:expense3).id,
-                       amount: 10000,
+                       amount: 10_000,
                        parent_id: nil).find{|i| i.child_item }
           }
 
@@ -916,7 +916,7 @@ describe Api::EntriesController do
           describe "created credit item" do
             subject { credit_item }
             it { should_not be_nil }
-            its(:amount) { should == 10000 }
+            its(:amount) { should == 10_000 }
             its(:parent_id) { should be_nil }
             its(:child_item) { should_not be_nil }
           end
@@ -933,7 +933,7 @@ describe Api::EntriesController do
             its(:action_date) { should == Date.new(2008, 2 + credit_relations(:cr1).payment_month,credit_relations(:cr1).payment_day) }
             its(:from_account_id) { should == credit_relations(:cr1).payment_account_id }
             its(:to_account_id) { should == credit_relations(:cr1).credit_account_id }
-            its(:amount) { should == 10000 }
+            its(:amount) { should == 10_000 }
           end
         end
       end
@@ -1317,7 +1317,7 @@ describe Api::EntriesController do
                     action_date: old_item1.action_date.strftime("%Y/%m/%d"),
                     amount: "1000",
                     from_account_id: accounts(:bank1).id,
-                    to_account_id: 43214,
+                    to_account_id: 43_214,
                     confirmation_required: 'true'
                   }, format: :json)
             }
@@ -1358,7 +1358,7 @@ describe Api::EntriesController do
             subject {Item.find(@old_item11.id) }
             its(:name) { should == 'テスト11' }
             its(:action_date) { should == @old_item11.action_date }
-            its(:amount) { should == 100000 }
+            its(:amount) { should == 100_000 }
             its(:from_account_id) { should == accounts(:bank1).id }
             its(:to_account_id) { should == accounts(:expense3).id }
           end
@@ -1431,7 +1431,7 @@ describe Api::EntriesController do
               subject { Item.find(old_item1.id) }
               its(:name) { should == 'テスト10'}
               its(:action_date) { should == Date.new(old_action_date.year, old_action_date.month, 18) }
-              its(:amount) { should == 100000 }
+              its(:amount) { should == 100_000 }
               its(:from_account_id) { should == accounts(:bank1).id }
               its(:to_account_id) { should == accounts(:expense3).id }
               it { should_not be_confirmation_required }
@@ -1439,7 +1439,7 @@ describe Api::EntriesController do
 
             describe "adjustment which is in the same month" do
               let(:adj_id) { items(:adjustment2).id }
-              it { expect { @action.call }.to change { Item.find(adj_id).amount }.by(100000 - old_item1.amount) }
+              it { expect { @action.call }.to change { Item.find(adj_id).amount }.by(100_000 - old_item1.amount) }
             end
 
             describe "adjustment which is in the next month or after" do
@@ -1537,7 +1537,7 @@ describe Api::EntriesController do
             before { @action.call }
             subject { Item.find(item1_id) }
             its(:name) { should == "テスト20" }
-            its(:amount) { should == 20000 }
+            its(:amount) { should == 20_000 }
             its(:from_account_id) { should == accounts(:bank1).id }
             its(:to_account_id) { should == accounts(:expense3).id }
             its(:action_date) { should == date }
@@ -1559,7 +1559,7 @@ describe Api::EntriesController do
 
             describe "adj6" do
               before { @old_adj4 = items(:adjustment4) }
-              it { expect { @action.call }.to change { Item.find(adj6_id).amount }.by(20000) }
+              it { expect { @action.call }.to change { Item.find(adj6_id).amount }.by(20_000) }
             end
           end
 
@@ -1577,8 +1577,8 @@ describe Api::EntriesController do
 
             it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(@old_pl200712.id).amount } }
             it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(@old_pl200801.id).amount } }
-            it { expect { @action.call }.to change { MonthlyProfitLoss.find(@old_pl200802.id).amount }.by(-20000) }
-            it { expect { @action.call }.to change { MonthlyProfitLoss.find(@old_pl200803.id).amount }.by(20000) }
+            it { expect { @action.call }.to change { MonthlyProfitLoss.find(@old_pl200802.id).amount }.by(-20_000) }
+            it { expect { @action.call }.to change { MonthlyProfitLoss.find(@old_pl200803.id).amount }.by(20_000) }
           end
         end
 
@@ -1616,12 +1616,12 @@ describe Api::EntriesController do
             describe "previous state" do
               describe "initial credit item" do
                 subject { @init_credit_item }
-                its(:amount) { should be == 10000 }
+                its(:amount) { should be == 10_000 }
               end
               
               describe "initial payment item" do
                 subject { @init_payment_item }
-                its(:amount) { should be == 10000 }
+                its(:amount) { should be == 10_000 }
                 its(:to_account_id) { should be == @init_credit_item.from_account_id }
                 its(:from_account_id) { should be == 1 }
                 its(:action_date) { should be == Date.new(2008, 6, 1) }
@@ -1642,24 +1642,24 @@ describe Api::EntriesController do
             end
 
             describe "updated item" do
-              it { expect { @action.call }.to change { Item.find(@credit_id).amount }.to(20000) }
+              it { expect { @action.call }.to change { Item.find(@credit_id).amount }.to(20_000) }
               it { expect { @action.call }.not_to change { Item.find(@credit_id).child_item.id } }
             end
 
             describe "payment item" do
-              it { expect { @action.call }.to change { Item.find(@credit_id).child_item.amount }.to(20000) }
+              it { expect { @action.call }.to change { Item.find(@credit_id).child_item.amount }.to(20_000) }
               it { expect { @action.call }.to change { Item.find(@credit_id).child_item.name }.to('テスト20') }
               it { expect { @action.call }.not_to change { Item.find(@credit_id).child_item.from_account_id } }
               it { expect { @action.call }.not_to change { Item.find(@credit_id).child_item.action_date } }
             end
 
             describe "monthly profit losses" do
-              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 2, 1)).first.amount }.by(-10000) }
-              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008, 2, 1)).first.amount }.by(10000) }
+              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 2, 1)).first.amount }.by(-10_000) }
+              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008, 2, 1)).first.amount }.by(10_000) }
               it { expect { @action.call }.not_to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 4, 1)).first.amount } }
               it { expect { @action.call }.not_to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 4, 1)).first.amount } }
-              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 6, 1)).first.amount }.by(10000) }
-              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 6, 1)).first.amount }.by(-10000) }
+              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 6, 1)).first.amount }.by(10_000) }
+              it { expect { @action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 6, 1)).first.amount }.by(-10_000) }
             end
           end
         end
@@ -1691,12 +1691,12 @@ describe Api::EntriesController do
             describe "previous states" do
               describe "initial credit item" do
                 subject { @init_credit_item }
-                its(:amount) { should be == 10000 }
+                its(:amount) { should be == 10_000 }
               end
               
               describe "initial payment item" do
                 subject { @init_payment_item }
-                its(:amount) { should be == 10000 }
+                its(:amount) { should be == 10_000 }
                 its(:to_account_id) { should be == @init_credit_item.from_account_id }
                 its(:from_account_id) { should be == 1 }
                 its(:action_date) { should be == Date.new(2008, 4, 20) }
