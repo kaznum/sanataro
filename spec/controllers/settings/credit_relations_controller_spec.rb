@@ -68,12 +68,12 @@ describe Settings::CreditRelationsController do
 
         describe "@user" do
           subject { assigns(:user) }
-          it { should === @mock_user }
+          it { should == @mock_user }
         end
 
         describe "@cr" do
           subject { assigns(:cr) }
-          it { should === @mock_credit_relation }
+          it { should == @mock_credit_relation }
         end
 
         describe "response" do
@@ -95,7 +95,7 @@ describe Settings::CreditRelationsController do
 
         describe "@user" do
           subject { assigns(:user) }
-          it { should === @mock_user }
+          it { should == @mock_user }
         end
 
         describe "response" do
@@ -158,7 +158,7 @@ describe Settings::CreditRelationsController do
 
           describe "@cr" do
             subject { assigns(:cr) }
-            it { should === @mock_credit_relation }
+            it { should == @mock_credit_relation }
           end
         end
       end
