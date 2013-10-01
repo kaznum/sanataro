@@ -6,7 +6,7 @@ describe EntryCandidatesController do
   describe "index" do
     context "without login" do
       before do
-        xhr :get, :index, :item_name => 'i'
+        xhr :get, :index, item_name: 'i'
       end
 
       describe "response" do
@@ -35,7 +35,7 @@ describe EntryCandidatesController do
 
       context "with item_name in params" do
         before do
-          xhr :get, :index, :item_name => 't'
+          xhr :get, :index, item_name: 't'
         end
         describe "response" do
           subject { response }
