@@ -7,7 +7,7 @@ describe Settings::AccountsController do
   describe "#index" do
     context "before login," do
       before do
-        get :index, :type => nil
+        get :index, type: nil
       end
 
       it_should_behave_like "Unauthenticated Access"
@@ -20,7 +20,7 @@ describe Settings::AccountsController do
 
       context "when params[:type] is invalid," do
         before do
-          get :index, :type => 'not_exist'
+          get :index, type: 'not_exist'
         end
 
         it_should_behave_like "Unauthenticated Access"
@@ -56,21 +56,21 @@ describe Settings::AccountsController do
 
       context "when params[:type] is nil," do
         before do
-          get :index, :type => nil
+          get :index, type: nil
         end
         it_should_behave_like "type = 'banking'"
       end
 
       context "when params[:type] == 'banking'," do
         before do
-          get :index, :type => 'banking'
+          get :index, type: 'banking'
         end
         it_should_behave_like "type = 'banking'"
       end
 
       context "when params[:type] == 'expense'," do
         before do
-          get :index, :type => 'expense'
+          get :index, type: 'expense'
         end
 
         it_should_behave_like "type = 'expense'"
@@ -78,7 +78,7 @@ describe Settings::AccountsController do
 
       context "when params[:type] == 'income'," do
         before do
-          get :index, :type => 'income'
+          get :index, type: 'income'
         end
 
         it_should_behave_like "type = 'income'"
@@ -90,7 +90,7 @@ describe Settings::AccountsController do
 
     context "before login," do
       before do
-        xhr :post, :create, :type => 'banking', :account_name => 'hogehoge', :order_no => '10'
+        xhr :post, :create, type: 'banking', account_name:  'hogehoge', order_no: '10'
       end
 
       it_should_behave_like "Unauthenticated Access by xhr"
@@ -106,12 +106,12 @@ describe Settings::AccountsController do
           before do
             @before_count = Account.count
             @before_bgcolors_count = User.find(session[:user_id]).account_bgcolors.size
-            xhr :post, :create, :type => 'banking', :account_name => 'hogehoge', :order_no => '10'
+            xhr :post, :create, type: 'banking', account_name:  'hogehoge', order_no: '10'
           end
 
           describe "response" do
             subject { response }
-            it { should redirect_by_js_to settings_accounts_url(:type => 'banking')}
+            it { should redirect_by_js_to settings_accounts_url(type: 'banking')}
           end
 
           describe "count of accounts" do
@@ -129,12 +129,12 @@ describe Settings::AccountsController do
           before do
             @before_count = Account.count
             @before_bgcolors_count = User.find(session[:user_id]).account_bgcolors.size
-            xhr :post, :create, :type => 'account', :account_name => 'hogehoge', :order_no => '10'
+            xhr :post, :create, type: 'account', account_name:  'hogehoge', order_no: '10'
           end
 
           describe "response" do
             subject { response }
-            it { should render_js_error :id => "add_warning", :default_message => I18n.t("error.input_is_invalid") }
+            it { should render_js_error id: "add_warning", default_message: I18n.t("error.input_is_invalid") }
           end
 
           describe "count of accounts" do
@@ -154,7 +154,7 @@ describe Settings::AccountsController do
   describe "#edit" do
     context "before login," do
       before do
-        xhr :get, :edit, :id => accounts(:bank1).id
+        xhr :get, :edit, id: accounts(:bank1).id
       end
 
       subject { response }
@@ -170,7 +170,7 @@ describe Settings::AccountsController do
 
         context "with invalid params[:id]," do
           before do
-            xhr :get, :edit, :id => 4321431
+            xhr :get, :edit, id: 4321431
           end
 
           subject { response }
@@ -179,7 +179,7 @@ describe Settings::AccountsController do
 
         context "with valid params[:id]," do
           before do
-            xhr :get, :edit, :id => accounts(:bank1).id
+            xhr :get, :edit, id: accounts(:bank1).id
           end
 
           describe "response" do
@@ -198,11 +198,11 @@ describe Settings::AccountsController do
 
   describe "#destroy" do
     before do
-      @dummy = users(:user1).bankings.create!(:name => 'hogehoge', :order_no => 100)
+      @dummy = users(:user1).bankings.create!(name: 'hogehoge', order_no: 100)
     end
     context "before login," do
       before do
-        xhr :delete, :destroy, :id => @dummy.id
+        xhr :delete, :destroy, id: @dummy.id
       end
       describe "response" do
         subject { response }
@@ -218,7 +218,7 @@ describe Settings::AccountsController do
       context "when method is xhr delete," do
         context "when params[:id] is not correct," do
           before do
-            xhr :delete, :destroy, :id => 31432412
+            xhr :delete, :destroy, id: 31432412
           end
           it_should_behave_like "Unauthenticated Access by xhr"
         end
@@ -227,7 +227,7 @@ describe Settings::AccountsController do
           before do
             Item.destroy_all
             CreditRelation.destroy_all
-            @action = -> { xhr :delete, :destroy, :id => @dummy.id }
+            @action = -> { xhr :delete, :destroy, id: @dummy.id }
           end
 
           describe "response" do
@@ -243,13 +243,13 @@ describe Settings::AccountsController do
 
         context "when the account is already used," do
           before do
-            @action = -> { xhr :delete, :destroy, :id => accounts(:bank1).id }
+            @action = -> { xhr :delete, :destroy, id: accounts(:bank1).id }
           end
 
           describe "response" do
             before { @action.call }
             subject { response }
-            it { should render_js_error :id => "add_warning" }
+            it { should render_js_error id: "add_warning" }
           end
 
           describe "Account.count" do
@@ -261,13 +261,13 @@ describe Settings::AccountsController do
           before do
             Item.destroy_all
             account = accounts(:bank1)
-            @action = -> { xhr :delete, :destroy, :id => account.id }
+            @action = -> { xhr :delete, :destroy, id: account.id }
           end
 
           describe "response" do
             before { @action.call }
             subject { response }
-            it { should render_js_error :id => "add_warning", :errors => ["クレジットカード支払い情報に関連づけられているため、削除できません。"] }
+            it { should render_js_error id: "add_warning", errors: ["クレジットカード支払い情報に関連づけられているため、削除できません。"] }
           end
 
           describe "Account.count" do
@@ -281,7 +281,7 @@ describe Settings::AccountsController do
   describe "#update" do
     context "before login," do
       before do
-        xhr :put, :update, :id => accounts(:bank1).id, :account_name => 'hogehoge', :order_no => '10', :bgcolor => '222222'
+        xhr :put, :update, id: accounts(:bank1).id, account_name:  'hogehoge', order_no: '10', bgcolor: '222222'
       end
 
       it_should_behave_like "Unauthenticated Access by xhr"
@@ -296,7 +296,7 @@ describe Settings::AccountsController do
 
         context "with invalid params[:id]," do
           before do
-            xhr :put, :update, :id => 4314321, :account_name => 'hogehoge', :order_no => '100', :bgcolor => "cccccc", :use_bgcolor => '1'
+            xhr :put, :update, id: 4314321, account_name:  'hogehoge', order_no: '100', bgcolor: "cccccc", use_bgcolor: '1'
           end
 
           it_should_behave_like "Unauthenticated Access by xhr"
@@ -305,7 +305,7 @@ describe Settings::AccountsController do
         shared_examples_for "Updated Successfully" do
           describe "response" do
             subject { response }
-            it { should redirect_by_js_to settings_accounts_url(:type => 'banking') }
+            it { should redirect_by_js_to settings_accounts_url(type: 'banking') }
           end
 
           describe "@user.all_accounts" do
@@ -327,7 +327,7 @@ describe Settings::AccountsController do
         context "with valid params," do
           context "with bgcolor," do
             before do
-              xhr :put, :update, :id => accounts(:bank1).id, :account_name => 'hogehoge', :order_no => '100', :bgcolor => "cccccc", :use_bgcolor => '1'
+              xhr :put, :update, id: accounts(:bank1).id, account_name: 'hogehoge', order_no: '100', bgcolor: "cccccc", use_bgcolor: '1'
             end
 
             it_should_behave_like "Updated Successfully"
@@ -345,7 +345,7 @@ describe Settings::AccountsController do
 
           context "without use_bgcolor," do
             before do
-              xhr :put, :update, :id => accounts(:bank1).id, :account_name => 'hogehoge', :order_no => '100',  :bgcolor => "cccccc"
+              xhr :put, :update, id: accounts(:bank1).id, account_name: 'hogehoge', order_no: '100',  bgcolor: "cccccc"
             end
 
             it_should_behave_like "Updated Successfully"
@@ -365,12 +365,12 @@ describe Settings::AccountsController do
         context "with invalid params(name is empty)," do
           before do
             @orig_account = Account.find(accounts(:bank1).id)
-            xhr :put, :update, :id => accounts(:bank1).id, :account_name => '', :order_no => '100', :bgcolor => "cccccc", :use_bgcolor => '1'
+            xhr :put, :update, id:  accounts(:bank1).id, account_name: '', order_no: '100', bgcolor: "cccccc", use_bgcolor: '1'
           end
 
           describe "response" do
             subject { response }
-            it { should render_js_error :id => "account_#{accounts(:bank1).id}_warning", :default_message => I18n.t("error.input_is_invalid") }
+            it { should render_js_error id:  "account_#{accounts(:bank1).id}_warning", default_message: I18n.t("error.input_is_invalid") }
           end
 
           describe "DB Record" do
@@ -388,7 +388,7 @@ describe Settings::AccountsController do
   describe "#show" do
     context "before login," do
       before do
-        xhr :get, :show, :id => accounts(:bank1).id
+        xhr :get, :show, id:  accounts(:bank1).id
       end
 
       it_should_behave_like "Unauthenticated Access by xhr"
@@ -402,7 +402,7 @@ describe Settings::AccountsController do
       context "when accessed by xhr get," do
         context "with valid params," do
           before do
-            xhr :get, :show, :id => accounts(:bank1).id
+            xhr :get, :show, id:  accounts(:bank1).id
           end
 
           describe "response" do
@@ -419,7 +419,7 @@ describe Settings::AccountsController do
 
         context "with the invalid params[:id]," do
           before do
-            xhr :get, :show, :id => 992143
+            xhr :get, :show, id: 992143
           end
 
           subject { response }
