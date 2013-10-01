@@ -41,4 +41,3 @@ describe TagStatusesController do
     end
   end
 end
-
