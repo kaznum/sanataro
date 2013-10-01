@@ -595,7 +595,7 @@ describe EntriesController do
   describe "#destroy" do
     context "before login," do
       before do
-        xhr :delete, :destroy, id: 12345
+        xhr :delete, :destroy, id: 12_345
       end
       subject { response }
       it { should redirect_by_js_to login_url }
@@ -614,7 +614,7 @@ describe EntriesController do
         before do
           mock_user.should_receive(:items).and_return(mock_items)
           mock_items.should_receive(:find).with("12345").and_raise(ActiveRecord::RecordNotFound.new)
-          xhr :delete, :destroy, id: 12345
+          xhr :delete, :destroy, id: 12_345
         end
 
         describe "response" do
@@ -773,10 +773,10 @@ describe EntriesController do
             end
 
             describe "profit_losses" do
-              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 2)).sum(:amount) }.by(1000) }
-              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008, 2)).sum(:amount) }.by(-1000) }
-              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 4)).sum(:amount) }.by(1000) }
-              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 4)).sum(:amount) }.by(-1000) }
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 2)).sum(:amount) }.by(1_000) }
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008, 2)).sum(:amount) }.by(-1_000) }
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 4)).sum(:amount) }.by(1_000) }
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 4)).sum(:amount) }.by(-1_000) }
             end
           end
 
@@ -808,14 +808,14 @@ describe EntriesController do
             end
 
             describe "future adjustment" do
-              it { expect { action.call }.to change { Item.find(items(:adjustment6).id).amount }.by(-1000) }
+              it { expect { action.call }.to change { Item.find(items(:adjustment6).id).amount }.by(-1_000) }
             end
 
             describe "profit_losses" do
               it { expect { action.call }.not_to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 2)).sum(:amount) } }
-              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008, 2)).sum(:amount) }.by(-1000) }
-              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 2)).sum(:amount) }.by(1000) }
-              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 3)).sum(:amount) }.by(-1000) }
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008, 2)).sum(:amount) }.by(-1_000) }
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 2)).sum(:amount) }.by(1_000) }
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 3)).sum(:amount) }.by(-1_000) }
             end
           end
         end
@@ -827,7 +827,7 @@ describe EntriesController do
           before do
             mock_user.should_receive(:items).and_return(mock_items)
             mock_items.should_receive(:find).with("20000").and_raise(ActiveRecord::RecordNotFound.new)
-            xhr :delete, :destroy, id: 20000, year: Date.today.year, month: Date.today.month
+            xhr :delete, :destroy, id: 20_000, year: Date.today.year, month: Date.today.month
           end
           subject { response }
           it { should redirect_by_js_to current_entries_url }
@@ -1147,7 +1147,7 @@ describe EntriesController do
           }
 
           its(:name) { should eq 'テスト10' }
-          its(:amount) { should eq 10000 }
+          its(:amount) { should eq 10_000 }
           it { should be_confirmation_required }
           its(:tag_list) { should eq "fuga hoge" }
         end
@@ -1175,7 +1175,7 @@ describe EntriesController do
           }
 
           its(:name) { should eq 'テスト10' }
-          its(:amount) { should eq 10000 }
+          its(:amount) { should eq 10_000 }
           it { should be_confirmation_required }
           its(:tag_list) { should eq "fuga hoge" }
         end
@@ -1203,7 +1203,7 @@ describe EntriesController do
           }
 
           its(:name) { should eq 'テスト10' }
-          its(:amount) { should eq 10000 }
+          its(:amount) { should eq 10_000 }
           it { should_not be_confirmation_required }
           its(:tag_list) { should eq "fuga hoge" }
         end
@@ -1232,7 +1232,7 @@ describe EntriesController do
           }
 
           its(:name) { should eq 'テスト10' }
-          its(:amount) { should eq 10000 }
+          its(:amount) { should eq 10_000 }
           it { should_not be_confirmation_required }
           its(:tag_list) { should eq "fuga hoge" }
         end
@@ -1326,7 +1326,7 @@ describe EntriesController do
 
           describe "adjustment just next to the created item" do
             subject { Item.find(items(:adjustment2).id) }
-            its(:amount) { should eq @init_adj2.amount + 10000 }
+            its(:amount) { should eq @init_adj2.amount + 10_000 }
           end
 
           describe "adjustment which is the next of the adjustment next to the created item" do
@@ -1507,7 +1507,7 @@ describe EntriesController do
               @post.call
             end
             subject { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 3, 1)).first.amount }
-            it { should eq 10000 }
+            it { should eq 10_000 }
           end
         end
 
@@ -1550,7 +1550,7 @@ describe EntriesController do
               @post.call
             end
             subject { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 3, 1)).first.amount }
-            it { should eq 10000 }
+            it { should eq 10_000 }
           end
         end
       end
@@ -1569,7 +1569,7 @@ describe EntriesController do
             Item.where(action_date: Date.new(2008, 2, 10),
                        from_account_id: accounts(:credit4).id,
                        to_account_id: accounts(:expense3).id,
-                       amount: 10000,
+                       amount: 10_000,
                        parent_id: nil).find { |i| i.child_item }
           }
 
@@ -1582,7 +1582,7 @@ describe EntriesController do
           describe "created credit item" do
             subject { credit_item }
             it { should_not be_nil }
-            its(:amount) { should eq 10000 }
+            its(:amount) { should eq 10_000 }
             its(:parent_id) { should be_nil }
             its(:child_item) { should_not be_nil }
           end
@@ -1599,7 +1599,7 @@ describe EntriesController do
             its(:action_date) { should eq Date.new(2008, 2 + credit_relations(:cr1).payment_month, credit_relations(:cr1).payment_day) }
             its(:from_account_id) { should eq credit_relations(:cr1).payment_account_id }
             its(:to_account_id) { should eq credit_relations(:cr1).credit_account_id }
-            its(:amount) { should eq 10000 }
+            its(:amount) { should eq 10_000 }
           end
         end
 
@@ -1627,13 +1627,13 @@ describe EntriesController do
             Item.where(action_date: Date.new(2008, 2, 25),
                        from_account_id: accounts(:credit4).id,
                        to_account_id: accounts(:expense3).id,
-                       amount: 10000, parent_id: nil).find { |i| i.child_item }
+                       amount: 10_000, parent_id: nil).find { |i| i.child_item }
           }
 
           describe "created credit item" do
             subject { credit_item }
             it { should_not be_nil }
-            its(:amount) { should eq 10000 }
+            its(:amount) { should eq 10_000 }
             its(:parent_id) { should be_nil }
             its(:child_item) { should_not be_nil }
             its(:action_date) { should eq Date.new(2008, 2, 25) }
@@ -1653,7 +1653,7 @@ describe EntriesController do
               its(:action_date) { should eq Date.new(2008, 3 + credit_relations(:cr1).payment_month, credit_relations(:cr1).payment_day) }
               its(:from_account_id) { should eq credit_relations(:cr1).payment_account_id }
               its(:to_account_id) { should eq credit_relations(:cr1).credit_account_id }
-              its(:amount) { should eq 10000 }
+              its(:amount) { should eq 10_000 }
             end
           end
         end
@@ -1684,13 +1684,13 @@ describe EntriesController do
             Item.where(action_date: Date.new(2008, 2, 10),
                        from_account_id: accounts(:credit4).id,
                        to_account_id: accounts(:expense3).id,
-                       amount: 10000, parent_id: nil).find { |i| i.child_item }
+                       amount: 10_000, parent_id: nil).find { |i| i.child_item }
           }
 
           describe "created credit item" do
             subject { credit_item }
             it { should_not be_nil }
-            its(:amount) { should eq 10000 }
+            its(:amount) { should eq 10_000 }
             its(:parent_id) { should be_nil }
             its(:child_item) { should_not be_nil }
             its(:action_date) { should eq Date.new(2008, 2, 10) }
@@ -1709,7 +1709,7 @@ describe EntriesController do
             its(:action_date) { should eq Date.new(2008, 2 + @cr1.payment_month, 1).end_of_month }
             its(:from_account_id) { should eq @cr1.payment_account_id }
             its(:to_account_id) { should eq @cr1.credit_account_id }
-            its(:amount) { should eq 10000 }
+            its(:amount) { should eq 10_000 }
           end
         end
       end
@@ -2790,7 +2790,7 @@ describe EntriesController do
                     action_date: old_item1.action_date.strftime("%Y/%m/%d"),
                     amount: "1000",
                     from_account_id: accounts(:bank1).id,
-                    to_account_id: 43214,
+                    to_account_id: 43_214,
                     confirmation_required: 'true'
                   },
                   year: 2008, month: 2)
@@ -2836,7 +2836,7 @@ describe EntriesController do
             subject { Item.find(@old_item11.id) }
             its(:name) { should eq 'テスト11' }
             its(:action_date) { should eq @old_item11.action_date }
-            its(:amount) { should eq 100000 }
+            its(:amount) { should eq 100_000 }
             its(:from_account_id) { should eq accounts(:bank1).id }
             its(:to_account_id) { should eq accounts(:expense3).id }
           end
@@ -2909,7 +2909,7 @@ describe EntriesController do
               subject { Item.find(old_item1.id) }
               its(:name) { should eq 'テスト10' }
               its(:action_date) { should eq Date.new(old_action_date.year, old_action_date.month, 18) }
-              its(:amount) { should eq 100000 }
+              its(:amount) { should eq 100_000 }
               its(:from_account_id) { should eq accounts(:bank1).id }
               its(:to_account_id) { should eq accounts(:expense3).id }
               it { should_not be_confirmation_required }
@@ -2917,7 +2917,7 @@ describe EntriesController do
 
             describe "adjustment which is in the same month" do
               let(:adj_id) { items(:adjustment2).id }
-              it { expect { @action.call }.to change { Item.find(adj_id).amount }.by(100000 - old_item1.amount) }
+              it { expect { @action.call }.to change { Item.find(adj_id).amount }.by(100_000 - old_item1.amount) }
             end
 
             describe "adjustment which is in the next month or after" do
@@ -3035,7 +3035,7 @@ describe EntriesController do
             before { @action.call }
             subject { Item.find(item1_id) }
             its(:name) { should eq "テスト20" }
-            its(:amount) { should eq 20000 }
+            its(:amount) { should eq 20_000 }
             its(:from_account_id) { should eq accounts(:bank1).id }
             its(:to_account_id) { should eq accounts(:expense3).id }
             its(:action_date) { should eq date }
@@ -3111,7 +3111,7 @@ describe EntriesController do
             before { @action.call }
             subject { Item.find(@item5.id) }
             its(:name) { should eq 'テスト50' }
-            its(:amount) { should eq 20000 }
+            its(:amount) { should eq 20_000 }
             its(:action_date) { should eq @item5.action_date }
             its(:from_account_id) { should eq accounts(:bank1).id }
             its(:to_account_id) { should eq accounts(:expense3).id }
@@ -3119,12 +3119,12 @@ describe EntriesController do
 
           describe "adjustments" do
             it { expect { @action.call }.not_to change { Item.find(@adj4.id).amount } }
-            it { expect { @action.call }.to change { Item.find(@adj6.id).amount }.by(20000 - @item5.amount) }
+            it { expect { @action.call }.to change { Item.find(@adj6.id).amount }.by(20_000 - @item5.amount) }
           end
 
           describe "monthly pls" do
-            it { expect { @action.call }.to change { MonthlyProfitLoss.find(@pl200802.id).amount }.by(-20000 + @item5.amount) }
-            it { expect { @action.call }.to change { MonthlyProfitLoss.find(@pl200803.id).amount }.by(20000 - @item5.amount) }
+            it { expect { @action.call }.to change { MonthlyProfitLoss.find(@pl200802.id).amount }.by(-20_000 + @item5.amount) }
+            it { expect { @action.call }.to change { MonthlyProfitLoss.find(@pl200803.id).amount }.by(20_000 - @item5.amount) }
           end
         end
 
@@ -3288,8 +3288,8 @@ describe EntriesController do
               init_payment_item = init_credit_item.child_item
               date = init_credit_item.action_date
 
-              init_credit_item.amount.should eq 10000
-              init_payment_item.amount.should eq 10000
+              init_credit_item.amount.should eq 10_000
+              init_payment_item.amount.should eq 10_000
               init_payment_item.to_account_id.should eq init_credit_item.from_account_id
               init_payment_item.from_account_id.should eq 1
               init_payment_item.action_date.should eq Date.new(2008, 4, 20)
@@ -3302,7 +3302,7 @@ describe EntriesController do
                 xhr(:put, :update, id: init_credit_item.id,
                     entry: { name: 'テスト20',
                       action_date: date.strftime("%Y/%m/%d"),
-                      amount: "20000",
+                      amount: "20_000",
                       from_account_id: accounts(:credit4).id.to_s,
                       to_account_id: accounts(:expense3).id.to_s },
                     year: init_credit_item.action_date.year,
@@ -3358,8 +3358,8 @@ describe EntriesController do
 
               init_payment_item = init_credit_item.child_item
 
-              init_credit_item.amount.should eq 10000
-              init_payment_item.amount.should eq 10000
+              init_credit_item.amount.should eq 10_000
+              init_payment_item.amount.should eq 10_000
               init_payment_item.to_account_id.should eq init_credit_item.from_account_id
               init_payment_item.from_account_id.should eq 1
               init_payment_item.action_date.should eq Date.new(2008, 4, 20)
@@ -3439,8 +3439,8 @@ describe EntriesController do
 
               init_payment_item = Item.find(init_credit_item.child_item.id)
 
-              init_credit_item.amount.should eq 10000
-              init_payment_item.amount.should eq 10000
+              init_credit_item.amount.should eq 10_000
+              init_payment_item.amount.should eq 10_000
               init_payment_item.to_account_id.should eq init_credit_item.from_account_id
               init_payment_item.from_account_id.should eq 1
               init_payment_item.action_date.should eq Date.new(2008, 4, 20)
@@ -3513,8 +3513,8 @@ describe EntriesController do
 
               init_payment_item = init_credit_item.child_item
 
-              init_credit_item.amount.should eq 10000
-              init_payment_item.amount.should eq 10000
+              init_credit_item.amount.should eq 10_000
+              init_payment_item.amount.should eq 10_000
               init_payment_item.to_account_id.should eq init_credit_item.from_account_id
               init_payment_item.from_account_id.should eq 1
               init_payment_item.action_date.should eq Date.new(2008, 4, 20)
@@ -3574,8 +3574,8 @@ describe EntriesController do
 
               init_payment_item = init_credit_item.child_item
 
-              init_credit_item.amount.should eq 10000
-              init_payment_item.amount.should eq 10000
+              init_credit_item.amount.should eq 10_000
+              init_payment_item.amount.should eq 10_000
               init_payment_item.to_account_id.should eq init_credit_item.from_account_id
               init_payment_item.from_account_id.should eq 1
               init_payment_item.action_date.should eq Date.new(2008, 3, 20)
@@ -3640,8 +3640,8 @@ describe EntriesController do
 
               init_payment_item = init_credit_item.child_item
 
-              init_credit_item.amount.should eq 10000
-              init_payment_item.amount.should eq 10000
+              init_credit_item.amount.should eq 10_000
+              init_payment_item.amount.should eq 10_000
               init_payment_item.to_account_id.should eq init_credit_item.from_account_id
               init_payment_item.from_account_id.should eq 1
               init_payment_item.action_date.should eq Date.new(2008, 2, 19)
