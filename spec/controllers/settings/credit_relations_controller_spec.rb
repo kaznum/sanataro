@@ -281,7 +281,7 @@ describe Settings::CreditRelationsController do
 
           describe "response" do
             subject { response }
-            it { should render_js_error id: "warning", errors: ["aaa", "bbb", "ccc"], default_message: I18n.t("error.input_is_invalid") }
+            it { should render_js_error id: "warning", errors: %w(aaa bbb ccc), default_message: I18n.t("error.input_is_invalid") }
           end
 
           describe "@user" do
