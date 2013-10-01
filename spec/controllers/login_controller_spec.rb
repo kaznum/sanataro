@@ -10,7 +10,7 @@ describe LoginController do
       it { should be_success }
       it { should render_template "login" }
     end
-      
+
     context "without autologin cookie," do
       before do
         get :login
@@ -49,7 +49,7 @@ describe LoginController do
         it { should render_template 'login' }
       end
     end
-    
+
     context "with user cookie, " do
       before do
         @request.cookies['user'] = 'user1'
@@ -59,7 +59,7 @@ describe LoginController do
         before do
           @request.cookies['autologin'] = '1234567'
         end
-      
+
         describe "response" do
           before do
             get :login
@@ -99,7 +99,7 @@ describe LoginController do
       end
     end
   end
-  
+
   describe "#do_login" do
     context "with invalid password," do
       before do
@@ -141,14 +141,14 @@ describe LoginController do
         its(['only_add']) { should be_nil }
       end
     end
-    
-    context "when AutologinKey.cleanup is called," do 
+
+    context "when AutologinKey.cleanup is called," do
       it "should send AutologinKey.cleanup," do
         AutologinKey.should_receive(:cleanup)
         xhr :post, :do_login, login: users(:user1).login, password: '123456', autologin: "1", only_add: '1'
       end
     end
-    
+
     context "with autologin = 1 and only_add = nil in params," do
       before do
         xhr :post, :do_login, login: 'user1', password: '123456', autologin: '1', only_add: nil
@@ -158,7 +158,7 @@ describe LoginController do
         subject { response }
         it { should redirect_by_js_to current_entries_url }
       end
-      
+
       describe "cookies" do
         subject { cookies }
         its(['user']) { should be == users(:user1).login }
@@ -169,7 +169,6 @@ describe LoginController do
       describe "session" do
         subject { session }
         its(['user_id']) { should be == users(:user1).id }
-        
       end
 
       describe "AutologinKey.count" do
@@ -204,9 +203,7 @@ describe LoginController do
         subject { AutologinKey.where(user_id: users(:user1).id).where("created_at > ?", DateTime.now - 30).count }
         it { should be > 0 }
       end
-      
     end
-
   end
 
   describe "#do_logout" do
@@ -228,7 +225,7 @@ describe LoginController do
     end
 
     context "after login," do
-      context "without autologin in cookies," do 
+      context "without autologin in cookies," do
         before do
           login
           get :do_logout
@@ -246,7 +243,7 @@ describe LoginController do
         end
       end
 
-      context "with autologin in cookies," do 
+      context "with autologin in cookies," do
         before do
           login
           login_user_id = users(:user1).id
@@ -256,7 +253,7 @@ describe LoginController do
           @request.cookies['autologin'] = '12345abc'
           get :do_logout
         end
-        
+
         describe "response" do
           subject { response }
           it { should redirect_to login_url }
@@ -281,14 +278,13 @@ describe LoginController do
     it { should render_template "create_user" }
   end
 
-
   describe "#do_create_user" do
     context "when params are all valid," do
       before do
         xhr :post, :do_create_user, login: 'hogehoge', password_plain: 'hagehage', password_confirmation: 'hagehage', email: 'email@example.com'
       end
 
-      describe "response" do 
+      describe "response" do
         subject { response }
         it { should render_template "do_create_user" }
         it { should be_success }
