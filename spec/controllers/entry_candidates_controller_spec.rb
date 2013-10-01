@@ -29,7 +29,7 @@ describe EntryCandidatesController do
         describe "response" do
           subject { response }
           it { should be_success }
-          it { should_not render_template "_candidate"}
+          it { should_not render_template "_candidate" }
         end
       end
 
@@ -40,7 +40,7 @@ describe EntryCandidatesController do
         describe "response" do
           subject { response }
           it { should be_success }
-          it { should render_template "_candidate"}
+          it { should render_template "_candidate" }
         end
       end
     end
