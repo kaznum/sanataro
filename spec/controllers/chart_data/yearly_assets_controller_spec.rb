@@ -41,7 +41,7 @@ describe ChartData::YearlyAssetsController do
           describe "response.body" do
             subject { response.body }
             it {
-              date = Date.new(1999,2)
+              date = Date.new(1999, 2)
               json = ActiveSupport::JSON.decode(subject)
               json.should have(1).keys
               ["total"].each do |key|
@@ -65,14 +65,14 @@ describe ChartData::YearlyAssetsController do
             @account4 = @user.expenses.create!(name: "その4", active: true, order_no: 40)
 
             pls = @user.monthly_profit_losses
-            pls.create!(month: Date.new(1998,1), account_id: @account1.id, amount: -300 )
-            pls.create!(month: Date.new(1998,6), account_id: @account1.id, amount: -100 )
-            pls.create!(month: Date.new(1999,1), account_id: @account2.id, amount: -900 )
-            pls.create!(month: Date.new(1999,1), account_id: @account3.id, amount: 900 )
-            pls.create!(month: Date.new(1999,1), account_id: @account4.id, amount: 200 )
-            pls.create!(month: Date.new(1999,1), account_id: -1, amount: 800 )
-            pls.create!(month: Date.new(1999,2), account_id: -1, amount: -300 )
-            pls.create!(month: Date.new(2000,5), account_id: @account1.id, amount: -300 )
+            pls.create!(month: Date.new(1998, 1), account_id: @account1.id, amount: -300)
+            pls.create!(month: Date.new(1998, 6), account_id: @account1.id, amount: -100)
+            pls.create!(month: Date.new(1999, 1), account_id: @account2.id, amount: -900)
+            pls.create!(month: Date.new(1999, 1), account_id: @account3.id, amount: 900)
+            pls.create!(month: Date.new(1999, 1), account_id: @account4.id, amount: 200)
+            pls.create!(month: Date.new(1999, 1), account_id: -1, amount: 800)
+            pls.create!(month: Date.new(1999, 2), account_id: -1, amount: -300)
+            pls.create!(month: Date.new(2000, 5), account_id: @account1.id, amount: -300)
 
             get :show, id: "199902", format: :json
           end
@@ -85,7 +85,7 @@ describe ChartData::YearlyAssetsController do
           describe "response.body" do
             subject { response.body }
             it {
-              date = Date.new(1999,2)
+              date = Date.new(1999, 2)
               json = ActiveSupport::JSON.decode(subject)
               json.should have(3).keys
               ["account_#{@account1.id}", "account_#{@account3.id}", "total"].each do |key|
