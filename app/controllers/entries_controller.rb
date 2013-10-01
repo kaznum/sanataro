@@ -88,15 +88,15 @@ class EntriesController < ApplicationController
 
   def _new_simple
     @data = {
-      :authenticity_token => form_authenticity_token,
-      :year => today.year,
-      :month => today.month,
-      :day => today.day,
-      :from_accounts => from_accounts,
-      :to_accounts => to_accounts,
+      authenticity_token: form_authenticity_token,
+      year: today.year,
+      month: today.month,
+      day: today.day,
+      from_accounts: from_accounts,
+      to_accounts: to_accounts,
     }
 
-    render 'new_simple', :layout => false
+    render 'new_simple', layout: false
   end
 
 
@@ -105,10 +105,10 @@ class EntriesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     redirect_js_to current_entries_url
   rescue InvalidDate
-    render_js_error :id => warning_selector, :default_message => t("error.date_is_invalid")
+    render_js_error id: warning_selector, default_message: t("error.date_is_invalid")
   rescue SyntaxError
-    render_js_error :id => warning_selector, :default_message => t("error.amount_is_invalid")
+    render_js_error id: warning_selector, default_message: t("error.amount_is_invalid")
   rescue ActiveRecord::RecordInvalid => ex
-    render_js_error(:id => warning_selector, :errors => ex.error_messages, :default_message => t("error.input_is_invalid"))
+    render_js_error(id: warning_selector, errors: ex.error_messages, default_message: t("error.input_is_invalid"))
   end
 end
