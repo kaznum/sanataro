@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# - * - coding: utf-8 - * -
 require 'spec_helper'
 
 describe ChartData::YearlyAssetsController do
@@ -46,7 +46,7 @@ describe ChartData::YearlyAssetsController do
               json.should have(1).keys
               ["total"].each do |key|
                 json[key]["data"].should have(12).entries
-                json[key]["data"].should include([date.months_ago(11).to_time.to_i*1000, 0])
+                json[key]["data"].should include([date.months_ago(11).to_time.to_i * 1000, 0])
               end
             }
           end
@@ -96,14 +96,14 @@ describe ChartData::YearlyAssetsController do
               json["account_#{@account3.id}"]["label"].should be == "その3"
               json["total"]["label"].should be == "合計"
 
-              json["account_#{@account1.id}"]["data"].should include([date.months_ago(9).to_time.to_i*1000, -300])
-              json["account_#{@account1.id}"]["data"].should include([date.months_ago(8).to_time.to_i*1000, -400])
-              json["account_#{@account1.id}"]["data"].should include([date.months_ago(0).to_time.to_i*1000, -400])
+              json["account_#{@account1.id}"]["data"].should include([date.months_ago(9).to_time.to_i * 1000, -300])
+              json["account_#{@account1.id}"]["data"].should include([date.months_ago(8).to_time.to_i * 1000, -400])
+              json["account_#{@account1.id}"]["data"].should include([date.months_ago(0).to_time.to_i * 1000, -400])
 
-              json["total"]["data"].should include([date.months_ago(9).to_time.to_i*1000, -300])
-              json["total"]["data"].should include([date.months_ago(8).to_time.to_i*1000, -400])
-              json["total"]["data"].should include([date.months_ago(2).to_time.to_i*1000, -400])
-              json["total"]["data"].should include([date.months_ago(1).to_time.to_i*1000, 500])
+              json["total"]["data"].should include([date.months_ago(9).to_time.to_i * 1000, -300])
+              json["total"]["data"].should include([date.months_ago(8).to_time.to_i * 1000, -400])
+              json["total"]["data"].should include([date.months_ago(2).to_time.to_i * 1000, -400])
+              json["total"]["data"].should include([date.months_ago(1).to_time.to_i * 1000, 500])
             }
           end
         end
