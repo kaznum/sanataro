@@ -23,7 +23,7 @@ describe ProfitLossesController do
         end
 
         describe "response" do
-          subject {response}
+          subject { response }
           it { should be_success }
           it { should render_template('index') }
         end
@@ -55,18 +55,18 @@ describe ProfitLossesController do
             get :index, year: '2008', month: '2'
           end
           describe "response" do
-            subject { response}
+            subject { response }
             it { should be_success }
-            it { should render_template('index')}
+            it { should render_template('index') }
           end
 
           describe "assigned variables" do
             subject { assigns }
-            its([:m_pls]) { should_not be_nil}
-            its([:account_incomes]) { should_not be_nil}
-            its([:total_income]) { should_not be_nil}
-            its([:account_expenses]) { should_not be_nil}
-            its([:total_expense]) { should_not be_nil}
+            its([:m_pls]) { should_not be_nil }
+            its([:account_incomes]) { should_not be_nil }
+            its([:total_income]) { should_not be_nil }
+            its([:account_expenses]) { should_not be_nil }
+            its([:total_expense]) { should_not be_nil }
           end
         end
 
@@ -78,7 +78,7 @@ describe ProfitLossesController do
           describe "unknown account in assigned variables" do
             subject { assigns[:account_incomes] }
             it { should be_any { |a| a.id == -1 } }
-            specify { subject.find{ |a| a.id == -1 }.name.should == I18n.t("label.unknown_income") }
+            specify { subject.find { |a| a.id == -1 }.name.should == I18n.t("label.unknown_income") }
           end
         end
 
@@ -91,7 +91,7 @@ describe ProfitLossesController do
           describe "unknown account in assigned variables" do
             subject { assigns[:account_expenses] }
             it { should be_any { |a| a.id == -1 } }
-            specify { subject.find{ |a| a.id == -1 }.name.should == I18n.t("label.unknown_expense") }
+            specify { subject.find { |a| a.id == -1 }.name.should == I18n.t("label.unknown_expense") }
           end
         end
       end
@@ -122,13 +122,13 @@ describe ProfitLossesController do
           end
           describe "response" do
             subject { response }
-            it {should render_template "show"}
+            it { should render_template "show" }
           end
 
           describe "assigned variables" do
             subject { assigns }
-            its([:items]) {should_not be_nil}
-            its([:account_id]) {should_not be_nil}
+            its([:items]) { should_not be_nil }
+            its([:account_id]) { should_not be_nil }
             its([:account_id]) { should be accounts(:expense3).id }
 
             describe "items" do
@@ -136,7 +136,7 @@ describe ProfitLossesController do
               specify do
                 subject.each do |item|
                   item.to_account_id.should be(accounts(:expense3).id)
-                  item.action_date.should be_between(Date.new(2008, 2), Date.new(2008,2).end_of_month)
+                  item.action_date.should be_between(Date.new(2008, 2), Date.new(2008, 2).end_of_month)
                 end
               end
             end
@@ -160,7 +160,7 @@ describe ProfitLossesController do
             its([:account_id]) { should be accounts(:expense3).id }
 
             describe "items" do
-              subject { assigns(:items)}
+              subject { assigns(:items) }
               specify do
                 subject.each do |item|
                   item.to_account_id.should be accounts(:expense3).id
