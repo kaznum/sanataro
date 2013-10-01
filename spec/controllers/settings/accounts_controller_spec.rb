@@ -170,7 +170,7 @@ describe Settings::AccountsController do
 
         context "with invalid params[:id]," do
           before do
-            xhr :get, :edit, id: 4321431
+            xhr :get, :edit, id: 4_321_431
           end
 
           subject { response }
@@ -218,7 +218,7 @@ describe Settings::AccountsController do
       context "when method is xhr delete," do
         context "when params[:id] is not correct," do
           before do
-            xhr :delete, :destroy, id: 31432412
+            xhr :delete, :destroy, id: 31_432_412
           end
           it_should_behave_like "Unauthenticated Access by xhr"
         end
@@ -296,7 +296,7 @@ describe Settings::AccountsController do
 
         context "with invalid params[:id]," do
           before do
-            xhr :put, :update, id: 4314321, account_name:  'hogehoge', order_no: '100', bgcolor: "cccccc", use_bgcolor: '1'
+            xhr :put, :update, id: 4_314_321, account_name:  'hogehoge', order_no: '100', bgcolor: "cccccc", use_bgcolor: '1'
           end
 
           it_should_behave_like "Unauthenticated Access by xhr"
@@ -419,7 +419,7 @@ describe Settings::AccountsController do
 
         context "with the invalid params[:id]," do
           before do
-            xhr :get, :show, id: 992143
+            xhr :get, :show, id: 992_143
           end
 
           subject { response }
