@@ -57,7 +57,7 @@ describe ChartData::AssetsController do
         end
         subject { response }
         it {  should be_success }
-        its(:body) { should == "[]"}
+        its(:body) { should == "[]" }
       end
 
       context "When there are data to send," do
@@ -69,11 +69,11 @@ describe ChartData::AssetsController do
           account3 = users(:user1).bankings.create!(name: "その3", active: true, order_no: 30)
           account4 = users(:user1).bankings.create!(name: "その4", active: true, order_no: 40)
 
-          users(:user1).monthly_profit_losses.create!(month: Date.new(1999,5), account_id: account1.id, amount: -300)
-          users(:user1).monthly_profit_losses.create!(month: Date.new(1988,6), account_id: account1.id, amount: -100)
-          users(:user1).monthly_profit_losses.create!(month: Date.new(1999,1), account_id: account1.id, amount: 900)
-          users(:user1).monthly_profit_losses.create!(month: Date.new(1999,1), account_id: account3.id, amount: 900)
-          users(:user1).monthly_profit_losses.create!(month: Date.new(1998,3), account_id: account4.id, amount: -200)
+          users(:user1).monthly_profit_losses.create!(month: Date.new(1999, 5), account_id: account1.id, amount: -300)
+          users(:user1).monthly_profit_losses.create!(month: Date.new(1988, 6), account_id: account1.id, amount: -100)
+          users(:user1).monthly_profit_losses.create!(month: Date.new(1999, 1), account_id: account1.id, amount: 900)
+          users(:user1).monthly_profit_losses.create!(month: Date.new(1999, 1), account_id: account3.id, amount: 900)
+          users(:user1).monthly_profit_losses.create!(month: Date.new(1998, 3), account_id: account4.id, amount: -200)
         end
 
         context "when asset_type is not specify," do
@@ -85,7 +85,7 @@ describe ChartData::AssetsController do
             subject { response }
             it {  should be_success }
             specify do
-              ActiveSupport::JSON.decode(subject.body).should == [{"label" => "その1", "data" => 800}, {"label" => "その3", "data" => 900}]
+              ActiveSupport::JSON.decode(subject.body).should == [{ "label" => "その1", "data" => 800 }, { "label" => "その3", "data" => 900 }]
             end
           end
         end
@@ -98,7 +98,7 @@ describe ChartData::AssetsController do
             subject { response }
             it {  should be_success }
             specify do
-              ActiveSupport::JSON.decode(subject.body).should == [{"label" => "その4", "data" => 200}]
+              ActiveSupport::JSON.decode(subject.body).should == [{ "label" => "その4", "data" => 200 }]
             end
           end
         end
