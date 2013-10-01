@@ -225,7 +225,7 @@ describe Api::EntriesController do
               before do
                 get :index, filter_account_id: "", year: '2008', month: '2', format: :json
               end
-              
+
               subject {  session[:filter_account_id] }
               it { should be_nil }
             end
@@ -991,11 +991,11 @@ describe Api::EntriesController do
           describe "created adjustment" do
             before do
               account_id = accounts(:bank1).id
-              init_items = Item.where("action_date <= ?", @date )
+              init_items = Item.where("action_date <= ?", @date)
               @init_total = init_items.where(to_account_id: account_id).sum(:amount) - init_items.where(from_account_id: account_id).sum(:amount)
               @action.call
               @created_item = Item.where(user_id: users(:user1).id, action_date: @date).order("id desc").first
-              prev_items = Item.where("id < ?", @created_item.id).where("action_date <= ?", @date )
+              prev_items = Item.where("id < ?", @created_item.id).where("action_date <= ?", @date)
               @prev_total = prev_items.where(to_account_id: account_id).sum(:amount) - prev_items.where(from_account_id: account_id).sum(:amount)
             end
             subject { @created_item }
@@ -1549,7 +1549,7 @@ describe Api::EntriesController do
               before do
                 @old_adj2 = items(:adjustment2)
               end
-              it { expect { @action.call }.to change { Item.find(adj2_id).amount }.by( -1 *  @old_item1.amount) }
+              it { expect { @action.call }.to change { Item.find(adj2_id).amount }.by(-1 *  @old_item1.amount) }
             end
 
             describe "adj4" do
@@ -1618,7 +1618,7 @@ describe Api::EntriesController do
                 subject { @init_credit_item }
                 its(:amount) { should be == 10_000 }
               end
-              
+
               describe "initial payment item" do
                 subject { @init_payment_item }
                 its(:amount) { should be == 10_000 }
@@ -1693,7 +1693,7 @@ describe Api::EntriesController do
                 subject { @init_credit_item }
                 its(:amount) { should be == 10_000 }
               end
-              
+
               describe "initial payment item" do
                 subject { @init_payment_item }
                 its(:amount) { should be == 10_000 }
