@@ -7,7 +7,7 @@ describe ChartData::BudgetsController do
   describe "#show" do
     context "before login," do
       before do
-        get :show, id: 200802, format: :json
+        get :show, id: 200_802, format: :json
       end
 
       it_should_behave_like "Unauthenticated Access"
