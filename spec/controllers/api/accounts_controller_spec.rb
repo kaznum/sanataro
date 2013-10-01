@@ -15,7 +15,7 @@ describe Api::AccountsController do
 
     context "access successfully with basic auth," do
       before do
-        request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials("user1","123456")
+        request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials("user1", "123456")
         get :index, format: :json
       end
 
@@ -28,7 +28,7 @@ describe Api::AccountsController do
 
     context "with wrong password at basic auth," do
       before do
-        request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials("user1","1234")
+        request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials("user1", "1234")
         get :index, format: :json
       end
 
@@ -37,7 +37,7 @@ describe Api::AccountsController do
 
     context "with wrong login at basic auth," do
       before do
-        request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials("user999","123456")
+        request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials("user999", "123456")
         get :index, format: :json
       end
 
