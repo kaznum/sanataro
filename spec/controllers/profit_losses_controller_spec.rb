@@ -40,7 +40,7 @@ describe ProfitLossesController do
 
       context "when month is invalid," do
         before do
-          get :index, :year => '2008', :month => '13'
+          get :index, year: '2008', month: '13'
         end
 
         describe "response" do
@@ -52,7 +52,7 @@ describe ProfitLossesController do
       context "when valid month is specified," do
         context "and with common condition," do
           before do
-            get :index, :year => '2008', :month => '2'
+            get :index, year: '2008', month: '2'
           end
           describe "response" do
             subject { response}
@@ -72,7 +72,7 @@ describe ProfitLossesController do
 
         context "and Unknown accounts amount < 0," do
           before do
-            get :index, :year => '2008', :month => '2'
+            get :index, year: '2008', month: '2'
           end
 
           describe "unknown account in assigned variables" do
@@ -85,7 +85,7 @@ describe ProfitLossesController do
         context "and Unknown accounts amount > 0," do
           before do
             MonthlyProfitLoss.find(ActiveRecord::FixtureSet.identify(:unknown200802)).update_attributes(amount: 5000)
-            get :index, :year => '2008', :month => '2'
+            get :index, year: '2008', month: '2'
           end
 
           describe "unknown account in assigned variables" do
@@ -101,7 +101,7 @@ describe ProfitLossesController do
   describe "#show" do
     context "when not logged in," do
       before do
-        xhr :get, :show, :id => accounts(:bank1).id, :year => '2008', :month => '2'
+        xhr :get, :show, id: accounts(:bank1).id, year: '2008', month: '2'
       end
 
       describe "response" do
@@ -118,7 +118,7 @@ describe ProfitLossesController do
       context "when correct id is specified," do
         context "when year, month are specified," do
           before do
-            xhr :get, :show, :id=>accounts(:expense3).id.to_s, :year=>'2008', :month=>'2'
+            xhr :get, :show, id: accounts(:expense3).id.to_s, year: '2008', month: '2'
           end
           describe "response" do
             subject { response }
@@ -145,7 +145,7 @@ describe ProfitLossesController do
 
         context "when year, month are not specified," do
           before do
-            xhr :get, :show, :id=>accounts(:expense3).id.to_s
+            xhr :get, :show, id: accounts(:expense3).id.to_s
           end
 
           describe "response" do
