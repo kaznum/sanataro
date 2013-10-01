@@ -1769,19 +1769,19 @@ describe EntriesController do
           describe "created adjustment" do
             before do
               account_id = accounts(:bank1).id
-              init_items = Item.where("action_date <= ?", @date )
+              init_items = Item.where("action_date <= ?", @date)
               @init_total = init_items.where(to_account_id: account_id).sum(:amount) - init_items.where(from_account_id: account_id).sum(:amount)
               @action.call
               @created_item = Item.where(user_id: users(:user1).id, action_date: @date).order("id desc").first
-              prev_items = Item.where("id < ?", @created_item.id).where("action_date <= ?", @date )
+              prev_items = Item.where("id < ?", @created_item.id).where("action_date <= ?", @date)
               @prev_total = prev_items.where(to_account_id: account_id).sum(:amount) - prev_items.where(from_account_id: account_id).sum(:amount)
             end
             subject { @created_item }
 
             it { should be_adjustment }
             its(:adjustment_amount) { should eq 100 * (10 + 50) / 2 }
-            its(:amount) { should eq 100 * ( 10 + 50 ) / 2 - @prev_total }
-            its(:amount) { should eq 100 * ( 10 + 50 ) / 2 - @init_total }
+            its(:amount) { should eq 100 * (10 + 50) / 2 - @prev_total }
+            its(:amount) { should eq 100 * (10 + 50) / 2 - @init_total }
             its(:tag_list) { should eq "fuga hoge" }
           end
 
@@ -2598,7 +2598,7 @@ describe EntriesController do
             its(:adjustment_amount) { should eq 3000 }
             it { should be_adjustment }
             its(:action_date) { should eq date }
-            its(:amount) { should eq 3000 - Account.asset(users(:user1), items(:adjustment2).to_account_id, date, items(:adjustment2).id ) }
+            its(:amount) { should eq 3000 - Account.asset(users(:user1), items(:adjustment2).to_account_id, date, items(:adjustment2).id) }
           end
 
           describe "other adjustments" do
@@ -3047,7 +3047,7 @@ describe EntriesController do
               before do
                 @old_adj2 = items(:adjustment2)
               end
-              it { expect { @action.call }.to change { Item.find(adj2_id).amount }.by( -1 *  @old_item1.amount) }
+              it { expect { @action.call }.to change { Item.find(adj2_id).amount }.by(-1 *  @old_item1.amount) }
             end
 
             describe "adj4" do
