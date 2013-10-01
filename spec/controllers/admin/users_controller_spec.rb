@@ -30,7 +30,7 @@ describe Admin::UsersController do
           Settings.should_receive(:admin_user).and_return("admin_setting")
           Settings.should_receive(:admin_password).and_return("password_setting")
           request.env['HTTP_AUTHORIZATION'] =
-            'Basic ' + Base64::encode64("admin_setting:password_setting")
+            'Basic ' + Base64.encode64("admin_setting:password_setting")
         end
 
         describe "response" do
@@ -47,7 +47,7 @@ describe Admin::UsersController do
           Settings.should_receive(:admin_user).and_return("admin_setting")
           Settings.should_receive(:admin_password).and_return("password_setting")
           request.env['HTTP_AUTHORIZATION'] =
-            'Basic ' + Base64::encode64("admin_setting:password_settin")
+            'Basic ' + Base64.encode64("admin_setting:password_settin")
         end
 
         describe "response" do
@@ -67,7 +67,7 @@ describe Admin::UsersController do
           ENV['ADMIN_PASSWORD'] = 'password_env'
 
           request.env['HTTP_AUTHORIZATION'] =
-            'Basic ' + Base64::encode64("admin:password_env")
+            'Basic ' + Base64.encode64("admin:password_env")
         end
 
         describe "response" do
@@ -83,7 +83,7 @@ describe Admin::UsersController do
           ENV['ADMIN_PASSWORD'] = 'password_env'
 
           request.env['HTTP_AUTHORIZATION'] =
-            'Basic ' + Base64::encode64("admin:password_env")
+            'Basic ' + Base64.encode64("admin:password_env")
         end
 
         describe "response" do
@@ -107,7 +107,7 @@ describe Admin::UsersController do
           Settings.stub(:admin_password).and_return("password_setting")
 
           request.env['HTTP_AUTHORIZATION'] =
-            'Basic ' + Base64::encode64("admin_env:password_env")
+            'Basic ' + Base64.encode64("admin_env:password_env")
         end
         describe "response" do
           before do
@@ -128,7 +128,7 @@ describe Admin::UsersController do
           Settings.stub(:admin_password).and_return("password_setting")
 
           request.env['HTTP_AUTHORIZATION'] =
-            'Basic ' + Base64::encode64("admin_setting:password_setting")
+            'Basic ' + Base64.encode64("admin_setting:password_setting")
         end
 
         describe "response" do
