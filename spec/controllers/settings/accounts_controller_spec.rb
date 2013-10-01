@@ -26,7 +26,7 @@ describe Settings::AccountsController do
         it_should_behave_like "Unauthenticated Access"
 
         describe "@accounts" do
-          subject { assigns(:accounts)}
+          subject { assigns(:accounts) }
           it { should be_nil }
         end
       end
@@ -38,7 +38,7 @@ describe Settings::AccountsController do
           it { should render_template('index') }
 
           describe "@type" do
-            subject { assigns(:type)}
+            subject { assigns(:type) }
             it { should be == type }
           end
 
@@ -111,7 +111,7 @@ describe Settings::AccountsController do
 
           describe "response" do
             subject { response }
-            it { should redirect_by_js_to settings_accounts_url(type: 'banking')}
+            it { should redirect_by_js_to settings_accounts_url(type: 'banking') }
           end
 
           describe "count of accounts" do
@@ -188,7 +188,7 @@ describe Settings::AccountsController do
           end
 
           describe "@account" do
-            subject { assigns(:account)}
+            subject { assigns(:account) }
             its(:id) { should be == accounts(:bank1).id }
           end
         end
@@ -237,7 +237,7 @@ describe Settings::AccountsController do
           end
 
           describe "Account.count" do
-            it { expect { @action.call }.to change{Account.count}.by(-1) }
+            it { expect { @action.call }.to change { Account.count }.by(-1) }
           end
         end
 
@@ -311,14 +311,14 @@ describe Settings::AccountsController do
           describe "@user.all_accounts" do
             describe "@user.all_accounts[id]" do
               subject { assigns(:user).all_accounts[accounts(:bank1).id] }
-              it { should be == 'hogehoge'}
+              it { should be == 'hogehoge' }
             end
 
           end
 
           describe "updated account record" do
             subject { Account.find(accounts(:bank1).id) }
-            its(:name) { should be == 'hogehoge'}
+            its(:name) { should be == 'hogehoge' }
             its(:type) { should be == 'Banking' }
             its(:order_no) { should be 100 }
           end
@@ -334,7 +334,7 @@ describe Settings::AccountsController do
 
             describe "assigns(:user).account_bgcolors[id]" do
               subject { assigns(:user).account_bgcolors[accounts(:bank1).id] }
-              it { should be == 'cccccc'}
+              it { should be == 'cccccc' }
             end
 
             describe "updated account record" do
