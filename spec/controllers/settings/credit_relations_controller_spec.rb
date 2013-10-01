@@ -63,7 +63,7 @@ describe Settings::CreditRelationsController do
           @mock_credit_relation = mock_model(CreditRelation)
           @mock_user.should_receive(:credit_relations).and_return(@mock_credit_relations)
           @mock_credit_relations.should_receive(:find).with("11111").and_return(@mock_credit_relation)
-          xhr :get, :show, id: 11111
+          xhr :get, :show, id: 11_111
         end
 
         describe "@user" do
@@ -90,7 +90,7 @@ describe Settings::CreditRelationsController do
           User.should_receive(:find).with(@mock_user.id).and_return(@mock_user)
           @mock_user.should_receive(:credit_relations).and_return(@mock_credit_relations)
           @mock_credit_relations.should_receive(:find).with("11111").and_raise(ActiveRecord::RecordNotFound.new)
-          xhr :get, :show, id: 11111
+          xhr :get, :show, id: 11_111
         end
 
         describe "@user" do
@@ -109,7 +109,7 @@ describe Settings::CreditRelationsController do
   describe "#edit" do
     context "before login," do
       before do
-        xhr :get, :edit, id: 123456
+        xhr :get, :edit, id: 123_456
       end
 
       it_should_behave_like "Unauthenticated Access by xhr"
@@ -129,7 +129,7 @@ describe Settings::CreditRelationsController do
             mock_user.should_receive(:credit_relations).and_return(mock_credit_relations)
             mock_credit_relations.should_receive(:find).with("341341").and_raise(ActiveRecord::RecordNotFound.new)
 
-            xhr :get, :edit, id: 341341
+            xhr :get, :edit, id: 341_341
           end
 
           describe "response" do
@@ -144,10 +144,10 @@ describe Settings::CreditRelationsController do
             User.should_receive(:find).with(users(:user1).id).and_return(mock_user)
             mock_credit_relations = double
             mock_user.should_receive(:credit_relations).and_return(mock_credit_relations)
-            @mock_credit_relation = mock_model(CreditRelation, id: 341341)
+            @mock_credit_relation = mock_model(CreditRelation, id: 341_341)
             mock_credit_relations.should_receive(:find).with("341341").and_return(@mock_credit_relation)
 
-            xhr :get, :edit, id: 341341
+            xhr :get, :edit, id: 341_341
           end
 
           describe "response" do
@@ -168,7 +168,7 @@ describe Settings::CreditRelationsController do
   describe "#destroy" do
     context "before login," do
       before do
-        xhr :delete, :destroy, id: 123456
+        xhr :delete, :destroy, id: 123_456
       end
 
       describe "response" do
@@ -191,7 +191,7 @@ describe Settings::CreditRelationsController do
           @mock_crs_all = double
           mock_crs.should_receive(:all).and_return(@mock_crs_all)
 
-          xhr :delete, :destroy, id: 123456
+          xhr :delete, :destroy, id: 123_456
         end
 
         describe "response" do
@@ -221,7 +221,7 @@ describe Settings::CreditRelationsController do
           @mock_crs_all = double
           mock_crs.should_not_receive(:all)
 
-          xhr :delete, :destroy, id: 123456
+          xhr :delete, :destroy, id: 123_456
         end
 
         describe "response" do
