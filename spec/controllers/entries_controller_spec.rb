@@ -763,7 +763,7 @@ describe EntriesController do
 
         context "when destroy the item which is assigned to credit card account," do
           context "and payment date is in 2 months," do
-            let(:action) { lambda { xhr :delete, :destroy, id: @item.id, year: 2008, month: 2 } }
+            let(:action) { -> { xhr :delete, :destroy, id: @item.id, year: 2008, month: 2 } }
             before do
               login
               # dummy data
@@ -801,7 +801,7 @@ describe EntriesController do
           end
 
           context "and payment date is in same months," do
-            let(:action) { lambda { xhr :delete, :destroy, id: @item.id, year: 2008, month: 2 } }
+            let(:action) { -> { xhr :delete, :destroy, id: @item.id, year: 2008, month: 2 } }
             before do
               cr = credit_relations(:cr1)
               cr.update_attributes!(payment_month: 0, payment_day: 25, settlement_day: 11)
@@ -865,7 +865,7 @@ describe EntriesController do
               @init_bank_pl = monthly_profit_losses(:bank1200802)
               @init_unknown_pl = MonthlyProfitLoss.where(month: Date.new(2008, 2), account_id: -1, user_id: users(:user1).id).first
 
-              @action = lambda { xhr :delete, :destroy, id: items(:adjustment2).id, year: 2008, month: 2 }
+              @action = -> { xhr :delete, :destroy, id: items(:adjustment2).id, year: 2008, month: 2 }
             end
 
             describe "response" do
@@ -2881,7 +2881,7 @@ describe EntriesController do
 
         context "with missing params" do
           before do
-            @action = lambda { xhr :put, :update, id: items(:item1).id, year: 2008, month: 2 }
+            @action = -> { xhr :put, :update, id: items(:item1).id, year: 2008, month: 2 }
           end
 
           describe "item to update" do
