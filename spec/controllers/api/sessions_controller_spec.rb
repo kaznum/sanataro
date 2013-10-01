@@ -27,7 +27,7 @@ describe Api::SessionsController do
 
     context "when user doesn't exist," do
       before do
-        @action = -> { post :create, session: { login: "not_exist", password: "not_exist_pass"} }
+        @action = -> { post :create, session: { login: "not_exist", password: "not_exist_pass" } }
       end
 
       describe "response" do
@@ -47,7 +47,7 @@ describe Api::SessionsController do
 
     context "when user exists but password mismatches," do
       before do
-        @action = -> { post :create, session: { login: users(:user1).login, password: "not_match_pass"} }
+        @action = -> { post :create, session: { login: users(:user1).login, password: "not_match_pass" } }
       end
 
       describe "response" do
@@ -67,7 +67,7 @@ describe Api::SessionsController do
 
     context "when user exists and password matches," do
       before do
-        @action = -> { post :create, session: { login: users(:user1).login, password: "123456"}, format: :json }
+        @action = -> { post :create, session: { login: users(:user1).login, password: "123456" }, format: :json }
       end
 
       describe "response" do
