@@ -41,7 +41,7 @@ describe BalanceSheetsController do
       
       context "without month in params and which has minus value in an account," do
         before do
-          users(:user1).monthly_profit_losses.create(:month => Date.new(2006,12,1), :account_id => 1, :amount => -2000000)
+          users(:user1).monthly_profit_losses.create(month: Date.new(2006,12,1), account_id: 1, amount: -2000000)
           get :index
         end
 
@@ -66,7 +66,7 @@ describe BalanceSheetsController do
 
       context "with month in params is invalid," do
         before do
-          get :index, :year => '2008', :month => '13'
+          get :index, year: '2008', month: '13'
         end
 
         describe "response" do
@@ -77,7 +77,7 @@ describe BalanceSheetsController do
 
       context "with month(2008/2)," do
         before do
-          get :index, :year => '2008', :month => '2'
+          get :index, year: '2008', month: '2'
         end
 
         describe "response" do
@@ -104,7 +104,7 @@ describe BalanceSheetsController do
   describe "#show" do
     context "without login," do
       before do
-        xhr :get, :show, :id => accounts(:bank1).id
+        xhr :get, :show, id: accounts(:bank1).id
       end
       it_should_behave_like "Unauthenticated Access by xhr"
     end
@@ -116,7 +116,7 @@ describe BalanceSheetsController do
 
       context "with year and month in params," do
         before do
-          xhr :get, :show, :id => accounts(:bank1).id.to_s, :year => '2008', :month => '2'
+          xhr :get, :show, id: accounts(:bank1).id.to_s, year: '2008', month: '2'
         end
 
         describe "response" do
@@ -150,7 +150,7 @@ describe BalanceSheetsController do
       
       context "without year and month in params," do
         before do
-          xhr :get, :show, :id => accounts(:bank1).id.to_s
+          xhr :get, :show, id: accounts(:bank1).id.to_s
         end
 
         describe "response" do
