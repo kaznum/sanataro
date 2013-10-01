@@ -67,13 +67,13 @@ describe Settings::CreditRelationsController do
         end
 
         describe "@user" do
-          subject { assigns(:user)}
+          subject { assigns(:user) }
           it { should === @mock_user }
         end
 
         describe "@cr" do
           subject { assigns(:cr) }
-          it { should === @mock_credit_relation}
+          it { should === @mock_credit_relation }
         end
 
         describe "response" do
@@ -94,7 +94,7 @@ describe Settings::CreditRelationsController do
         end
 
         describe "@user" do
-          subject { assigns(:user)}
+          subject { assigns(:user) }
           it { should === @mock_user }
         end
 
@@ -151,13 +151,13 @@ describe Settings::CreditRelationsController do
           end
 
           describe "response" do
-            subject { response}
+            subject { response }
             it { should be_success }
             it { should render_template 'edit' }
           end
 
           describe "@cr" do
-            subject { assigns(:cr)}
+            subject { assigns(:cr) }
             it { should === @mock_credit_relation }
           end
         end
@@ -201,8 +201,8 @@ describe Settings::CreditRelationsController do
         end
 
         describe "@user" do
-          subject { assigns[:user]}
-          it { should be @mock_user}
+          subject { assigns[:user] }
+          it { should be @mock_user }
         end
 
         describe "@credit_relations" do
@@ -231,12 +231,12 @@ describe Settings::CreditRelationsController do
         end
 
         describe "@user" do
-          subject { assigns[:user]}
+          subject { assigns[:user] }
           it { should be @mock_user }
         end
 
         describe "@destroyed_id" do
-          subject { assigns[:destroyed_id]}
+          subject { assigns[:destroyed_id] }
           it { should == "123456" }
         end
       end
@@ -273,7 +273,7 @@ describe Settings::CreditRelationsController do
             mock_cr = stub_model(CreditRelation)
             mock_exception = ActiveRecord::RecordInvalid.new(mock_cr)
             mock_exception.should_receive(:message).and_return("aaa , bbb, ccc ")
-            @mock_crs.should_receive(:create!).with(credit_account_id: "1", payment_account_id:  "2", settlement_day: "99", payment_month: "1", payment_day: "4").and_raise(mock_exception)
+            @mock_crs.should_receive(:create!).with(credit_account_id: "1", payment_account_id: "2", settlement_day: "99", payment_month: "1", payment_day: "4").and_raise(mock_exception)
             @mock_crs.should_not_receive(:all)
 
             xhr :post, :create, credit_account_id: 1, payment_account_id:  2, settlement_day: 99, payment_month: 1, payment_day: 4
@@ -281,11 +281,11 @@ describe Settings::CreditRelationsController do
 
           describe "response" do
             subject { response }
-            it { should render_js_error id: "warning", errors: ["aaa","bbb","ccc"], default_message: I18n.t("error.input_is_invalid") }
+            it { should render_js_error id: "warning", errors: ["aaa", "bbb", "ccc"], default_message: I18n.t("error.input_is_invalid") }
           end
 
           describe "@user" do
-            subject { assigns(:user)}
+            subject { assigns(:user) }
             it { should be @mock_user }
           end
         end
@@ -304,7 +304,7 @@ describe Settings::CreditRelationsController do
           end
 
           describe "@credit_relations" do
-            subject { assigns(:credit_relations)}
+            subject { assigns(:credit_relations) }
             it { should be @mock_crs }
           end
         end
@@ -315,7 +315,7 @@ describe Settings::CreditRelationsController do
   describe "#update" do
     context "before login," do
       before do
-        xhr :put, :update, id: 1, credit_account_id: 2,payment_account_id:  3, settlement_day: 25, payment_month: 2, payment_day: 10
+        xhr :put, :update, id: 1, credit_account_id: 2, payment_account_id: 3, settlement_day: 25, payment_month: 2, payment_day: 10
       end
 
       subject { response }
@@ -348,7 +348,7 @@ describe Settings::CreditRelationsController do
             @mock_crs_all = [double, double]
             @mock_crs.should_receive(:all).and_return(@mock_crs_all)
 
-            xhr :put, :update, id: 1, credit_account_id: 2,payment_account_id:  3, settlement_day: 25, payment_month: 2, payment_day: 10
+            xhr :put, :update, id: 1, credit_account_id: 2, payment_account_id: 3, settlement_day: 25, payment_month: 2, payment_day: 10
           end
 
           it_should_behave_like "Got basic instance variables successfully"
@@ -369,11 +369,11 @@ describe Settings::CreditRelationsController do
           before do
             @mock_cr = mock_model(CreditRelation, id: 1)
             @mock_crs.should_receive(:find).with("1").and_return(@mock_cr)
-            @mock_cr.should_receive(:update_attributes!).with(credit_account_id: "2",payment_account_id:  "3", settlement_day: "25", payment_month: "2", payment_day: "10").and_raise(ActiveRecord::RecordInvalid.new(@mock_cr))
+            @mock_cr.should_receive(:update_attributes!).with(credit_account_id: "2", payment_account_id: "3", settlement_day: "25", payment_month: "2", payment_day: "10").and_raise(ActiveRecord::RecordInvalid.new(@mock_cr))
             @mock_errors = [double, double, double]
             @mock_cr.should_receive(:errors).and_return(@mock_errors)
 
-            xhr :put, :update, id: 1, credit_account_id: 2,payment_account_id:  3, settlement_day: 25, payment_month: 2, payment_day: 10
+            xhr :put, :update, id: 1, credit_account_id: 2, payment_account_id: 3, settlement_day: 25, payment_month: 2, payment_day: 10
           end
 
           describe "response" do
@@ -384,7 +384,7 @@ describe Settings::CreditRelationsController do
           it_should_behave_like "Got basic instance variables successfully"
 
           describe "@cr" do
-            subject { assigns(:cr)}
+            subject { assigns(:cr) }
             it { should be @mock_cr }
           end
         end
@@ -393,20 +393,20 @@ describe Settings::CreditRelationsController do
           before do
             @mock_cr = mock_model(CreditRelation, id: 1)
             @mock_crs.should_receive(:find).with("1").and_return(@mock_cr)
-            @mock_cr.should_receive(:update_attributes!).with(credit_account_id: "2",payment_account_id:  "3", settlement_day: "25", payment_month: "2", payment_day: "10").and_return(true)
+            @mock_cr.should_receive(:update_attributes!).with(credit_account_id: "2", payment_account_id: "3", settlement_day: "25", payment_month: "2", payment_day: "10").and_return(true)
 
             xhr :put, :update, id: 1, credit_account_id: 2, payment_account_id: 3, settlement_day: 25, payment_month: 2, payment_day: 10
           end
 
           describe "response" do
             subject { response }
-            it { should render_template "update"}
+            it { should render_template "update" }
           end
 
           it_should_behave_like "Got basic instance variables successfully"
 
           describe "@cr" do
-            subject { assigns(:cr)}
+            subject { assigns(:cr) }
             it { should be @mock_cr }
           end
         end
