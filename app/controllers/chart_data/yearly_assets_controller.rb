@@ -12,6 +12,7 @@ class ChartData::YearlyAssetsController < ApplicationController
   end
 
   private
+
   def _json_assets(accounts, date_since)
     results = accounts.inject({}) { |data, a|
       data["account_#{a.id}"] = { "label" => a.name, "data" => _json_account_assets(a.id, date_since)}
