@@ -34,7 +34,7 @@ describe Settings::UsersController do
   describe "#update" do
     context "before login," do
       before do
-        xhr :put, :update, :password_plain=>'1234567', :password_confirmation=>'1234567', :email => 'hogehoge@example.com'
+        xhr :put, :update, password_plain: '1234567', password_confirmation: '1234567', email: 'hogehoge@example.com'
       end
 
       describe "response" do
@@ -59,7 +59,7 @@ describe Settings::UsersController do
             user1.should_receive(:save!)
             @user1 = user1
 
-            xhr :put, :update, :password_plain=>'1234567', :password_confirmation=>'1234567', :email => 'hogehoge@example.com'
+            xhr :put, :update, password_plain: '1234567', password_confirmation: '1234567', email: 'hogehoge@example.com'
           end
 
           describe "response" do
@@ -86,13 +86,13 @@ describe Settings::UsersController do
             user1.should_receive(:password_plain=).with("123456789")
             user1.should_receive(:password_confirmation=).with("1234567")
             user1.should_receive(:save!).and_raise(ActiveRecord::RecordInvalid.new(user1))
-            xhr :put, :update, :password_plain=>'123456789', :password_confirmation=>'1234567', :email => 'hogehoge@example.com'
+            xhr :put, :update, password_plain: '123456789', password_confirmation: '1234567', email: 'hogehoge@example.com'
             @user1 = user1
           end
 
           describe "response" do
             subject {response}
-            it {should render_js_error  :id => "warning", :errors => @user1.errors, :default_message => I18n.t('error.input_is_invalid')}
+            it {should render_js_error  id: "warning", errors: @user1.errors, default_message: I18n.t('error.input_is_invalid')}
           end
         end
       end
