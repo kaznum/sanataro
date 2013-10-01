@@ -56,7 +56,7 @@ describe ChartData::BudgetsController do
         end
         subject { response }
         it {  should be_success }
-        its(:body) { should == "[]"}
+        its(:body) { should == "[]" }
       end
 
       context "When there are data to send," do
@@ -68,12 +68,12 @@ describe ChartData::BudgetsController do
           account3 = @user.bankings.create!(name: "その3", active: true, order_no: 30)
           account4 = @user.expenses.create!(name: "その4", active: true, order_no: 40)
 
-          @user.monthly_profit_losses.create!(month: Date.new(1999,5), account_id: account1.id, amount: -300 )
-          @user.monthly_profit_losses.create!(month: Date.new(1988,6), account_id: account1.id, amount: -100 )
-          @user.monthly_profit_losses.create!(month: Date.new(1999,1), account_id: account2.id, amount: -900 )
-          @user.monthly_profit_losses.create!(month: Date.new(1999,1), account_id: account3.id, amount: 900 )
-          @user.monthly_profit_losses.create!(month: Date.new(1999,1), account_id: account4.id, amount: 200 )
-          @mpl_unknown = @user.monthly_profit_losses.create!(month: Date.new(1999,1), account_id: -1, amount: -800 )
+          @user.monthly_profit_losses.create!(month: Date.new(1999, 5), account_id: account1.id, amount: -300)
+          @user.monthly_profit_losses.create!(month: Date.new(1988, 6), account_id: account1.id, amount: -100)
+          @user.monthly_profit_losses.create!(month: Date.new(1999, 1), account_id: account2.id, amount: -900)
+          @user.monthly_profit_losses.create!(month: Date.new(1999, 1), account_id: account3.id, amount: 900)
+          @user.monthly_profit_losses.create!(month: Date.new(1999, 1), account_id: account4.id, amount: 200)
+          @mpl_unknown = @user.monthly_profit_losses.create!(month: Date.new(1999, 1), account_id: -1, amount: -800)
         end
 
         context "when budget_type is not specified," do
@@ -85,7 +85,7 @@ describe ChartData::BudgetsController do
             subject { response }
             it {  should be_success }
             specify do
-              ActiveSupport::JSON.decode(subject.body).should == [{"label" => "その2", "data" => 900},{"label" => I18n.t("label.unknown_income"), "data" => 800}]
+              ActiveSupport::JSON.decode(subject.body).should == [{ "label" => "その2", "data" => 900 }, { "label" => I18n.t("label.unknown_income"), "data" => 800 }]
             end
           end
         end
@@ -101,7 +101,7 @@ describe ChartData::BudgetsController do
             subject { response }
             it {  should be_success }
             specify do
-              ActiveSupport::JSON.decode(subject.body).should == [{"label" => "その4", "data" => 200}, {"label" =>  I18n.t("label.unknown_expense"), "data" => 500}]
+              ActiveSupport::JSON.decode(subject.body).should == [{ "label" => "その4", "data" => 200 }, { "label" =>  I18n.t("label.unknown_expense"), "data" => 500 }]
             end
           end
         end
