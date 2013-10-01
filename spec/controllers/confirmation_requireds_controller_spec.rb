@@ -105,7 +105,6 @@ describe ConfirmationRequiredsController do
         end
       end
 
-
       context "when changing status from false to true," do
         before do
           items(:item3).update_attributes!(confirmation_required: false)
@@ -148,7 +147,6 @@ describe ConfirmationRequiredsController do
 
           xhr :put, :update, entry_id: old_credit_refill.id, confirmation_required: 'true'
         end
-
 
         describe "credit card account(parent)" do
           subject { Item.find(items(:credit_payment21).id) }
