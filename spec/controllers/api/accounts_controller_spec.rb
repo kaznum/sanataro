@@ -66,7 +66,7 @@ describe Api::AccountsController do
       context "when resource_owner_id is wrong," do
         before do
           token = double
-          token.should_receive(:resource_owner_id).and_return(999999)
+          token.should_receive(:resource_owner_id).and_return(999_999)
           token.should_receive(:accessible?).and_return(true)
           @controller.define_singleton_method(:doorkeeper_token) do
             token
