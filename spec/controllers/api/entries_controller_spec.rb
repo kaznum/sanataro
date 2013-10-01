@@ -77,7 +77,7 @@ describe Api::EntriesController do
             subject { assigns(:items) }
             specify {
               subject.each do |item|
-                item.action_date.should be_between(Date.new(2008,2), Date.new(2008,2).end_of_month)
+                item.action_date.should be_between(Date.new(2008, 2), Date.new(2008, 2).end_of_month)
               end
             }
           end
@@ -154,7 +154,7 @@ describe Api::EntriesController do
                 amount: "100000",
                 from_account_id: accounts(:bank1).id.to_s,
                 to_account_id: accounts(:expense3).id.to_s,
-                confirmation_required: '1'},
+                confirmation_required: '1' },
               format: :json)
           get :index, keyword: 'テスト11', format: :json
         end
@@ -253,12 +253,12 @@ describe Api::EntriesController do
         context "without other params," do
           describe "user.items.partials" do
             it "is called with :remain => true" do
-              stub_date_from = Date.new(2008,2)
-              stub_date_to = Date.new(2008,2).end_of_month
+              stub_date_from = Date.new(2008, 2)
+              stub_date_to = Date.new(2008, 2).end_of_month
               mock_items = users(:user1).items
               mock_user.should_receive(:items).and_return(mock_items)
               mock_items.should_receive(:partials).with(stub_date_from, stub_date_to,
-                                                            hash_including(remain: true)).and_return(Item.where(action_date: Date.new(2008,2)..Date.new(2008,2).end_of_month).to_a)
+                                                            hash_including(remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).to_a)
               get :index, remaining: 1, year: 2008, month: 2, format: :json
             end
           end
@@ -267,7 +267,7 @@ describe Api::EntriesController do
             before do
               mock_items = users(:user1).items
               mock_user.should_receive(:items).and_return(mock_items)
-              mock_items.stub(:partials).and_return(Item.where(action_date: Date.new(2008,2)..Date.new(2008,2).end_of_month).to_a)
+              mock_items.stub(:partials).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).to_a)
               get :index, remaining: true, year: 2008, month: 2, format: :json
             end
 
@@ -286,14 +286,14 @@ describe Api::EntriesController do
               mock_items = users(:user1).items
               mock_user.should_receive(:items).and_return(mock_items)
               mock_items.should_receive(:partials).with(nil, nil,
-                                                        hash_including(tag: 'xxx', remain: true)).and_return(Item.where(action_date: Date.new(2008,2)..Date.new(2008,2).end_of_month).to_a)
+                                                        hash_including(tag: 'xxx', remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).to_a)
               get :index, remaining: true, year: 2008, month: 2, tag: 'xxx', format: :json
             end
           end
 
           describe "other than user.items.partials," do
             before do
-              Item.stub(:partials).and_return(Item.where(action_date: Date.new(2008,2)..Date.new(2008,2).end_of_month).to_a)
+              Item.stub(:partials).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).to_a)
               get :index, remaining: true, year: 2008, month: 2, tag: 'xxx', format: :json
             end
 
@@ -375,7 +375,7 @@ describe Api::EntriesController do
       let(:mock_user) { users(:user1) }
       before do
         mock_user
-        User.should_receive(:find_by_id_and_active).with(mock_user.id,true).at_least(1).and_return(mock_user)
+        User.should_receive(:find_by_id_and_active).with(mock_user.id, true).at_least(1).and_return(mock_user)
         login
       end
 
@@ -409,7 +409,7 @@ describe Api::EntriesController do
           describe "response" do
             subject { response }
             it { should be_success }
-            its(:content_type) { should == "application/json"}
+            its(:content_type) { should == "application/json" }
           end
 
           describe "the specified item" do
@@ -436,13 +436,13 @@ describe Api::EntriesController do
         context "given there is a future's adjustment whose id is to_account_id," do
           before do
             # prepare data to destroy
-            post :create, entry: { name: 'test', amount: '1000', action_date: '2008/2/3', from_account_id: '2', to_account_id: '1'}, year: "2008", month: "2", format: :json
+            post :create, entry: { name: 'test', amount: '1000', action_date: '2008/2/3', from_account_id: '2', to_account_id: '1' }, year: "2008", month: "2", format: :json
             @item_to_del = Item.where(action_date: Date.new(2008, 2, 3), from_account_id: 2, to_account_id: 1).first
             @previous_amount = @item_to_del.amount
 
             @old_adj2 = items(:adjustment2)
             @old_bank1 = monthly_profit_losses(:bank1200802)
-            @old_income = MonthlyProfitLoss.where(user_id: users(:user1).id, account_id: accounts(:income2).id, month: Date.new(2008,2)).first
+            @old_income = MonthlyProfitLoss.where(user_id: users(:user1).id, account_id: accounts(:income2).id, month: Date.new(2008, 2)).first
 
             login
             date = @item_to_del.action_date
@@ -485,10 +485,10 @@ describe Api::EntriesController do
         context "given there is no future's adjustment," do
           before do
             login
-            post :create, entry: { name: 'test', amount: '1000', action_date: '2008/2/25', from_account_id:'11', to_account_id:'13'}, year: 2008, month: 2, format: :json
+            post :create, entry: { name: 'test', amount: '1000', action_date: '2008/2/25', from_account_id: '11', to_account_id: '13' }, year: 2008, month: 2, format: :json
             @item = Item.where(name: 'test', from_account_id: 11, to_account_id: 13).first
-            @old_bank11pl = MonthlyProfitLoss.where(account_id: 11, month: Date.new(2008,2)).first
-            @old_expense13pl = MonthlyProfitLoss.where(account_id: 13, month: Date.new(2008,2)).first
+            @old_bank11pl = MonthlyProfitLoss.where(account_id: 11, month: Date.new(2008, 2)).first
+            @old_expense13pl = MonthlyProfitLoss.where(account_id: 13, month: Date.new(2008, 2)).first
 
             delete :destroy, id: @item.id, year: 2008, month: 2, format: :json
           end
@@ -506,7 +506,7 @@ describe Api::EntriesController do
           describe "specified item" do
 
             it "should does not exist" do
-              expect{ Item.find(@item.id) }.to raise_error(ActiveRecord::RecordNotFound)
+              expect { Item.find(@item.id) }.to raise_error(ActiveRecord::RecordNotFound)
             end
           end
 
@@ -518,11 +518,11 @@ describe Api::EntriesController do
 
         context "when destroy the item which is assigned to credit card account," do
           context "and payment date is in 2 months," do
-            let(:action) { lambda {delete :destroy, id: @item.id, year: 2008, month: 2, format: :json} }
+            let(:action) { lambda { delete :destroy, id: @item.id, year: 2008, month: 2, format: :json } }
             before do
               login
               # dummy data
-              post :create, entry: { name: 'test', amount: '1000', action_date: '2008/2/10',from_account_id: '4', to_account_id: '3'}, year: 2008, month: 2, format: :json
+              post :create, entry: { name: 'test', amount: '1000', action_date: '2008/2/10', from_account_id: '4', to_account_id: '3' }, year: 2008, month: 2, format: :json
               @item = Item.where(name: 'test', from_account_id: 4, to_account_id: 3).first
               @child_item = @item.child_item
             end
@@ -536,34 +536,34 @@ describe Api::EntriesController do
             describe "specified item" do
               before { action.call }
               it 'should not exist' do
-                expect {Item.find(@item.id) }.to raise_error(ActiveRecord::RecordNotFound)
+                expect { Item.find(@item.id) }.to raise_error(ActiveRecord::RecordNotFound)
               end
             end
 
             describe "child item of the specified item" do
               before { action.call }
               it 'should not exist' do
-                expect {Item.find(@child_item.id) }.to raise_error(ActiveRecord::RecordNotFound)
+                expect { Item.find(@child_item.id) }.to raise_error(ActiveRecord::RecordNotFound)
               end
             end
 
             describe "profit_losses" do
-              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,2)).sum(:amount) }.by(1000) }
-              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008,2)).sum(:amount) }.by(-1_000) }
-              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008,4)).sum(:amount) }.by(1000) }
-              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008,4)).sum(:amount) }.by(-1_000) }
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 2)).sum(:amount) }.by(1000) }
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 3, month: Date.new(2008, 2)).sum(:amount) }.by(-1_000) }
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 1, month: Date.new(2008, 4)).sum(:amount) }.by(1000) }
+              it { expect { action.call }.to change { MonthlyProfitLoss.where(account_id: 4, month: Date.new(2008, 4)).sum(:amount) }.by(-1_000) }
             end
           end
 
           context "and payment date is in same months," do
-            let(:action) { lambda {delete :destroy, id: @item.id, year: 2008, month: 2, format: :json} }
+            let(:action) { lambda { delete :destroy, id: @item.id, year: 2008, month: 2, format: :json} }
             before do
               cr = credit_relations(:cr1)
               cr.update_attributes!(payment_month: 0, payment_day: 25, settlement_day: 11)
 
               login
               # dummy data
-              post :create, entry: { name: 'test', amount: '1000', action_date: '2008/2/10', from_account_id: '4', to_account_id: '3'}, year: 2008, month: 2, format: :json
+              post :create, entry: { name: 'test', amount: '1000', action_date: '2008/2/10', from_account_id: '4', to_account_id: '3' }, year: 2008, month: 2, format: :json
               @item = Item.where(name: 'test', from_account_id: 4, to_account_id: 3).first
               @child_item = @item.child_item
             end
@@ -572,7 +572,7 @@ describe Api::EntriesController do
               before { action.call }
               subject { response }
               it { should be_success }
-              its(:content_type) { should == 'application/json'}
+              its(:content_type) { should == 'application/json' }
             end
 
             describe "specified item" do
@@ -618,7 +618,7 @@ describe Api::EntriesController do
               @init_adj6 = Item.find(items(:adjustment6).id)
               @init_bank_pl = monthly_profit_losses(:bank1200802)
               @init_bank_pl = monthly_profit_losses(:bank1200802)
-              @init_unknown_pl = MonthlyProfitLoss.where(month: Date.new(2008,2), account_id: -1, user_id: users(:user1).id).first
+              @init_unknown_pl = MonthlyProfitLoss.where(month: Date.new(2008, 2), account_id: -1, user_id: users(:user1).id).first
 
               @action = lambda { delete :destroy, id: items(:adjustment2).id, year: 2008, month: 2, format: :json }
             end
@@ -633,7 +633,7 @@ describe Api::EntriesController do
             describe "specified item(adjustment2)" do
               before { @action.call }
               subject { Item.find_by_id(@init_adj2.id) }
-              it { should be_nil}
+              it { should be_nil }
             end
 
             describe "adjustment4 which is next future adjustment" do
@@ -758,7 +758,7 @@ describe Api::EntriesController do
       context "with confirmation_required == true" do
         before do
           @init_item_count = Item.count
-          post :create, entry: { action_date: Date.today.strftime("%Y/%m/%d"), name: 'テスト10', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, confirmation_required: 'true', tag_list: 'hoge fuga'}, year: Date.today.year.to_s, month: Date.today.month.to_s, format: :json
+          post :create, entry: { action_date: Date.today.strftime("%Y/%m/%d"), name: 'テスト10', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, confirmation_required: 'true', tag_list: 'hoge fuga' }, year: Date.today.year.to_s, month: Date.today.month.to_s, format: :json
         end
 
         it_should_behave_like "created successfully by JSON"
@@ -814,7 +814,7 @@ describe Api::EntriesController do
       context "when amount needs to be calcurated, but syntax error exists," do
         before do
           @init_item_count = Item.count
-          post :create, entry: { action_date: Date.today.strftime("%Y/%m/%d"), name: 'テスト10', amount: '(10+20*2.01', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, confirmation_required: ''}, year: Date.today.year, month: Date.today.month, format: :json
+          post :create, entry: { action_date: Date.today.strftime("%Y/%m/%d"), name: 'テスト10', amount: '(10+20*2.01', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, confirmation_required: '' }, year: Date.today.year, month: Date.today.month, format: :json
         end
 
         describe "response" do
@@ -828,7 +828,7 @@ describe Api::EntriesController do
         end
 
         describe "count of items" do
-          subject { Item.count}
+          subject { Item.count }
           it { should == @init_item_count }
         end
       end
@@ -904,7 +904,7 @@ describe Api::EntriesController do
                        from_account_id: accounts(:credit4).id,
                        to_account_id: accounts(:expense3).id,
                        amount: 10_000,
-                       parent_id: nil).find{|i| i.child_item }
+                       parent_id: nil).find { |i| i.child_item }
           }
 
           describe "response" do
@@ -927,10 +927,10 @@ describe Api::EntriesController do
           end
 
           describe "child item" do
-            subject { Item.where(parent_id: credit_item.id).find{|i| i.child_item.nil?} }
+            subject { Item.where(parent_id: credit_item.id).find { |i| i.child_item.nil? } }
             its(:child_item) { should be_nil }
             its(:parent_item) { should == credit_item }
-            its(:action_date) { should == Date.new(2008, 2 + credit_relations(:cr1).payment_month,credit_relations(:cr1).payment_day) }
+            its(:action_date) { should == Date.new(2008, 2 + credit_relations(:cr1).payment_month, credit_relations(:cr1).payment_day) }
             its(:from_account_id) { should == credit_relations(:cr1).payment_account_id }
             its(:to_account_id) { should == credit_relations(:cr1).credit_account_id }
             its(:amount) { should == 10_000 }
@@ -940,7 +940,7 @@ describe Api::EntriesController do
 
       describe "balance adjustment" do
         context "action_year/month/day is set," do
-          it { expect { post :create, entry: { action_year: '2008', action_month: '2', action_day: '5', from_account_id: '-1', to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '3000', entry_type: 'adjustment'}, year: 2008, month: 2, format: :json }.not_to change { Item.count } }
+          it { expect { post :create, entry: { action_year: '2008', action_month: '2', action_day: '5', from_account_id: '-1', to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '3000', entry_type: 'adjustment' }, year: 2008, month: 2, format: :json }.not_to change { Item.count } }
         end
 
         context "when a validation error occurs," do
@@ -950,7 +950,7 @@ describe Api::EntriesController do
             Teller.should_receive(:create_entry).and_raise(mock_exception)
             @action = lambda {
               post :create, entry: { action_date: '2008/02/05',
-                from_account_id: '-1', to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '3000', entry_type: 'adjustment'}, year: 2008, month: 2, format: :json
+                from_account_id: '-1', to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '3000', entry_type: 'adjustment' }, year: 2008, month: 2, format: :json
             }
           end
 
@@ -970,7 +970,7 @@ describe Api::EntriesController do
 
         context "with invalid calcuration amount," do
           let(:date) { items(:adjustment2).action_date - 1 }
-          it { expect {post :create, entry: { entry_type: 'adjustment', action_date: date.strftime("%Y/%m/%d"), to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '3000-(10'}, year: 2008, month: 2, format: :json}.not_to change { Item.count } }
+          it { expect { post :create, entry: { entry_type: 'adjustment', action_date: date.strftime("%Y/%m/%d"), to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '3000-(10' }, year: 2008, month: 2, format: :json}.not_to change { Item.count } }
         end
 
         context "add adjustment before any of the adjustments," do
@@ -980,7 +980,7 @@ describe Api::EntriesController do
             @action = lambda {
               post(:create, entry: { entry_type: 'adjustment',
                   action_date: @date.strftime("%Y/%m/%d"),
-                  to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '100*(10+50)/2', tag_list: 'hoge fuga'}, year: "2008", month: "3", format: :json)
+                  to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '100*(10+50)/2', tag_list: 'hoge fuga' }, year: "2008", month: "3", format: :json)
             }
           end
 
@@ -1001,10 +1001,10 @@ describe Api::EntriesController do
             subject { @created_item }
 
             it { should be_adjustment }
-            its(:adjustment_amount) { should == 100*(10+50)/2 }
-            its(:amount) { should == 100*(10+50)/2 - @prev_total }
-            its(:amount) { should == 100*(10+50)/2 - @init_total }
-            its(:tag_list) { should == "fuga hoge"}
+            its(:adjustment_amount) { should == 100 * (10 + 50) / 2 }
+            its(:amount) { should == 100 * (10 + 50) / 2 - @prev_total }
+            its(:amount) { should == 100 * (10 + 50) / 2 - @init_total }
+            its(:tag_list) { should == "fuga hoge" }
           end
 
           describe "profit losses" do
@@ -1015,12 +1015,12 @@ describe Api::EntriesController do
           end
 
           describe "tag" do
-            it { expect { @action.call }.to change {Tag.where(name: 'hoge').count}.by(1) }
-            it { expect { @action.call }.to change {Tag.where(name: 'fuga').count}.by(1) }
+            it { expect { @action.call }.to change { Tag.where(name: 'hoge').count }.by(1) }
+            it { expect { @action.call }.to change { Tag.where(name: 'fuga').count }.by(1) }
           end
 
           describe "taggings" do
-            it { expect { @action.call }.to change {Tagging.where(user_id: users(:user1).id, taggable_type: 'Item').count}.by(2) }
+            it { expect { @action.call }.to change { Tagging.where(user_id: users(:user1).id, taggable_type: 'Item').count }.by(2) }
           end
         end
 
@@ -1111,7 +1111,7 @@ describe Api::EntriesController do
                 post(
                     :create, entry: { entry_type: 'adjustment',
                        action_year: date.year, action_month: date.month, action_day: date.day,
-                       to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '50000'},
+                       to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '50000' },
                     year: 2008, month: 2, format: :json)
               }
             }
@@ -1169,7 +1169,7 @@ describe Api::EntriesController do
           end
 
           subject { response }
-          its(:response_code) { should == 406}
+          its(:response_code) { should == 406 }
         end
 
         describe "response body" do
@@ -1203,13 +1203,13 @@ describe Api::EntriesController do
             end
 
             subject { response }
-            its(:response_code) { should == 200}
+            its(:response_code) { should == 200 }
           end
 
           describe "item to update" do
-            it { expect { @action.call }.to change { Item.find(items(:adjustment2).id).updated_at} }
-            it { expect { @action.call }.not_to change { Item.find(items(:adjustment2).id).to_account_id} }
-            it { expect { @action.call }.to change { Item.find(items(:adjustment2).id).adjustment_amount}.to(3000) }
+            it { expect { @action.call }.to change { Item.find(items(:adjustment2).id).updated_at } }
+            it { expect { @action.call }.not_to change { Item.find(items(:adjustment2).id).to_account_id } }
+            it { expect { @action.call }.to change { Item.find(items(:adjustment2).id).adjustment_amount }.to(3000) }
             it { expect { @action.call }.to change { Item.find(items(:adjustment2).id).amount }.by(3000 - @init_adj_amount) }
           end
         end
@@ -1229,7 +1229,7 @@ describe Api::EntriesController do
           it_should_behave_like "fail to update"
 
           describe "count of items" do
-            it { expect { @action.call }.not_to change { Item.count} }
+            it { expect { @action.call }.not_to change { Item.count } }
           end
         end
 
@@ -1250,16 +1250,16 @@ describe Api::EntriesController do
           end
 
           describe "response" do
-            before {@action.call }
+            before { @action.call }
             subject { response }
             it { should be_success }
           end
 
           describe "updated item" do
-            it { expect { @action.call }.to change { Item.find(items(:adjustment4).id).updated_at} }
-            it { expect { @action.call }.not_to change { Item.find(items(:adjustment4).id).action_date} }
-            it { expect { @action.call }.not_to change { Item.find(items(:adjustment4).id).adjustment?} }
-            it { expect { @action.call }.to change { Item.find(items(:adjustment4).id).adjustment_amount}.to(3000) }
+            it { expect { @action.call }.to change { Item.find(items(:adjustment4).id).updated_at } }
+            it { expect { @action.call }.not_to change { Item.find(items(:adjustment4).id).action_date } }
+            it { expect { @action.call }.not_to change { Item.find(items(:adjustment4).id).adjustment? } }
+            it { expect { @action.call }.to change { Item.find(items(:adjustment4).id).adjustment_amount }.to(3000) }
             it { expect { @action.call }.to change { Item.find(items(:adjustment4).id).amount }.by(3000 - @old_adj4.adjustment_amount) }
           end
 
@@ -1299,10 +1299,10 @@ describe Api::EntriesController do
             def item
               Item.find(@old_item1.id)
             end
-            it { expect { @action.call }.not_to change {item.updated_at } }
-            it { expect { @action.call }.not_to change {item.name} }
-            it { expect { @action.call }.not_to change {item.action_date } }
-            it { expect { @action.call }.not_to change {item.amount } }
+            it { expect { @action.call }.not_to change { item.updated_at } }
+            it { expect { @action.call }.not_to change { item.name } }
+            it { expect { @action.call }.not_to change { item.action_date } }
+            it { expect { @action.call }.not_to change { item.amount } }
           end
         end
 
@@ -1340,7 +1340,7 @@ describe Api::EntriesController do
           before do
             @old_item11 = items(:item11)
             put(:update, id: @old_item11.id,
-                entry: { name:'テスト11',
+                entry: { name: 'テスト11',
                   action_date: @old_item11.action_date.strftime("%Y/%m/%d"),
                   amount: "100000",
                   from_account_id: accounts(:bank1).id,
@@ -1355,7 +1355,7 @@ describe Api::EntriesController do
           end
 
           describe "updated item" do
-            subject {Item.find(@old_item11.id) }
+            subject { Item.find(@old_item11.id) }
             its(:name) { should == 'テスト11' }
             its(:action_date) { should == @old_item11.action_date }
             its(:amount) { should == 100_000 }
@@ -1376,7 +1376,7 @@ describe Api::EntriesController do
                   amount: "(100-20)*1.007",
                   from_account_id: accounts(:bank1).id,
                   to_account_id: accounts(:expense3).id,
-                  confirmation_required: 'true'},
+                  confirmation_required: 'true' },
                 format: :json)
           end
 
@@ -1387,7 +1387,7 @@ describe Api::EntriesController do
           end
 
           describe "updated item" do
-            subject {Item.find(@old_item1.id) }
+            subject { Item.find(@old_item1.id) }
             its(:name) { should == 'テスト10000' }
             its(:action_date) { should == @date }
             its(:amount) { should == (80 * 1.007).to_i }
@@ -1405,7 +1405,7 @@ describe Api::EntriesController do
               @action = -> {
                 put(:update, id: old_item1.id,
                     entry: { name: 'テスト10',
-                      action_date: Date.new(old_item1.action_date.year,old_item1.action_date.month,18).strftime("%Y/%m/%d"),
+                      action_date: Date.new(old_item1.action_date.year, old_item1.action_date.month, 18).strftime("%Y/%m/%d"),
                       amount: "100000",
                       from_account_id: accounts(:bank1).id.to_s,
                       to_account_id: accounts(:expense3).id.to_s,
@@ -1421,7 +1421,7 @@ describe Api::EntriesController do
               end
               subject { response }
               it { should be_success }
-            its(:response_code) { should == 200}
+            its(:response_code) { should == 200 }
             end
 
             describe "updated item" do
@@ -1429,7 +1429,7 @@ describe Api::EntriesController do
                 @action.call
               end
               subject { Item.find(old_item1.id) }
-              its(:name) { should == 'テスト10'}
+              its(:name) { should == 'テスト10' }
               its(:action_date) { should == Date.new(old_action_date.year, old_action_date.month, 18) }
               its(:amount) { should == 100_000 }
               its(:from_account_id) { should == accounts(:bank1).id }
@@ -1476,7 +1476,7 @@ describe Api::EntriesController do
                   @action.call
                 end
 
-                subject { MonthlyProfitLoss.where(user_id: users(:user1).id, account_id: accounts(:expense3).id, month: Date.new(2008, 3, 1)).first}
+                subject { MonthlyProfitLoss.where(user_id: users(:user1).id, account_id: accounts(:expense3).id, month: Date.new(2008, 3, 1)).first }
                 it { should be_nil }
               end
             end
@@ -1487,7 +1487,7 @@ describe Api::EntriesController do
               @action = -> {
                 put(:update, id: old_item1.id,
                     entry: { name: 'テスト10',
-                      action_date: Date.new(old_item1.action_date.year,old_item1.action_date.month,18).strftime("%Y/%m/%d"),
+                      action_date: Date.new(old_item1.action_date.year, old_item1.action_date.month, 18).strftime("%Y/%m/%d"),
                       amount: "100000",
                       from_account_id: accounts(:bank1).id.to_s,
                       to_account_id: accounts(:expense3).id.to_s,
