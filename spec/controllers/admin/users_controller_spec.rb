@@ -18,9 +18,9 @@ describe Admin::UsersController do
           get :index
         end
 
-        subject {response}
-        its(:status) {should == 401 }
-        it {should_not render_template "index"}
+        subject { response }
+        its(:status) { should == 401 }
+        it { should_not render_template "index" }
       end
     end
 
@@ -37,8 +37,8 @@ describe Admin::UsersController do
           before do
             get :index
           end
-          subject {response}
-          it {should be_success }
+          subject { response }
+          it { should be_success }
         end
       end
 
@@ -54,8 +54,8 @@ describe Admin::UsersController do
           before do
             get :index
           end
-          subject {response}
-          its(:status) {should == 401 }
+          subject { response }
+          its(:status) { should == 401 }
         end
       end
     end
@@ -72,7 +72,7 @@ describe Admin::UsersController do
 
         describe "response" do
           before { get :index }
-          subject {response}
+          subject { response }
           its(:status) { should == 401 }
         end
       end
@@ -91,9 +91,9 @@ describe Admin::UsersController do
             get :index
           end
 
-          subject {response}
-          it {should be_success}
-          it {should render_template "index"}
+          subject { response }
+          it { should be_success }
+          it { should render_template "index" }
         end
       end
     end
@@ -114,9 +114,9 @@ describe Admin::UsersController do
             get :index
           end
 
-          subject {response}
-          it {should be_success}
-          it {should render_template "index"}
+          subject { response }
+          it { should be_success }
+          it { should render_template "index" }
         end
       end
 
@@ -133,7 +133,7 @@ describe Admin::UsersController do
 
         describe "response" do
           before { get :index }
-          subject {response}
+          subject { response }
           its(:status) { should == 401 }
         end
       end
@@ -170,9 +170,9 @@ describe Admin::UsersController do
             get :index
           end
 
-          subject {response}
-          it {should be_success}
-          it {should render_template "index"}
+          subject { response }
+          it { should be_success }
+          it { should render_template "index" }
         end
       end
     end
