@@ -23,7 +23,7 @@ describe Settings::UsersController do
         before do
           get :show
         end
-        
+
         subject {response}
         it {should be_success }
         it {should render_template "show"}
@@ -58,7 +58,7 @@ describe Settings::UsersController do
             user1.should_receive(:password_confirmation=).with("1234567")
             user1.should_receive(:save!)
             @user1 = user1
-            
+
             xhr :put, :update, :password_plain=>'1234567', :password_confirmation=>'1234567', :email => 'hogehoge@example.com'
           end
 
