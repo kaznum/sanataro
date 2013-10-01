@@ -61,7 +61,7 @@ describe ChartData::YearlyBudgetsController do
             end
           end
 
-          context "when there are some data to send," do 
+          context "when there are some data to send," do
             before do
               Item.destroy_all
               CreditRelation.destroy_all
@@ -78,13 +78,13 @@ describe ChartData::YearlyBudgetsController do
                                                                    order_no: 40)
 
               pls = @user.monthly_profit_losses
-              pls.create!(month: Date.new(1999, 5), account_id: account1.id, amount: -300 )
-              pls.create!(month: Date.new(1988, 6), account_id: account1.id, amount: -100 )
-              pls.create!(month: Date.new(1999, 1), account_id: account2.id, amount: -900 )
-              pls.create!(month: Date.new(1999, 1), account_id: account3.id, amount: 900 )
-              pls.create!(month: Date.new(1999, 1), account_id: account4.id, amount: 200 )
-              pls.create!(month: Date.new(1999, 1), account_id: -1, amount: 800 )
-              pls.create!(month: Date.new(1999, 2), account_id: -1, amount: -300 )
+              pls.create!(month: Date.new(1999, 5), account_id: account1.id, amount: -300)
+              pls.create!(month: Date.new(1988, 6), account_id: account1.id, amount: -100)
+              pls.create!(month: Date.new(1999, 1), account_id: account2.id, amount: -900)
+              pls.create!(month: Date.new(1999, 1), account_id: account3.id, amount: 900)
+              pls.create!(month: Date.new(1999, 1), account_id: account4.id, amount: 200)
+              pls.create!(month: Date.new(1999, 1), account_id: -1, amount: 800)
+              pls.create!(month: Date.new(1999, 2), account_id: -1, amount: -300)
 
               get :show, id: "199902", budget_type: "expense", format: :json
             end
@@ -161,12 +161,12 @@ describe ChartData::YearlyBudgetsController do
                                                 order_no: 40)
 
               pls = @user.monthly_profit_losses
-              pls.create!(month: Date.new(1999, 5), account_id: account1.id, amount: -300 )
-              pls.create!(month: Date.new(1988, 6), account_id: account1.id, amount: -100 )
-              pls.create!(month: Date.new(1999, 1), account_id: account2.id, amount: -900 )
-              pls.create!(month: Date.new(1999, 1), account_id: account3.id, amount: 900 )
-              pls.create!(month: Date.new(1999, 1), account_id: account4.id, amount: 200 )
-              pls.create!(month: Date.new(1999, 1), account_id: -1, amount: -800 )
+              pls.create!(month: Date.new(1999, 5), account_id: account1.id, amount: -300)
+              pls.create!(month: Date.new(1988, 6), account_id: account1.id, amount: -100)
+              pls.create!(month: Date.new(1999, 1), account_id: account2.id, amount: -900)
+              pls.create!(month: Date.new(1999, 1), account_id: account3.id, amount: 900)
+              pls.create!(month: Date.new(1999, 1), account_id: account4.id, amount: 200)
+              pls.create!(month: Date.new(1999, 1), account_id: -1, amount: -800)
 
               get :show, id: "199902", budget_type: "income", format: :json
             end
@@ -244,12 +244,12 @@ describe ChartData::YearlyBudgetsController do
                                                 order_no: 40)
 
               pls = @user.monthly_profit_losses
-              pls.create!(month: Date.new(1999, 5), account_id: account1.id, amount: -300 )
-              pls.create!(month: Date.new(1988, 6), account_id: account1.id, amount: -100 )
-              pls.create!(month: Date.new(1999, 1), account_id: account2.id, amount: -900 )
-              pls.create!(month: Date.new(1999, 1), account_id: account3.id, amount: 900 )
-              pls.create!(month: Date.new(1999, 1), account_id: account4.id, amount: 200 )
-              pls.create!(month: Date.new(1999, 1), account_id: -1, amount: -800 )
+              pls.create!(month: Date.new(1999, 5), account_id: account1.id, amount: -300)
+              pls.create!(month: Date.new(1988, 6), account_id: account1.id, amount: -100)
+              pls.create!(month: Date.new(1999, 1), account_id: account2.id, amount: -900)
+              pls.create!(month: Date.new(1999, 1), account_id: account3.id, amount: 900)
+              pls.create!(month: Date.new(1999, 1), account_id: account4.id, amount: 200)
+              pls.create!(month: Date.new(1999, 1), account_id: -1, amount: -800)
               get :show, id: "199902", budget_type: "total", format: :json
             end
 
