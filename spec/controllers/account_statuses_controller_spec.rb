@@ -21,8 +21,8 @@ describe AccountStatusesController do
       describe "response" do
         before { xhr :get, :show }
 
-        subject {response}
-        it {should render_template("account_statuses/show")}
+        subject { response }
+        it { should render_template("account_statuses/show") }
       end
 
       describe "@account_statuses" do
@@ -31,7 +31,7 @@ describe AccountStatusesController do
           xhr :get, :show
         end
 
-        subject { assigns(:account_statuses)}
+        subject { assigns(:account_statuses) }
         it { should_not be_empty }
         its([:bankings]) { should_not be_nil }
         its([:expenses]) { should_not be_nil }
