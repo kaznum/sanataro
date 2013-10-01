@@ -219,7 +219,7 @@ describe ChartData::YearlyBudgetsController do
                 json["expense"]["label"].should be == "支出"
                 json["income"]["label"].should be == "収入"
                 json["total"]["label"].should be == "収支"
-                ["expense", "income", "total"].each do |type|
+                %w(expense income total).each do |type|
                   json[type]["data"].should have(12).entries
                   json[type]["data"].should include([date.months_ago(11).to_time.to_i * 1000, 0])
                   json[type]["data"].should include([date.months_ago(5).to_time.to_i * 1000, 0])
@@ -265,7 +265,7 @@ describe ChartData::YearlyBudgetsController do
                 json["expense"]["label"].should be == "支出"
                 json["income"]["label"].should be == "収入"
                 json["total"]["label"].should be == "収支"
-                ["expense", "income", "total"].each do |type|
+                %w(expense income total).each do |type|
                   json[type]["data"].should have(12).entries
                 end
                 json["expense"]["data"].should include([Date.new(1999, 1).to_time.to_i * 1000, 200])
