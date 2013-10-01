@@ -23,7 +23,7 @@ describe ConfirmationRequiredsController do
         end
 
         describe "item" do
-          subject { Item.find(items(:item3).id)}
+          subject { Item.find(items(:item3).id) }
           it { should be_confirmation_required }
         end
 
@@ -51,7 +51,7 @@ describe ConfirmationRequiredsController do
         end
 
         describe "item" do
-          subject { Item.find(items(:item3).id)}
+          subject { Item.find(items(:item3).id) }
           it { should be_confirmation_required }
         end
 
@@ -84,7 +84,7 @@ describe ConfirmationRequiredsController do
         end
 
         describe "item" do
-          subject { Item.find(items(:item3).id)}
+          subject { Item.find(items(:item3).id) }
           it { should be_confirmation_required }
         end
 
@@ -113,7 +113,7 @@ describe ConfirmationRequiredsController do
         end
 
         describe "item" do
-          subject { Item.find(items(:item3).id)}
+          subject { Item.find(items(:item3).id) }
           it { should be_confirmation_required }
         end
 
@@ -131,7 +131,7 @@ describe ConfirmationRequiredsController do
         end
 
         describe "item" do
-          subject { Item.find(items(:item3).id)}
+          subject { Item.find(items(:item3).id) }
           it { should_not be_confirmation_required }
         end
 
@@ -151,19 +151,19 @@ describe ConfirmationRequiredsController do
 
 
         describe "credit card account(parent)" do
-          subject { Item.find(items(:credit_payment21).id)}
+          subject { Item.find(items(:credit_payment21).id) }
           it { should be_confirmation_required }
         end
 
         describe "payment account (child)" do
-          subject { Item.find(items(:credit_refill31).id)}
+          subject { Item.find(items(:credit_refill31).id) }
           it { should_not be_confirmation_required }
         end
       end
 
       context "when entry_id is invalid," do
         before do
-          xhr :put, :update, confirmation_required: 'false', entry_id: 324123413
+          xhr :put, :update, confirmation_required: 'false', entry_id: 324_123_413
         end
 
         subject { response }
