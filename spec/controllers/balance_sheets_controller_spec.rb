@@ -41,7 +41,7 @@ describe BalanceSheetsController do
 
       context "without month in params and which has minus value in an account," do
         before do
-          users(:user1).monthly_profit_losses.create(month: Date.new(2006, 12, 1), account_id: 1, amount: -2000000)
+          users(:user1).monthly_profit_losses.create(month: Date.new(2006, 12, 1), account_id: 1, amount: -2_000_000)
           get :index
         end
 
