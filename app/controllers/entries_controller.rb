@@ -77,6 +77,7 @@ class EntriesController < ApplicationController
   end
 
   private
+
   # this method is called when a link in the field of adding regular item or adjustment.
   # which switches forms each other.
   def _new_entry(entry_type)
