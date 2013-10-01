@@ -96,7 +96,7 @@ describe EntriesController do
 
       context "with tag," do
         before do
-          tags = ['test_tag', 'def']
+          tags = %w(test_tag def)
           xhr(:put, :update,
               id: items(:item11).id.to_s,
               entry: {
@@ -586,8 +586,8 @@ describe EntriesController do
         before do
           mock_user
           User.should_receive(:find).with(mock_user.id).and_return(mock_user)
-          mock_user.should_receive(:from_accounts).at_least(:once).and_return([['a', 'b'], ['c', 'd']])
-          mock_user.should_receive(:to_accounts).at_least(:once).and_return([['e', 'f'], ['g', 'h']])
+          mock_user.should_receive(:from_accounts).at_least(:once).and_return([%w(a b), %w(c d)])
+          mock_user.should_receive(:to_accounts).at_least(:once).and_return([%w(e f), %w(g h)])
 
           @controller.should_receive(:form_authenticity_token).and_return("1234567")
           xhr :get, :new, entry_type: 'simple'
