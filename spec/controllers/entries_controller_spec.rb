@@ -1281,7 +1281,11 @@ describe EntriesController do
         end
 
         describe "new record" do
-          subject { id = Item.maximum('id');  Item.find_by_id(id) }
+          subject do
+            id = Item.maximum('id')
+            Item.find_by_id(id)
+          end
+
           its(:amount) { should eq 10 }
         end
       end
