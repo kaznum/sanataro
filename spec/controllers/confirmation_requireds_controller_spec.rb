@@ -6,7 +6,7 @@ describe ConfirmationRequiredsController do
   describe "#update" do
     context "without login," do
       before do
-        xhr :put, :update, :entry_id => items(:item3).id, :confirmation_required => 'true'
+        xhr :put, :update, entry_id: items(:item3).id, confirmation_required: 'true'
       end
       it_should_behave_like "Unauthenticated Access by xhr"
     end
@@ -18,8 +18,8 @@ describe ConfirmationRequiredsController do
 
       context "when tag is specified," do
         before do
-          items(:item3).update_attributes!(:confirmation_required => false)
-          xhr :put, :update, :entry_id => items(:item3).id, :confirmation_required => 'true', :tag => "abc"
+          items(:item3).update_attributes!(confirmation_required: false)
+          xhr :put, :update, entry_id: items(:item3).id, confirmation_required: 'true', tag: "abc"
         end
 
         describe "item" do
@@ -46,8 +46,8 @@ describe ConfirmationRequiredsController do
 
       context "when keyword is specified," do
         before do
-          items(:item3).update_attributes!(:confirmation_required => false)
-          xhr :put, :update, :entry_id => items(:item3).id, :confirmation_required => 'true', :keyword => "abc"
+          items(:item3).update_attributes!(confirmation_required: false)
+          xhr :put, :update, entry_id: items(:item3).id, confirmation_required: 'true', keyword: "abc"
         end
 
         describe "item" do
@@ -79,8 +79,8 @@ describe ConfirmationRequiredsController do
 
       context "when mark is specified," do
         before do
-          items(:item3).update_attributes!(:confirmation_required => false)
-          xhr :put, :update, :entry_id => items(:item3).id, :confirmation_required => 'true', :mark => "abc"
+          items(:item3).update_attributes!(confirmation_required: false)
+          xhr :put, :update, entry_id: items(:item3).id, confirmation_required: 'true', mark: "abc"
         end
 
         describe "item" do
@@ -108,8 +108,8 @@ describe ConfirmationRequiredsController do
 
       context "when changing status from false to true," do
         before do
-          items(:item3).update_attributes!(:confirmation_required => false)
-          xhr :put, :update, :entry_id => items(:item3).id, :confirmation_required => 'true'
+          items(:item3).update_attributes!(confirmation_required: false)
+          xhr :put, :update, entry_id: items(:item3).id, confirmation_required: 'true'
         end
 
         describe "item" do
@@ -126,8 +126,8 @@ describe ConfirmationRequiredsController do
 
       context "when changing status from true to false," do
         before do
-          items(:item3).update_attributes!(:confirmation_required => true)
-          xhr :put, :update, :entry_id => items(:item3).id, :confirmation_required => 'false'
+          items(:item3).update_attributes!(confirmation_required: true)
+          xhr :put, :update, entry_id: items(:item3).id, confirmation_required: 'false'
         end
 
         describe "item" do
@@ -146,7 +146,7 @@ describe ConfirmationRequiredsController do
         before do
           old_credit_refill = items(:credit_refill31)
 
-          xhr :put, :update, :entry_id => old_credit_refill.id, :confirmation_required => 'true'
+          xhr :put, :update, entry_id: old_credit_refill.id, confirmation_required: 'true'
         end
 
 
@@ -163,7 +163,7 @@ describe ConfirmationRequiredsController do
 
       context "when entry_id is invalid," do
         before do
-          xhr :put, :update, :confirmation_required => 'false', :entry_id => 324123413
+          xhr :put, :update, confirmation_required: 'false', entry_id: 324123413
         end
 
         subject { response }
@@ -172,7 +172,7 @@ describe ConfirmationRequiredsController do
 
       context "when status is not set," do
         before do
-          xhr :put, :update, :entry_id => items(:item3).id
+          xhr :put, :update, entry_id: items(:item3).id
         end
 
         subject { response }
