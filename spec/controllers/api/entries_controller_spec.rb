@@ -329,7 +329,6 @@ describe Api::EntriesController do
     end
   end
 
-
   describe "#show" do
     context "before login," do
       before do
@@ -1061,7 +1060,6 @@ describe Api::EntriesController do
             it { expect { @action.call }.to change { Tagging.where(user_id: users(:user1).id, taggable_type: 'Item').count }.by(2) }
           end
         end
-
 
         context "create adjustment to the same day as another ajustment's one," do
           context "input values are valid," do
