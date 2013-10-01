@@ -358,7 +358,6 @@ describe Settings::CreditRelationsController do
             it { should render_template 'no_record' }
           end
 
-
           describe "@credit_relations" do
             subject { assigns(:credit_relations) }
             it { should == @mock_crs_all }
