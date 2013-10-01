@@ -32,7 +32,7 @@ class ChartData::YearlyAssetsController < ApplicationController
 
   def _json_account_assets(account_id, date_since)
     json_data = []
-    (0..11).inject(Account.asset_of_month(@user, account_id, date_since.months_ago(1))) do |amount, i|
+    (0..11).reduce(Account.asset_of_month(@user, account_id, date_since.months_ago(1))) do |amount, i|
       month = date_since.months_since(i)
       mpl = @user.monthly_profit_losses.where(account_id: account_id, month: month).first
       amount += mpl ? mpl.amount : 0
@@ -44,7 +44,7 @@ class ChartData::YearlyAssetsController < ApplicationController
 
   def _json_total_assets(account_ids, date_since)
     initial_total = Account.asset_of_month(@user, account_ids, date_since.months_ago(1))
-    _ignored, data = (0..11).inject([initial_total, []]) do |total_data, i|
+    _ignored, data = (0..11).reduce([initial_total, []]) do |total_data, i|
       total = total_data[0]
       data = total_data[1]
       month = date_since.months_since(i)
