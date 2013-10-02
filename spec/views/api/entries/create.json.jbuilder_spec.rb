@@ -11,7 +11,7 @@ describe "/api/entries/create" do
 
   before(:each) do
     item = Fabricate(:general_item, name: '<a href="bbb">aaa</a>')
-    updated_item_ids = [10,20,30,40,50]
+    updated_item_ids = [10, 20, 30, 40, 50]
 
     render template: "api/entries/create", locals: { item: item, updated_item_ids: updated_item_ids }
   end
