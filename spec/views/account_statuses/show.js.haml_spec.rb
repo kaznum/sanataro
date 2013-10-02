@@ -16,4 +16,3 @@ describe "/account_statuses/show" do
   it { should =~ /\$\("#digest_body"\).html\(/ }
   it { should =~ /\$\("#digest_title"\).html\(/ }
 end
-
