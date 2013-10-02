@@ -242,7 +242,7 @@ describe User do
     let(:user) { users(:user1) }
 
     describe "size" do
-      let(:actual) { user.accounts.where(type: ['Banking', 'Income']) }
+      let(:actual) { user.accounts.where(type: %w(Banking Income)) }
       subject { user.from_accounts }
       it { should have(actual.size).records }
     end
@@ -258,7 +258,7 @@ describe User do
   describe "#to_accounts" do
     let(:user) { users(:user1) }
     describe "size" do
-      let(:actual) { user.accounts.where(type: ['Banking', 'Expense']) }
+      let(:actual) { user.accounts.where(type: %w(Banking Expense)) }
       subject { user.to_accounts }
       it { should have(actual.size).records }
     end
