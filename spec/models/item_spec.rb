@@ -17,7 +17,6 @@ describe Item do
     }
   end
 
-
   describe "create successfully" do
     before do
       @item = users(:user1).general_items.create!(@valid_attrs)
@@ -288,14 +287,13 @@ describe Item do
         end
       end
     end
-    
   end
 
   describe "action_date calcuration" do
     before do
       @item = Item.find(1)
     end
-    
+
     describe "getting from DB" do
       subject { @item }
       its(:year) { should == 2008 }
@@ -324,7 +322,7 @@ describe Item do
       its(:day) { should be_nil }
       its(:action_date) { should be_nil }
     end
-    
+
     context "when nil is set to day" do
       before do
         @item.day = nil
@@ -347,7 +345,6 @@ describe Item do
       its(:action_date) { should == Date.new(2010, 3, 10) }
     end
   end
-
 
   describe "adjustment" do
     #
@@ -432,7 +429,6 @@ describe Item do
         its(:adjustment_amount) { should == @adj6.adjustment_amount}
       end
 
-
       describe "MonthlyProfitLoss for bank1 in 2008/2" do
         subject { MonthlyProfitLoss.find(@plbank1.id) }
         its(:amount) { should == @plbank1.amount}
@@ -444,7 +440,6 @@ describe Item do
       end
     end
   end
-
 
   describe "partial_items" do
     context "when entries are so many" do
