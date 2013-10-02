@@ -69,7 +69,7 @@ describe AutologinKey do
     it "正しいキーで取得可能であること" do
       AutologinKey.matched_key(users(:user1).id, '12345678').should_not be_nil
     end
-    
+
     it "不正なキーで取得できないこと" do
       AutologinKey.matched_key(users(:user1).id, '12367').should be_nil
     end
@@ -82,7 +82,7 @@ describe AutologinKey do
         ak.created_at = Time.now - (31 * 24 * 3600)
         ak.save!
       end
-      
+
       it "取得できないこと" do
         AutologinKey.matched_key(users(:user1).id, '55555555').should be_nil
       end
@@ -106,11 +106,10 @@ describe AutologinKey do
         it { should < @old_count }
       end
 
-      describe "current records" do 
+      describe "current records" do
         subject {AutologinKey.where("created_at < ?", Time.now - 30 * 24 * 3600).to_a}
         it { should have(0).records }
       end
     end
   end
 end
-
