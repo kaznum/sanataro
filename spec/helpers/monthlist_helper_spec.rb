@@ -19,5 +19,5 @@ describe MonthlistHelper do
 
   subject { @returned }
   it { should be =~ /<div class='years'>year_2008_linkyear_2009_link<\/div>/ }
-  it { should be =~ /<div class='year_2008' style='display: none;'>(month_link){3}<\/div><div class='year_2009' style='display: block;'>(month_link){12}<\/div>/ }
+  it { should be =~ %r(<div class='year_2008' style='display: none;'>(month_link){3}</div><div class='year_2009' style='display: block;'>(month_link){12}</div>) }
 end
