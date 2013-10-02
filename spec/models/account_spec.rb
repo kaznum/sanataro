@@ -5,8 +5,8 @@ describe Account do
   fixtures :users
   before do
     @valid_params = {
-      :name => "aaaaa",
-      :order_no => 1,
+      name: "aaaaa",
+      order_no: 1,
     }
   end
 
