@@ -5,13 +5,13 @@ describe MonthlyProfitLoss do
   fixtures :monthly_profit_losses, :users, :accounts
 
   describe "find_all_by_month" do
-    subject { MonthlyProfitLoss.where(month: Date.new(2008,2)).to_a }
+    subject { MonthlyProfitLoss.where(month: Date.new(2008, 2)).to_a }
     specify { subject.size.should be > 0 }
   end
 
   describe "::correct" do
     let(:user) { users(:user1) }
-    let(:month) { Date.new(2008,2) }
+    let(:month) { Date.new(2008, 2) }
     # dummy data
 
     before do
