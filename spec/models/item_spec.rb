@@ -802,7 +802,7 @@ describe Item do
       its([:to_account_id]) { should == 3 }
       its([:amount]) { should == 10_000 }
       its([:confirmation_required]) { should be_true }
-      its([:tags]) { should == ['fuga', 'hoge'] }
+      its([:tags]) { should == %w(fuga hoge) }
       its([:child_id]) { should_not be_nil }
       its([:child_id]) { should == @item.child_item.id }
     end
