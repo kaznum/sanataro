@@ -30,7 +30,7 @@ describe Teller do
 
     shared_examples_for "created successfully with tag_list == 'hoge fuga'" do
       let(:tag_ids) { Tag.where(name: 'hoge').pluck(:id) }
-        
+
       describe "tags count" do
         subject { Tag.where(name: 'hoge').to_a }
         it { should have(1).tag }
@@ -45,7 +45,7 @@ describe Teller do
         subject { Tagging.where(tag_id: tag_ids).pluck(:user_id).all? { |i| users(:user1).id == i } }
         it { should be_true }
       end
-      
+
       describe "taggings' taggable_type" do
         subject { Tagging.where(tag_id: tag_ids).pluck(:taggable_type).all? { |t| t == 'Item' } }
         it { should be_true }
@@ -53,12 +53,12 @@ describe Teller do
     end
 
     context "with confimation_required == true," do
-      before do 
+      before do
         @prev_count = Item.count
         @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: Date.today, name: 'テスト', amount: 10_000, from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, tag_list: 'hoge fuga', confirmation_required: true)
       end
 
-      describe "created_item" do 
+      describe "created_item" do
         subject { @item }
         its(:errors) { should be_empty }
       end
@@ -72,7 +72,7 @@ describe Teller do
         subject { Item.count }
         it { should == @prev_count + 1 }
       end
-      
+
       describe "created item" do
         subject {
           id = Item.maximum('id')
@@ -89,12 +89,12 @@ describe Teller do
     end
 
     context "with confimation_required is nil," do
-      before do 
+      before do
         @prev_count = Item.count
         @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: Date.today, name: 'テスト', amount: 10_000, from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, tag_list: 'hoge fuga')
       end
 
-      describe "created_item" do 
+      describe "created_item" do
         subject { @item }
         its(:errors) { should be_empty }
       end
@@ -108,7 +108,7 @@ describe Teller do
         subject { Item.count }
         it { should == @prev_count + 1 }
       end
-      
+
       describe "created item" do
         subject {
           id = Item.maximum('id')
@@ -123,7 +123,7 @@ describe Teller do
 
       it_should_behave_like "created successfully with tag_list == 'hoge fuga'"
     end
-    
+
     context "about relation of created item, adjustment, pl," do
       before do
         @prev_count = Item.count
@@ -135,13 +135,13 @@ describe Teller do
         @init_pl0802 = monthly_profit_losses(:bank1200802)
         @init_pl0803 = monthly_profit_losses(:bank1200803)
       end
-      
+
       shared_examples_for "created only itself successfully" do
         describe "returned created_item" do
           before do
             @create.call
           end
-          
+
           subject { @item }
           its(:errors) { should be_empty }
         end
@@ -167,19 +167,19 @@ describe Teller do
           its(:name) { should == 'テスト10' }
           its(:amount) { should == 10_000 }
         end
-        
+
         describe "Item.count" do
           it { expect { @create.call }.to change { Item.count }.by(1) }
         end
       end
-      
+
       context "created before adjustment which is in the same month," do
         before do
           @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: @init_adj2.action_date - 1, name: 'テスト10', amount: 10_000, from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id) }
         end
 
         it_should_behave_like "created only itself successfully"
-        
+
         describe "adjustment just next to the created item" do
           it { expect { @create.call }.to change { Item.find(items(:adjustment2).id).amount }.by(10_000) }
         end
@@ -188,14 +188,13 @@ describe Teller do
           before do
             @create.call
           end
-          
-          describe "the number of items" do 
+
+          describe "the number of items" do
             subject {  @affected_item_ids }
             it { should have(1).items }
-
           end
-          
-          describe "affected item" do 
+
+          describe "affected item" do
             subject {  @affected_item_ids[0] }
             it { should == items(:adjustment2).id }
           end
@@ -212,11 +211,11 @@ describe Teller do
         describe "monthly pl which is before the created item" do
           it { expect { @create.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id) } }
         end
-        
+
         describe "monthly pl of the same month of the created item" do
           it {  expect { @create.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id) } }
         end
-        
+
         describe "monthly pl of the next month of the created item" do
           it { expect { @create.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id) } }
         end
@@ -228,7 +227,7 @@ describe Teller do
         end
 
         it_should_behave_like "created only itself successfully"
-        
+
         describe "adjustment which is before the created item" do
           it { expect { @create.call }.not_to change { Item.find(@init_adj2.id).amount } }
         end
@@ -241,23 +240,22 @@ describe Teller do
           before do
             @create.call
           end
-          
-          describe "the number of items" do 
+
+          describe "the number of items" do
             subject {  @affected_item_ids }
             it { should have(1).items }
-
           end
-          
-          describe "affected item" do 
+
+          describe "affected item" do
             subject {  @affected_item_ids[0] }
             it { should == items(:adjustment4).id }
           end
         end
-        
+
         describe "adjustment which is second next to the created item in the next month" do
           it { expect { @create.call }.not_to change { Item.find(@init_adj6.id).amount } }
         end
-        
+
         describe "the adjusted account's monthly_pl of the last month of the created item" do
           it { expect { @create.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
         end
@@ -281,7 +279,6 @@ describe Teller do
         describe "the non-adjusted account's monthly_pl of the same month as the created item" do
           it { expect { @create.call }.to change { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 2, 1)).first.amount }.by(10_000) }
         end
-        
       end
 
       context "created between adjustments, and the one is on earlier date in the same month and the other is in the next month of the item to create," do
@@ -291,11 +288,11 @@ describe Teller do
         end
 
         it_should_behave_like "created only itself successfully"
-        
+
         describe "the adjustment of the month before the item" do
           it { expect { @create.call }.not_to change { Item.find(@init_adj2.id).amount } }
         end
-        
+
         describe "the adjustments of the date before the item" do
           it { expect { @create.call }.not_to change { Item.find(@init_adj2.id).amount } }
           it { expect { @create.call }.not_to change { Item.find(@init_adj4.id).amount } }
@@ -304,19 +301,18 @@ describe Teller do
         describe "the adjustments of the next of item" do
           it { expect { @create.call }.to change { Item.find(@init_adj6.id).amount }.by(10_000) }
         end
-        
+
         describe "affected_item_ids" do
           before do
             @create.call
           end
-          
-          describe "the number of items" do 
+
+          describe "the number of items" do
             subject {  @affected_item_ids }
             it { should have(1).items }
-
           end
-          
-          describe "affected item" do 
+
+          describe "affected item" do
             subject {  @affected_item_ids[0] }
             it { should == items(:adjustment6).id }
           end
@@ -351,31 +347,30 @@ describe Teller do
         before do
           @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: @init_adj6.action_date - 1, name: 'テスト10', amount: 10_000, from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id) }
         end
-        
+
         it_should_behave_like "created only itself successfully"
-        
+
         describe "the adjustment of the month before the item" do
           it { expect { @create.call }.not_to change { Item.find(@init_adj2.id).amount } }
           it { expect { @create.call }.not_to change { Item.find(@init_adj4.id).amount } }
         end
-        
+
         describe "the adjustments of the next of item" do
           it { expect { @create.call }.to change { Item.find(@init_adj6.id).amount }.by(10_000) }
         end
 
-        
         describe "affected_item_ids" do
           before do
             @create.call
           end
-          
-          describe "the number of items" do 
+
+          describe "the number of items" do
             subject {  @affected_item_ids }
             it { should have(1).items }
 
           end
-          
-          describe "affected item" do 
+
+          describe "affected item" do
             subject {  @affected_item_ids[0] }
             it { should == items(:adjustment6).id }
           end
@@ -400,20 +395,19 @@ describe Teller do
         end
       end
 
-      
       context "created after any adjustments, and the one is item's date is in the same month and the others are in the previous month of the item to create," do
         before do
           @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: @init_adj6.action_date + 1, name: 'テスト10', amount: 10_000, from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id) }
         end
-        
+
         it_should_behave_like "created only itself successfully"
-        
+
         describe "the adjustment of the month before the item" do
           it { expect { @create.call }.not_to change { Item.find(@init_adj2.id).amount } }
           it { expect { @create.call }.not_to change { Item.find(@init_adj4.id).amount } }
           it { expect { @create.call }.not_to change { Item.find(@init_adj6.id).amount } }
         end
-        
+
         describe "affected_item_ids" do
           before do
             @create.call
@@ -421,7 +415,7 @@ describe Teller do
           subject {  @affected_item_ids }
           it { should be_empty }
         end
-        
+
         describe "the adjusted account's monthly_pl of the last month or before of the created item" do
           it { expect { @create.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id).amount } }
 
@@ -443,13 +437,12 @@ describe Teller do
     end
 
     context "about credit card payment," do
-      
       shared_examples_for "created itself and credit payment item successfully" do
         describe "returned created_item" do
           before do
             @create.call
           end
-          
+
           subject { @item }
           its(:errors) { should be_empty }
         end
@@ -473,14 +466,14 @@ describe Teller do
           its(:name) { should == 'テスト10' }
           its(:amount) { should == 10_000 }
         end
-        
+
         describe "Item.count" do
           it { expect { @create.call }.to change { Item.count }.by(2) }
         end
       end
-      
+
       context "created item with credit card, purchased before the settlement date of the month," do
-        before do 
+        before do
           @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: Date.new(2008, 2, 10), name: 'テスト10', amount: 10_000, from_account_id: accounts(:credit4).id, to_account_id: accounts(:expense3).id) }
         end
 
@@ -493,7 +486,6 @@ describe Teller do
         }
 
         it_should_behave_like "created itself and credit payment item successfully"
-          
 
         describe "created credit item" do
           before do
@@ -531,18 +523,19 @@ describe Teller do
           before do
             @create.call
           end
-          describe "the number of items" do 
+
+          describe "the number of items" do
             subject { @affected_item_ids }
             it { should have(1).items }
           end
-          
+
           describe "affected item" do
             subject { @affected_item_ids[0] }
             it { should == Item.where(parent_id: @item.id).first.id }
           end
         end
       end
-      
+
       context "created item with credit card, purchased before the settlement date of the month," do
         before do
           cr1 = credit_relations(:cr1)
@@ -606,11 +599,11 @@ describe Teller do
           before do
             @create.call
           end
-          describe "the number of items" do 
+          describe "the number of items" do
             subject { @affected_item_ids }
             it { should have(1).items }
           end
-          
+
           describe "affected item" do
             subject { @affected_item_ids[0] }
             it { should == Item.where(parent_id: @item.id).first.id }
@@ -623,7 +616,7 @@ describe Teller do
           @cr1 = credit_relations(:cr1)
           @cr1.payment_day = 99
           @cr1.save!
-            
+
           @create = lambda { @item, @affected_item_ids, @is_error =
             Teller.create_entry(users(:user1),
                                 action_date: Date.new(2008, 2, 10),
@@ -640,7 +633,7 @@ describe Teller do
         }
 
         it_should_behave_like "created itself and credit payment item successfully"
-        
+
         describe "created credit item" do
           before do
             @create.call
@@ -680,17 +673,17 @@ describe Teller do
           before do
             @create.call
           end
-          describe "the number of items" do 
+          describe "the number of items" do
             subject { @affected_item_ids }
             it { should have(1).items }
           end
-          
+
           describe "affected item" do
             subject { @affected_item_ids[0] }
             it { should == Item.where(parent_id: @item.id).first.id }
           end
         end
-      end      
+      end
     end
   end
 end
