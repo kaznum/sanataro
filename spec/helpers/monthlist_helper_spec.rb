@@ -16,10 +16,8 @@ describe MonthlistHelper do
 
     @returned = helper.monthlist(from_year, from_month, to_year, to_month, selected_year, selected_month, current_action)
   end
-  
+
   subject { @returned }
   it { should be =~ /<div class='years'>year_2008_linkyear_2009_link<\/div>/ }
   it { should be =~ /<div class='year_2008' style='display: none;'>(month_link){3}<\/div><div class='year_2009' style='display: block;'>(month_link){12}<\/div>/ }
 end
-
-
