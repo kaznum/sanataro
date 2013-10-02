@@ -9,7 +9,7 @@ describe "/settings/accounts/_edit" do
     end
 
     describe "no error" do
-      it { expect{ render partial: 'edit' }.not_to raise_error }
+      it { expect { render partial: 'edit' }.not_to raise_error }
     end
 
     describe "body" do
