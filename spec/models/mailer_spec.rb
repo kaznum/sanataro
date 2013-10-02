@@ -7,9 +7,9 @@ describe Mailer do
     let(:mail) { Mailer.signup_confirmation(user) }
 
     describe "mail" do
-      subject{mail}
+      subject { mail }
       its(:subject) { should == "[#{Settings.product_name}] ユーザ登録は完了していません" }
-      its(:to) {should == [user.email]}
+      its(:to) { should == [user.email] }
       its(:from) { should == [Settings.system_mail_address] }
     end
 
@@ -24,9 +24,9 @@ describe Mailer do
     let(:mail) { Mailer.signup_complete(user) }
 
     describe "mail" do
-      subject{mail}
+      subject { mail }
       its(:subject) { should == "[#{Settings.product_name}] ユーザ登録完了" }
-      its(:to) {should == [user.email]}
+      its(:to) { should == [user.email] }
       its(:from) { should == [Settings.system_mail_address] }
     end
 
