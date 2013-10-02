@@ -46,7 +46,7 @@ end
 # free to delete them.
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-### rails g rspec:install generate ".. ||= 'test'" as the following line 
+### rails g rspec:install generate ".. ||= 'test'" as the following line
 ### but 3.2.7 doesn't work because ENV["RAILS_ENV"] is already 'development'
 ### This will be fixed next version.
 ### See https://github.com/rails/rails/issues/7175
@@ -93,7 +93,7 @@ RSpec.configure do |config|
     xhr :post, :do_login, :login => 'user1', :password => '123456', :autologin => true, :only_add => only_add
       @controller = orig_controller
   end
-  
+
   def create_entry(*params)
     orig_controller = @controller
     @controller = EntriesController.new
@@ -116,7 +116,7 @@ RSpec::Matchers.define :redirect_by_js_to do |path|
   failure_message_for_should_not do |_|
     "expected not to redirect to '#{path}', but did"
   end
-  
+
   description do
     "js redirect matcher"
   end
@@ -141,7 +141,7 @@ RSpec::Matchers.define :render_js_error do |prms|
   failure_message_for_should_not do |_|
     "expected not to have render_js_error(#{prms.serialize}, but did"
   end
-  
+
   description do
     "error.js.haml matcher"
   end
