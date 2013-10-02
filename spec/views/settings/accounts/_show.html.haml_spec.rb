@@ -14,4 +14,3 @@ describe "/settings/accounts/_show" do
     end
   end
 end
-
