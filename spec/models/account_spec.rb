@@ -196,7 +196,7 @@ describe Account do
         user = users(:user1)
         user.accounts.asset(user, ini_bank1.id, date)
       }
-      it { should == 13900 }
+      it { should == 13_900 }
     end
 
     context "when specifying adj_id whose action_date is same as that of original adj_id," do
@@ -206,7 +206,7 @@ describe Account do
         date = items(:adjustment4).action_date.clone
         user.accounts.asset(user, ini_bank1.id, date, items(:adjustment4).id)
       }
-      it { should == 15000 }
+      it { should == 15_000 }
     end
 
     context "when specifying id which is same as the account of from_account_id = bank1's id(action_date = adjustment4.action_date + 1day)," do
@@ -216,7 +216,7 @@ describe Account do
         date = items(:adjustment4).action_date.clone + 1
         user.accounts.asset(user, ini_bank1.id, date, items(:item3).id)
       }
-      it { should == 19000 }
+      it { should == 19_000 }
     end
 
     context "when specifying adj_id whose action_date is after that of adj_id," do
@@ -227,7 +227,7 @@ describe Account do
                             items(:adjustment6).action_date + 1,
                             items(:adjustment4).id)
       }
-      it { should == 13900 }
+      it { should == 13_900 }
     end
   end
 
