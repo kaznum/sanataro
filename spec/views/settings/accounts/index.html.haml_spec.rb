@@ -12,4 +12,3 @@ describe "/settings/accounts/index" do
     it { expect { render }.not_to raise_error }
   end
 end
-
