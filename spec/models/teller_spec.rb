@@ -479,10 +479,10 @@ describe Teller do
 
         let(:credit_item) {
           Item.where(action_date: Date.new(2008, 2, 10),
-                                       from_account_id: accounts(:credit4).id,
-                                       to_account_id: accounts(:expense3).id,
-                                       amount: 10_000,
-                                       parent_id: nil).find { |i| i.child_item }
+                     from_account_id: accounts(:credit4).id,
+                     to_account_id: accounts(:expense3).id,
+                     amount: 10_000,
+                     parent_id: nil).find { |i| i.child_item }
         }
 
         it_should_behave_like "created itself and credit payment item successfully"
