@@ -8,16 +8,16 @@ describe Settings::CreditRelationsHelper do
 
   describe "next month" do
     subject { helper.localize_relative_month(1) }
-    it { should == I18n.t('settings.credit_relations.next_month')}
+    it { should == I18n.t('settings.credit_relations.next_month') }
   end
 
   describe "the month after next month" do
     subject { helper.localize_relative_month(2) }
-    it { should == I18n.t('settings.credit_relations.month_after_next')}
+    it { should == I18n.t('settings.credit_relations.month_after_next') }
   end
 
   describe "three month later" do
-    subject { helper.localize_relative_month(3)}
+    subject { helper.localize_relative_month(3) }
     it { should == I18n.t('settings.credit_relations.two_month_after_next') }
   end
 end
