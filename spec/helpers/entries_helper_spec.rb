@@ -24,36 +24,36 @@ describe EntriesHelper do
 
     context "when tag is specified," do
       context "when now confirmation_required is true," do
-        subject { helper.link_to_confirmation_required(@item.id, true, tag: "tagtag" ) }
+        subject { helper.link_to_confirmation_required(@item.id, true, tag: "tagtag") }
         it { should ==  link_to('<i class="icon-star item_confirmation_required"></i>'.html_safe, tag_entry_confirmation_required_path("tagtag", @item.id, confirmation_required: false), remote: true, method: :put, class: 'item_confirmation_required') }
       end
 
       context "when now confirmation_required is false," do
-        subject { helper.link_to_confirmation_required(@item.id, false, tag: "tagtag" ) }
+        subject { helper.link_to_confirmation_required(@item.id, false, tag: "tagtag") }
         it { should ==  link_to('<i class="icon-star-empty item_confirmation_not_required"></i>'.html_safe, tag_entry_confirmation_required_path("tagtag", @item.id, confirmation_required: true), remote: true, method: :put, class: 'item_confirmation_not_required') }
       end
     end
 
     context "when mark is specified," do
       context "when now confirmation_required is true," do
-        subject { helper.link_to_confirmation_required(@item.id, true, mark: "markmark" ) }
+        subject { helper.link_to_confirmation_required(@item.id, true, mark: "markmark") }
         it { should ==  link_to('<i class="icon-star item_confirmation_required"></i>'.html_safe, mark_entry_confirmation_required_path("markmark", @item.id, confirmation_required: false), remote: true, method: :put, class: 'item_confirmation_required') }
       end
 
       context "when now confirmation_required is false," do
-        subject { helper.link_to_confirmation_required(@item.id, false, mark: "markmark" ) }
+        subject { helper.link_to_confirmation_required(@item.id, false, mark: "markmark") }
         it { should ==  link_to('<i class="icon-star-empty item_confirmation_not_required"></i>'.html_safe, mark_entry_confirmation_required_path("markmark", @item.id, confirmation_required: true), remote: true, method: :put, class: 'item_confirmation_not_required') }
       end
     end
 
     context "when keyword is specified," do
       context "when now confirmation_required is true," do
-        subject { helper.link_to_confirmation_required(@item.id, true, keyword: "keykey" ) }
+        subject { helper.link_to_confirmation_required(@item.id, true, keyword: "keykey") }
         it { should ==  link_to('<i class="icon-star item_confirmation_required"></i>'.html_safe, keyword_entry_confirmation_required_path("keykey", @item.id, confirmation_required: false), remote: true, method: :put, class: 'item_confirmation_required') }
       end
 
       context "when now confirmation_required is false," do
-        subject { helper.link_to_confirmation_required(@item.id, false, keyword: "keykey" ) }
+        subject { helper.link_to_confirmation_required(@item.id, false, keyword: "keykey") }
         it { should ==  link_to('<i class="icon-star-empty item_confirmation_not_required"></i>'.html_safe, keyword_entry_confirmation_required_path("keykey", @item.id, confirmation_required: true), remote: true, method: :put, class: 'item_confirmation_not_required') }
       end
     end
@@ -103,7 +103,7 @@ describe EntriesHelper do
   describe "operation icons" do
     fixtures :users, :accounts
     before do
-      @item = Fabricate.build(:general_item, amount: 1500, from_account_id: 1, to_account_id: 3, action_date: Date.new(2008,5,3))
+      @item = Fabricate.build(:general_item, amount: 1500, from_account_id: 1, to_account_id: 3, action_date: Date.new(2008, 5, 3))
       @item.save!
       @item.reload
     end
@@ -160,7 +160,7 @@ describe EntriesHelper do
     fixtures :users, :accounts
     context "when tags exist, " do
       before do
-        @item = Fabricate.build(:general_item, tag_list: 'aa bb' )
+        @item = Fabricate.build(:general_item, tag_list: 'aa bb')
         @item.save!
         @item.reload
         helper.should_receive(:link_to_tag).with(@item.tags[0]).and_return("_link_#{@item.tags[0].name}_")
@@ -238,42 +238,42 @@ describe EntriesHelper do
       end
 
       subject { helper.item_row_name(@item) }
-      it { should == "#{t("label.adjustment")} 5,000円" }
+      it { should == "#{t("label.adjustment") } 5,000円" }
       it { should be_html_safe }
     end
 
     context "when item has parent," do
       before do
         @user = users(:user1)
-        item_parent = Fabricate.build(:general_item, action_date: Date.new(2012,3,10), name: "hello(笑)")
+        item_parent = Fabricate.build(:general_item, action_date: Date.new(2012, 3, 10), name: "hello(笑)")
         item_parent.save!
-        @item = Fabricate.build(:general_item, parent_id: item_parent.id, action_date: Date.new(2012,5,10), name: "hoge(笑)hoge")
+        @item = Fabricate.build(:general_item, parent_id: item_parent.id, action_date: Date.new(2012, 5, 10), name: "hoge(笑)hoge")
         @item.save
       end
 
       subject { helper.item_row_name(@item) }
-      it { should match /#{t("entries.item.deposit")} \(<a[^>]+>03\/10 hello<span class='emo'>\(笑\)<\/span><\/a>\)/ }
+      it { should match /#{t("entries.item.deposit") } \(<a[^>]+>03\/10 hello<span class='emo'>\(笑\)<\/span><\/a>\)/ }
       it { should be_html_safe }
     end
 
     context "when item has child," do
       before do
         @user = users(:user1)
-        @item = Fabricate.build(:general_item, action_date: Date.new(2012,3,10), name: "hello:sushi:")
+        @item = Fabricate.build(:general_item, action_date: Date.new(2012, 3, 10), name: "hello:sushi:")
         @item.save!
-        item_child = Fabricate.build(:general_item, parent_id: @item.id, action_date: Date.new(2012,5,10), name: "hogehoge")
+        item_child = Fabricate.build(:general_item, parent_id: @item.id, action_date: Date.new(2012, 5, 10), name: "hogehoge")
         item_child.save
       end
 
       subject { helper.item_row_name(@item) }
-      it { should match /hello<img [^>]+> \(<a[^>]+>05\/10 #{t("entries.item.deposit")}<\/a>\)/ }
+      it { should match /hello<img [^>]+> \(<a[^>]+>05\/10 #{t("entries.item.deposit") }<\/a>\)/ }
       it { should be_html_safe }
     end
 
     context "when item is a regular one, " do
       before do
         @user = users(:user1)
-        @item = Fabricate.build(:general_item, action_date: Date.new(2012,3,10), name: "hello:sushi:")
+        @item = Fabricate.build(:general_item, action_date: Date.new(2012, 3, 10), name: "hello:sushi:")
         @item.save!
       end
 
@@ -297,14 +297,14 @@ describe EntriesHelper do
 
     context "when item has parent, " do
       before do
-        item_parent = Fabricate.build(:general_item, action_date: Date.new(2012,3,10), confirmation_required: true, name: "hello")
+        item_parent = Fabricate.build(:general_item, action_date: Date.new(2012, 3, 10), confirmation_required: true, name: "hello")
         item_parent.save!
-        @item = Fabricate.build(:general_item, parent_id: item_parent.id, action_date: Date.new(2012,5,10), name: "hogehoge")
+        @item = Fabricate.build(:general_item, parent_id: item_parent.id, action_date: Date.new(2012, 5, 10), name: "hogehoge")
         @item.save
         helper.should_receive(:link_to_confirmation_required).with(@item.id, true, tag: "TAG", mark: "MARK", keyword: "KEY").and_return("__LINK__")
       end
 
-      subject { helper.item_row_confirmation_required(@item, "TAG", "MARK", "KEY" ) }
+      subject { helper.item_row_confirmation_required(@item, "TAG", "MARK", "KEY") }
       it { should == "__LINK__" }
     end
 
@@ -315,7 +315,7 @@ describe EntriesHelper do
         helper.should_receive(:link_to_confirmation_required).with(@item.id, true, tag: "TAG", mark: "MARK", keyword: "KEY").and_return("__LINK__")
       end
 
-      subject { helper.item_row_confirmation_required(@item, "TAG", "MARK", "KEY" ) }
+      subject { helper.item_row_confirmation_required(@item, "TAG", "MARK", "KEY") }
       it { should == "__LINK__" }
     end
   end
@@ -340,7 +340,7 @@ describe EntriesHelper do
         end
 
         subject { helper.item_row_from_account(@item)  }
-        it { should == "(#{t("label.adjustment")})" }
+        it { should == "(#{t("label.adjustment") })" }
       end
     end
     context "when item is NOT adjustment, " do
@@ -375,7 +375,7 @@ describe EntriesHelper do
         end
 
         subject { helper.item_row_to_account(@item)  }
-        it { should == "(#{t("label.adjustment")})" }
+        it { should == "(#{t("label.adjustment") })" }
       end
     end
 
@@ -400,7 +400,7 @@ describe EntriesHelper do
           helper.should_receive(:link_to_show).with(@item).and_return("SHOW_LINK")
         end
 
-        subject { helper.item_row_operation(@item, true)}
+        subject { helper.item_row_operation(@item, true) }
         it { should == "SHOW_LINK" }
       end
       context "when only_show is false," do
@@ -412,7 +412,7 @@ describe EntriesHelper do
           helper.should_receive(:link_to_destroy).with(@item, true).and_return("_DESTROY_")
         end
 
-        subject { helper.item_row_operation(@item)}
+        subject { helper.item_row_operation(@item) }
         it { should == "_TWEET__EDIT__DESTROY_" }
       end
     end
