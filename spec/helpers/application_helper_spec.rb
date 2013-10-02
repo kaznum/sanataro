@@ -63,12 +63,12 @@ describe ApplicationHelper do
 
   describe "#highlight" do
     subject { helper.highlight("#hello") }
-    it {should == "$('#hello').effect('highlight', {color: '#{ Settings.effect.highlight.color }'}, #{ Settings.effect.highlight.duration });"}
+    it { should == "$('#hello').effect('highlight', {color: '#{ Settings.effect.highlight.color }'}, #{ Settings.effect.highlight.duration });" }
   end
 
   describe "#fadeout_and_remove" do
     subject { helper.fadeout_and_remove("#hello") }
-    it {should == "$('#hello').fadeOut(#{Settings.effect.fade.duration}, function() {$('#hello').remove();});"}
+    it { should == "$('#hello').fadeOut(#{Settings.effect.fade.duration}, function() {$('#hello').remove();});" }
   end
 
   describe "#today" do
