@@ -19,4 +19,3 @@ describe "/settings/accounts/_add" do
     end
   end
 end
-
