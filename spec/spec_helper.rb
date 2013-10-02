@@ -90,8 +90,8 @@ RSpec.configure do |config|
   def login(only_add = false)
     orig_controller = @controller
     @controller = LoginController.new
-    xhr :post, :do_login, :login => 'user1', :password => '123456', :autologin => true, :only_add => only_add
-      @controller = orig_controller
+    xhr :post, :do_login, login: 'user1', password: '123456', autologin: true, only_add: only_add
+    @controller = orig_controller
   end
 
   def create_entry(*params)
