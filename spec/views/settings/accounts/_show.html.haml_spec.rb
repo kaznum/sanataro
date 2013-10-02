@@ -10,7 +10,7 @@ describe "/settings/accounts/_show" do
 
     describe "body" do
       subject { render partial: 'show', locals: { account: accounts(:bank1) } }
-      it { should match /<a[^>]+href="\/settings\/accounts\/#{accounts(:bank1).id}\/edit"[^>]*>/ }
+      it { should match %r(<a[^>]+href="/settings/accounts/#{accounts(:bank1).id}/edit"[^>]*>) }
     end
   end
 end
