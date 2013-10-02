@@ -7,7 +7,7 @@ describe Teller do
     context "when validation errors happen," do
       before do
         @initial_count = Item.count
-        @action = lambda { Teller.create_entry(users(:user1), action_date: Date.today, name: '', amount: 10000, from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, tag_list: 'hoge fuga') }
+        @action = lambda { Teller.create_entry(users(:user1), action_date: Date.today, name: '', amount: 10_000, from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, tag_list: 'hoge fuga') }
       end
 
       describe "raise error" do
@@ -55,7 +55,7 @@ describe Teller do
     context "with confimation_required == true," do
       before do 
         @prev_count = Item.count
-        @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: Date.today, name: 'テスト', amount: 10000, from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, tag_list: 'hoge fuga', confirmation_required: true)
+        @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: Date.today, name: 'テスト', amount: 10_000, from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, tag_list: 'hoge fuga', confirmation_required: true)
       end
 
       describe "created_item" do 
@@ -80,7 +80,7 @@ describe Teller do
         }
 
         its(:name) { should == 'テスト' }
-        its(:amount) { should == 10000 }
+        its(:amount) { should == 10_000 }
           it { should be_confirmation_required }
         its(:tag_list) { should == "fuga hoge" }
       end
@@ -91,7 +91,7 @@ describe Teller do
     context "with confimation_required is nil," do
       before do 
         @prev_count = Item.count
-        @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: Date.today, name: 'テスト', amount: 10000, from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, tag_list: 'hoge fuga')
+        @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: Date.today, name: 'テスト', amount: 10_000, from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, tag_list: 'hoge fuga')
       end
 
       describe "created_item" do 
@@ -116,7 +116,7 @@ describe Teller do
         }
 
         its(:name) { should == 'テスト' }
-        its(:amount) { should == 10000 }
+        its(:amount) { should == 10_000 }
         it { should_not be_confirmation_required }
         its(:tag_list) { should == "fuga hoge" }
       end
@@ -165,7 +165,7 @@ describe Teller do
           }
 
           its(:name) { should == 'テスト10' }
-          its(:amount) { should == 10000 }
+          its(:amount) { should == 10_000 }
         end
         
         describe "Item.count" do
@@ -175,13 +175,13 @@ describe Teller do
       
       context "created before adjustment which is in the same month," do
         before do
-          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: @init_adj2.action_date - 1, name: 'テスト10', amount: 10000, from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id) }
+          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: @init_adj2.action_date - 1, name: 'テスト10', amount: 10_000, from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id) }
         end
 
         it_should_behave_like "created only itself successfully"
         
         describe "adjustment just next to the created item" do
-          it { expect { @create.call }.to change { Item.find(items(:adjustment2).id).amount }.by(10000) }
+          it { expect { @create.call }.to change { Item.find(items(:adjustment2).id).amount }.by(10_000) }
         end
 
         describe "affected_item_ids" do
@@ -224,7 +224,7 @@ describe Teller do
 
       context "created between adjustments which both are in the same month of the item to create," do
         before do
-          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: @init_adj4.action_date - 1, name: 'テスト10', amount: 10000, from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id) }
+          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: @init_adj4.action_date - 1, name: 'テスト10', amount: 10_000, from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id) }
         end
 
         it_should_behave_like "created only itself successfully"
@@ -234,7 +234,7 @@ describe Teller do
         end
 
         describe "adjustment which is next to the created item in the same month" do
-          it { expect { @create.call }.to change { Item.find(@init_adj4.id).amount }.by(10000) }
+          it { expect { @create.call }.to change { Item.find(@init_adj4.id).amount }.by(10_000) }
         end
 
         describe "affected_item_ids" do
@@ -279,7 +279,7 @@ describe Teller do
         end
 
         describe "the non-adjusted account's monthly_pl of the same month as the created item" do
-          it { expect { @create.call }.to change { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 2, 1)).first.amount }.by(10000) }
+          it { expect { @create.call }.to change { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 2, 1)).first.amount }.by(10_000) }
         end
         
       end
@@ -287,7 +287,7 @@ describe Teller do
       context "created between adjustments, and the one is on earlier date in the same month and the other is in the next month of the item to create," do
         # adj4とadj6の間(adj4と同じ月)
         before do
-          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: @init_adj4.action_date + 1, name: 'テスト10', amount: 10000, from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id) }
+          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: @init_adj4.action_date + 1, name: 'テスト10', amount: 10_000, from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id) }
         end
 
         it_should_behave_like "created only itself successfully"
@@ -302,7 +302,7 @@ describe Teller do
         end
 
         describe "the adjustments of the next of item" do
-          it { expect { @create.call }.to change { Item.find(@init_adj6.id).amount }.by(10000) }
+          it { expect { @create.call }.to change { Item.find(@init_adj6.id).amount }.by(10_000) }
         end
         
         describe "affected_item_ids" do
@@ -327,11 +327,11 @@ describe Teller do
         end
 
         describe "the adjusted account's monthly_pl of the same month as that of the created item" do
-          it { expect { @create.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount }.by(-10000) }
+          it { expect { @create.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount }.by(-10_000) }
         end
 
         describe "the adjusted account's monthly_pl of the next month of the created item" do
-            it { expect { @create.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(10000) }
+            it { expect { @create.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(10_000) }
         end
 
         describe "the non-adjusted account's monthly_pl of the next month of the created item" do
@@ -343,13 +343,13 @@ describe Teller do
         end
 
         describe "the non-adjusted account's monthly_pl of the same month as the created item" do
-          it { expect { @create.call }.to change { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 2, 1)).first.amount }.by(10000) }
+          it { expect { @create.call }.to change { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 2, 1)).first.amount }.by(10_000) }
         end
       end
 
       context "created between adjustments, and the one which is after item's date is in the same month and the other is in the previous month of the item to create," do
         before do
-          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: @init_adj6.action_date - 1, name: 'テスト10', amount: 10000, from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id) }
+          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: @init_adj6.action_date - 1, name: 'テスト10', amount: 10_000, from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id) }
         end
         
         it_should_behave_like "created only itself successfully"
@@ -360,7 +360,7 @@ describe Teller do
         end
         
         describe "the adjustments of the next of item" do
-          it { expect { @create.call }.to change { Item.find(@init_adj6.id).amount }.by(10000) }
+          it { expect { @create.call }.to change { Item.find(@init_adj6.id).amount }.by(10_000) }
         end
 
         
@@ -396,14 +396,14 @@ describe Teller do
             @create.call
           end
           subject { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 3, 1)).first.amount }
-          it { should == 10000 }
+          it { should == 10_000 }
         end
       end
 
       
       context "created after any adjustments, and the one is item's date is in the same month and the others are in the previous month of the item to create," do
         before do
-          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: @init_adj6.action_date + 1, name: 'テスト10', amount: 10000, from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id) }
+          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: @init_adj6.action_date + 1, name: 'テスト10', amount: 10_000, from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id) }
         end
         
         it_should_behave_like "created only itself successfully"
@@ -429,7 +429,7 @@ describe Teller do
         end
 
         describe "the adjusted account's monthly_pl of the same month as that of the created item" do
-          it { expect { @create.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(-10000) }
+          it { expect { @create.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(-10_000) }
         end
 
         describe "the non-adjusted account's monthly_pl of the same month as the created item which does not exist before." do
@@ -437,7 +437,7 @@ describe Teller do
             @create.call
           end
           subject { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 3, 1)).first.amount }
-          it { should == 10000 }
+          it { should == 10_000 }
         end
       end
     end
@@ -471,7 +471,7 @@ describe Teller do
             @item
           }
           its(:name) { should == 'テスト10' }
-          its(:amount) { should == 10000 }
+          its(:amount) { should == 10_000 }
         end
         
         describe "Item.count" do
@@ -481,14 +481,14 @@ describe Teller do
       
       context "created item with credit card, purchased before the settlement date of the month," do
         before do 
-          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: Date.new(2008, 2, 10), name: 'テスト10', amount: 10000, from_account_id: accounts(:credit4).id, to_account_id: accounts(:expense3).id) }
+          @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: Date.new(2008, 2, 10), name: 'テスト10', amount: 10_000, from_account_id: accounts(:credit4).id, to_account_id: accounts(:expense3).id) }
         end
 
         let(:credit_item) {
           Item.where(action_date: Date.new(2008, 2, 10),
                                        from_account_id: accounts(:credit4).id,
                                        to_account_id: accounts(:expense3).id,
-                                       amount: 10000,
+                                       amount: 10_000,
                                        parent_id: nil).find { |i| i.child_item }
         }
 
@@ -501,7 +501,7 @@ describe Teller do
           end
           subject { credit_item }
           it { should_not be_nil }
-          its(:amount) { should == 10000 }
+          its(:amount) { should == 10_000 }
           its(:parent_id) { should be_nil }
           its(:child_item) { should_not be_nil }
         end
@@ -524,7 +524,7 @@ describe Teller do
           its(:action_date) { should == Date.new(2008, 2 + credit_relations(:cr1).payment_month, credit_relations(:cr1).payment_day) }
           its(:from_account_id) { should == credit_relations(:cr1).payment_account_id }
           its(:to_account_id) { should == credit_relations(:cr1).credit_account_id }
-          its(:amount) { should == 10000 }
+          its(:amount) { should == 10_000 }
         end
 
         describe "affected_item_ids" do
@@ -552,7 +552,7 @@ describe Teller do
           @create = -> {
             @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1),
                                                                        action_date: Date.new(2008, 2, 25),
-                                                                       name: 'テスト10', amount: 10000,
+                                                                       name: 'テスト10', amount: 10_000,
                                                                        from_account_id: accounts(:credit4).id,
                                                                        to_account_id: accounts(:expense3).id)
           }
@@ -562,7 +562,7 @@ describe Teller do
           Item.where(action_date: Date.new(2008, 2, 25),
                      from_account_id: accounts(:credit4).id,
                      to_account_id: accounts(:expense3).id,
-                     amount: 10000, parent_id: nil).find { |i| i.child_item }
+                     amount: 10_000, parent_id: nil).find { |i| i.child_item }
         }
 
         it_should_behave_like "created itself and credit payment item successfully"
@@ -573,7 +573,7 @@ describe Teller do
           end
           subject { credit_item }
           it { should_not be_nil }
-          its(:amount) { should == 10000 }
+          its(:amount) { should == 10_000 }
           its(:parent_id) { should be_nil }
           its(:child_item) { should_not be_nil }
           its(:action_date) { should == Date.new(2008, 2, 25) }
@@ -597,7 +597,7 @@ describe Teller do
             its(:action_date) { should == Date.new(2008, 3 + credit_relations(:cr1).payment_month, credit_relations(:cr1).payment_day) }
             its(:from_account_id) { should == credit_relations(:cr1).payment_account_id }
             its(:to_account_id) { should == credit_relations(:cr1).credit_account_id }
-            its(:amount) { should == 10000 }
+            its(:amount) { should == 10_000 }
           end
 
         end
@@ -627,7 +627,7 @@ describe Teller do
           @create = lambda { @item, @affected_item_ids, @is_error =
             Teller.create_entry(users(:user1),
                                 action_date: Date.new(2008, 2, 10),
-                                name: 'テスト10', amount: 10000,
+                                name: 'テスト10', amount: 10_000,
                                 from_account_id: accounts(:credit4).id,
                                 to_account_id: accounts(:expense3).id) }
         end
@@ -636,7 +636,7 @@ describe Teller do
           Item.where(action_date: Date.new(2008, 2, 10),
                      from_account_id: accounts(:credit4).id,
                      to_account_id: accounts(:expense3).id,
-                     amount: 10000, parent_id: nil).find { |i| i.child_item }
+                     amount: 10_000, parent_id: nil).find { |i| i.child_item }
         }
 
         it_should_behave_like "created itself and credit payment item successfully"
@@ -648,7 +648,7 @@ describe Teller do
 
           subject { credit_item }
           it { should_not be_nil }
-          its(:amount) { should == 10000 }
+          its(:amount) { should == 10_000 }
           its(:parent_id) { should be_nil }
           its(:child_item) { should_not be_nil }
           its(:action_date) { should == Date.new(2008, 2, 10) }
@@ -673,7 +673,7 @@ describe Teller do
           its(:action_date) { should == Date.new(2008, 2 + @cr1.payment_month, 1).end_of_month }
           its(:from_account_id) { should == @cr1.payment_account_id }
           its(:to_account_id) { should == @cr1.credit_account_id }
-          its(:amount) { should == 10000 }
+          its(:amount) { should == 10_000 }
         end
 
         describe "affected_item_ids" do
