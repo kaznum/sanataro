@@ -157,7 +157,7 @@ describe Item do
           it { should have_at_least(1).errors_on :to_account_id }
         end
       end
-      
+
       context "when to_account_id is -1," do
         before do
           @item.to_account_id = -1
