@@ -23,7 +23,7 @@ describe ApplicationHelper do
     fixtures :users, :monthly_profit_losses
     context "when there are monthly_profit_losses records," do 
       before do
-        @min_month = MonthlyProfitLoss.where(:user_id => users(:user1).id).where("amount <> 0").minimum(:month)
+        @min_month = MonthlyProfitLoss.where(user_id: users(:user1).id).where("amount <> 0").minimum(:month)
       end
 
       subject { helper.calendar_from(users(:user1)) }
@@ -44,7 +44,7 @@ describe ApplicationHelper do
     fixtures :users, :monthly_profit_losses
     context "when there are monthly_profit_losses records," do 
       before do
-        @max_month = MonthlyProfitLoss.where(:user_id => users(:user1).id).where("amount <> 0").maximum(:month)
+        @max_month = MonthlyProfitLoss.where(user_id: users(:user1).id).where("amount <> 0").maximum(:month)
       end
 
       subject { helper.calendar_to(users(:user1)) }
