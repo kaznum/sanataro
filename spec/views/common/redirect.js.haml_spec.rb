@@ -8,4 +8,3 @@ describe "/common/redirect" do
   subject { rendered }
   it { should =~ /location\.href\s*=\s*"#{@path_to_redirect_to}"/ }
 end
-
