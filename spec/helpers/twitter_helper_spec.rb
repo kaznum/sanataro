@@ -17,7 +17,7 @@ describe TwitterHelper do
     it { should match /hashtags=aaa,bbb,sanataro/ }
     it { should match /onclick="open_twitter\(this.getAttribute\(&#39;href&#39;\)\);return false;/ }
   end
-  
+
   context "when from_account_id is income," do
     before do
       @item = Fabricate.build(:general_item, amount: 1500, from_account_id: 2, to_account_id: 1, tag_list: "aaa bbb")
@@ -64,4 +64,3 @@ describe TwitterHelper do
     it { should match /onclick="open_twitter\(this.getAttribute\(&#39;href&#39;\)\);return false;/ }
   end
 end
-
