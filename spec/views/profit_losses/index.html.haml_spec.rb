@@ -36,4 +36,3 @@ describe "/profit_losses/index" do
     end
   end
 end
-
