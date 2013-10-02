@@ -5,11 +5,11 @@ describe "/settings/accounts/_show" do
 
   context "when enough params," do
     describe "no error" do
-      it { expect{ render partial: 'show', locals: {account: accounts(:bank1)} }.not_to raise_error }
+      it { expect { render partial: 'show', locals: { account: accounts(:bank1) } }.not_to raise_error }
     end
 
     describe "body" do
-      subject { render partial: 'show', locals: {account: accounts(:bank1)} }
+      subject { render partial: 'show', locals: { account: accounts(:bank1) } }
       it { should match /<a[^>]+href="\/settings\/accounts\/#{accounts(:bank1).id}\/edit"[^>]*>/ }
     end
   end
