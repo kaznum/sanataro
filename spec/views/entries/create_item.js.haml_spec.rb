@@ -21,7 +21,7 @@ describe "/entries/create_item" do
     @item2.save!
     @items = [@item1, @item2]
     @updated_item_ids = [10, 20, 30]
-    render template: "entries/create_item", locals: { items: @items, item: @item1, updated_item_ids: @updated_item_ids, :displaying_month => 10 }
+    render template: "entries/create_item", locals: { items: @items, item: @item1, updated_item_ids: @updated_item_ids, displaying_month: 10 }
   end
   subject { rendered }
   it { should =~ /&lt;a href=&#39;aaa&#39;&gt;aaa&lt;\/a&gt;/ }
