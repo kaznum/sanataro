@@ -111,13 +111,13 @@ describe EntriesHelper do
     describe "#link_to_edit" do
       describe "link" do
         subject { helper.link_to_edit(@item) }
-        it { should match /href="\/months\/2008\/5\/entries\/#{@item.id}\/edit"/ }
+        it { should match %r(href="/months/2008/5/entries/#{@item.id}/edit") }
         it { should match /class=".*edit_icon.*"/ }
       end
 
       context "when disabled," do
         subject { helper.link_to_edit(@item, false) }
-        it { should_not match /href="\/months\/2008\/5\/entries\/#{@item.id}\/edit"/ }
+        it { should_not match %r(href="/months/2008/5/entries/#{@item.id}/edit") }
         it { should match /class=".*edit_icon.*"/ }
         it { should match /class=".*disabled.*"/ }
       end
@@ -126,14 +126,14 @@ describe EntriesHelper do
     describe "#link_to_destroy" do
       describe "link" do
         subject { helper.link_to_destroy(@item) }
-        it { should match /href="\/months\/2008\/5\/entries\/#{@item.id}"/ }
+        it { should match %r(href="/months/2008/5/entries/#{@item.id}") }
         it { should match /data-method="delete"/ }
         it { should match /class=".*destroy_icon.*"/ }
       end
 
       context "when disabled," do
         subject { helper.link_to_destroy(@item, false) }
-        it { should_not match /href="\/months\/2008\/5\/entries\/#{@item.id}"/ }
+        it { should_not match %r(href="/months/2008/5/entries/#{@item.id}") }
         it { should_not match /data-method="delete"/ }
         it { should match /class=".*destroy_icon.*"/ }
         it { should match /class=".*disabled.*"/ }
@@ -143,13 +143,13 @@ describe EntriesHelper do
     describe "#link_to_show" do
       describe "link" do
         subject { helper.link_to_show(@item) }
-        it { should match /href="\/months\/2008\/5\/entries#item_#{@item.id}"/ }
+        it { should match %r(href="/months/2008/5/entries#item_#{@item.id}") }
         it { should match /class=".*show_icon.*"/ }
       end
 
       context "when disabled," do
         subject { helper.link_to_show(@item, false) }
-        it { should_not match /href="\/months\/2008\/5\/entries#item_#{@item.id}"/ }
+        it { should_not match %r(href="/months/2008/5/entries#item_#{@item.id}") }
         it { should match /class=".*show_icon.*"/ }
         it { should match /class=".*disabled.*"/ }
       end
@@ -252,7 +252,7 @@ describe EntriesHelper do
       end
 
       subject { helper.item_row_name(@item) }
-      it { should match /#{t("entries.item.deposit") } \(<a[^>]+>03\/10 hello<span class='emo'>\(笑\)<\/span><\/a>\)/ }
+      it { should match %r(#{t("entries.item.deposit") } \(<a[^>]+>03/10 hello<span class='emo'>\(笑\)</span></a>\)) }
       it { should be_html_safe }
     end
 
@@ -266,7 +266,7 @@ describe EntriesHelper do
       end
 
       subject { helper.item_row_name(@item) }
-      it { should match /hello<img [^>]+> \(<a[^>]+>05\/10 #{t("entries.item.deposit") }<\/a>\)/ }
+      it { should match %r(hello<img [^>]+> \(<a[^>]+>05/10 #{t("entries.item.deposit") }</a>\)) }
       it { should be_html_safe }
     end
 
