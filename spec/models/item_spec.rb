@@ -374,14 +374,14 @@ describe Item do
 
       describe "adj2" do
         subject { Item.find(@adj2.id) }
-        its(:amount) { should == @adj2.amount}
-        its(:adjustment_amount) { should == @adj2.adjustment_amount}
+        its(:amount) { should == @adj2.amount }
+        its(:adjustment_amount) { should == @adj2.adjustment_amount }
       end
 
       describe "adj4" do
         subject { Item.find(@adj4.id) }
         its(:amount) { should == @adj4.amount + 10_000 }
-        its(:adjustment_amount) { should == @adj4.adjustment_amount}
+        its(:adjustment_amount) { should == @adj4.adjustment_amount }
       end
 
       describe "monthly profit loss of bank1" do
@@ -413,30 +413,30 @@ describe Item do
 
       describe "adj2" do
         subject { Item.find(2) }
-        its(:amount) { should == @adj2.amount}
-        its(:adjustment_amount) { should == @adj2.adjustment_amount}
+        its(:amount) { should == @adj2.amount }
+        its(:adjustment_amount) { should == @adj2.adjustment_amount }
       end
 
       describe "adj4" do
         subject { Item.find(4) }
-        its(:amount) { should == @adj4.amount}
-        its(:adjustment_amount) { should == @adj4.adjustment_amount}
+        its(:amount) { should == @adj4.amount }
+        its(:adjustment_amount) { should == @adj4.adjustment_amount }
       end
 
       describe "adj6" do
         subject { Item.find(@adj6.id) }
-        its(:amount) { should == @adj6.amount + 200}
-        its(:adjustment_amount) { should == @adj6.adjustment_amount}
+        its(:amount) { should == @adj6.amount + 200 }
+        its(:adjustment_amount) { should == @adj6.adjustment_amount }
       end
 
       describe "MonthlyProfitLoss for bank1 in 2008/2" do
         subject { MonthlyProfitLoss.find(@plbank1.id) }
-        its(:amount) { should == @plbank1.amount}
+        its(:amount) { should == @plbank1.amount }
       end
 
       describe "MonthlyProfitLoss for bank1 in 2008/3" do
         subject { MonthlyProfitLoss.find(@plbank1_03.id) }
-        its(:amount) { should == @plbank1_03.amount}
+        its(:amount) { should == @plbank1_03.amount }
       end
     end
   end
@@ -843,9 +843,9 @@ describe Item do
         @item.p_day = 3
       end
       subject { @item }
-      its(:year) { should == 2000}
-      its(:month) { should == 1}
-      its(:day) { should == 3}
+      its(:year) { should == 2000 }
+      its(:month) { should == 1 }
+      its(:day) { should == 3 }
     end
 
     context "when action_date is set," do
