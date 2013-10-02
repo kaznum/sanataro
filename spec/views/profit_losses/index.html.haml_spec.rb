@@ -18,7 +18,7 @@ describe "/profit_losses/index" do
       assign :total_expense, 54_321
     end
     describe "no error" do
-      it { expect{ render }.not_to raise_error }
+      it { expect { render }.not_to raise_error }
     end
 
     describe "body" do
