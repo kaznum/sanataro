@@ -16,7 +16,7 @@ describe :routes do
     end
 
     describe 'named route' do
-      subject { get( login_path ) }
+      subject { get(login_path) }
       it { should route_to(controller: 'login', action: 'login') }
     end
 
@@ -26,7 +26,7 @@ describe :routes do
     end
 
     describe 'named route' do
-      subject { post( login_path ) }
+      subject { post(login_path) }
       it { should route_to(controller: 'login', action: 'do_login') }
     end
   end
@@ -50,7 +50,7 @@ describe :routes do
     end
 
     describe 'named route' do
-      subject { get( create_user_path ) }
+      subject { get(create_user_path) }
       it { should route_to("login#create_user") }
     end
 
@@ -60,7 +60,7 @@ describe :routes do
     end
 
     describe 'named route' do
-      subject { post( create_user_path ) }
+      subject { post(create_user_path) }
       it { should route_to("login#do_create_user") }
     end
   end
@@ -72,7 +72,7 @@ describe :routes do
     end
 
     describe 'named route' do
-      subject { get( confirm_user_path ) }
+      subject { get(confirm_user_path) }
       it { should route_to("login#confirmation") }
     end
   end
