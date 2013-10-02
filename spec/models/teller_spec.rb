@@ -331,7 +331,7 @@ describe Teller do
         end
 
         describe "the adjusted account's monthly_pl of the next month of the created item" do
-            it { expect { @create.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(10_000) }
+          it { expect { @create.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(10_000) }
         end
 
         describe "the non-adjusted account's monthly_pl of the next month of the created item" do
