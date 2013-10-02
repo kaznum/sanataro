@@ -63,7 +63,7 @@ require File.expand_path(File.join(Rails.root, 'lib', 'sanataro_taggable', 'init
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 RSpec.configure do |config|
   # == Mock Framework
@@ -90,7 +90,7 @@ RSpec.configure do |config|
     Capybara.javascript_driver = :webkit
   end
 
-  def login(only_add=false)
+  def login(only_add = false)
     orig_controller = @controller
     @controller = LoginController.new
     xhr :post, :do_login, :login => 'user1', :password => '123456', :autologin => true, :only_add => only_add
