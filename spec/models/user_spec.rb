@@ -6,9 +6,9 @@ describe User do
   describe "#create" do
     before do
       valid_attrs = {
-        :password_plain => '123-4_56',
-        :password_confirmation => '123-4_56',
-        :email => 'test@hoge.example.com'
+        password_plain: '123-4_56',
+        password_confirmation: '123-4_56',
+        email: 'test@hoge.example.com'
       }
       @user = User.new(valid_attrs)
       @user.login = 'test_1'
@@ -230,10 +230,10 @@ describe User do
         subject.where("action_date < ?", Date.new(2008,3)).to_a.should_not be_empty
       }
       specify {
-        subject.where(:user_id => 101).to_a.should have(0).records
+        subject.where(user_id: 101).to_a.should have(0).records
       }
       specify {
-        subject.where(:user_id => 1).size.should > 0
+        subject.where(user_id: 1).size.should > 0
       }
     end
   end
