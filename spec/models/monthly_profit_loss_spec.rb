@@ -13,7 +13,7 @@ describe MonthlyProfitLoss do
     let(:user) { users(:user1) }
     let(:month) { Date.new(2008,2) }
     # dummy data
-    
+
     before do
       @orig_bank1 = monthly_profit_losses(:bank1200802)
       @orig_bank1.update_attributes!(amount: 93423)
@@ -32,5 +32,4 @@ describe MonthlyProfitLoss do
       it { should == Item.where(to_account_id: @orig_bank1.account_id, action_date: month..month.end_of_month).sum(:amount) - Item.where(from_account_id: @orig_bank1.account_id, action_date: month..month.end_of_month).sum(:amount) }
     end
   end
-end  
-
+end
