@@ -690,16 +690,16 @@ describe Item do
   describe "child_item" do
     before do
       p_it = users(:user1).general_items.new(name: 'p hogehoge',
-                                     from_account_id: 1,
-                                     to_account_id: 3,
-                                     amount: 500,
-                                     action_date: Date.new(2008, 2, 10))
+                                             from_account_id: 1,
+                                             to_account_id: 3,
+                                             amount: 500,
+                                             action_date: Date.new(2008, 2, 10))
       c_it = users(:user1).general_items.new(name: 'c hogehoge',
-                                     from_account_id: 11,
-                                     to_account_id: 1,
-                                     amount: 500,
-                                     parent_id: p_it.id,
-                                     action_date: Date.new(2008, 3, 10))
+                                             from_account_id: 11,
+                                             to_account_id: 1,
+                                             amount: 500,
+                                             parent_id: p_it.id,
+                                             action_date: Date.new(2008, 3, 10))
 
       p_it.child_item = c_it
       p_it.save!
