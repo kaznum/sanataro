@@ -10,7 +10,7 @@ describe "/settings/accounts/_add" do
     end
 
     describe "no error" do
-      it { expect{ render partial: 'add' }.not_to raise_error }
+      it { expect { render partial: 'add' }.not_to raise_error }
     end
 
     describe "body" do
