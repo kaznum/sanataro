@@ -11,4 +11,3 @@ describe "/entries/create_item_simple" do
   subject { rendered }
   it { should =~ /&lt;a href=&#39;aaa&#39;&gt;aaa&lt;\/a&gt;/ }
 end
-
