@@ -12,4 +12,3 @@ describe ActiveRecordExt do
     it { should match /\s+ESCAPE '!'$/ }
   end
 end
-
