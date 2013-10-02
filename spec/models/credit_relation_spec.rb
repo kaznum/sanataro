@@ -28,7 +28,7 @@ describe CreditRelation do
       end
 
       describe "count of records" do
-        subject {CreditRelation.count}
+        subject { CreditRelation.count }
         it { should be @init_count + 1 }
       end
 
@@ -60,7 +60,7 @@ describe CreditRelation do
       end
 
       describe "count of records" do
-        it { expect {@cr.save }.not_to change{ CreditRelation.count }}
+        it { expect { @cr.save }.not_to change { CreditRelation.count } }
       end
     end
 
@@ -133,7 +133,7 @@ describe CreditRelation do
         end
 
         describe "count of records" do
-          it {expect{@cr.save}.to change{CreditRelation.count}.by(1)}
+          it { expect { @cr.save }.to change { CreditRelation.count }.by(1) }
         end
       end
     end
@@ -198,7 +198,7 @@ describe CreditRelation do
       end
 
       describe "count of record" do
-        it { expect { @cr.save! }.to change{ CreditRelation.count }.by(1) }
+        it { expect { @cr.save! }.to change { CreditRelation.count }.by(1) }
       end
     end
   end
