@@ -9,7 +9,7 @@ describe "/settings/accounts/index" do
       assign :type, :banking
     end
 
-    it { expect{ render }.not_to raise_error }
+    it { expect { render }.not_to raise_error }
   end
 end
 
