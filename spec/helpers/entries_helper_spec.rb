@@ -96,7 +96,7 @@ describe EntriesHelper do
     end
 
     context "when the params' id does not exist," do
-      it { expect { helper.relative_path(31423413) }.to raise_error(ActiveRecord::RecordNotFound) }
+      it { expect { helper.relative_path(31_423_413) }.to raise_error(ActiveRecord::RecordNotFound) }
     end
   end
 
@@ -325,7 +325,7 @@ describe EntriesHelper do
     context "when item is adjustment, " do
       context "amount is less than 0," do
         before do
-          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: -200000, adjustment_amount: -40000)
+          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: -200_000, adjustment_amount: -40_000)
           helper.should_receive(:colored_account_name).with(@item.to_account_id).and_return("ACCOUNT_NAME")
         end
 
@@ -335,7 +335,7 @@ describe EntriesHelper do
 
       context "amount is more than 0," do
         before do
-          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200000)
+          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200_000)
           helper.should_not_receive(:colored_account_name).with(@item.to_account_id)
         end
 
@@ -360,7 +360,7 @@ describe EntriesHelper do
     context "when item is adjustment, " do
       context "amount is more than 0," do
         before do
-          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200000)
+          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200_000)
           helper.should_receive(:colored_account_name).with(@item.to_account_id).and_return("ACCOUNT_NAME")
         end
 
@@ -370,7 +370,7 @@ describe EntriesHelper do
 
       context "amount is less than 0," do
         before do
-          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: -200000, adjustment_amount: -400000)
+          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: -200_000, adjustment_amount: -400_000)
           helper.should_not_receive(:colored_account_name).with(@item.to_account_id)
         end
 
@@ -396,7 +396,7 @@ describe EntriesHelper do
     context "when item is adjustment," do
       context "when only_show is true," do
         before do
-          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200000)
+          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200_000)
           helper.should_receive(:link_to_show).with(@item).and_return("SHOW_LINK")
         end
 
@@ -405,7 +405,7 @@ describe EntriesHelper do
       end
       context "when only_show is false," do
         before do
-          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200000)
+          @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200_000)
           helper.should_not_receive(:link_to_show).with(@item)
           helper.should_receive(:item_row_twitter_button).with(@item).and_return("_TWEET_")
           helper.should_receive(:link_to_edit).with(@item).and_return("_EDIT_")
@@ -422,7 +422,7 @@ describe EntriesHelper do
     fixtures :users, :accounts
     context "when item is adjustment," do
       before do
-        @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200000)
+        @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200_000)
       end
 
       subject { helper.item_row_twitter_button(@item) }
