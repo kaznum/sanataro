@@ -11,7 +11,7 @@ describe Item do
       day: 17,
       from_account_id: 1,
       to_account_id: 3,
-      amount: 10000,
+      amount: 10_000,
       confirmation_required: true,
       tag_list: 'hoge fuga'
     }
@@ -108,7 +108,7 @@ describe Item do
 
       context "when from_account_id is not owned by user," do
         before do
-          @item.from_account_id = 21234
+          @item.from_account_id = 21_234
           @is_saved = @item.save
         end
 
@@ -178,7 +178,7 @@ describe Item do
       context "when to_account_id is not owned by user," do
         before do
           @item.from_account_id = -1
-          @item.to_account_id = 21234
+          @item.to_account_id = 21_234
           @is_saved = @item.save
         end
 
@@ -368,7 +368,7 @@ describe Item do
                                                    action_date: @adj2.action_date,
                                                    from_account_id: 1,
                                                    to_account_id: 3,
-                                                   amount: 10000)
+                                                   amount: 10_000)
         MonthlyProfitLoss.correct(users(:user1), 1, item.action_date.beginning_of_month)
         MonthlyProfitLoss.correct(users(:user1), 3, item.action_date.beginning_of_month)
         Item.update_future_balance(users(:user1), item.action_date, 1, item.id)
@@ -383,7 +383,7 @@ describe Item do
 
       describe "adj4" do
         subject { Item.find(@adj4.id) }
-        its(:amount) { should == @adj4.amount + 10000}
+        its(:amount) { should == @adj4.amount + 10_000 }
         its(:adjustment_amount) { should == @adj4.adjustment_amount}
       end
 
@@ -781,7 +781,7 @@ describe Item do
         day: 17,
         from_account_id: 4,
         to_account_id: 3,
-        amount: 10000,
+        amount: 10_000,
         confirmation_required: true,
         tag_list: 'hoge fuga',
       }
@@ -805,7 +805,7 @@ describe Item do
       its([:action_date]) { should == Date.new(2008, 10, 17) }
       its([:from_account_id]) { should == 4 }
       its([:to_account_id]) { should == 3 }
-      its([:amount]) { should == 10000 }
+      its([:amount]) { should == 10_000 }
       its([:confirmation_required]) { should be_true }
       its([:tags]) { should == ['fuga', 'hoge'] }
       its([:child_id]) { should_not be_nil }
@@ -820,7 +820,7 @@ describe Item do
       its([:action_date]) { should == Date.new(2008, 12, 20) }
       its([:from_account_id]) { should == 1 }
       its([:to_account_id]) { should == 4 }
-      its([:amount]) { should == 10000 }
+      its([:amount]) { should == 10_000 }
       its([:confirmation_required]) { should be_false }
       its([:tags]) { should be_blank }
       its([:child_id]) { should be_nil }
