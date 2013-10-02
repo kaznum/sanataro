@@ -26,7 +26,7 @@ describe Item do
 
     describe "created item's attributes" do
       subject { @saved_item }
-      its(:action_date) { should == Date.new(2008,10,17) }
+      its(:action_date) { should == Date.new(2008, 10, 17) }
       its(:adjustment?) { should be_false }
       its(:confirmation_required?) { should be_true }
     end
@@ -382,7 +382,7 @@ describe Item do
       end
 
       describe "adj4" do
-        subject { Item.find(@adj4.id)}
+        subject { Item.find(@adj4.id) }
         its(:amount) { should == @adj4.amount + 10000}
         its(:adjustment_amount) { should == @adj4.adjustment_amount}
       end
@@ -415,19 +415,19 @@ describe Item do
       end
 
       describe "adj2" do
-        subject { Item.find(2)}
+        subject { Item.find(2) }
         its(:amount) { should == @adj2.amount}
         its(:adjustment_amount) { should == @adj2.adjustment_amount}
       end
 
       describe "adj4" do
-        subject { Item.find(4)}
+        subject { Item.find(4) }
         its(:amount) { should == @adj4.amount}
         its(:adjustment_amount) { should == @adj4.adjustment_amount}
       end
 
       describe "adj6" do
-        subject { Item.find(@adj6.id)}
+        subject { Item.find(@adj6.id) }
         its(:amount) { should == @adj6.amount + 200}
         its(:adjustment_amount) { should == @adj6.adjustment_amount}
       end
@@ -490,8 +490,8 @@ describe Item do
           end
         end
 
-        @from_date = Date.new(2008,9,1)
-        @to_date = Date.new(2008,9,30)
+        @from_date = Date.new(2008, 9, 1)
+        @to_date = Date.new(2008, 9, 30)
         Settings.stub(:item_list_count).and_return(2)
       end
 
@@ -570,7 +570,7 @@ describe Item do
             item = GeneralItem.new(:name => 'regular item ' + i.to_s,
                             :from_account_id => 11,
                             :to_account_id => 13,
-                            :action_date => Date.new(2008,9,15),
+                            :action_date => Date.new(2008, 9, 15),
                             :tag_list => 'abc def',
                             :confirmation_required => true,
                             :amount => 100 + i)
@@ -584,7 +584,7 @@ describe Item do
             item = GeneralItem.new(:name => 'regular item ' + i.to_s,
                             :from_account_id => 21,
                             :to_account_id => 13,
-                            :action_date => Date.new(2008,9,15),
+                            :action_date => Date.new(2008, 9, 15),
                             :tag_list => 'ghi jkl',
                             :amount => 100 + i)
             item.user_id = 1
@@ -597,7 +597,7 @@ describe Item do
             item = GeneralItem.new(:name => 'regular item ' + i.to_s,
                             :from_account_id => 11,
                             :to_account_id => 13,
-                            :action_date => Date.new(2008,10,1), # 参照されない日付
+                            :action_date => Date.new(2008, 10, 1), # 参照されない日付
                             :tag_list => 'mno pqr',
                             :amount => 100 + i)
             item.user_id = 1
@@ -616,7 +616,7 @@ describe Item do
             item = GeneralItem.new(:name => 'regular item ' + i.to_s,
                             :from_account_id => from_account.id,
                             :to_account_id => to_account.id,
-                            :action_date => Date.new(2008,9,15),
+                            :action_date => Date.new(2008, 9, 15),
                             :amount => 100 + i)
             item.user_id = 101
             item.save!
@@ -624,8 +624,8 @@ describe Item do
           end
 
         end
-        @from_date = Date.new(2008,9,1)
-        @to_date = Date.new(2008,9,30)
+        @from_date = Date.new(2008, 9, 1)
+        @to_date = Date.new(2008, 9, 30)
         Settings.stub(:item_list_count).and_return(5)
       end
 
@@ -660,7 +660,7 @@ describe Item do
   describe "collect_account_history" do
     describe "amount" do
       before do
-        @amount, @items = Item.collect_account_history(users(:user1), accounts(:bank1).id, Date.new(2008,2,1), Date.new(2008,2,29))
+        @amount, @items = Item.collect_account_history(users(:user1), accounts(:bank1).id, Date.new(2008, 2, 1), Date.new(2008, 2, 29))
       end
 
       describe "amount" do
@@ -669,11 +669,11 @@ describe Item do
       end
 
       describe "items" do
-        subject {@items}
+        subject { @items }
         specify {
           subject.each do |item|
             (item.from_account_id == accounts(:bank1).id ||  item.to_account_id == accounts(:bank1).id).should be_true
-            item.action_date.should be_between Date.new(2008,2,1), Date.new(2008,2,29)
+            item.action_date.should be_between Date.new(2008, 2, 1), Date.new(2008, 2, 29)
           end
         }
       end
@@ -693,13 +693,13 @@ describe Item do
                                      from_account_id: 1,
                                      to_account_id: 3,
                                      amount: 500,
-                                     action_date: Date.new(2008,2,10))
+                                     action_date: Date.new(2008, 2, 10))
       c_it = users(:user1).general_items.new(name: 'c hogehoge',
                                      from_account_id: 11,
                                      to_account_id: 1,
                                      amount: 500,
                                      parent_id: p_it.id,
-                                     action_date: Date.new(2008,3,10))
+                                     action_date: Date.new(2008, 3, 10))
 
       p_it.child_item = c_it
       p_it.save!
@@ -727,19 +727,19 @@ describe Item do
     context "when child_item's action_date is changed," do
       before do
         @child_item = Item.find(@c_id)
-        @action = -> { @child_item.update_attributes!(action_date: Date.new(2008,3,20)) }
+        @action = -> { @child_item.update_attributes!(action_date: Date.new(2008, 3, 20)) }
       end
 
-      it { expect {@action.call}.not_to change {Item.find(@p_id).action_date} }
-      it { expect {@action.call}.to change {Item.find(@p_id).child_item.action_date}.to(Date.new(2008,3,20)) }
+      it { expect { @action.call }.not_to change { Item.find(@p_id).action_date } }
+      it { expect { @action.call }.to change { Item.find(@p_id).child_item.action_date }.to(Date.new(2008, 3, 20)) }
     end
 
     context "when child_item's action_date try to be changed but action_date is before that of parent_item," do
       before do
         @child_item = Item.find(@c_id)
-        @action = -> { @child_item.update_attributes!(action_date: Date.new(2008,2,9)) }
+        @action = -> { @child_item.update_attributes!(action_date: Date.new(2008, 2, 9)) }
       end
-      it { expect {@action.call}.to raise_error ActiveRecord::RecordInvalid}
+      it { expect { @action.call }.to raise_error ActiveRecord::RecordInvalid }
     end
   end
 
@@ -793,8 +793,8 @@ describe Item do
 
     describe "item.to_custom_hash" do
       subject { @item.to_custom_hash }
-      it { should be_an_instance_of(Hash)}
-      its([:entry]) { should be_an_instance_of(Hash)}
+      it { should be_an_instance_of(Hash) }
+      its([:entry]) { should be_an_instance_of(Hash) }
     end
 
     describe "item.to_custom_hash[:entry]" do
@@ -802,7 +802,7 @@ describe Item do
       subject { @item.to_custom_hash[:entry] }
       its([:id]) { should == @item.id }
       its([:name]) { should == "aaaa" }
-      its([:action_date]) { should == Date.new(2008,10,17) }
+      its([:action_date]) { should == Date.new(2008, 10, 17) }
       its([:from_account_id]) { should == 4 }
       its([:to_account_id]) { should == 3 }
       its([:amount]) { should == 10000 }
@@ -817,7 +817,7 @@ describe Item do
       subject { @item.child_item.to_custom_hash[:entry] }
       its([:id]) { should == @item.child_item.id }
       its([:name]) { should == "aaaa" }
-      its([:action_date]) { should == Date.new(2008,12,20) }
+      its([:action_date]) { should == Date.new(2008, 12, 20) }
       its([:from_account_id]) { should == 1 }
       its([:to_account_id]) { should == 4 }
       its([:amount]) { should == 10000 }
@@ -834,7 +834,7 @@ describe Item do
         @items = Item.where(user_id: users(:user1).id).to_a
       end
       subject { @items.to_custom_hash }
-      it { should be_an_instance_of(Array)}
+      it { should be_an_instance_of(Array) }
       its([0]) { should == @items[0].to_custom_hash }
     end
   end
@@ -847,10 +847,10 @@ describe Item do
         @item.p_month = 1
         @item.p_day = 3
       end
-      subject {@item}
-      its(:year) {should == 2000}
-      its(:month) {should == 1}
-      its(:day) {should == 3}
+      subject { @item }
+      its(:year) { should == 2000}
+      its(:month) { should == 1}
+      its(:day) { should == 3}
     end
 
     context "when action_date is set," do
@@ -858,20 +858,20 @@ describe Item do
         @item = Item.new
         @item.action_date = Date.today
       end
-      subject {@item}
-      its(:year) {should == Date.today.year}
-      its(:month) {should == Date.today.month}
-      its(:day) {should == Date.today.day}
+      subject { @item }
+      its(:year) { should == Date.today.year }
+      its(:month) { should == Date.today.month }
+      its(:day) { should == Date.today.day }
     end
 
     context "when neither action_date nor p_* are set," do
       before do
         @item = Item.new
       end
-      subject {@item}
-      its(:year) {should be_nil }
-      its(:month) {should be_nil }
-      its(:day) {should be_nil }
+      subject { @item }
+      its(:year) { should be_nil }
+      its(:month) { should be_nil }
+      its(:day) { should be_nil }
     end
 
     context "when both action_date and p_* are set," do
@@ -882,10 +882,10 @@ describe Item do
         @item.month = 10
         @item.day = 20
       end
-      subject {@item}
-      its(:year) {should == 2000 }
-      its(:month) {should == 10 }
-      its(:day) {should == 20 }
+      subject { @item }
+      its(:year) { should == 2000 }
+      its(:month) { should == 10 }
+      its(:day) { should == 20 }
     end
   end
 
