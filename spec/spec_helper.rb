@@ -45,9 +45,6 @@ end
 # These instructions should self-destruct in 10 seconds.  If they don't, feel
 # free to delete them.
 
-
-
-
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ### rails g rspec:install generate ".. ||= 'test'" as the following line 
 ### but 3.2.7 doesn't work because ENV["RAILS_ENV"] is already 'development'
@@ -106,7 +103,6 @@ RSpec.configure do |config|
 
 end
 
-
 RSpec::Matchers.define :redirect_by_js_to do |path|
   match_unless_raises ActiveSupport::TestCase::Assertion do |_|
     assert_template "common/redirect"
@@ -150,4 +146,3 @@ RSpec::Matchers.define :render_js_error do |prms|
     "error.js.haml matcher"
   end
 end
-
