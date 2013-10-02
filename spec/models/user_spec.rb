@@ -21,7 +21,7 @@ describe User do
       }
 
       it { should_not be_new_record }
-      its(:password) { should == Digest::SHA1.hexdigest('test_1'+'123-4_56') }
+      its(:password) { should == Digest::SHA1.hexdigest('test_1' + '123-4_56') }
       its(:created_at) { should_not be_nil }
       its(:updated_at) { should_not be_nil }
       its(:active?) { should be_true }
@@ -227,7 +227,7 @@ describe User do
       }
 
       specify {
-        subject.where("action_date < ?", Date.new(2008,3)).to_a.should_not be_empty
+        subject.where("action_date < ?", Date.new(2008, 3)).to_a.should_not be_empty
       }
       specify {
         subject.where(user_id: 101).to_a.should have(0).records
@@ -276,7 +276,7 @@ describe User do
     let(:actual) { user.bankings }
     subject { user.bank_accounts }
     it { should have(actual.size).records }
-    its(:sort) { should == actual.map{|a| [a.name, a.id.to_s]}.sort }
+    its(:sort) { should == actual.map { |a| [a.name, a.id.to_s] }.sort }
   end
 
   describe "#all_accounts" do
