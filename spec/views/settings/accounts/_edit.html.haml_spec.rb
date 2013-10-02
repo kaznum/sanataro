@@ -20,4 +20,3 @@ describe "/settings/accounts/_edit" do
     end
   end
 end
-
