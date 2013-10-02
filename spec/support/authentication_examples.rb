@@ -17,4 +17,3 @@
       subject { response }
       its(:status) { should == 406 }
     end
-
