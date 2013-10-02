@@ -5,15 +5,15 @@ describe Item do
   fixtures :items, :users, :accounts, :monthly_profit_losses
   before do
     @valid_attrs = {
-      :name => 'aaaa',
-      :year => 2008,
-      :month => 10,
-      :day => 17,
-      :from_account_id => 1,
-      :to_account_id => 3,
-      :amount => 10000,
-      :confirmation_required => true,
-      :tag_list => 'hoge fuga'
+      name: 'aaaa',
+      year: 2008,
+      month: 10,
+      day: 17,
+      from_account_id: 1,
+      to_account_id: 3,
+      amount: 10000,
+      confirmation_required: true,
+      tag_list: 'hoge fuga'
     }
   end
 
@@ -364,11 +364,11 @@ describe Item do
 
     context "adjustment2のitemとaction_dateが同一のitemを追加した場合" do
       before do
-        item = users(:user1).general_items.create!(:name => 'aaaaa',
-                                           :action_date => @adj2.action_date,
-                                           :from_account_id => 1,
-                                           :to_account_id => 3,
-                                           :amount => 10000)
+        item = users(:user1).general_items.create!(name: 'aaaaa',
+                                                   action_date: @adj2.action_date,
+                                                   from_account_id: 1,
+                                                   to_account_id: 3,
+                                                   amount: 10000)
         MonthlyProfitLoss.correct(users(:user1), 1, item.action_date.beginning_of_month)
         MonthlyProfitLoss.correct(users(:user1), 3, item.action_date.beginning_of_month)
         Item.update_future_balance(users(:user1), item.action_date, 1, item.id)
@@ -400,14 +400,14 @@ describe Item do
         MonthlyProfitLoss.correct(users(:user1), 1, @adj6.action_date.beginning_of_month)
         MonthlyProfitLoss.correct(users(:user1), 3, @adj6.action_date.beginning_of_month)
 
-        item = users(:user1).general_items.create!(:id => 105,
-                                           :name => 'aaaaa',
-                                           :year => @adj6.action_date.year,
-                                           :month => @adj6.action_date.month,
-                                           :day => @adj6.action_date.day - 1,
-                                           :from_account_id => 1,
-                                           :to_account_id => 3,
-                                           :amount => 200)
+        item = users(:user1).general_items.create!(id: 105,
+                                                   name: 'aaaaa',
+                                                   year: @adj6.action_date.year,
+                                                   month: @adj6.action_date.month,
+                                                   day: @adj6.action_date.day - 1,
+                                                   from_account_id: 1,
+                                                   to_account_id: 3,
+                                                   amount: 200)
         MonthlyProfitLoss.correct(users(:user1), 1, item.action_date.beginning_of_month)
         MonthlyProfitLoss.correct(users(:user1), 3, item.action_date.beginning_of_month)
         Item.update_future_balance(users(:user1), item.action_date, 1, item.id)
@@ -510,52 +510,52 @@ describe Item do
       end
 
       context "when :remain is specified as true" do
-        subject { users(:user1).items.partials(@from_date, @to_date, {:remain=>true}) }
+        subject { users(:user1).items.partials(@from_date, @to_date, { remain: true }) }
         it { should have(6 - Settings.item_list_count).entries }
       end
 
       context "when :tag is specified" do
-        subject { users(:user1).items.partials(nil, nil, {:tag => 'abc' }) }
+        subject { users(:user1).items.partials(nil, nil, { tag: 'abc' }) }
         it { should have(Settings.item_list_count).entries }
       end
 
       context "when :tag and :remain is specified" do
-        subject { users(:user1).items.partials(nil, nil, {:remain => true, :tag => 'abc' }) }
+        subject { users(:user1).items.partials(nil, nil, { remain: true, tag: 'abc' }) }
         it { should have(3 - Settings.item_list_count).entries }
       end
 
       context "when :keyword is specified" do
-        subject { users(:user1).items.partials(nil, nil, {:keyword => 'emname' }) }
+        subject { users(:user1).items.partials(nil, nil, { keyword: 'emname' }) }
         it { should have(Settings.item_list_count).entries }
       end
 
       context "when :keyword and :remain is specified" do
-        subject { users(:user1).items.partials(nil, nil, {:remain => true, :keyword => 'emname' }) }
+        subject { users(:user1).items.partials(nil, nil, { remain: true, keyword: 'emname' }) }
         it { should have(6 - Settings.item_list_count).entries }
       end
 
       context "when :filter_account_id is specified" do
-        subject { users(:user1).items.partials(@from_date, @to_date, {:filter_account_id => accounts(:bank11).id}) }
+        subject { users(:user1).items.partials(@from_date, @to_date, { filter_account_id: accounts(:bank11).id }) }
         it { should have(Settings.item_list_count).entries }
       end
 
       context "when :filter_account_id and :remain is specified" do
-        subject { users(:user1).items.partials(@from_date, @to_date, {:filter_account_id => accounts(:bank11).id, :remain => true}) }
+        subject { users(:user1).items.partials(@from_date, @to_date, { filter_account_id: accounts(:bank11).id, remain: true }) }
         it { should have(3 - Settings.item_list_count).entries }
       end
 
       context "when confirmation required is specified"  do
         context "when remain not specified" do
-          subject { users(:user1).items.partials(nil, nil, {:mark => 'confirmation_required' }) }
+          subject { users(:user1).items.partials(nil, nil, { mark: 'confirmation_required' }) }
           it { should have(Settings.item_list_count).entries }
         end
 
         context "when remain not specified" do
           before do
-            @cnfmt_rqrd_count = Item.where(:confirmation_required => true, :user_id => users(:user1).id).count
+            @cnfmt_rqrd_count = Item.where(confirmation_required: true, user_id: users(:user1).id).count
           end
 
-          subject { users(:user1).items.partials(nil, nil, {:mark => 'confirmation_required', :remain => true }) }
+          subject { users(:user1).items.partials(nil, nil, { mark: 'confirmation_required', remain: true }) }
           it { should have(@cnfmt_rqrd_count - Settings.item_list_count).entries }
         end
       end
@@ -567,13 +567,13 @@ describe Item do
         # データの準備
         Item.transaction do
           3.times do |i|
-            item = GeneralItem.new(:name => 'regular item ' + i.to_s,
-                            :from_account_id => 11,
-                            :to_account_id => 13,
-                            :action_date => Date.new(2008, 9, 15),
-                            :tag_list => 'abc def',
-                            :confirmation_required => true,
-                            :amount => 100 + i)
+            item = GeneralItem.new(name: 'regular item ' + i.to_s,
+                                   from_account_id: 11,
+                                   to_account_id: 13,
+                                   action_date: Date.new(2008, 9, 15),
+                                   tag_list: 'abc def',
+                                   confirmation_required: true,
+                                   amount: 100 + i)
             item.user_id = 1
             item.save!
             @created_ids << item.id
@@ -581,12 +581,12 @@ describe Item do
 
           # データの準備
           1.times do |i|
-            item = GeneralItem.new(:name => 'regular item ' + i.to_s,
-                            :from_account_id => 21,
-                            :to_account_id => 13,
-                            :action_date => Date.new(2008, 9, 15),
-                            :tag_list => 'ghi jkl',
-                            :amount => 100 + i)
+            item = GeneralItem.new(name: 'regular item ' + i.to_s,
+                                   from_account_id: 21,
+                                   to_account_id: 13,
+                                   action_date: Date.new(2008, 9, 15),
+                                   tag_list: 'ghi jkl',
+                                   amount: 100 + i)
             item.user_id = 1
             item.save!
             @created_ids << item.id
@@ -594,12 +594,12 @@ describe Item do
 
           # データの準備(参照されないデータ)
           2.times do |i|
-            item = GeneralItem.new(:name => 'regular item ' + i.to_s,
-                            :from_account_id => 11,
-                            :to_account_id => 13,
-                            :action_date => Date.new(2008, 10, 1), # 参照されない日付
-                            :tag_list => 'mno pqr',
-                            :amount => 100 + i)
+            item = GeneralItem.new(name: 'regular item ' + i.to_s,
+                                   from_account_id: 11,
+                                   to_account_id: 13,
+                                   action_date: Date.new(2008, 10, 1), # 参照されない日付
+                                   tag_list: 'mno pqr',
+                                   amount: 100 + i)
             item.user_id = 1
             item.save!
             @created_ids << item.id
@@ -613,11 +613,11 @@ describe Item do
           to_account.user_id = 101
           to_account.save!
           2.times do |i|
-            item = GeneralItem.new(:name => 'regular item ' + i.to_s,
-                            :from_account_id => from_account.id,
-                            :to_account_id => to_account.id,
-                            :action_date => Date.new(2008, 9, 15),
-                            :amount => 100 + i)
+            item = GeneralItem.new(name: 'regular item ' + i.to_s,
+                                   from_account_id: from_account.id,
+                                   to_account_id: to_account.id,
+                                   action_date: Date.new(2008, 9, 15),
+                                   amount: 100 + i)
             item.user_id = 101
             item.save!
             @created_ids << item.id
@@ -641,17 +641,17 @@ describe Item do
       end
 
       context "when :remain is true" do
-        subject { users(:user1).items.partials(@from_date, @to_date, {'remain'=>true}) }
+        subject { users(:user1).items.partials(@from_date, @to_date, { 'remain' => true }) }
         it { should have(0).entries }
       end
 
       context "when :filter_account_id is specified" do
-        subject { users(:user1).items.partials(@from_date, @to_date, {:filter_account_id=>accounts(:bank11).id}) }
+        subject { users(:user1).items.partials(@from_date, @to_date, { filter_account_id: accounts(:bank11).id }) }
         it { should have(3).entries }
       end
 
       context "when :filter_account_id and :remain is specified" do
-        subject { users(:user1).items.partials(@from_date, @to_date, {:filter_account_id=>accounts(:bank11).id, :remain => true}) }
+        subject { users(:user1).items.partials(@from_date, @to_date, { filter_account_id: accounts(:bank11).id, remain: true }) }
         it { should have(0).entries }
       end
     end
