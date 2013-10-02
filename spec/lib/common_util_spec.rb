@@ -26,24 +26,24 @@ describe CommonUtil do
 
   describe "#correct_password?" do
     context "when with valid_password," do
-      subject { CommonUtil.correct_password?("hello", Digest::SHA1.hexdigest("hello"))}
+      subject { CommonUtil.correct_password?("hello", Digest::SHA1.hexdigest("hello")) }
       it { should be_true }
     end
 
     context "when plain str is nil," do
-      subject { CommonUtil.correct_password?(nil, nil)}
+      subject { CommonUtil.correct_password?(nil, nil) }
       it { should be_false }
     end
 
     context "when hex str is nil," do
-      subject { CommonUtil.correct_password?(nil, nil)}
+      subject { CommonUtil.correct_password?(nil, nil) }
       it { should be_false }
     end
   end
 
   describe "#crypt" do
     subject { CommonUtil.crypt("hello") }
-    it { should eq Digest::SHA1.hexdigest("hello")}
+    it { should eq Digest::SHA1.hexdigest("hello") }
   end
 end
 
