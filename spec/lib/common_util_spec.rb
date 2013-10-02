@@ -46,4 +46,3 @@ describe CommonUtil do
     it { should eq Digest::SHA1.hexdigest("hello") }
   end
 end
-
