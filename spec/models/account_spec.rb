@@ -33,7 +33,7 @@ describe Account do
       end
 
       describe "errors on :name" do
-        subject {@account}
+        subject { @account }
         it { should have_at_least(1).errors_on(:name) }
       end
     end
@@ -60,7 +60,7 @@ describe Account do
         @account.name = "a" * 255
       end
 
-      it {expect {@account.save!}.not_to raise_error }
+      it { expect { @account.save! }.not_to raise_error }
     end
 
     context "when name length is larger than 255," do
@@ -196,7 +196,7 @@ describe Account do
         user = users(:user1)
         user.accounts.asset(user, ini_bank1.id, date)
       }
-      it {should == 13900}
+      it { should == 13900 }
     end
 
     context "when specifying adj_id whose action_date is same as that of original adj_id," do
@@ -206,7 +206,7 @@ describe Account do
         date = items(:adjustment4).action_date.clone
         user.accounts.asset(user, ini_bank1.id, date, items(:adjustment4).id)
       }
-      it {should == 15000}
+      it { should == 15000 }
     end
 
     context "when specifying id which is same as the account of from_account_id = bank1's id(action_date = adjustment4.action_date + 1day)," do
@@ -255,13 +255,13 @@ describe Account do
     end
 
     context "when action_date is before the settlemnt_date," do
-      subject { @credit.credit_due_date(Date.new(2011,2, 5)) }
-      it { should == Date.new(2011,4,4) }
+      subject { @credit.credit_due_date(Date.new(2011, 2, 5)) }
+      it { should == Date.new(2011, 4, 4) }
     end
 
     context "when action_date is after the settlemnt_date," do
-      subject { @credit.credit_due_date(Date.new(2011,2, 15)) }
-      it { should == Date.new(2011,5,4) }
+      subject { @credit.credit_due_date(Date.new(2011, 2, 15)) }
+      it { should == Date.new(2011, 5, 4) }
     end
 
     context "when payment_day is 99," do
@@ -270,18 +270,18 @@ describe Account do
       end
 
       context "when the action_date is before the settlement_date 5," do
-        subject { @credit.credit_due_date(Date.new(2011,7, 5)) }
-        it { should == Date.new(2011,9,30) }
+        subject { @credit.credit_due_date(Date.new(2011, 7, 5)) }
+        it { should == Date.new(2011, 9, 30) }
       end
 
       context "when end_of_month is 31," do
-        subject { @credit.credit_due_date(Date.new(2011,7, 31)) }
-        it { should == Date.new(2011,10,31) }
+        subject { @credit.credit_due_date(Date.new(2011, 7, 31)) }
+        it { should == Date.new(2011, 10, 31) }
       end
 
       context "when end_of_month is 28," do
-        subject { @credit.credit_due_date(Date.new(2011,2, 28)) }
-        it { should == Date.new(2011,5,31) }
+        subject { @credit.credit_due_date(Date.new(2011, 2, 28)) }
+        it { should == Date.new(2011, 5, 31) }
       end
     end
   end
@@ -297,7 +297,7 @@ describe Account do
       end
 
       describe "count" do
-        it { expect { @account.destroy }.to change {Account.count}.by(-1) }
+        it { expect { @account.destroy }.to change { Account.count }.by(-1) }
       end
       describe "#errors" do
         before { @account.destroy }
@@ -320,7 +320,7 @@ describe Account do
         end
 
         describe "count" do
-          it { expect { @account.destroy }.not_to change {Account.count} }
+          it { expect { @account.destroy }.not_to change { Account.count } }
         end
 
         describe "#errors" do
@@ -337,7 +337,7 @@ describe Account do
         end
 
         describe "count" do
-          it { expect { @account.destroy }.not_to change {Account.count}}
+          it { expect { @account.destroy }.not_to change { Account.count } }
         end
 
         describe "#errors" do
@@ -361,7 +361,7 @@ describe Account do
         end
 
         describe "count" do
-          it { expect { @account.destroy }.not_to change {Account.count}}
+          it { expect { @account.destroy }.not_to change { Account.count } }
         end
       end
 
@@ -372,7 +372,7 @@ describe Account do
         end
 
         describe "count" do
-          it { expect { @account.destroy }.not_to change {Account.count}}
+          it { expect { @account.destroy }.not_to change { Account.count } }
         end
 
         describe "#errors" do
