@@ -5,11 +5,11 @@ describe CreditRelation do
 
   before do
     @valid_attrs = {
-      :credit_account_id => accounts(:bank21).id,
-      :payment_account_id => accounts(:bank1).id,
-      :settlement_day => 25,
-      :payment_month => 2,
-      :payment_day => 10
+      credit_account_id: accounts(:bank21).id,
+      payment_account_id: accounts(:bank1).id,
+      settlement_day: 25,
+      payment_month: 2,
+      payment_day: 10
     }
   end
 
