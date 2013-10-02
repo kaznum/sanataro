@@ -16,7 +16,7 @@ describe MonthlyProfitLoss do
 
     before do
       @orig_bank1 = monthly_profit_losses(:bank1200802)
-      @orig_bank1.update_attributes!(amount: 93423)
+      @orig_bank1.update_attributes!(amount: 93_423)
     end
 
     describe "returned value" do
