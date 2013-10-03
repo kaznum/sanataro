@@ -22,7 +22,7 @@ class CommonUtil
 
       _ = Regexp.last_match(1).to_i
       month = Regexp.last_match(2).to_i
-      
+
       month.in? 1..12
     end
 
