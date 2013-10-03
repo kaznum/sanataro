@@ -6,11 +6,11 @@ class Tag < ActiveRecord::Base
     tag_names = []
     return tag_names if list.blank?
 
-    list.gsub!(/\"(.*?)\"\s*/) { tag_names << $1; "" }
-    list.gsub!(/,/, " ")
-    tag_names.concat(list.split(/\s/))
-    tag_names = tag_names.delete_if { |t| t.empty? }
-    tag_names.map(&:downcase).uniq
+    list.gsub!(/\"(.*?)\"\s*/) do
+      tag_names << $1
+      ""
+    end
+    tag_names.concat(list.gsub(/,/, " ").split(/\s/)).delete_if { |t| t.empty? }.map(&:downcase).uniq
   end
 
   def to_s
