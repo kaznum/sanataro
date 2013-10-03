@@ -2,7 +2,7 @@ module Api
   module Auth
     def self.included(base)
       base.class_eval do
-        doorkeeper_for :all, :if => -> { request.authorization.blank? && !session[:user_id] }
+        doorkeeper_for :all, if: -> { request.authorization.blank? && !session[:user_id] }
         before_action :authenticate_via_api
         include Api::General
         include Api::Auth::InstanceMethods
