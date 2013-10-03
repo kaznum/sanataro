@@ -4,4 +4,3 @@ module Sanataro::DateExt
   end
 end
 Date.send(:include, Sanataro::DateExt)
-
