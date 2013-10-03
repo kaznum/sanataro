@@ -13,7 +13,7 @@ end
 class String
   # To use this method, add gem 'rails_emoji' in Gemfile
   def decorate
-    self.emolettise.emojify.html_safe
+    emolettise.emojify.html_safe
   end
 
   def emolettise
