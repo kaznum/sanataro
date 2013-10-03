@@ -35,4 +35,3 @@ ActiveSupport.on_load(:active_record) do
   Arel::Visitors::ToSql.send(:include, ArelExt::Visitors::ToSql::InstanceMethods)
   Arel::Visitors::PostgreSQL.send(:include, ArelExt::Visitors::ToSql::InstanceMethods)
 end
-
