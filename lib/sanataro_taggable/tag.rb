@@ -10,10 +10,7 @@ class Tag < ActiveRecord::Base
     list.gsub!(/,/, " ")
     tag_names.concat(list.split(/\s/))
     tag_names = tag_names.delete_if { |t| t.empty? }
-    tag_names = tag_names.map! { |t| t.downcase }
-    tag_names = tag_names.uniq
-
-    tag_names
+    tag_names.map(&:downcase).uniq
   end
 
   def to_s
