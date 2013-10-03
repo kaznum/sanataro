@@ -1,19 +1,19 @@
 Sanataro::Application.routes.draw do
   use_doorkeeper
 
-  root :to => "login#login"
+  root to: "login#login"
 
-  match 'simple', :to => 'entries#new', :entry_type => 'simple', :as => 'simple_input', :via => :get
-  resource(:login, :path => 'login', :as => 'login', :controller => 'login', :only => [:login, :do_login]) do
-    get '/', :action => 'login', :on => :member
-    post '/', :action => 'do_login', :on => :member
+  match 'simple', to: 'entries#new', entry_type: 'simple', as: 'simple_input', via: :get
+  resource(:login, path: 'login', as: 'login', controller: 'login', only: [:login, :do_login]) do
+    get '/', action: 'login', on: :member
+    post '/', action: 'do_login', on: :member
   end
-  match 'logout' => 'login#do_logout', :as => :logout, :via => [:get, :post]
-  resource(:create_user, :path => 'create_user', :as => 'create_user', :controller => 'login', :only => [:create_user, :do_create_user]) do
-    get '/', :action => 'create_user', :on => :member
-    post '/', :action => 'do_create_user', :on => :member
+  match 'logout' => 'login#do_logout', as: :logout, via: [:get, :post]
+  resource(:create_user, path: 'create_user', as: 'create_user', controller: 'login', only: [:create_user, :do_create_user]) do
+    get '/', action: 'create_user', on: :member
+    post '/', action: 'do_create_user', on: :member
   end
-  match 'confirm_user' => 'login#confirmation', :as => :confirm_user, :via => :get
+  match 'confirm_user' => 'login#confirmation', as: :confirm_user, via: :get
 
   scope 'months/:year/:month' do
     resources :entries
@@ -22,9 +22,9 @@ Sanataro::Application.routes.draw do
   end
 
   scope 'current' do
-    resources :entries, :as => 'current_entries'
-    resources :profit_losses, :as => 'current_profit_losses'
-    resources :balance_sheets, :as => 'current_balance_sheets'
+    resources :entries, as: 'current_entries'
+    resources :profit_losses, as: 'current_profit_losses'
+    resources :balance_sheets, as: 'current_balance_sheets'
   end
 
   %w( tag mark keyword ).each do |s|
