@@ -10,4 +10,3 @@ ActiveSupport.on_load(:active_record) do
   require 'tagging'
   require 'tag'
 end
-
