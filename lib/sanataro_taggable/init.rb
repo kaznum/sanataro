@@ -1,4 +1,4 @@
-$:.unshift File.dirname(__FILE__)
+$LOAD_PATH.unshift File.dirname(__FILE__)
 
 ActiveSupport.on_load(:active_record) do
   require 'sanataro_taggable'
