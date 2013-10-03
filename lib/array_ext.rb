@@ -1,7 +1,7 @@
 module Sanataro::ArrayExt
   def to_custom_hash
     ret = []
-    self.each do |a|
+    each do |a|
       ret << a.to_custom_hash
     end
     ret
