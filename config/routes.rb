@@ -68,4 +68,3 @@ Sanataro::Application.routes.draw do
 
   resources :emojis
 end
-
