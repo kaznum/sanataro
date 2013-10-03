@@ -14,7 +14,7 @@ ActiveSupport.on_load(:active_record) do
           # Construct a clean list of column names from the ORDER BY clause, removing
           # any ASC/DESC modifiers
           # order_columns = orders.collect { |s| s.gsub(/\s+(ASC|DESC)\s*/i, '') }
-          order_columns = orders.collect { |s| (s.respond_to?(:to_sql) ? s.to_sql : s).gsub(/\s+(ASC|DESC)\s*/i, '') }
+          order_columns = orders.map { |s| (s.respond_to?(:to_sql) ? s.to_sql : s).gsub(/\s+(ASC|DESC)\s*/i, '') }
           order_columns.delete_if { |c| c.blank? }
           order_columns = order_columns.zip((0...order_columns.size).to_a).map { |s,i| "#{s} AS alias_#{i}" }
 
