@@ -8,9 +8,9 @@ User.all.each do |u|
     month_from = mpl.month.beginning_of_month
     month_to = mpl.month.end_of_month
 
-    items_of_terms = u.items.where(:action_date => month_from..month_to)
-    amount_from = items_of_terms.where(:from_account_id => mpl.account_id).sum(:amount) || 0
-    amount_to = items_of_terms.where(:to_account_id => mpl.account_id).sum(:amount) || 0
+    items_of_terms = u.items.where(action_date: month_from..month_to)
+    amount_from = items_of_terms.where(from_account_id: mpl.account_id).sum(:amount) || 0
+    amount_to = items_of_terms.where(to_account_id: mpl.account_id).sum(:amount) || 0
 
     amount = amount_to - amount_from
 
