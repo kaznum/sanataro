@@ -17,9 +17,9 @@ class User < ActiveRecord::Base
 
   validate :validates_password_confirmation
   validates :login, presence: true, format: { with: /\A[A-Za-z0-9_-]+\z/ }, length: { in: 3..10 }, uniqueness: { message: I18n.t('errors.messages.exclusion') }
-  validates :password_plain, presence: { :if => :password_required? }
+  validates :password_plain, presence: { if: :password_required? }
   validates :email, presence: true, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }, length: { in: 5..255 }
-  validates :password_plain, format: { with: /\A[A-Za-z0-9_-]+\z/, :if => :password_required? }, length: { in: 6..10, :if => :password_required? }
+  validates :password_plain, format: { with: /\A[A-Za-z0-9_-]+\z/, if: :password_required? }, length: { in: 6..10, if: :password_required? }
 
   before_save :hash_password
 
