@@ -43,4 +43,3 @@ user.items.create!(name: 'サンプル支出',
                    from_account_id: accounts.find { |a| a.name == "財布" }.id,
                    to_account_id: accounts.find { |a| a.name == "食費" }.id,
                    amount: 250, action_date: Date.today, tag_list: 'コンビニ')
-
