@@ -18,12 +18,12 @@ module ArelExt
             alias_method_chain :visit_Arel_Nodes_DoesNotMatch, :format_sql92
           end
         end
-        def visit_Arel_Nodes_Matches_with_format_sql92 o
-          visit_Arel_Nodes_Matches_without_format_sql92(o) + " ESCAPE '!'"
+        def visit_Arel_Nodes_Matches_with_format_sql92 o, a
+          visit_Arel_Nodes_Matches_without_format_sql92(o, a) + " ESCAPE '!'"
         end
 
-        def visit_Arel_Nodes_DoesNotMatch_with_format_sql92 o
-          visit_Arel_Nodes_DoesNotMatch_without_format_sql92(o) + " ESCAPE '!'"
+        def visit_Arel_Nodes_DoesNotMatch_with_format_sql92 o, a
+          visit_Arel_Nodes_DoesNotMatch_without_format_sql92(o, a) + " ESCAPE '!'"
         end
       end
     end
