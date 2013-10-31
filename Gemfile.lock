@@ -87,7 +87,7 @@ GEM
     erubis (2.7.0)
     execjs (2.0.2)
     fabrication (2.9.0)
-    ffi (1.9.2)
+    ffi (1.9.3)
     formatador (0.2.4)
     gherkin (2.12.2)
       multi_json (~> 1.3)
