@@ -30,63 +30,41 @@
       %a{ href: "https://github.com/kaznum/sanataro/" }
         %img{ style: "position: absolute; top: 0; right: 0; border: 0;z-index: 99999", src: "https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png", alt: "Fork me on GitHub" }
     .container
-      %nav.navbar.navbar-inverse.navbar-fixed-top{ role: "navigation" }
-        .navbar-inner
-          .container
-            - if @user
-              %a{:class => "btn btn-navbar", "data-toggle" => "collapse", "data-target" => ".nav-collapse"}
-                %span.icon-bar
-                %span.icon-bar
-                %span.icon-bar
-            = link_to Settings.product_name, (@user ? current_entries_url : root_url), :class => "brand"
-            - if @user
-              - if params[:year].blank? || params[:month].blank?
-                - e_path = current_entries_path
-                - pl_path = current_profit_losses_path
-                - bs_path = current_balance_sheets_path
-              - else
-                - e_path = entries_path(params[:year], params[:month])
-                - pl_path = profit_losses_path(params[:year], params[:month])
-                - bs_path = balance_sheets_path(params[:year], params[:month])
-              - items_class = params[:controller] == 'entries' ? "active" : ""
-              - config_class = params[:controller] =~ /^settings\// ?  "active" : ""
-              - items_link = link_to t('.items'), e_path
-              - logout_link = link_to t('link.logout'), logout_path, :data => { :confirm => t("message.logout_really")}
-              .nav-collapse
-                %ul.nav
-                  %li{class: "#{items_class}"}= items_link
-                  %li.dropdown
-                    %a.dropdown-toggle{ :href => '#', "data-toggle" => 'dropdown'}
-                      #{t('.addup')}
-                      %b.caret
-                    %ul.dropdown-menu
-                      %li= link_to t(".profit_loss"), pl_path
-                      %li= link_to t('.balance'), bs_path
-                  %li.dropdown
-                    %a.dropdown-toggle{ :href => '#', "data-toggle" => 'dropdown'}
-                      #{t('.digest')}
-                      %b.caret
-                    %ul.dropdown-menu
-                      %li= link_to("#{t("link.status_of_today", date: today)}".html_safe, account_status_path, id: "account_digest", class: "digest_link")
-                      %li= link_to("#{t("link.confirmation_list", mark: icon_confirmation)}".html_safe, confirmation_status_path, id: "confirmation_digest", class: "digest_link")
-                      %li= link_to("#{t("link.tag_list")}".html_safe, tag_status_path, id: "tag_digest", class: "digest_link")
-                %ul.nav.pull-right
-                  %li
-                    = form_tag keyword_entries_path("KEYWORD_PLACEHOLDER"), method: :get, class: "navbar-search", id: "search-form" do
-                      %i.icon-search
-                      = text_field_tag :keyword, @keyword, placeholder: "Search", class: "search-query span2"
-                  %li= link_to t('.simple_input'), simple_input_path
-                  %li.dropdown
-                    %a.dropdown-toggle{ :href => "#", "data-toggle" => "dropdown" }
-                      #{t('.config')}
-                      %b.caret
-                    %ul.dropdown-menu
-                      %li= link_to("<i class='icon-book'></i>#{t('.account')}".html_safe, settings_accounts_path(:type =>'banking'))
-                      %li= link_to("<i class='icon-hand-right'></i>#{t('.income')}".html_safe, settings_accounts_path(:type => 'income'))
-                      %li= link_to("<i class='icon-shopping-cart'></i>#{t('.expense')}".html_safe, settings_accounts_path(:type => 'expense'))
-                      %li= link_to("<i class='icon-certificate'></i>#{t('.credit_card')}".html_safe, settings_credit_relations_path)
-                      %li= link_to("<i class='icon-user'></i>#{t('.user_info')}".html_safe, settings_user_path)
-                  %li= logout_link
+      = nav_bar inverse: true, fixed: :top, brand: Settings.product_name, responsive: true, brand_link: (@user ? current_entries_url : root_url) do
+        = menu_group do
+          - if @user
+            - if params[:year].blank? || params[:month].blank?
+              - e_path = current_entries_path
+              - pl_path = current_profit_losses_path
+              - bs_path = current_balance_sheets_path
+            - else
+              - e_path = entries_path(params[:year], params[:month])
+              - pl_path = profit_losses_path(params[:year], params[:month])
+              - bs_path = balance_sheets_path(params[:year], params[:month])
+            - items_class = params[:controller] == 'entries' ? "active" : ""
+            - config_class = params[:controller] =~ /^settings\// ?  "active" : ""
+            - items_link = link_to t('.items'), e_path
+            - logout_link = menu_item t('link.logout'), logout_path, :data => { :confirm => t("message.logout_really")}
+            = menu_item t('.items'), e_path
+            = drop_down t('.addup') do
+              = menu_item t(".profit_loss"), pl_path
+              = menu_item t('.balance'), bs_path
+            = drop_down t('.digest') do
+              = menu_item t("link.status_of_today", date: today), account_status_path, id: "account_digest", class: "digest_link"
+              = menu_item t("link.confirmation_list", mark: icon_confirmation).html_safe, confirmation_status_path, id: "confirmation_digest", class: "digest_link"
+              = menu_item t("link.tag_list"), tag_status_path, id: "tag_digest", class: "digest_link"
+            = menu_group pull: :right do
+              = form_tag keyword_entries_path("KEYWORD_PLACEHOLDER"), method: :get, class: "navbar-form pull-left", id: "search-form" do
+                %i.icon-search
+                  = text_field_tag :keyword, @keyword, placeholder: "Search", class: "search-query span2"
+              = menu_item t('.simple_input'), simple_input_path
+              = drop_down t('.config') do
+                = menu_item content_tag(:i, class: 'icon-book') { t('.account') }, settings_accounts_path(type: 'banking')
+                = menu_item content_tag(:i, class: 'icon-hand-right') { t('.income') }, settings_accounts_path(type: 'income')
+                = menu_item content_tag(:i, class: 'icon-shopping-cart') { t('.expense') }, settings_accounts_path(type: 'expense')
+                = menu_item content_tag(:i, class: 'icon-certificate') { t('.credit_card') }, settings_credit_relations_path
+                = menu_item content_tag(:i, class: 'icon-user') { t('.user_info') }, settings_user_path
+              = menu_item t('link.logout'), logout_path, :data => { :confirm => t("message.logout_really")}
       .header
         :coffeescript
           coo = "cookietest=ok"
