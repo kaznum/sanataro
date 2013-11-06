@@ -61,7 +61,7 @@ GEM
     erubis (2.7.0)
     execjs (2.0.2)
     fabrication (2.9.1)
-    haml (4.0.3)
+    haml (4.0.4)
       tilt
     haml-rails (0.4)
       actionpack (>= 3.1, < 4.1)
