@@ -500,7 +500,7 @@ describe Item do
           @item = Fabricate.build(:general_item, from_account_id: 21, to_account_id: 13, name: "itemname_old", action_date: '2008-09-14', tag_list: 'ghi jkl')
           @item.save!
         end
-        subject { users(:user1).items.partials(@from_date, @to_date).to_a[0].id }
+        subject { users(:user1).items.partials(@from_date, @to_date).first.id }
         it { should_not == @item.id }
       end
 
