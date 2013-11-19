@@ -49,7 +49,7 @@ entries = global.entries
 jQuery ($) ->
   trim = (str) ->
     str.replace /^\s+|\s+$/g, ""
-  $("form.navbar-search").submit ->
+  $("form#search-form").submit ->
     action = $(this).attr("action")
     queryElement = $(this).find(".search-query")
 
