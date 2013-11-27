@@ -52,7 +52,7 @@ GEM
       execjs
     coffee-script-source (1.6.3)
     diff-lcs (1.2.5)
-    docile (1.1.0)
+    docile (1.1.1)
     doorkeeper (0.7.3)
       jquery-rails (>= 2.0.2)
       railties (>= 3.1)
@@ -92,7 +92,7 @@ GEM
     krypt-ossl (0.1.0)
       krypt
     krypt-provider-jdk (0.0.1)
-    launchy (2.4.0)
+    launchy (2.4.1)
       addressable (~> 2.3)
     mail (2.5.4)
       mime-types (~> 1.16)
