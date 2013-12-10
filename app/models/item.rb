@@ -35,11 +35,7 @@ class Item < ActiveRecord::Base
   #
   # limit is fixed number.
   scope :remaining, -> { offset(Settings.item_list_count).limit(999_999) }
-  # TODO
-  #
-  # ActiveRecord 4 generates the SQL's order-clause by the different order from AR3's one
-  # for AR3: scope :order_of_entries, -> { order(arel_table[:action_date].desc).order(arel_table[:id].desc) }
-  scope :order_of_entries, -> { order(arel_table[:id].desc).order(arel_table[:action_date].desc) }
+  scope :order_of_entries, -> { order(arel_table[:action_date].desc, arel_table[:id].desc) }
 
   def validates_action_date_range
     today = Date.today
