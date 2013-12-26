@@ -35,6 +35,9 @@ GEM
     arel (4.0.1)
     atomic (1.1.14)
     builder (3.1.4)
+    byebug (2.5.0)
+      columnize (~> 0.3.6)
+      debugger-linecache (~> 1.2.0)
     capybara (2.1.0)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -71,12 +74,7 @@ GEM
       rails (>= 3.0.0)
     dalli (2.6.4)
     database_cleaner (1.0.1)
-    debugger (1.6.3)
-      columnize (>= 0.3.1)
-      debugger-linecache (~> 1.2.0)
-      debugger-ruby_core_source (~> 1.2.4)
     debugger-linecache (1.2.0)
-    debugger-ruby_core_source (1.2.4)
     diff-lcs (1.2.5)
     docile (1.1.1)
     doorkeeper (0.7.4)
@@ -249,6 +247,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  byebug
   capybara-webkit (>= 1.0.0)
   coffee-rails
   connection_pool
@@ -256,7 +255,6 @@ DEPENDENCIES
   dalli
   dalli-store-extensions!
   database_cleaner (>= 1.0.0, < 1.1.0)
-  debugger
   doorkeeper (>= 0.7.1)
   dotenv-rails
   fabrication

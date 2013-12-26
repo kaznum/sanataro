@@ -15,7 +15,11 @@ group :development, :test do
   gem "launchy"
   gem "fabrication"
   unless ENV['TRAVIS']
-    gem 'debugger'
+    if RUBY_VERSION >= '2.0.0'
+      gem 'byebug'
+    else
+      gem 'debugger'
+    end
   end
   gem 'dotenv-rails'
 end
