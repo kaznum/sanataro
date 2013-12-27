@@ -75,7 +75,7 @@ jQuery ($) ->
     else if show_link.length > 0
       url = show_link.attr("href")
       location.href = url
-  $(".emoji_button").on "click", ->
+  $(this).on "click", ".emoji_button", ->
     $("#emojis_modal .current_form").val $(this).parents("form").attr("id")
     $("#emojis_modal").removeAttr("style").modal()
 
