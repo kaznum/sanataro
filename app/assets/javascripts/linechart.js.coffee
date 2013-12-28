@@ -36,12 +36,10 @@ charts = global.charts
 
       choiceContainer.find("input[rel!=all]").bind "change", plotAccordingToChoices
       choiceContainer.find("input[rel=all]").bind "change", ->
-        checked = $(this).attr("checked")
+        checked = this.checked
         choiceContainer.find("input[rel!=all]").each ->
-          if checked == "checked"
-            $(this).attr "checked", true
-          else
-            $(this).removeAttr "checked"
+          this.checked = checked
+          true
         plotAccordingToChoices()
 
       plotAccordingToChoices()
