@@ -18,7 +18,7 @@ built with Ruby on Rails.
 
 == Requirement
 * Ruby:
-  * MRI (tested continuously with 1.9.3, 2.0.0)
+  * MRI (tested continuously with 1.9.3, 2.0.0, 2.1.0)
   * JRuby 1.7 (tested with JRuby 1.7.8 continuously)
 * Ruby on Rails: 4.0 (Check Gemfile for the minor version)
 * DB:
@@ -66,12 +66,12 @@ built with Ruby on Rails.
 
 == Credit
 * Author: Kazuya NUMATA <numata@gmail.com>.
-* Copyright (c) 2007-2013 Kazuya NUMATA.
+* Copyright (c) 2007-2014 Kazuya NUMATA.
 
 == License
 The MIT License (MIT)
 
-Copyright (c) 2007-2013 Kazuya NUMATA <numata@gmail.com>
+Copyright (c) 2007-2014 Kazuya NUMATA <numata@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
