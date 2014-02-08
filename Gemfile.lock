@@ -99,7 +99,7 @@ GEM
     guard-cucumber (1.4.1)
       cucumber (>= 1.2.0)
       guard (>= 1.1.0)
-    guard-rspec (4.2.5)
+    guard-rspec (4.2.6)
       guard (~> 2.1)
       rspec (>= 2.14, < 4.0)
     guard-spork (1.5.1)
