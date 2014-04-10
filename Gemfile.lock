@@ -280,6 +280,7 @@ DEPENDENCIES
   launchy
   libv8 (>= 3.11.8.12)
   memoist
+  minitest
   mysql2
   pg
   rails (>= 4.0.0)
