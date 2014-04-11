@@ -16,7 +16,6 @@ describe "/api/entries/create" do
     render template: "api/entries/create", locals: { item: item, updated_item_ids: updated_item_ids }
   end
 
-  subject { rendered }
-  it { should be =~ /{"entry":{.*"name":"\\u003Ca href=\\"bbb\\"\\u003Eaaa\\u003C\/a\\u003E"/ }
-  it { should be =~ /"updated_entry_ids":\[10,20,30,40,50\]}/ }
+  specify { expect( JSON.parse(rendered)["entry"]["name"] ).to eq '<a href="bbb">aaa</a>' }
+  specify { expect( JSON.parse(rendered)["updated_entry_ids"] ).to eq [10,20,30,40,50] }
 end
