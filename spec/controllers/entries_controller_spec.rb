@@ -97,19 +97,7 @@ describe EntriesController do
       context "with tag," do
         before do
           tags = %w(test_tag def)
-          xhr(:put, :update,
-              id: items(:item11).id.to_s,
-              entry: {
-                name: 'テスト11',
-                action_date: items(:item11).action_date.strftime("%Y/%m/%d"),
-                amount: "100000",
-                from_account_id: accounts(:bank1).id.to_s,
-                to_account_id: accounts(:expense3).id.to_s,
-                tag_list: tags.join(" ")
-              },
-              year: items(:item11).action_date.year,
-              month: items(:item11).action_date.month)
-
+          Teller.update_entry(users(:user1), items(:item11).id, { tag_list: tags.join(" ") })
           get :index, tag: 'test_tag'
         end
 
@@ -132,18 +120,7 @@ describe EntriesController do
 
       context "with mark," do
         before do
-          xhr(:put, :update,
-              id: items(:item11).id.to_s,
-              entry: {
-                name: 'テスト11',
-                action_date: items(:item11).action_date.strftime("%Y/%m/%d"),
-                amount: "100000",
-                from_account_id: accounts(:bank1).id.to_s,
-                to_account_id: accounts(:expense3).id.to_s,
-                confirmation_required: '1'
-              },
-              year: items(:item11).action_date.year,
-              month: items(:item11).action_date.month)
+          Teller.update_entry(users(:user1), items(:item11).id, { confirmation_required: true })
           get :index, mark: 'confirmation_required'
         end
 
@@ -166,18 +143,7 @@ describe EntriesController do
 
       context "with keyword," do
         before do
-          xhr(:put, :update,
-              id: items(:item11).id.to_s,
-              entry: {
-                name: 'あああテスト11いいい',
-                action_date: items(:item11).action_date.strftime("%Y/%m/%d"),
-                amount: "100000",
-                from_account_id: accounts(:bank1).id.to_s,
-                to_account_id: accounts(:expense3).id.to_s,
-                confirmation_required: '1'
-              },
-              year: items(:item11).action_date.year,
-              month: items(:item11).action_date.month)
+          Teller.update_entry(users(:user1), items(:item11).id, { name: 'あああテスト11いいい' })
           get :index, keyword: 'テスト11'
         end
 
@@ -195,18 +161,7 @@ describe EntriesController do
 
       context "with multiple keywords," do
         before do
-          xhr(:put, :update,
-              id: items(:item11).id.to_s,
-              entry: {
-                name: 'あああテスト11いいい',
-                action_date: items(:item11).action_date.strftime("%Y/%m/%d"),
-                amount: "100000",
-                from_account_id: accounts(:bank1).id.to_s,
-                to_account_id: accounts(:expense3).id.to_s,
-                confirmation_required: '1'
-              },
-              year: items(:item11).action_date.year,
-              month: items(:item11).action_date.month)
+          Teller.update_entry(users(:user1), items(:item11).id, { name: 'あああテスト11いいい' })
           get :index, keyword: 'テスト  い'
         end
 
@@ -224,18 +179,7 @@ describe EntriesController do
 
       context "with keyword which has % ," do
         before do
-          xhr(:put, :update,
-              id: items(:item11).id.to_s,
-              entry: {
-                name: 'あああテスト11%いいい',
-                action_date: items(:item11).action_date.strftime("%Y/%m/%d"),
-                amount: "100000",
-                from_account_id: accounts(:bank1).id.to_s,
-                to_account_id: accounts(:expense3).id.to_s,
-                confirmation_required: '1'
-              },
-              year: items(:item11).action_date.year,
-              month: items(:item11).action_date.month)
+          Teller.update_entry(users(:user1), items(:item11).id, { name: 'あああテスト11%いいい' })
           get :index, keyword: 'テスト11%い'
         end
 
