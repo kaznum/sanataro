@@ -69,4 +69,5 @@ Sanataro::Application.configure do
   config.action_mailer.default_url_options = { host: "sanataro.example.com" }
 
   config.eager_load = true
+  config.active_record.dump_schema_after_migration = false
 end
