@@ -15,7 +15,7 @@ describe ChartData::YearlyAssetsController do
 
     context "after login," do
       before do
-        login
+        dummy_login
       end
 
       context "when id is invalid format," do

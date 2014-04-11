@@ -227,7 +227,7 @@ describe LoginController do
     context "after login," do
       context "without autologin in cookies," do
         before do
-          login
+          dummy_login
           get :do_logout
         end
 
@@ -245,7 +245,7 @@ describe LoginController do
 
       context "with autologin in cookies," do
         before do
-          login
+          dummy_login
           login_user_id = users(:user1).id
           mock_ak = mock_model(AutologinKey, user_id: login_user_id)
           mock_ak.should_receive(:destroy)

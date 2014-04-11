@@ -18,7 +18,7 @@ describe EntriesController do
       before do
         mock_user
         User.should_receive(:find).with(mock_user.id).at_least(1).and_return(mock_user)
-        login
+        dummy_login
       end
 
       context "when input values are invalid," do
@@ -410,9 +410,7 @@ describe EntriesController do
     end
 
     context "after login," do
-      before do
-        login
-      end
+      before { dummy_login }
 
       [:item1, :adjustment2, :credit_refill31].each do |item_name|
         shared_examples_for "execute edit successfully of #{item_name.to_s}" do
@@ -461,9 +459,7 @@ describe EntriesController do
     end
 
     context "after login," do
-      before do
-        login
-      end
+      before { dummy_login }
 
       context "with valid id," do
         before do
@@ -487,9 +483,7 @@ describe EntriesController do
     end
 
     context "after login," do
-      before do
-        login
-      end
+      before { dummy_login }
 
       context "without any params," do
         before do
@@ -626,7 +620,7 @@ describe EntriesController do
       before do
         mock_user
         User.should_receive(:find).with(mock_user.id).at_least(1).and_return(mock_user)
-        login
+        dummy_login
       end
 
       context "when id in params is invalid," do
@@ -651,7 +645,7 @@ describe EntriesController do
             @old_bank1pl = monthly_profit_losses(:bank1200802)
             @old_expense3pl = monthly_profit_losses(:expense3200802)
 
-            login
+            dummy_login
 
             xhr :delete, :destroy, id: @old_item1.id, year: @old_item1.action_date.year, month: @old_item1.action_date.month
           end
@@ -694,7 +688,7 @@ describe EntriesController do
             @old_bank1 = monthly_profit_losses(:bank1200802)
             @old_income = MonthlyProfitLoss.where(user_id: users(:user1).id, account_id: accounts(:income2).id, month: Date.new(2008, 2)).first
 
-            login
+            dummy_login
             date = @item_to_del.action_date
             xhr :delete, :destroy, id: @item_to_del.id, year: date.year.to_s, month: date.month.to_s, day: date.day
           end
@@ -729,7 +723,7 @@ describe EntriesController do
 
         context "given there is no future's adjustment," do
           before do
-            login
+            dummy_login
             xhr :post, :create, entry: { name: 'test', amount: '1000', action_date: '2008/2/25', from_account_id: '11', to_account_id: '13' }, year: 2008, month: 2
             @item = Item.where(name: 'test', from_account_id: 11, to_account_id: 13).first
             @old_bank11pl = MonthlyProfitLoss.where(account_id: 11, month: Date.new(2008, 2)).first
@@ -765,7 +759,7 @@ describe EntriesController do
           context "and payment date is in 2 months," do
             let(:action) { -> { xhr :delete, :destroy, id: @item.id, year: 2008, month: 2 } }
             before do
-              login
+              dummy_login
               # dummy data
               xhr :post, :create, entry: { name: 'test', amount: '1000', action_date: '2008/2/10', from_account_id: '4', to_account_id: '3' }, year: 2008, month: 2
               @item = Item.where(name: 'test', from_account_id: 4, to_account_id: 3).first
@@ -806,7 +800,7 @@ describe EntriesController do
               cr = credit_relations(:cr1)
               cr.update_attributes!(payment_month: 0, payment_day: 25, settlement_day: 11)
 
-              login
+              dummy_login
               # dummy data
               xhr :post, :create, entry: { name: 'test', amount: '1000', action_date: '2008/2/10', from_account_id: '4', to_account_id: '3' }, year: 2008, month: 2
               @item = Item.where(name: 'test', from_account_id: 4, to_account_id: 3).first
@@ -856,7 +850,7 @@ describe EntriesController do
         context "with correct id," do
           context "when change adj2's amount" do
             before do
-              login
+              dummy_login
 
               @init_adj2 = Item.find(items(:adjustment2).id)
               @init_adj4 = Item.find(items(:adjustment4).id)
@@ -895,7 +889,7 @@ describe EntriesController do
 
           context "adj4を削除。影響をうけるのはadj6と,200802, 200803のm_pl" do
             before do
-              login
+              dummy_login
 
               # データの初期化
               @init_adj2 = Item.find(items(:adjustment2).id)
@@ -954,7 +948,7 @@ describe EntriesController do
 
           context "when destroying adj6 which effects no item/adjustment," do
             before do
-              login
+              dummy_login
 
               @init_adj2 = Item.find(items(:adjustment2).id)
               @init_adj4 = Item.find(items(:adjustment4).id)
@@ -1034,9 +1028,7 @@ describe EntriesController do
     end
 
     context "after login, " do
-      before do
-        login
-      end
+      before { dummy_login }
 
       context "when validation errors happen," do
         before do
@@ -1310,7 +1302,7 @@ describe EntriesController do
       context "with invalid params when only_add = 'true'," do
         before do
           @init_item_count = Item.count
-          login
+          dummy_login
           xhr :post, :create, entry: { action_date: Date.today.strftime("%Y/%m/%d"), name: '', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id }, only_add: 'true'
         end
 
@@ -1335,7 +1327,7 @@ describe EntriesController do
           @init_pl0801 = monthly_profit_losses(:bank1200801)
           @init_pl0802 = monthly_profit_losses(:bank1200802)
           @init_pl0803 = monthly_profit_losses(:bank1200803)
-          login
+          dummy_login
         end
 
         context "created before adjustment which is in the same month," do
@@ -1611,7 +1603,7 @@ describe EntriesController do
       describe "credit card payment" do
         context "created item with credit card, purchased before the settlement date of the month" do
           before do
-            login
+            dummy_login
             xhr(:post, :create,
                 entry: {
                   action_date: '2008/02/10',
@@ -1664,7 +1656,7 @@ describe EntriesController do
 
         context "created item with credit card, purchased before the settlement date of the month" do
           before do
-            login
+            dummy_login
             cr1 = credit_relations(:cr1)
             cr1.settlement_day = 15
             cr1.save.should be_true
@@ -1727,7 +1719,7 @@ describe EntriesController do
             @cr1 = credit_relations(:cr1)
             @cr1.payment_day = 99
             @cr1.save.should be_true
-            login
+            dummy_login
 
             xhr(:post, :create,
                 entry: {
@@ -1812,7 +1804,7 @@ describe EntriesController do
 
         context "add adjustment before any of the adjustments," do
           before do
-            login
+            dummy_login
             @date = items(:adjustment2).action_date - 1
             @action = lambda {
               xhr(:post, :create,
@@ -2024,7 +2016,7 @@ describe EntriesController do
 
           before do
             @amount_before = total_amount_to(date)
-            login
+            dummy_login
           end
 
           describe "response" do
@@ -2098,7 +2090,7 @@ describe EntriesController do
 
           before do
             @amount_before = total_amount_to(date)
-            login
+            dummy_login
           end
           describe "response" do
             before do
@@ -2174,7 +2166,7 @@ describe EntriesController do
 
           before do
             @amount_before = total_amount_to(date)
-            login
+            dummy_login
           end
           describe "response" do
             before do
@@ -2249,7 +2241,7 @@ describe EntriesController do
 
           before do
             @amount_before = total_amount_to(date)
-            login
+            dummy_login
           end
           describe "response" do
             before do
@@ -2318,9 +2310,7 @@ describe EntriesController do
     end
 
     context "after login," do
-      before do
-        login
-      end
+      before { dummy_login }
 
       describe "update adjustment" do
         context "without params[:to_account_id]" do
@@ -2356,7 +2346,7 @@ describe EntriesController do
 
         context "with invalid function for amount" do
           before do
-            login
+            dummy_login
             date = items(:adjustment2).action_date
             @action = lambda {
               xhr(:put, :update,
@@ -2387,7 +2377,7 @@ describe EntriesController do
 
         context "with changing action_date which alredy has another adjustment of the same account" do
           before do
-            login
+            dummy_login
             date = items(:adjustment4).action_date
             @action = lambda {
               xhr(:put, :update,
@@ -3459,7 +3449,7 @@ describe EntriesController do
         describe "updating credit item" do
           context "with same accounts, same month," do
             before do
-              login
+              dummy_login
               xhr(:post, :create,
                   entry: {
                     action_date: '2008/2/10',
@@ -3538,7 +3528,7 @@ describe EntriesController do
 
           context "with same accounts, changed month," do
             before do
-              login
+              dummy_login
               xhr(:post, :create,
                   entry: {
                     action_date: '2008/2/10',
@@ -3626,7 +3616,7 @@ describe EntriesController do
 
           context "with other accounts, same month," do
             before do
-              login
+              dummy_login
               xhr(:post, :create,
                   entry: {
                     action_date: '2008/2/10',
@@ -3707,7 +3697,7 @@ describe EntriesController do
         context "when change child_item's action_date," do
           context "with same month," do
             before do
-              login
+              dummy_login
               xhr(:post, :create,
                   entry: {
                     action_date: '2008/2/10',
@@ -3774,7 +3764,7 @@ describe EntriesController do
 
           context "to next month, which is after adjustment anyway," do
             before do
-              login
+              dummy_login
               xhr(:post, :create,
                   entry: {
                     action_date: '2008/1/10',
@@ -3844,7 +3834,7 @@ describe EntriesController do
 
           context "when change to next month and which changes the order of adjustment," do
             before do
-              login
+              dummy_login
               credit_relations(:cr1).update_attributes!(payment_day: 19)
               xhr(:post, :create,
                   entry: {

@@ -19,7 +19,7 @@ describe Settings::CreditRelationsController do
 
     context "after login," do
       before do
-        login
+        dummy_login
       end
 
       context "when access successfully, " do
@@ -52,7 +52,7 @@ describe Settings::CreditRelationsController do
 
     context "after login," do
       before do
-        login
+        dummy_login
       end
 
       context "when successful access," do
@@ -117,7 +117,7 @@ describe Settings::CreditRelationsController do
 
     context "after login," do
       before do
-        login
+        dummy_login
       end
 
       context "with valid method," do
@@ -178,7 +178,7 @@ describe Settings::CreditRelationsController do
 
     context "after login," do
       before do
-        login
+        dummy_login
       end
 
       context "with invalid id in params," do
@@ -256,7 +256,7 @@ describe Settings::CreditRelationsController do
 
     context "after login," do
       before do
-        login
+        dummy_login
       end
 
       context "with valid_method," do
@@ -326,7 +326,7 @@ describe Settings::CreditRelationsController do
       before do
         @mock_user = mock_model(User, id: users(:user1).id)
         User.should_receive(:find).with(@mock_user.id).at_least(1).and_return(@mock_user)
-        login
+        dummy_login
       end
 
       context "with valid method," do

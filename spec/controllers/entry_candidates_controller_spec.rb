@@ -18,7 +18,7 @@ describe EntryCandidatesController do
 
     context "with login" do
       before do
-        login
+        dummy_login
       end
 
       context "with no params" do

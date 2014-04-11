@@ -15,7 +15,7 @@ describe ChartData::BudgetsController do
 
     context "after login," do
       before do
-        login
+        dummy_login
       end
 
       context "when id's length is not 6 digit," do

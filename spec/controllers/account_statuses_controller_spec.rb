@@ -14,7 +14,7 @@ describe AccountStatusesController do
 
     context "when logined," do
       before do
-        login
+        dummy_login
         xhr :get, :show
       end
 

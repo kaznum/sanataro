@@ -18,7 +18,7 @@ describe Api::EntriesController do
       before do
         mock_user
         User.should_receive(:find_by_id_and_active).with(mock_user.id, true).at_least(1).and_return(mock_user)
-        login
+        dummy_login
       end
 
       context "when input values are invalid," do
@@ -339,7 +339,7 @@ describe Api::EntriesController do
 
     context "after login," do
       before do
-        login
+        dummy_login
       end
 
       context "with valid id," do
@@ -384,7 +384,7 @@ describe Api::EntriesController do
       before do
         mock_user
         User.should_receive(:find_by_id_and_active).with(mock_user.id, true).at_least(1).and_return(mock_user)
-        login
+        dummy_login
       end
 
       context "when id in params is invalid," do
@@ -409,7 +409,7 @@ describe Api::EntriesController do
             @old_bank1pl = monthly_profit_losses(:bank1200802)
             @old_expense3pl = monthly_profit_losses(:expense3200802)
 
-            login
+            dummy_login
 
             delete :destroy, id: @old_item1.id, year: @old_item1.action_date.year, month: @old_item1.action_date.month, format: :json
           end
@@ -452,7 +452,7 @@ describe Api::EntriesController do
             @old_bank1 = monthly_profit_losses(:bank1200802)
             @old_income = MonthlyProfitLoss.where(user_id: users(:user1).id, account_id: accounts(:income2).id, month: Date.new(2008, 2)).first
 
-            login
+            dummy_login
             date = @item_to_del.action_date
             delete :destroy, id: @item_to_del.id, year: date.year.to_s, month: date.month.to_s, day: date.day, format: :json
           end
@@ -492,7 +492,7 @@ describe Api::EntriesController do
 
         context "given there is no future's adjustment," do
           before do
-            login
+            dummy_login
             post :create, entry: { name: 'test', amount: '1000', action_date: '2008/2/25', from_account_id: '11', to_account_id: '13' }, year: 2008, month: 2, format: :json
             @item = Item.where(name: 'test', from_account_id: 11, to_account_id: 13).first
             @old_bank11pl = MonthlyProfitLoss.where(account_id: 11, month: Date.new(2008, 2)).first
@@ -528,7 +528,7 @@ describe Api::EntriesController do
           context "and payment date is in 2 months," do
             let(:action) { lambda { delete :destroy, id: @item.id, year: 2008, month: 2, format: :json } }
             before do
-              login
+              dummy_login
               # dummy data
               post :create, entry: { name: 'test', amount: '1000', action_date: '2008/2/10', from_account_id: '4', to_account_id: '3' }, year: 2008, month: 2, format: :json
               @item = Item.where(name: 'test', from_account_id: 4, to_account_id: 3).first
@@ -569,7 +569,7 @@ describe Api::EntriesController do
               cr = credit_relations(:cr1)
               cr.update_attributes!(payment_month: 0, payment_day: 25, settlement_day: 11)
 
-              login
+              dummy_login
               # dummy data
               post :create, entry: { name: 'test', amount: '1000', action_date: '2008/2/10', from_account_id: '4', to_account_id: '3' }, year: 2008, month: 2, format: :json
               @item = Item.where(name: 'test', from_account_id: 4, to_account_id: 3).first
@@ -619,7 +619,7 @@ describe Api::EntriesController do
         context "with correct id," do
           context "when change adj2's amount" do
             before do
-              login
+              dummy_login
 
               @init_adj2 = Item.find(items(:adjustment2).id)
               @init_adj4 = Item.find(items(:adjustment4).id)
@@ -671,7 +671,7 @@ describe Api::EntriesController do
 
     context "after login, " do
       before do
-        login
+        dummy_login
       end
 
       shared_examples_for "not acceptable" do
@@ -850,7 +850,7 @@ describe Api::EntriesController do
           @init_pl0801 = monthly_profit_losses(:bank1200801)
           @init_pl0802 = monthly_profit_losses(:bank1200802)
           @init_pl0803 = monthly_profit_losses(:bank1200803)
-          login
+          dummy_login
         end
 
         context "created before adjustment which is in the same month," do
@@ -905,7 +905,7 @@ describe Api::EntriesController do
       describe "credit card payment" do
         context "created item with credit card, purchased before the settlement date of the month" do
           before do
-            login
+            dummy_login
             post(:create,
                  entry: {
                    action_date: '2008/02/10',
@@ -1004,7 +1004,7 @@ describe Api::EntriesController do
 
         context "add adjustment before any of the adjustments," do
           before do
-            login
+            dummy_login
             @date = items(:adjustment2).action_date - 1
             @action = lambda {
               post(:create,
@@ -1233,7 +1233,7 @@ describe Api::EntriesController do
       end
 
       before do
-        login
+        dummy_login
       end
 
       describe "update adjustment" do
@@ -1272,7 +1272,7 @@ describe Api::EntriesController do
 
         context "with invalid function for amount" do
           before do
-            login
+            dummy_login
             date = items(:adjustment2).action_date
             @action = -> {
               put(:update,
@@ -1662,7 +1662,7 @@ describe Api::EntriesController do
         describe "updating credit item" do
           context "with same accounts, same month," do
             before do
-              login
+              dummy_login
               post(:create,
                    entry: {
                      action_date: '2008/2/10',
@@ -1754,7 +1754,7 @@ describe Api::EntriesController do
         context "when change child_item's action_date," do
           context "with same month," do
             before do
-              login
+              dummy_login
               post(:create,
                    entry: {
                      action_date: '2008/2/10',

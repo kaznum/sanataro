@@ -15,7 +15,7 @@ describe ProfitLossesController do
 
     context "when logged in," do
       before do
-        login
+        dummy_login
       end
       context "when month is not specified," do
         before do
@@ -112,7 +112,7 @@ describe ProfitLossesController do
 
     context "when logged in," do
       before do
-        login
+        dummy_login
       end
 
       context "when correct id is specified," do

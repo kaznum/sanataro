@@ -16,7 +16,7 @@ describe Settings::UsersController do
 
     context "after login," do
       before do
-        login
+        dummy_login
       end
 
       context "when the method is valid," do
@@ -45,7 +45,7 @@ describe Settings::UsersController do
 
     context "after login," do
       before do
-        login
+        dummy_login
       end
 
       context "when the method is correct," do

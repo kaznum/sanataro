@@ -15,7 +15,7 @@ describe ChartData::YearlyBudgetsController do
 
     context "after login," do
       before do
-        login
+        dummy_login
       end
 
       context "when budget_type is invalid," do

@@ -13,7 +13,7 @@ describe BalanceSheetsController do
 
     context "when logged in," do
       before do
-        login
+        dummy_login
       end
       context "without month in params," do
         before do
@@ -111,7 +111,7 @@ describe BalanceSheetsController do
 
     context "with login," do
       before do
-        login
+        dummy_login
       end
 
       context "with year and month in params," do

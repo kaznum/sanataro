@@ -14,7 +14,7 @@ describe ConfirmationStatusesController do
 
     context "after login," do
       before do
-        login
+        dummy_login
         xhr :get, :show
       end
       describe "response" do

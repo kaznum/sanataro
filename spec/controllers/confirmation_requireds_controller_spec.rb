@@ -13,7 +13,7 @@ describe ConfirmationRequiredsController do
 
     context "after login" do
       before do
-        login
+        dummy_login
       end
 
       context "when tag is specified," do

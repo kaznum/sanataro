@@ -87,7 +87,7 @@ RSpec.configure do |config|
     Capybara.javascript_driver = :webkit
   end
 
-  def login(only_add = false)
+  def dummy_login(only_add = false)
     orig_controller = @controller
     @controller = LoginController.new
     xhr :post, :do_login, login: 'user1', password: '123456', autologin: true, only_add: only_add

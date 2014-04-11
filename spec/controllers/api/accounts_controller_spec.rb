@@ -80,7 +80,7 @@ describe Api::AccountsController do
 
     context "after login," do
       before do
-        login
+        dummy_login
         get :index, format: :json
       end
 

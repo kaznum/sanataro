@@ -15,7 +15,7 @@ describe Settings::AccountsController do
 
     context "after login," do
       before do
-        login
+        dummy_login
       end
 
       context "when params[:type] is invalid," do
@@ -98,7 +98,7 @@ describe Settings::AccountsController do
 
     context "after login," do
       before do
-        login
+        dummy_login
       end
 
       context "via xhr," do
@@ -163,7 +163,7 @@ describe Settings::AccountsController do
 
     context "after login," do
       before do
-        login
+        dummy_login
       end
 
       context "when method is xhr get," do
@@ -212,7 +212,7 @@ describe Settings::AccountsController do
 
     context "after login" do
       before do
-        login
+        dummy_login
       end
 
       context "when method is xhr delete," do
@@ -289,7 +289,7 @@ describe Settings::AccountsController do
 
     context "after login," do
       before do
-        login
+        dummy_login
       end
 
       context "with xhr put method," do
@@ -396,7 +396,7 @@ describe Settings::AccountsController do
 
     context "after login," do
       before do
-        login
+        dummy_login
       end
 
       context "when accessed by xhr get," do
