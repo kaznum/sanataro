@@ -34,10 +34,7 @@ group :test do
   gem "rb-fsevent"
   gem "webrat"
 
-  # TODO
-  # PostgreSQLAdapter is being used with sqlite3
-  # https://github.com/bmabey/database_cleaner/issues/224
-  gem "database_cleaner", '>= 1.0.0', '< 1.1.0'
+  gem "database_cleaner", '>= 1.2.0'
   gem "guard-rspec"
   gem "guard-cucumber"
   gem "guard-spork"
