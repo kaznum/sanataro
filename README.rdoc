@@ -20,7 +20,7 @@ built with Ruby on Rails.
 * Ruby:
   * MRI (tested continuously with 1.9.3, 2.0.0, 2.1.0)
   * JRuby 1.7 (tested with JRuby 1.7.8 continuously)
-* Ruby on Rails: 4.0 (Check Gemfile for the minor version)
+* Ruby on Rails: 4.1 (Check Gemfile for the minor version)
 * DB:
   * MySQL
   * SQLite3
