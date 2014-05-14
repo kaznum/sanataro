@@ -1,0 +1,1 @@
+Rails.application.config.assets.precompile += %w( farbtastic.js farbtastic.css hide_tweet_button.css settings/accounts.js flot/excanvas.min.js charts.js profit_losses.js balance_sheets.js entries_new_simple.css entries_new_simple.js items.js )
