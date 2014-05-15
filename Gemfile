@@ -5,7 +5,7 @@ source 'http://rubygems.org'
 ### Please see gemfiles/Gemfile.jruby for JRuby env
 ###
 
-gem 'rails', '>= 4.0.0'
+gem 'rails', '>= 4.1.1'
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -69,7 +69,7 @@ gem 'jquery-ui-rails'
 gem 'settingslogic'
 gem 'memoist'
 
-gem 'twitter-bootstrap-rails'
+gem 'twitter-bootstrap-rails', '>= 2.2.8'
 # Dalli 2.7.0 does not work well with memcached 1.4.5(?)
 gem 'dalli', '< 2.7.0'
 gem 'dalli-store-extensions', :github => "mqt/dalli-store-extensions"

@@ -286,7 +286,7 @@ DEPENDENCIES
   minitest
   mysql2
   pg
-  rails (>= 4.0.0)
+  rails (>= 4.1.1)
   rails-observers
   rails_emoji
   rb-fsevent
@@ -297,7 +297,7 @@ DEPENDENCIES
   spork
   sqlite3
   therubyracer (>= 0.11.4)
-  twitter-bootstrap-rails
+  twitter-bootstrap-rails (>= 2.2.8)
   uglifier
   underscore-rails
   webrat
