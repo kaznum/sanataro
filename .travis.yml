@@ -13,7 +13,7 @@ before_install:
 bundler_args: --without development production
 
 rvm:
-  - 2.1.0
+  - 2.1
   - 2.0.0
   - 1.9.3
   - ruby-head
@@ -32,13 +32,13 @@ gemfile:
 
 matrix:
   exclude:
-    - rvm: 2.1.0
+    - rvm: 2.1
       gemfile: gemfiles/Gemfile.jruby
       env: DB=mysql
-    - rvm: 2.1.0
+    - rvm: 2.1
       gemfile: gemfiles/Gemfile.jruby
       env: DB=postgres
-    - rvm: 2.1.0
+    - rvm: 2.1
       gemfile: gemfiles/Gemfile.jruby
       env: DB=sqlite
     - rvm: 2.0.0
