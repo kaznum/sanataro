@@ -137,7 +137,7 @@ GEM
       rspec-support (~> 3.0.0)
     rspec-mocks (3.0.0)
       rspec-support (~> 3.0.0)
-    rspec-rails (3.0.0)
+    rspec-rails (3.0.1)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       railties (>= 3.0)
