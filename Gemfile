@@ -12,6 +12,8 @@ gem 'rails', '>= 4.1.1'
 
 group :development, :test do
   gem "rspec-rails", ">= 2.13.1", "< 3"
+  gem 'rspec-activemodel-mocks'
+  gem 'rspec-collection_matchers'
   gem "launchy"
   gem "fabrication"
   unless ENV['TRAVIS']
