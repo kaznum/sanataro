@@ -1,21 +1,21 @@
 require 'spec_helper'
 
-describe ApplicationHelper do
+describe ApplicationHelper, :type => :helper do
   describe "colored_account_name" do
     before do
       mock_user = mock_model(User)
-      mock_user.should_receive(:all_accounts).at_least(:once).and_return({ 1 => "<SAMPLE", 2 => "NOT COLORED>" })
-      mock_user.should_receive(:account_bgcolors).at_least(:once).and_return({ 1 => "123456" })
+      expect(mock_user).to receive(:all_accounts).at_least(:once).and_return({ 1 => "<SAMPLE", 2 => "NOT COLORED>" })
+      expect(mock_user).to receive(:account_bgcolors).at_least(:once).and_return({ 1 => "123456" })
       assign(:user, mock_user)
     end
 
     describe "colored" do
       subject { helper.colored_account_name(1) }
-      it { should be == "<span class='label' style='background-color: #123456;'>&lt;SAMPLE</span>".html_safe }
+      it { is_expected.to eq("<span class='label' style='background-color: #123456;'>&lt;SAMPLE</span>".html_safe) }
     end
     describe "not colored" do
       subject { helper.colored_account_name(2) }
-      it { should be == "NOT COLORED&gt;".html_safe }
+      it { is_expected.to eq("NOT COLORED&gt;".html_safe) }
     end
   end
 
@@ -27,7 +27,7 @@ describe ApplicationHelper do
       end
 
       subject { helper.calendar_from(users(:user1)) }
-      it { should be == @min_month.beginning_of_month.months_ago(2).beginning_of_month }
+      it { is_expected.to eq(@min_month.beginning_of_month.months_ago(2).beginning_of_month) }
     end
 
     context "when there is no monthly_profit_losses record," do
@@ -36,7 +36,7 @@ describe ApplicationHelper do
       end
 
       subject { helper.calendar_from(users(:user1)) }
-      it { should be == Date.today.beginning_of_month.months_ago(2).beginning_of_month }
+      it { is_expected.to eq(Date.today.beginning_of_month.months_ago(2).beginning_of_month) }
     end
   end
 
@@ -48,7 +48,7 @@ describe ApplicationHelper do
       end
 
       subject { helper.calendar_to(users(:user1)) }
-      it { should be == @max_month.beginning_of_month.months_since(2).beginning_of_month }
+      it { is_expected.to eq(@max_month.beginning_of_month.months_since(2).beginning_of_month) }
     end
 
     context "when there is no monthly_profit_losses record," do
@@ -57,22 +57,22 @@ describe ApplicationHelper do
       end
 
       subject { helper.calendar_to(users(:user1)) }
-      it { should be == Date.today.beginning_of_month.months_since(2).beginning_of_month }
+      it { is_expected.to eq(Date.today.beginning_of_month.months_since(2).beginning_of_month) }
     end
   end
 
   describe "#highlight" do
     subject { helper.highlight("#hello") }
-    it { should == "$('#hello').effect('highlight', {color: '#{ Settings.effect.highlight.color }'}, #{ Settings.effect.highlight.duration });" }
+    it { is_expected.to eq("$('#hello').effect('highlight', {color: '#{ Settings.effect.highlight.color }'}, #{ Settings.effect.highlight.duration });") }
   end
 
   describe "#fadeout_and_remove" do
     subject { helper.fadeout_and_remove("#hello") }
-    it { should == "$('#hello').fadeOut(#{Settings.effect.fade.duration}, function() {$('#hello').remove();});" }
+    it { is_expected.to eq("$('#hello').fadeOut(#{Settings.effect.fade.duration}, function() {$('#hello').remove();});") }
   end
 
   describe "#today" do
     subject { helper.today }
-    it { should == Date.today }
+    it { is_expected.to eq(Date.today) }
   end
 end

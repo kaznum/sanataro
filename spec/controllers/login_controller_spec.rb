@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe LoginController do
+describe LoginController, :type => :controller do
   fixtures :users, :autologin_keys
 
   describe "#login" do
     shared_examples_for "render login" do
       subject { response }
-      it { should be_success }
-      it { should render_template "login" }
+      it { is_expected.to be_success }
+      it { is_expected.to render_template "login" }
     end
 
     context "without autologin cookie," do
@@ -29,7 +29,7 @@ describe LoginController do
       end
 
       subject { response }
-      it { should redirect_to current_entries_url }
+      it { is_expected.to redirect_to current_entries_url }
     end
 
     context "with session[:disable_autologin]," do
@@ -40,13 +40,17 @@ describe LoginController do
 
       describe "session" do
         subject { session }
-        its([:disable_autologin]) { should be_false }
+
+        describe '[:disable_autologin]' do
+          subject { super()[:disable_autologin] }
+          it { is_expected.to be_falsey }
+        end
       end
 
       describe "response" do
         subject { response }
-        it { should be_success }
-        it { should render_template 'login' }
+        it { is_expected.to be_success }
+        it { is_expected.to render_template 'login' }
       end
     end
 
@@ -65,7 +69,7 @@ describe LoginController do
             get :login
           end
           subject { response }
-          it { should redirect_to current_entries_url }
+          it { is_expected.to redirect_to current_entries_url }
         end
 
         context "with only_add cookie," do
@@ -76,7 +80,7 @@ describe LoginController do
 
           describe "response" do
             subject { response }
-            it { should redirect_to simple_input_url }
+            it { is_expected.to redirect_to simple_input_url }
           end
         end
       end
@@ -108,14 +112,26 @@ describe LoginController do
 
       describe "cookies" do
         subject { cookies }
-        its(['user']) { should be_nil }
-        its(['autologin']) { should be_nil }
-        its(['only_add']) { should be_nil }
+
+        describe "['user']" do
+          subject { super()['user'] }
+          it { is_expected.to be_nil }
+        end
+
+        describe "['autologin']" do
+          subject { super()['autologin'] }
+          it { is_expected.to be_nil }
+        end
+
+        describe "['only_add']" do
+          subject { super()['only_add'] }
+          it { is_expected.to be_nil }
+        end
       end
 
       describe "response" do
         subject { response }
-        it { should render_js_error id: "warning", default_message: I18n.t("error.user_or_password_is_invalid") }
+        it { is_expected.to render_js_error id: "warning", default_message: I18n.t("error.user_or_password_is_invalid") }
       end
     end
 
@@ -126,25 +142,41 @@ describe LoginController do
 
       describe "response" do
         subject { response }
-        it { should redirect_by_js_to current_entries_url }
+        it { is_expected.to redirect_by_js_to current_entries_url }
       end
 
       describe "session" do
         subject { session }
-        its([:user_id]) { should be == users(:user1).id }
+
+        describe '[:user_id]' do
+          subject { super()[:user_id] }
+          it { is_expected.to eq(users(:user1).id) }
+        end
       end
 
       describe "cookies" do
         subject { cookies }
-        its(['user']) { should be_nil }
-        its(['autologin']) { should be_nil }
-        its(['only_add']) { should be_nil }
+
+        describe "['user']" do
+          subject { super()['user'] }
+          it { is_expected.to be_nil }
+        end
+
+        describe "['autologin']" do
+          subject { super()['autologin'] }
+          it { is_expected.to be_nil }
+        end
+
+        describe "['only_add']" do
+          subject { super()['only_add'] }
+          it { is_expected.to be_nil }
+        end
       end
     end
 
     context "when AutologinKey.cleanup is called," do
       it "should send AutologinKey.cleanup," do
-        AutologinKey.should_receive(:cleanup)
+        expect(AutologinKey).to receive(:cleanup)
         xhr :post, :do_login, login: users(:user1).login, password: '123456', autologin: "1", only_add: '1'
       end
     end
@@ -156,24 +188,40 @@ describe LoginController do
 
       describe "response" do
         subject { response }
-        it { should redirect_by_js_to current_entries_url }
+        it { is_expected.to redirect_by_js_to current_entries_url }
       end
 
       describe "cookies" do
         subject { cookies }
-        its(['user']) { should be == users(:user1).login }
-        its(['autologin']) { should_not be_nil }
-        its(['only_add']) { should be_nil }
+
+        describe "['user']" do
+          subject { super()['user'] }
+          it { is_expected.to eq(users(:user1).login) }
+        end
+
+        describe "['autologin']" do
+          subject { super()['autologin'] }
+          it { is_expected.not_to be_nil }
+        end
+
+        describe "['only_add']" do
+          subject { super()['only_add'] }
+          it { is_expected.to be_nil }
+        end
       end
 
       describe "session" do
         subject { session }
-        its(['user_id']) { should be == users(:user1).id }
+
+        describe "['user_id']" do
+          subject { super()['user_id'] }
+          it { is_expected.to eq(users(:user1).id) }
+        end
       end
 
       describe "AutologinKey.count" do
         subject { AutologinKey.where(user_id: users(:user1).id).where("created_at > ?", DateTime.now - 30).count }
-        it { should be > 0 }
+        it { is_expected.to be > 0 }
       end
     end
 
@@ -184,24 +232,40 @@ describe LoginController do
 
       describe "response" do
         subject { response }
-        it { should redirect_by_js_to simple_input_url }
+        it { is_expected.to redirect_by_js_to simple_input_url }
       end
 
       describe "cookies" do
         subject  { cookies }
-        its(['user']) { should be == users(:user1).login }
-        its(['autologin']) { should_not be_nil }
-        its(['only_add']) { should be == '1' }
+
+        describe "['user']" do
+          subject { super()['user'] }
+          it { is_expected.to eq(users(:user1).login) }
+        end
+
+        describe "['autologin']" do
+          subject { super()['autologin'] }
+          it { is_expected.not_to be_nil }
+        end
+
+        describe "['only_add']" do
+          subject { super()['only_add'] }
+          it { is_expected.to eq('1') }
+        end
       end
 
       describe "session" do
         subject { session }
-        its([:user_id]) { should be == users(:user1).id }
+
+        describe '[:user_id]' do
+          subject { super()[:user_id] }
+          it { is_expected.to eq(users(:user1).id) }
+        end
       end
 
       describe "AutologinKey.count" do
         subject { AutologinKey.where(user_id: users(:user1).id).where("created_at > ?", DateTime.now - 30).count }
-        it { should be > 0 }
+        it { is_expected.to be > 0 }
       end
     end
   end
@@ -215,12 +279,16 @@ describe LoginController do
 
       describe "count of autologin keys" do
         subject { AutologinKey.count }
-        it { should be == @previous_count_of_autologin_keys }
+        it { is_expected.to eq(@previous_count_of_autologin_keys) }
       end
 
       describe "session" do
         subject { session }
-        its([:user_id]) { should be_nil }
+
+        describe '[:user_id]' do
+          subject { super()[:user_id] }
+          it { is_expected.to be_nil }
+        end
       end
     end
 
@@ -233,13 +301,21 @@ describe LoginController do
 
         describe "response" do
           subject { response }
-          it { should redirect_to login_url }
+          it { is_expected.to redirect_to login_url }
         end
 
         describe "session" do
           subject { session }
-          its([:user_id]) { should be_nil }
-          its([:disable_autologin]) { should be_true }
+
+          describe '[:user_id]' do
+            subject { super()[:user_id] }
+            it { is_expected.to be_nil }
+          end
+
+          describe '[:disable_autologin]' do
+            subject { super()[:disable_autologin] }
+            it { is_expected.to be_truthy }
+          end
         end
       end
 
@@ -248,21 +324,29 @@ describe LoginController do
           dummy_login
           login_user_id = users(:user1).id
           mock_ak = mock_model(AutologinKey, user_id: login_user_id)
-          mock_ak.should_receive(:destroy)
-          AutologinKey.should_receive(:matched_key).with(login_user_id, "12345abc").and_return(mock_ak)
+          expect(mock_ak).to receive(:destroy)
+          expect(AutologinKey).to receive(:matched_key).with(login_user_id, "12345abc").and_return(mock_ak)
           @request.cookies['autologin'] = '12345abc'
           get :do_logout
         end
 
         describe "response" do
           subject { response }
-          it { should redirect_to login_url }
+          it { is_expected.to redirect_to login_url }
         end
 
         describe "session" do
           subject { session }
-          its([:disable_autologin]) { should be_true }
-          its([:user_id]) { should be_nil }
+
+          describe '[:disable_autologin]' do
+            subject { super()[:disable_autologin] }
+            it { is_expected.to be_truthy }
+          end
+
+          describe '[:user_id]' do
+            subject { super()[:user_id] }
+            it { is_expected.to be_nil }
+          end
         end
       end
     end
@@ -274,8 +358,8 @@ describe LoginController do
     end
 
     subject { response }
-    it { should be_success }
-    it { should render_template "create_user" }
+    it { is_expected.to be_success }
+    it { is_expected.to render_template "create_user" }
   end
 
   describe "#do_create_user" do
@@ -286,30 +370,41 @@ describe LoginController do
 
       describe "response" do
         subject { response }
-        it { should render_template "do_create_user" }
-        it { should be_success }
+        it { is_expected.to render_template "do_create_user" }
+        it { is_expected.to be_success }
       end
 
       describe "created user" do
         subject { User.order("id desc").first }
-        its(:confirmation) { should_not be_nil }
-        its(:confirmation) { should have(15).characters }
-        it { should_not be_active }
+
+        describe '#confirmation' do
+          subject { super().confirmation }
+          it { is_expected.not_to be_nil }
+        end
+
+        describe '#confirmation' do
+          subject { super().confirmation }
+
+          it 'has 15 characters' do
+            expect(subject.characters.size).to eq(15)
+          end
+        end
+        it { is_expected.not_to be_active }
       end
     end
 
     context "when validation errors happens," do
       before do
         mock_user = mock_model(User)
-        User.should_receive(:new).once.and_return(mock_user)
-        mock_user.should_receive(:save!).and_raise(ActiveRecord::RecordInvalid.new(mock_user))
-        mock_user.should_receive(:errors).and_return([])
+        expect(User).to receive(:new).once.and_return(mock_user)
+        expect(mock_user).to receive(:save!).and_raise(ActiveRecord::RecordInvalid.new(mock_user))
+        expect(mock_user).to receive(:errors).and_return([])
         xhr :post, :do_create_user, login: 'hogehoge2', password_plain: 'hagehage', password_confirmation: 'hhhhhhh', email: 'email@example.com'
       end
 
       describe "response" do
         subject { response }
-        it { should render_js_error id: "warning", default_message: '' }
+        it { is_expected.to render_js_error id: "warning", default_message: '' }
       end
     end
   end
@@ -318,11 +413,11 @@ describe LoginController do
     context "when params are correct," do
       before do
         mock_user = mock_model(User)
-        User.should_receive(:find_by_login_and_confirmation).with('test200', '123456789012345').and_return(mock_user)
-        mock_user.should_receive(:store_sample)
+        expect(User).to receive(:find_by_login_and_confirmation).with('test200', '123456789012345').and_return(mock_user)
+        expect(mock_user).to receive(:store_sample)
 
-        mock_user.should_receive(:update_attributes!).with(active: true)
-        mock_user.should_receive(:deliver_signup_complete)
+        expect(mock_user).to receive(:update_attributes!).with(active: true)
+        expect(mock_user).to receive(:deliver_signup_complete)
         user = User.new(password: '1234567', password_confirmation: '1234567', confirmation: '123456789012345', email: 'test@example.com', active: false)
         user.login = 'test200'
         user.save!
@@ -331,8 +426,8 @@ describe LoginController do
 
       describe "response" do
         subject { response }
-        it { should be_success }
-        it { should render_template "confirmation" }
+        it { is_expected.to be_success }
+        it { is_expected.to render_template "confirmation" }
       end
     end
 
@@ -342,18 +437,18 @@ describe LoginController do
         user.login = 'test200'
         user.save!
         mock_user = mock_model(User).as_null_object
-        User.should_receive(:find_by_login_and_confirmation).with('test200', '1234567890').and_return(nil)
-        mock_user.should_not_receive(:update_attributes!).with(active: true)
+        expect(User).to receive(:find_by_login_and_confirmation).with('test200', '1234567890').and_return(nil)
+        expect(mock_user).not_to receive(:update_attributes!).with(active: true)
         mock_mailer = double
-        mock_mailer.should_not_receive(:deliver)
-        Mailer.should_not_receive(:signup_complete).with(an_instance_of(User))
+        expect(mock_mailer).not_to receive(:deliver)
+        expect(Mailer).not_to receive(:signup_complete).with(an_instance_of(User))
         get :confirmation, login: 'test200', sid: '1234567890'
       end
 
       describe "response" do
         subject { response }
-        it { should be_success }
-        it { should render_template "confirmation_error" }
+        it { is_expected.to be_success }
+        it { is_expected.to render_template "confirmation_error" }
       end
     end
   end

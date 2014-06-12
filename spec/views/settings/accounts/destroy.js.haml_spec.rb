@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/settings/accounts/destroy" do
+describe "/settings/accounts/destroy", :type => :view do
   fixtures :users, :accounts
 
   context "when enough params," do

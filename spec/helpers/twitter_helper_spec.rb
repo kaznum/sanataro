@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe TwitterHelper do
+describe TwitterHelper, :type => :helper do
   fixtures :users, :accounts
   context "when to_account_id is outgoing," do
     before do
@@ -11,11 +11,11 @@ describe TwitterHelper do
     end
 
     subject { helper.tweet_button(@item) }
-    it { should match /#{URI.escape(@item.name)}/ }
-    it { should match /#{URI.escape("[" + Account.find(3).name + "]")}/ }
-    it { should match /#{URI.escape("1,500円")}/ }
-    it { should match /hashtags=aaa,bbb,sanataro/ }
-    it { should match /onclick="open_twitter\(this.getAttribute\(&#39;href&#39;\)\);return false;/ }
+    it { is_expected.to match /#{URI.escape(@item.name)}/ }
+    it { is_expected.to match /#{URI.escape("[" + Account.find(3).name + "]")}/ }
+    it { is_expected.to match /#{URI.escape("1,500円")}/ }
+    it { is_expected.to match /hashtags=aaa,bbb,sanataro/ }
+    it { is_expected.to match /onclick="open_twitter\(this.getAttribute\(&#39;href&#39;\)\);return false;/ }
   end
 
   context "when from_account_id is income," do
@@ -26,11 +26,11 @@ describe TwitterHelper do
     end
 
     subject { helper.tweet_button(@item) }
-    it { should match /#{URI.escape(@item.name)}/ }
-    it { should match /#{URI.escape("[" + Account.find(2).name + "]")}/ }
-    it { should match /#{URI.escape("1,500円")}/ }
-    it { should match /hashtags=aaa,bbb,sanataro/ }
-    it { should match /onclick="open_twitter\(this.getAttribute\(&#39;href&#39;\)\);return false;/ }
+    it { is_expected.to match /#{URI.escape(@item.name)}/ }
+    it { is_expected.to match /#{URI.escape("[" + Account.find(2).name + "]")}/ }
+    it { is_expected.to match /#{URI.escape("1,500円")}/ }
+    it { is_expected.to match /hashtags=aaa,bbb,sanataro/ }
+    it { is_expected.to match /onclick="open_twitter\(this.getAttribute\(&#39;href&#39;\)\);return false;/ }
   end
 
   context "when both from_account_id and to_account_id are bank accounts," do
@@ -41,12 +41,12 @@ describe TwitterHelper do
     end
 
     subject { helper.tweet_button(@item) }
-    it { should match /#{URI.escape(@item.name)}/ }
-    it { should_not match /#{URI.escape(Account.find(11).name)}/ }
-    it { should_not match /#{URI.escape(Account.find(1).name)}/ }
-    it { should match /#{URI.escape("1,500円")}/ }
-    it { should match /hashtags=aaa,bbb,sanataro/ }
-    it { should match /onclick="open_twitter\(this.getAttribute\(&#39;href&#39;\)\);return false;/ }
+    it { is_expected.to match /#{URI.escape(@item.name)}/ }
+    it { is_expected.not_to match /#{URI.escape(Account.find(11).name)}/ }
+    it { is_expected.not_to match /#{URI.escape(Account.find(1).name)}/ }
+    it { is_expected.to match /#{URI.escape("1,500円")}/ }
+    it { is_expected.to match /hashtags=aaa,bbb,sanataro/ }
+    it { is_expected.to match /onclick="open_twitter\(this.getAttribute\(&#39;href&#39;\)\);return false;/ }
   end
 
   context "when item is adjustment," do
@@ -57,10 +57,10 @@ describe TwitterHelper do
     end
 
     subject { helper.tweet_button(@item) }
-    it { should match /#{URI.escape(@item.name)}/ }
-    it { should_not match /#{URI.escape(Account.find(1).name)}/ }
-    it { should match /#{URI.escape("1,500円")}/ }
-    it { should match /hashtags=aaa,bbb,sanataro/ }
-    it { should match /onclick="open_twitter\(this.getAttribute\(&#39;href&#39;\)\);return false;/ }
+    it { is_expected.to match /#{URI.escape(@item.name)}/ }
+    it { is_expected.not_to match /#{URI.escape(Account.find(1).name)}/ }
+    it { is_expected.to match /#{URI.escape("1,500円")}/ }
+    it { is_expected.to match /hashtags=aaa,bbb,sanataro/ }
+    it { is_expected.to match /onclick="open_twitter\(this.getAttribute\(&#39;href&#39;\)\);return false;/ }
   end
 end

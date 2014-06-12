@@ -1,21 +1,33 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe Mailer do
+describe Mailer, :type => :model do
   describe "signup_confirmation" do
     let(:user) { mock_model(User, email: "foo@example.com", login: "userhogehoge", confirmation: "AABBCCDD") }
     let(:mail) { Mailer.signup_confirmation(user) }
 
     describe "mail" do
       subject { mail }
-      its(:subject) { should == "[#{Settings.product_name}] ユーザ登録は完了していません" }
-      its(:to) { should == [user.email] }
-      its(:from) { should == [Settings.system_mail_address] }
+
+      describe '#subject' do
+        subject { super().subject }
+        it { is_expected.to eq("[#{Settings.product_name}] ユーザ登録は完了していません") }
+      end
+
+      describe '#to' do
+        subject { super().to }
+        it { is_expected.to eq([user.email]) }
+      end
+
+      describe '#from' do
+        subject { super().from }
+        it { is_expected.to eq([Settings.system_mail_address]) }
+      end
     end
 
     describe "user" do
       subject { mail.body.encoded }
-      it { should match(user.login) }
+      it { is_expected.to match(user.login) }
     end
   end
 
@@ -25,14 +37,26 @@ describe Mailer do
 
     describe "mail" do
       subject { mail }
-      its(:subject) { should == "[#{Settings.product_name}] ユーザ登録完了" }
-      its(:to) { should == [user.email] }
-      its(:from) { should == [Settings.system_mail_address] }
+
+      describe '#subject' do
+        subject { super().subject }
+        it { is_expected.to eq("[#{Settings.product_name}] ユーザ登録完了") }
+      end
+
+      describe '#to' do
+        subject { super().to }
+        it { is_expected.to eq([user.email]) }
+      end
+
+      describe '#from' do
+        subject { super().from }
+        it { is_expected.to eq([Settings.system_mail_address]) }
+      end
     end
 
     describe "user" do
       subject { mail.body.encoded }
-      it { should match(user.login) }
+      it { is_expected.to match(user.login) }
     end
   end
 end

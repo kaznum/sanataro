@@ -1,7 +1,7 @@
 # - * - coding: utf-8 - * -
 require 'spec_helper'
 
-describe ChartData::YearlyAssetsController do
+describe ChartData::YearlyAssetsController, :type => :controller do
   fixtures :users
 
   describe "#show" do
@@ -35,7 +35,7 @@ describe ChartData::YearlyAssetsController do
           end
           describe "response" do
             subject { response }
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "response.body" do
@@ -43,10 +43,10 @@ describe ChartData::YearlyAssetsController do
             it {
               date = Date.new(1999, 2)
               json = ActiveSupport::JSON.decode(subject)
-              json.should have(1).keys
+              expect(json.keys.size).to eq(1)
               ["total"].each do |key|
-                json[key]["data"].should have(12).entries
-                json[key]["data"].should include([date.months_ago(11).to_time.to_i * 1000, 0])
+                expect(json[key]["data"].entries.size).to eq(12)
+                expect(json[key]["data"]).to include([date.months_ago(11).to_time.to_i * 1000, 0])
               end
             }
           end
@@ -79,7 +79,7 @@ describe ChartData::YearlyAssetsController do
 
           describe "response" do
             subject { response }
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "response.body" do
@@ -87,23 +87,23 @@ describe ChartData::YearlyAssetsController do
             it {
               date = Date.new(1999, 2)
               json = ActiveSupport::JSON.decode(subject)
-              json.should have(3).keys
+              expect(json.keys.size).to eq(3)
               ["account_#{@account1.id}", "account_#{@account3.id}", "total"].each do |key|
-                json[key]["data"].should have(12).entries
+                expect(json[key]["data"].entries.size).to eq(12)
               end
 
-              json["account_#{@account1.id}"]["label"].should be == "その1"
-              json["account_#{@account3.id}"]["label"].should be == "その3"
-              json["total"]["label"].should be == "合計"
+              expect(json["account_#{@account1.id}"]["label"]).to eq("その1")
+              expect(json["account_#{@account3.id}"]["label"]).to eq("その3")
+              expect(json["total"]["label"]).to eq("合計")
 
-              json["account_#{@account1.id}"]["data"].should include([date.months_ago(9).to_time.to_i * 1000, -300])
-              json["account_#{@account1.id}"]["data"].should include([date.months_ago(8).to_time.to_i * 1000, -400])
-              json["account_#{@account1.id}"]["data"].should include([date.months_ago(0).to_time.to_i * 1000, -400])
+              expect(json["account_#{@account1.id}"]["data"]).to include([date.months_ago(9).to_time.to_i * 1000, -300])
+              expect(json["account_#{@account1.id}"]["data"]).to include([date.months_ago(8).to_time.to_i * 1000, -400])
+              expect(json["account_#{@account1.id}"]["data"]).to include([date.months_ago(0).to_time.to_i * 1000, -400])
 
-              json["total"]["data"].should include([date.months_ago(9).to_time.to_i * 1000, -300])
-              json["total"]["data"].should include([date.months_ago(8).to_time.to_i * 1000, -400])
-              json["total"]["data"].should include([date.months_ago(2).to_time.to_i * 1000, -400])
-              json["total"]["data"].should include([date.months_ago(1).to_time.to_i * 1000, 500])
+              expect(json["total"]["data"]).to include([date.months_ago(9).to_time.to_i * 1000, -300])
+              expect(json["total"]["data"]).to include([date.months_ago(8).to_time.to_i * 1000, -400])
+              expect(json["total"]["data"]).to include([date.months_ago(2).to_time.to_i * 1000, -400])
+              expect(json["total"]["data"]).to include([date.months_ago(1).to_time.to_i * 1000, 500])
             }
           end
         end

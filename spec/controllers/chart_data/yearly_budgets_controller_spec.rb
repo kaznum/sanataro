@@ -1,7 +1,7 @@
 # coding: utf-8
 require 'spec_helper'
 
-describe ChartData::YearlyBudgetsController do
+describe ChartData::YearlyBudgetsController, :type => :controller do
   fixtures :users
 
   describe "#show" do
@@ -44,19 +44,19 @@ describe ChartData::YearlyBudgetsController do
             end
             describe "response" do
               subject { response }
-              it { should be_success }
+              it { is_expected.to be_success }
             end
             describe "response.body" do
               subject { response.body }
               specify {
                 date = Date.new(2008, 2)
                 json = ActiveSupport::JSON.decode(subject)
-                json.should have(1).keys
-                json["account_-1"]["label"].should be == "Unknown"
-                json["account_-1"]["data"].should have(12).entries
-                json["account_-1"]["data"].should include([date.months_ago(11).to_time.to_i * 1000, 0])
-                json["account_-1"]["data"].should include([date.months_ago(5).to_time.to_i * 1000, 0])
-                json["account_-1"]["data"].should include([date.months_ago(0).to_time.to_i * 1000, 0])
+                expect(json.keys.size).to eq(1)
+                expect(json["account_-1"]["label"]).to eq("Unknown")
+                expect(json["account_-1"]["data"].entries.size).to eq(12)
+                expect(json["account_-1"]["data"]).to include([date.months_ago(11).to_time.to_i * 1000, 0])
+                expect(json["account_-1"]["data"]).to include([date.months_ago(5).to_time.to_i * 1000, 0])
+                expect(json["account_-1"]["data"]).to include([date.months_ago(0).to_time.to_i * 1000, 0])
               }
             end
           end
@@ -90,7 +90,7 @@ describe ChartData::YearlyBudgetsController do
             end
             describe "response" do
               subject { response }
-              it { should be_success }
+              it { is_expected.to be_success }
             end
 
             describe "response.body" do
@@ -98,20 +98,20 @@ describe ChartData::YearlyBudgetsController do
               specify {
                 date = Date.new(1999, 2)
                 json = ActiveSupport::JSON.decode(subject)
-                json.should have(2).keys
-                json["account_-1"]["label"].should be == "Unknown"
-                json["account_-1"]["data"].should have(12).entries
-                json["account_-1"]["data"].should include([date.months_ago(11).to_time.to_i * 1000, 0])
-                json["account_-1"]["data"].should include([date.months_ago(5).to_time.to_i * 1000, 0])
-                json["account_-1"]["data"].should include([date.months_ago(1).to_time.to_i * 1000, 800])
-                json["account_-1"]["data"].should include([date.months_ago(0).to_time.to_i * 1000, 0])
+                expect(json.keys.size).to eq(2)
+                expect(json["account_-1"]["label"]).to eq("Unknown")
+                expect(json["account_-1"]["data"].entries.size).to eq(12)
+                expect(json["account_-1"]["data"]).to include([date.months_ago(11).to_time.to_i * 1000, 0])
+                expect(json["account_-1"]["data"]).to include([date.months_ago(5).to_time.to_i * 1000, 0])
+                expect(json["account_-1"]["data"]).to include([date.months_ago(1).to_time.to_i * 1000, 800])
+                expect(json["account_-1"]["data"]).to include([date.months_ago(0).to_time.to_i * 1000, 0])
                 json_income = json["account_#{@expense_account.id}"]
-                json_income["label"].should be == "その4"
-                json_income["data"].should have(12).entries
-                json_income["data"].should include([date.months_ago(11).to_time.to_i * 1000, 0])
-                json_income["data"].should include([date.months_ago(5).to_time.to_i * 1000, 0])
-                json_income["data"].should include([date.months_ago(1).to_time.to_i * 1000, 200])
-                json_income["data"].should include([date.months_ago(0).to_time.to_i * 1000, 0])
+                expect(json_income["label"]).to eq("その4")
+                expect(json_income["data"].entries.size).to eq(12)
+                expect(json_income["data"]).to include([date.months_ago(11).to_time.to_i * 1000, 0])
+                expect(json_income["data"]).to include([date.months_ago(5).to_time.to_i * 1000, 0])
+                expect(json_income["data"]).to include([date.months_ago(1).to_time.to_i * 1000, 200])
+                expect(json_income["data"]).to include([date.months_ago(0).to_time.to_i * 1000, 0])
               }
             end
           end
@@ -128,19 +128,19 @@ describe ChartData::YearlyBudgetsController do
             end
             describe "response" do
               subject { response }
-              it { should be_success }
+              it { is_expected.to be_success }
             end
             describe "response.body" do
               subject { response.body }
               specify {
                 date = Date.new(2008, 2)
                 json = ActiveSupport::JSON.decode(subject)
-                json.should have(1).keys
-                json["account_-1"]["label"].should be == "Unknown"
-                json["account_-1"]["data"].should have(12).entries
-                json["account_-1"]["data"].should include([date.months_ago(11).to_time.to_i * 1000, 0])
-                json["account_-1"]["data"].should include([date.months_ago(5).to_time.to_i * 1000, 0])
-                json["account_-1"]["data"].should include([date.months_ago(0).to_time.to_i * 1000, 0])
+                expect(json.keys.size).to eq(1)
+                expect(json["account_-1"]["label"]).to eq("Unknown")
+                expect(json["account_-1"]["data"].entries.size).to eq(12)
+                expect(json["account_-1"]["data"]).to include([date.months_ago(11).to_time.to_i * 1000, 0])
+                expect(json["account_-1"]["data"]).to include([date.months_ago(5).to_time.to_i * 1000, 0])
+                expect(json["account_-1"]["data"]).to include([date.months_ago(0).to_time.to_i * 1000, 0])
               }
             end
           end
@@ -172,26 +172,26 @@ describe ChartData::YearlyBudgetsController do
             end
             describe "response" do
               subject { response }
-              it { should be_success }
+              it { is_expected.to be_success }
             end
             describe "response.body" do
               subject { response.body }
               specify {
                 date = Date.new(1999, 2)
                 json = ActiveSupport::JSON.decode(subject)
-                json.should have(2).keys
-                json["account_-1"]["label"].should be == "Unknown"
-                json["account_-1"]["data"].should have(12).entries
-                json["account_-1"]["data"].should include([date.months_ago(11).to_time.to_i * 1000, 0])
-                json["account_-1"]["data"].should include([date.months_ago(5).to_time.to_i * 1000, 0])
-                json["account_-1"]["data"].should include([date.months_ago(1).to_time.to_i * 1000, 800])
+                expect(json.keys.size).to eq(2)
+                expect(json["account_-1"]["label"]).to eq("Unknown")
+                expect(json["account_-1"]["data"].entries.size).to eq(12)
+                expect(json["account_-1"]["data"]).to include([date.months_ago(11).to_time.to_i * 1000, 0])
+                expect(json["account_-1"]["data"]).to include([date.months_ago(5).to_time.to_i * 1000, 0])
+                expect(json["account_-1"]["data"]).to include([date.months_ago(1).to_time.to_i * 1000, 800])
                 json_income = json["account_#{@income_account.id}"]
-                json_income["label"].should be == "その2"
-                json_income["data"].should have(12).entries
-                json_income["data"].should include([date.months_ago(11).to_time.to_i * 1000, 0])
-                json_income["data"].should include([date.months_ago(5).to_time.to_i * 1000, 0])
-                json_income["data"].should include([date.months_ago(1).to_time.to_i * 1000, 900])
-                json_income["data"].should include([date.months_ago(0).to_time.to_i * 1000, 0])
+                expect(json_income["label"]).to eq("その2")
+                expect(json_income["data"].entries.size).to eq(12)
+                expect(json_income["data"]).to include([date.months_ago(11).to_time.to_i * 1000, 0])
+                expect(json_income["data"]).to include([date.months_ago(5).to_time.to_i * 1000, 0])
+                expect(json_income["data"]).to include([date.months_ago(1).to_time.to_i * 1000, 900])
+                expect(json_income["data"]).to include([date.months_ago(0).to_time.to_i * 1000, 0])
               }
             end
           end
@@ -208,22 +208,22 @@ describe ChartData::YearlyBudgetsController do
             end
             describe "response" do
               subject { response }
-              it { should be_success }
+              it { is_expected.to be_success }
             end
             describe "response" do
               subject { response.body }
               specify {
                 date = Date.new(2008, 2)
                 json = ActiveSupport::JSON.decode(subject)
-                json.should have(3).keys
-                json["expense"]["label"].should be == "支出"
-                json["income"]["label"].should be == "収入"
-                json["total"]["label"].should be == "収支"
+                expect(json.keys.size).to eq(3)
+                expect(json["expense"]["label"]).to eq("支出")
+                expect(json["income"]["label"]).to eq("収入")
+                expect(json["total"]["label"]).to eq("収支")
                 %w(expense income total).each do |type|
-                  json[type]["data"].should have(12).entries
-                  json[type]["data"].should include([date.months_ago(11).to_time.to_i * 1000, 0])
-                  json[type]["data"].should include([date.months_ago(5).to_time.to_i * 1000, 0])
-                  json[type]["data"].should include([date.months_ago(0).to_time.to_i * 1000, 0])
+                  expect(json[type]["data"].entries.size).to eq(12)
+                  expect(json[type]["data"]).to include([date.months_ago(11).to_time.to_i * 1000, 0])
+                  expect(json[type]["data"]).to include([date.months_ago(5).to_time.to_i * 1000, 0])
+                  expect(json[type]["data"]).to include([date.months_ago(0).to_time.to_i * 1000, 0])
                 end
               }
             end
@@ -255,28 +255,28 @@ describe ChartData::YearlyBudgetsController do
 
             describe "response" do
               subject { response }
-              it { should be_success }
+              it { is_expected.to be_success }
             end
             describe "response" do
               subject { response.body }
               specify {
                 json = ActiveSupport::JSON.decode(subject)
-                json.should have(3).keys
-                json["expense"]["label"].should be == "支出"
-                json["income"]["label"].should be == "収入"
-                json["total"]["label"].should be == "収支"
+                expect(json.keys.size).to eq(3)
+                expect(json["expense"]["label"]).to eq("支出")
+                expect(json["income"]["label"]).to eq("収入")
+                expect(json["total"]["label"]).to eq("収支")
                 %w(expense income total).each do |type|
-                  json[type]["data"].should have(12).entries
+                  expect(json[type]["data"].entries.size).to eq(12)
                 end
-                json["expense"]["data"].should include([Date.new(1999, 1).to_time.to_i * 1000, 200])
-                json["expense"]["data"].should include([Date.new(1999, 2).to_time.to_i * 1000, 0])
-                json["expense"]["data"].should include([Date.new(1998, 3).to_time.to_i * 1000, 0])
-                json["income"]["data"].should include([Date.new(1999, 1).to_time.to_i * 1000, 1700])
-                json["income"]["data"].should include([Date.new(1999, 2).to_time.to_i * 1000, 0])
-                json["income"]["data"].should include([Date.new(1998, 3).to_time.to_i * 1000, 0])
-                json["total"]["data"].should include([Date.new(1999, 1).to_time.to_i * 1000, 1500])
-                json["total"]["data"].should include([Date.new(1999, 2).to_time.to_i * 1000, 0])
-                json["total"]["data"].should include([Date.new(1998, 3).to_time.to_i * 1000, 0])
+                expect(json["expense"]["data"]).to include([Date.new(1999, 1).to_time.to_i * 1000, 200])
+                expect(json["expense"]["data"]).to include([Date.new(1999, 2).to_time.to_i * 1000, 0])
+                expect(json["expense"]["data"]).to include([Date.new(1998, 3).to_time.to_i * 1000, 0])
+                expect(json["income"]["data"]).to include([Date.new(1999, 1).to_time.to_i * 1000, 1700])
+                expect(json["income"]["data"]).to include([Date.new(1999, 2).to_time.to_i * 1000, 0])
+                expect(json["income"]["data"]).to include([Date.new(1998, 3).to_time.to_i * 1000, 0])
+                expect(json["total"]["data"]).to include([Date.new(1999, 1).to_time.to_i * 1000, 1500])
+                expect(json["total"]["data"]).to include([Date.new(1999, 2).to_time.to_i * 1000, 0])
+                expect(json["total"]["data"]).to include([Date.new(1998, 3).to_time.to_i * 1000, 0])
               }
             end
           end

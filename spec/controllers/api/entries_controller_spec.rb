@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe Api::EntriesController do
+describe Api::EntriesController, :type => :controller do
   fixtures :all
 
   describe "#index" do
@@ -17,7 +17,7 @@ describe Api::EntriesController do
       let(:mock_user) { users(:user1) }
       before do
         mock_user
-        User.should_receive(:find_by_id_and_active).with(mock_user.id, true).at_least(1).and_return(mock_user)
+        expect(User).to receive(:find_by_id_and_active).with(mock_user.id, true).at_least(1).and_return(mock_user)
         dummy_login
       end
 
@@ -27,15 +27,23 @@ describe Api::EntriesController do
         end
 
         subject { response }
-        its(:response_code) { should == 406 }
-        its(:body) { should be_blank }
+
+        describe '#response_code' do
+          subject { super().response_code }
+          it { is_expected.to eq(406) }
+        end
+
+        describe '#body' do
+          subject { super().body }
+          it { is_expected.to be_blank }
+        end
       end
 
       shared_examples_for "Success in JSON" do
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "index" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "index" }
         end
       end
 
@@ -46,7 +54,7 @@ describe Api::EntriesController do
           subject { assigns(:items) }
           specify {
             subject.each do |item|
-              item.action_date.should be_between(Date.today.beginning_of_month, Date.today.end_of_month)
+              expect(item.action_date).to be_between(Date.today.beginning_of_month, Date.today.end_of_month)
             end
           }
         end
@@ -77,7 +85,7 @@ describe Api::EntriesController do
             subject { assigns(:items) }
             specify {
               subject.each do |item|
-                item.action_date.should be_between(Date.new(2008, 2), Date.new(2008, 2).end_of_month)
+                expect(item.action_date).to be_between(Date.new(2008, 2), Date.new(2008, 2).end_of_month)
               end
             }
           end
@@ -104,18 +112,20 @@ describe Api::EntriesController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "index" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "index" }
         end
 
         describe "@items" do
           subject { assigns(:items) }
-          it { should have(1).items }
+          it 'has 1 item' do
+            expect(subject.size).to eq(1)
+          end
         end
 
         describe "@tag" do
           subject { assigns(:tag) }
-          it { should be == 'test_tag' }
+          it { is_expected.to eq('test_tag') }
         end
       end
 
@@ -137,16 +147,18 @@ describe Api::EntriesController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "index" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "index" }
         end
 
         describe "@items" do
           subject { assigns(:items) }
-          it { should have(Item.where(confirmation_required: true).count).items }
+          it 'has Item.where(confirmation_required: true).count items' do
+            expect(subject.size).to eq(Item.where(confirmation_required: true).count)
+          end
           specify {
             subject.each do |item|
-              item.should be_confirmation_required
+              expect(item).to be_confirmation_required
             end
           }
         end
@@ -170,13 +182,17 @@ describe Api::EntriesController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "index" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "index" }
         end
 
         describe "@items" do
           subject { assigns(:items) }
-          its(:size) { should == 1 }
+
+          describe '#size' do
+            subject { super().size }
+            it { is_expected.to eq(1) }
+          end
         end
       end
 
@@ -185,22 +201,22 @@ describe Api::EntriesController do
           shared_examples_for "filtered index in JSON" do
             describe "response" do
               subject { response }
-              it { should be_success }
-              it { should render_template "index" }
+              it { is_expected.to be_success }
+              it { is_expected.to render_template "index" }
             end
 
             describe "@items" do
               subject { assigns(:items) }
               specify {
                 subject.each do |item|
-                  [item.from_account_id, item.to_account_id].should include(accounts(:bank1).id)
+                  expect([item.from_account_id, item.to_account_id]).to include(accounts(:bank1).id)
                 end
               }
             end
 
             describe "session[:filter_account_id]" do
               subject {  session[:filter_account_id] }
-              it { should be == accounts(:bank1).id }
+              it { is_expected.to eq(accounts(:bank1).id) }
             end
           end
 
@@ -226,7 +242,7 @@ describe Api::EntriesController do
             describe "check of setup" do
               describe "previous session" do
                 subject { session[:filter_account_id] }
-                it { should == accounts(:bank1).id }
+                it { is_expected.to eq(accounts(:bank1).id) }
               end
             end
 
@@ -236,7 +252,7 @@ describe Api::EntriesController do
               end
 
               subject {  session[:filter_account_id] }
-              it { should be_nil }
+              it { is_expected.to be_nil }
             end
 
             describe "@items" do
@@ -244,7 +260,7 @@ describe Api::EntriesController do
                 get :index, filter_account_id: "", year: '2008', month: '2', format: :json
               end
               subject { assigns(:items) }
-              it { should include(@non_bank1_item) }
+              it { is_expected.to include(@non_bank1_item) }
             end
           end
         end
@@ -254,8 +270,8 @@ describe Api::EntriesController do
         shared_examples_for "executed correctly in JSON" do
           describe "response" do
             subject { response }
-            it { should be_success }
-            it { should render_template "index" }
+            it { is_expected.to be_success }
+            it { is_expected.to render_template "index" }
           end
         end
 
@@ -265,8 +281,8 @@ describe Api::EntriesController do
               stub_date_from = Date.new(2008, 2)
               stub_date_to = Date.new(2008, 2).end_of_month
               mock_items = users(:user1).items
-              mock_user.should_receive(:items).and_return(mock_items)
-              mock_items.should_receive(:partials).with(stub_date_from, stub_date_to,
+              expect(mock_user).to receive(:items).and_return(mock_items)
+              expect(mock_items).to receive(:partials).with(stub_date_from, stub_date_to,
                                                         hash_including(remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).to_a)
               get :index, remaining: 1, year: 2008, month: 2, format: :json
             end
@@ -275,8 +291,8 @@ describe Api::EntriesController do
           describe "other than user.items.partials" do
             before do
               mock_items = users(:user1).items
-              mock_user.should_receive(:items).and_return(mock_items)
-              mock_items.stub(:partials).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).to_a)
+              expect(mock_user).to receive(:items).and_return(mock_items)
+              allow(mock_items).to receive(:partials).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).to_a)
               get :index, remaining: true, year: 2008, month: 2, format: :json
             end
 
@@ -284,7 +300,7 @@ describe Api::EntriesController do
 
             describe "@items" do
               subject { assigns(:items) }
-              it { should_not be_empty }
+              it { is_expected.not_to be_empty }
             end
           end
         end
@@ -293,8 +309,8 @@ describe Api::EntriesController do
           describe "user.items.partials" do
             it "called with tag => 'xxx' and :remain => true" do
               mock_items = users(:user1).items
-              mock_user.should_receive(:items).and_return(mock_items)
-              mock_items.should_receive(:partials).with(nil, nil,
+              expect(mock_user).to receive(:items).and_return(mock_items)
+              expect(mock_items).to receive(:partials).with(nil, nil,
                                                         hash_including(tag: 'xxx', remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).to_a)
               get :index, remaining: true, year: 2008, month: 2, tag: 'xxx', format: :json
             end
@@ -302,7 +318,7 @@ describe Api::EntriesController do
 
           describe "other than user.items.partials," do
             before do
-              Item.stub(:partials).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).to_a)
+              allow(Item).to receive(:partials).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).to_a)
               get :index, remaining: true, year: 2008, month: 2, tag: 'xxx', format: :json
             end
 
@@ -311,7 +327,7 @@ describe Api::EntriesController do
             describe "@items" do
               subject { assigns(:items) }
               # 0 item for  remaining
-              it { should_not be_empty }
+              it { is_expected.not_to be_empty }
             end
           end
         end
@@ -322,7 +338,11 @@ describe Api::EntriesController do
           end
           describe "response" do
             subject { response }
-            its(:response_code) { should == 406 }
+
+            describe '#response_code' do
+              subject { super().response_code }
+              it { is_expected.to eq(406) }
+            end
           end
         end
       end
@@ -348,14 +368,14 @@ describe Api::EntriesController do
         end
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "show" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "show" }
         end
 
         describe "@item" do
           subject { assigns(:item) }
-          it { should_not be_nil }
-          it { should be_an_instance_of GeneralItem }
+          it { is_expected.not_to be_nil }
+          it { is_expected.to be_an_instance_of GeneralItem }
         end
       end
 
@@ -365,7 +385,11 @@ describe Api::EntriesController do
         end
         describe "response" do
           subject { response }
-          its(:response_code) { should == 404 }
+
+          describe '#response_code' do
+            subject { super().response_code }
+            it { is_expected.to eq(404) }
+          end
         end
       end
     end
@@ -383,21 +407,25 @@ describe Api::EntriesController do
       let(:mock_user) { users(:user1) }
       before do
         mock_user
-        User.should_receive(:find_by_id_and_active).with(mock_user.id, true).at_least(1).and_return(mock_user)
+        expect(User).to receive(:find_by_id_and_active).with(mock_user.id, true).at_least(1).and_return(mock_user)
         dummy_login
       end
 
       context "when id in params is invalid," do
         let(:mock_items) { double }
         before do
-          mock_user.should_receive(:items).and_return(mock_items)
-          mock_items.should_receive(:find).with("12345").and_raise(ActiveRecord::RecordNotFound.new)
+          expect(mock_user).to receive(:items).and_return(mock_items)
+          expect(mock_items).to receive(:find).with("12345").and_raise(ActiveRecord::RecordNotFound.new)
           delete :destroy, id: 12_345, format: :json
         end
 
         describe "response" do
           subject { response }
-          its(:response_code) { should == 404 }
+
+          describe '#response_code' do
+            subject { super().response_code }
+            it { is_expected.to eq(404) }
+          end
         end
       end
 
@@ -416,28 +444,46 @@ describe Api::EntriesController do
 
           describe "response" do
             subject { response }
-            it { should be_success }
-            its(:content_type) { should == "application/json" }
+            it { is_expected.to be_success }
+
+            describe '#content_type' do
+              subject { super().content_type }
+              it { is_expected.to eq("application/json") }
+            end
           end
 
           describe "the specified item" do
             subject { Item.where(id: @old_item1.id).to_a }
-            it { should have(0).item }
+            it 'has no item' do
+              expect(subject.size).to eq(0)
+            end
           end
 
           describe "the future adjustment item" do
             subject { Item.find(@old_adj2.id) }
-            its(:amount) { should == @old_adj2.amount - @old_item1.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq(@old_adj2.amount - @old_item1.amount) }
+            end
           end
 
           describe "amount of Montly profit loss of from_account" do
             subject { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id) }
-            its(:amount) { should == @old_bank1pl.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq(@old_bank1pl.amount) }
+            end
           end
 
           describe "amount of Montly profit loss of to_account" do
             subject { MonthlyProfitLoss.find(monthly_profit_losses(:expense3200802).id) }
-            its(:amount) { should == @old_expense3pl.amount - @old_item1.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq(@old_expense3pl.amount - @old_item1.amount) }
+            end
           end
         end
 
@@ -459,34 +505,52 @@ describe Api::EntriesController do
 
           describe "previous amount" do
             subject { @previous_amount }
-            it { should == 1000 }
+            it { is_expected.to eq(1000) }
           end
 
           describe "response" do
             subject { response }
-            it { should be_success }
-            its(:content_type) { should == "application/json" }
+            it { is_expected.to be_success }
+
+            describe '#content_type' do
+              subject { super().content_type }
+              it { is_expected.to eq("application/json") }
+            end
           end
 
           describe "the specified item" do
             subject { Item.where(id: @item_to_del.id).to_a }
-            it { should have(0).item }
+            it 'has no item' do
+              expect(subject.size).to eq(0)
+            end
           end
 
           describe "the future adjustment item" do
             subject { Item.find(@old_adj2.id) }
-            its(:amount) { should == @old_adj2.amount + @item_to_del.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq(@old_adj2.amount + @item_to_del.amount) }
+            end
           end
 
           describe "amount of Montly profit loss of from_account" do
 
             subject { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id) }
-            its(:amount) { should == @old_bank1.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq(@old_bank1.amount) }
+            end
           end
 
           describe "amount of Montly profit loss of to_account" do
             subject { MonthlyProfitLoss.find(@old_income.id) }
-            its(:amount) { should == @old_income.amount + @item_to_del.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq(@old_income.amount + @item_to_del.amount) }
+            end
           end
         end
 
@@ -503,12 +567,16 @@ describe Api::EntriesController do
 
           describe "response" do
             subject { response }
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "amount of from_account" do
             subject { MonthlyProfitLoss.find(@old_bank11pl.id) }
-            its(:amount) { should == @old_bank11pl.amount + @item.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq(@old_bank11pl.amount + @item.amount) }
+            end
           end
 
           describe "specified item" do
@@ -520,7 +588,11 @@ describe Api::EntriesController do
 
           describe "amount of to_account" do
             subject { MonthlyProfitLoss.find(@old_expense13pl.id) }
-            its(:amount) { should ==  @old_expense13pl.amount - @item.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq(@old_expense13pl.amount - @item.amount) }
+            end
           end
         end
 
@@ -538,7 +610,7 @@ describe Api::EntriesController do
             describe "response" do
               before { action.call }
               subject { response }
-              it { should be_success }
+              it { is_expected.to be_success }
             end
 
             describe "specified item" do
@@ -579,8 +651,12 @@ describe Api::EntriesController do
             describe "response" do
               before { action.call }
               subject { response }
-              it { should be_success }
-              its(:content_type) { should == 'application/json' }
+              it { is_expected.to be_success }
+
+              describe '#content_type' do
+                subject { super().content_type }
+                it { is_expected.to eq('application/json') }
+              end
             end
 
             describe "specified item" do
@@ -608,12 +684,16 @@ describe Api::EntriesController do
         context "with invalid id," do
           let(:mock_items) { double }
           before do
-            mock_user.should_receive(:items).and_return(mock_items)
-            mock_items.should_receive(:find).with("20000").and_raise(ActiveRecord::RecordNotFound.new)
+            expect(mock_user).to receive(:items).and_return(mock_items)
+            expect(mock_items).to receive(:find).with("20000").and_raise(ActiveRecord::RecordNotFound.new)
             delete :destroy, id: 20_000, year: Date.today.year, month: Date.today.month, format: :json
           end
           subject { response }
-          its(:response_code) { should == 404 }
+
+          describe '#response_code' do
+            subject { super().response_code }
+            it { is_expected.to eq(404) }
+          end
         end
 
         context "with correct id," do
@@ -634,14 +714,18 @@ describe Api::EntriesController do
             describe "response" do
               before { @action.call }
               subject { response }
-              it { should be_success }
-              its(:response_code) { should == 200 }
+              it { is_expected.to be_success }
+
+              describe '#response_code' do
+                subject { super().response_code }
+                it { is_expected.to eq(200) }
+              end
             end
 
             describe "specified item(adjustment2)" do
               before { @action.call }
               subject { Item.find_by_id(@init_adj2.id) }
-              it { should be_nil }
+              it { is_expected.to be_nil }
             end
 
             describe "adjustment4 which is next future adjustment" do
@@ -677,12 +761,14 @@ describe Api::EntriesController do
       shared_examples_for "not acceptable" do
         describe "response_code" do
           subject { response.response_code }
-          it { should == 406 }
+          it { is_expected.to eq(406) }
         end
 
         describe "response body" do
           subject { ActiveSupport::JSON.decode(response.body)["errors"] }
-          it { should have_at_least(1).errors }
+          it 'has at least 1 error' do
+            expect(subject.size).to be >= 1
+          end
         end
       end
 
@@ -696,7 +782,7 @@ describe Api::EntriesController do
 
         describe "the count of items" do
           subject { Item.count }
-          it { should == @previous_items }
+          it { is_expected.to eq(@previous_items) }
         end
       end
 
@@ -710,15 +796,19 @@ describe Api::EntriesController do
 
         describe "the count of items" do
           subject { Item.count }
-          it { should == @previous_items }
+          it { is_expected.to eq(@previous_items) }
         end
       end
 
       shared_examples_for "created successfully by JSON" do
         describe "response" do
           subject { response }
-          it { should be_success }
-          its(:response_code) { should == 201 }
+          it { is_expected.to be_success }
+
+          describe '#response_code' do
+            subject { super().response_code }
+            it { is_expected.to eq(201) }
+          end
         end
       end
 
@@ -734,14 +824,18 @@ describe Api::EntriesController do
         describe "tags" do
           describe "tag size" do
             subject { Tag.where(name: 'hoge').to_a }
-            it { should have(1).tag }
+            it 'has 1 tag' do
+              expect(subject.size).to eq(1)
+            end
           end
           describe "taggings" do
             let(:tag_ids) { Tag.where(name: 'hoge').pluck(:id) }
 
             describe "taggings' size" do
               subject { Tagging.where(tag_id: tag_ids).to_a }
-              it { should have(1).tagging }
+              it 'has 1 tagging' do
+                expect(subject.size).to eq(1)
+              end
             end
 
             describe "taggings' user_id" do
@@ -749,7 +843,7 @@ describe Api::EntriesController do
                 uids = Tagging.where(tag_id: tag_ids).pluck(:user_id)
                 uids.all? { |u| u == users(:user1).id }
               }
-              it { should be_true }
+              it { is_expected.to be_truthy }
             end
 
             describe "taggings' taggable_type" do
@@ -757,7 +851,7 @@ describe Api::EntriesController do
                 types = Tagging.where(tag_id: tag_ids).pluck(:taggable_type)
                 types.all? { |t| t == 'Item' }
               }
-              it { should be_true }
+              it { is_expected.to be_truthy }
             end
           end
         end
@@ -773,7 +867,7 @@ describe Api::EntriesController do
 
         describe "count of items" do
           subject { Item.count }
-          it { should == @init_item_count + 1 }
+          it { is_expected.to eq(@init_item_count + 1) }
         end
 
         describe "created item" do
@@ -782,10 +876,21 @@ describe Api::EntriesController do
             Item.find_by_id(id)
           }
 
-          its(:name) { should == 'テスト10' }
-          its(:amount) { should == 10_000 }
-          it { should be_confirmation_required }
-          its(:tag_list) { should == "fuga hoge" }
+          describe '#name' do
+            subject { super().name }
+            it { is_expected.to eq('テスト10') }
+          end
+
+          describe '#amount' do
+            subject { super().amount }
+            it { is_expected.to eq(10_000) }
+          end
+          it { is_expected.to be_confirmation_required }
+
+          describe '#tag_list' do
+            subject { super().tag_list }
+            it { is_expected.to eq("fuga hoge") }
+          end
         end
 
         it_should_behave_like "created successfully with tag_list == 'hoge fuga by JSON"
@@ -801,7 +906,7 @@ describe Api::EntriesController do
 
         describe "count of items" do
           subject { Item.count }
-          it { should == @init_item_count + 1 }
+          it { is_expected.to eq(@init_item_count + 1) }
         end
 
         describe "created item" do
@@ -810,10 +915,21 @@ describe Api::EntriesController do
             Item.find_by_id(id)
           }
 
-          its(:name) { should == 'テスト10' }
-          its(:amount) { should == 10_000 }
-          it { should_not be_confirmation_required }
-          its(:tag_list) { should == "fuga hoge" }
+          describe '#name' do
+            subject { super().name }
+            it { is_expected.to eq('テスト10') }
+          end
+
+          describe '#amount' do
+            subject { super().amount }
+            it { is_expected.to eq(10_000) }
+          end
+          it { is_expected.not_to be_confirmation_required }
+
+          describe '#tag_list' do
+            subject { super().tag_list }
+            it { is_expected.to eq("fuga hoge") }
+          end
         end
 
         it_should_behave_like "created successfully with tag_list == 'hoge fuga by JSON"
@@ -827,17 +943,23 @@ describe Api::EntriesController do
 
         describe "response" do
           subject { response }
-          its(:response_code) { should == 406 }
+
+          describe '#response_code' do
+            subject { super().response_code }
+            it { is_expected.to eq(406) }
+          end
         end
 
         describe "response_body" do
           subject { ActiveSupport::JSON.decode(response.body)["errors"] }
-          it { should have_at_least(1).errors }
+          it 'has at least 1 error' do
+            expect(subject.size).to be >= 1
+          end
         end
 
         describe "count of items" do
           subject { Item.count }
-          it { should == @init_item_count }
+          it { is_expected.to eq(@init_item_count) }
         end
       end
 
@@ -872,32 +994,56 @@ describe Api::EntriesController do
 
           describe "adjustment just next to the created item" do
             subject { Item.find(items(:adjustment2).id) }
-            its(:amount) { should == @init_adj2.amount + 10_000 }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq(@init_adj2.amount + 10_000) }
+            end
           end
 
           describe "adjustment which is the next of the adjustment next to the created item" do
             subject { Item.find(items(:adjustment4).id) }
-            its(:amount) { should == @init_adj4.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq(@init_adj4.amount) }
+            end
           end
 
           describe "adjustment which is the second next of the adjustment next to the created item" do
             subject { Item.find(items(:adjustment6).id) }
-            its(:amount) { should == @init_adj6.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq(@init_adj6.amount) }
+            end
           end
 
           describe "monthly pl which is before the created item" do
             subject { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id) }
-            its(:amount) { should == @init_pl0801.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq(@init_pl0801.amount) }
+            end
           end
 
           describe "monthly pl of the same month of the created item" do
             subject { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id) }
-            its(:amount) { should == @init_pl0802.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq(@init_pl0802.amount) }
+            end
           end
 
           describe "monthly pl of the next month of the created item" do
             subject { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id) }
-            its(:amount) { should == @init_pl0803.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq(@init_pl0803.amount) }
+            end
           end
         end
       end
@@ -929,31 +1075,75 @@ describe Api::EntriesController do
 
           describe "response" do
             subject { response }
-            it { should be_success }
-            its(:content_type) { should == "application/json" }
+            it { is_expected.to be_success }
+
+            describe '#content_type' do
+              subject { super().content_type }
+              it { is_expected.to eq("application/json") }
+            end
           end
 
           describe "created credit item" do
             subject { credit_item }
-            it { should_not be_nil }
-            its(:amount) { should == 10_000 }
-            its(:parent_id) { should be_nil }
-            its(:child_item) { should_not be_nil }
+            it { is_expected.not_to be_nil }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq(10_000) }
+            end
+
+            describe '#parent_id' do
+              subject { super().parent_id }
+              it { is_expected.to be_nil }
+            end
+
+            describe '#child_item' do
+              subject { super().child_item }
+              it { is_expected.not_to be_nil }
+            end
           end
 
           describe "child item's count" do
             subject { Item.where(parent_id: credit_item.id) }
-            its(:count) { should == 1 }
+
+            describe '#count' do
+              subject { super().count }
+              it { is_expected.to eq(1) }
+            end
           end
 
           describe "child item" do
             subject { Item.where(parent_id: credit_item.id).find { |i| i.child_item.nil? } }
-            its(:child_item) { should be_nil }
-            its(:parent_item) { should == credit_item }
-            its(:action_date) { should == Date.new(2008, 2 + credit_relations(:cr1).payment_month, credit_relations(:cr1).payment_day) }
-            its(:from_account_id) { should == credit_relations(:cr1).payment_account_id }
-            its(:to_account_id) { should == credit_relations(:cr1).credit_account_id }
-            its(:amount) { should == 10_000 }
+
+            describe '#child_item' do
+              subject { super().child_item }
+              it { is_expected.to be_nil }
+            end
+
+            describe '#parent_item' do
+              subject { super().parent_item }
+              it { is_expected.to eq(credit_item) }
+            end
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq(Date.new(2008, 2 + credit_relations(:cr1).payment_month, credit_relations(:cr1).payment_day)) }
+            end
+
+            describe '#from_account_id' do
+              subject { super().from_account_id }
+              it { is_expected.to eq(credit_relations(:cr1).payment_account_id) }
+            end
+
+            describe '#to_account_id' do
+              subject { super().to_account_id }
+              it { is_expected.to eq(credit_relations(:cr1).credit_account_id) }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq(10_000) }
+            end
           end
         end
       end
@@ -966,8 +1156,8 @@ describe Api::EntriesController do
         context "when a validation error occurs," do
           before do
             mock_exception = ActiveRecord::RecordInvalid.new(stub_model(Item))
-            mock_exception.should_receive(:error_messages).and_return("Error!!!")
-            Teller.should_receive(:create_entry).and_raise(mock_exception)
+            expect(mock_exception).to receive(:error_messages).and_return("Error!!!")
+            expect(Teller).to receive(:create_entry).and_raise(mock_exception)
             @action = lambda {
               post(:create,
                    entry: {
@@ -986,14 +1176,24 @@ describe Api::EntriesController do
           describe "response" do
             before { @action.call }
             subject { response }
-            its(:response_code) { should == 406 }
-            its(:content_type) { should == 'application/json' }
+
+            describe '#response_code' do
+              subject { super().response_code }
+              it { is_expected.to eq(406) }
+            end
+
+            describe '#content_type' do
+              subject { super().content_type }
+              it { is_expected.to eq('application/json') }
+            end
           end
 
           describe "response body" do
             before { @action.call }
             subject { ActiveSupport::JSON.decode(response.body)["errors"] }
-            it { should have_at_least(1).errors }
+            it 'has at least 1 error' do
+              expect(subject.size).to be >= 1
+            end
           end
         end
 
@@ -1037,11 +1237,27 @@ describe Api::EntriesController do
             end
             subject { @created_item }
 
-            it { should be_adjustment }
-            its(:adjustment_amount) { should == 100 * (10 + 50) / 2 }
-            its(:amount) { should == 100 * (10 + 50) / 2 - @prev_total }
-            its(:amount) { should == 100 * (10 + 50) / 2 - @init_total }
-            its(:tag_list) { should == "fuga hoge" }
+            it { is_expected.to be_adjustment }
+
+            describe '#adjustment_amount' do
+              subject { super().adjustment_amount }
+              it { is_expected.to eq(100 * (10 + 50) / 2) }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq(100 * (10 + 50) / 2 - @prev_total) }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq(100 * (10 + 50) / 2 - @init_total) }
+            end
+
+            describe '#tag_list' do
+              subject { super().tag_list }
+              it { is_expected.to eq("fuga hoge") }
+            end
           end
 
           describe "profit losses" do
@@ -1084,14 +1300,22 @@ describe Api::EntriesController do
             describe "created_adjustment" do
               before { action.call }
               subject { Adjustment.where(action_date: existing_adj.action_date).first }
-              its(:adjustment_amount) { should == 50 }
-              its(:amount) { should == existing_adj.amount + 50 - existing_adj.adjustment_amount }
+
+              describe '#adjustment_amount' do
+                subject { super().adjustment_amount }
+                it { is_expected.to eq(50) }
+              end
+
+              describe '#amount' do
+                subject { super().amount }
+                it { is_expected.to eq(existing_adj.amount + 50 - existing_adj.adjustment_amount) }
+              end
             end
 
             describe "existed adjustment" do
               before { action.call }
               subject { Item.find_by_id(existing_adj.id) }
-              it { should be_nil }
+              it { is_expected.to be_nil }
             end
 
             describe "future adjustment" do
@@ -1125,7 +1349,11 @@ describe Api::EntriesController do
             describe "response" do
               before { action.call }
               subject { response }
-              its(:response_code) { should == 406 }
+
+              describe '#response_code' do
+                subject { super().response_code }
+                it { is_expected.to eq(406) }
+              end
             end
 
             describe "all adjustments count" do
@@ -1172,13 +1400,19 @@ describe Api::EntriesController do
             describe "response" do
               before { action.call }
               subject { response }
-              its(:response_code) { should == 406 }
+
+              describe '#response_code' do
+                subject { super().response_code }
+                it { is_expected.to eq(406) }
+              end
             end
 
             describe "response body" do
               before { action.call }
               subject { ActiveSupport::JSON.decode(response.body)["errors"] }
-              it { should have_at_least(1).errors }
+              it 'has at least 1 error' do
+                expect(subject.size).to be >= 1
+              end
             end
 
             describe "all adjustments count" do
@@ -1222,13 +1456,19 @@ describe Api::EntriesController do
           end
 
           subject { response }
-          its(:response_code) { should == 406 }
+
+          describe '#response_code' do
+            subject { super().response_code }
+            it { is_expected.to eq(406) }
+          end
         end
 
         describe "response body" do
           before { @action.call }
           subject { ActiveSupport::JSON.decode(response.body)["errors"] }
-          it { should have_at_least(1).errors }
+          it 'has at least 1 error' do
+            expect(subject.size).to be >= 1
+          end
         end
       end
 
@@ -1259,7 +1499,11 @@ describe Api::EntriesController do
             end
 
             subject { response }
-            its(:response_code) { should == 200 }
+
+            describe '#response_code' do
+              subject { super().response_code }
+              it { is_expected.to eq(200) }
+            end
           end
 
           describe "item to update" do
@@ -1315,7 +1559,7 @@ describe Api::EntriesController do
           describe "response" do
             before { @action.call }
             subject { response }
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "updated item" do
@@ -1418,17 +1662,41 @@ describe Api::EntriesController do
 
           describe "response" do
             subject { response }
-            it { should be_success }
-            its(:response_code) { should == 200 }
+            it { is_expected.to be_success }
+
+            describe '#response_code' do
+              subject { super().response_code }
+              it { is_expected.to eq(200) }
+            end
           end
 
           describe "updated item" do
             subject { Item.find(@old_item11.id) }
-            its(:name) { should == 'テスト11' }
-            its(:action_date) { should == @old_item11.action_date }
-            its(:amount) { should == 100_000 }
-            its(:from_account_id) { should == accounts(:bank1).id }
-            its(:to_account_id) { should == accounts(:expense3).id }
+
+            describe '#name' do
+              subject { super().name }
+              it { is_expected.to eq('テスト11') }
+            end
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq(@old_item11.action_date) }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq(100_000) }
+            end
+
+            describe '#from_account_id' do
+              subject { super().from_account_id }
+              it { is_expected.to eq(accounts(:bank1).id) }
+            end
+
+            describe '#to_account_id' do
+              subject { super().to_account_id }
+              it { is_expected.to eq(accounts(:expense3).id) }
+            end
           end
         end
 
@@ -1451,18 +1719,42 @@ describe Api::EntriesController do
 
           describe "response" do
             subject { response }
-            it { should be_success }
-            its(:response_code) { should == 200 }
+            it { is_expected.to be_success }
+
+            describe '#response_code' do
+              subject { super().response_code }
+              it { is_expected.to eq(200) }
+            end
           end
 
           describe "updated item" do
             subject { Item.find(@old_item1.id) }
-            its(:name) { should == 'テスト10000' }
-            its(:action_date) { should == @date }
-            its(:amount) { should == (80 * 1.007).to_i }
-            its(:from_account_id) { should == accounts(:bank1).id }
-            its(:to_account_id) { should == accounts(:expense3).id }
-            it { should be_confirmation_required }
+
+            describe '#name' do
+              subject { super().name }
+              it { is_expected.to eq('テスト10000') }
+            end
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq(@date) }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq((80 * 1.007).to_i) }
+            end
+
+            describe '#from_account_id' do
+              subject { super().from_account_id }
+              it { is_expected.to eq(accounts(:bank1).id) }
+            end
+
+            describe '#to_account_id' do
+              subject { super().to_account_id }
+              it { is_expected.to eq(accounts(:expense3).id) }
+            end
+            it { is_expected.to be_confirmation_required }
           end
         end
 
@@ -1491,8 +1783,11 @@ describe Api::EntriesController do
                 @action.call
               end
               subject { response }
-              it { should be_success }
-            its(:response_code) { should == 200 }
+              it { is_expected.to be_success }
+            describe '#response_code' do
+              subject { super().response_code }
+              it { is_expected.to eq(200) }
+            end
             end
 
             describe "updated item" do
@@ -1500,12 +1795,32 @@ describe Api::EntriesController do
                 @action.call
               end
               subject { Item.find(old_item1.id) }
-              its(:name) { should == 'テスト10' }
-              its(:action_date) { should == Date.new(old_action_date.year, old_action_date.month, 18) }
-              its(:amount) { should == 100_000 }
-              its(:from_account_id) { should == accounts(:bank1).id }
-              its(:to_account_id) { should == accounts(:expense3).id }
-              it { should_not be_confirmation_required }
+
+              describe '#name' do
+                subject { super().name }
+                it { is_expected.to eq('テスト10') }
+              end
+
+              describe '#action_date' do
+                subject { super().action_date }
+                it { is_expected.to eq(Date.new(old_action_date.year, old_action_date.month, 18)) }
+              end
+
+              describe '#amount' do
+                subject { super().amount }
+                it { is_expected.to eq(100_000) }
+              end
+
+              describe '#from_account_id' do
+                subject { super().from_account_id }
+                it { is_expected.to eq(accounts(:bank1).id) }
+              end
+
+              describe '#to_account_id' do
+                subject { super().to_account_id }
+                it { is_expected.to eq(accounts(:expense3).id) }
+              end
+              it { is_expected.not_to be_confirmation_required }
             end
 
             describe "adjustment which is in the same month" do
@@ -1548,7 +1863,7 @@ describe Api::EntriesController do
                 end
 
                 subject { MonthlyProfitLoss.where(user_id: users(:user1).id, account_id: accounts(:expense3).id, month: Date.new(2008, 3, 1)).first }
-                it { should be_nil }
+                it { is_expected.to be_nil }
               end
             end
           end
@@ -1576,7 +1891,11 @@ describe Api::EntriesController do
               end
 
               subject { Item.find(old_item1.id) }
-              its(:tag_list) { should == 'fuga hoge' }
+
+              describe '#tag_list' do
+                subject { super().tag_list }
+                it { is_expected.to eq('fuga hoge') }
+              end
             end
           end
         end
@@ -1606,18 +1925,42 @@ describe Api::EntriesController do
           describe "response" do
             before { @action.call }
             subject { response }
-            it { should be_success }
-            its(:response_code) { should == 200 }
+            it { is_expected.to be_success }
+
+            describe '#response_code' do
+              subject { super().response_code }
+              it { is_expected.to eq(200) }
+            end
           end
 
           describe "updated item" do
             before { @action.call }
             subject { Item.find(item1_id) }
-            its(:name) { should == "テスト20" }
-            its(:amount) { should == 20_000 }
-            its(:from_account_id) { should == accounts(:bank1).id }
-            its(:to_account_id) { should == accounts(:expense3).id }
-            its(:action_date) { should == date }
+
+            describe '#name' do
+              subject { super().name }
+              it { is_expected.to eq("テスト20") }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq(20_000) }
+            end
+
+            describe '#from_account_id' do
+              subject { super().from_account_id }
+              it { is_expected.to eq(accounts(:bank1).id) }
+            end
+
+            describe '#to_account_id' do
+              subject { super().to_account_id }
+              it { is_expected.to eq(accounts(:expense3).id) }
+            end
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq(date) }
+            end
           end
 
           describe "adjustment changes" do
@@ -1703,15 +2046,35 @@ describe Api::EntriesController do
             describe "previous state" do
               describe "initial credit item" do
                 subject { @init_credit_item }
-                its(:amount) { should be == 10_000 }
+
+                describe '#amount' do
+                  subject { super().amount }
+                  it { is_expected.to eq(10_000) }
+                end
               end
 
               describe "initial payment item" do
                 subject { @init_payment_item }
-                its(:amount) { should be == 10_000 }
-                its(:to_account_id) { should be == @init_credit_item.from_account_id }
-                its(:from_account_id) { should be == 1 }
-                its(:action_date) { should be == Date.new(2008, 6, 1) }
+
+                describe '#amount' do
+                  subject { super().amount }
+                  it { is_expected.to eq(10_000) }
+                end
+
+                describe '#to_account_id' do
+                  subject { super().to_account_id }
+                  it { is_expected.to eq(@init_credit_item.from_account_id) }
+                end
+
+                describe '#from_account_id' do
+                  subject { super().from_account_id }
+                  it { is_expected.to eq(1) }
+                end
+
+                describe '#action_date' do
+                  subject { super().action_date }
+                  it { is_expected.to eq(Date.new(2008, 6, 1)) }
+                end
               end
             end
 
@@ -1720,8 +2083,12 @@ describe Api::EntriesController do
                 @action.call
               end
               subject { response }
-              it { should be_success }
-              its(:response_code) { should == 200 }
+              it { is_expected.to be_success }
+
+              describe '#response_code' do
+                subject { super().response_code }
+                it { is_expected.to eq(200) }
+              end
             end
 
             describe "the number of items" do
@@ -1788,15 +2155,35 @@ describe Api::EntriesController do
             describe "previous states" do
               describe "initial credit item" do
                 subject { @init_credit_item }
-                its(:amount) { should be == 10_000 }
+
+                describe '#amount' do
+                  subject { super().amount }
+                  it { is_expected.to eq(10_000) }
+                end
               end
 
               describe "initial payment item" do
                 subject { @init_payment_item }
-                its(:amount) { should be == 10_000 }
-                its(:to_account_id) { should be == @init_credit_item.from_account_id }
-                its(:from_account_id) { should be == 1 }
-                its(:action_date) { should be == Date.new(2008, 4, 20) }
+
+                describe '#amount' do
+                  subject { super().amount }
+                  it { is_expected.to eq(10_000) }
+                end
+
+                describe '#to_account_id' do
+                  subject { super().to_account_id }
+                  it { is_expected.to eq(@init_credit_item.from_account_id) }
+                end
+
+                describe '#from_account_id' do
+                  subject { super().from_account_id }
+                  it { is_expected.to eq(1) }
+                end
+
+                describe '#action_date' do
+                  subject { super().action_date }
+                  it { is_expected.to eq(Date.new(2008, 4, 20)) }
+                end
               end
             end
 
@@ -1805,8 +2192,12 @@ describe Api::EntriesController do
                 @action.call
               end
               subject { response }
-              it { should be_success }
-              its(:response_code) { should == 200 }
+              it { is_expected.to be_success }
+
+              describe '#response_code' do
+                subject { super().response_code }
+                it { is_expected.to eq(200) }
+              end
             end
 
             describe "the number of items" do

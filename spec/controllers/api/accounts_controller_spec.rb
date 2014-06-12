@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe Api::AccountsController do
+describe Api::AccountsController, :type => :controller do
   fixtures :users, :accounts
 
   describe "#index" do
@@ -21,8 +21,8 @@ describe Api::AccountsController do
 
       describe "response" do
         subject { response }
-        it { should be_success }
-        it { should render_template :index }
+        it { is_expected.to be_success }
+        it { is_expected.to render_template :index }
       end
     end
 
@@ -48,8 +48,8 @@ describe Api::AccountsController do
       context "when resource_owner_id is correct," do
         before do
           token = double
-          token.should_receive(:resource_owner_id).and_return(users(:user1).id)
-          token.should_receive(:accessible?).and_return(true)
+          expect(token).to receive(:resource_owner_id).and_return(users(:user1).id)
+          expect(token).to receive(:accessible?).and_return(true)
           @controller.define_singleton_method(:doorkeeper_token) do
             token
           end
@@ -58,16 +58,16 @@ describe Api::AccountsController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template :index }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template :index }
         end
       end
 
       context "when resource_owner_id is wrong," do
         before do
           token = double
-          token.should_receive(:resource_owner_id).and_return(999_999)
-          token.should_receive(:accessible?).and_return(true)
+          expect(token).to receive(:resource_owner_id).and_return(999_999)
+          expect(token).to receive(:accessible?).and_return(true)
           @controller.define_singleton_method(:doorkeeper_token) do
             token
           end
@@ -86,8 +86,8 @@ describe Api::AccountsController do
 
       describe "response" do
         subject { response }
-        it { should be_success }
-        it { should render_template :index }
+        it { is_expected.to be_success }
+        it { is_expected.to render_template :index }
       end
     end
   end

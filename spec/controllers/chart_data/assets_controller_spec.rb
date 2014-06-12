@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe ChartData::AssetsController do
+describe ChartData::AssetsController, :type => :controller do
   fixtures :users
 
   describe "#show" do
@@ -56,8 +56,12 @@ describe ChartData::AssetsController do
           get :show, id: '200301', format: :json
         end
         subject { response }
-        it {  should be_success }
-        its(:body) { should == "[]" }
+        it {  is_expected.to be_success }
+
+        describe '#body' do
+          subject { super().body }
+          it { is_expected.to eq("[]") }
+        end
       end
 
       context "When there are data to send," do
@@ -83,9 +87,9 @@ describe ChartData::AssetsController do
 
           describe "response" do
             subject { response }
-            it {  should be_success }
+            it {  is_expected.to be_success }
             specify do
-              ActiveSupport::JSON.decode(subject.body).should == [{ "label" => "その1", "data" => 800 }, { "label" => "その3", "data" => 900 }]
+              expect(ActiveSupport::JSON.decode(subject.body)).to eq([{ "label" => "その1", "data" => 800 }, { "label" => "その3", "data" => 900 }])
             end
           end
         end
@@ -96,9 +100,9 @@ describe ChartData::AssetsController do
 
           describe "response" do
             subject { response }
-            it {  should be_success }
+            it {  is_expected.to be_success }
             specify do
-              ActiveSupport::JSON.decode(subject.body).should == [{ "label" => "その4", "data" => 200 }]
+              expect(ActiveSupport::JSON.decode(subject.body)).to eq([{ "label" => "その4", "data" => 200 }])
             end
           end
         end

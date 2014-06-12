@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe Api::SessionsController do
+describe Api::SessionsController, :type => :controller do
   fixtures :users
 
   describe "#create" do
@@ -14,14 +14,20 @@ describe Api::SessionsController do
         before { @action.call }
         subject { response }
 
-        its(:response_code) { should == 401 }
+        describe '#response_code' do
+          subject { super().response_code }
+          it { is_expected.to eq(401) }
+        end
       end
 
       describe "session" do
         before { @action.call }
         subject { session }
 
-        its([:user_id]) { should be_nil }
+        describe '[:user_id]' do
+          subject { super()[:user_id] }
+          it { is_expected.to be_nil }
+        end
       end
     end
 
@@ -34,14 +40,20 @@ describe Api::SessionsController do
         before { @action.call }
         subject { response }
 
-        its(:response_code) { should == 401 }
+        describe '#response_code' do
+          subject { super().response_code }
+          it { is_expected.to eq(401) }
+        end
       end
 
       describe "session" do
         before { @action.call }
         subject { session }
 
-        its([:user_id]) { should be_nil }
+        describe '[:user_id]' do
+          subject { super()[:user_id] }
+          it { is_expected.to be_nil }
+        end
       end
     end
 
@@ -54,14 +66,20 @@ describe Api::SessionsController do
         before { @action.call }
         subject { response }
 
-        its(:response_code) { should == 401 }
+        describe '#response_code' do
+          subject { super().response_code }
+          it { is_expected.to eq(401) }
+        end
       end
 
       describe "session" do
         before { @action.call }
         subject { session }
 
-        its([:user_id]) { should be_nil }
+        describe '[:user_id]' do
+          subject { super()[:user_id] }
+          it { is_expected.to be_nil }
+        end
       end
     end
 
@@ -74,15 +92,25 @@ describe Api::SessionsController do
         before { @action.call }
         subject { response }
 
-        its(:response_code) { should == 200 }
-        its(:body) { should match /{"authenticity_token":".+"}/  }
+        describe '#response_code' do
+          subject { super().response_code }
+          it { is_expected.to eq(200) }
+        end
+
+        describe '#body' do
+          subject { super().body }
+          it { is_expected.to match /{"authenticity_token":".+"}/  }
+        end
       end
 
       describe "session" do
         before { @action.call }
         subject { session }
 
-        its([:user_id]) { should == users(:user1).id }
+        describe '[:user_id]' do
+          subject { super()[:user_id] }
+          it { is_expected.to eq(users(:user1).id) }
+        end
       end
     end
   end
@@ -93,12 +121,20 @@ describe Api::SessionsController do
       before { delete :destroy }
       describe "response" do
         subject { response }
-        its(:response_code) { should == 200 }
+
+        describe '#response_code' do
+          subject { super().response_code }
+          it { is_expected.to eq(200) }
+        end
       end
 
       describe "session" do
         subject { session }
-        its([:user_id]) { should be_nil }
+
+        describe '[:user_id]' do
+          subject { super()[:user_id] }
+          it { is_expected.to be_nil }
+        end
       end
     end
 
@@ -110,12 +146,20 @@ describe Api::SessionsController do
 
       describe "response" do
         subject { response }
-        its(:response_code) { should == 200 }
+
+        describe '#response_code' do
+          subject { super().response_code }
+          it { is_expected.to eq(200) }
+        end
       end
 
       describe "session" do
         subject { session }
-        its([:user_id]) { should be_nil }
+
+        describe '[:user_id]' do
+          subject { super()[:user_id] }
+          it { is_expected.to be_nil }
+        end
       end
     end
   end

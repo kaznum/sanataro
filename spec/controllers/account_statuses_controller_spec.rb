@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe AccountStatusesController do
+describe AccountStatusesController, :type => :controller do
   fixtures :users, :items, :accounts, :monthly_profit_losses
 
   describe "#show" do
     context "when not logined," do
       specify do
-        User.should_receive(:find).with(nil).once.and_raise(ActiveRecord::RecordNotFound)
+        expect(User).to receive(:find).with(nil).once.and_raise(ActiveRecord::RecordNotFound)
         xhr :get, :show
       end
     end
@@ -22,7 +22,7 @@ describe AccountStatusesController do
         before { xhr :get, :show }
 
         subject { response }
-        it { should render_template("account_statuses/show") }
+        it { is_expected.to render_template("account_statuses/show") }
       end
 
       describe "@account_statuses" do
@@ -32,17 +32,29 @@ describe AccountStatusesController do
         end
 
         subject { assigns(:account_statuses) }
-        it { should_not be_empty }
-        its([:bankings]) { should_not be_nil }
-        its([:expenses]) { should_not be_nil }
-        its([:incomes]) { should_not be_nil }
+        it { is_expected.not_to be_empty }
+
+        describe '[:bankings]' do
+          subject { super()[:bankings] }
+          it { is_expected.not_to be_nil }
+        end
+
+        describe '[:expenses]' do
+          subject { super()[:expenses] }
+          it { is_expected.not_to be_nil }
+        end
+
+        describe '[:incomes]' do
+          subject { super()[:incomes] }
+          it { is_expected.not_to be_nil }
+        end
 
         describe "unknown account" do
           it "does exist and amount is 100" do
             expensees = assigns(:account_statuses)[:expenses]
             matches = expensees.select { |account, amount| account.name == I18n.t('label.unknown') }
-            matches.should have(1).entry
-            matches[0][1].should be == 100
+            expect(matches.entries.size).to eq(1)
+            expect(matches[0][1]).to eq(100)
           end
         end
       end

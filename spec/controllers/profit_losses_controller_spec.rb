@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe ProfitLossesController do
+describe ProfitLossesController, :type => :controller do
   fixtures :users, :items, :accounts, :monthly_profit_losses, :credit_relations
 
   describe "#index" do
@@ -24,17 +24,37 @@ describe ProfitLossesController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template('index') }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template('index') }
         end
 
         describe "instance varriables" do
           subject { assigns }
-          its([:m_pls]) { should_not be_nil }
-          its([:account_incomes]) { should_not be_nil }
-          its([:total_income]) { should_not be_nil }
-          its([:account_expenses]) { should_not be_nil }
-          its([:total_expense]) { should_not be_nil }
+
+          describe '[:m_pls]' do
+            subject { super()[:m_pls] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:account_incomes]' do
+            subject { super()[:account_incomes] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:total_income]' do
+            subject { super()[:total_income] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:account_expenses]' do
+            subject { super()[:account_expenses] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:total_expense]' do
+            subject { super()[:total_expense] }
+            it { is_expected.not_to be_nil }
+          end
         end
       end
 
@@ -45,7 +65,7 @@ describe ProfitLossesController do
 
         describe "response" do
           subject { response }
-          it { should redirect_to current_entries_url }
+          it { is_expected.to redirect_to current_entries_url }
         end
       end
 
@@ -56,17 +76,37 @@ describe ProfitLossesController do
           end
           describe "response" do
             subject { response }
-            it { should be_success }
-            it { should render_template('index') }
+            it { is_expected.to be_success }
+            it { is_expected.to render_template('index') }
           end
 
           describe "assigned variables" do
             subject { assigns }
-            its([:m_pls]) { should_not be_nil }
-            its([:account_incomes]) { should_not be_nil }
-            its([:total_income]) { should_not be_nil }
-            its([:account_expenses]) { should_not be_nil }
-            its([:total_expense]) { should_not be_nil }
+
+            describe '[:m_pls]' do
+              subject { super()[:m_pls] }
+              it { is_expected.not_to be_nil }
+            end
+
+            describe '[:account_incomes]' do
+              subject { super()[:account_incomes] }
+              it { is_expected.not_to be_nil }
+            end
+
+            describe '[:total_income]' do
+              subject { super()[:total_income] }
+              it { is_expected.not_to be_nil }
+            end
+
+            describe '[:account_expenses]' do
+              subject { super()[:account_expenses] }
+              it { is_expected.not_to be_nil }
+            end
+
+            describe '[:total_expense]' do
+              subject { super()[:total_expense] }
+              it { is_expected.not_to be_nil }
+            end
           end
         end
 
@@ -77,8 +117,8 @@ describe ProfitLossesController do
 
           describe "unknown account in assigned variables" do
             subject { assigns[:account_incomes] }
-            it { should be_any { |a| a.id == -1 } }
-            specify { subject.find { |a| a.id == -1 }.name.should == I18n.t("label.unknown_income") }
+            it { is_expected.to be_any { |a| a.id == -1 } }
+            specify { expect(subject.find { |a| a.id == -1 }.name).to eq(I18n.t("label.unknown_income")) }
           end
         end
 
@@ -90,8 +130,8 @@ describe ProfitLossesController do
 
           describe "unknown account in assigned variables" do
             subject { assigns[:account_expenses] }
-            it { should be_any { |a| a.id == -1 } }
-            specify { subject.find { |a| a.id == -1 }.name.should == I18n.t("label.unknown_expense") }
+            it { is_expected.to be_any { |a| a.id == -1 } }
+            specify { expect(subject.find { |a| a.id == -1 }.name).to eq(I18n.t("label.unknown_expense")) }
           end
         end
       end
@@ -106,7 +146,7 @@ describe ProfitLossesController do
 
       describe "response" do
         subject { response }
-        it { should render_template("common/redirect") }
+        it { is_expected.to render_template("common/redirect") }
       end
     end
 
@@ -122,21 +162,33 @@ describe ProfitLossesController do
           end
           describe "response" do
             subject { response }
-            it { should render_template "show" }
+            it { is_expected.to render_template "show" }
           end
 
           describe "assigned variables" do
             subject { assigns }
-            its([:items]) { should_not be_nil }
-            its([:account_id]) { should_not be_nil }
-            its([:account_id]) { should be accounts(:expense3).id }
+
+            describe '[:items]' do
+              subject { super()[:items] }
+              it { is_expected.not_to be_nil }
+            end
+
+            describe '[:account_id]' do
+              subject { super()[:account_id] }
+              it { is_expected.not_to be_nil }
+            end
+
+            describe '[:account_id]' do
+              subject { super()[:account_id] }
+              it { is_expected.to be accounts(:expense3).id }
+            end
 
             describe "items" do
               subject { assigns[:items] }
               specify do
                 subject.each do |item|
-                  item.to_account_id.should be(accounts(:expense3).id)
-                  item.action_date.should be_between(Date.new(2008, 2), Date.new(2008, 2).end_of_month)
+                  expect(item.to_account_id).to be(accounts(:expense3).id)
+                  expect(item.action_date).to be_between(Date.new(2008, 2), Date.new(2008, 2).end_of_month)
                 end
               end
             end
@@ -150,21 +202,33 @@ describe ProfitLossesController do
 
           describe "response" do
             subject { response }
-            it { should be_success }
-            it { should render_template "show" }
+            it { is_expected.to be_success }
+            it { is_expected.to render_template "show" }
           end
           describe "assigned variables" do
             subject { assigns }
-            its([:items]) { should_not be_nil }
-            its([:account_id]) { should_not be_nil }
-            its([:account_id]) { should be accounts(:expense3).id }
+
+            describe '[:items]' do
+              subject { super()[:items] }
+              it { is_expected.not_to be_nil }
+            end
+
+            describe '[:account_id]' do
+              subject { super()[:account_id] }
+              it { is_expected.not_to be_nil }
+            end
+
+            describe '[:account_id]' do
+              subject { super()[:account_id] }
+              it { is_expected.to be accounts(:expense3).id }
+            end
 
             describe "items" do
               subject { assigns(:items) }
               specify do
                 subject.each do |item|
-                  item.to_account_id.should be accounts(:expense3).id
-                  item.action_date.should be_between(Date.today.beginning_of_month, Date.today.end_of_month)
+                  expect(item.to_account_id).to be accounts(:expense3).id
+                  expect(item.action_date).to be_between(Date.today.beginning_of_month, Date.today.end_of_month)
                 end
               end
             end

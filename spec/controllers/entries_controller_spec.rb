@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe EntriesController do
+describe EntriesController, :type => :controller do
   fixtures :all
 
   describe "#index" do
@@ -17,7 +17,7 @@ describe EntriesController do
       let(:mock_user) { users(:user1) }
       before do
         mock_user
-        User.should_receive(:find).with(mock_user.id).at_least(1).and_return(mock_user)
+        expect(User).to receive(:find).with(mock_user.id).at_least(1).and_return(mock_user)
         dummy_login
       end
 
@@ -27,14 +27,14 @@ describe EntriesController do
         end
 
         subject { response }
-        it { should redirect_to current_entries_url }
+        it { is_expected.to redirect_to current_entries_url }
       end
 
       shared_examples_for "Success" do
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "index" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "index" }
         end
       end
 
@@ -43,14 +43,18 @@ describe EntriesController do
 
         describe "@new_item" do
           subject { assigns(:new_item) }
-          its(:action_date) { should eq Date.today }
+
+          describe '#action_date' do
+            subject { super().action_date }
+            it { is_expected.to eq Date.today }
+          end
         end
 
         describe "@items" do
           subject { assigns(:items) }
           specify {
             subject.each do |item|
-              item.action_date.should be_between(Date.today.beginning_of_month, Date.today.end_of_month)
+              expect(item.action_date).to be_between(Date.today.beginning_of_month, Date.today.end_of_month)
             end
           }
         end
@@ -80,14 +84,18 @@ describe EntriesController do
 
           describe "@new_item" do
             subject { assigns(:new_item) }
-            its(:action_date) { should eq Date.new(2008, 2) }
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq Date.new(2008, 2) }
+            end
           end
 
           describe "@items" do
             subject { assigns(:items) }
             specify {
               subject.each do |item|
-                item.action_date.should be_between(Date.new(2008, 2), Date.new(2008, 2).end_of_month)
+                expect(item.action_date).to be_between(Date.new(2008, 2), Date.new(2008, 2).end_of_month)
               end
             }
           end
@@ -103,18 +111,20 @@ describe EntriesController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template 'index_with_tag_keyword' }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template 'index_with_tag_keyword' }
         end
 
         describe "@items" do
           subject { assigns(:items) }
-          it { should have(1).items }
+          it 'has 1 item' do
+            expect(subject.size).to eq(1)
+          end
         end
 
         describe "@tag" do
           subject { assigns(:tag) }
-          it { should eq 'test_tag' }
+          it { is_expected.to eq 'test_tag' }
         end
       end
 
@@ -126,16 +136,18 @@ describe EntriesController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "index_with_mark" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "index_with_mark" }
         end
 
         describe "@items" do
           subject { assigns(:items) }
-          it { should have(Item.where(confirmation_required: true).count).items }
+          it 'has Item.where(confirmation_required: true).count items' do
+            expect(subject.size).to eq(Item.where(confirmation_required: true).count)
+          end
           specify {
             subject.each do |item|
-              item.should be_confirmation_required
+              expect(item).to be_confirmation_required
             end
           }
         end
@@ -149,13 +161,17 @@ describe EntriesController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "index_with_tag_keyword" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "index_with_tag_keyword" }
         end
 
         describe "@items" do
           subject { assigns(:items) }
-          its(:size) { should eq 1 }
+
+          describe '#size' do
+            subject { super().size }
+            it { is_expected.to eq 1 }
+          end
         end
       end
 
@@ -167,13 +183,17 @@ describe EntriesController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "index_with_tag_keyword" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "index_with_tag_keyword" }
         end
 
         describe "@items" do
           subject { assigns(:items) }
-          its(:size) { should eq 1 }
+
+          describe '#size' do
+            subject { super().size }
+            it { is_expected.to eq 1 }
+          end
         end
       end
 
@@ -185,13 +205,17 @@ describe EntriesController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "index_with_tag_keyword" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "index_with_tag_keyword" }
         end
 
         describe "@items" do
           subject { assigns(:items) }
-          its(:size) { should eq 1 }
+
+          describe '#size' do
+            subject { super().size }
+            it { is_expected.to eq 1 }
+          end
         end
       end
 
@@ -200,21 +224,21 @@ describe EntriesController do
           shared_examples_for "filtered index" do
             describe "response" do
               subject { response }
-              it { should be_success }
+              it { is_expected.to be_success }
             end
 
             describe "@items" do
               subject { assigns(:items) }
               specify {
                 subject.each do |item|
-                  [item.from_account_id, item.to_account_id].should include(accounts(:bank1).id)
+                  expect([item.from_account_id, item.to_account_id]).to include(accounts(:bank1).id)
                 end
               }
             end
 
             describe "session[:filter_account_id]" do
               subject {  session[:filter_account_id] }
-              it { should eq accounts(:bank1).id }
+              it { is_expected.to eq accounts(:bank1).id }
             end
           end
 
@@ -226,7 +250,7 @@ describe EntriesController do
 
           describe "response" do
             subject { response }
-            it { should render_template 'index_with_filter_account_id' }
+            it { is_expected.to render_template 'index_with_filter_account_id' }
           end
 
           context "after changing filter, access index with no filter_account_id," do
@@ -236,7 +260,7 @@ describe EntriesController do
 
             describe "response" do
               subject { response }
-              it { should render_template 'index' }
+              it { is_expected.to render_template 'index' }
             end
             it_should_behave_like "filtered index"
           end
@@ -244,23 +268,23 @@ describe EntriesController do
           context "after changing filter, access with filter_account_id = ''," do
             before do
               @non_bank1_item = users(:user1).general_items.create!(name: "not bank1 entry", action_date: Date.new(2008, 2, 15), from_account_id: accounts(:income2).id, to_account_id: accounts(:expense3).id, amount: 1000)
-              session[:filter_account_id].should eq accounts(:bank1).id
+              expect(session[:filter_account_id]).to eq accounts(:bank1).id
               xhr :get, :index, filter_account_id: "", year: '2008', month: '2'
             end
 
             describe "session[:filter_account_id]" do
               subject { session[:filter_account_id] }
-              it { should be_nil }
+              it { is_expected.to be_nil }
             end
 
             describe "@items" do
               subject { assigns(:items) }
-              it { should include(@non_bank1_item) }
+              it { is_expected.to include(@non_bank1_item) }
             end
 
             describe "response" do
               subject { response }
-              it { should render_template "index_with_filter_account_id" }
+              it { is_expected.to render_template "index_with_filter_account_id" }
             end
           end
         end
@@ -270,8 +294,8 @@ describe EntriesController do
         shared_examples_for "executed correctly" do
           describe "response" do
             subject { response }
-            it { should be_success }
-            it { should render_template "index_for_remaining" }
+            it { is_expected.to be_success }
+            it { is_expected.to render_template "index_for_remaining" }
           end
         end
 
@@ -281,8 +305,8 @@ describe EntriesController do
               stub_date_from = Date.new(2008, 2)
               stub_date_to = Date.new(2008, 2).end_of_month
               mock_items = users(:user1).items
-              mock_user.should_receive(:items).and_return(mock_items)
-              mock_items.should_receive(:partials).with(stub_date_from, stub_date_to,
+              expect(mock_user).to receive(:items).and_return(mock_items)
+              expect(mock_items).to receive(:partials).with(stub_date_from, stub_date_to,
                                                         hash_including(remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
               xhr :get, :index, remaining: 1, year: 2008, month: 2
             end
@@ -291,8 +315,8 @@ describe EntriesController do
           describe "other than user.items.partials" do
             before do
               mock_items = users(:user1).items
-              mock_user.should_receive(:items).and_return(mock_items)
-              mock_items.stub(:partials).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
+              expect(mock_user).to receive(:items).and_return(mock_items)
+              allow(mock_items).to receive(:partials).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
               xhr :get, :index, remaining: true, year: 2008, month: 2
             end
 
@@ -300,7 +324,7 @@ describe EntriesController do
 
             describe "@items" do
               subject { assigns(:items) }
-              it { should_not be_empty }
+              it { is_expected.not_to be_empty }
             end
           end
         end
@@ -309,8 +333,8 @@ describe EntriesController do
           describe "user.items.partials" do
             it "called with tag => 'xxx' and :remain => true" do
               mock_items = users(:user1).items
-              mock_user.should_receive(:items).and_return(mock_items)
-              mock_items.should_receive(:partials).with(nil, nil,
+              expect(mock_user).to receive(:items).and_return(mock_items)
+              expect(mock_items).to receive(:partials).with(nil, nil,
                                                         hash_including(tag: 'xxx', remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
               xhr :get, :index, remaining: true, year: 2008, month: 2, tag: 'xxx'
             end
@@ -318,7 +342,7 @@ describe EntriesController do
 
           describe "other than user.items.partials," do
             before do
-              Item.stub(:partials).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
+              allow(Item).to receive(:partials).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
               xhr :get, :index, remaining: true, year: 2008, month: 2, tag: 'xxx'
             end
 
@@ -327,7 +351,7 @@ describe EntriesController do
             describe "@items" do
               subject { assigns(:items) }
               # 0 item for  remaining
-              it { should_not be_empty }
+              it { is_expected.not_to be_empty }
             end
           end
         end
@@ -338,7 +362,7 @@ describe EntriesController do
           end
           describe "response" do
             subject { response }
-            it { should redirect_by_js_to current_entries_url }
+            it { is_expected.to redirect_by_js_to current_entries_url }
           end
         end
       end
@@ -360,13 +384,17 @@ describe EntriesController do
         shared_examples_for "execute edit successfully of #{item_name.to_s}" do
           describe "resposne" do
             subject { response }
-            it { should be_success }
-            it { should render_template "edit" }
+            it { is_expected.to be_success }
+            it { is_expected.to render_template "edit" }
           end
 
           describe "@item" do
             subject { assigns(:item) }
-            its(:id) { should eq items(item_name).id }
+
+            describe '#id' do
+              subject { super().id }
+              it { is_expected.to eq items(item_name).id }
+            end
           end
         end
       end
@@ -411,8 +439,8 @@ describe EntriesController do
         end
 
         subject { response }
-        it { should be_success }
-        it { should render_template "show" }
+        it { is_expected.to be_success }
+        it { is_expected.to render_template "show" }
       end
     end
   end
@@ -436,14 +464,18 @@ describe EntriesController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "new" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "new" }
         end
 
         describe "@item" do
           subject { assigns(:item) }
-          its(:action_date) { should eq Date.today }
-          it { should_not be_adjustment }
+
+          describe '#action_date' do
+            subject { super().action_date }
+            it { is_expected.to eq Date.today }
+          end
+          it { is_expected.not_to be_adjustment }
         end
       end
 
@@ -454,14 +486,18 @@ describe EntriesController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "new" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "new" }
         end
 
         describe "@item" do
           subject { assigns(:item) }
-          its(:action_date) { should eq Date.new(2008, 5) }
-          it { should_not be_adjustment }
+
+          describe '#action_date' do
+            subject { super().action_date }
+            it { is_expected.to eq Date.new(2008, 5) }
+          end
+          it { is_expected.not_to be_adjustment }
         end
       end
 
@@ -469,8 +505,8 @@ describe EntriesController do
         shared_examples_for "respond successfully" do
           describe "response" do
             subject { response }
-            it { should be_success }
-            it { should render_template 'new' }
+            it { is_expected.to be_success }
+            it { is_expected.to render_template 'new' }
           end
         end
 
@@ -483,8 +519,12 @@ describe EntriesController do
 
           describe "item" do
             subject { assigns(:item) }
-            its(:action_date) { should eq Date.today }
-            it { should be_adjustment }
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq Date.today }
+            end
+            it { is_expected.to be_adjustment }
           end
         end
 
@@ -498,8 +538,12 @@ describe EntriesController do
 
             describe "@item" do
               subject { assigns(:item) }
-              its(:action_date) { should eq Date.new(2009, 5) }
-              it { should be_adjustment }
+
+              describe '#action_date' do
+                subject { super().action_date }
+                it { is_expected.to eq Date.new(2009, 5) }
+              end
+              it { is_expected.to be_adjustment }
             end
           end
 
@@ -512,8 +556,12 @@ describe EntriesController do
 
             describe "item.action_date" do
               subject { assigns(:item) }
-              its(:action_date) { should eq Date.today }
-              it { should be_adjustment }
+
+              describe '#action_date' do
+                subject { super().action_date }
+                it { is_expected.to eq Date.today }
+              end
+              it { is_expected.to be_adjustment }
             end
           end
         end
@@ -523,28 +571,52 @@ describe EntriesController do
         let(:mock_user) { users(:user1) }
         before do
           mock_user
-          User.should_receive(:find).with(mock_user.id).and_return(mock_user)
-          mock_user.should_receive(:from_accounts).at_least(:once).and_return([%w(a b), %w(c d)])
-          mock_user.should_receive(:to_accounts).at_least(:once).and_return([%w(e f), %w(g h)])
+          expect(User).to receive(:find).with(mock_user.id).and_return(mock_user)
+          expect(mock_user).to receive(:from_accounts).at_least(:once).and_return([%w(a b), %w(c d)])
+          expect(mock_user).to receive(:to_accounts).at_least(:once).and_return([%w(e f), %w(g h)])
 
-          @controller.should_receive(:form_authenticity_token).and_return("1234567")
+          expect(@controller).to receive(:form_authenticity_token).and_return("1234567")
           xhr :get, :new, entry_type: 'simple'
         end
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template 'new_simple' }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template 'new_simple' }
         end
 
         describe "@data" do
           subject { assigns(:data) }
-          its([:authenticity_token]) { should eq "1234567" }
-          its([:year]) { should eq Date.today.year }
-          its([:month]) { should eq Date.today.month }
-          its([:day]) { should eq Date.today.day }
-          its([:from_accounts]) { should eq [{ value: 'b', text: 'a' }, { value: 'd', text: 'c' }] }
-          its([:to_accounts]) { should eq [{ value: 'f', text: 'e' }, { value: 'h', text: 'g' }] }
+
+          describe '[:authenticity_token]' do
+            subject { super()[:authenticity_token] }
+            it { is_expected.to eq "1234567" }
+          end
+
+          describe '[:year]' do
+            subject { super()[:year] }
+            it { is_expected.to eq Date.today.year }
+          end
+
+          describe '[:month]' do
+            subject { super()[:month] }
+            it { is_expected.to eq Date.today.month }
+          end
+
+          describe '[:day]' do
+            subject { super()[:day] }
+            it { is_expected.to eq Date.today.day }
+          end
+
+          describe '[:from_accounts]' do
+            subject { super()[:from_accounts] }
+            it { is_expected.to eq [{ value: 'b', text: 'a' }, { value: 'd', text: 'c' }] }
+          end
+
+          describe '[:to_accounts]' do
+            subject { super()[:to_accounts] }
+            it { is_expected.to eq [{ value: 'f', text: 'e' }, { value: 'h', text: 'g' }] }
+          end
         end
       end
     end
@@ -556,28 +628,28 @@ describe EntriesController do
         xhr :delete, :destroy, id: 12_345
       end
       subject { response }
-      it { should redirect_by_js_to login_url }
+      it { is_expected.to redirect_by_js_to login_url }
     end
 
     context "after login," do
       let(:mock_user) { users(:user1) }
       before do
         mock_user
-        User.should_receive(:find).with(mock_user.id).at_least(1).and_return(mock_user)
+        expect(User).to receive(:find).with(mock_user.id).at_least(1).and_return(mock_user)
         dummy_login
       end
 
       context "when id in params is invalid," do
         let(:mock_items) { double }
         before do
-          mock_user.should_receive(:items).and_return(mock_items)
-          mock_items.should_receive(:find).with("12345").and_raise(ActiveRecord::RecordNotFound.new)
+          expect(mock_user).to receive(:items).and_return(mock_items)
+          expect(mock_items).to receive(:find).with("12345").and_raise(ActiveRecord::RecordNotFound.new)
           xhr :delete, :destroy, id: 12_345
         end
 
         describe "response" do
           subject { response }
-          it { should redirect_by_js_to current_entries_url }
+          it { is_expected.to redirect_by_js_to current_entries_url }
         end
       end
 
@@ -596,28 +668,46 @@ describe EntriesController do
 
           describe "response" do
             subject { response }
-            it { should be_success }
-            its(:content_type) { should eq "text/javascript" }
+            it { is_expected.to be_success }
+
+            describe '#content_type' do
+              subject { super().content_type }
+              it { is_expected.to eq "text/javascript" }
+            end
           end
 
           describe "the specified item" do
             subject { Item.where(id: @old_item1.id).load }
-            it { should have(0).item }
+            it 'has no item' do
+              expect(subject.size).to eq(0)
+            end
           end
 
           describe "the future adjustment item" do
             subject { Item.find(@old_adj2.id) }
-            its(:amount) { should eq @old_adj2.amount - @old_item1.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq @old_adj2.amount - @old_item1.amount }
+            end
           end
 
           describe "amount of Montly profit loss of from_account" do
             subject { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id) }
-            its(:amount) { should eq @old_bank1pl.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq @old_bank1pl.amount }
+            end
           end
 
           describe "amount of Montly profit loss of to_account" do
             subject { MonthlyProfitLoss.find(monthly_profit_losses(:expense3200802).id) }
-            its(:amount) { should eq @old_expense3pl.amount - @old_item1.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq @old_expense3pl.amount - @old_item1.amount }
+            end
           end
         end
 
@@ -626,7 +716,7 @@ describe EntriesController do
             # prepare data to destroy
             xhr :post, :create, entry: { name: 'test', amount: '1000', action_date: '2008/2/3', from_account_id: '2', to_account_id: '1' }, year: "2008", month: "2"
             @item_to_del = Item.where(action_date: Date.new(2008, 2, 3), from_account_id: 2, to_account_id: 1).first
-            @item_to_del.amount.should eq 1000
+            expect(@item_to_del.amount).to eq 1000
 
             @old_adj2 = items(:adjustment2)
             @old_bank1 = monthly_profit_losses(:bank1200802)
@@ -639,29 +729,47 @@ describe EntriesController do
 
           describe "response" do
             subject { response }
-            it { should be_success }
-            its(:content_type) { should eq "text/javascript" }
+            it { is_expected.to be_success }
+
+            describe '#content_type' do
+              subject { super().content_type }
+              it { is_expected.to eq "text/javascript" }
+            end
           end
 
           describe "the specified item" do
             subject { Item.where(id: @item_to_del.id).load }
-            it { should have(0).item }
+            it 'has no item' do
+              expect(subject.size).to eq(0)
+            end
           end
 
           describe "the future adjustment item" do
             subject { Item.find(@old_adj2.id) }
-            its(:amount) { should eq @old_adj2.amount + @item_to_del.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq @old_adj2.amount + @item_to_del.amount }
+            end
           end
 
           describe "amount of Montly profit loss of from_account" do
 
             subject { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id) }
-            its(:amount) { should eq @old_bank1.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq @old_bank1.amount }
+            end
           end
 
           describe "amount of Montly profit loss of to_account" do
             subject { MonthlyProfitLoss.find(@old_income.id) }
-            its(:amount) { should eq @old_income.amount + @item_to_del.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq @old_income.amount + @item_to_del.amount }
+            end
           end
         end
 
@@ -678,12 +786,16 @@ describe EntriesController do
 
           describe "response" do
             subject { response }
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "amount of from_account" do
             subject { MonthlyProfitLoss.find(@old_bank11pl.id) }
-            its(:amount) { should eq @old_bank11pl.amount + @item.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq @old_bank11pl.amount + @item.amount }
+            end
           end
 
           describe "specified item" do
@@ -695,7 +807,11 @@ describe EntriesController do
 
           describe "amount of to_account" do
             subject { MonthlyProfitLoss.find(@old_expense13pl.id) }
-            its(:amount) { should eq  @old_expense13pl.amount - @item.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq  @old_expense13pl.amount - @item.amount }
+            end
           end
         end
 
@@ -713,7 +829,7 @@ describe EntriesController do
             describe "response" do
               before { action.call }
               subject { response }
-              it { should be_success }
+              it { is_expected.to be_success }
             end
 
             describe "specified item" do
@@ -754,8 +870,12 @@ describe EntriesController do
             describe "response" do
               before { action.call }
               subject { response }
-              it { should be_success }
-              its(:content_type) { should eq 'text/javascript' }
+              it { is_expected.to be_success }
+
+              describe '#content_type' do
+                subject { super().content_type }
+                it { is_expected.to eq 'text/javascript' }
+              end
             end
 
             describe "specified item" do
@@ -783,12 +903,12 @@ describe EntriesController do
         context "with invalid id," do
           let(:mock_items) { double }
           before do
-            mock_user.should_receive(:items).and_return(mock_items)
-            mock_items.should_receive(:find).with("20000").and_raise(ActiveRecord::RecordNotFound.new)
+            expect(mock_user).to receive(:items).and_return(mock_items)
+            expect(mock_items).to receive(:find).with("20000").and_raise(ActiveRecord::RecordNotFound.new)
             xhr :delete, :destroy, id: 20_000, year: Date.today.year, month: Date.today.month
           end
           subject { response }
-          it { should redirect_by_js_to current_entries_url }
+          it { is_expected.to redirect_by_js_to current_entries_url }
         end
 
         context "with correct id," do
@@ -809,13 +929,13 @@ describe EntriesController do
             describe "response" do
               before { @action.call }
               subject { response }
-              it { should be_success }
+              it { is_expected.to be_success }
             end
 
             describe "specified item(adjustment2)" do
               before { @action.call }
               subject { Item.where(id: @init_adj2.id).first }
-              it { should be_nil }
+              it { is_expected.to be_nil }
             end
 
             describe "adjustment4 which is next future adjustment" do
@@ -850,43 +970,71 @@ describe EntriesController do
 
             describe "response" do
               subject { response }
-              it { should be_success }
-              its(:content_type) { should eq "text/javascript" }
+              it { is_expected.to be_success }
+
+              describe '#content_type' do
+                subject { super().content_type }
+                it { is_expected.to eq "text/javascript" }
+              end
             end
 
             describe "previous adjustment(adj2)" do
               subject { Item.where(id: @init_adj2.id).first }
-              its(:amount) { should eq @init_adj2.amount }
+
+              describe '#amount' do
+                subject { super().amount }
+                it { is_expected.to eq @init_adj2.amount }
+              end
             end
 
             describe "specified adjustment(adj4)" do
               subject { Item.find_by_id(@init_adj4.id) }
-              it { should be_nil }
+              it { is_expected.to be_nil }
             end
 
             describe "next adjustment(adj6" do
               subject { Item.find_by_id(@init_adj6.id) }
-              its(:amount) { should eq @init_adj6.amount + @init_adj4.amount }
+
+              describe '#amount' do
+                subject { super().amount }
+                it { is_expected.to eq @init_adj6.amount + @init_adj4.amount }
+              end
             end
 
             describe "bank_2_pl" do
               subject { MonthlyProfitLoss.find(@init_bank_2_pl.id) }
-              its(:amount) { should eq @init_bank_2_pl.amount - @init_adj4.amount }
+
+              describe '#amount' do
+                subject { super().amount }
+                it { is_expected.to eq @init_bank_2_pl.amount - @init_adj4.amount }
+              end
             end
 
             describe "bank_3_pl" do
               subject { MonthlyProfitLoss.find(@init_bank_3_pl.id) }
-              its(:amount) { should eq @init_bank_3_pl.amount + @init_adj4.amount }
+
+              describe '#amount' do
+                subject { super().amount }
+                it { is_expected.to eq @init_bank_3_pl.amount + @init_adj4.amount }
+              end
             end
 
             describe "unknown_2_pl" do
               subject { MonthlyProfitLoss.find(@init_unknown_2_pl.id) }
-              its(:amount) { should eq @init_unknown_2_pl.amount + @init_adj4.amount }
+
+              describe '#amount' do
+                subject { super().amount }
+                it { is_expected.to eq @init_unknown_2_pl.amount + @init_adj4.amount }
+              end
             end
 
             describe "unknown_3_pl" do
               subject { MonthlyProfitLoss.find(@init_unknown_3_pl.id) }
-              its(:amount) { should eq @init_unknown_3_pl.amount - @init_adj4.amount }
+
+              describe '#amount' do
+                subject { super().amount }
+                it { is_expected.to eq @init_unknown_3_pl.amount - @init_adj4.amount }
+              end
             end
           end
 
@@ -917,43 +1065,71 @@ describe EntriesController do
 
             describe "response" do
               subject { response }
-              it { should be_success }
-              its(:content_type) { should eq "text/javascript" }
+              it { is_expected.to be_success }
+
+              describe '#content_type' do
+                subject { super().content_type }
+                it { is_expected.to eq "text/javascript" }
+              end
             end
 
             describe "the adj before last adj(adj2)" do
               subject { Item.find_by_id(@init_adj2.id) }
-              its(:amount) { should eq @init_adj2.amount }
+
+              describe '#amount' do
+                subject { super().amount }
+                it { is_expected.to eq @init_adj2.amount }
+              end
             end
 
             describe "the last adj(adj4)" do
               subject { Item.find_by_id(@init_adj4.id) }
-              its(:amount) { should eq @init_adj4.amount }
+
+              describe '#amount' do
+                subject { super().amount }
+                it { is_expected.to eq @init_adj4.amount }
+              end
             end
 
             describe "specified adjustment(adj6)" do
               subject { Item.find_by_id(@init_adj6.id) }
-              it { should be_nil }
+              it { is_expected.to be_nil }
             end
 
             describe "bank_2_pl" do
               subject { MonthlyProfitLoss.find(@init_bank_2_pl.id) }
-              its(:amount) { should eq @init_bank_2_pl.amount }
+
+              describe '#amount' do
+                subject { super().amount }
+                it { is_expected.to eq @init_bank_2_pl.amount }
+              end
             end
 
             describe "bank_3_pl" do
               subject { MonthlyProfitLoss.find(@init_bank_3_pl.id) }
-              its(:amount) { should eq @init_bank_3_pl.amount - @init_adj6.amount }
+
+              describe '#amount' do
+                subject { super().amount }
+                it { is_expected.to eq @init_bank_3_pl.amount - @init_adj6.amount }
+              end
             end
 
             describe "unknown_2" do
               subject { MonthlyProfitLoss.find(@init_unknown_2_pl.id) }
-              its(:amount) { @init_unknown_2_pl.amount }
+
+              describe '#amount' do
+                subject { super().amount }
+                it { @init_unknown_2_pl.amount }
+              end
             end
 
             describe "unknown_3" do
               subject { MonthlyProfitLoss.find(@init_unknown_3_pl.id) }
-              its(:amount) { @init_unknown_3_pl.amount + @init_adj6.amount }
+
+              describe '#amount' do
+                subject { super().amount }
+                it { @init_unknown_3_pl.amount + @init_adj6.amount }
+              end
             end
           end
         end
@@ -968,7 +1144,7 @@ describe EntriesController do
       end
 
       subject { response }
-      it { should redirect_by_js_to login_url }
+      it { is_expected.to redirect_by_js_to login_url }
     end
 
     context "after login, " do
@@ -982,13 +1158,13 @@ describe EntriesController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_js_error id: 'warning', default_message: I18n.t('error.input_is_invalid') }
+          it { is_expected.to be_success }
+          it { is_expected.to render_js_error id: 'warning', default_message: I18n.t('error.input_is_invalid') }
         end
 
         describe "the count of items" do
           subject { Item.count }
-          it { should eq @previous_items }
+          it { is_expected.to eq @previous_items }
         end
       end
 
@@ -1000,13 +1176,13 @@ describe EntriesController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_js_error id: 'warning', default_message: I18n.t("error.input_is_invalid") }
+          it { is_expected.to be_success }
+          it { is_expected.to render_js_error id: 'warning', default_message: I18n.t("error.input_is_invalid") }
         end
 
         describe "the count of items" do
           subject { Item.count }
-          it { should eq @previous_items }
+          it { is_expected.to eq @previous_items }
         end
       end
 
@@ -1018,20 +1194,20 @@ describe EntriesController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_js_error id: 'warning', default_message: I18n.t("error.date_is_invalid") }
+          it { is_expected.to be_success }
+          it { is_expected.to render_js_error id: 'warning', default_message: I18n.t("error.date_is_invalid") }
         end
 
         describe "the count of items" do
           subject { Item.count }
-          it { should eq @previous_items }
+          it { is_expected.to eq @previous_items }
         end
       end
 
       shared_examples_for "created successfully" do
         describe "response" do
           subject { response }
-          it { should be_success }
+          it { is_expected.to be_success }
         end
       end
 
@@ -1042,13 +1218,13 @@ describe EntriesController do
         end
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_js_error id: "warning", default_message: I18n.t("error.amount_is_invalid") }
+          it { is_expected.to be_success }
+          it { is_expected.to render_js_error id: "warning", default_message: I18n.t("error.amount_is_invalid") }
         end
 
         describe "count of Item" do
           subject { Item.count }
-          it { should eq @previous_item_count }
+          it { is_expected.to eq @previous_item_count }
         end
       end
 
@@ -1062,21 +1238,23 @@ describe EntriesController do
 
         describe "count of Item" do
           subject { Item.count }
-          it { should eq @init_item_count + 1 }
+          it { is_expected.to eq @init_item_count + 1 }
         end
       end
 
       shared_examples_for "created successfully with tag_list == 'hoge fuga" do
         describe "tags" do
           subject { Tag.where(name: 'hoge').load }
-          it { should have(1).tag }
+          it 'has 1 tag' do
+            expect(subject.size).to eq(1)
+          end
           specify {
             subject.each do |t|
               taggings = Tagging.where(tag_id: t.id).load
-              taggings.size.should eq 1
+              expect(taggings.size).to eq 1
               taggings.each do |tag|
-                tag.user_id.should eq users(:user1).id
-                tag.taggable_type.should eq 'Item'
+                expect(tag.user_id).to eq users(:user1).id
+                expect(tag.taggable_type).to eq 'Item'
               end
             end
           }
@@ -1093,7 +1271,7 @@ describe EntriesController do
 
         describe "count of items" do
           subject { Item.count }
-          it { should eq @init_item_count + 1 }
+          it { is_expected.to eq @init_item_count + 1 }
         end
 
         describe "created item" do
@@ -1102,10 +1280,21 @@ describe EntriesController do
             Item.find_by_id(id)
           }
 
-          its(:name) { should eq 'テスト10' }
-          its(:amount) { should eq 10_000 }
-          it { should be_confirmation_required }
-          its(:tag_list) { should eq "fuga hoge" }
+          describe '#name' do
+            subject { super().name }
+            it { is_expected.to eq 'テスト10' }
+          end
+
+          describe '#amount' do
+            subject { super().amount }
+            it { is_expected.to eq 10_000 }
+          end
+          it { is_expected.to be_confirmation_required }
+
+          describe '#tag_list' do
+            subject { super().tag_list }
+            it { is_expected.to eq "fuga hoge" }
+          end
         end
 
         it_should_behave_like "created successfully with tag_list == 'hoge fuga"
@@ -1121,7 +1310,7 @@ describe EntriesController do
 
         describe "count of items" do
           subject { Item.count }
-          it { should eq @init_item_count + 1 }
+          it { is_expected.to eq @init_item_count + 1 }
         end
 
         describe "created item" do
@@ -1130,10 +1319,21 @@ describe EntriesController do
             Item.find_by_id(id)
           }
 
-          its(:name) { should eq 'テスト10' }
-          its(:amount) { should eq 10_000 }
-          it { should be_confirmation_required }
-          its(:tag_list) { should eq "fuga hoge" }
+          describe '#name' do
+            subject { super().name }
+            it { is_expected.to eq 'テスト10' }
+          end
+
+          describe '#amount' do
+            subject { super().amount }
+            it { is_expected.to eq 10_000 }
+          end
+          it { is_expected.to be_confirmation_required }
+
+          describe '#tag_list' do
+            subject { super().tag_list }
+            it { is_expected.to eq "fuga hoge" }
+          end
         end
 
         it_should_behave_like "created successfully with tag_list == 'hoge fuga"
@@ -1149,7 +1349,7 @@ describe EntriesController do
 
         describe "count of items" do
           subject { Item.count }
-          it { should eq @init_item_count + 1 }
+          it { is_expected.to eq @init_item_count + 1 }
         end
 
         describe "created item" do
@@ -1158,10 +1358,21 @@ describe EntriesController do
             Item.find_by_id(id)
           }
 
-          its(:name) { should eq 'テスト10' }
-          its(:amount) { should eq 10_000 }
-          it { should_not be_confirmation_required }
-          its(:tag_list) { should eq "fuga hoge" }
+          describe '#name' do
+            subject { super().name }
+            it { is_expected.to eq 'テスト10' }
+          end
+
+          describe '#amount' do
+            subject { super().amount }
+            it { is_expected.to eq 10_000 }
+          end
+          it { is_expected.not_to be_confirmation_required }
+
+          describe '#tag_list' do
+            subject { super().tag_list }
+            it { is_expected.to eq "fuga hoge" }
+          end
         end
 
         it_should_behave_like "created successfully with tag_list == 'hoge fuga"
@@ -1178,7 +1389,7 @@ describe EntriesController do
 
         describe "count of items" do
           subject { Item.count }
-          it { should eq @init_item_count + 1 }
+          it { is_expected.to eq @init_item_count + 1 }
         end
 
         describe "created item" do
@@ -1187,10 +1398,21 @@ describe EntriesController do
             Item.find_by_id(id)
           }
 
-          its(:name) { should eq 'テスト10' }
-          its(:amount) { should eq 10_000 }
-          it { should_not be_confirmation_required }
-          its(:tag_list) { should eq "fuga hoge" }
+          describe '#name' do
+            subject { super().name }
+            it { is_expected.to eq 'テスト10' }
+          end
+
+          describe '#amount' do
+            subject { super().amount }
+            it { is_expected.to eq 10_000 }
+          end
+          it { is_expected.not_to be_confirmation_required }
+
+          describe '#tag_list' do
+            subject { super().tag_list }
+            it { is_expected.to eq "fuga hoge" }
+          end
         end
 
         it_should_behave_like "created successfully with tag_list == 'hoge fuga"
@@ -1199,7 +1421,7 @@ describe EntriesController do
           subject {
             assigns(:items).all? { |it| it.action_date.beginning_of_month == @display_month.beginning_of_month }
           }
-          it { should be_true }
+          it { is_expected.to be_truthy }
         end
       end
 
@@ -1213,7 +1435,7 @@ describe EntriesController do
 
         describe "count of items" do
           subject { Item.count }
-          it { should eq @init_item_count + 1 }
+          it { is_expected.to eq @init_item_count + 1 }
         end
 
         describe "new record" do
@@ -1222,7 +1444,10 @@ describe EntriesController do
             Item.find_by_id(id)
           end
 
-          its(:amount) { should eq 10 }
+          describe '#amount' do
+            subject { super().amount }
+            it { is_expected.to eq 10 }
+          end
         end
       end
 
@@ -1234,12 +1459,12 @@ describe EntriesController do
 
         describe "response" do
           subject { response }
-          it { should render_js_error id: "warning"}
+          it { is_expected.to render_js_error id: "warning"}
         end
 
         describe "count of items" do
           subject { Item.count }
-          it { should eq @init_item_count }
+          it { is_expected.to eq @init_item_count }
         end
       end
 
@@ -1252,13 +1477,13 @@ describe EntriesController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_js_error id: "warning" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_js_error id: "warning" }
         end
 
         describe "count of items" do
           subject { Item.count }
-          it { should eq @init_item_count }
+          it { is_expected.to eq @init_item_count }
         end
       end
 
@@ -1292,32 +1517,56 @@ describe EntriesController do
 
           describe "adjustment just next to the created item" do
             subject { Item.find(items(:adjustment2).id) }
-            its(:amount) { should eq @init_adj2.amount + 10_000 }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq @init_adj2.amount + 10_000 }
+            end
           end
 
           describe "adjustment which is the next of the adjustment next to the created item" do
             subject { Item.find(items(:adjustment4).id) }
-            its(:amount) { should eq @init_adj4.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq @init_adj4.amount }
+            end
           end
 
           describe "adjustment which is the second next of the adjustment next to the created item" do
             subject { Item.find(items(:adjustment6).id) }
-            its(:amount) { should eq @init_adj6.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq @init_adj6.amount }
+            end
           end
 
           describe "monthly pl which is before the created item" do
             subject { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200801).id) }
-            its(:amount) { should eq @init_pl0801.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq @init_pl0801.amount }
+            end
           end
 
           describe "monthly pl of the same month of the created item" do
             subject { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id) }
-            its(:amount) { should eq @init_pl0802.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq @init_pl0802.amount }
+            end
           end
 
           describe "monthly pl of the next month of the created item" do
             subject { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id) }
-            its(:amount) { should eq @init_pl0803.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq @init_pl0803.amount }
+            end
           end
         end
 
@@ -1373,7 +1622,7 @@ describe EntriesController do
               @post.call
             end
             subject { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 3, 1)).first }
-            it { should be_nil }
+            it { is_expected.to be_nil }
           end
 
           describe "the non-adjusted account's monthly_pl of the same month as the created item" do
@@ -1435,7 +1684,7 @@ describe EntriesController do
               @post.call
             end
             subject { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 3, 1)).first }
-            it { should be_nil }
+            it { is_expected.to be_nil }
           end
 
           describe "the non-adjusted account's monthly_pl of the same month as the created item" do
@@ -1490,7 +1739,7 @@ describe EntriesController do
               @post.call
             end
             subject { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 3, 1)).first.amount }
-            it { should eq 10_000 }
+            it { is_expected.to eq 10_000 }
           end
         end
 
@@ -1539,7 +1788,7 @@ describe EntriesController do
               @post.call
             end
             subject { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 3, 1)).first.amount }
-            it { should eq 10_000 }
+            it { is_expected.to eq 10_000 }
           end
         end
       end
@@ -1570,31 +1819,75 @@ describe EntriesController do
 
           describe "response" do
             subject { response }
-            it { should be_success }
-            its(:content_type) { should eq "text/javascript" }
+            it { is_expected.to be_success }
+
+            describe '#content_type' do
+              subject { super().content_type }
+              it { is_expected.to eq "text/javascript" }
+            end
           end
 
           describe "created credit item" do
             subject { credit_item }
-            it { should_not be_nil }
-            its(:amount) { should eq 10_000 }
-            its(:parent_id) { should be_nil }
-            its(:child_item) { should_not be_nil }
+            it { is_expected.not_to be_nil }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq 10_000 }
+            end
+
+            describe '#parent_id' do
+              subject { super().parent_id }
+              it { is_expected.to be_nil }
+            end
+
+            describe '#child_item' do
+              subject { super().child_item }
+              it { is_expected.not_to be_nil }
+            end
           end
 
           describe "child item's count" do
             subject { Item.where(parent_id: credit_item.id) }
-            its(:count) { should eq 1 }
+
+            describe '#count' do
+              subject { super().count }
+              it { is_expected.to eq 1 }
+            end
           end
 
           describe "child item" do
             subject { Item.where(parent_id: credit_item.id).find { |i| i.child_item.nil? } }
-            its(:child_item) { should be_nil }
-            its(:parent_item) { should eq credit_item }
-            its(:action_date) { should eq Date.new(2008, 2 + credit_relations(:cr1).payment_month, credit_relations(:cr1).payment_day) }
-            its(:from_account_id) { should eq credit_relations(:cr1).payment_account_id }
-            its(:to_account_id) { should eq credit_relations(:cr1).credit_account_id }
-            its(:amount) { should eq 10_000 }
+
+            describe '#child_item' do
+              subject { super().child_item }
+              it { is_expected.to be_nil }
+            end
+
+            describe '#parent_item' do
+              subject { super().parent_item }
+              it { is_expected.to eq credit_item }
+            end
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq Date.new(2008, 2 + credit_relations(:cr1).payment_month, credit_relations(:cr1).payment_day) }
+            end
+
+            describe '#from_account_id' do
+              subject { super().from_account_id }
+              it { is_expected.to eq credit_relations(:cr1).payment_account_id }
+            end
+
+            describe '#to_account_id' do
+              subject { super().to_account_id }
+              it { is_expected.to eq credit_relations(:cr1).credit_account_id }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq 10_000 }
+            end
           end
         end
 
@@ -1603,7 +1896,7 @@ describe EntriesController do
             dummy_login
             cr1 = credit_relations(:cr1)
             cr1.settlement_day = 15
-            cr1.save.should be_true
+            expect(cr1.save).to be_truthy
 
             xhr(:post, :create,
                 entry: {
@@ -1619,8 +1912,12 @@ describe EntriesController do
 
           describe "response" do
             subject { response }
-            it { should be_success }
-            its(:content_type) { should eq "text/javascript" }
+            it { is_expected.to be_success }
+
+            describe '#content_type' do
+              subject { super().content_type }
+              it { is_expected.to eq "text/javascript" }
+            end
           end
 
           let(:credit_item) {
@@ -1632,28 +1929,76 @@ describe EntriesController do
 
           describe "created credit item" do
             subject { credit_item }
-            it { should_not be_nil }
-            its(:amount) { should eq 10_000 }
-            its(:parent_id) { should be_nil }
-            its(:child_item) { should_not be_nil }
-            its(:action_date) { should eq Date.new(2008, 2, 25) }
+            it { is_expected.not_to be_nil }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq 10_000 }
+            end
+
+            describe '#parent_id' do
+              subject { super().parent_id }
+              it { is_expected.to be_nil }
+            end
+
+            describe '#child_item' do
+              subject { super().child_item }
+              it { is_expected.not_to be_nil }
+            end
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq Date.new(2008, 2, 25) }
+            end
           end
 
           describe "child item" do
             describe "child item count" do
               subject { Item.where(parent_id: credit_item.id) }
-              its(:count) { should eq 1 }
+
+              describe '#count' do
+                subject { super().count }
+                it { is_expected.to eq 1 }
+              end
             end
 
             describe "child item" do
               subject { Item.where(parent_id: credit_item.id).first }
-              its(:child_item) { should be_nil }
-              its(:parent_id) { should eq credit_item.id }
-              its(:id) { should eq credit_item.child_item.id }
-              its(:action_date) { should eq Date.new(2008, 3 + credit_relations(:cr1).payment_month, credit_relations(:cr1).payment_day) }
-              its(:from_account_id) { should eq credit_relations(:cr1).payment_account_id }
-              its(:to_account_id) { should eq credit_relations(:cr1).credit_account_id }
-              its(:amount) { should eq 10_000 }
+
+              describe '#child_item' do
+                subject { super().child_item }
+                it { is_expected.to be_nil }
+              end
+
+              describe '#parent_id' do
+                subject { super().parent_id }
+                it { is_expected.to eq credit_item.id }
+              end
+
+              describe '#id' do
+                subject { super().id }
+                it { is_expected.to eq credit_item.child_item.id }
+              end
+
+              describe '#action_date' do
+                subject { super().action_date }
+                it { is_expected.to eq Date.new(2008, 3 + credit_relations(:cr1).payment_month, credit_relations(:cr1).payment_day) }
+              end
+
+              describe '#from_account_id' do
+                subject { super().from_account_id }
+                it { is_expected.to eq credit_relations(:cr1).payment_account_id }
+              end
+
+              describe '#to_account_id' do
+                subject { super().to_account_id }
+                it { is_expected.to eq credit_relations(:cr1).credit_account_id }
+              end
+
+              describe '#amount' do
+                subject { super().amount }
+                it { is_expected.to eq 10_000 }
+              end
             end
           end
         end
@@ -1662,7 +2007,7 @@ describe EntriesController do
           before do
             @cr1 = credit_relations(:cr1)
             @cr1.payment_day = 99
-            @cr1.save.should be_true
+            expect(@cr1.save).to be_truthy
             dummy_login
 
             xhr(:post, :create,
@@ -1679,8 +2024,12 @@ describe EntriesController do
 
           describe "response" do
             subject { response }
-            it { should be_success }
-            its(:content_type) { should eq "text/javascript" }
+            it { is_expected.to be_success }
+
+            describe '#content_type' do
+              subject { super().content_type }
+              it { is_expected.to eq "text/javascript" }
+            end
           end
 
           let(:credit_item) {
@@ -1692,27 +2041,75 @@ describe EntriesController do
 
           describe "created credit item" do
             subject { credit_item }
-            it { should_not be_nil }
-            its(:amount) { should eq 10_000 }
-            its(:parent_id) { should be_nil }
-            its(:child_item) { should_not be_nil }
-            its(:action_date) { should eq Date.new(2008, 2, 10) }
+            it { is_expected.not_to be_nil }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq 10_000 }
+            end
+
+            describe '#parent_id' do
+              subject { super().parent_id }
+              it { is_expected.to be_nil }
+            end
+
+            describe '#child_item' do
+              subject { super().child_item }
+              it { is_expected.not_to be_nil }
+            end
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq Date.new(2008, 2, 10) }
+            end
           end
 
           describe "child item's count" do
             subject { Item.where(parent_id: credit_item.id) }
-            its(:count) { should eq 1 }
+
+            describe '#count' do
+              subject { super().count }
+              it { is_expected.to eq 1 }
+            end
           end
 
           describe "child item" do
             subject { Item.where(parent_id: credit_item.id).first }
-            its(:child_item) { should be_nil }
-            its(:parent_id) { should eq credit_item.id }
-            its(:id) { should eq credit_item.child_item.id }
-            its(:action_date) { should eq Date.new(2008, 2 + @cr1.payment_month, 1).end_of_month }
-            its(:from_account_id) { should eq @cr1.payment_account_id }
-            its(:to_account_id) { should eq @cr1.credit_account_id }
-            its(:amount) { should eq 10_000 }
+
+            describe '#child_item' do
+              subject { super().child_item }
+              it { is_expected.to be_nil }
+            end
+
+            describe '#parent_id' do
+              subject { super().parent_id }
+              it { is_expected.to eq credit_item.id }
+            end
+
+            describe '#id' do
+              subject { super().id }
+              it { is_expected.to eq credit_item.child_item.id }
+            end
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq Date.new(2008, 2 + @cr1.payment_month, 1).end_of_month }
+            end
+
+            describe '#from_account_id' do
+              subject { super().from_account_id }
+              it { is_expected.to eq @cr1.payment_account_id }
+            end
+
+            describe '#to_account_id' do
+              subject { super().to_account_id }
+              it { is_expected.to eq @cr1.credit_account_id }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq 10_000 }
+            end
           end
         end
       end
@@ -1725,8 +2122,8 @@ describe EntriesController do
         context "when a validation error occurs," do
           before do
             mock_exception = ActiveRecord::RecordInvalid.new(stub_model(Item))
-            mock_exception.should_receive(:error_messages).and_return("Error!!!")
-            Teller.should_receive(:create_entry).and_raise(mock_exception)
+            expect(mock_exception).to receive(:error_messages).and_return("Error!!!")
+            expect(Teller).to receive(:create_entry).and_raise(mock_exception)
             @action = lambda {
               xhr :post, :create, entry: { action_date: '2008/02/05', from_account_id: '-1', to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '3000', entry_type: 'adjustment' }, year: 2008, month: 2
             }
@@ -1735,9 +2132,13 @@ describe EntriesController do
           describe "response" do
             before { @action.call }
             subject { response }
-            it { should be_success }
-            its(:content_type) { should eq 'text/javascript' }
-            it { should render_js_error id: "warning" }
+            it { is_expected.to be_success }
+
+            describe '#content_type' do
+              subject { super().content_type }
+              it { is_expected.to eq 'text/javascript' }
+            end
+            it { is_expected.to render_js_error id: "warning" }
           end
         end
 
@@ -1772,7 +2173,7 @@ describe EntriesController do
             before { @action.call }
 
             subject { assigns(:items).all? { |it| (Date.new(2008, 3, 1)..Date.new(2008, 3, 31)).cover?(it.action_date) } }
-            it { should be_true }
+            it { is_expected.to be_truthy }
           end
 
           describe "created adjustment" do
@@ -1787,11 +2188,27 @@ describe EntriesController do
             end
             subject { @created_item }
 
-            it { should be_adjustment }
-            its(:adjustment_amount) { should eq 100 * (10 + 50) / 2 }
-            its(:amount) { should eq 100 * (10 + 50) / 2 - @prev_total }
-            its(:amount) { should eq 100 * (10 + 50) / 2 - @init_total }
-            its(:tag_list) { should eq "fuga hoge" }
+            it { is_expected.to be_adjustment }
+
+            describe '#adjustment_amount' do
+              subject { super().adjustment_amount }
+              it { is_expected.to eq 100 * (10 + 50) / 2 }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq 100 * (10 + 50) / 2 - @prev_total }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq 100 * (10 + 50) / 2 - @init_total }
+            end
+
+            describe '#tag_list' do
+              subject { super().tag_list }
+              it { is_expected.to eq "fuga hoge" }
+            end
           end
 
           describe "profit losses" do
@@ -1833,14 +2250,22 @@ describe EntriesController do
             describe "created_adjustment" do
               before { action.call }
               subject { Adjustment.where(action_date: existing_adj.action_date).first }
-              its(:adjustment_amount) { should eq 50 }
-              its(:amount) { should eq existing_adj.amount + 50 - existing_adj.adjustment_amount }
+
+              describe '#adjustment_amount' do
+                subject { super().adjustment_amount }
+                it { is_expected.to eq 50 }
+              end
+
+              describe '#amount' do
+                subject { super().amount }
+                it { is_expected.to eq existing_adj.amount + 50 - existing_adj.adjustment_amount }
+              end
             end
 
             describe "existed adjustment" do
               before { action.call }
               subject { Item.find_by_id(existing_adj.id) }
-              it { should be_nil }
+              it { is_expected.to be_nil }
             end
 
             describe "future adjustment" do
@@ -1872,7 +2297,7 @@ describe EntriesController do
             describe "response" do
               before { action.call }
               subject { response }
-              it { should be_success }
+              it { is_expected.to be_success }
             end
 
             describe "all adjustments count" do
@@ -1918,7 +2343,7 @@ describe EntriesController do
             describe "response" do
               before { action.call }
               subject { response }
-              it { should be_success }
+              it { is_expected.to be_success }
             end
 
             describe "all adjustments count" do
@@ -1968,7 +2393,7 @@ describe EntriesController do
               action.call
             end
             subject { response }
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "count of items" do
@@ -1981,9 +2406,21 @@ describe EntriesController do
               @created_adj = Adjustment.where(user_id: users(:user1).id, action_date: date, to_account_id: accounts(:bank1).id).first
             end
             subject { @created_adj }
-            its(:adjustment_amount) { should eq 3000 }
-            its(:from_account_id) { should eq(-1) }
-            its(:amount) { should eq 3000 - @amount_before }
+
+            describe '#adjustment_amount' do
+              subject { super().adjustment_amount }
+              it { is_expected.to eq 3000 }
+            end
+
+            describe '#from_account_id' do
+              subject { super().from_account_id }
+              it { is_expected.to eq(-1) }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq 3000 - @amount_before }
+            end
           end
 
           def total_amount_to(the_date)
@@ -1996,7 +2433,7 @@ describe EntriesController do
               action.call
             end
             subject { total_amount_to(date) }
-            it { should eq 3000 }
+            it { is_expected.to eq 3000 }
           end
 
           describe "total of amounts to the date which has the next adjustment" do
@@ -2004,7 +2441,7 @@ describe EntriesController do
               action.call
             end
             subject {  total_amount_to(next_adj_date) }
-            it { should eq items(:adjustment4).adjustment_amount }
+            it { is_expected.to eq items(:adjustment4).adjustment_amount }
           end
 
           describe "profit losses" do
@@ -2041,7 +2478,7 @@ describe EntriesController do
               action.call
             end
             subject { response }
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "count of items" do
@@ -2059,9 +2496,21 @@ describe EntriesController do
               @created_adj = Adjustment.where(user_id: users(:user1).id, action_date: date, to_account_id: accounts(:bank1).id).first
             end
             subject { @created_adj }
-            its(:adjustment_amount) { should eq 3000 }
-            its(:from_account_id) { should eq(-1) }
-            its(:amount) { should eq 3000 - @amount_before }
+
+            describe '#adjustment_amount' do
+              subject { super().adjustment_amount }
+              it { is_expected.to eq 3000 }
+            end
+
+            describe '#from_account_id' do
+              subject { super().from_account_id }
+              it { is_expected.to eq(-1) }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq 3000 - @amount_before }
+            end
           end
 
           describe "next adjustment" do
@@ -2073,7 +2522,7 @@ describe EntriesController do
               action.call
             end
             subject { total_amount_to(date) }
-            it { should eq 3000 }
+            it { is_expected.to eq 3000 }
           end
 
           describe "total of amounts to the date which has the next adjustment" do
@@ -2081,7 +2530,7 @@ describe EntriesController do
               action.call
             end
             subject {  total_amount_to(next_adj_date) }
-            it { should eq items(:adjustment6).adjustment_amount }
+            it { is_expected.to eq items(:adjustment6).adjustment_amount }
           end
 
           describe "profit losses" do
@@ -2117,7 +2566,7 @@ describe EntriesController do
               action.call
             end
             subject { response }
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "count of items" do
@@ -2135,9 +2584,21 @@ describe EntriesController do
               @created_adj = Adjustment.where(user_id: users(:user1).id, action_date: date, to_account_id: accounts(:bank1).id).first
             end
             subject { @created_adj }
-            its(:adjustment_amount) { should eq 3000 }
-            its(:from_account_id) { should eq(-1) }
-            its(:amount) { should eq 3000 - @amount_before }
+
+            describe '#adjustment_amount' do
+              subject { super().adjustment_amount }
+              it { is_expected.to eq 3000 }
+            end
+
+            describe '#from_account_id' do
+              subject { super().from_account_id }
+              it { is_expected.to eq(-1) }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq 3000 - @amount_before }
+            end
           end
 
           describe "next adjustment" do
@@ -2149,7 +2610,7 @@ describe EntriesController do
               action.call
             end
             subject { total_amount_to(date) }
-            it { should eq 3000 }
+            it { is_expected.to eq 3000 }
           end
 
           describe "total of amounts to the date which has the next adjustment" do
@@ -2157,7 +2618,7 @@ describe EntriesController do
               action.call
             end
             subject {  total_amount_to(next_adj_date) }
-            it { should eq items(:adjustment6).adjustment_amount }
+            it { is_expected.to eq items(:adjustment6).adjustment_amount }
           end
 
           describe "profit losses" do
@@ -2192,7 +2653,7 @@ describe EntriesController do
               action.call
             end
             subject { response }
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "count of items" do
@@ -2210,9 +2671,21 @@ describe EntriesController do
               @created_adj = Adjustment.where(user_id: users(:user1).id, action_date: date, to_account_id: accounts(:bank1).id).first
             end
             subject { @created_adj }
-            its(:adjustment_amount) { should eq 3000 }
-            its(:from_account_id) { should eq(-1) }
-            its(:amount) { should eq 3000 - @amount_before }
+
+            describe '#adjustment_amount' do
+              subject { super().adjustment_amount }
+              it { is_expected.to eq 3000 }
+            end
+
+            describe '#from_account_id' do
+              subject { super().from_account_id }
+              it { is_expected.to eq(-1) }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq 3000 - @amount_before }
+            end
           end
 
           describe "total of amounts to the date" do
@@ -2220,7 +2693,7 @@ describe EntriesController do
               action.call
             end
             subject { total_amount_to(date) }
-            it { should eq 3000 }
+            it { is_expected.to eq 3000 }
           end
 
           describe "profit losses" do
@@ -2249,7 +2722,7 @@ describe EntriesController do
 
       describe "response" do
         subject { response }
-        it { should redirect_by_js_to login_url }
+        it { is_expected.to redirect_by_js_to login_url }
       end
     end
 
@@ -2277,7 +2750,7 @@ describe EntriesController do
               @action.call
             end
             subject { response }
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "item to update" do
@@ -2309,7 +2782,7 @@ describe EntriesController do
           describe "response" do
             before { @action.call }
             subject { response }
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "item to update" do
@@ -2340,8 +2813,8 @@ describe EntriesController do
           describe "response" do
             before { @action.call }
             subject { response }
-            it { should be_success }
-            it { should render_js_error id: "item_warning_#{items(:adjustment2).id }" }
+            it { is_expected.to be_success }
+            it { is_expected.to render_js_error id: "item_warning_#{items(:adjustment2).id }" }
           end
 
           describe "item to update" do
@@ -2381,7 +2854,7 @@ describe EntriesController do
               @action.call
             end
             subject { response }
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "updated item" do
@@ -2389,11 +2862,27 @@ describe EntriesController do
               @action.call
             end
             subject { Item.find(@old_adj2.id) }
-            its(:adjustment_amount) { should eq 3000 }
-            its(:action_date) { should eq @old_adj2.action_date }
-            it { should be_adjustment }
-            its(:amount) { should eq 3000 - @old_adj2.adjustment_amount + @old_adj2.amount }
-            its(:tag_list) { should eq 'fuga hoge' }
+
+            describe '#adjustment_amount' do
+              subject { super().adjustment_amount }
+              it { is_expected.to eq 3000 }
+            end
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq @old_adj2.action_date }
+            end
+            it { is_expected.to be_adjustment }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq 3000 - @old_adj2.adjustment_amount + @old_adj2.amount }
+            end
+
+            describe '#tag_list' do
+              subject { super().tag_list }
+              it { is_expected.to eq 'fuga hoge' }
+            end
           end
 
           describe "the adjustment item next to the updated item" do
@@ -2401,7 +2890,11 @@ describe EntriesController do
               @action.call
             end
             subject { Item.find(@old_adj4.id) }
-            its(:amount) { should eq @old_adj4.amount + @old_adj2.adjustment_amount - 3000 }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq @old_adj4.amount + @old_adj2.adjustment_amount - 3000 }
+            end
           end
 
           describe "the adjustment item second next to the updated item" do
@@ -2409,7 +2902,11 @@ describe EntriesController do
               @action.call
             end
             subject { Item.find(@old_adj6.id) }
-            its(:amount) { should eq @old_adj6.amount }
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq @old_adj6.amount }
+            end
           end
 
           describe "monthly pl" do
@@ -2438,7 +2935,7 @@ describe EntriesController do
           describe "response" do
             before { @action.call }
             subject { response }
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "updated item" do
@@ -2484,7 +2981,7 @@ describe EntriesController do
           describe "response" do
             before { @action.call }
             subject { response }
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "updated item" do
@@ -2530,7 +3027,7 @@ describe EntriesController do
               @action.call
             end
             subject { response }
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "updated item" do
@@ -2591,15 +3088,27 @@ describe EntriesController do
           describe "response" do
             before { @action.call }
             subject { response }
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "updated adjustment" do
             before { @action.call }
             subject { Item.find(adj2_id) }
-            its(:adjustment_amount) { should eq 3000 }
-            its(:action_date) { should eq @date }
-            its(:to_account_id) { 13 }
+
+            describe '#adjustment_amount' do
+              subject { super().adjustment_amount }
+              it { is_expected.to eq 3000 }
+            end
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq @date }
+            end
+
+            describe '#to_account_id' do
+              subject { super().to_account_id }
+              it { 13 }
+            end
           end
 
           describe "updated adjustment's amount change" do
@@ -2665,16 +3174,28 @@ describe EntriesController do
           describe "response" do
             before { @action.call }
             subject { response }
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "updated adjustment" do
             before { @action.call }
             subject { Item.find(items(:adjustment2).id) }
-            its(:adjustment_amount) { should eq 3000 }
-            it { should be_adjustment }
-            its(:action_date) { should eq date }
-            its(:amount) { should eq 3000 - Account.asset(users(:user1), items(:adjustment2).to_account_id, date, items(:adjustment2).id) }
+
+            describe '#adjustment_amount' do
+              subject { super().adjustment_amount }
+              it { is_expected.to eq 3000 }
+            end
+            it { is_expected.to be_adjustment }
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq date }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq 3000 - Account.asset(users(:user1), items(:adjustment2).to_account_id, date, items(:adjustment2).id) }
+            end
           end
 
           describe "other adjustments" do
@@ -2696,7 +3217,7 @@ describe EntriesController do
             describe "balance at new adjustment2 date" do
               before { @action.call }
               subject { Account.asset(users(:user1), items(:adjustment2).to_account_id, date) }
-              it { should eq 3000 }
+              it { is_expected.to eq 3000 }
             end
           end
 
@@ -2732,7 +3253,7 @@ describe EntriesController do
             before { @action.call }
             subject { response }
 
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "updated item" do
@@ -2741,10 +3262,22 @@ describe EntriesController do
             end
 
             subject { Item.find(updated_id) }
-            its(:adjustment_amount) { should eq 3000 }
-            its(:amount) { should eq 3000 - Item.find(@init_adj6).adjustment_amount }
-            its(:action_date) { should eq @init_adj6.action_date.tomorrow }
-            it { should be_adjustment }
+
+            describe '#adjustment_amount' do
+              subject { super().adjustment_amount }
+              it { is_expected.to eq 3000 }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq 3000 - Item.find(@init_adj6).adjustment_amount }
+            end
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq @init_adj6.action_date.tomorrow }
+            end
+            it { is_expected.to be_adjustment }
           end
 
           describe "the adjustment which was next to updated adjustment" do
@@ -2787,7 +3320,7 @@ describe EntriesController do
             before { @action.call }
             subject { response }
 
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "updated item" do
@@ -2797,10 +3330,22 @@ describe EntriesController do
             end
 
             subject { Item.find(updated_id) }
-            its(:adjustment_amount) { should eq 3000 }
-            its(:amount) { should eq 3000 - @asset }
-            its(:action_date) { should eq date }
-            it { should be_adjustment }
+
+            describe '#adjustment_amount' do
+              subject { super().adjustment_amount }
+              it { is_expected.to eq 3000 }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq 3000 - @asset }
+            end
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq date }
+            end
+            it { is_expected.to be_adjustment }
           end
 
           describe "the adjustment which is next to updated adjustment" do
@@ -2849,7 +3394,7 @@ describe EntriesController do
           describe "response" do
             before { @action.call }
             subject { response }
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "item to update" do
@@ -2885,8 +3430,8 @@ describe EntriesController do
           describe "response" do
             before { @action.call }
             subject { response }
-            it { should be_success }
-            it { should render_js_error id: "item_warning_#{ @old_item1.id }" }
+            it { is_expected.to be_success }
+            it { is_expected.to render_js_error id: "item_warning_#{ @old_item1.id }" }
           end
 
           describe "item to update" do
@@ -2918,16 +3463,36 @@ describe EntriesController do
 
           describe "response" do
             subject { response }
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "updated item" do
             subject { Item.find(@old_item11.id) }
-            its(:name) { should eq 'テスト11' }
-            its(:action_date) { should eq @old_item11.action_date }
-            its(:amount) { should eq 100_000 }
-            its(:from_account_id) { should eq accounts(:bank1).id }
-            its(:to_account_id) { should eq accounts(:expense3).id }
+
+            describe '#name' do
+              subject { super().name }
+              it { is_expected.to eq 'テスト11' }
+            end
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq @old_item11.action_date }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq 100_000 }
+            end
+
+            describe '#from_account_id' do
+              subject { super().from_account_id }
+              it { is_expected.to eq accounts(:bank1).id }
+            end
+
+            describe '#to_account_id' do
+              subject { super().to_account_id }
+              it { is_expected.to eq accounts(:expense3).id }
+            end
           end
         end
 
@@ -2950,17 +3515,37 @@ describe EntriesController do
 
           describe "response" do
             subject { response }
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "updated item" do
             subject { Item.find(@old_item1.id) }
-            its(:name) { should eq 'テスト10000' }
-            its(:action_date) { should eq @date }
-            its(:amount) { should eq((80 * 1.007).to_i) }
-            its(:from_account_id) { should eq accounts(:bank1).id }
-            its(:to_account_id) { should eq accounts(:expense3).id }
-            it { should be_confirmation_required }
+
+            describe '#name' do
+              subject { super().name }
+              it { is_expected.to eq 'テスト10000' }
+            end
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq @date }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq((80 * 1.007).to_i) }
+            end
+
+            describe '#from_account_id' do
+              subject { super().from_account_id }
+              it { is_expected.to eq accounts(:bank1).id }
+            end
+
+            describe '#to_account_id' do
+              subject { super().to_account_id }
+              it { is_expected.to eq accounts(:expense3).id }
+            end
+            it { is_expected.to be_confirmation_required }
           end
         end
 
@@ -2990,7 +3575,7 @@ describe EntriesController do
                 @action.call
               end
               subject { response }
-              it { should be_success }
+              it { is_expected.to be_success }
             end
 
             describe "updated item" do
@@ -2998,12 +3583,32 @@ describe EntriesController do
                 @action.call
               end
               subject { Item.find(old_item1.id) }
-              its(:name) { should eq 'テスト10' }
-              its(:action_date) { should eq Date.new(old_action_date.year, old_action_date.month, 18) }
-              its(:amount) { should eq 100_000 }
-              its(:from_account_id) { should eq accounts(:bank1).id }
-              its(:to_account_id) { should eq accounts(:expense3).id }
-              it { should_not be_confirmation_required }
+
+              describe '#name' do
+                subject { super().name }
+                it { is_expected.to eq 'テスト10' }
+              end
+
+              describe '#action_date' do
+                subject { super().action_date }
+                it { is_expected.to eq Date.new(old_action_date.year, old_action_date.month, 18) }
+              end
+
+              describe '#amount' do
+                subject { super().amount }
+                it { is_expected.to eq 100_000 }
+              end
+
+              describe '#from_account_id' do
+                subject { super().from_account_id }
+                it { is_expected.to eq accounts(:bank1).id }
+              end
+
+              describe '#to_account_id' do
+                subject { super().to_account_id }
+                it { is_expected.to eq accounts(:expense3).id }
+              end
+              it { is_expected.not_to be_confirmation_required }
             end
 
             describe "adjustment which is in the same month" do
@@ -3046,7 +3651,7 @@ describe EntriesController do
                 end
 
                 subject { MonthlyProfitLoss.where(user_id: users(:user1).id, account_id: accounts(:expense3).id, month: Date.new(2008, 3, 1)).first }
-                it { should be_nil }
+                it { is_expected.to be_nil }
               end
             end
           end
@@ -3070,7 +3675,7 @@ describe EntriesController do
             end
 
             subject { Item.find_by_id(items(:item1).id) }
-            it { should be_confirmation_required }
+            it { is_expected.to be_confirmation_required }
           end
 
           describe "when tags are input," do
@@ -3100,7 +3705,11 @@ describe EntriesController do
               end
 
               subject { Item.find(old_item1.id) }
-              its(:tag_list) { should eq 'fuga hoge' }
+
+              describe '#tag_list' do
+                subject { super().tag_list }
+                it { is_expected.to eq 'fuga hoge' }
+              end
             end
           end
         end
@@ -3131,17 +3740,37 @@ describe EntriesController do
           describe "response" do
             before { @action.call }
             subject { response }
-            it { should be_success }
+            it { is_expected.to be_success }
           end
 
           describe "updated item" do
             before { @action.call }
             subject { Item.find(item1_id) }
-            its(:name) { should eq "テスト20" }
-            its(:amount) { should eq 20_000 }
-            its(:from_account_id) { should eq accounts(:bank1).id }
-            its(:to_account_id) { should eq accounts(:expense3).id }
-            its(:action_date) { should eq date }
+
+            describe '#name' do
+              subject { super().name }
+              it { is_expected.to eq "テスト20" }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq 20_000 }
+            end
+
+            describe '#from_account_id' do
+              subject { super().from_account_id }
+              it { is_expected.to eq accounts(:bank1).id }
+            end
+
+            describe '#to_account_id' do
+              subject { super().to_account_id }
+              it { is_expected.to eq accounts(:expense3).id }
+            end
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq date }
+            end
           end
 
           describe "adjustment changes" do
@@ -3209,18 +3838,42 @@ describe EntriesController do
           describe "response" do
             before { @action.call }
             subject { response }
-            it { should be_success }
-            its(:content_type) { should eq 'text/javascript' }
+            it { is_expected.to be_success }
+
+            describe '#content_type' do
+              subject { super().content_type }
+              it { is_expected.to eq 'text/javascript' }
+            end
           end
 
           describe "updated item" do
             before { @action.call }
             subject { Item.find(@item5.id) }
-            its(:name) { should eq 'テスト50' }
-            its(:amount) { should eq 20_000 }
-            its(:action_date) { should eq @item5.action_date }
-            its(:from_account_id) { should eq accounts(:bank1).id }
-            its(:to_account_id) { should eq accounts(:expense3).id }
+
+            describe '#name' do
+              subject { super().name }
+              it { is_expected.to eq 'テスト50' }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq 20_000 }
+            end
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq @item5.action_date }
+            end
+
+            describe '#from_account_id' do
+              subject { super().from_account_id }
+              it { is_expected.to eq accounts(:bank1).id }
+            end
+
+            describe '#to_account_id' do
+              subject { super().to_account_id }
+              it { is_expected.to eq accounts(:expense3).id }
+            end
           end
 
           describe "adjustments" do
@@ -3260,18 +3913,42 @@ describe EntriesController do
           describe "response" do
             before { @action.call }
             subject { response }
-            it { should be_success }
-            its(:content_type) { should eq 'text/javascript' }
+            it { is_expected.to be_success }
+
+            describe '#content_type' do
+              subject { super().content_type }
+              it { is_expected.to eq 'text/javascript' }
+            end
           end
 
           describe "updated item" do
             before { @action.call }
             subject { Item.find(@item3.id) }
-            its(:name) { should eq 'テスト30' }
-            its(:amount) { should eq 300 }
-            its(:action_date) { should eq @date }
-            its(:from_account_id) { should eq accounts(:bank1).id }
-            its(:to_account_id) { should eq accounts(:expense3).id }
+
+            describe '#name' do
+              subject { super().name }
+              it { is_expected.to eq 'テスト30' }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq 300 }
+            end
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq @date }
+            end
+
+            describe '#from_account_id' do
+              subject { super().from_account_id }
+              it { is_expected.to eq accounts(:bank1).id }
+            end
+
+            describe '#to_account_id' do
+              subject { super().to_account_id }
+              it { is_expected.to eq accounts(:expense3).id }
+            end
           end
 
           describe "adjustments" do
@@ -3312,18 +3989,42 @@ describe EntriesController do
           describe "response" do
             before { @action.call }
             subject { response }
-            it { should be_success }
-            its(:content_type) { should eq 'text/javascript' }
+            it { is_expected.to be_success }
+
+            describe '#content_type' do
+              subject { super().content_type }
+              it { is_expected.to eq 'text/javascript' }
+            end
           end
 
           describe "updated item" do
             before { @action.call }
             subject { Item.find(@item3.id) }
-            its(:name) { should eq 'テスト50' }
-            its(:amount) { should eq 300 }
-            its(:action_date) { should eq @date }
-            its(:from_account_id) { should eq accounts(:bank1).id }
-            its(:to_account_id) { should eq accounts(:expense3).id }
+
+            describe '#name' do
+              subject { super().name }
+              it { is_expected.to eq 'テスト50' }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq 300 }
+            end
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq @date }
+            end
+
+            describe '#from_account_id' do
+              subject { super().from_account_id }
+              it { is_expected.to eq accounts(:bank1).id }
+            end
+
+            describe '#to_account_id' do
+              subject { super().to_account_id }
+              it { is_expected.to eq accounts(:expense3).id }
+            end
           end
 
           describe "adjustments" do
@@ -3364,18 +4065,42 @@ describe EntriesController do
           describe "response" do
             before { @action.call }
             subject { response }
-            it { should be_success }
-            its(:content_type) { should eq 'text/javascript' }
+            it { is_expected.to be_success }
+
+            describe '#content_type' do
+              subject { super().content_type }
+              it { is_expected.to eq 'text/javascript' }
+            end
           end
 
           describe "updated item" do
             before { @action.call }
             subject { Item.find(@item1.id) }
-            its(:name) { should eq 'テストXX' }
-            its(:amount) { should eq 300 }
-            its(:action_date) { should eq @date }
-            its(:from_account_id) { should eq @item1.from_account_id }
-            its(:to_account_id) { should eq @item1.to_account_id }
+
+            describe '#name' do
+              subject { super().name }
+              it { is_expected.to eq 'テストXX' }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq 300 }
+            end
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq @date }
+            end
+
+            describe '#from_account_id' do
+              subject { super().from_account_id }
+              it { is_expected.to eq @item1.from_account_id }
+            end
+
+            describe '#to_account_id' do
+              subject { super().to_account_id }
+              it { is_expected.to eq @item1.to_account_id }
+            end
           end
 
           describe "adjustments" do
@@ -3411,11 +4136,11 @@ describe EntriesController do
               init_payment_item = init_credit_item.child_item
               date = init_credit_item.action_date
 
-              init_credit_item.amount.should eq 10_000
-              init_payment_item.amount.should eq 10_000
-              init_payment_item.to_account_id.should eq init_credit_item.from_account_id
-              init_payment_item.from_account_id.should eq 1
-              init_payment_item.action_date.should eq Date.new(2008, 4, 20)
+              expect(init_credit_item.amount).to eq 10_000
+              expect(init_payment_item.amount).to eq 10_000
+              expect(init_payment_item.to_account_id).to eq init_credit_item.from_account_id
+              expect(init_payment_item.from_account_id).to eq 1
+              expect(init_payment_item.action_date).to eq Date.new(2008, 4, 20)
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
@@ -3441,7 +4166,7 @@ describe EntriesController do
                 @action.call
               end
               subject { response }
-              it { should be_success }
+              it { is_expected.to be_success }
             end
 
             describe "the number of items" do
@@ -3489,11 +4214,11 @@ describe EntriesController do
 
               init_payment_item = init_credit_item.child_item
 
-              init_credit_item.amount.should eq 10_000
-              init_payment_item.amount.should eq 10_000
-              init_payment_item.to_account_id.should eq init_credit_item.from_account_id
-              init_payment_item.from_account_id.should eq 1
-              init_payment_item.action_date.should eq Date.new(2008, 4, 20)
+              expect(init_credit_item.amount).to eq 10_000
+              expect(init_payment_item.amount).to eq 10_000
+              expect(init_payment_item.to_account_id).to eq init_credit_item.from_account_id
+              expect(init_payment_item.from_account_id).to eq 1
+              expect(init_payment_item.action_date).to eq Date.new(2008, 4, 20)
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
@@ -3517,7 +4242,7 @@ describe EntriesController do
                 @action.call
               end
               subject { response }
-              it { should be_success }
+              it { is_expected.to be_success }
             end
 
             describe "the number of items" do
@@ -3577,11 +4302,11 @@ describe EntriesController do
 
               init_payment_item = Item.find(init_credit_item.child_item.id)
 
-              init_credit_item.amount.should eq 10_000
-              init_payment_item.amount.should eq 10_000
-              init_payment_item.to_account_id.should eq init_credit_item.from_account_id
-              init_payment_item.from_account_id.should eq 1
-              init_payment_item.action_date.should eq Date.new(2008, 4, 20)
+              expect(init_credit_item.amount).to eq 10_000
+              expect(init_payment_item.amount).to eq 10_000
+              expect(init_payment_item.to_account_id).to eq init_credit_item.from_account_id
+              expect(init_payment_item.from_account_id).to eq 1
+              expect(init_payment_item.action_date).to eq Date.new(2008, 4, 20)
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
@@ -3605,7 +4330,7 @@ describe EntriesController do
                 @action.call
               end
               subject { response }
-              it { should be_success }
+              it { is_expected.to be_success }
             end
 
             describe "the number of items" do
@@ -3657,11 +4382,11 @@ describe EntriesController do
 
               init_payment_item = init_credit_item.child_item
 
-              init_credit_item.amount.should eq 10_000
-              init_payment_item.amount.should eq 10_000
-              init_payment_item.to_account_id.should eq init_credit_item.from_account_id
-              init_payment_item.from_account_id.should eq 1
-              init_payment_item.action_date.should eq Date.new(2008, 4, 20)
+              expect(init_credit_item.amount).to eq 10_000
+              expect(init_payment_item.amount).to eq 10_000
+              expect(init_payment_item.to_account_id).to eq init_credit_item.from_account_id
+              expect(init_payment_item.from_account_id).to eq 1
+              expect(init_payment_item.action_date).to eq Date.new(2008, 4, 20)
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
@@ -3679,7 +4404,7 @@ describe EntriesController do
                 @action.call
               end
               subject { response }
-              it { should be_success }
+              it { is_expected.to be_success }
             end
 
             describe "the number of items" do
@@ -3725,11 +4450,11 @@ describe EntriesController do
 
               init_payment_item = init_credit_item.child_item
 
-              init_credit_item.amount.should eq 10_000
-              init_payment_item.amount.should eq 10_000
-              init_payment_item.to_account_id.should eq init_credit_item.from_account_id
-              init_payment_item.from_account_id.should eq 1
-              init_payment_item.action_date.should eq Date.new(2008, 3, 20)
+              expect(init_credit_item.amount).to eq 10_000
+              expect(init_payment_item.amount).to eq 10_000
+              expect(init_payment_item.to_account_id).to eq init_credit_item.from_account_id
+              expect(init_payment_item.from_account_id).to eq 1
+              expect(init_payment_item.action_date).to eq Date.new(2008, 3, 20)
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
@@ -3747,7 +4472,7 @@ describe EntriesController do
                 @action.call
               end
               subject { response }
-              it { should be_success }
+              it { is_expected.to be_success }
             end
 
             describe "the number of items" do
@@ -3796,11 +4521,11 @@ describe EntriesController do
 
               init_payment_item = init_credit_item.child_item
 
-              init_credit_item.amount.should eq 10_000
-              init_payment_item.amount.should eq 10_000
-              init_payment_item.to_account_id.should eq init_credit_item.from_account_id
-              init_payment_item.from_account_id.should eq 1
-              init_payment_item.action_date.should eq Date.new(2008, 2, 19)
+              expect(init_credit_item.amount).to eq 10_000
+              expect(init_payment_item.amount).to eq 10_000
+              expect(init_payment_item.to_account_id).to eq init_credit_item.from_account_id
+              expect(init_payment_item.from_account_id).to eq 1
+              expect(init_payment_item.action_date).to eq Date.new(2008, 2, 19)
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
@@ -3818,7 +4543,7 @@ describe EntriesController do
                 @action.call
               end
               subject { response }
-              it { should be_success }
+              it { is_expected.to be_success }
             end
 
             describe "the number of items" do

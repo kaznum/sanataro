@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe AutologinKey do
+describe AutologinKey, :type => :model do
   fixtures :autologin_keys, :users
 
   context "when create" do
@@ -9,18 +9,18 @@ describe AutologinKey do
       ak = AutologinKey.new
       ak.user_id = users(:user1).id
       ak.autologin_key = '12345678'
-      ak.save.should be_true
-      ak.created_at.should_not be_nil
-      ak.updated_at.should_not be_nil
-      ak.enc_autologin_key.should_not be_blank
+      expect(ak.save).to be_truthy
+      expect(ak.created_at).not_to be_nil
+      expect(ak.updated_at).not_to be_nil
+      expect(ak.enc_autologin_key).not_to be_blank
     end
 
     context "when no user_id" do
       it "保存できないこと" do
         ak = AutologinKey.new
         ak.autologin_key = '12345678'
-        ak.save.should be_false
-        ak.errors[:user_id].should_not be_empty
+        expect(ak.save).to be_falsey
+        expect(ak.errors[:user_id]).not_to be_empty
       end
     end
 
@@ -28,8 +28,8 @@ describe AutologinKey do
       it "保存できないこと" do
         ak = AutologinKey.new
         ak.user_id = users(:user1).id
-        ak.save.should be_false
-        ak.errors[:autologin_key].should_not be_empty
+        expect(ak.save).to be_falsey
+        expect(ak.errors[:autologin_key]).not_to be_empty
       end
     end
   end
@@ -53,7 +53,7 @@ describe AutologinKey do
         ak
       }
 
-      specify { expect(invalid_ak.save).to be_false }
+      specify { expect(invalid_ak.save).to be_falsey }
       specify { expect(!invalid_ak.save && invalid_ak).to have_at_least(1).errors_on :user_id }
     end
   end
@@ -67,11 +67,11 @@ describe AutologinKey do
     end
 
     it "正しいキーで取得可能であること" do
-      AutologinKey.matched_key(users(:user1).id, '12345678').should_not be_nil
+      expect(AutologinKey.matched_key(users(:user1).id, '12345678')).not_to be_nil
     end
 
     it "不正なキーで取得できないこと" do
-      AutologinKey.matched_key(users(:user1).id, '12367').should be_nil
+      expect(AutologinKey.matched_key(users(:user1).id, '12367')).to be_nil
     end
 
     context "when the key was created more than 30 days ago" do
@@ -84,7 +84,7 @@ describe AutologinKey do
       end
 
       it "取得できないこと" do
-        AutologinKey.matched_key(users(:user1).id, '55555555').should be_nil
+        expect(AutologinKey.matched_key(users(:user1).id, '55555555')).to be_nil
       end
     end
   end
@@ -103,12 +103,14 @@ describe AutologinKey do
 
       describe "records" do
         subject { AutologinKey.count }
-        it { should < @old_count }
+        it { is_expected.to be < @old_count }
       end
 
       describe "current records" do
         subject { AutologinKey.where("created_at < ?", Time.now - 30 * 24 * 3600).to_a }
-        it { should have(0).records }
+        it 'has no records' do
+          expect(subject.size).to eq(0)
+        end
       end
     end
   end

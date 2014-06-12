@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/settings/accounts/_show" do
+describe "/settings/accounts/_show", :type => :view do
   fixtures :users, :accounts
 
   context "when enough params," do
@@ -10,7 +10,7 @@ describe "/settings/accounts/_show" do
 
     describe "body" do
       subject { render partial: 'show', locals: { account: accounts(:bank1) } }
-      it { should match %r(<a[^>]+href="/settings/accounts/#{accounts(:bank1).id}/edit"[^>]*>) }
+      it { is_expected.to match %r(<a[^>]+href="/settings/accounts/#{accounts(:bank1).id}/edit"[^>]*>) }
     end
   end
 end

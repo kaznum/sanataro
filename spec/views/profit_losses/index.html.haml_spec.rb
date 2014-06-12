@@ -6,7 +6,7 @@ class ActionView::Base
   end
 end
 
-describe "/profit_losses/index" do
+describe "/profit_losses/index", :type => :view do
   fixtures :users, :accounts, :monthly_profit_losses
   context "when enough params," do
     before do
@@ -23,16 +23,16 @@ describe "/profit_losses/index" do
 
     describe "body" do
       subject { render }
-      it { should match /<div[^>]+id='income_chart'/ }
-      it { should match /<div[^>]+id='yearly_income_chart'/ }
-      it { should match /<div[^>]+id='yearly_income_chart_choices'/ }
+      it { is_expected.to match /<div[^>]+id='income_chart'/ }
+      it { is_expected.to match /<div[^>]+id='yearly_income_chart'/ }
+      it { is_expected.to match /<div[^>]+id='yearly_income_chart_choices'/ }
 
-      it { should match /<div[^>]+id='expense_chart'/ }
-      it { should match /<div[^>]+id='yearly_expense_chart'/ }
-      it { should match /<div[^>]+id='yearly_expense_chart_choices'/ }
+      it { is_expected.to match /<div[^>]+id='expense_chart'/ }
+      it { is_expected.to match /<div[^>]+id='yearly_expense_chart'/ }
+      it { is_expected.to match /<div[^>]+id='yearly_expense_chart_choices'/ }
 
-      it { should match /<div[^>]+id='yearly_total_chart'/ }
-      it { should match /<div[^>]+id='yearly_total_chart_choices'/ }
+      it { is_expected.to match /<div[^>]+id='yearly_total_chart'/ }
+      it { is_expected.to match /<div[^>]+id='yearly_total_chart_choices'/ }
     end
   end
 end

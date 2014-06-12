@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe EntriesHelper do
+describe EntriesHelper, :type => :helper do
   describe "#link_to_confirmation_required" do
     fixtures :users, :accounts, :credit_relations
     before do
@@ -13,48 +13,48 @@ describe EntriesHelper do
     context "when neither tag nor mark nor keyword is specified," do
       context "when now confirmation_required is true," do
         subject { helper.link_to_confirmation_required(@item.id, true) }
-        it { should ==  link_to('<i class="icon-star item_confirmation_required"></i>'.html_safe, entry_confirmation_required_path(@item.id, confirmation_required: false), remote: true, method: :put, class: 'item_confirmation_required') }
+        it { is_expected.to eq(link_to('<i class="icon-star item_confirmation_required"></i>'.html_safe, entry_confirmation_required_path(@item.id, confirmation_required: false), remote: true, method: :put, class: 'item_confirmation_required')) }
       end
 
       context "when now confirmation_required is false," do
         subject { helper.link_to_confirmation_required(@item.id, false) }
-        it { should ==  link_to('<i class="icon-star-empty item_confirmation_not_required"></i>'.html_safe, entry_confirmation_required_path(@item.id, confirmation_required: true), remote: true, method: :put, class: 'item_confirmation_not_required') }
+        it { is_expected.to eq(link_to('<i class="icon-star-empty item_confirmation_not_required"></i>'.html_safe, entry_confirmation_required_path(@item.id, confirmation_required: true), remote: true, method: :put, class: 'item_confirmation_not_required')) }
       end
     end
 
     context "when tag is specified," do
       context "when now confirmation_required is true," do
         subject { helper.link_to_confirmation_required(@item.id, true, tag: "tagtag") }
-        it { should ==  link_to('<i class="icon-star item_confirmation_required"></i>'.html_safe, tag_entry_confirmation_required_path("tagtag", @item.id, confirmation_required: false), remote: true, method: :put, class: 'item_confirmation_required') }
+        it { is_expected.to eq(link_to('<i class="icon-star item_confirmation_required"></i>'.html_safe, tag_entry_confirmation_required_path("tagtag", @item.id, confirmation_required: false), remote: true, method: :put, class: 'item_confirmation_required')) }
       end
 
       context "when now confirmation_required is false," do
         subject { helper.link_to_confirmation_required(@item.id, false, tag: "tagtag") }
-        it { should ==  link_to('<i class="icon-star-empty item_confirmation_not_required"></i>'.html_safe, tag_entry_confirmation_required_path("tagtag", @item.id, confirmation_required: true), remote: true, method: :put, class: 'item_confirmation_not_required') }
+        it { is_expected.to eq(link_to('<i class="icon-star-empty item_confirmation_not_required"></i>'.html_safe, tag_entry_confirmation_required_path("tagtag", @item.id, confirmation_required: true), remote: true, method: :put, class: 'item_confirmation_not_required')) }
       end
     end
 
     context "when mark is specified," do
       context "when now confirmation_required is true," do
         subject { helper.link_to_confirmation_required(@item.id, true, mark: "markmark") }
-        it { should ==  link_to('<i class="icon-star item_confirmation_required"></i>'.html_safe, mark_entry_confirmation_required_path("markmark", @item.id, confirmation_required: false), remote: true, method: :put, class: 'item_confirmation_required') }
+        it { is_expected.to eq(link_to('<i class="icon-star item_confirmation_required"></i>'.html_safe, mark_entry_confirmation_required_path("markmark", @item.id, confirmation_required: false), remote: true, method: :put, class: 'item_confirmation_required')) }
       end
 
       context "when now confirmation_required is false," do
         subject { helper.link_to_confirmation_required(@item.id, false, mark: "markmark") }
-        it { should ==  link_to('<i class="icon-star-empty item_confirmation_not_required"></i>'.html_safe, mark_entry_confirmation_required_path("markmark", @item.id, confirmation_required: true), remote: true, method: :put, class: 'item_confirmation_not_required') }
+        it { is_expected.to eq(link_to('<i class="icon-star-empty item_confirmation_not_required"></i>'.html_safe, mark_entry_confirmation_required_path("markmark", @item.id, confirmation_required: true), remote: true, method: :put, class: 'item_confirmation_not_required')) }
       end
     end
 
     context "when keyword is specified," do
       context "when now confirmation_required is true," do
         subject { helper.link_to_confirmation_required(@item.id, true, keyword: "keykey") }
-        it { should ==  link_to('<i class="icon-star item_confirmation_required"></i>'.html_safe, keyword_entry_confirmation_required_path("keykey", @item.id, confirmation_required: false), remote: true, method: :put, class: 'item_confirmation_required') }
+        it { is_expected.to eq(link_to('<i class="icon-star item_confirmation_required"></i>'.html_safe, keyword_entry_confirmation_required_path("keykey", @item.id, confirmation_required: false), remote: true, method: :put, class: 'item_confirmation_required')) }
       end
 
       context "when now confirmation_required is false," do
         subject { helper.link_to_confirmation_required(@item.id, false, keyword: "keykey") }
-        it { should ==  link_to('<i class="icon-star-empty item_confirmation_not_required"></i>'.html_safe, keyword_entry_confirmation_required_path("keykey", @item.id, confirmation_required: true), remote: true, method: :put, class: 'item_confirmation_not_required') }
+        it { is_expected.to eq(link_to('<i class="icon-star-empty item_confirmation_not_required"></i>'.html_safe, keyword_entry_confirmation_required_path("keykey", @item.id, confirmation_required: true), remote: true, method: :put, class: 'item_confirmation_not_required')) }
       end
     end
   end
@@ -80,19 +80,19 @@ describe EntriesHelper do
     context "when the owner of params' id is parent item," do
       subject { helper.relative_path(@credit_item.id) }
 
-      it { should == "/months/#{@payment_date.year}/#{@payment_date.month}/entries#item_#{@payment_item.id}" }
+      it { is_expected.to eq("/months/#{@payment_date.year}/#{@payment_date.month}/entries#item_#{@payment_item.id}") }
     end
 
     context "when the owner of params' id is child item," do
       subject { helper.relative_path(@payment_item.id) }
 
-      it { should == "/months/#{@credit_item.year}/#{@credit_item.month}/entries#item_#{@credit_item.id}" }
+      it { is_expected.to eq("/months/#{@credit_item.year}/#{@credit_item.month}/entries#item_#{@credit_item.id}") }
     end
 
     context "when the owner of params' id has no relatives," do
       subject { helper.relative_path(@single_item.id) }
 
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
 
     context "when the params' id does not exist," do
@@ -111,47 +111,47 @@ describe EntriesHelper do
     describe "#link_to_edit" do
       describe "link" do
         subject { helper.link_to_edit(@item) }
-        it { should match %r(href="/months/2008/5/entries/#{@item.id}/edit") }
-        it { should match /class=".*edit_icon.*"/ }
+        it { is_expected.to match %r(href="/months/2008/5/entries/#{@item.id}/edit") }
+        it { is_expected.to match /class=".*edit_icon.*"/ }
       end
 
       context "when disabled," do
         subject { helper.link_to_edit(@item, false) }
-        it { should_not match %r(href="/months/2008/5/entries/#{@item.id}/edit") }
-        it { should match /class=".*edit_icon.*"/ }
-        it { should match /class=".*disabled.*"/ }
+        it { is_expected.not_to match %r(href="/months/2008/5/entries/#{@item.id}/edit") }
+        it { is_expected.to match /class=".*edit_icon.*"/ }
+        it { is_expected.to match /class=".*disabled.*"/ }
       end
     end
 
     describe "#link_to_destroy" do
       describe "link" do
         subject { helper.link_to_destroy(@item) }
-        it { should match %r(href="/months/2008/5/entries/#{@item.id}") }
-        it { should match /data-method="delete"/ }
-        it { should match /class=".*destroy_icon.*"/ }
+        it { is_expected.to match %r(href="/months/2008/5/entries/#{@item.id}") }
+        it { is_expected.to match /data-method="delete"/ }
+        it { is_expected.to match /class=".*destroy_icon.*"/ }
       end
 
       context "when disabled," do
         subject { helper.link_to_destroy(@item, false) }
-        it { should_not match %r(href="/months/2008/5/entries/#{@item.id}") }
-        it { should_not match /data-method="delete"/ }
-        it { should match /class=".*destroy_icon.*"/ }
-        it { should match /class=".*disabled.*"/ }
+        it { is_expected.not_to match %r(href="/months/2008/5/entries/#{@item.id}") }
+        it { is_expected.not_to match /data-method="delete"/ }
+        it { is_expected.to match /class=".*destroy_icon.*"/ }
+        it { is_expected.to match /class=".*disabled.*"/ }
       end
     end
 
     describe "#link_to_show" do
       describe "link" do
         subject { helper.link_to_show(@item) }
-        it { should match %r(href="/months/2008/5/entries#item_#{@item.id}") }
-        it { should match /class=".*show_icon.*"/ }
+        it { is_expected.to match %r(href="/months/2008/5/entries#item_#{@item.id}") }
+        it { is_expected.to match /class=".*show_icon.*"/ }
       end
 
       context "when disabled," do
         subject { helper.link_to_show(@item, false) }
-        it { should_not match %r(href="/months/2008/5/entries#item_#{@item.id}") }
-        it { should match /class=".*show_icon.*"/ }
-        it { should match /class=".*disabled.*"/ }
+        it { is_expected.not_to match %r(href="/months/2008/5/entries#item_#{@item.id}") }
+        it { is_expected.to match /class=".*show_icon.*"/ }
+        it { is_expected.to match /class=".*disabled.*"/ }
       end
     end
   end
@@ -163,12 +163,12 @@ describe EntriesHelper do
         @item = Fabricate.build(:general_item, tag_list: 'aa bb')
         @item.save!
         @item.reload
-        helper.should_receive(:link_to_tag).with(@item.tags[0]).and_return("_link_#{@item.tags[0].name}_")
-        helper.should_receive(:link_to_tag).with(@item.tags[1]).and_return("_link_#{@item.tags[1].name}_")
+        expect(helper).to receive(:link_to_tag).with(@item.tags[0]).and_return("_link_#{@item.tags[0].name}_")
+        expect(helper).to receive(:link_to_tag).with(@item.tags[1]).and_return("_link_#{@item.tags[1].name}_")
       end
 
       subject { helper.link_to_tags(@item) }
-      it { should == "[_link_aa_ _link_bb_]" }
+      it { is_expected.to eq("[_link_aa_ _link_bb_]") }
     end
 
     context "when tags do not exist, " do
@@ -179,7 +179,7 @@ describe EntriesHelper do
       end
 
       subject { helper.link_to_tags(@item) }
-      it { should == "" }
+      it { is_expected.to eq("") }
     end
   end
 
@@ -192,7 +192,7 @@ describe EntriesHelper do
       end
 
       subject { helper.item_row_class(@item) }
-      it { should == "item_adjustment" }
+      it { is_expected.to eq("item_adjustment") }
     end
 
     context "when item has parent," do
@@ -204,7 +204,7 @@ describe EntriesHelper do
       end
 
       subject { helper.item_row_class(@item) }
-      it { should == "item_move" }
+      it { is_expected.to eq("item_move") }
     end
 
     context "when item is income," do
@@ -215,7 +215,7 @@ describe EntriesHelper do
       end
 
       subject { helper.item_row_class(@item) }
-      it { should == "item_income" }
+      it { is_expected.to eq("item_income") }
     end
     context "when item is moving," do
       before do
@@ -225,7 +225,7 @@ describe EntriesHelper do
       end
 
       subject { helper.item_row_class(@item) }
-      it { should == "item_move" }
+      it { is_expected.to eq("item_move") }
     end
   end
 
@@ -238,8 +238,8 @@ describe EntriesHelper do
       end
 
       subject { helper.item_row_name(@item) }
-      it { should == "#{t("label.adjustment") } 5,000円" }
-      it { should be_html_safe }
+      it { is_expected.to eq("#{t("label.adjustment") } 5,000円") }
+      it { is_expected.to be_html_safe }
     end
 
     context "when item has parent," do
@@ -252,8 +252,8 @@ describe EntriesHelper do
       end
 
       subject { helper.item_row_name(@item) }
-      it { should match %r(#{t("entries.item.deposit") } \(<a[^>]+>03/10 hello<span class='emo'>\(笑\)</span></a>\)) }
-      it { should be_html_safe }
+      it { is_expected.to match %r(#{t("entries.item.deposit") } \(<a[^>]+>03/10 hello<span class='emo'>\(笑\)</span></a>\)) }
+      it { is_expected.to be_html_safe }
     end
 
     context "when item has child," do
@@ -266,8 +266,8 @@ describe EntriesHelper do
       end
 
       subject { helper.item_row_name(@item) }
-      it { should match %r(hello<img [^>]+> \(<a[^>]+>05/10 #{t("entries.item.deposit") }</a>\)) }
-      it { should be_html_safe }
+      it { is_expected.to match %r(hello<img [^>]+> \(<a[^>]+>05/10 #{t("entries.item.deposit") }</a>\)) }
+      it { is_expected.to be_html_safe }
     end
 
     context "when item is a regular one, " do
@@ -278,8 +278,8 @@ describe EntriesHelper do
       end
 
       subject { helper.item_row_name(@item) }
-      it { should match /^hello<img .+>$/ }
-      it { should be_html_safe }
+      it { is_expected.to match /^hello<img .+>$/ }
+      it { is_expected.to be_html_safe }
     end
   end
 
@@ -292,7 +292,7 @@ describe EntriesHelper do
       end
 
       subject { helper.item_row_confirmation_required(@item, nil, nil, nil) }
-      it { should == "" }
+      it { is_expected.to eq("") }
     end
 
     context "when item has parent, " do
@@ -301,22 +301,22 @@ describe EntriesHelper do
         item_parent.save!
         @item = Fabricate.build(:general_item, parent_id: item_parent.id, action_date: Date.new(2012, 5, 10), name: "hogehoge")
         @item.save
-        helper.should_receive(:link_to_confirmation_required).with(@item.id, true, tag: "TAG", mark: "MARK", keyword: "KEY").and_return("__LINK__")
+        expect(helper).to receive(:link_to_confirmation_required).with(@item.id, true, tag: "TAG", mark: "MARK", keyword: "KEY").and_return("__LINK__")
       end
 
       subject { helper.item_row_confirmation_required(@item, "TAG", "MARK", "KEY") }
-      it { should == "__LINK__" }
+      it { is_expected.to eq("__LINK__") }
     end
 
     context "when item is NOT adjustment, " do
       before do
         @item = Fabricate.build(:general_item, confirmation_required: true)
         @item.save!
-        helper.should_receive(:link_to_confirmation_required).with(@item.id, true, tag: "TAG", mark: "MARK", keyword: "KEY").and_return("__LINK__")
+        expect(helper).to receive(:link_to_confirmation_required).with(@item.id, true, tag: "TAG", mark: "MARK", keyword: "KEY").and_return("__LINK__")
       end
 
       subject { helper.item_row_confirmation_required(@item, "TAG", "MARK", "KEY") }
-      it { should == "__LINK__" }
+      it { is_expected.to eq("__LINK__") }
     end
   end
 
@@ -326,32 +326,32 @@ describe EntriesHelper do
       context "amount is less than 0," do
         before do
           @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: -200_000, adjustment_amount: -40_000)
-          helper.should_receive(:colored_account_name).with(@item.to_account_id).and_return("ACCOUNT_NAME")
+          expect(helper).to receive(:colored_account_name).with(@item.to_account_id).and_return("ACCOUNT_NAME")
         end
 
         subject { helper.item_row_from_account(@item)  }
-        it { should == "ACCOUNT_NAME" }
+        it { is_expected.to eq("ACCOUNT_NAME") }
       end
 
       context "amount is more than 0," do
         before do
           @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200_000)
-          helper.should_not_receive(:colored_account_name).with(@item.to_account_id)
+          expect(helper).not_to receive(:colored_account_name).with(@item.to_account_id)
         end
 
         subject { helper.item_row_from_account(@item)  }
-        it { should == "(#{t("label.adjustment") })" }
+        it { is_expected.to eq("(#{t("label.adjustment") })") }
       end
     end
     context "when item is NOT adjustment, " do
       before do
         @item = Fabricate.build(:general_item)
         @item.save!
-        helper.should_receive(:colored_account_name).with(@item.from_account_id).and_return("ACCOUNT_NAME")
+        expect(helper).to receive(:colored_account_name).with(@item.from_account_id).and_return("ACCOUNT_NAME")
       end
 
       subject { helper.item_row_from_account(@item)  }
-      it { should == "ACCOUNT_NAME" }
+      it { is_expected.to eq("ACCOUNT_NAME") }
     end
   end
 
@@ -361,21 +361,21 @@ describe EntriesHelper do
       context "amount is more than 0," do
         before do
           @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200_000)
-          helper.should_receive(:colored_account_name).with(@item.to_account_id).and_return("ACCOUNT_NAME")
+          expect(helper).to receive(:colored_account_name).with(@item.to_account_id).and_return("ACCOUNT_NAME")
         end
 
         subject { helper.item_row_to_account(@item)  }
-        it { should == "ACCOUNT_NAME" }
+        it { is_expected.to eq("ACCOUNT_NAME") }
       end
 
       context "amount is less than 0," do
         before do
           @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: -200_000, adjustment_amount: -400_000)
-          helper.should_not_receive(:colored_account_name).with(@item.to_account_id)
+          expect(helper).not_to receive(:colored_account_name).with(@item.to_account_id)
         end
 
         subject { helper.item_row_to_account(@item)  }
-        it { should == "(#{t("label.adjustment") })" }
+        it { is_expected.to eq("(#{t("label.adjustment") })") }
       end
     end
 
@@ -383,11 +383,11 @@ describe EntriesHelper do
       before do
         @item = Fabricate.build(:general_item)
         @item.save!
-        helper.should_receive(:colored_account_name).with(@item.to_account_id).and_return("ACCOUNT_NAME")
+        expect(helper).to receive(:colored_account_name).with(@item.to_account_id).and_return("ACCOUNT_NAME")
       end
 
       subject { helper.item_row_to_account(@item)  }
-      it { should == "ACCOUNT_NAME" }
+      it { is_expected.to eq("ACCOUNT_NAME") }
     end
   end
 
@@ -397,23 +397,23 @@ describe EntriesHelper do
       context "when only_show is true," do
         before do
           @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200_000)
-          helper.should_receive(:link_to_show).with(@item).and_return("SHOW_LINK")
+          expect(helper).to receive(:link_to_show).with(@item).and_return("SHOW_LINK")
         end
 
         subject { helper.item_row_operation(@item, true) }
-        it { should == "SHOW_LINK" }
+        it { is_expected.to eq("SHOW_LINK") }
       end
       context "when only_show is false," do
         before do
           @item = Fabricate.build(:adjustment, from_account_id: -1, to_account_id: accounts(:bank1).id, amount: 200_000)
-          helper.should_not_receive(:link_to_show).with(@item)
-          helper.should_receive(:item_row_twitter_button).with(@item).and_return("_TWEET_")
-          helper.should_receive(:link_to_edit).with(@item).and_return("_EDIT_")
-          helper.should_receive(:link_to_destroy).with(@item, true).and_return("_DESTROY_")
+          expect(helper).not_to receive(:link_to_show).with(@item)
+          expect(helper).to receive(:item_row_twitter_button).with(@item).and_return("_TWEET_")
+          expect(helper).to receive(:link_to_edit).with(@item).and_return("_EDIT_")
+          expect(helper).to receive(:link_to_destroy).with(@item, true).and_return("_DESTROY_")
         end
 
         subject { helper.item_row_operation(@item) }
-        it { should == "_TWEET__EDIT__DESTROY_" }
+        it { is_expected.to eq("_TWEET__EDIT__DESTROY_") }
       end
     end
   end
@@ -426,7 +426,7 @@ describe EntriesHelper do
       end
 
       subject { helper.item_row_twitter_button(@item) }
-      it { should == "" }
+      it { is_expected.to eq("") }
     end
 
     context "when item has parent," do
@@ -435,17 +435,17 @@ describe EntriesHelper do
       end
 
       subject { helper.item_row_twitter_button(@item) }
-      it { should == "" }
+      it { is_expected.to eq("") }
     end
 
     context "when item is regular," do
       before do
         @item = Fabricate.build(:general_item)
-        helper.should_receive(:tweet_button).with(@item).and_return("__TWEET__")
+        expect(helper).to receive(:tweet_button).with(@item).and_return("__TWEET__")
       end
 
       subject { helper.item_row_twitter_button(@item) }
-      it { should == "__TWEET__" }
+      it { is_expected.to eq("__TWEET__") }
     end
   end
 end

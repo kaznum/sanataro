@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe BalanceSheetsController do
+describe BalanceSheetsController, :type => :controller do
   fixtures :users, :items, :accounts, :credit_relations, :monthly_profit_losses
   describe "#index" do
     context "when without login," do
@@ -22,20 +22,52 @@ describe BalanceSheetsController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "index" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "index" }
         end
 
         describe "assigns" do
           subject { assigns }
-          its([:bs]) { should_not be_nil }
-          its([:accounts]) { should_not be_nil }
-          its([:bs_plus]) { should_not be_nil }
-          its([:bs_minus]) { should_not be_nil }
-          its([:plus]) { should_not be_nil }
-          its([:minus]) { should_not be_nil }
-          its([:total_plus]) { should_not be_nil }
-          its([:total_minus]) { should_not be_nil }
+
+          describe '[:bs]' do
+            subject { super()[:bs] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:accounts]' do
+            subject { super()[:accounts] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:bs_plus]' do
+            subject { super()[:bs_plus] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:bs_minus]' do
+            subject { super()[:bs_minus] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:plus]' do
+            subject { super()[:plus] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:minus]' do
+            subject { super()[:minus] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:total_plus]' do
+            subject { super()[:total_plus] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:total_minus]' do
+            subject { super()[:total_minus] }
+            it { is_expected.not_to be_nil }
+          end
         end
       end
 
@@ -47,20 +79,52 @@ describe BalanceSheetsController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "index" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "index" }
         end
 
         describe "assigns" do
           subject { assigns }
-          its([:bs]) { should_not be_nil }
-          its([:accounts]) { should_not be_nil }
-          its([:bs_plus]) { should_not be_nil }
-          its([:bs_minus]) { should_not be_nil }
-          its([:plus]) { should_not be_nil }
-          its([:minus]) { should_not be_nil }
-          its([:total_plus]) { should_not be_nil }
-          its([:total_minus]) { should_not be_nil }
+
+          describe '[:bs]' do
+            subject { super()[:bs] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:accounts]' do
+            subject { super()[:accounts] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:bs_plus]' do
+            subject { super()[:bs_plus] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:bs_minus]' do
+            subject { super()[:bs_minus] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:plus]' do
+            subject { super()[:plus] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:minus]' do
+            subject { super()[:minus] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:total_plus]' do
+            subject { super()[:total_plus] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:total_minus]' do
+            subject { super()[:total_minus] }
+            it { is_expected.not_to be_nil }
+          end
         end
       end
 
@@ -71,7 +135,7 @@ describe BalanceSheetsController do
 
         describe "response" do
           subject { response }
-          it { should redirect_to current_entries_url }
+          it { is_expected.to redirect_to current_entries_url }
         end
       end
 
@@ -82,20 +146,52 @@ describe BalanceSheetsController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "index" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "index" }
         end
 
         describe "assigns" do
           subject { assigns }
-          its([:bs]) { should_not be_nil }
-          its([:accounts]) { should_not be_nil }
-          its([:bs_plus]) { should_not be_nil }
-          its([:bs_minus]) { should_not be_nil }
-          its([:plus]) { should_not be_nil }
-          its([:minus]) { should_not be_nil }
-          its([:total_plus]) { should_not be_nil }
-          its([:total_minus]) { should_not be_nil }
+
+          describe '[:bs]' do
+            subject { super()[:bs] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:accounts]' do
+            subject { super()[:accounts] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:bs_plus]' do
+            subject { super()[:bs_plus] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:bs_minus]' do
+            subject { super()[:bs_minus] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:plus]' do
+            subject { super()[:plus] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:minus]' do
+            subject { super()[:minus] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:total_plus]' do
+            subject { super()[:total_plus] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:total_minus]' do
+            subject { super()[:total_minus] }
+            it { is_expected.not_to be_nil }
+          end
         end
       end
     end
@@ -121,27 +217,43 @@ describe BalanceSheetsController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "show" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "show" }
         end
 
         describe "assigns" do
           subject { assigns }
-          its([:remain_amount]) { should == 8000 }
-          its([:items]) { should_not be_nil }
-          its([:account_id]) { should_not be_nil }
-          its([:account_id]) { should == accounts(:bank1).id }
+
+          describe '[:remain_amount]' do
+            subject { super()[:remain_amount] }
+            it { is_expected.to eq(8000) }
+          end
+
+          describe '[:items]' do
+            subject { super()[:items] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:account_id]' do
+            subject { super()[:account_id] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:account_id]' do
+            subject { super()[:account_id] }
+            it { is_expected.to eq(accounts(:bank1).id) }
+          end
         end
 
         describe "assigns[:items]" do
           subject { assigns[:items] }
           specify do
             subject.each do |item|
-              (item.from_account_id == accounts(:bank1).id ||
-               item.to_account_id == accounts(:bank1).id).should be_true
+              expect(item.from_account_id == accounts(:bank1).id ||
+               item.to_account_id == accounts(:bank1).id).to be_truthy
 
               month0802 = Date.new(2008, 2)
-              item.action_date.should be_between month0802, month0802.end_of_month
+              expect(item.action_date).to be_between month0802, month0802.end_of_month
             end
           end
         end
@@ -154,27 +266,43 @@ describe BalanceSheetsController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "show" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "show" }
         end
 
         describe "assigns" do
           subject { assigns }
-          its([:remain_amount]) { should_not be_nil }
-          its([:items]) { should_not be_nil }
-          its([:account_id]) { should_not be_nil }
-          its([:account_id]) { should == accounts(:bank1).id }
+
+          describe '[:remain_amount]' do
+            subject { super()[:remain_amount] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:items]' do
+            subject { super()[:items] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:account_id]' do
+            subject { super()[:account_id] }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '[:account_id]' do
+            subject { super()[:account_id] }
+            it { is_expected.to eq(accounts(:bank1).id) }
+          end
         end
 
         describe "assigns[:items]" do
           subject { assigns[:items] }
           specify do
             subject.each do |item|
-              (item.from_account_id == accounts(:bank1).id ||
-               item.to_account_id == accounts(:bank1).id).should be_true
+              expect(item.from_account_id == accounts(:bank1).id ||
+               item.to_account_id == accounts(:bank1).id).to be_truthy
 
               today = Date.today
-              item.action_date.should be_between today.beginning_of_month, today.end_of_month
+              expect(item.action_date).to be_between today.beginning_of_month, today.end_of_month
             end
           end
         end

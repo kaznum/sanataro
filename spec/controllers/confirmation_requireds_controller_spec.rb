@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ConfirmationRequiredsController do
+describe ConfirmationRequiredsController, :type => :controller do
   fixtures :items, :accounts, :users
 
   describe "#update" do
@@ -24,23 +24,23 @@ describe ConfirmationRequiredsController do
 
         describe "item" do
           subject { Item.find(items(:item3).id) }
-          it { should be_confirmation_required }
+          it { is_expected.to be_confirmation_required }
         end
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "update" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "update" }
         end
 
         describe "@tag" do
           subject { assigns(:tag) }
-          it { should == 'abc' }
+          it { is_expected.to eq('abc') }
         end
 
         describe "@mark" do
           subject { assigns(:mark) }
-          it { should be_nil }
+          it { is_expected.to be_nil }
         end
       end
 
@@ -52,28 +52,28 @@ describe ConfirmationRequiredsController do
 
         describe "item" do
           subject { Item.find(items(:item3).id) }
-          it { should be_confirmation_required }
+          it { is_expected.to be_confirmation_required }
         end
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "update" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "update" }
         end
 
         describe "@keyword" do
           subject { assigns(:keyword) }
-          it { should == 'abc' }
+          it { is_expected.to eq('abc') }
         end
 
         describe "@mark" do
           subject { assigns(:mark) }
-          it { should be_nil }
+          it { is_expected.to be_nil }
         end
 
         describe "@tag" do
           subject { assigns(:tag) }
-          it { should be_nil }
+          it { is_expected.to be_nil }
         end
       end
 
@@ -85,23 +85,23 @@ describe ConfirmationRequiredsController do
 
         describe "item" do
           subject { Item.find(items(:item3).id) }
-          it { should be_confirmation_required }
+          it { is_expected.to be_confirmation_required }
         end
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "update" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "update" }
         end
 
         describe "@tag" do
           subject { assigns(:tag) }
-          it { should be_nil }
+          it { is_expected.to be_nil }
         end
 
         describe "@mark" do
           subject { assigns(:mark) }
-          it { should == 'abc' }
+          it { is_expected.to eq('abc') }
         end
       end
 
@@ -113,13 +113,13 @@ describe ConfirmationRequiredsController do
 
         describe "item" do
           subject { Item.find(items(:item3).id) }
-          it { should be_confirmation_required }
+          it { is_expected.to be_confirmation_required }
         end
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "update" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "update" }
         end
       end
 
@@ -131,13 +131,13 @@ describe ConfirmationRequiredsController do
 
         describe "item" do
           subject { Item.find(items(:item3).id) }
-          it { should_not be_confirmation_required }
+          it { is_expected.not_to be_confirmation_required }
         end
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "update" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "update" }
         end
       end
 
@@ -150,12 +150,12 @@ describe ConfirmationRequiredsController do
 
         describe "credit card account(parent)" do
           subject { Item.find(items(:credit_payment21).id) }
-          it { should be_confirmation_required }
+          it { is_expected.to be_confirmation_required }
         end
 
         describe "payment account (child)" do
           subject { Item.find(items(:credit_refill31).id) }
-          it { should_not be_confirmation_required }
+          it { is_expected.not_to be_confirmation_required }
         end
       end
 
@@ -165,7 +165,7 @@ describe ConfirmationRequiredsController do
         end
 
         subject { response }
-        it { should redirect_by_js_to current_entries_url }
+        it { is_expected.to redirect_by_js_to current_entries_url }
       end
 
       context "when status is not set," do
@@ -174,7 +174,7 @@ describe ConfirmationRequiredsController do
         end
 
         subject { response }
-        it { should redirect_by_js_to current_entries_url }
+        it { is_expected.to redirect_by_js_to current_entries_url }
       end
     end
   end

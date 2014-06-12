@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe User do
+describe User, :type => :model do
   fixtures :users, :items, :accounts, :credit_relations
 
   describe "#create" do
@@ -20,11 +20,27 @@ describe User do
         @user
       }
 
-      it { should_not be_new_record }
-      its(:password) { should == Digest::SHA1.hexdigest('test_1' + '123-4_56') }
-      its(:created_at) { should_not be_nil }
-      its(:updated_at) { should_not be_nil }
-      its(:active?) { should be_true }
+      it { is_expected.not_to be_new_record }
+
+      describe '#password' do
+        subject { super().password }
+        it { is_expected.to eq(Digest::SHA1.hexdigest('test_1' + '123-4_56')) }
+      end
+
+      describe '#created_at' do
+        subject { super().created_at }
+        it { is_expected.not_to be_nil }
+      end
+
+      describe '#updated_at' do
+        subject { super().updated_at }
+        it { is_expected.not_to be_nil }
+      end
+
+      describe '#active?' do
+        subject { super().active? }
+        it { is_expected.to be_truthy }
+      end
     end
 
     context "when without email," do
@@ -33,8 +49,8 @@ describe User do
         @user.save
         @user
       }
-      it { should be_new_record }
-      specify { subject.errors[:email].should_not be_empty }
+      it { is_expected.to be_new_record }
+      specify { expect(subject.errors[:email]).not_to be_empty }
     end
 
     describe "when email is formatted wrong," do
@@ -44,8 +60,8 @@ describe User do
         @user
       }
 
-      it { should be_new_record }
-      specify { subject.errors[:email].should_not be_empty }
+      it { is_expected.to be_new_record }
+      specify { expect(subject.errors[:email]).not_to be_empty }
     end
 
     context "when email is too short," do
@@ -55,8 +71,8 @@ describe User do
         @user
       }
 
-      it { should be_new_record }
-      specify { subject.errors[:email].should_not be_empty }
+      it { is_expected.to be_new_record }
+      specify { expect(subject.errors[:email]).not_to be_empty }
     end
 
     context "when password_plain and password_confirmation are not same," do
@@ -66,8 +82,8 @@ describe User do
         @user
       }
 
-      it { should be_new_record }
-      specify { subject.errors[:password_plain].should_not be_empty }
+      it { is_expected.to be_new_record }
+      specify { expect(subject.errors[:password_plain]).not_to be_empty }
     end
 
     context "when login is not set," do
@@ -77,8 +93,8 @@ describe User do
         @user
       }
 
-      it { should be_new_record }
-      specify { subject.errors[:login].should_not be_empty }
+      it { is_expected.to be_new_record }
+      specify { expect(subject.errors[:login]).not_to be_empty }
     end
 
     context "when login is too short," do
@@ -88,8 +104,8 @@ describe User do
         @user
       }
 
-      it { should be_new_record }
-      specify { subject.errors[:login].should_not be_empty }
+      it { is_expected.to be_new_record }
+      specify { expect(subject.errors[:login]).not_to be_empty }
     end
 
     context "when login is too long," do
@@ -99,8 +115,8 @@ describe User do
         @user
       }
 
-      it { should be_new_record }
-      specify { subject.errors[:login].should_not be_empty }
+      it { is_expected.to be_new_record }
+      specify { expect(subject.errors[:login]).not_to be_empty }
     end
 
     describe "when both of passwords are not set" do
@@ -111,8 +127,8 @@ describe User do
         @user
       }
 
-      it { should be_new_record }
-      specify { subject.errors[:password_plain].should_not be_empty }
+      it { is_expected.to be_new_record }
+      specify { expect(subject.errors[:password_plain]).not_to be_empty }
     end
 
     context "when both of passwords are too short," do
@@ -123,8 +139,8 @@ describe User do
         @user
       }
 
-      it { should be_new_record }
-      specify { subject.errors[:password_plain].should_not be_empty }
+      it { is_expected.to be_new_record }
+      specify { expect(subject.errors[:password_plain]).not_to be_empty }
     end
 
     context "when both of passwords are too long," do
@@ -135,8 +151,8 @@ describe User do
         @user
       }
 
-      it { should be_new_record }
-      specify { subject.errors[:password_plain].should_not be_empty }
+      it { is_expected.to be_new_record }
+      specify { expect(subject.errors[:password_plain]).not_to be_empty }
     end
 
     context "when both of passwords have invalid chars," do
@@ -147,8 +163,8 @@ describe User do
         @user
       }
 
-      it { should be_new_record }
-      specify { subject.errors[:password_plain].should_not be_empty }
+      it { is_expected.to be_new_record }
+      specify { expect(subject.errors[:password_plain]).not_to be_empty }
     end
 
     context "when login has invalid chars," do
@@ -158,8 +174,8 @@ describe User do
         @user
       }
 
-      it { should be_new_record }
-      specify { subject.errors[:login].should_not be_empty }
+      it { is_expected.to be_new_record }
+      specify { expect(subject.errors[:login]).not_to be_empty }
     end
 
     context "when login is not unique," do
@@ -169,8 +185,8 @@ describe User do
         @user
       }
 
-      it { should be_new_record }
-      specify { subject.errors[:login].should_not be_empty }
+      it { is_expected.to be_new_record }
+      specify { expect(subject.errors[:login]).not_to be_empty }
     end
   end
 
@@ -188,8 +204,12 @@ describe User do
         @user
       }
 
-      specify { subject.errors[:password_plain].should be_empty }
-      its(:updated_at) { should > @old_user.updated_at }
+      specify { expect(subject.errors[:password_plain]).to be_empty }
+
+      describe '#updated_at' do
+        subject { super().updated_at }
+        it { is_expected.to be > @old_user.updated_at }
+      end
     end
 
     context "when without_password" do
@@ -200,40 +220,44 @@ describe User do
         @user
       }
 
-      specify { subject.errors.should be_empty }
-      its(:updated_at) { should == @old_user.updated_at }
+      specify { expect(subject.errors).to be_empty }
+
+      describe '#updated_at' do
+        subject { super().updated_at }
+        it { is_expected.to eq(@old_user.updated_at) }
+      end
     end
   end
 
   describe "associations" do
     describe "it has accounts" do
       subject { users(:user1).accounts }
-      it { should_not be_empty }
+      it { is_expected.not_to be_empty }
     end
 
     context "when it has credit_relations," do
       subject { users(:user1).credit_relations }
-      it { should_not be_empty }
+      it { is_expected.not_to be_empty }
     end
 
     context "when it has items" do
       subject { users(:user1).items }
 
-      it { should_not be_empty }
+      it { is_expected.not_to be_empty }
       specify {
         subject.each do |item|
-          item.should_not be_nil
+          expect(item).not_to be_nil
         end
       }
 
       specify {
-        subject.where("action_date < ?", Date.new(2008, 3)).to_a.should_not be_empty
+        expect(subject.where("action_date < ?", Date.new(2008, 3)).to_a).not_to be_empty
       }
       specify {
-        subject.where(user_id: 101).to_a.should have(0).records
+        expect(subject.where(user_id: 101).to_a.size).to eq(0)
       }
       specify {
-        subject.where(user_id: 1).size.should > 0
+        expect(subject.where(user_id: 1).size).to be > 0
       }
     end
   end
@@ -244,14 +268,16 @@ describe User do
     describe "size" do
       let(:actual) { user.accounts.where(type: %w(Banking Income)) }
       subject { user.from_accounts }
-      it { should have(actual.size).records }
+      it 'has actual.size records' do
+        expect(subject.size).to eq(actual.size)
+      end
     end
 
     describe "entities" do
       let(:bankings) { user.bankings.map { |a| [a.name, a.id.to_s] } }
       let(:incomes) { user.incomes.map { |a| [a.name, a.id.to_s] } }
       subject { user.from_accounts }
-      it { should == bankings + incomes }
+      it { is_expected.to eq(bankings + incomes) }
     end
   end
 
@@ -260,14 +286,16 @@ describe User do
     describe "size" do
       let(:actual) { user.accounts.where(type: %w(Banking Expense)) }
       subject { user.to_accounts }
-      it { should have(actual.size).records }
+      it 'has actual.size records' do
+        expect(subject.size).to eq(actual.size)
+      end
     end
 
     describe "entities" do
       let(:expenses) { user.expenses.map { |a| [a.name, a.id.to_s] } }
       let(:bankings) { user.bankings.map { |a| [a.name, a.id.to_s] } }
       subject { user.to_accounts }
-      it { should == expenses + bankings }
+      it { is_expected.to eq(expenses + bankings) }
     end
   end
 
@@ -275,20 +303,32 @@ describe User do
     let(:user) { users(:user1) }
     let(:actual) { user.bankings }
     subject { user.bank_accounts }
-    it { should have(actual.size).records }
-    its(:sort) { should == actual.map { |a| [a.name, a.id.to_s] }.sort }
+    it 'has actual.size records' do
+      expect(subject.size).to eq(actual.size)
+    end
+
+    describe '#sort' do
+      subject { super().sort }
+      it { is_expected.to eq(actual.map { |a| [a.name, a.id.to_s] }.sort) }
+    end
   end
 
   describe "#all_accounts" do
     let(:user) { users(:user1) }
     subject { user.all_accounts }
-    its(:size) { should == user.accounts.size }
+
+    describe '#size' do
+      subject { super().size }
+      it { is_expected.to eq(user.accounts.size) }
+    end
   end
 
   describe "#account_bgcolors" do
     let(:user) { users(:user1) }
     subject { user.account_bgcolors }
-    it { should have(user.accounts.where("bgcolor IS NOT NULL").size).records }
+    it 'has user.accounts.where("bgcolor IS NOT NULL").size records' do
+      expect(subject.size).to eq(user.accounts.where("bgcolor IS NOT NULL").size)
+    end
   end
 
   shared_examples_for "a method for ids of accounts" do |name|
@@ -296,8 +336,16 @@ describe User do
       let(:user) { users(:user1) }
       let(:type) { name.pluralize.to_sym }
       subject { user.send("#{name}_ids".to_sym) }
-      its(:size) { should == user.send(type).active.size }
-      its(:sort) { should == user.send(type).active.pluck(:id).sort }
+
+      describe '#size' do
+        subject { super().size }
+        it { is_expected.to eq(user.send(type).active.size) }
+      end
+
+      describe '#sort' do
+        subject { super().sort }
+        it { is_expected.to eq(user.send(type).active.pluck(:id).sort) }
+      end
     end
   end
 
@@ -311,8 +359,8 @@ describe User do
     let(:user) { User.new }
     specify {
       mock_obj = double
-      mock_obj.should_receive(:deliver)
-      Mailer.should_receive(:signup_confirmation).with(user).and_return(mock_obj)
+      expect(mock_obj).to receive(:deliver)
+      expect(Mailer).to receive(:signup_confirmation).with(user).and_return(mock_obj)
       user.deliver_signup_confirmation
     }
   end
@@ -321,8 +369,8 @@ describe User do
     let(:user) { User.new }
     specify {
       mock_obj = double
-      mock_obj.should_receive(:deliver)
-      Mailer.should_receive(:signup_complete).with(user).and_return(mock_obj)
+      expect(mock_obj).to receive(:deliver)
+      expect(Mailer).to receive(:signup_complete).with(user).and_return(mock_obj)
       user.deliver_signup_complete
     }
   end
@@ -334,19 +382,19 @@ describe User do
       end
 
       specify {
-        @user.should_receive(:bankings).exactly(4).times.and_return(@mock_bankings = double([Banking]))
-        @user.should_receive(:incomes).exactly(3).times.and_return(@mock_incomes = double([Income]))
-        @user.should_receive(:expenses).exactly(6).times.and_return(@mock_expenses = double([Expense]))
-        @user.should_receive(:credit_relations).once.and_return(@mock_crs = double([CreditRelation]))
-        @user.should_receive(:general_items).twice.and_return(@mock_items = double([GeneralItem]))
-        @mock_bankings.should_receive(:create!).exactly(4).times.and_return(@banking = double(Banking))
-        @mock_incomes.should_receive(:create!).exactly(3).times.and_return(@income = double(Income))
-        @mock_expenses.should_receive(:create!).exactly(6).times.and_return(@expense = double(Expense))
-        @banking.should_receive(:id).exactly(4).times.and_return(100)
-        @income.should_receive(:id).exactly(1).times.and_return(200)
-        @expense.should_receive(:id).exactly(1).times.and_return(300)
-        @mock_crs.should_receive(:create!).once.times
-        @mock_items.should_receive(:create!).twice
+        expect(@user).to receive(:bankings).exactly(4).times.and_return(@mock_bankings = double([Banking]))
+        expect(@user).to receive(:incomes).exactly(3).times.and_return(@mock_incomes = double([Income]))
+        expect(@user).to receive(:expenses).exactly(6).times.and_return(@mock_expenses = double([Expense]))
+        expect(@user).to receive(:credit_relations).once.and_return(@mock_crs = double([CreditRelation]))
+        expect(@user).to receive(:general_items).twice.and_return(@mock_items = double([GeneralItem]))
+        expect(@mock_bankings).to receive(:create!).exactly(4).times.and_return(@banking = double(Banking))
+        expect(@mock_incomes).to receive(:create!).exactly(3).times.and_return(@income = double(Income))
+        expect(@mock_expenses).to receive(:create!).exactly(6).times.and_return(@expense = double(Expense))
+        expect(@banking).to receive(:id).exactly(4).times.and_return(100)
+        expect(@income).to receive(:id).exactly(1).times.and_return(200)
+        expect(@expense).to receive(:id).exactly(1).times.and_return(300)
+        expect(@mock_crs).to receive(:create!).once.times
+        expect(@mock_items).to receive(:create!).twice
 
         @user.store_sample
       }

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CreditRelation do
+describe CreditRelation, :type => :model do
   fixtures :credit_relations, :accounts, :users
 
   before do
@@ -23,22 +23,44 @@ describe CreditRelation do
 
       describe "created object" do
         subject { @cr }
-        it { should have(0).errors }
-        it { should_not be_new_record }
+        it 'has no errors' do
+          expect(subject.errors.size).to eq(0)
+        end
+        it { is_expected.not_to be_new_record }
       end
 
       describe "count of records" do
         subject { CreditRelation.count }
-        it { should be @init_count + 1 }
+        it { is_expected.to be @init_count + 1 }
       end
 
       describe "regotten object" do
         subject { CreditRelation.find(@cr.id) }
-        its(:credit_account_id) { should be accounts(:bank21).id }
-        its(:payment_account_id) { should be accounts(:bank1).id }
-        its(:settlement_day) { should be 25 }
-        its(:payment_month) { should be 2 }
-        its(:payment_day) { should be 10 }
+
+        describe '#credit_account_id' do
+          subject { super().credit_account_id }
+          it { is_expected.to be accounts(:bank21).id }
+        end
+
+        describe '#payment_account_id' do
+          subject { super().payment_account_id }
+          it { is_expected.to be accounts(:bank1).id }
+        end
+
+        describe '#settlement_day' do
+          subject { super().settlement_day }
+          it { is_expected.to be 25 }
+        end
+
+        describe '#payment_month' do
+          subject { super().payment_month }
+          it { is_expected.to be 2 }
+        end
+
+        describe '#payment_day' do
+          subject { super().payment_day }
+          it { is_expected.to be 10 }
+        end
       end
     end
 
@@ -49,14 +71,14 @@ describe CreditRelation do
 
       describe "returned value" do
         subject { @cr.save }
-        it { should be_false }
+        it { is_expected.to be_falsey }
       end
       describe "errors" do
         before do
           @cr.save
         end
         subject { @cr.errors[attr] }
-        it { should_not be_empty }
+        it { is_expected.not_to be_empty }
       end
 
       describe "count of records" do
@@ -129,7 +151,7 @@ describe CreditRelation do
 
         describe "returned value" do
           subject { @cr.save }
-          it { should be_true }
+          it { is_expected.to be_truthy }
         end
 
         describe "count of records" do
@@ -194,7 +216,7 @@ describe CreditRelation do
 
       describe "returned value" do
         subject { @cr.save }
-        it { should be_true }
+        it { is_expected.to be_truthy }
       end
 
       describe "count of record" do

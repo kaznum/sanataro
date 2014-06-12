@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe EntryCandidatesController do
+describe EntryCandidatesController, :type => :controller do
   fixtures :items, :users
 
   describe "index" do
@@ -11,7 +11,7 @@ describe EntryCandidatesController do
 
       describe "response" do
         subject { response }
-        it { should be_success }
+        it { is_expected.to be_success }
         it_should_behave_like "Unauthenticated Access by xhr"
       end
     end
@@ -28,8 +28,8 @@ describe EntryCandidatesController do
 
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should_not render_template "_candidate" }
+          it { is_expected.to be_success }
+          it { is_expected.not_to render_template "_candidate" }
         end
       end
 
@@ -39,8 +39,8 @@ describe EntryCandidatesController do
         end
         describe "response" do
           subject { response }
-          it { should be_success }
-          it { should render_template "_candidate" }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template "_candidate" }
         end
       end
     end

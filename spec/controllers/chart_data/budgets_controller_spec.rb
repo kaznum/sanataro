@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe ChartData::BudgetsController do
+describe ChartData::BudgetsController, :type => :controller do
   fixtures :users
 
   describe "#show" do
@@ -55,8 +55,12 @@ describe ChartData::BudgetsController do
           get :show, id: '200301', format: :json
         end
         subject { response }
-        it {  should be_success }
-        its(:body) { should == "[]" }
+        it {  is_expected.to be_success }
+
+        describe '#body' do
+          subject { super().body }
+          it { is_expected.to eq("[]") }
+        end
       end
 
       context "When there are data to send," do
@@ -83,9 +87,9 @@ describe ChartData::BudgetsController do
 
           describe "response" do
             subject { response }
-            it {  should be_success }
+            it {  is_expected.to be_success }
             specify do
-              ActiveSupport::JSON.decode(subject.body).should == [{ "label" => "その2", "data" => 900 }, { "label" => I18n.t("label.unknown_income"), "data" => 800 }]
+              expect(ActiveSupport::JSON.decode(subject.body)).to eq([{ "label" => "その2", "data" => 900 }, { "label" => I18n.t("label.unknown_income"), "data" => 800 }])
             end
           end
         end
@@ -99,9 +103,9 @@ describe ChartData::BudgetsController do
 
           describe "response" do
             subject { response }
-            it {  should be_success }
+            it {  is_expected.to be_success }
             specify do
-              ActiveSupport::JSON.decode(subject.body).should == [{ "label" => "その4", "data" => 200 }, { "label" =>  I18n.t("label.unknown_expense"), "data" => 500 }]
+              expect(ActiveSupport::JSON.decode(subject.body)).to eq([{ "label" => "その4", "data" => 200 }, { "label" =>  I18n.t("label.unknown_expense"), "data" => 500 }])
             end
           end
         end

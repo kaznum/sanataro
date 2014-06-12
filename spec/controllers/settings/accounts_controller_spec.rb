@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe Settings::AccountsController do
+describe Settings::AccountsController, :type => :controller do
   fixtures :all
 
   describe "#index" do
@@ -27,27 +27,27 @@ describe Settings::AccountsController do
 
         describe "@accounts" do
           subject { assigns(:accounts) }
-          it { should be_nil }
+          it { is_expected.to be_nil }
         end
       end
 
       [:banking, :expense, :income].each do |type|
         shared_examples_for "type = '#{type}'" do
           subject { response }
-          it { should be_success }
-          it { should render_template('index') }
+          it { is_expected.to be_success }
+          it { is_expected.to render_template('index') }
 
           describe "@type" do
             subject { assigns(:type) }
-            it { should be == type }
+            it { is_expected.to eq(type) }
           end
 
           describe "@accounts" do
             subject { assigns(:accounts) }
-            it { should_not be_empty }
+            it { is_expected.not_to be_empty }
             specify {
               subject.each do |a|
-                a.type.should be == type.to_s.capitalize
+                expect(a.type).to eq(type.to_s.capitalize)
               end
             }
           end
@@ -111,17 +111,17 @@ describe Settings::AccountsController do
 
           describe "response" do
             subject { response }
-            it { should redirect_by_js_to settings_accounts_url(type: 'banking') }
+            it { is_expected.to redirect_by_js_to settings_accounts_url(type: 'banking') }
           end
 
           describe "count of accounts" do
             subject { Account.count }
-            it { should be == @before_count + 1 }
+            it { is_expected.to eq(@before_count + 1) }
           end
 
           describe "count of bgcolors" do
             subject { User.find(session[:user_id]).account_bgcolors.size }
-            it { should be == @before_bgcolors_count }
+            it { is_expected.to eq(@before_bgcolors_count) }
           end
         end
 
@@ -134,17 +134,17 @@ describe Settings::AccountsController do
 
           describe "response" do
             subject { response }
-            it { should render_js_error id: "add_warning", default_message: I18n.t("error.input_is_invalid") }
+            it { is_expected.to render_js_error id: "add_warning", default_message: I18n.t("error.input_is_invalid") }
           end
 
           describe "count of accounts" do
             subject { Account.count }
-            it { should be == @before_count }
+            it { is_expected.to eq(@before_count) }
           end
 
           describe "count of bgcolors" do
             subject { User.find(session[:user_id]).account_bgcolors.size }
-            it { should be == @before_bgcolors_count }
+            it { is_expected.to eq(@before_bgcolors_count) }
           end
         end
       end
@@ -158,7 +158,7 @@ describe Settings::AccountsController do
       end
 
       subject { response }
-      it { should redirect_by_js_to login_url }
+      it { is_expected.to redirect_by_js_to login_url }
     end
 
     context "after login," do
@@ -174,7 +174,7 @@ describe Settings::AccountsController do
           end
 
           subject { response }
-          it { should redirect_by_js_to login_url }
+          it { is_expected.to redirect_by_js_to login_url }
         end
 
         context "with valid params[:id]," do
@@ -184,12 +184,16 @@ describe Settings::AccountsController do
 
           describe "response" do
             subject { response }
-            it { should render_template "edit" }
+            it { is_expected.to render_template "edit" }
           end
 
           describe "@account" do
             subject { assigns(:account) }
-            its(:id) { should be == accounts(:bank1).id }
+
+            describe '#id' do
+              subject { super().id }
+              it { is_expected.to eq(accounts(:bank1).id) }
+            end
           end
         end
       end
@@ -206,7 +210,7 @@ describe Settings::AccountsController do
       end
       describe "response" do
         subject { response }
-        it { should redirect_by_js_to login_url }
+        it { is_expected.to redirect_by_js_to login_url }
       end
     end
 
@@ -233,7 +237,7 @@ describe Settings::AccountsController do
           describe "response" do
             before { @action.call }
             subject { response }
-            it { should render_template "destroy" }
+            it { is_expected.to render_template "destroy" }
           end
 
           describe "Account.count" do
@@ -249,7 +253,7 @@ describe Settings::AccountsController do
           describe "response" do
             before { @action.call }
             subject { response }
-            it { should render_js_error id: "add_warning" }
+            it { is_expected.to render_js_error id: "add_warning" }
           end
 
           describe "Account.count" do
@@ -267,7 +271,7 @@ describe Settings::AccountsController do
           describe "response" do
             before { @action.call }
             subject { response }
-            it { should render_js_error id: "add_warning", errors: ["クレジットカード支払い情報に関連づけられているため、削除できません。"] }
+            it { is_expected.to render_js_error id: "add_warning", errors: ["クレジットカード支払い情報に関連づけられているため、削除できません。"] }
           end
 
           describe "Account.count" do
@@ -305,22 +309,34 @@ describe Settings::AccountsController do
         shared_examples_for "Updated Successfully" do
           describe "response" do
             subject { response }
-            it { should redirect_by_js_to settings_accounts_url(type: 'banking') }
+            it { is_expected.to redirect_by_js_to settings_accounts_url(type: 'banking') }
           end
 
           describe "@user.all_accounts" do
             describe "@user.all_accounts[id]" do
               subject { assigns(:user).all_accounts[accounts(:bank1).id] }
-              it { should be == 'hogehoge' }
+              it { is_expected.to eq('hogehoge') }
             end
 
           end
 
           describe "updated account record" do
             subject { Account.find(accounts(:bank1).id) }
-            its(:name) { should be == 'hogehoge' }
-            its(:type) { should be == 'Banking' }
-            its(:order_no) { should be 100 }
+
+            describe '#name' do
+              subject { super().name }
+              it { is_expected.to eq('hogehoge') }
+            end
+
+            describe '#type' do
+              subject { super().type }
+              it { is_expected.to eq('Banking') }
+            end
+
+            describe '#order_no' do
+              subject { super().order_no }
+              it { is_expected.to be 100 }
+            end
           end
         end
 
@@ -334,12 +350,16 @@ describe Settings::AccountsController do
 
             describe "assigns(:user).account_bgcolors[id]" do
               subject { assigns(:user).account_bgcolors[accounts(:bank1).id] }
-              it { should be == 'cccccc' }
+              it { is_expected.to eq('cccccc') }
             end
 
             describe "updated account record" do
               subject { Account.find(accounts(:bank1).id) }
-              its(:bgcolor) { should be == 'cccccc' }
+
+              describe '#bgcolor' do
+                subject { super().bgcolor }
+                it { is_expected.to eq('cccccc') }
+              end
             end
           end
 
@@ -352,12 +372,16 @@ describe Settings::AccountsController do
 
             describe "assigns(:user).account_bgcolors[id]" do
               subject { assigns(:user).account_bgcolors[accounts(:bank1).id] }
-              it { should be_nil }
+              it { is_expected.to be_nil }
             end
 
             describe "updated account record" do
               subject { Account.find(accounts(:bank1).id) }
-              its(:bgcolor) { should be_nil }
+
+              describe '#bgcolor' do
+                subject { super().bgcolor }
+                it { is_expected.to be_nil }
+              end
             end
           end
         end
@@ -370,15 +394,31 @@ describe Settings::AccountsController do
 
           describe "response" do
             subject { response }
-            it { should render_js_error id:  "account_#{accounts(:bank1).id}_warning", default_message: I18n.t("error.input_is_invalid") }
+            it { is_expected.to render_js_error id:  "account_#{accounts(:bank1).id}_warning", default_message: I18n.t("error.input_is_invalid") }
           end
 
           describe "DB Record" do
             subject { Account.find(accounts(:bank1).id) }
-            its(:name) { should be == @orig_account.name }
-            its(:order_no) { should be == @orig_account.order_no }
-            its(:type) { should be == @orig_account.type }
-            its(:bgcolor) { should be == @orig_account.bgcolor }
+
+            describe '#name' do
+              subject { super().name }
+              it { is_expected.to eq(@orig_account.name) }
+            end
+
+            describe '#order_no' do
+              subject { super().order_no }
+              it { is_expected.to eq(@orig_account.order_no) }
+            end
+
+            describe '#type' do
+              subject { super().type }
+              it { is_expected.to eq(@orig_account.type) }
+            end
+
+            describe '#bgcolor' do
+              subject { super().bgcolor }
+              it { is_expected.to eq(@orig_account.bgcolor) }
+            end
           end
         end
       end
@@ -407,13 +447,17 @@ describe Settings::AccountsController do
 
           describe "response" do
             subject { response }
-            it { should render_template "show" }
+            it { is_expected.to render_template "show" }
           end
 
           describe "@account" do
             subject { assigns(:account) }
-            it { should_not be_nil }
-            its(:name) { should be == accounts(:bank1).name }
+            it { is_expected.not_to be_nil }
+
+            describe '#name' do
+              subject { super().name }
+              it { is_expected.to eq(accounts(:bank1).name) }
+            end
           end
         end
 
@@ -423,7 +467,7 @@ describe Settings::AccountsController do
           end
 
           subject { response }
-          it { should redirect_by_js_to login_url }
+          it { is_expected.to redirect_by_js_to login_url }
         end
       end
     end

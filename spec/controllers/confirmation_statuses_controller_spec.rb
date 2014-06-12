@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ConfirmationStatusesController do
+describe ConfirmationStatusesController, :type => :controller do
   fixtures :all
 
   describe "#show" do
@@ -19,12 +19,12 @@ describe ConfirmationStatusesController do
       end
       describe "response" do
         subject { response }
-        it { should render_template "show" }
+        it { is_expected.to render_template "show" }
       end
 
       describe "@entries" do
         subject { assigns(:entries) }
-        it { should_not be_empty }
+        it { is_expected.not_to be_empty }
       end
     end
   end

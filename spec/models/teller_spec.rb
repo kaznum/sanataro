@@ -1,7 +1,7 @@
 # coding: utf-8
 require 'spec_helper'
 
-describe Teller do
+describe Teller, :type => :model do
   fixtures :all
   describe "#create_entry" do
     context "when validation errors happen," do
@@ -24,7 +24,7 @@ describe Teller do
           end
         }
         subject { item_count }
-        it { should be == @initial_count }
+        it { is_expected.to eq(@initial_count) }
       end
     end
 
@@ -33,22 +33,24 @@ describe Teller do
 
       describe "tags count" do
         subject { Tag.where(name: 'hoge').to_a }
-        it { should have(1).tag }
+        it 'has 1 tag' do
+          expect(subject.size).to eq(1)
+        end
       end
 
       describe "taggings' size" do
         subject { Tagging.where(tag_id: tag_ids).size }
-        it { should be == 1 }
+        it { is_expected.to eq(1) }
       end
 
       describe "taggings' user_id" do
         subject { Tagging.where(tag_id: tag_ids).pluck(:user_id).all? { |i| users(:user1).id == i } }
-        it { should be_true }
+        it { is_expected.to be_truthy }
       end
 
       describe "taggings' taggable_type" do
         subject { Tagging.where(tag_id: tag_ids).pluck(:taggable_type).all? { |t| t == 'Item' } }
-        it { should be_true }
+        it { is_expected.to be_truthy }
       end
     end
 
@@ -60,17 +62,21 @@ describe Teller do
 
       describe "created_item" do
         subject { @item }
-        its(:errors) { should be_empty }
+
+        describe '#errors' do
+          subject { super().errors }
+          it { is_expected.to be_empty }
+        end
       end
 
       describe "is_error" do
         subject { @is_error }
-        it { should be_false }
+        it { is_expected.to be_falsey }
       end
 
       describe "Item.count" do
         subject { Item.count }
-        it { should == @prev_count + 1 }
+        it { is_expected.to eq(@prev_count + 1) }
       end
 
       describe "created item" do
@@ -79,10 +85,20 @@ describe Teller do
           Item.find_by_id(id)
         }
 
-        its(:name) { should == 'テスト' }
-        its(:amount) { should == 10_000 }
-          it { should be_confirmation_required }
-        its(:tag_list) { should == "fuga hoge" }
+        describe '#name' do
+          subject { super().name }
+          it { is_expected.to eq('テスト') }
+        end
+
+        describe '#amount' do
+          subject { super().amount }
+          it { is_expected.to eq(10_000) }
+        end
+          it { is_expected.to be_confirmation_required }
+        describe '#tag_list' do
+          subject { super().tag_list }
+          it { is_expected.to eq("fuga hoge") }
+        end
       end
 
       it_should_behave_like "created successfully with tag_list == 'hoge fuga'"
@@ -96,17 +112,21 @@ describe Teller do
 
       describe "created_item" do
         subject { @item }
-        its(:errors) { should be_empty }
+
+        describe '#errors' do
+          subject { super().errors }
+          it { is_expected.to be_empty }
+        end
       end
 
       describe "is_error" do
         subject { @is_error }
-        it { should be_false }
+        it { is_expected.to be_falsey }
       end
 
       describe "Item.count" do
         subject { Item.count }
-        it { should == @prev_count + 1 }
+        it { is_expected.to eq(@prev_count + 1) }
       end
 
       describe "created item" do
@@ -115,10 +135,21 @@ describe Teller do
           Item.find_by_id(id)
         }
 
-        its(:name) { should == 'テスト' }
-        its(:amount) { should == 10_000 }
-        it { should_not be_confirmation_required }
-        its(:tag_list) { should == "fuga hoge" }
+        describe '#name' do
+          subject { super().name }
+          it { is_expected.to eq('テスト') }
+        end
+
+        describe '#amount' do
+          subject { super().amount }
+          it { is_expected.to eq(10_000) }
+        end
+        it { is_expected.not_to be_confirmation_required }
+
+        describe '#tag_list' do
+          subject { super().tag_list }
+          it { is_expected.to eq("fuga hoge") }
+        end
       end
 
       it_should_behave_like "created successfully with tag_list == 'hoge fuga'"
@@ -143,7 +174,11 @@ describe Teller do
           end
 
           subject { @item }
-          its(:errors) { should be_empty }
+
+          describe '#errors' do
+            subject { super().errors }
+            it { is_expected.to be_empty }
+          end
         end
 
         describe "is_error" do
@@ -152,7 +187,7 @@ describe Teller do
           end
 
           subject { @is_error }
-          it { should be_false }
+          it { is_expected.to be_falsey }
         end
 
         describe "created item" do
@@ -164,8 +199,15 @@ describe Teller do
             Item.find_by_id(id)
           }
 
-          its(:name) { should == 'テスト10' }
-          its(:amount) { should == 10_000 }
+          describe '#name' do
+            subject { super().name }
+            it { is_expected.to eq('テスト10') }
+          end
+
+          describe '#amount' do
+            subject { super().amount }
+            it { is_expected.to eq(10_000) }
+          end
         end
 
         describe "Item.count" do
@@ -191,12 +233,14 @@ describe Teller do
 
           describe "the number of items" do
             subject {  @affected_item_ids }
-            it { should have(1).items }
+            it 'has 1 item' do
+              expect(subject.size).to eq(1)
+            end
           end
 
           describe "affected item" do
             subject {  @affected_item_ids[0] }
-            it { should == items(:adjustment2).id }
+            it { is_expected.to eq(items(:adjustment2).id) }
           end
         end
 
@@ -243,12 +287,14 @@ describe Teller do
 
           describe "the number of items" do
             subject {  @affected_item_ids }
-            it { should have(1).items }
+            it 'has 1 item' do
+              expect(subject.size).to eq(1)
+            end
           end
 
           describe "affected item" do
             subject {  @affected_item_ids[0] }
-            it { should == items(:adjustment4).id }
+            it { is_expected.to eq(items(:adjustment4).id) }
           end
         end
 
@@ -273,7 +319,7 @@ describe Teller do
             @create.call
           end
           subject { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 3, 1)).first }
-          it { should be_nil }
+          it { is_expected.to be_nil }
         end
 
         describe "the non-adjusted account's monthly_pl of the same month as the created item" do
@@ -309,12 +355,14 @@ describe Teller do
 
           describe "the number of items" do
             subject {  @affected_item_ids }
-            it { should have(1).items }
+            it 'has 1 item' do
+              expect(subject.size).to eq(1)
+            end
           end
 
           describe "affected item" do
             subject {  @affected_item_ids[0] }
-            it { should == items(:adjustment6).id }
+            it { is_expected.to eq(items(:adjustment6).id) }
           end
         end
 
@@ -335,7 +383,7 @@ describe Teller do
             @create.call
           end
           subject { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 3, 1)).first }
-          it { should be_nil }
+          it { is_expected.to be_nil }
         end
 
         describe "the non-adjusted account's monthly_pl of the same month as the created item" do
@@ -366,13 +414,15 @@ describe Teller do
 
           describe "the number of items" do
             subject {  @affected_item_ids }
-            it { should have(1).items }
+            it 'has 1 item' do
+              expect(subject.size).to eq(1)
+            end
 
           end
 
           describe "affected item" do
             subject {  @affected_item_ids[0] }
-            it { should == items(:adjustment6).id }
+            it { is_expected.to eq(items(:adjustment6).id) }
           end
         end
 
@@ -391,7 +441,7 @@ describe Teller do
             @create.call
           end
           subject { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 3, 1)).first.amount }
-          it { should == 10_000 }
+          it { is_expected.to eq(10_000) }
         end
       end
 
@@ -413,7 +463,7 @@ describe Teller do
             @create.call
           end
           subject {  @affected_item_ids }
-          it { should be_empty }
+          it { is_expected.to be_empty }
         end
 
         describe "the adjusted account's monthly_pl of the last month or before of the created item" do
@@ -431,7 +481,7 @@ describe Teller do
             @create.call
           end
           subject { MonthlyProfitLoss.where(account_id: accounts(:expense3).id, month: Date.new(2008, 3, 1)).first.amount }
-          it { should == 10_000 }
+          it { is_expected.to eq(10_000) }
         end
       end
     end
@@ -444,7 +494,11 @@ describe Teller do
           end
 
           subject { @item }
-          its(:errors) { should be_empty }
+
+          describe '#errors' do
+            subject { super().errors }
+            it { is_expected.to be_empty }
+          end
         end
 
         describe "is_error" do
@@ -453,7 +507,7 @@ describe Teller do
           end
 
           subject { @is_error }
-          it { should be_false }
+          it { is_expected.to be_falsey }
         end
 
         describe "created item" do
@@ -463,8 +517,16 @@ describe Teller do
           subject {
             @item
           }
-          its(:name) { should == 'テスト10' }
-          its(:amount) { should == 10_000 }
+
+          describe '#name' do
+            subject { super().name }
+            it { is_expected.to eq('テスト10') }
+          end
+
+          describe '#amount' do
+            subject { super().amount }
+            it { is_expected.to eq(10_000) }
+          end
         end
 
         describe "Item.count" do
@@ -492,10 +554,22 @@ describe Teller do
             @create.call
           end
           subject { credit_item }
-          it { should_not be_nil }
-          its(:amount) { should == 10_000 }
-          its(:parent_id) { should be_nil }
-          its(:child_item) { should_not be_nil }
+          it { is_expected.not_to be_nil }
+
+          describe '#amount' do
+            subject { super().amount }
+            it { is_expected.to eq(10_000) }
+          end
+
+          describe '#parent_id' do
+            subject { super().parent_id }
+            it { is_expected.to be_nil }
+          end
+
+          describe '#child_item' do
+            subject { super().child_item }
+            it { is_expected.not_to be_nil }
+          end
         end
 
         describe "child item's count" do
@@ -503,7 +577,11 @@ describe Teller do
             @create.call
           end
           subject { Item.where(parent_id: credit_item.id) }
-          its(:count) { should == 1 }
+
+          describe '#count' do
+            subject { super().count }
+            it { is_expected.to eq(1) }
+          end
         end
 
         describe "child item" do
@@ -511,12 +589,36 @@ describe Teller do
             @create.call
           end
           subject { Item.where(parent_id: credit_item.id).find { |i| i.child_item.nil? } }
-          its(:child_item) { should be_nil }
-          its(:parent_item) { should == credit_item }
-          its(:action_date) { should == Date.new(2008, 2 + credit_relations(:cr1).payment_month, credit_relations(:cr1).payment_day) }
-          its(:from_account_id) { should == credit_relations(:cr1).payment_account_id }
-          its(:to_account_id) { should == credit_relations(:cr1).credit_account_id }
-          its(:amount) { should == 10_000 }
+
+          describe '#child_item' do
+            subject { super().child_item }
+            it { is_expected.to be_nil }
+          end
+
+          describe '#parent_item' do
+            subject { super().parent_item }
+            it { is_expected.to eq(credit_item) }
+          end
+
+          describe '#action_date' do
+            subject { super().action_date }
+            it { is_expected.to eq(Date.new(2008, 2 + credit_relations(:cr1).payment_month, credit_relations(:cr1).payment_day)) }
+          end
+
+          describe '#from_account_id' do
+            subject { super().from_account_id }
+            it { is_expected.to eq(credit_relations(:cr1).payment_account_id) }
+          end
+
+          describe '#to_account_id' do
+            subject { super().to_account_id }
+            it { is_expected.to eq(credit_relations(:cr1).credit_account_id) }
+          end
+
+          describe '#amount' do
+            subject { super().amount }
+            it { is_expected.to eq(10_000) }
+          end
         end
 
         describe "affected_item_ids" do
@@ -526,12 +628,14 @@ describe Teller do
 
           describe "the number of items" do
             subject { @affected_item_ids }
-            it { should have(1).items }
+            it 'has 1 item' do
+              expect(subject.size).to eq(1)
+            end
           end
 
           describe "affected item" do
             subject { @affected_item_ids[0] }
-            it { should == Item.where(parent_id: @item.id).first.id }
+            it { is_expected.to eq(Item.where(parent_id: @item.id).first.id) }
           end
         end
       end
@@ -565,11 +669,27 @@ describe Teller do
             @create.call
           end
           subject { credit_item }
-          it { should_not be_nil }
-          its(:amount) { should == 10_000 }
-          its(:parent_id) { should be_nil }
-          its(:child_item) { should_not be_nil }
-          its(:action_date) { should == Date.new(2008, 2, 25) }
+          it { is_expected.not_to be_nil }
+
+          describe '#amount' do
+            subject { super().amount }
+            it { is_expected.to eq(10_000) }
+          end
+
+          describe '#parent_id' do
+            subject { super().parent_id }
+            it { is_expected.to be_nil }
+          end
+
+          describe '#child_item' do
+            subject { super().child_item }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '#action_date' do
+            subject { super().action_date }
+            it { is_expected.to eq(Date.new(2008, 2, 25)) }
+          end
         end
 
         describe "child item" do
@@ -579,18 +699,50 @@ describe Teller do
 
           describe "child item count" do
             subject { Item.where(parent_id: credit_item.id) }
-            its(:count) { should == 1 }
+
+            describe '#count' do
+              subject { super().count }
+              it { is_expected.to eq(1) }
+            end
           end
 
           describe "child item" do
             subject { Item.where(parent_id: credit_item.id).first }
-            its(:child_item) { should be_nil }
-            its(:parent_id) { should == credit_item.id }
-            its(:id) { should == credit_item.child_item.id }
-            its(:action_date) { should == Date.new(2008, 3 + credit_relations(:cr1).payment_month, credit_relations(:cr1).payment_day) }
-            its(:from_account_id) { should == credit_relations(:cr1).payment_account_id }
-            its(:to_account_id) { should == credit_relations(:cr1).credit_account_id }
-            its(:amount) { should == 10_000 }
+
+            describe '#child_item' do
+              subject { super().child_item }
+              it { is_expected.to be_nil }
+            end
+
+            describe '#parent_id' do
+              subject { super().parent_id }
+              it { is_expected.to eq(credit_item.id) }
+            end
+
+            describe '#id' do
+              subject { super().id }
+              it { is_expected.to eq(credit_item.child_item.id) }
+            end
+
+            describe '#action_date' do
+              subject { super().action_date }
+              it { is_expected.to eq(Date.new(2008, 3 + credit_relations(:cr1).payment_month, credit_relations(:cr1).payment_day)) }
+            end
+
+            describe '#from_account_id' do
+              subject { super().from_account_id }
+              it { is_expected.to eq(credit_relations(:cr1).payment_account_id) }
+            end
+
+            describe '#to_account_id' do
+              subject { super().to_account_id }
+              it { is_expected.to eq(credit_relations(:cr1).credit_account_id) }
+            end
+
+            describe '#amount' do
+              subject { super().amount }
+              it { is_expected.to eq(10_000) }
+            end
           end
 
         end
@@ -601,12 +753,14 @@ describe Teller do
           end
           describe "the number of items" do
             subject { @affected_item_ids }
-            it { should have(1).items }
+            it 'has 1 item' do
+              expect(subject.size).to eq(1)
+            end
           end
 
           describe "affected item" do
             subject { @affected_item_ids[0] }
-            it { should == Item.where(parent_id: @item.id).first.id }
+            it { is_expected.to eq(Item.where(parent_id: @item.id).first.id) }
           end
         end
       end
@@ -640,11 +794,27 @@ describe Teller do
           end
 
           subject { credit_item }
-          it { should_not be_nil }
-          its(:amount) { should == 10_000 }
-          its(:parent_id) { should be_nil }
-          its(:child_item) { should_not be_nil }
-          its(:action_date) { should == Date.new(2008, 2, 10) }
+          it { is_expected.not_to be_nil }
+
+          describe '#amount' do
+            subject { super().amount }
+            it { is_expected.to eq(10_000) }
+          end
+
+          describe '#parent_id' do
+            subject { super().parent_id }
+            it { is_expected.to be_nil }
+          end
+
+          describe '#child_item' do
+            subject { super().child_item }
+            it { is_expected.not_to be_nil }
+          end
+
+          describe '#action_date' do
+            subject { super().action_date }
+            it { is_expected.to eq(Date.new(2008, 2, 10)) }
+          end
         end
 
         describe "child item's count" do
@@ -652,7 +822,11 @@ describe Teller do
             @create.call
           end
           subject { Item.where(parent_id: credit_item.id) }
-          its(:count) { should == 1 }
+
+          describe '#count' do
+            subject { super().count }
+            it { is_expected.to eq(1) }
+          end
         end
 
         describe "child item" do
@@ -660,13 +834,41 @@ describe Teller do
             @create.call
           end
           subject { Item.where(parent_id: credit_item.id).first }
-          its(:child_item) { should be_nil }
-          its(:parent_id) { should == credit_item.id }
-          its(:id) { should == credit_item.child_item.id }
-          its(:action_date) { should == Date.new(2008, 2 + @cr1.payment_month, 1).end_of_month }
-          its(:from_account_id) { should == @cr1.payment_account_id }
-          its(:to_account_id) { should == @cr1.credit_account_id }
-          its(:amount) { should == 10_000 }
+
+          describe '#child_item' do
+            subject { super().child_item }
+            it { is_expected.to be_nil }
+          end
+
+          describe '#parent_id' do
+            subject { super().parent_id }
+            it { is_expected.to eq(credit_item.id) }
+          end
+
+          describe '#id' do
+            subject { super().id }
+            it { is_expected.to eq(credit_item.child_item.id) }
+          end
+
+          describe '#action_date' do
+            subject { super().action_date }
+            it { is_expected.to eq(Date.new(2008, 2 + @cr1.payment_month, 1).end_of_month) }
+          end
+
+          describe '#from_account_id' do
+            subject { super().from_account_id }
+            it { is_expected.to eq(@cr1.payment_account_id) }
+          end
+
+          describe '#to_account_id' do
+            subject { super().to_account_id }
+            it { is_expected.to eq(@cr1.credit_account_id) }
+          end
+
+          describe '#amount' do
+            subject { super().amount }
+            it { is_expected.to eq(10_000) }
+          end
         end
 
         describe "affected_item_ids" do
@@ -675,12 +877,14 @@ describe Teller do
           end
           describe "the number of items" do
             subject { @affected_item_ids }
-            it { should have(1).items }
+            it 'has 1 item' do
+              expect(subject.size).to eq(1)
+            end
           end
 
           describe "affected item" do
             subject { @affected_item_ids[0] }
-            it { should == Item.where(parent_id: @item.id).first.id }
+            it { is_expected.to eq(Item.where(parent_id: @item.id).first.id) }
           end
         end
       end

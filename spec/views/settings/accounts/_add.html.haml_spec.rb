@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/settings/accounts/_add" do
+describe "/settings/accounts/_add", :type => :view do
   fixtures :users, :accounts
 
   context "when enough params," do
@@ -15,7 +15,7 @@ describe "/settings/accounts/_add" do
 
     describe "body" do
       subject { render partial: 'add' }
-      it { should match /<input[^>]+name="type"[^>]+type="hidden"[^>]+value="banking"[^>]+>/ }
+      it { is_expected.to match /<input[^>]+name="type"[^>]+type="hidden"[^>]+value="banking"[^>]+>/ }
     end
   end
 end
