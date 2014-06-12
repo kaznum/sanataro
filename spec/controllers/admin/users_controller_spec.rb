@@ -158,9 +158,7 @@ describe Admin::UsersController, :type => :controller do
     context "when authentication pass," do
       context "when user/password is correct," do
         before do
-          @controller.instance_eval do |ins|
-            expect(ins).to receive(:authenticate).and_return(true)
-          end
+          expect(@controller).to receive(:authenticate).and_return(true)
         end
 
         describe "Methods calls" do

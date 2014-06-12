@@ -63,7 +63,7 @@ describe Item, :type => :model do
         describe "error" do
           subject { @item }
           it 'has at least 1 errors_on' do
-            expect(subject.errors_on :name.size).to be >= 1
+            expect(subject.errors_on(:name).size).to be >= 1
           end
         end
       end
@@ -84,7 +84,7 @@ describe Item, :type => :model do
         describe "error" do
           subject { @item }
           it 'has at least 1 errors_on' do
-            expect(subject.errors_on :amount.size).to be >= 1
+            expect(subject.errors_on(:amount).size).to be >= 1
           end
         end
       end
@@ -105,7 +105,7 @@ describe Item, :type => :model do
         describe "error" do
           subject { @item }
           it 'has at least 1 errors_on' do
-            expect(subject.errors_on :from_account_id.size).to be >= 1
+            expect(subject.errors_on(:from_account_id).size).to be >= 1
           end
         end
       end
@@ -137,7 +137,7 @@ describe Item, :type => :model do
         describe "error" do
           subject { @item }
           it 'has at least 1 errors_on' do
-            expect(subject.errors_on :from_account_id.size).to be >= 1
+            expect(subject.errors_on(:from_account_id).size).to be >= 1
           end
         end
       end
@@ -157,7 +157,7 @@ describe Item, :type => :model do
         describe "error" do
           subject { @item }
           it 'has at least 1 errors_on' do
-            expect(subject.errors_on :from_account_id.size).to be >= 1
+            expect(subject.errors_on(:from_account_id).size).to be >= 1
           end
         end
       end
@@ -176,7 +176,7 @@ describe Item, :type => :model do
         describe "error" do
           subject { @item }
           it 'has at least 1 errors_on' do
-            expect(subject.errors_on :to_account_id.size).to be >= 1
+            expect(subject.errors_on(:to_account_id).size).to be >= 1
           end
         end
       end
@@ -195,7 +195,7 @@ describe Item, :type => :model do
         describe "error" do
           subject { @item }
           it 'has at least 1 errors_on' do
-            expect(subject.errors_on :to_account_id.size).to be >= 1
+            expect(subject.errors_on(:to_account_id).size).to be >= 1
           end
         end
       end
@@ -215,7 +215,7 @@ describe Item, :type => :model do
         describe "error" do
           subject { @item }
           it 'has at least 1 errors_on' do
-            expect(subject.errors_on :to_account_id.size).to be >= 1
+            expect(subject.errors_on(:to_account_id).size).to be >= 1
           end
         end
       end
@@ -235,7 +235,7 @@ describe Item, :type => :model do
         describe "error" do
           subject { @item }
           it 'has at least 1 errors_on' do
-            expect(subject.errors_on :to_account_id.size).to be >= 1
+            expect(subject.errors_on(:to_account_id).size).to be >= 1
           end
         end
       end
@@ -255,7 +255,7 @@ describe Item, :type => :model do
         describe "error" do
           subject { @item }
           it 'has at least 1 errors_on' do
-            expect(subject.errors_on :from_account_id.size).to be >= 1
+            expect(subject.errors_on(:from_account_id).size).to be >= 1
           end
         end
       end
@@ -277,7 +277,7 @@ describe Item, :type => :model do
         describe "error" do
           subject { @item }
           it 'has at least 1 errors_on' do
-            expect(subject.errors_on :action_date.size).to be >= 1
+            expect(subject.errors_on(:action_date).size).to be >= 1
           end
         end
       end
@@ -298,7 +298,7 @@ describe Item, :type => :model do
         describe "error" do
           subject { @item }
           it 'has at least 1 errors_on' do
-            expect(subject.errors_on :action_date.size).to be >= 1
+            expect(subject.errors_on(:action_date).size).to be >= 1
           end
         end
       end
@@ -320,7 +320,7 @@ describe Item, :type => :model do
         describe "error" do
           subject { @item }
           it 'has at least 1 errors_on' do
-            expect(subject.errors_on :action_date.size).to be >= 1
+            expect(subject.errors_on(:action_date).size).to be >= 1
           end
         end
       end

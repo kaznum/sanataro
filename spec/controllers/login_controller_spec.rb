@@ -386,7 +386,7 @@ describe LoginController, :type => :controller do
           subject { super().confirmation }
 
           it 'has 15 characters' do
-            expect(subject.characters.size).to eq(15)
+            expect(subject.size).to eq(15)
           end
         end
         it { is_expected.not_to be_active }
