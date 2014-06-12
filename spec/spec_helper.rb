@@ -116,11 +116,11 @@ RSpec::Matchers.define :redirect_by_js_to do |path|
     assert_equal path, assigns[:path_to_redirect_to]
   end
 
-  failure_message_for_should do
+  failure_message do
     "expected to redirect to '#{path}', but to '#{assigns[:path_to_redirect_to]}'.\n" + rescued_exception.message
   end
 
-  failure_message_for_should_not do |_|
+  failure_message_when_negated do |_|
     "expected not to redirect to '#{path}', but did"
   end
 
@@ -141,11 +141,11 @@ RSpec::Matchers.define :render_js_error do |prms|
     end
   end
 
-  failure_message_for_should do
+  failure_message do
     rescued_exception.message
   end
 
-  failure_message_for_should_not do |_|
+  failure_message_when_negated do |_|
     "expected not to have render_js_error(#{prms.serialize}, but did"
   end
 
