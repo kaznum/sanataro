@@ -11,7 +11,7 @@ gem 'rails', '>= 4.1.1'
 # gem 'unicorn'
 
 group :development, :test do
-  gem "rspec-rails", ">= 2.13.1"
+  gem "rspec-rails", ">= 2.13.1", "< 3"
   gem "launchy"
   gem "fabrication"
   unless ENV['TRAVIS']
