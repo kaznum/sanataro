@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe TagStatusesController do
+describe TagStatusesController, :type => :controller do
   fixtures :users, :items, :accounts
 
   describe "show" do
@@ -24,19 +24,25 @@ describe TagStatusesController do
 
       describe "response" do
         subject { response }
-        it { should be_success }
-        it { should render_template "show" }
+        it { is_expected.to be_success }
+        it { is_expected.to render_template "show" }
       end
 
       describe "@tags" do
         subject { assigns(:tags) }
-        it { should_not be_nil }
-        it { should have_at_least(1).tags }
+        it { is_expected.not_to be_nil }
+        it 'has at least 1 tag' do
+          expect(subject.size).to be >= 1
+        end
       end
 
       describe "uniqueness" do
         subject { assigns(:tags) }
-        its(:size) { should == assigns(:tags).map(&:name).uniq.size }
+
+        describe '#size' do
+          subject { super().size }
+          it { is_expected.to eq(assigns(:tags).map(&:name).uniq.size) }
+        end
       end
     end
   end
