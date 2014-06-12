@@ -11,7 +11,7 @@ gem 'rails', '>= 4.1.1'
 # gem 'unicorn'
 
 group :development, :test do
-  gem "rspec-rails", ">= 2.13.1", "< 3"
+  gem "rspec-rails", ">= 2.13.1"
   gem 'rspec-activemodel-mocks'
   gem 'rspec-collection_matchers'
   gem "launchy"
@@ -32,6 +32,7 @@ group :test do
   gem 'spork'
   gem "cucumber-rails", require: false
   gem "capybara-webkit", '>= 1.0.0'
+  gem "capybara", '>= 2.2.0'
   gem "growl"
   gem "rb-fsevent"
   gem "webrat"
