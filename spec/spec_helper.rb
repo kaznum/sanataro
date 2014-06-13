@@ -54,7 +54,6 @@ ENV["RAILS_ENV"] ||= 'test'
 
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-require 'rspec/autorun'
 
 require File.expand_path(File.join(Rails.root, 'lib', 'sanataro_taggable', 'init'))
 
@@ -66,9 +65,6 @@ RSpec.configure do |config|
   # rspec-rails 3 will no longer automatically infer an example group's spec type
   # from the file location. 
   config.infer_spec_type_from_file_location!
-  # RSpec::Core::ExampleGroup#example is deprecated and will be removed
-  # in RSpec 3.
-  config.expose_current_running_example_as :example
 
   # == Mock Framework
   #
