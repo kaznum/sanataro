@@ -74,7 +74,7 @@ gem 'memoist'
 
 gem 'twitter-bootstrap-rails', '>= 2.2.8'
 # Dalli 2.7.0 does not work well with memcached 1.4.5(?)
-gem 'dalli', '< 2.7.0'
+gem 'dalli'
 gem 'dalli-store-extensions', :github => "mqt/dalli-store-extensions"
 
 gem 'rails_emoji'

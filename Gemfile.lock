@@ -74,7 +74,7 @@ GEM
       mime-types (~> 1.16)
       nokogiri (~> 1.5)
       rails (>= 3, < 5)
-    dalli (2.6.4)
+    dalli (2.7.2)
     database_cleaner (1.3.0)
     debugger-linecache (1.2.0)
     diff-lcs (1.2.5)
@@ -270,7 +270,7 @@ DEPENDENCIES
   coffee-rails
   connection_pool
   cucumber-rails
-  dalli (< 2.7.0)
+  dalli
   dalli-store-extensions!
   database_cleaner (>= 1.2.0)
   doorkeeper (>= 0.7.1)
