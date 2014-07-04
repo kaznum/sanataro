@@ -68,7 +68,7 @@ gem "haml", '>= 4.0.2'
 
 gem 'haml-rails'
 gem 'jquery-rails'
-gem 'jquery-ui-rails'
+gem 'jquery-ui-rails', '>= 5.0.0'
 gem 'settingslogic'
 gem 'memoist'
 
