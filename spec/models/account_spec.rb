@@ -4,6 +4,9 @@ require 'spec_helper'
 describe Account, :type => :model do
   fixtures :users
   before do
+    # Sometimes fixture of credit_relations remains, 
+    # but this spec does not use their data but fabrication
+    CreditRelation.destroy_all
     @valid_params = {
       name: "aaaaa",
       order_no: 1,
