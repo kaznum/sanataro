@@ -47,9 +47,7 @@ describe Api::AccountsController, :type => :controller do
     context "with OAuth," do
       context "when resource_owner_id is correct," do
         before do
-          token = double
-          expect(token).to receive(:resource_owner_id).and_return(users(:user1).id)
-          expect(token).to receive(:accessible?).and_return(true)
+          token = double(Doorkeeper::AccessToken, acceptable?: true, resource_owner_id: users(:user1).id)
           @controller.define_singleton_method(:doorkeeper_token) do
             token
           end
@@ -65,9 +63,7 @@ describe Api::AccountsController, :type => :controller do
 
       context "when resource_owner_id is wrong," do
         before do
-          token = double
-          expect(token).to receive(:resource_owner_id).and_return(999_999)
-          expect(token).to receive(:accessible?).and_return(true)
+          token = double(Doorkeeper::AccessToken, acceptable?: true, resource_owner_id: 999_999)
           @controller.define_singleton_method(:doorkeeper_token) do
             token
           end
