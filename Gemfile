@@ -72,7 +72,8 @@ gem 'jquery-ui-rails', '>= 5.0.0'
 gem 'settingslogic'
 gem 'memoist'
 
-gem 'twitter-bootstrap-rails', '>= 2.2.8'
+# currently twitter bootstrap 3 is not supported in Sanataro
+gem 'twitter-bootstrap-rails', '>= 2.2.8', '< 3'
 # Dalli 2.7.0 does not work well with memcached 1.4.5(?)
 gem 'dalli'
 gem 'dalli-store-extensions', :github => "mqt/dalli-store-extensions"
