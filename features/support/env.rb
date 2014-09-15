@@ -79,7 +79,7 @@ ActionController::Base.allow_rescue = false
 # Remove/comment out the lines below if your app doesn't have a database.
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
 begin
-  DatabaseCleaner.strategy = :transaction
+  DatabaseCleaner.strategy = :truncation
 rescue NameError
   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
 end
@@ -99,31 +99,12 @@ end
 
 Capybara.javascript_driver = :webkit
 
-# codes for for transactional fixtures
-# TODO
-# see https://github.com/brianmario/mysql2/issues/99
-#  and https://gist.github.com/mperham/3049152
-class ActiveRecord::Base
-  mattr_accessor :shared_connection
-  @@shared_connection = nil
- 
-  def self.connection
-    @@shared_connection || ::ConnectionPool::Wrapper.new(:size => 1) { retrieve_connection }
-  end
-end
-
-# Forces all threads to share the same connection. This works on
-# Capybara because it starts the web server in a thread.
-ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
-
 Before do
   ActiveRecord::FixtureSet::reset_cache
   fixtures_folder = File.join(Rails.root, 'spec', 'fixtures')
   fixtures = Dir[File.join(fixtures_folder, '*.yml')].map {|f| File.basename(f, '.yml') }
   ActiveRecord::FixtureSet::create_fixtures(fixtures_folder, fixtures)
 end
-
-## end of codes for transactional fixtures
 
 if ENV['TRAVIS']
   Capybara.default_wait_time = 60
