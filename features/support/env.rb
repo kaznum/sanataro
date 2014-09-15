@@ -131,3 +131,19 @@ else
   Capybara.default_wait_time = 5
 end
 
+
+# https://gist.github.com/josevalim/470808
+# http://qiita.com/kntmrkm/items/a02f5694843fee97763e
+module WaitForAjax
+  def wait_for_ajax
+    Timeout.timeout(Capybara.default_wait_time) do
+      loop until finished_all_ajax_requests?
+    end
+  end
+
+  def finished_all_ajax_requests?
+    page.evaluate_script('jQuery.active').zero?
+  end
+end
+World(WaitForAjax)
+
