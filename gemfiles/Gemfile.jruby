@@ -51,7 +51,7 @@ gem 'jquery-ui-rails', '>= 5.0.0'
 gem 'settingslogic'
 gem 'memoist'
 
-gem 'twitter-bootstrap-rails'
+gem 'twitter-bootstrap-rails', '>= 2.2.8', '< 3'
 gem 'rails_emoji'
 gem 'jbuilder'
 gem 'underscore-rails'
