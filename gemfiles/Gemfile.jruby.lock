@@ -63,7 +63,7 @@ GEM
     erubis (2.7.0)
     execjs (2.2.1)
     fabrication (2.11.3)
-    ffi (1.9.4-java)
+    ffi (1.9.5-java)
     haml (4.0.5)
       tilt
     haml-rails (0.5.3)
