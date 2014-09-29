@@ -36,7 +36,7 @@ GEM
     addressable (2.3.6)
     arel (5.0.1.20140414130214)
     builder (3.2.2)
-    byebug (3.4.2)
+    byebug (3.5.0)
       columnize (~> 0.8)
       debugger-linecache (~> 1.2)
       slop (~> 3.6)
