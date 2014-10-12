@@ -61,7 +61,7 @@ GEM
     erubis (2.7.0)
     execjs (2.2.1)
     fabrication (2.11.3)
-    ffi (1.9.6)
+    ffi (1.9.6-java)
     haml (4.0.5)
       tilt
     haml-rails (0.5.3)
@@ -133,7 +133,7 @@ GEM
       rspec-mocks (>= 2.99, < 4.0)
     rspec-collection_matchers (1.0.0)
       rspec-expectations (>= 2.99.0.beta1)
-    rspec-core (3.1.6)
+    rspec-core (3.1.7)
       rspec-support (~> 3.1.0)
     rspec-expectations (3.1.2)
       diff-lcs (>= 1.2.0, < 2.0)
