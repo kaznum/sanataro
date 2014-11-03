@@ -93,9 +93,9 @@ GEM
     krypt-ossl (0.1.0)
       krypt
     krypt-provider-jdk (0.0.2)
-    launchy (2.4.2)
+    launchy (2.4.3)
       addressable (~> 2.3)
-    launchy (2.4.2-java)
+    launchy (2.4.3-java)
       addressable (~> 2.3)
       spoon (~> 0.0.1)
     mail (2.6.1)
