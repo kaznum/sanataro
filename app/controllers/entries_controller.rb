@@ -109,6 +109,7 @@ class EntriesController < ApplicationController
   rescue SyntaxError
     render_js_error id: warning_selector, default_message: t("error.amount_is_invalid")
   rescue ActiveRecord::RecordInvalid => ex
-    render_js_error(id: warning_selector, errors: ex.error_messages, default_message: t("error.input_is_invalid"))
+    render_js_error(id: warning_selector, errors: ex.record.errors.full_messages, default_message: t("error.input_is_invalid"))
   end
 end
+

@@ -2122,7 +2122,11 @@ describe EntriesController, :type => :controller do
         context "when a validation error occurs," do
           before do
             mock_exception = ActiveRecord::RecordInvalid.new(stub_model(Item))
-            expect(mock_exception).to receive(:error_messages).and_return("Error!!!")
+            mock_errors = double
+            mock_record = double
+            expect(mock_errors).to receive(:full_messages).and_return(["Error!!!"])
+            expect(mock_record).to receive(:errors).and_return(mock_errors)
+            expect(mock_exception).to receive(:record).and_return(mock_record)
             expect(Teller).to receive(:create_entry).and_raise(mock_exception)
             @action = lambda {
               xhr :post, :create, entry: { action_date: '2008/02/05', from_account_id: '-1', to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '3000', entry_type: 'adjustment' }, year: 2008, month: 2
