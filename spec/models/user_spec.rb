@@ -359,7 +359,7 @@ describe User, :type => :model do
     let(:user) { User.new }
     specify {
       mock_obj = double
-      expect(mock_obj).to receive(:deliver)
+      expect(mock_obj).to receive(:deliver_now)
       expect(Mailer).to receive(:signup_confirmation).with(user).and_return(mock_obj)
       user.deliver_signup_confirmation
     }
@@ -369,7 +369,7 @@ describe User, :type => :model do
     let(:user) { User.new }
     specify {
       mock_obj = double
-      expect(mock_obj).to receive(:deliver)
+      expect(mock_obj).to receive(:deliver_now)
       expect(Mailer).to receive(:signup_complete).with(user).and_return(mock_obj)
       user.deliver_signup_complete
     }
