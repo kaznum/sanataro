@@ -1156,7 +1156,11 @@ describe Api::EntriesController, :type => :controller do
         context "when a validation error occurs," do
           before do
             mock_exception = ActiveRecord::RecordInvalid.new(stub_model(Item))
-            expect(mock_exception).to receive(:error_messages).and_return("Error!!!")
+            mock_record = double
+            mock_errors = double
+            expect(mock_exception).to receive(:record).and_return(mock_record)
+            expect(mock_record).to receive(:errors).and_return(mock_errors)
+            expect(mock_errors).to receive(:full_messages).and_return(["Error!!!"])
             expect(Teller).to receive(:create_entry).and_raise(mock_exception)
             @action = lambda {
               post(:create,

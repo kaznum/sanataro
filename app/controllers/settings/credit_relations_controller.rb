@@ -16,7 +16,7 @@ class Settings::CreditRelationsController < ApplicationController
 
     @credit_relations = @user.credit_relations.all
   rescue ActiveRecord::RecordInvalid => ex
-    render_js_error id: "warning", errors: ex.error_messages, default_message: t('error.input_is_invalid')
+    render_js_error id: "warning", errors: ex.record.errors.full_messages, default_message: t('error.input_is_invalid')
   end
 
   def destroy

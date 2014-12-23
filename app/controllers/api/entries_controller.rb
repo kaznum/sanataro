@@ -51,7 +51,7 @@ class Api::EntriesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render nothing: true, status: :not_found
   rescue ActiveRecord::RecordInvalid => ex
-    errors = ex.error_messages
+    errors = ex.record.errors.full_messages
     render json: { errors: errors }.to_json, status: :not_acceptable
   end
 end
