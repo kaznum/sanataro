@@ -15,7 +15,7 @@ describe "/settings/accounts/_add", :type => :view do
 
     describe "body" do
       subject { render partial: 'add' }
-      it { is_expected.to match /<input[^>]+name="type"[^>]+type="hidden"[^>]+value="banking"[^>]+>/ }
+      it { is_expected.to match /<input[^>]+type="hidden"[^>]+name="type"[^>]+value="banking"[^>]+>/ }
     end
   end
 end
