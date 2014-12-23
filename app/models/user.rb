@@ -97,11 +97,11 @@ class User < ActiveRecord::Base
   end
 
   def deliver_signup_confirmation
-    Mailer.signup_confirmation(self).deliver
+    Mailer.signup_confirmation(self).deliver_now
   end
 
   def deliver_signup_complete
-    Mailer.signup_complete(self).deliver
+    Mailer.signup_complete(self).deliver_now
   end
 
   def store_sample
