@@ -14,9 +14,9 @@ describe "/settings/accounts/_edit", :type => :view do
 
     describe "body" do
       subject { render partial: 'edit' }
-      it { is_expected.to match /<input[^>]+name="account_name"[^>]+type="text"[^>]+value="#{accounts(:bank1).name}"[^>]+>/ }
-      it { is_expected.to match /<input[^>]+name="order_no"[^>]+type="text"[^>]+value="#{accounts(:bank1).order_no}"[^>]+>/ }
-      it { is_expected.to match /<input[^>]+name="bgcolor"[^>]+type="hidden"[^>]+value="#ffffff"[^>]+>/ }
+      it { is_expected.to match /<input[^>]+type="text"[^>]+name="account_name"[^>]+value="#{accounts(:bank1).name}"[^>]+>/ }
+      it { is_expected.to match /<input[^>]+type="text"[^>]+name="order_no"[^>]+value="#{accounts(:bank1).order_no}"[^>]+>/ }
+      it { is_expected.to match /<input[^>]+type="hidden"[^>]+name="bgcolor"[^>]+value="#ffffff"[^>]+>/ }
     end
   end
 end
