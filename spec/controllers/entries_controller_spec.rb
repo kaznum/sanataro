@@ -3270,7 +3270,7 @@ describe EntriesController, :type => :controller do
 
             describe '#amount' do
               subject { super().amount }
-              it { is_expected.to eq 3000 - Item.find(@init_adj6).adjustment_amount }
+              it { is_expected.to eq 3000 - Item.find(@init_adj6.id).adjustment_amount }
             end
 
             describe '#action_date' do
