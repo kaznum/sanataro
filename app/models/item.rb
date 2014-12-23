@@ -228,7 +228,7 @@ class Item < ActiveRecord::Base
 
     def where_keyword_matches(str)
       keywords = str.strip.split(/\s+/).map { |key| "%#{key.gsub(/[%_!]/) { |s| '!' + s }}%" }
-      where(arel_table[:name].matches_all(keywords))
+      where(arel_table[:name].matches_all(keywords, '!'))
     end
 
     def partials_by_keyword(keyword)
