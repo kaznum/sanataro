@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '>= 4.0.0'
+gem 'rails', '>= 4.2.0'
 
 group :development, :test do
   gem "minitest"
@@ -58,4 +58,6 @@ gem 'underscore-rails'
 gem 'doorkeeper', '>= 0.7.1'
 
 gem 'rails-observers'
+
+gem 'responders'
 
