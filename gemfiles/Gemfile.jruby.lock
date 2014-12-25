@@ -70,7 +70,6 @@ GEM
     erubis (2.7.0)
     execjs (2.2.2)
     fabrication (2.11.3)
-    ffi (1.9.6)
     ffi (1.9.6-java)
     globalid (0.3.0)
       activesupport (>= 4.1.0)
