@@ -109,7 +109,6 @@ matrix:
       gemfile: Gemfile
       env: DB=postgres
   allow_failures:
-    - rvm: 2.2
     - rvm: ruby-head
     - rvm: jruby-head
     - rvm: jruby-19mode
