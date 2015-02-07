@@ -62,7 +62,7 @@ GEM
     coffee-script-source (1.9.0)
     diff-lcs (1.2.5)
     docile (1.1.5)
-    doorkeeper (2.1.0)
+    doorkeeper (2.1.1)
       railties (>= 3.1)
     dotenv (1.0.2)
     dotenv-rails (1.0.2)
