@@ -16,7 +16,6 @@ rvm:
   - 2.2
   - 2.1
   - 2.0.0
-  - 1.9.3
   - ruby-head
   - jruby-19mode
   - jruby-head
@@ -58,15 +57,6 @@ matrix:
       gemfile: gemfiles/Gemfile.jruby
       env: DB=postgres
     - rvm: 2.0.0
-      gemfile: gemfiles/Gemfile.jruby
-      env: DB=sqlite
-    - rvm: 1.9.3
-      gemfile: gemfiles/Gemfile.jruby
-      env: DB=mysql
-    - rvm: 1.9.3
-      gemfile: gemfiles/Gemfile.jruby
-      env: DB=postgres
-    - rvm: 1.9.3
       gemfile: gemfiles/Gemfile.jruby
       env: DB=sqlite
     - rvm: ruby-head
