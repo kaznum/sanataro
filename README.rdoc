@@ -18,17 +18,15 @@ built with Ruby on Rails.
 
 == Requirement
 * Ruby:
-  * MRI (tested continuously with 1.9.3, 2.0.0, 2.1)
-  * JRuby 1.7 (tested with JRuby 1.7.15 continuously)
-* Ruby on Rails: 4.1 (Check Gemfile for the minor version)
+  * MRI (tested continuously with 2.0.0, 2.1, 2.2)
+* Ruby on Rails: 4.2 (Check Gemfile for the minor version)
 * DB:
   * MySQL
   * SQLite3
   * PostgreSQL (Heroku available. Demo: http://sanataro.heroku.com/ )
-  * (On 9/25/2012, all specs passed under JRuby 1.6.7 and SQL Server 2008 via JDBC. This will not be tested continuously because CI environment is not available)
  
 * Gem: See Gemfile
-* Recommend: Passenger and Webserver such as Apache / Heroku (see https://github.com/kaznum/sanataro/wiki/Deploying-to-heroku for the guide of specific configuration to sanataro.)
+* Heroku Installation Guide (see https://github.com/kaznum/sanataro/wiki/Deploying-to-heroku)
 
 == If you want to try instantly...
 * `git clone git://github.com/kaznum/sanataro.git'
@@ -71,7 +69,7 @@ built with Ruby on Rails.
 == License
 The MIT License (MIT)
 
-Copyright (c) 2007-2014 Kazuya NUMATA <numata@gmail.com>
+Copyright (c) 2007-2015 Kazuya NUMATA <numata@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -102,3 +100,4 @@ This product uses the following libraries.
   * https://github.com/geemus/acts_as_taggable_redux
   * Copyright (c) 2010 geemus(Wesley Beary), released under the MIT license
   * Some code and design concepts in lib/sanataro_taggable comes from ActsAsTaggableRedux.
+
