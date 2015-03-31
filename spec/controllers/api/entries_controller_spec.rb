@@ -1481,9 +1481,10 @@ describe Api::EntriesController, :type => :controller do
       end
 
       describe "update adjustment" do
-        context "without params[:entry][:to_account_id]" do
+        context "without params[:entry][:to_account_id], " do
           before do
             @init_adj_amount = items(:adjustment2).adjustment_amount
+            items(:adjustment2).update!(updated_at: items(:adjustment2).updated_at - 1.day)
             date = items(:adjustment2).action_date
             @action = -> {
               put(:update,
@@ -1518,7 +1519,7 @@ describe Api::EntriesController, :type => :controller do
           end
         end
 
-        context "with invalid function for amount" do
+        context "with invalid function for amount, " do
           before do
             dummy_login
             date = items(:adjustment2).action_date
