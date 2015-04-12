@@ -69,7 +69,7 @@ GEM
       dotenv (= 2.0.1)
     erubis (2.7.0)
     execjs (2.5.2)
-    fabrication (2.13.0)
+    fabrication (2.13.1)
     ffi (1.9.8-java)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
