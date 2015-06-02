@@ -100,8 +100,8 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (5.0.5)
       railties (>= 3.2.16)
-    json (1.8.2)
-    json (1.8.2-java)
+    json (1.8.3)
+    json (1.8.3-java)
     krypt (0.0.2)
       ffi
       krypt-core (= 0.0.2)
