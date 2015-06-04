@@ -37,9 +37,9 @@ describe ChartData::YearlyBudgetsController, :type => :controller do
         context "and budget_type is expense," do
           context "and there is no data to send," do
             before do
-              Item.destroy_all
-              CreditRelation.destroy_all
-              Account.destroy_all
+              Item.delete_all
+              CreditRelation.delete_all
+              Account.delete_all
               get :show, id: "200802", budget_type: "expense", format: :json
             end
             describe "response" do
@@ -63,9 +63,10 @@ describe ChartData::YearlyBudgetsController, :type => :controller do
 
           context "when there are some data to send," do
             before do
-              Item.destroy_all
-              CreditRelation.destroy_all
-              Account.destroy_all
+              Item.delete_all
+              CreditRelation.delete_all
+              MonthlyProfitLoss.delete_all
+              Account.delete_all
 
               @user = users(:user1)
               account1 = @user.bankings.create!(name: "その1", active: true,
@@ -120,10 +121,10 @@ describe ChartData::YearlyBudgetsController, :type => :controller do
         context "when budget_type is income," do
           context "when there is no data to send," do
             before do
-              Item.destroy_all
-              CreditRelation.destroy_all
-              Account.destroy_all
-              MonthlyProfitLoss.destroy_all
+              Item.delete_all
+              CreditRelation.delete_all
+              MonthlyProfitLoss.delete_all
+              Account.delete_all
               get :show, id: "200802", budget_type: "income", format: :json
             end
             describe "response" do
@@ -147,9 +148,10 @@ describe ChartData::YearlyBudgetsController, :type => :controller do
 
           context "when there is some data to send," do
             before do
-              Item.destroy_all
-              CreditRelation.destroy_all
-              Account.destroy_all
+              Item.delete_all
+              CreditRelation.delete_all
+              MonthlyProfitLoss.delete_all
+              Account.delete_all
               @user = users(:user1)
               account1 = @user.bankings.create!(name: "その1", active: true,
                                                 order_no: 10)
@@ -200,10 +202,10 @@ describe ChartData::YearlyBudgetsController, :type => :controller do
         context "when budget_type is total," do
           context "when there is no data to send," do
             before do
-              Item.destroy_all
-              CreditRelation.destroy_all
-              Account.destroy_all
-              MonthlyProfitLoss.destroy_all
+              Item.delete_all
+              CreditRelation.delete_all
+              MonthlyProfitLoss.delete_all
+              Account.delete_all
               get :show, id: "200802", budget_type: "total", format: :json
             end
             describe "response" do
@@ -230,9 +232,10 @@ describe ChartData::YearlyBudgetsController, :type => :controller do
           end
           context "when there is some data to send," do
             before do
-              Item.destroy_all
-              CreditRelation.destroy_all
-              Account.destroy_all
+              Item.delete_all
+              CreditRelation.delete_all
+              MonthlyProfitLoss.delete_all
+              Account.delete_all
               @user = users(:user1)
               account1 = @user.bankings.create!(name: "その1", active: true,
                                                 order_no: 10)
