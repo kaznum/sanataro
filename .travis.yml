@@ -8,7 +8,7 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
 
 before_install:
-  - gem install bundler
+  - gem install bundler --no-ri --no-rdoc
 
 bundler_args: --without development production
 
