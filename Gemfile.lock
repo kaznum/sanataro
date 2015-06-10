@@ -289,7 +289,7 @@ GEM
     uglifier (2.7.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
-    underscore-rails (1.8.2)
+    underscore-rails (1.8.3)
     webrat (0.7.3)
       nokogiri (>= 1.2.0)
       rack (>= 1.0)
