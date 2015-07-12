@@ -51,7 +51,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.3.8)
-    arel (6.0.1)
+    arel (6.0.2)
     builder (3.2.2)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
