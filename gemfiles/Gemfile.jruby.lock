@@ -122,7 +122,7 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
-    memoist (0.13.0)
+    memoist (0.14.0)
     mime-types (2.99)
     mini_portile2 (2.0.0)
     minitest (5.8.3)
