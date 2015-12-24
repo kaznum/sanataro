@@ -64,7 +64,7 @@ GEM
     concurrent-ruby (1.0.0-java)
     diff-lcs (1.2.5)
     docile (1.1.5)
-    doorkeeper (3.0.1)
+    doorkeeper (3.1.0)
       railties (>= 3.2)
     dotenv (2.0.2)
     dotenv-rails (2.0.2)
