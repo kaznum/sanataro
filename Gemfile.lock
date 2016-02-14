@@ -85,7 +85,7 @@ GEM
       nokogiri (~> 1.5)
       railties (>= 3, < 5)
     cucumber-wire (0.0.1)
-    dalli (2.7.5)
+    dalli (2.7.6)
     database_cleaner (1.5.1)
     diff-lcs (1.2.5)
     docile (1.1.5)
