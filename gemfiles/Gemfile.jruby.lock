@@ -60,8 +60,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.10.0)
-    concurrent-ruby (1.0.0)
-    concurrent-ruby (1.0.0-java)
+    concurrent-ruby (1.0.1)
+    concurrent-ruby (1.0.1-java)
     diff-lcs (1.2.5)
     docile (1.1.5)
     doorkeeper (3.1.0)
