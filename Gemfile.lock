@@ -45,7 +45,7 @@ GEM
     addressable (2.4.0)
     arel (6.0.3)
     builder (3.2.2)
-    byebug (8.2.3)
+    byebug (8.2.4)
     capybara (2.7.0)
       addressable
       mime-types (>= 1.16)
@@ -53,7 +53,7 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    capybara-webkit (1.10.0)
+    capybara-webkit (1.10.1)
       capybara (>= 2.3.0, < 2.8.0)
       json
     childprocess (0.5.9)
