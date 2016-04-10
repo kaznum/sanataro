@@ -357,6 +357,3 @@ DEPENDENCIES
   uglifier
   underscore-rails
   webrat
-
-BUNDLED WITH
-   1.11.2
