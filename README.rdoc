@@ -63,6 +63,10 @@ built with Ruby on Rails.
 * Insert `gem 'tiny_tds' into Gemfile
 * Insert `gem 'activerecord-sqlserver-adapter' into Gemfile
 * Execute `bundle install`
+* Put 'config/initializers/azure.rb` which has contents as follows,
+```
+  ActiveRecord::ConnectionAdapters::SQLServerAdapter.lowercase_schema_reflection = true
+```
 * Edit `config/database.yml` for the connection to SQL Server Database (see `config/database.yml.sample`)
 
 
