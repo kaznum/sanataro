@@ -48,6 +48,7 @@ end
 group :production do
   gem "therubyracer", '>= 0.11.4'
   gem 'libv8', '>= 3.11.8.12'
+  gem 'redis-rails'
 end
 
 platforms :ruby do
@@ -74,9 +75,6 @@ gem 'memoist'
 
 # currently twitter bootstrap 3 is not supported in Sanataro
 gem 'twitter-bootstrap-rails', '>= 2.2.8', '< 3'
-# Dalli 2.7.0 does not work well with memcached 1.4.5(?)
-gem 'dalli'
-gem 'dalli-store-extensions', :github => "mqt/dalli-store-extensions"
 
 gem 'rails_emoji'
 gem 'jbuilder'
