@@ -59,6 +59,13 @@ built with Ruby on Rails.
 * Insert `gem 'activerecord-jdbcmssql-adapter'` into Gemfile and execute `bundle install`
 * Edit `config/database.yml` for the connection to SQL Server Database (see `config/database.yml.sample`)
 
+== For MRI and SQL Server 2014 / Azure SQL Database (v12) (Not Official support)
+* Insert `gem 'tiny_tds' into Gemfile
+* Insert `gem 'activerecord-sqlserver-adapter' into Gemfile
+* Execute `bundle install`
+* Edit `config/database.yml` for the connection to SQL Server Database (see `config/database.yml.sample`)
+
+
 == RESTful API
 * See https://github.com/kaznum/sanataro/wiki/RESTful-API
 

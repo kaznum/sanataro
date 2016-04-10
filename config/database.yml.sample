@@ -17,6 +17,23 @@ production:
 #  password: <PASSWORD>
 #
 
+## For Azure SQL Database (v12) / SQL Server 2014 with MRI adapter
+## 1. insert "gem 'activerecord-sqlserver-adapter'" in Gemfile and execute 'bundle install'
+## 2. uncomment the following lines and replace <...> for your environment
+## 3. set 'azure: true' when used with Azure SQL Database.
+## See, for details, https://github.com/rails-sqlserver/activerecord-sqlserver-adapter
+#
+# production:
+#  adapter: sqlserver
+#  encoding: utf8
+#  collation: Japanese_CS_AS
+#  host: examplehost.database.windows.net
+#  database: <DB_NAME>
+#  username: <USERNAME>@examplehost
+#  password: <PASSWORD>
+#  azure: true
+#  timeout: 10000
+
 development:
   adapter: sqlite3
   database: db/development.sqlite3
