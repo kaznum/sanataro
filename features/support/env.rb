@@ -112,6 +112,11 @@ else
   Capybara.default_wait_time = 5
 end
 
+Capybara::Webkit.configure do |config|
+  config.allow_url("ghbtns.com")
+  config.allow_url("api.github.com")
+  config.allow_url("s3.amazonaws.com")
+end
 
 # https://gist.github.com/josevalim/470808
 # http://qiita.com/kntmrkm/items/a02f5694843fee97763e
