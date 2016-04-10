@@ -107,17 +107,22 @@ Before do
 end
 
 if ENV['TRAVIS']
-  Capybara.default_wait_time = 60
+  Capybara.default_max_wait_time = 60
 else
-  Capybara.default_wait_time = 5
+  Capybara.default_max_wait_time = 5
 end
 
+Capybara::Webkit.configure do |config|
+  config.allow_url("ghbtns.com")
+  config.allow_url("api.github.com")
+  config.allow_url("s3.amazonaws.com")
+end
 
 # https://gist.github.com/josevalim/470808
 # http://qiita.com/kntmrkm/items/a02f5694843fee97763e
 module WaitForAjax
   def wait_for_ajax
-    Timeout.timeout(Capybara.default_wait_time) do
+    Timeout.timeout(Capybara.default_max_wait_time) do
       loop until finished_all_ajax_requests?
     end
   end
