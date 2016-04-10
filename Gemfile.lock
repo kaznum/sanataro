@@ -1,9 +1,3 @@
-GIT
-  remote: git://github.com/mqt/dalli-store-extensions.git
-  revision: dd0b5ee7779600e8ff7e63491e23a5b51c647f6d
-  specs:
-    dalli-store-extensions (0.0.1)
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -85,7 +79,6 @@ GEM
       nokogiri (~> 1.5)
       railties (>= 3, < 5)
     cucumber-wire (0.0.1)
-    dalli (2.7.6)
     database_cleaner (1.5.1)
     diff-lcs (1.2.5)
     docile (1.1.5)
@@ -218,6 +211,23 @@ GEM
     rb-fsevent (0.9.7)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
+    redis (3.2.2)
+    redis-actionpack (4.0.1)
+      actionpack (~> 4)
+      redis-rack (~> 1.5.0)
+      redis-store (~> 1.1.0)
+    redis-activesupport (4.1.5)
+      activesupport (>= 3, < 5)
+      redis-store (~> 1.1.0)
+    redis-rack (1.5.0)
+      rack (~> 1.5)
+      redis-store (~> 1.1.0)
+    redis-rails (4.0.0)
+      redis-actionpack (~> 4)
+      redis-activesupport (~> 4)
+      redis-store (~> 1.1.0)
+    redis-store (1.1.7)
+      redis (>= 2.2)
     ref (2.0.0)
     responders (2.1.2)
       railties (>= 4.2.0, < 5.1)
@@ -308,8 +318,6 @@ DEPENDENCIES
   coffee-rails
   connection_pool
   cucumber-rails
-  dalli
-  dalli-store-extensions!
   database_cleaner (>= 1.2.0)
   doorkeeper (>= 0.7.1)
   dotenv-rails
@@ -334,6 +342,7 @@ DEPENDENCIES
   rails-observers
   rails_emoji
   rb-fsevent
+  redis-rails
   responders
   rspec-activemodel-mocks
   rspec-collection_matchers
@@ -348,3 +357,6 @@ DEPENDENCIES
   uglifier
   underscore-rails
   webrat
+
+BUNDLED WITH
+   1.11.2
