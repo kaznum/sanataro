@@ -18,7 +18,7 @@ built with Ruby on Rails.
 
 == Requirement
 * Ruby:
-  * MRI (tested continuously with 2.0.0, 2.1, 2.2)
+  * MRI (tested continuously with 2.1, 2.2, 2.3)
 * Ruby on Rails: 4.2 (Check Gemfile for the minor version)
 * DB:
   * MySQL
@@ -75,7 +75,7 @@ built with Ruby on Rails.
 
 == Credit
 * Author: Kazuya NUMATA <numata@gmail.com>.
-* Copyright (c) 2007-2014 Kazuya NUMATA.
+* Copyright (c) 2007-2016 Kazuya NUMATA.
 
 == License
 The MIT License (MIT)

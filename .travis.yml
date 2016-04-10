@@ -13,9 +13,9 @@ before_install:
 bundler_args: --without development production
 
 rvm:
+  - 2.3.0
   - 2.2
   - 2.1
-  - 2.0.0
   - ruby-head
   - jruby
   - jruby-head
@@ -32,6 +32,15 @@ gemfile:
 
 matrix:
   exclude:
+    - rvm: 2.3.0
+      gemfile: gemfiles/Gemfile.jruby
+      env: JRUBY_OPTS="--2.0 $JRUBY_OPTS" DB=mysql
+    - rvm: 2.3.0
+      gemfile: gemfiles/Gemfile.jruby
+      env: JRUBY_OPTS="--2.0 $JRUBY_OPTS" DB=postgres
+    - rvm: 2.3.0
+      gemfile: gemfiles/Gemfile.jruby
+      env: JRUBY_OPTS="--2.0 $JRUBY_OPTS" DB=sqlite
     - rvm: 2.2
       gemfile: gemfiles/Gemfile.jruby
       env: JRUBY_OPTS="--2.0 $JRUBY_OPTS" DB=mysql
@@ -48,15 +57,6 @@ matrix:
       gemfile: gemfiles/Gemfile.jruby
       env: JRUBY_OPTS="--2.0 $JRUBY_OPTS" DB=postgres
     - rvm: 2.1
-      gemfile: gemfiles/Gemfile.jruby
-      env: JRUBY_OPTS="--2.0 $JRUBY_OPTS" DB=sqlite
-    - rvm: 2.0.0
-      gemfile: gemfiles/Gemfile.jruby
-      env: JRUBY_OPTS="--2.0 $JRUBY_OPTS" DB=mysql
-    - rvm: 2.0.0
-      gemfile: gemfiles/Gemfile.jruby
-      env: JRUBY_OPTS="--2.0 $JRUBY_OPTS" DB=postgres
-    - rvm: 2.0.0
       gemfile: gemfiles/Gemfile.jruby
       env: JRUBY_OPTS="--2.0 $JRUBY_OPTS" DB=sqlite
     - rvm: ruby-head
