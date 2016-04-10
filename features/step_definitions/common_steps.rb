@@ -5,7 +5,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "sel
 ならば /^"([^"]*)"ページにリダイレクトすること$/ do |page_name|
   path = URI.parse(current_url).path
   begin
-    Timeout.timeout(Capybara.default_wait_time) do
+    Timeout.timeout(Capybara.default_max_wait_time) do
       while(path != path_to(page_name)) do
         sleep 0.1
         path = URI.parse(current_url).path
