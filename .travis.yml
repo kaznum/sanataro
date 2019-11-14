@@ -11,6 +11,7 @@ before_script:
   - "rake db:create db:migrate"
 
 before_install:
+  - gem update --system
   - gem install bundler
 
 bundler_args: --without development production
