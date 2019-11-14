@@ -16,11 +16,12 @@ jobs:
     - name: Build and test with Rake
       run: |
         sudo apt-get install -y libqtwebkit-dev libqtwebkit4 libmysqlclient-dev libpq-dev libsqlite3-dev nodejs xvfb
-        sudo systemctl start xvfb
         gem install bundler
         bundle update --bundler
         bundle install --jobs 4 --retry 3 --without production development
         cp -v config/database.yml.sample config/database.yml
         bundle exec rake db:create
         bundle exec rake db:schema:load
-        bundle exec rake
+        xvfb-run --auto-servernum bundle exec rake
+    - name: Cleanup xvfb pidx
+      uses: bcomnes/cleanup-xvfb@v1
