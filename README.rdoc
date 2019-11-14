@@ -18,7 +18,7 @@ built with Ruby on Rails.
 
 == Requirement
 * Ruby:
-  * MRI (tested continuously with 2.1, 2.2, 2.3)
+  * MRI (tested continuously with 2.3, 2.5, 2.6)
 * Ruby on Rails: 4.2 (Check Gemfile for the minor version)
 * DB:
   * MySQL
