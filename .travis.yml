@@ -5,10 +5,10 @@ services:
   - mysql
   - postgresql
 
-script: "rake -v travis"
+script: "bundle exec rake -v travis"
 before_script:
   - "cp -v config/travis/database.yml.travis.${TRAVIS_RUBY_VERSION}.${DB} config/database.yml"
-  - "rake db:create db:migrate"
+  - "bundle exec rake db:create db:migrate"
 
 before_install:
   - gem update --system
