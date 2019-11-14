@@ -19,4 +19,7 @@ jobs:
         gem install bundler
         bundle update --bundler
         bundle install --jobs 4 --retry 3 --without production development
+        cp -v config/database.yml.sample config/database.yml
+        bundle exec rake db:create
+        bundle exec rake db:schema:load
         bundle exec rake spec
