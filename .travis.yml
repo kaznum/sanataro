@@ -1,5 +1,9 @@
 language: ruby
 
+services:
+  - mysql
+  - postgresql
+
 script: "rake -v travis"
 before_script:
   - "cp -v config/travis/database.yml.travis.${TRAVIS_RUBY_VERSION}.${DB} config/database.yml"
