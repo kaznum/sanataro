@@ -67,7 +67,7 @@ end
 
 gem "i18n"
 
-gem "haml", '>= 4.0.2'
+gem "haml", '>= 5.0.0'
 
 gem 'haml-rails'
 gem 'jquery-rails'
