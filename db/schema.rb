@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141223142546) do
+ActiveRecord::Schema.define(version: 20191114173742) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
     t.string   "name",       limit: 255
     t.datetime "created_at"
-    t.boolean  "active",     limit: 1,   default: true
+    t.boolean  "active",                 default: true
     t.string   "type",       limit: 255
     t.integer  "order_no",   limit: 4
     t.datetime "updated_at"
@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(version: 20141223142546) do
     t.integer  "adjustment_amount",     limit: 4,   default: 0
     t.integer  "parent_id",             limit: 4
     t.datetime "updated_at"
-    t.boolean  "confirmation_required", limit: 1,   default: false
+    t.boolean  "confirmation_required",             default: false
     t.string   "type",                  limit: 255
   end
 
@@ -96,13 +96,14 @@ ActiveRecord::Schema.define(version: 20141223142546) do
   add_index "oauth_access_tokens", ["token"], name: "index_oauth_access_tokens_on_token", unique: true, using: :btree
 
   create_table "oauth_applications", force: :cascade do |t|
-    t.string   "name",         limit: 255,              null: false
-    t.string   "uid",          limit: 255,              null: false
-    t.string   "secret",       limit: 255,              null: false
-    t.string   "redirect_uri", limit: 255,              null: false
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
-    t.string   "scopes",       limit: 255, default: "", null: false
+    t.string   "name",         limit: 255,                null: false
+    t.string   "uid",          limit: 255,                null: false
+    t.string   "secret",       limit: 255,                null: false
+    t.string   "redirect_uri", limit: 255,                null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.string   "scopes",       limit: 255, default: "",   null: false
+    t.boolean  "confidential",             default: true, null: false
   end
 
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
@@ -141,7 +142,7 @@ ActiveRecord::Schema.define(version: 20141223142546) do
     t.string   "login",        limit: 255
     t.string   "password",     limit: 255
     t.datetime "created_at"
-    t.boolean  "active",       limit: 1,   default: true
+    t.boolean  "active",                   default: true
     t.datetime "updated_at"
     t.string   "email",        limit: 255
     t.string   "confirmation", limit: 255
