@@ -91,7 +91,7 @@ GEM
     erubis (2.7.0)
     execjs (2.6.0)
     fabrication (2.15.0)
-    ffi (1.9.10)
+    ffi (1.11.1)
     formatador (0.2.5)
     gherkin (3.2.0)
     globalid (0.3.6)
