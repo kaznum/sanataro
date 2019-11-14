@@ -15,8 +15,8 @@ jobs:
         ruby-version: 2.5.x
     - name: Build and test with Rake
       run: |
+        sudo apt-get install -y libqtwebkit-dev libqtwebkit4 libmysqlclient-dev libpq-dev libsqlite3-dev nodejs xvfb
         sudo systemctl start xvfb
-        sudo apt-get install -y libqtwebkit-dev libqtwebkit4 libmysqlclient-dev libpq-dev libsqlite3-dev nodejs
         gem install bundler
         bundle update --bundler
         bundle install --jobs 4 --retry 3 --without production development
