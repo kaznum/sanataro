@@ -12,6 +12,12 @@ before_install:
 
 bundler_args: --without development production
 
+addons:
+  apt:
+    packages:
+      - libqtwebkit-dev
+      - libqtwebkit4
+
 rvm:
   - 2.6.0
   - 2.5.0
