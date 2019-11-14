@@ -20,8 +20,8 @@ jobs:
         bundle update --bundler
         bundle install --jobs 4 --retry 3 --without production development
         cp -v config/database.yml.sample config/database.yml
-        bundle exec rake db:create
-        bundle exec rake db:schema:load
-        xvfb-run --auto-servernum bundle exec rake
+        bundle exec rake db:create db:schema:load assets:precompile
+        bundle exec rake spec
+        xvfb-run --auto-servernum bundle exec rake cucumber
     - name: Cleanup xvfb pidx
       uses: bcomnes/cleanup-xvfb@v1
