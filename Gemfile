@@ -49,6 +49,8 @@ group :production do
   gem "therubyracer", '>= 0.11.4'
   gem 'libv8', '>= 3.11.8.12'
   gem 'redis-rails'
+  # CVE-2017-1000248
+  gem 'redis-store', '>= 1.4.0'
 end
 
 platforms :ruby do
