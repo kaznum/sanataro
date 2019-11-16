@@ -1,10 +1,11 @@
-# -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 class Item < ActiveRecord::Base
   sanataro_taggable
 
   belongs_to :user
-  belongs_to :parent_item, class_name: "GeneralItem", foreign_key: 'parent_id'
-  has_one :child_item, class_name: "GeneralItem", foreign_key: 'parent_id', dependent: :destroy
+  belongs_to :parent_item, class_name: 'GeneralItem', foreign_key: 'parent_id'
+  has_one :child_item, class_name: 'GeneralItem', foreign_key: 'parent_id', dependent: :destroy
 
   validate :validates_action_date_range
 
@@ -27,8 +28,8 @@ class Item < ActiveRecord::Base
   before_validation :set_action_date
   before_validation :fill_amount
 
-  scope :of_account_id, lambda { |account_id| where(arel_table[:from_account_id].eq(account_id).or(arel_table[:to_account_id].eq(account_id))) }
-  scope :action_date_between, lambda { |from, to| where(action_date: from..to) }
+  scope :of_account_id, ->(account_id) { where(arel_table[:from_account_id].eq(account_id).or(arel_table[:to_account_id].eq(account_id))) }
+  scope :action_date_between, ->(from, to) { where(action_date: from..to) }
   scope :confirmation_required, -> { where(confirmation_required: true) }
   scope :default_limit, -> { limit(Settings.item_list_count) }
   # FIX ME
@@ -39,19 +40,15 @@ class Item < ActiveRecord::Base
 
   def validates_action_date_range
     today = Date.today
-    if action_date
-      if action_date >= 2.years.since(Date.today)
-        errors.add(:action_date, I18n.t("errors.messages.until_since_today", year: 2, date: I18n.l(Date.new(today.year + 2, today.month, 1) - 1, format: :year_month)))
-      end
-      since = Date.new(2006, 1, 1)
-      if action_date < since
-        errors.add(:action_date, I18n.t("errors.messages.since_until_today", date: I18n.l(since)))
-      end
-    end
+    return unless action_date
+
+    errors.add(:action_date, I18n.t('errors.messages.until_since_today', year: 2, date: I18n.l(Date.new(today.year + 2, today.month, 1) - 1, format: :year_month))) if action_date >= 2.years.since(Date.today)
+    since = Date.new(2006, 1, 1)
+    errors.add(:action_date, I18n.t('errors.messages.since_until_today', date: I18n.l(since))) if action_date < since
   end
 
   def adjustment?
-    self.is_a?(Adjustment) || type == 'Adjustment'
+    is_a?(Adjustment) || type == 'Adjustment'
   end
 
   def year
@@ -66,32 +63,32 @@ class Item < ActiveRecord::Base
     p_day.presence || action_date.try(:day)
   end
 
-  def year=(y)
-    if y.blank?
+  def year=(arg)
+    if arg.blank?
       self.p_year = self.p_month = self.p_day = nil
       self.action_date = nil
     else
-      self.p_year =  y.to_i
+      self.p_year = arg.to_i
       set_action_date
     end
   end
 
-  def month=(m)
-    if m.blank?
+  def month=(arg)
+    if arg.blank?
       self.p_year = self.p_month = self.p_day = nil
       self.action_date = nil
     else
-      self.p_month = m.to_i
+      self.p_month = arg.to_i
       set_action_date
     end
   end
 
-  def day=(d)
-    if d.blank?
+  def day=(arg)
+    if arg.blank?
       self.p_year = self.p_month = self.p_day = nil
       self.action_date = nil
     else
-      self.p_day = d.to_i
+      self.p_day = arg.to_i
       set_action_date
     end
   end
@@ -105,22 +102,25 @@ class Item < ActiveRecord::Base
   end
 
   def to_custom_hash
-    { entry: {
+    {
+      entry: {
         id: id, name: name, action_date: action_date,
         from_account_id: from_account_id, to_account_id: to_account_id,
         amount: amount, confirmation_required: confirmation_required?,
         tags: tag_list.split(' ').sort,
-        child_id: child_item.try(:id), parent_id: parent_id } }
+        child_id: child_item.try(:id), parent_id: parent_id
+      }
+    }
   end
 
   def create_credit_payment!
     cr = user.credit_relations.find_by_credit_account_id(from_account_id)
-    if cr
-      due_date = user.accounts.where(id: from_account_id).first.credit_due_date(action_date)
-      create_child_item!(name: name, from_account_id: cr.payment_account_id,
-                         to_account_id: from_account_id, amount: amount,
-                         action_date: due_date, user: user)
-    end
+    return unless cr
+
+    due_date = user.accounts.where(id: from_account_id).first.credit_due_date(action_date)
+    create_child_item!(name: name, from_account_id: cr.payment_account_id,
+                       to_account_id: from_account_id, amount: amount,
+                       action_date: due_date, user: user)
   end
 
   class << self
@@ -128,12 +128,12 @@ class Item < ActiveRecord::Base
       return 0 unless amount
 
       amount_to_calc = amount.to_s.gsub(/\s/, '').gsub(/,/, '')
-      unless /^[\.\-\*\+\/\%\d\(\)]+$/ =~ amount_to_calc
+      unless %r|/^[\.\-\*\+/\%\d\(\)]+$| =~ amount_to_calc
         raise SyntaxError
       end
 
-      amount_to_calc.gsub!(/\//, '/1.0/')
-      eval(amount_to_calc).to_i
+      amount_to_calc.gsub!(%r|/|, '/1.0/')
+      eval(amount_to_calc).to_i # rubocop:disable Security/Eval
     end
   end
 
@@ -177,8 +177,8 @@ class Item < ActiveRecord::Base
 
     def future_adjustment(action_date, account_id, item_id)
       where(to_account_id: account_id, type: 'Adjustment')
-        .where("(action_date > ? AND id <> ?) OR (action_date = ? AND id > ?)",
-               action_date, item_id, action_date, item_id).order("action_date, id").first
+        .where('(action_date > ? AND id <> ?) OR (action_date = ? AND id > ?)',
+               action_date, item_id, action_date, item_id).order('action_date, id').first
     end
 
     #
@@ -197,8 +197,11 @@ class Item < ActiveRecord::Base
       elsif options[:keyword].present?
         ret_items = options[:remain] ? items.remainings_by_keyword(options[:keyword]) : items.partials_by_keyword(options[:keyword])
       else
-        items = options[:mark] == 'confirmation_required' ? items.confirmation_required :
-          items.action_date_between(from_date, to_date).includes(:user, :tags, :child_item)
+        items = if options[:mark] == 'confirmation_required'
+                  items.confirmation_required
+                else
+                  items.action_date_between(from_date, to_date).includes(:user, :tags, :child_item)
+                end
         items = items.of_account_id(options[:filter_account_id]) if options[:filter_account_id].present?
         items = items.order_of_entries
         ret_items = options[:remain] ? items.remaining : items.default_limit
@@ -243,8 +246,8 @@ class Item < ActiveRecord::Base
     end
 
     def collect_account_history(user, account_id, from_date, to_date)
-      items = user.items.action_date_between(from_date, to_date).of_account_id(account_id).order("action_date")
-      remain_amount = user.monthly_profit_losses.where("month < ?", from_date).where(account_id: account_id).sum('amount')
+      items = user.items.action_date_between(from_date, to_date).of_account_id(account_id).order('action_date')
+      remain_amount = user.monthly_profit_losses.where('month < ?', from_date).where(account_id: account_id).sum('amount')
       [remain_amount, items]
     end
   end
@@ -253,26 +256,25 @@ class Item < ActiveRecord::Base
 
   def action_date_should_be_larger_than_that_of_parent_item
     p_item = parent_item
-    if p_item && action_date <= p_item.action_date
-      errors.add(:action_date, I18n.t("errors.messages.after_credit_item", date: I18n.l(p_item.action_date)))
-    end
+    p_item && action_date <= p_item.action_date &&
+      errors.add(:action_date, I18n.t('errors.messages.after_credit_item', date: I18n.l(p_item.action_date)))
   end
 
   def from_account_id_should_be_income_or_banking
-    if from_account_id != -1 && !user.income_ids.include?(from_account_id) && !user.banking_ids.include?(from_account_id)
-      errors.add(:from_account_id, I18n.t("errors.messages.invalid"))
-    end
+    from_account_id != -1 &&
+      !user.income_ids.include?(from_account_id) &&
+        !user.banking_ids.include?(from_account_id) &&
+          errors.add(:from_account_id, I18n.t('errors.messages.invalid'))
   end
 
   def to_account_id_should_be_expense_or_banking
-    if !user.expense_ids.include?(to_account_id) && !user.banking_ids.include?(to_account_id)
-      errors.add(:to_account_id, I18n.t("errors.messages.invalid"))
-    end
+    !user.expense_ids.include?(to_account_id) &&
+      !user.banking_ids.include?(to_account_id) &&
+        errors.add(:to_account_id, I18n.t('errors.messages.invalid'))
   end
 
   def from_and_to_account_id_should_not_be_same
-    if from_account_id == to_account_id
-      errors.add(:from_account_id, I18n.t("errors.messages.same_account"))
-    end
+    from_account_id == to_account_id &&
+      errors.add(:from_account_id, I18n.t('errors.messages.same_account'))
   end
 end

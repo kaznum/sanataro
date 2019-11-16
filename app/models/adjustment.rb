@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 class Adjustment < Item
   before_create :remove_previous_adjustment_of_same_action_date
 
-  validates :action_date, uniqueness: { scope: [:action_date, :to_account_id, :type] }, on: :update
+  validates :action_date, uniqueness: { scope: %i[action_date to_account_id type] }, on: :update
 
   def fill_amount
-    if !amount_changed? || new_record?
-      raise InvalidDate unless action_date
+    return unless !amount_changed? || new_record?
 
-      asset = user.accounts.asset(user, to_account_id, action_date, id)
-      self.amount = adjustment_amount - asset
-    end
+    raise InvalidDate unless action_date
+
+    asset = user.accounts.asset(user, to_account_id, action_date, id)
+    self.amount = adjustment_amount - asset
   end
 
   def update_with_filter!(args)
@@ -25,7 +27,7 @@ class Adjustment < Item
     # activerecord-jdbc-adapter (1.2.2)
     # jdbc-sqlite3 (3.7.2)
     filter_and_assign_attributes(args)
-    valid? || (raise ActiveRecord::RecordInvalid.new(self))
+    valid? || (raise ActiveRecord::RecordInvalid, self)
     reload
     # The End of code Only for JRuby + SQLite3
     update_attributes!(amount: 0)
@@ -38,9 +40,9 @@ class Adjustment < Item
 
   def filter_and_assign_attributes(attrs)
     if persisted?
-      adjusted_attrs = attrs.select { |key, value| [:to_account_id, :action_date, :adjustment_amount, :tag_list].include?(key.to_sym) }
+      adjusted_attrs = attrs.select { |key, _| %i[to_account_id action_date adjustment_amount tag_list].include?(key.to_sym) }
     else
-      adjusted_attrs = attrs.select { |key, value| [:to_account_id, :confirmation_required, :tag_list, :action_date, :adjustment_amount].include?(key.to_sym) }
+      adjusted_attrs = attrs.select { |key, _| %i[to_account_id confirmation_required tag_list action_date adjustment_amount].include?(key.to_sym) }
       adjusted_attrs[:name] = 'Adjustment'
       adjusted_attrs[:from_account_id] = -1
     end
@@ -53,7 +55,7 @@ class Adjustment < Item
 
   def remove_previous_adjustment_of_same_action_date
     prev_adj = user.adjustments.find_by_to_account_id_and_action_date(to_account_id, action_date)
-    prev_adj.destroy if prev_adj
+    prev_adj&.destroy
     fill_amount
   end
 end

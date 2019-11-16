@@ -24,6 +24,7 @@ group :development, :test do
     end
   end
   gem 'dotenv-rails'
+  gem 'rubocop', require: false
 end
 
 

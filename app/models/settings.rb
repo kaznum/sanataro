@@ -1,4 +1,6 @@
+# frozen_string_literal: true
+
 class Settings < Settingslogic
-  source File.join(Rails.root, "config", "application.yml")
+  source File.join(Rails.root, 'config', 'application.yml')
   namespace Rails.env
 end

@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 class User < ActiveRecord::Base
   extend Memoist
 
@@ -33,6 +34,7 @@ class User < ActiveRecord::Base
 
   def hash_password
     return if password_plain.blank?
+
     self.password = CommonUtil.crypt(login + password_plain)
   end
 

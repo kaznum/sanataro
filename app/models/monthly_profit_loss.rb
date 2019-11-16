@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 class MonthlyProfitLoss < ActiveRecord::Base
   belongs_to :user
 
@@ -6,8 +7,7 @@ class MonthlyProfitLoss < ActiveRecord::Base
     def correct(user, account_id, month)
       pl = user.monthly_profit_losses.find_or_initialize_by(account_id: account_id, month: month)
       items_of_month = user.items.where(action_date: month..month.end_of_month)
-      pl.amount = items_of_month.where(to_account_id: account_id).sum(:amount) -
-        items_of_month.where(from_account_id: account_id).sum(:amount)
+      pl.amount = items_of_month.where(to_account_id: account_id).sum(:amount) - items_of_month.where(from_account_id: account_id).sum(:amount)
       pl.save!
       pl
     end

@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 class Mailer < ActionMailer::Base
   def signup_confirmation(user)
     @user = user

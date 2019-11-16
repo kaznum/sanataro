@@ -38,6 +38,7 @@ GEM
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     arel (6.0.4)
+    ast (2.4.0)
     builder (3.2.3)
     byebug (8.2.4)
     capybara (2.18.0)
@@ -137,6 +138,7 @@ GEM
       ruby_parser (~> 3.5)
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
+    jaro_winkler (1.5.4)
     jbuilder (2.4.1)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
@@ -176,6 +178,9 @@ GEM
     notiffany (0.0.8)
       nenv (~> 0.1)
       shellany (~> 0.0)
+    parallel (1.19.0)
+    parser (2.6.5.0)
+      ast (~> 2.4.0)
     pg (0.18.4)
     pry (0.10.3)
       coderay (~> 1.1.0)
@@ -213,6 +218,7 @@ GEM
       activesupport (= 4.2.11.1)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
+    rainbow (3.0.0)
     rake (13.0.1)
     rb-fsevent (0.9.7)
     rb-inotify (0.9.7)
@@ -264,6 +270,14 @@ GEM
       rspec-mocks (~> 3.4.0)
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
+    rubocop (0.76.0)
+      jaro_winkler (~> 1.5.1)
+      parallel (~> 1.10)
+      parser (>= 2.6)
+      rainbow (>= 2.2.2, < 4.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 1.4.0, < 1.7)
+    ruby-progressbar (1.10.1)
     ruby_parser (3.14.1)
       sexp_processor (~> 4.9)
     sass (3.4.22)
@@ -308,6 +322,7 @@ GEM
     uglifier (3.0.0)
       execjs (>= 0.3.0, < 3)
     underscore-rails (1.8.3)
+    unicode-display_width (1.6.0)
     webrat (0.7.3)
       nokogiri (>= 1.2.0)
       rack (>= 1.0)
@@ -355,6 +370,7 @@ DEPENDENCIES
   rspec-activemodel-mocks
   rspec-collection_matchers
   rspec-rails (>= 2.13.1)
+  rubocop
   sass-rails
   settingslogic
   simplecov

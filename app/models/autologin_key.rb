@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AutologinKey < ActiveRecord::Base
   attr_accessor :autologin_key
 
@@ -7,7 +9,7 @@ class AutologinKey < ActiveRecord::Base
 
   before_save :fill_enc_autologin_key
 
-  scope :active, -> { where("created_at > ?", Time.now - 30 * 24 * 3600) }
+  scope :active, -> { where('created_at > ?', Time.now - 30 * 24 * 3600) }
 
   class << self
     def matched_key(user_id, plain_key)
@@ -18,7 +20,7 @@ class AutologinKey < ActiveRecord::Base
     end
 
     def cleanup
-      AutologinKey.delete_all(["created_at < ?", Time.now - (30 * 24 * 3600)])
+      AutologinKey.delete_all(['created_at < ?', Time.now - (30 * 24 * 3600)])
     end
   end
 
@@ -29,9 +31,9 @@ class AutologinKey < ActiveRecord::Base
   end
 
   def fill_enc_autologin_key
-    if autologin_key.present? && user_id.present?
-      user = User.find_by_id(user_id)
-      self.enc_autologin_key = CommonUtil.crypt(user.login + autologin_key) if user
-    end
+    return unless autologin_key.present? && user_id.present?
+
+    user = User.find_by_id(user_id)
+    self.enc_autologin_key = CommonUtil.crypt(user.login + autologin_key) if user
   end
 end
