@@ -112,5 +112,4 @@ matrix:
     - rvm: 2.6.0
     - rvm: ruby-head
     - rvm: jruby-head
-    - rvm: jruby
 
