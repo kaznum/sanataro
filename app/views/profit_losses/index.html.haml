@@ -45,7 +45,7 @@
               %tr
                 %td!= "#{h og.name} [#{link_to t('link.revenue'), profit_loss_path(displaying_month.year, displaying_month.month, og.id), :remote => true, :method => :get}]"
                 %td.amount= number_to_currency(@m_pls[og.id])
-                %td.amount= "#{(@total_expense == 0) ? '*' :@m_pls[og.id] * 100 / @total_expense}%"
+                %td.amount= "#{(@total_expense == 0) ? '*' : @m_pls[og.id] * 100 / @total_expense}%"
             %tr
               %td.total= t('label.total_of_expense')
               %td.total.amount= number_to_currency(@total_expense)
