@@ -31,9 +31,9 @@ rvm:
   - jruby-head
 
 env:
-  - DB=mysql
-  - DB=postgres
-  - DB=sqlite
+  - DB=mysql JRUBY_OPTS="-d $JRUBY_OPTS"
+  - DB=postgres JRUBY_OPTS="-d $JRUBY_OPTS"
+  - DB=sqlite JRUBY_OPTS="-d $JRUBY_OPTS"
 
 gemfile:
   - Gemfile
@@ -44,73 +44,72 @@ matrix:
   exclude:
     - rvm: 2.3.0
       gemfile: gemfiles/Gemfile.jruby
-      env: DB=mysql
+      env: DB=mysql JRUBY_OPTS="-d $JRUBY_OPTS"
     - rvm: 2.3.0
       gemfile: gemfiles/Gemfile.jruby
-      env: DB=postgres
+      env: DB=postgres JRUBY_OPTS="-d $JRUBY_OPTS"
     - rvm: 2.3.0
       gemfile: gemfiles/Gemfile.jruby
-      env: DB=sqlite
+      env: DB=sqlite JRUBY_OPTS="-d $JRUBY_OPTS"
     - rvm: 2.5.0
       gemfile: gemfiles/Gemfile.jruby
-      env: DB=mysql
+      env: DB=mysql JRUBY_OPTS="-d $JRUBY_OPTS"
     - rvm: 2.5.0
       gemfile: gemfiles/Gemfile.jruby
-      env: DB=postgres
+      env: DB=postgres JRUBY_OPTS="-d $JRUBY_OPTS"
     - rvm: 2.5.0
       gemfile: gemfiles/Gemfile.jruby
-      env: DB=sqlite
+      env: DB=sqlite JRUBY_OPTS="-d $JRUBY_OPTS"
     - rvm: 2.6.0
       gemfile: gemfiles/Gemfile.jruby
-      env: DB=mysql
+      env: DB=mysql JRUBY_OPTS="-d $JRUBY_OPTS"
     - rvm: 2.6.0
       gemfile: gemfiles/Gemfile.jruby
-      env: DB=postgres
+      env: DB=postgres JRUBY_OPTS="-d $JRUBY_OPTS"
     - rvm: 2.6.0
       gemfile: gemfiles/Gemfile.jruby
-      env: DB=sqlite
+      env: DB=sqlite JRUBY_OPTS="-d $JRUBY_OPTS"
     - rvm: ruby-head
       gemfile: gemfiles/Gemfile.jruby
-      env: DB=mysql
+      env: DB=mysql JRUBY_OPTS="-d $JRUBY_OPTS"
     - rvm: ruby-head
       gemfile: gemfiles/Gemfile.jruby
-      env: DB=postgres
+      env: DB=postgres JRUBY_OPTS="-d $JRUBY_OPTS"
     - rvm: ruby-head
       gemfile: gemfiles/Gemfile.jruby
-      env: DB=sqlite
+      env: DB=sqlite JRUBY_OPTS="-d $JRUBY_OPTS"
     - rvm: jruby
       gemfile: Gemfile
-      env: DB=mysql
+      env: DB=mysql JRUBY_OPTS="-d $JRUBY_OPTS"
     - rvm: jruby
       gemfile: Gemfile
-      env: DB=postgres
+      env: DB=postgres JRUBY_OPTS="-d $JRUBY_OPTS"
     - rvm: jruby
       gemfile: Gemfile
-      env: DB=sqlite
+      env: DB=sqlite JRUBY_OPTS="-d $JRUBY_OPTS"
     - rvm: jruby-head
       gemfile: Gemfile
-      env: DB=mysql
+      env: DB=mysql JRUBY_OPTS="-d $JRUBY_OPTS"
     - rvm: jruby-head
       gemfile: Gemfile
-      env: DB=postgres
+      env: DB=postgres JRUBY_OPTS="-d $JRUBY_OPTS"
     - rvm: jruby-head
       gemfile: Gemfile
-      env: DB=sqlite
-    - rvm: jruby-head
-      gemfile: gemfiles/Gemfile.jruby
-      env: DB=mysql
+      env: DB=sqlite JRUBY_OPTS="-d $JRUBY_OPTS"
     - rvm: jruby-head
       gemfile: gemfiles/Gemfile.jruby
-      env: DB=sqlite
+      env: DB=mysql JRUBY_OPTS="-d $JRUBY_OPTS"
+    - rvm: jruby-head
+      gemfile: gemfiles/Gemfile.jruby
+      env: DB=sqlite JRUBY_OPTS="-d $JRUBY_OPTS"
     - rvm: ruby-head
       gemfile: Gemfile
-      env: DB=mysql
+      env: DB=mysql JRUBY_OPTS="-d $JRUBY_OPTS"
     - rvm: ruby-head
       gemfile: Gemfile
-      env: DB=postgres
+      env: DB=postgres JRUBY_OPTS="-d $JRUBY_OPTS"
   allow_failures:
     - rvm: 2.6.0
     - rvm: ruby-head
     - rvm: jruby-head
-    - rvm: jruby
 
