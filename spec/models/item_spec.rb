@@ -671,49 +671,49 @@ describe Item, type: :model do
       end
 
       context 'when :remain is specified as true' do
-        subject { users(:user1).items.partials(@from_date, @to_date, { remain: true }) }
+        subject { users(:user1).items.partials(@from_date, @to_date, remain: true) }
         it 'has 6 - GlobalSettings.item_list_count entries' do
           expect(subject.entries.size).to eq(6 - GlobalSettings.item_list_count)
         end
       end
 
       context 'when :tag is specified' do
-        subject { users(:user1).items.partials(nil, nil, { tag: 'abc' }) }
+        subject { users(:user1).items.partials(nil, nil, tag: 'abc') }
         it 'has GlobalSettings.item_list_count entries' do
           expect(subject.entries.size).to eq(GlobalSettings.item_list_count)
         end
       end
 
       context 'when :tag and :remain is specified' do
-        subject { users(:user1).items.partials(nil, nil, { remain: true, tag: 'abc' }) }
+        subject { users(:user1).items.partials(nil, nil, remain: true, tag: 'abc') }
         it 'has 3 - GlobalSettings.item_list_count entries' do
           expect(subject.entries.size).to eq(3 - GlobalSettings.item_list_count)
         end
       end
 
       context 'when :keyword is specified' do
-        subject { users(:user1).items.partials(nil, nil, { keyword: 'emname' }) }
+        subject { users(:user1).items.partials(nil, nil, keyword: 'emname') }
         it 'has GlobalSettings.item_list_count entries' do
           expect(subject.entries.size).to eq(GlobalSettings.item_list_count)
         end
       end
 
       context 'when :keyword and :remain is specified' do
-        subject { users(:user1).items.partials(nil, nil, { remain: true, keyword: 'emname' }) }
+        subject { users(:user1).items.partials(nil, nil, remain: true, keyword: 'emname') }
         it 'has 6 - GlobalSettings.item_list_count entries' do
           expect(subject.entries.size).to eq(6 - GlobalSettings.item_list_count)
         end
       end
 
       context 'when :filter_account_id is specified' do
-        subject { users(:user1).items.partials(@from_date, @to_date, { filter_account_id: accounts(:bank11).id }) }
+        subject { users(:user1).items.partials(@from_date, @to_date, filter_account_id: accounts(:bank11).id) }
         it 'has GlobalSettings.item_list_count entries' do
           expect(subject.entries.size).to eq(GlobalSettings.item_list_count)
         end
       end
 
       context 'when :filter_account_id and :remain is specified' do
-        subject { users(:user1).items.partials(@from_date, @to_date, { filter_account_id: accounts(:bank11).id, remain: true }) }
+        subject { users(:user1).items.partials(@from_date, @to_date, filter_account_id: accounts(:bank11).id, remain: true) }
         it 'has 3 - GlobalSettings.item_list_count entries' do
           expect(subject.entries.size).to eq(3 - GlobalSettings.item_list_count)
         end
@@ -721,7 +721,7 @@ describe Item, type: :model do
 
       context 'when confirmation required is specified' do
         context 'when remain not specified' do
-          subject { users(:user1).items.partials(nil, nil, { mark: 'confirmation_required' }) }
+          subject { users(:user1).items.partials(nil, nil, mark: 'confirmation_required') }
           it 'has GlobalSettings.item_list_count entries' do
             expect(subject.entries.size).to eq(GlobalSettings.item_list_count)
           end
@@ -732,7 +732,7 @@ describe Item, type: :model do
             @cnfmt_rqrd_count = Item.where(confirmation_required: true, user_id: users(:user1).id).count
           end
 
-          subject { users(:user1).items.partials(nil, nil, { mark: 'confirmation_required', remain: true }) }
+          subject { users(:user1).items.partials(nil, nil, mark: 'confirmation_required', remain: true) }
           it 'has @cnfmt_rqrd_count - GlobalSettings.item_list_count entries' do
             expect(subject.entries.size).to eq(@cnfmt_rqrd_count - GlobalSettings.item_list_count)
           end
@@ -821,21 +821,21 @@ describe Item, type: :model do
       end
 
       context 'when :remain is true' do
-        subject { users(:user1).items.partials(@from_date, @to_date, { 'remain' => true }) }
+        subject { users(:user1).items.partials(@from_date, @to_date, 'remain' => true) }
         it 'has no entries' do
           expect(subject.entries.size).to eq(0)
         end
       end
 
       context 'when :filter_account_id is specified' do
-        subject { users(:user1).items.partials(@from_date, @to_date, { filter_account_id: accounts(:bank11).id }) }
+        subject { users(:user1).items.partials(@from_date, @to_date, filter_account_id: accounts(:bank11).id) }
         it 'has 3 entries' do
           expect(subject.entries.size).to eq(3)
         end
       end
 
       context 'when :filter_account_id and :remain is specified' do
-        subject { users(:user1).items.partials(@from_date, @to_date, { filter_account_id: accounts(:bank11).id, remain: true }) }
+        subject { users(:user1).items.partials(@from_date, @to_date, filter_account_id: accounts(:bank11).id, remain: true) }
         it 'has no entries' do
           expect(subject.entries.size).to eq(0)
         end

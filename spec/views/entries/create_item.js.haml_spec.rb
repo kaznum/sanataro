@@ -11,8 +11,8 @@ describe '/entries/create_item', type: :view do
 
   before(:each) do
     mock_user = users(:user1)
-    expect(mock_user).to receive(:all_accounts).at_least(:once).and_return({ 10 => double, 20 => double, 30 => double, 40 => double })
-    expect(mock_user).to receive(:account_bgcolors).at_least(:once).and_return({ 20 => 'ffffff' })
+    expect(mock_user).to receive(:all_accounts).at_least(:once).and_return(10 => double, 20 => double, 30 => double, 40 => double)
+    expect(mock_user).to receive(:account_bgcolors).at_least(:once).and_return(20 => 'ffffff')
     assign(:user, mock_user)
 
     @item1 = Fabricate(:general_item, name: "<a href='aaa'>aaa</a>")

@@ -104,7 +104,7 @@ describe EntriesController, type: :controller do
       context 'with tag,' do
         before do
           tags = %w(test_tag def)
-          Teller.update_entry(users(:user1), items(:item11).id, { tag_list: tags.join(' ') })
+          Teller.update_entry(users(:user1), items(:item11).id, tag_list: tags.join(' '))
           get :index, tag: 'test_tag'
         end
 
@@ -129,7 +129,7 @@ describe EntriesController, type: :controller do
 
       context 'with mark,' do
         before do
-          Teller.update_entry(users(:user1), items(:item11).id, { confirmation_required: true })
+          Teller.update_entry(users(:user1), items(:item11).id, confirmation_required: true)
           get :index, mark: 'confirmation_required'
         end
 
@@ -154,7 +154,7 @@ describe EntriesController, type: :controller do
 
       context 'with keyword,' do
         before do
-          Teller.update_entry(users(:user1), items(:item11).id, { name: 'あああテスト11いいい' })
+          Teller.update_entry(users(:user1), items(:item11).id, name: 'あああテスト11いいい')
           get :index, keyword: 'テスト11'
         end
 
@@ -176,7 +176,7 @@ describe EntriesController, type: :controller do
 
       context 'with multiple keywords,' do
         before do
-          Teller.update_entry(users(:user1), items(:item11).id, { name: 'あああテスト11いいい' })
+          Teller.update_entry(users(:user1), items(:item11).id, name: 'あああテスト11いいい')
           get :index, keyword: 'テスト  い'
         end
 
@@ -198,7 +198,7 @@ describe EntriesController, type: :controller do
 
       context 'with keyword which has % ,' do
         before do
-          Teller.update_entry(users(:user1), items(:item11).id, { name: 'あああテスト11%いいい' })
+          Teller.update_entry(users(:user1), items(:item11).id, name: 'あああテスト11%いいい')
           get :index, keyword: 'テスト11%い'
         end
 

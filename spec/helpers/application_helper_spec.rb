@@ -4,8 +4,8 @@ describe ApplicationHelper, type: :helper do
   describe 'colored_account_name' do
     before do
       mock_user = mock_model(User)
-      expect(mock_user).to receive(:all_accounts).at_least(:once).and_return({ 1 => '<SAMPLE', 2 => 'NOT COLORED>' })
-      expect(mock_user).to receive(:account_bgcolors).at_least(:once).and_return({ 1 => '123456' })
+      expect(mock_user).to receive(:all_accounts).at_least(:once).and_return(1 => '<SAMPLE', 2 => 'NOT COLORED>')
+      expect(mock_user).to receive(:account_bgcolors).at_least(:once).and_return(1 => '123456')
       assign(:user, mock_user)
     end
 
