@@ -16,6 +16,6 @@ describe '/api/entries/create', type: :view do
     render template: 'api/entries/create', locals: { item: item, updated_item_ids: updated_item_ids }
   end
 
-  specify { expect( JSON.parse(rendered)['entry']['name'] ).to eq '<a href="bbb">aaa</a>' }
-  specify { expect( JSON.parse(rendered)['updated_entry_ids'] ).to eq [10,20,30,40,50] }
+  specify { expect(JSON.parse(rendered)['entry']['name']).to eq '<a href="bbb">aaa</a>' }
+  specify { expect(JSON.parse(rendered)['updated_entry_ids']).to eq [10,20,30,40,50] }
 end
