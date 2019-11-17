@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 class Settings::UsersController < ApplicationController
   before_action :required_login
 

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 user = User.new(password_plain: 'demo123', password_confirmation: 'demo123',
                 email: 'sample@example.com',
                 active: true)

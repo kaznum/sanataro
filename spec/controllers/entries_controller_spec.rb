@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 require 'spec_helper'
 
 describe EntriesController, type: :controller do
@@ -810,7 +811,7 @@ describe EntriesController, type: :controller do
 
             describe '#amount' do
               subject { super().amount }
-              it { is_expected.to eq  @old_expense13pl.amount - @item.amount }
+              it { is_expected.to eq @old_expense13pl.amount - @item.amount }
             end
           end
         end
@@ -1171,7 +1172,7 @@ describe EntriesController, type: :controller do
       context 'when input action_year, action_month, action_day is specified,' do
         before do
           @previous_items = Item.count
-          xhr :post, :create, entry: { action_year: Date.today.year.to_s, action_month: Date.today.month.to_s, action_day: Date.today.day.to_s,  name: 'TEST11', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id }, year: Date.today.year, month: Date.today.month
+          xhr :post, :create, entry: { action_year: Date.today.year.to_s, action_month: Date.today.month.to_s, action_day: Date.today.day.to_s, name: 'TEST11', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id }, year: Date.today.year, month: Date.today.month
         end
 
         describe 'response' do
@@ -1189,7 +1190,7 @@ describe EntriesController, type: :controller do
       context 'when input action_date is invalid,' do
         before do
           @previous_items = Item.count
-          xhr :post, :create, entry: { action_date: 'xxxx/yy/dd',  name: 'TEST11', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id }, year: Date.today.year, month: Date.today.month
+          xhr :post, :create, entry: { action_date: 'xxxx/yy/dd', name: 'TEST11', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id }, year: Date.today.year, month: Date.today.month
         end
 
         describe 'response' do
@@ -2148,7 +2149,7 @@ describe EntriesController, type: :controller do
 
         context 'with invalid calcuration amount,' do
           let(:date) { items(:adjustment2).action_date - 1 }
-          it { expect { xhr :post,  :create, entry: { entry_type: 'adjustment', action_date: date.strftime('%Y/%m/%d'), to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '3000-(10' }, year: 2008, month: 2 }.not_to change { Item.count } }
+          it { expect { xhr :post, :create, entry: { entry_type: 'adjustment', action_date: date.strftime('%Y/%m/%d'), to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '3000-(10' }, year: 2008, month: 2 }.not_to change { Item.count } }
         end
 
         context 'add adjustment before any of the adjustments,' do
@@ -2444,7 +2445,7 @@ describe EntriesController, type: :controller do
             before do
               action.call
             end
-            subject {  total_amount_to(next_adj_date) }
+            subject { total_amount_to(next_adj_date) }
             it { is_expected.to eq items(:adjustment4).adjustment_amount }
           end
 
@@ -2533,7 +2534,7 @@ describe EntriesController, type: :controller do
             before do
               action.call
             end
-            subject {  total_amount_to(next_adj_date) }
+            subject { total_amount_to(next_adj_date) }
             it { is_expected.to eq items(:adjustment6).adjustment_amount }
           end
 
@@ -2621,7 +2622,7 @@ describe EntriesController, type: :controller do
             before do
               action.call
             end
-            subject {  total_amount_to(next_adj_date) }
+            subject { total_amount_to(next_adj_date) }
             it { is_expected.to eq items(:adjustment6).adjustment_amount }
           end
 
@@ -2818,7 +2819,7 @@ describe EntriesController, type: :controller do
             before { @action.call }
             subject { response }
             it { is_expected.to be_success }
-            it { is_expected.to render_js_error id: "item_warning_#{items(:adjustment2).id }" }
+            it { is_expected.to render_js_error id: "item_warning_#{items(:adjustment2).id}" }
           end
 
           describe 'item to update' do
@@ -3435,7 +3436,7 @@ describe EntriesController, type: :controller do
             before { @action.call }
             subject { response }
             it { is_expected.to be_success }
-            it { is_expected.to render_js_error id: "item_warning_#{ @old_item1.id }" }
+            it { is_expected.to render_js_error id: "item_warning_#{@old_item1.id}" }
           end
 
           describe 'item to update' do
@@ -3783,7 +3784,7 @@ describe EntriesController, type: :controller do
               before do
                 @old_adj2 = items(:adjustment2)
               end
-              it { expect { @action.call }.to change { Item.find(adj2_id).amount }.by(-1 *  @old_item1.amount) }
+              it { expect { @action.call }.to change { Item.find(adj2_id).amount }.by(-1 * @old_item1.amount) }
             end
 
             describe 'adj4' do

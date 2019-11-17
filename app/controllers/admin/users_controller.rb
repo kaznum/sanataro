@@ -20,7 +20,7 @@ class Admin::UsersController < ApplicationController
   end
 
   def get_correct_credential
-    admin_user =  ENV['ADMIN_USER'].presence
+    admin_user = ENV['ADMIN_USER'].presence
     admin_password = ENV['ADMIN_PASSWORD'].presence
 
     begin

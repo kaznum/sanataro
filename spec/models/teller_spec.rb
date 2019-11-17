@@ -1,4 +1,5 @@
 # coding: utf-8
+
 require 'spec_helper'
 
 describe Teller, type: :model do
@@ -232,14 +233,14 @@ describe Teller, type: :model do
           end
 
           describe 'the number of items' do
-            subject {  @affected_item_ids }
+            subject { @affected_item_ids }
             it 'has 1 item' do
               expect(subject.size).to eq(1)
             end
           end
 
           describe 'affected item' do
-            subject {  @affected_item_ids[0] }
+            subject { @affected_item_ids[0] }
             it { is_expected.to eq(items(:adjustment2).id) }
           end
         end
@@ -257,7 +258,7 @@ describe Teller, type: :model do
         end
 
         describe 'monthly pl of the same month of the created item' do
-          it {  expect { @create.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id) } }
+          it { expect { @create.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id) } }
         end
 
         describe 'monthly pl of the next month of the created item' do
@@ -286,14 +287,14 @@ describe Teller, type: :model do
           end
 
           describe 'the number of items' do
-            subject {  @affected_item_ids }
+            subject { @affected_item_ids }
             it 'has 1 item' do
               expect(subject.size).to eq(1)
             end
           end
 
           describe 'affected item' do
-            subject {  @affected_item_ids[0] }
+            subject { @affected_item_ids[0] }
             it { is_expected.to eq(items(:adjustment4).id) }
           end
         end
@@ -354,14 +355,14 @@ describe Teller, type: :model do
           end
 
           describe 'the number of items' do
-            subject {  @affected_item_ids }
+            subject { @affected_item_ids }
             it 'has 1 item' do
               expect(subject.size).to eq(1)
             end
           end
 
           describe 'affected item' do
-            subject {  @affected_item_ids[0] }
+            subject { @affected_item_ids[0] }
             it { is_expected.to eq(items(:adjustment6).id) }
           end
         end
@@ -413,7 +414,7 @@ describe Teller, type: :model do
           end
 
           describe 'the number of items' do
-            subject {  @affected_item_ids }
+            subject { @affected_item_ids }
             it 'has 1 item' do
               expect(subject.size).to eq(1)
             end
@@ -421,7 +422,7 @@ describe Teller, type: :model do
           end
 
           describe 'affected item' do
-            subject {  @affected_item_ids[0] }
+            subject { @affected_item_ids[0] }
             it { is_expected.to eq(items(:adjustment6).id) }
           end
         end
@@ -462,7 +463,7 @@ describe Teller, type: :model do
           before do
             @create.call
           end
-          subject {  @affected_item_ids }
+          subject { @affected_item_ids }
           it { is_expected.to be_empty }
         end
 

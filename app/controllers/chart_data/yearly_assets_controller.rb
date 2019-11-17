@@ -1,4 +1,5 @@
 # coding: utf-8
+
 class ChartData::YearlyAssetsController < ApplicationController
   include ChartData
   respond_to :json

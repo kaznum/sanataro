@@ -34,7 +34,7 @@ Doorkeeper.configure do
     end
 
     def get_correct_credential
-      admin_user =  ENV['OAUTH_ADMIN_USER'].presence
+      admin_user = ENV['OAUTH_ADMIN_USER'].presence
       admin_password = ENV['OAUTH_ADMIN_PASSWORD'].presence
 
       begin

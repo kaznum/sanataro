@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 require 'spec_helper'
 
 describe ChartData::AssetsController, type: :controller do
@@ -56,7 +57,7 @@ describe ChartData::AssetsController, type: :controller do
           get :show, id: '200301', format: :json
         end
         subject { response }
-        it {  is_expected.to be_success }
+        it { is_expected.to be_success }
 
         describe '#body' do
           subject { super().body }
@@ -87,7 +88,7 @@ describe ChartData::AssetsController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it {  is_expected.to be_success }
+            it { is_expected.to be_success }
             specify do
               expect(ActiveSupport::JSON.decode(subject.body)).to eq([{ 'label' => 'その1', 'data' => 800 }, { 'label' => 'その3', 'data' => 900 }])
             end
@@ -100,7 +101,7 @@ describe ChartData::AssetsController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it {  is_expected.to be_success }
+            it { is_expected.to be_success }
             specify do
               expect(ActiveSupport::JSON.decode(subject.body)).to eq([{ 'label' => 'その4', 'data' => 200 }])
             end

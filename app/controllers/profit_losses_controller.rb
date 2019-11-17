@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 class ProfitLossesController < ApplicationController
   include MonthlyReports
 

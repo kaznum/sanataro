@@ -100,7 +100,7 @@ describe Settings::UsersController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it { is_expected.to render_js_error  id: 'warning', errors: @user1.errors, default_message: I18n.t('error.input_is_invalid') }
+            it { is_expected.to render_js_error id: 'warning', errors: @user1.errors, default_message: I18n.t('error.input_is_invalid') }
           end
         end
       end

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 class Settings::AccountsController < ApplicationController
   include ActionView::Helpers::NumberHelper
   before_action :required_login
@@ -26,7 +27,7 @@ class Settings::AccountsController < ApplicationController
   end
 
   def update
-    name  = params[:account_name]
+    name = params[:account_name]
     order_no  = params[:order_no]
     bgcolor = params[:use_bgcolor] == '1' ? params[:bgcolor].presence : nil
 

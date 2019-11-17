@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 require 'spec_helper'
 
 describe Item, type: :model do
@@ -721,7 +722,7 @@ describe Item, type: :model do
         end
       end
 
-      context 'when confirmation required is specified'  do
+      context 'when confirmation required is specified' do
         context 'when remain not specified' do
           subject { users(:user1).items.partials(nil, nil, { mark: 'confirmation_required' }) }
           it 'has GlobalSettings.item_list_count entries' do
@@ -861,7 +862,7 @@ describe Item, type: :model do
         subject { @items }
         specify {
           subject.each do |item|
-            expect(item.from_account_id == accounts(:bank1).id ||  item.to_account_id == accounts(:bank1).id).to be_truthy
+            expect(item.from_account_id == accounts(:bank1).id || item.to_account_id == accounts(:bank1).id).to be_truthy
             expect(item.action_date).to be_between Date.new(2008, 2, 1), Date.new(2008, 2, 29)
           end
         }

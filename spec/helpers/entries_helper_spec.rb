@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 require 'spec_helper'
 
 describe EntriesHelper, type: :helper do
@@ -238,7 +239,7 @@ describe EntriesHelper, type: :helper do
       end
 
       subject { helper.item_row_name(@item) }
-      it { is_expected.to eq("#{t("label.adjustment") } 5,000円") }
+      it { is_expected.to eq("#{t("label.adjustment")} 5,000円") }
       it { is_expected.to be_html_safe }
     end
 
@@ -252,7 +253,7 @@ describe EntriesHelper, type: :helper do
       end
 
       subject { helper.item_row_name(@item) }
-      it { is_expected.to match %r(#{t("entries.item.deposit") } \(<a[^>]+>03/10 hello<span class='emo'>\(笑\)</span></a>\)) }
+      it { is_expected.to match %r(#{t("entries.item.deposit")} \(<a[^>]+>03/10 hello<span class='emo'>\(笑\)</span></a>\)) }
       it { is_expected.to be_html_safe }
     end
 
@@ -266,7 +267,7 @@ describe EntriesHelper, type: :helper do
       end
 
       subject { helper.item_row_name(@item) }
-      it { is_expected.to match %r(hello<img [^>]+> \(<a[^>]+>05/10 #{t("entries.item.deposit") }</a>\)) }
+      it { is_expected.to match %r(hello<img [^>]+> \(<a[^>]+>05/10 #{t("entries.item.deposit")}</a>\)) }
       it { is_expected.to be_html_safe }
     end
 
@@ -329,7 +330,7 @@ describe EntriesHelper, type: :helper do
           expect(helper).to receive(:colored_account_name).with(@item.to_account_id).and_return('ACCOUNT_NAME')
         end
 
-        subject { helper.item_row_from_account(@item)  }
+        subject { helper.item_row_from_account(@item) }
         it { is_expected.to eq('ACCOUNT_NAME') }
       end
 
@@ -339,8 +340,8 @@ describe EntriesHelper, type: :helper do
           expect(helper).not_to receive(:colored_account_name).with(@item.to_account_id)
         end
 
-        subject { helper.item_row_from_account(@item)  }
-        it { is_expected.to eq("(#{t("label.adjustment") })") }
+        subject { helper.item_row_from_account(@item) }
+        it { is_expected.to eq("(#{t("label.adjustment")})") }
       end
     end
     context 'when item is NOT adjustment, ' do
@@ -350,7 +351,7 @@ describe EntriesHelper, type: :helper do
         expect(helper).to receive(:colored_account_name).with(@item.from_account_id).and_return('ACCOUNT_NAME')
       end
 
-      subject { helper.item_row_from_account(@item)  }
+      subject { helper.item_row_from_account(@item) }
       it { is_expected.to eq('ACCOUNT_NAME') }
     end
   end
@@ -364,7 +365,7 @@ describe EntriesHelper, type: :helper do
           expect(helper).to receive(:colored_account_name).with(@item.to_account_id).and_return('ACCOUNT_NAME')
         end
 
-        subject { helper.item_row_to_account(@item)  }
+        subject { helper.item_row_to_account(@item) }
         it { is_expected.to eq('ACCOUNT_NAME') }
       end
 
@@ -374,8 +375,8 @@ describe EntriesHelper, type: :helper do
           expect(helper).not_to receive(:colored_account_name).with(@item.to_account_id)
         end
 
-        subject { helper.item_row_to_account(@item)  }
-        it { is_expected.to eq("(#{t("label.adjustment") })") }
+        subject { helper.item_row_to_account(@item) }
+        it { is_expected.to eq("(#{t("label.adjustment")})") }
       end
     end
 
@@ -386,7 +387,7 @@ describe EntriesHelper, type: :helper do
         expect(helper).to receive(:colored_account_name).with(@item.to_account_id).and_return('ACCOUNT_NAME')
       end
 
-      subject { helper.item_row_to_account(@item)  }
+      subject { helper.item_row_to_account(@item) }
       it { is_expected.to eq('ACCOUNT_NAME') }
     end
   end

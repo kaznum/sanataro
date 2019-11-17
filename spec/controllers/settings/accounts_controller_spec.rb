@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 require 'spec_helper'
 
 describe Settings::AccountsController, type: :controller do
@@ -90,7 +91,7 @@ describe Settings::AccountsController, type: :controller do
 
     context 'before login,' do
       before do
-        xhr :post, :create, type: 'banking', account_name:  'hogehoge', order_no: '10'
+        xhr :post, :create, type: 'banking', account_name: 'hogehoge', order_no: '10'
       end
 
       it_should_behave_like 'Unauthenticated Access by xhr'
@@ -106,7 +107,7 @@ describe Settings::AccountsController, type: :controller do
           before do
             @before_count = Account.count
             @before_bgcolors_count = User.find(session[:user_id]).account_bgcolors.size
-            xhr :post, :create, type: 'banking', account_name:  'hogehoge', order_no: '10'
+            xhr :post, :create, type: 'banking', account_name: 'hogehoge', order_no: '10'
           end
 
           describe 'response' do
@@ -129,7 +130,7 @@ describe Settings::AccountsController, type: :controller do
           before do
             @before_count = Account.count
             @before_bgcolors_count = User.find(session[:user_id]).account_bgcolors.size
-            xhr :post, :create, type: 'account', account_name:  'hogehoge', order_no: '10'
+            xhr :post, :create, type: 'account', account_name: 'hogehoge', order_no: '10'
           end
 
           describe 'response' do
@@ -285,7 +286,7 @@ describe Settings::AccountsController, type: :controller do
   describe '#update' do
     context 'before login,' do
       before do
-        xhr :put, :update, id: accounts(:bank1).id, account_name:  'hogehoge', order_no: '10', bgcolor: '222222'
+        xhr :put, :update, id: accounts(:bank1).id, account_name: 'hogehoge', order_no: '10', bgcolor: '222222'
       end
 
       it_should_behave_like 'Unauthenticated Access by xhr'
@@ -300,7 +301,7 @@ describe Settings::AccountsController, type: :controller do
 
         context 'with invalid params[:id],' do
           before do
-            xhr :put, :update, id: 4_314_321, account_name:  'hogehoge', order_no: '100', bgcolor: 'cccccc', use_bgcolor: '1'
+            xhr :put, :update, id: 4_314_321, account_name: 'hogehoge', order_no: '100', bgcolor: 'cccccc', use_bgcolor: '1'
           end
 
           it_should_behave_like 'Unauthenticated Access by xhr'
@@ -365,7 +366,7 @@ describe Settings::AccountsController, type: :controller do
 
           context 'without use_bgcolor,' do
             before do
-              xhr :put, :update, id: accounts(:bank1).id, account_name: 'hogehoge', order_no: '100',  bgcolor: 'cccccc'
+              xhr :put, :update, id: accounts(:bank1).id, account_name: 'hogehoge', order_no: '100', bgcolor: 'cccccc'
             end
 
             it_should_behave_like 'Updated Successfully'
@@ -389,12 +390,12 @@ describe Settings::AccountsController, type: :controller do
         context 'with invalid params(name is empty),' do
           before do
             @orig_account = Account.find(accounts(:bank1).id)
-            xhr :put, :update, id:  accounts(:bank1).id, account_name: '', order_no: '100', bgcolor: 'cccccc', use_bgcolor: '1'
+            xhr :put, :update, id: accounts(:bank1).id, account_name: '', order_no: '100', bgcolor: 'cccccc', use_bgcolor: '1'
           end
 
           describe 'response' do
             subject { response }
-            it { is_expected.to render_js_error id:  "account_#{accounts(:bank1).id}_warning", default_message: I18n.t('error.input_is_invalid') }
+            it { is_expected.to render_js_error id: "account_#{accounts(:bank1).id}_warning", default_message: I18n.t('error.input_is_invalid') }
           end
 
           describe 'DB Record' do
@@ -428,7 +429,7 @@ describe Settings::AccountsController, type: :controller do
   describe '#show' do
     context 'before login,' do
       before do
-        xhr :get, :show, id:  accounts(:bank1).id
+        xhr :get, :show, id: accounts(:bank1).id
       end
 
       it_should_behave_like 'Unauthenticated Access by xhr'
@@ -442,7 +443,7 @@ describe Settings::AccountsController, type: :controller do
       context 'when accessed by xhr get,' do
         context 'with valid params,' do
           before do
-            xhr :get, :show, id:  accounts(:bank1).id
+            xhr :get, :show, id: accounts(:bank1).id
           end
 
           describe 'response' do

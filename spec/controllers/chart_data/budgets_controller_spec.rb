@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 require 'spec_helper'
 
 describe ChartData::BudgetsController, type: :controller do
@@ -43,7 +44,7 @@ describe ChartData::BudgetsController, type: :controller do
       end
 
       context 'when id does not mean correct year-month,' do
-        before do          get :show, id: '200815', format: :json
+        before do get :show, id: '200815', format: :json
         end
 
         it_should_behave_like 'Not Acceptable'
@@ -55,7 +56,7 @@ describe ChartData::BudgetsController, type: :controller do
           get :show, id: '200301', format: :json
         end
         subject { response }
-        it {  is_expected.to be_success }
+        it { is_expected.to be_success }
 
         describe '#body' do
           subject { super().body }
@@ -87,7 +88,7 @@ describe ChartData::BudgetsController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it {  is_expected.to be_success }
+            it { is_expected.to be_success }
             specify do
               expect(ActiveSupport::JSON.decode(subject.body)).to eq([{ 'label' => 'その2', 'data' => 900 }, { 'label' => I18n.t('label.unknown_income'), 'data' => 800 }])
             end
@@ -103,9 +104,9 @@ describe ChartData::BudgetsController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it {  is_expected.to be_success }
+            it { is_expected.to be_success }
             specify do
-              expect(ActiveSupport::JSON.decode(subject.body)).to eq([{ 'label' => 'その4', 'data' => 200 }, { 'label' =>  I18n.t('label.unknown_expense'), 'data' => 500 }])
+              expect(ActiveSupport::JSON.decode(subject.body)).to eq([{ 'label' => 'その4', 'data' => 200 }, { 'label' => I18n.t('label.unknown_expense'), 'data' => 500 }])
             end
           end
         end

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 require 'spec_helper'
 
 describe Api::EntriesController, type: :controller do
@@ -251,7 +252,7 @@ describe Api::EntriesController, type: :controller do
                 get :index, filter_account_id: '', year: '2008', month: '2', format: :json
               end
 
-              subject {  session[:filter_account_id] }
+              subject { session[:filter_account_id] }
               it { is_expected.to be_nil }
             end
 
@@ -775,7 +776,7 @@ describe Api::EntriesController, type: :controller do
       context 'when validation errors happen,' do
         before do
           @previous_items = Item.count
-          post :create, entry: { action_date: Date.today.strftime('%Y/%m/%d'),  name: '', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id }, year: Date.today.year, month: Date.today.month, format: :json
+          post :create, entry: { action_date: Date.today.strftime('%Y/%m/%d'), name: '', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id }, year: Date.today.year, month: Date.today.month, format: :json
         end
 
         it_should_behave_like 'not acceptable'
@@ -789,7 +790,7 @@ describe Api::EntriesController, type: :controller do
       context 'when input action_year, action_month, action_day is specified but action_date is not,' do
         before do
           @previous_items = Item.count
-          post :create, entry: { action_year: Date.today.year.to_s, action_month: Date.today.month.to_s, action_day: Date.today.day.to_s,  name: 'TEST11', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id }, year: Date.today.year, month: Date.today.month, format: :json
+          post :create, entry: { action_year: Date.today.year.to_s, action_month: Date.today.month.to_s, action_day: Date.today.day.to_s, name: 'TEST11', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id }, year: Date.today.year, month: Date.today.month, format: :json
         end
 
         it_should_behave_like 'not acceptable'
@@ -1974,7 +1975,7 @@ describe Api::EntriesController, type: :controller do
               before do
                 @old_adj2 = items(:adjustment2)
               end
-              it { expect { @action.call }.to change { Item.find(adj2_id).amount }.by(-1 *  @old_item1.amount) }
+              it { expect { @action.call }.to change { Item.find(adj2_id).amount }.by(-1 * @old_item1.amount) }
             end
 
             describe 'adj4' do

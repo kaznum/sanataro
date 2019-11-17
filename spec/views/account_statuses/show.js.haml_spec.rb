@@ -12,7 +12,7 @@ describe '/account_statuses/show', type: :view do
     render
   end
 
-  subject {  rendered }
+  subject { rendered }
   it { is_expected.to match(/\$\("#digest_body"\).html\(/) }
   it { is_expected.to match(/\$\("#digest_title"\).html\(/) }
 end

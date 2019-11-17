@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 require 'spec_helper'
 
 describe Api::SessionsController, type: :controller do
@@ -99,7 +100,7 @@ describe Api::SessionsController, type: :controller do
 
         describe '#body' do
           subject { super().body }
-          it { is_expected.to match /{"authenticity_token":".+"}/  }
+          it { is_expected.to match /{"authenticity_token":".+"}/ }
         end
       end
 

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 require 'spec_helper'
 
 describe Settings::CreditRelationsController, type: :controller do
@@ -247,7 +248,7 @@ describe Settings::CreditRelationsController, type: :controller do
     fixtures :accounts
     context 'before login,' do
       before do
-        xhr :post, :create, credit_account_id: accounts(:bank21).id, payment_account_id:  accounts(:bank1).id, settlement_day: 99, payment_month: 1, payment_day: 4
+        xhr :post, :create, credit_account_id: accounts(:bank21).id, payment_account_id: accounts(:bank1).id, settlement_day: 99, payment_month: 1, payment_day: 4
       end
 
       subject { response }
@@ -280,7 +281,7 @@ describe Settings::CreditRelationsController, type: :controller do
             expect(@mock_crs).to receive(:create!).with(credit_account_id: '1', payment_account_id: '2', settlement_day: '99', payment_month: '1', payment_day: '4').and_raise(mock_exception)
             expect(@mock_crs).not_to receive(:all)
 
-            xhr :post, :create, credit_account_id: 1, payment_account_id:  2, settlement_day: 99, payment_month: 1, payment_day: 4
+            xhr :post, :create, credit_account_id: 1, payment_account_id: 2, settlement_day: 99, payment_month: 1, payment_day: 4
           end
 
           describe 'response' do
@@ -297,9 +298,9 @@ describe Settings::CreditRelationsController, type: :controller do
         context 'with valid params,' do
           before do
             expect(@mock_user).to receive(:credit_relations).at_least(1).and_return(@mock_crs)
-expect(@mock_crs).to receive(:create!).with(credit_account_id: '1', payment_account_id:  '2', settlement_day: '99', payment_month: '1', payment_day: '4').and_return(@mock_cr)
+expect(@mock_crs).to receive(:create!).with(credit_account_id: '1', payment_account_id: '2', settlement_day: '99', payment_month: '1', payment_day: '4').and_return(@mock_cr)
             expect(@mock_crs).to receive(:all).and_return(@mock_crs)
-            xhr :post, :create, credit_account_id: 1, payment_account_id:  2, settlement_day: 99, payment_month: 1, payment_day: 4
+            xhr :post, :create, credit_account_id: 1, payment_account_id: 2, settlement_day: 99, payment_month: 1, payment_day: 4
           end
 
           describe 'response' do

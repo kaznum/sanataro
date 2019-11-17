@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
+
 require 'spec_helper'
 
 describe Account, type: :model do
   fixtures :users
   before do
-    # Sometimes fixture of credit_relations remains, 
+    # Sometimes fixture of credit_relations remains,
     # but this spec does not use their data but fabrication
     CreditRelation.destroy_all
     @valid_params = {
@@ -14,7 +15,7 @@ describe Account, type: :model do
   end
 
   context 'when create,' do
-    before  do
+    before do
       @account = users(:user1).bankings.new(@valid_params)
     end
 

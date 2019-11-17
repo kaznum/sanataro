@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 module Common
   module Entries
     def self.included(base)
@@ -118,7 +119,7 @@ module Common
 
       def _create_entry
         Item.transaction do
-          @item, affected_item_ids = Teller.create_entry(@user,  arguments_for_saving)
+          @item, affected_item_ids = Teller.create_entry(@user, arguments_for_saving)
           affected_item_ids << @item.try(:id)
           @updated_item_ids = affected_item_ids.reject(&:nil?).uniq
         end

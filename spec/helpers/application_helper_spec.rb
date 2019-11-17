@@ -63,7 +63,7 @@ describe ApplicationHelper, type: :helper do
 
   describe '#highlight' do
     subject { helper.highlight('#hello') }
-    it { is_expected.to eq("$('#hello').effect('highlight', {color: '#{ GlobalSettings.effect.highlight.color }'}, #{ GlobalSettings.effect.highlight.duration });") }
+    it { is_expected.to eq("$('#hello').effect('highlight', {color: '#{GlobalSettings.effect.highlight.color}'}, #{GlobalSettings.effect.highlight.duration});") }
   end
 
   describe '#fadeout_and_remove' do

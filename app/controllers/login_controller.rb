@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 class LoginController < ApplicationController
   before_action :required_login, except: [:login, :do_login, :create_user, :do_create_user, :do_logout, :confirmation]
   before_action :_render_login_if_forced!, only: [:login]

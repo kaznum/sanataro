@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 class ChartData::AssetsController < ApplicationController
   include ChartData
   respond_to :json
