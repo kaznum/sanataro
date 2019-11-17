@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class EntryCandidatesController < ApplicationController
   before_action :required_login
 

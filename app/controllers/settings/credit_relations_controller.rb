@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class Settings::CreditRelationsController < ApplicationController
   before_action :required_login
 

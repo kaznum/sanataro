@@ -1,5 +1,3 @@
-# coding: utf-8
-
 module NavigationHelpers
   # Maps a name to a path. Used by the
   #

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class ChartData::YearlyBudgetsController < ApplicationController
   include ChartData
   respond_to :json

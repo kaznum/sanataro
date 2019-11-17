@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class Settings::AccountsController < ApplicationController
   include ActionView::Helpers::NumberHelper
   before_action :required_login

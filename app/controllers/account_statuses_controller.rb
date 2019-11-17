@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class AccountStatusesController < ApplicationController
   before_action :required_login
   def show

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 class Api::AccountsController < ApplicationController
   include Api::Auth
   include ActionView::Helpers::NumberHelper

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 module Common
   module Entries
     def self.included(base)
