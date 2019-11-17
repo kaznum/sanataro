@@ -147,7 +147,7 @@ end
   step %{I should be on #{page_name}}
 end
 
-show_me_the_page = lambda { step %{show me the page} }
+show_me_the_page = -> { step %{show me the page} }
 
 ならば /^ページを表示する$/, &show_me_the_page
 ならば /^画面を目視$/, &show_me_the_page

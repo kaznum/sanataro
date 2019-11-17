@@ -595,7 +595,7 @@ describe Api::EntriesController, type: :controller do
 
         context 'when destroy the item which is assigned to credit card account,' do
           context 'and payment date is in 2 months,' do
-            let(:action) { lambda { delete :destroy, id: @item.id, year: 2008, month: 2, format: :json } }
+            let(:action) { -> { delete :destroy, id: @item.id, year: 2008, month: 2, format: :json } }
             before do
               dummy_login
               # dummy data
@@ -633,7 +633,7 @@ describe Api::EntriesController, type: :controller do
           end
 
           context 'and payment date is in same months,' do
-            let(:action) { lambda { delete :destroy, id: @item.id, year: 2008, month: 2, format: :json } }
+            let(:action) { -> { delete :destroy, id: @item.id, year: 2008, month: 2, format: :json } }
             before do
               cr = credit_relations(:cr1)
               cr.update_attributes!(payment_month: 0, payment_day: 25, settlement_day: 11)
@@ -705,7 +705,7 @@ describe Api::EntriesController, type: :controller do
               @init_bank_pl = monthly_profit_losses(:bank1200802)
               @init_unknown_pl = MonthlyProfitLoss.where(month: Date.new(2008, 2), account_id: -1, user_id: users(:user1).id).first
 
-              @action = lambda { delete :destroy, id: items(:adjustment2).id, year: 2008, month: 2, format: :json }
+              @action = -> { delete :destroy, id: items(:adjustment2).id, year: 2008, month: 2, format: :json }
             end
 
             describe 'response' do
@@ -1482,7 +1482,7 @@ describe Api::EntriesController, type: :controller do
             @init_adj_amount = items(:adjustment2).adjustment_amount
             items(:adjustment2).update!(updated_at: items(:adjustment2).updated_at - 1.day)
             date = items(:adjustment2).action_date
-            @action = -> {
+            @action = lambda {
               put(:update,
                   id: items(:adjustment2).id.to_s,
                   entry: {
@@ -1519,7 +1519,7 @@ describe Api::EntriesController, type: :controller do
           before do
             dummy_login
             date = items(:adjustment2).action_date
-            @action = -> {
+            @action = lambda {
               put(:update,
                   id: items(:adjustment2).id,
                   entry: {
@@ -1544,7 +1544,7 @@ describe Api::EntriesController, type: :controller do
             @old_adj4 = items(:adjustment4)
             date = @old_adj4.action_date
             # 金額のみ変更
-            @action = -> {
+            @action = lambda {
               put(:update,
                   id: @old_adj4.id,
                   entry: {
@@ -1587,7 +1587,7 @@ describe Api::EntriesController, type: :controller do
         context 'with invalid amount function, ' do
           before do
             @old_item1 = old_item1 = items(:item1)
-            @action = -> {
+            @action = lambda {
               put(:update,
                   id: old_item1.id,
                   entry: {
@@ -1618,7 +1618,7 @@ describe Api::EntriesController, type: :controller do
         context 'with to_account_id which is not owned the user, ' do
           before do
             @old_item1 = old_item1 = items(:item1)
-            @action = -> {
+            @action = lambda {
               put(:update,
                   id: old_item1.id,
                   entry: {
@@ -1764,7 +1764,7 @@ describe Api::EntriesController, type: :controller do
           context 'when there are adjustment in the same and future month,' do
             let(:old_action_date) { old_item1.action_date }
             before do
-              @action = -> {
+              @action = lambda {
                 put(:update,
                     id: old_item1.id,
                     entry: {
@@ -1871,7 +1871,7 @@ describe Api::EntriesController, type: :controller do
 
           describe 'when tags are input,' do
             before do
-              @action = -> {
+              @action = lambda {
                 put(:update,
                     id: old_item1.id,
                     entry: {
@@ -2030,7 +2030,7 @@ describe Api::EntriesController, type: :controller do
 
               init_payment_item.update_attributes!(action_date: Date.new(2008, 6, 1))
 
-              @action = -> {
+              @action = lambda {
                 put(:update,
                     id: init_credit_item.id,
                     entry: {
@@ -2143,7 +2143,7 @@ describe Api::EntriesController, type: :controller do
               @credit_id = init_credit_item.id
               @payment_id = init_payment_item.id
 
-              @action = -> {
+              @action = lambda {
                 put(:update,
                     id: init_credit_item.child_item.id,
                     entry: {
