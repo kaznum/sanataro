@@ -51,11 +51,11 @@ describe EntriesController, type: :controller do
 
         describe '@items' do
           subject { assigns(:items) }
-          specify {
+          specify do
             subject.each do |item|
               expect(item.action_date).to be_between(Date.today.beginning_of_month, Date.today.end_of_month)
             end
-          }
+          end
         end
       end
 
@@ -92,11 +92,11 @@ describe EntriesController, type: :controller do
 
           describe '@items' do
             subject { assigns(:items) }
-            specify {
+            specify do
               subject.each do |item|
                 expect(item.action_date).to be_between(Date.new(2008, 2), Date.new(2008, 2).end_of_month)
               end
-            }
+            end
           end
         end
       end
@@ -144,11 +144,11 @@ describe EntriesController, type: :controller do
           it 'has Item.where(confirmation_required: true).count items' do
             expect(subject.size).to eq(Item.where(confirmation_required: true).count)
           end
-          specify {
+          specify do
             subject.each do |item|
               expect(item).to be_confirmation_required
             end
-          }
+          end
         end
       end
 
@@ -228,11 +228,11 @@ describe EntriesController, type: :controller do
 
             describe '@items' do
               subject { assigns(:items) }
-              specify {
+              specify do
                 subject.each do |item|
                   expect([item.from_account_id, item.to_account_id]).to include(accounts(:bank1).id)
                 end
-              }
+              end
             end
 
             describe 'session[:filter_account_id]' do
@@ -1245,7 +1245,7 @@ describe EntriesController, type: :controller do
           it 'has 1 tag' do
             expect(subject.size).to eq(1)
           end
-          specify {
+          specify do
             subject.each do |t|
               taggings = Tagging.where(tag_id: t.id).load
               expect(taggings.size).to eq 1
@@ -1254,7 +1254,7 @@ describe EntriesController, type: :controller do
                 expect(tag.taggable_type).to eq 'Item'
               end
             end
-          }
+          end
         end
       end
 
@@ -1272,10 +1272,10 @@ describe EntriesController, type: :controller do
         end
 
         describe 'created item' do
-          subject {
+          subject do
             id = Item.maximum('id')
             Item.find_by_id(id)
-          }
+          end
 
           describe '#name' do
             subject { super().name }
@@ -1311,10 +1311,10 @@ describe EntriesController, type: :controller do
         end
 
         describe 'created item' do
-          subject {
+          subject do
             id = Item.maximum('id')
             Item.find_by_id(id)
-          }
+          end
 
           describe '#name' do
             subject { super().name }
@@ -1350,10 +1350,10 @@ describe EntriesController, type: :controller do
         end
 
         describe 'created item' do
-          subject {
+          subject do
             id = Item.maximum('id')
             Item.find_by_id(id)
-          }
+          end
 
           describe '#name' do
             subject { super().name }
@@ -1390,10 +1390,10 @@ describe EntriesController, type: :controller do
         end
 
         describe 'created item' do
-          subject {
+          subject do
             id = Item.maximum('id')
             Item.find_by_id(id)
-          }
+          end
 
           describe '#name' do
             subject { super().name }
@@ -1415,9 +1415,9 @@ describe EntriesController, type: :controller do
         it_should_behave_like "created successfully with tag_list == 'hoge fuga"
 
         describe '@items' do
-          subject {
+          subject do
             assigns(:items).all? { |it| it.action_date.beginning_of_month == @display_month.beginning_of_month }
-          }
+          end
           it { is_expected.to be_truthy }
         end
       end
@@ -1806,13 +1806,13 @@ describe EntriesController, type: :controller do
                 month: 2)
           end
 
-          let(:credit_item) {
+          let(:credit_item) do
             Item.where(action_date: Date.new(2008, 2, 10),
                        from_account_id: accounts(:credit4).id,
                        to_account_id: accounts(:expense3).id,
                        amount: 10_000,
                        parent_id: nil).find { |i| i.child_item }
-          }
+          end
 
           describe 'response' do
             subject { response }
@@ -1917,12 +1917,12 @@ describe EntriesController, type: :controller do
             end
           end
 
-          let(:credit_item) {
+          let(:credit_item) do
             Item.where(action_date: Date.new(2008, 2, 25),
                        from_account_id: accounts(:credit4).id,
                        to_account_id: accounts(:expense3).id,
                        amount: 10_000, parent_id: nil).find { |i| i.child_item }
-          }
+          end
 
           describe 'created credit item' do
             subject { credit_item }
@@ -2029,12 +2029,12 @@ describe EntriesController, type: :controller do
             end
           end
 
-          let(:credit_item) {
+          let(:credit_item) do
             Item.where(action_date: Date.new(2008, 2, 10),
                        from_account_id: accounts(:credit4).id,
                        to_account_id: accounts(:expense3).id,
                        amount: 10_000, parent_id: nil).find { |i| i.child_item }
-          }
+          end
 
           describe 'created credit item' do
             subject { credit_item }
@@ -2233,7 +2233,7 @@ describe EntriesController, type: :controller do
           context 'input values are valid,' do
             let(:existing_adj) { items(:adjustment2) }
             let(:future_adj) { items(:adjustment4) }
-            let(:action) {
+            let(:action) do
               lambda {
                 date = existing_adj.action_date
                 xhr(:post, :create,
@@ -2246,7 +2246,7 @@ describe EntriesController, type: :controller do
                     year: 2008,
                     month: 2)
               }
-            }
+            end
             describe 'created_adjustment' do
               before { action.call }
               subject { Adjustment.where(action_date: existing_adj.action_date).first }
@@ -2280,7 +2280,7 @@ describe EntriesController, type: :controller do
           context 'input values are invalid,' do
             let(:existing_adj) { items(:adjustment2) }
             let(:future_adj) { items(:adjustment4) }
-            let(:action) {
+            let(:action) do
               lambda {
                 date = existing_adj.action_date
                 xhr(:post, :create,
@@ -2292,7 +2292,7 @@ describe EntriesController, type: :controller do
                     year: 2008,
                     month: 2)
               }
-            }
+            end
 
             describe 'response' do
               before { action.call }
@@ -2323,7 +2323,7 @@ describe EntriesController, type: :controller do
           context 'input action_year/month/day is specified,' do
             let(:existing_adj) { items(:adjustment2) }
             let(:future_adj) { items(:adjustment4) }
-            let(:action) {
+            let(:action) do
               lambda {
                 date = existing_adj.action_date
                 xhr(:post, :create,
@@ -2338,7 +2338,7 @@ describe EntriesController, type: :controller do
                     year: 2008,
                     month: 2)
               }
-            }
+            end
 
             describe 'response' do
               before { action.call }
@@ -3112,10 +3112,10 @@ describe EntriesController, type: :controller do
           end
 
           describe "updated adjustment's amount change" do
-            let(:total) {
+            let(:total) do
               scoped_items = Item.where('action_date < ?', @date)
               scoped_items.where(to_account_id: 13).sum(:amount) - scoped_items.where(from_account_id: 13).sum(:amount)
-            }
+            end
             it { expect { @action.call }.to change { Item.find(adj2_id).amount }.from(@old_adj2.amount).to(3000 - total) }
           end
 
@@ -3124,10 +3124,10 @@ describe EntriesController, type: :controller do
           end
 
           describe 'the future adjustment which has an new account_id' do
-            let(:total) {
+            let(:total) do
               scoped_items = Item.where('action_date < ?', @date)
               scoped_items.where(to_account_id: 13).sum(:amount) - scoped_items.where(from_account_id: 13).sum(:amount)
-            }
+            end
             it { expect { @action.call }.to change { Item.find(@future_adj.id).amount }.by(total - 3000) }
           end
 
@@ -3137,18 +3137,18 @@ describe EntriesController, type: :controller do
             end
 
             describe 'pl of new account' do
-              let(:total) {
+              let(:total) do
                 scoped_items = Item.where('action_date < ?', @date)
                 scoped_items.where(to_account_id: 13).sum(:amount) - scoped_items.where(from_account_id: 13).sum(:amount)
-              }
+              end
               it { expect { @action.call }.to change { MonthlyProfitLoss.where(month: @old_adj2.action_date.beginning_of_month, account_id: 13).first.try(:amount).to_i }.by(3000 - total) }
             end
 
             describe 'pl of new account' do
-              let(:total) {
+              let(:total) do
                 scoped_items = Item.where('action_date < ?', @date)
                 scoped_items.where(to_account_id: 13).sum(:amount) - scoped_items.where(from_account_id: 13).sum(:amount)
-              }
+              end
               it { expect { @action.call }.to change { MonthlyProfitLoss.find(@new_adj_mpl.id).amount }.by(total - 3000) }
             end
           end

@@ -15,10 +15,10 @@ describe User, type: :model do
     end
 
     context 'when all attributes are valid,' do
-      subject {
+      subject do
         @user.save
         @user
-      }
+      end
 
       it { is_expected.not_to be_new_record }
 
@@ -44,146 +44,146 @@ describe User, type: :model do
     end
 
     context 'when without email,' do
-      subject {
+      subject do
         @user.email = ''
         @user.save
         @user
-      }
+      end
       it { is_expected.to be_new_record }
       specify { expect(subject.errors[:email]).not_to be_empty }
     end
 
     describe 'when email is formatted wrong,' do
-      subject {
+      subject do
         @user.email = 'test.example.com'
         @user.save
         @user
-      }
+      end
 
       it { is_expected.to be_new_record }
       specify { expect(subject.errors[:email]).not_to be_empty }
     end
 
     context 'when email is too short,' do
-      subject {
+      subject do
         @user.email = 't@e.c'
         @user.save
         @user
-      }
+      end
 
       it { is_expected.to be_new_record }
       specify { expect(subject.errors[:email]).not_to be_empty }
     end
 
     context 'when password_plain and password_confirmation are not same,' do
-      subject {
+      subject do
         @user.password_confirmation = 'ddddddddd'
         @user.save
         @user
-      }
+      end
 
       it { is_expected.to be_new_record }
       specify { expect(subject.errors[:password_plain]).not_to be_empty }
     end
 
     context 'when login is not set,' do
-      subject {
+      subject do
         @user.login = nil
         @user.save
         @user
-      }
+      end
 
       it { is_expected.to be_new_record }
       specify { expect(subject.errors[:login]).not_to be_empty }
     end
 
     context 'when login is too short,' do
-      subject {
+      subject do
         @user.login = '11'
         @user.save
         @user
-      }
+      end
 
       it { is_expected.to be_new_record }
       specify { expect(subject.errors[:login]).not_to be_empty }
     end
 
     context 'when login is too long,' do
-      subject {
+      subject do
         @user.login = '12345678901'
         @user.save
         @user
-      }
+      end
 
       it { is_expected.to be_new_record }
       specify { expect(subject.errors[:login]).not_to be_empty }
     end
 
     describe 'when both of passwords are not set' do
-      subject {
+      subject do
         @user.password_plain = nil
         @user.password_confirmation = nil
         @user.save
         @user
-      }
+      end
 
       it { is_expected.to be_new_record }
       specify { expect(subject.errors[:password_plain]).not_to be_empty }
     end
 
     context 'when both of passwords are too short,' do
-      subject {
+      subject do
         @user.password_plain = '12345'
         @user.password_confirmation = '12345'
         @user.save
         @user
-      }
+      end
 
       it { is_expected.to be_new_record }
       specify { expect(subject.errors[:password_plain]).not_to be_empty }
     end
 
     context 'when both of passwords are too long,' do
-      subject {
+      subject do
         @user.password_plain = '12345678901'
         @user.password_confirmation = '12345678901'
         @user.save
         @user
-      }
+      end
 
       it { is_expected.to be_new_record }
       specify { expect(subject.errors[:password_plain]).not_to be_empty }
     end
 
     context 'when both of passwords have invalid chars,' do
-      subject {
+      subject do
         @user.password_plain = '1234.56'
         @user.password_confirmation = '1234.56'
         @user.save
         @user
-      }
+      end
 
       it { is_expected.to be_new_record }
       specify { expect(subject.errors[:password_plain]).not_to be_empty }
     end
 
     context 'when login has invalid chars,' do
-      subject {
+      subject do
         @user.login = 'te.st1'
         @user.save
         @user
-      }
+      end
 
       it { is_expected.to be_new_record }
       specify { expect(subject.errors[:login]).not_to be_empty }
     end
 
     context 'when login is not unique,' do
-      subject {
+      subject do
         @user.login = 'user1'
         @user.save
         @user
-      }
+      end
 
       it { is_expected.to be_new_record }
       specify { expect(subject.errors[:login]).not_to be_empty }
@@ -197,12 +197,12 @@ describe User, type: :model do
     end
 
     context 'when password changed correctly,' do
-      subject {
+      subject do
         @user.password_plain = '12-3456'
         @user.password_confirmation = '12-3456'
         @user.save
         @user
-      }
+      end
 
       specify { expect(subject.errors[:password_plain]).to be_empty }
 
@@ -213,12 +213,12 @@ describe User, type: :model do
     end
 
     context 'when without_password' do
-      subject {
+      subject do
         @user.password_plain = ''
         @user.password_confirmation = ''
         @user.login
         @user
-      }
+      end
 
       specify { expect(subject.errors).to be_empty }
 
@@ -244,21 +244,21 @@ describe User, type: :model do
       subject { users(:user1).items }
 
       it { is_expected.not_to be_empty }
-      specify {
+      specify do
         subject.each do |item|
           expect(item).not_to be_nil
         end
-      }
+      end
 
-      specify {
+      specify do
         expect(subject.where('action_date < ?', Date.new(2008, 3)).to_a).not_to be_empty
-      }
-      specify {
+      end
+      specify do
         expect(subject.where(user_id: 101).to_a.size).to eq(0)
-      }
-      specify {
+      end
+      specify do
         expect(subject.where(user_id: 1).size).to be > 0
-      }
+      end
     end
   end
 
@@ -357,22 +357,22 @@ describe User, type: :model do
 
   describe '#deliver_signup_confirmation' do
     let(:user) { User.new }
-    specify {
+    specify do
       mock_obj = double
       expect(mock_obj).to receive(:deliver_now)
       expect(Mailer).to receive(:signup_confirmation).with(user).and_return(mock_obj)
       user.deliver_signup_confirmation
-    }
+    end
   end
 
   describe '#deliver_signup_complete' do
     let(:user) { User.new }
-    specify {
+    specify do
       mock_obj = double
       expect(mock_obj).to receive(:deliver_now)
       expect(Mailer).to receive(:signup_complete).with(user).and_return(mock_obj)
       user.deliver_signup_complete
-    }
+    end
   end
 
   describe '#store_sample' do
@@ -381,7 +381,7 @@ describe User, type: :model do
         @user = Fabricate(:user)
       end
 
-      specify {
+      specify do
         expect(@user).to receive(:bankings).exactly(4).times.and_return(@mock_bankings = double([Banking]))
         expect(@user).to receive(:incomes).exactly(3).times.and_return(@mock_incomes = double([Income]))
         expect(@user).to receive(:expenses).exactly(6).times.and_return(@mock_expenses = double([Expense]))
@@ -397,7 +397,7 @@ describe User, type: :model do
         expect(@mock_items).to receive(:create!).twice
 
         @user.store_sample
-      }
+      end
     end
     describe 'no error' do
       before do
@@ -405,9 +405,9 @@ describe User, type: :model do
         @user.save!
       end
 
-      specify {
+      specify do
         expect { @user.store_sample }.not_to raise_error
-      }
+      end
     end
   end
 end

@@ -47,7 +47,7 @@ describe ChartData::YearlyBudgetsController, type: :controller do
             end
             describe 'response.body' do
               subject { response.body }
-              specify {
+              specify do
                 date = Date.new(2008, 2)
                 json = ActiveSupport::JSON.decode(subject)
                 expect(json.keys.size).to eq(1)
@@ -56,7 +56,7 @@ describe ChartData::YearlyBudgetsController, type: :controller do
                 expect(json['account_-1']['data']).to include([date.months_ago(11).to_time.to_i * 1000, 0])
                 expect(json['account_-1']['data']).to include([date.months_ago(5).to_time.to_i * 1000, 0])
                 expect(json['account_-1']['data']).to include([date.months_ago(0).to_time.to_i * 1000, 0])
-              }
+              end
             end
           end
 
@@ -95,7 +95,7 @@ describe ChartData::YearlyBudgetsController, type: :controller do
 
             describe 'response.body' do
               subject { response.body }
-              specify {
+              specify do
                 date = Date.new(1999, 2)
                 json = ActiveSupport::JSON.decode(subject)
                 expect(json.keys.size).to eq(2)
@@ -112,7 +112,7 @@ describe ChartData::YearlyBudgetsController, type: :controller do
                 expect(json_income['data']).to include([date.months_ago(5).to_time.to_i * 1000, 0])
                 expect(json_income['data']).to include([date.months_ago(1).to_time.to_i * 1000, 200])
                 expect(json_income['data']).to include([date.months_ago(0).to_time.to_i * 1000, 0])
-              }
+              end
             end
           end
         end
@@ -132,7 +132,7 @@ describe ChartData::YearlyBudgetsController, type: :controller do
             end
             describe 'response.body' do
               subject { response.body }
-              specify {
+              specify do
                 date = Date.new(2008, 2)
                 json = ActiveSupport::JSON.decode(subject)
                 expect(json.keys.size).to eq(1)
@@ -141,7 +141,7 @@ describe ChartData::YearlyBudgetsController, type: :controller do
                 expect(json['account_-1']['data']).to include([date.months_ago(11).to_time.to_i * 1000, 0])
                 expect(json['account_-1']['data']).to include([date.months_ago(5).to_time.to_i * 1000, 0])
                 expect(json['account_-1']['data']).to include([date.months_ago(0).to_time.to_i * 1000, 0])
-              }
+              end
             end
           end
 
@@ -177,7 +177,7 @@ describe ChartData::YearlyBudgetsController, type: :controller do
             end
             describe 'response.body' do
               subject { response.body }
-              specify {
+              specify do
                 date = Date.new(1999, 2)
                 json = ActiveSupport::JSON.decode(subject)
                 expect(json.keys.size).to eq(2)
@@ -193,7 +193,7 @@ describe ChartData::YearlyBudgetsController, type: :controller do
                 expect(json_income['data']).to include([date.months_ago(5).to_time.to_i * 1000, 0])
                 expect(json_income['data']).to include([date.months_ago(1).to_time.to_i * 1000, 900])
                 expect(json_income['data']).to include([date.months_ago(0).to_time.to_i * 1000, 0])
-              }
+              end
             end
           end
         end
@@ -213,7 +213,7 @@ describe ChartData::YearlyBudgetsController, type: :controller do
             end
             describe 'response' do
               subject { response.body }
-              specify {
+              specify do
                 date = Date.new(2008, 2)
                 json = ActiveSupport::JSON.decode(subject)
                 expect(json.keys.size).to eq(3)
@@ -226,7 +226,7 @@ describe ChartData::YearlyBudgetsController, type: :controller do
                   expect(json[type]['data']).to include([date.months_ago(5).to_time.to_i * 1000, 0])
                   expect(json[type]['data']).to include([date.months_ago(0).to_time.to_i * 1000, 0])
                 end
-              }
+              end
             end
           end
           context 'when there is some data to send,' do
@@ -261,7 +261,7 @@ describe ChartData::YearlyBudgetsController, type: :controller do
             end
             describe 'response' do
               subject { response.body }
-              specify {
+              specify do
                 json = ActiveSupport::JSON.decode(subject)
                 expect(json.keys.size).to eq(3)
                 expect(json['expense']['label']).to eq('支出')
@@ -279,7 +279,7 @@ describe ChartData::YearlyBudgetsController, type: :controller do
                 expect(json['total']['data']).to include([Date.new(1999, 1).to_time.to_i * 1000, 1500])
                 expect(json['total']['data']).to include([Date.new(1999, 2).to_time.to_i * 1000, 0])
                 expect(json['total']['data']).to include([Date.new(1998, 3).to_time.to_i * 1000, 0])
-              }
+              end
             end
           end
         end

@@ -88,56 +88,56 @@ describe CreditRelation, type: :model do
 
     context 'when create same account' do
       it_should_behave_like 'saving invalid param', :credit_account_id do
-        let(:attrs) {
+        let(:attrs) do
           invalid_attrs = @valid_attrs.clone
           invalid_attrs[:payment_account_id] = @valid_attrs[:credit_account_id]
           invalid_attrs
-        }
+        end
       end
     end
 
     context 'when create same account' do
       it_should_behave_like 'saving invalid param', :credit_account_id do
-        let(:attrs) {
+        let(:attrs) do
           invalid_attrs = @valid_attrs.clone
           invalid_attrs[:payment_account_id] = @valid_attrs[:credit_account_id]
           invalid_attrs
-        }
+        end
       end
     end
 
     context 'when creating the credit_relation whose credit_account is used as payment_account,' do
       it_should_behave_like 'saving invalid param', :credit_account_id do
-        let(:attrs) {
+        let(:attrs) do
           invalid_attrs = @valid_attrs.clone
           invalid_attrs[:credit_account_id] = accounts(:bank1).id
           invalid_attrs[:payment_account_id] = accounts(:bank11).id
           invalid_attrs
-        }
+        end
       end
     end
 
     context 'when creating the credit_relation whose payment_account is used as credit_account,' do
       it_should_behave_like 'saving invalid param', :payment_account_id do
-        let(:attrs) {
+        let(:attrs) do
           invalid_attrs = @valid_attrs.clone
           invalid_attrs[:credit_account_id] = accounts(:bank11).id
           invalid_attrs[:payment_account_id] = accounts(:credit4).id
           invalid_attrs
-        }
+        end
       end
     end
 
     context 'when create as same month' do
       context 'settlement_day is larger than payment_day' do
         it_should_behave_like 'saving invalid param', :settlement_day do
-          let(:attrs) {
+          let(:attrs) do
             invalid_attrs = @valid_attrs.clone
             invalid_attrs[:payment_month] = 0
             invalid_attrs[:payment_day] = 15
             invalid_attrs[:settlement_day] = 20
             invalid_attrs
-          }
+          end
         end
       end
 
@@ -163,21 +163,21 @@ describe CreditRelation, type: :model do
     context 'when settlement_day is invalid' do
       context 'when settlement_day is 0' do
         it_should_behave_like 'saving invalid param', :settlement_day do
-          let(:attrs) {
+          let(:attrs) do
             invalid_attrs = @valid_attrs.clone
             invalid_attrs[:settlement_day] = 0
             invalid_attrs
-          }
+          end
         end
       end
 
       context 'when settlement_day is greater than 28' do
         it_should_behave_like 'saving invalid param', :settlement_day do
-          let(:attrs) {
+          let(:attrs) do
             invalid_attrs = @valid_attrs.clone
             invalid_attrs[:settlement_day] = 29
             invalid_attrs
-          }
+          end
         end
       end
     end
@@ -185,11 +185,11 @@ describe CreditRelation, type: :model do
     context 'when payment_month is invalid' do
       context 'when payment_month is -1' do
         it_should_behave_like 'saving invalid param', :payment_month do
-          let(:attrs) {
+          let(:attrs) do
             invalid_attrs = @valid_attrs.clone
             invalid_attrs[:payment_month] = -1
             invalid_attrs
-          }
+          end
         end
       end
     end
@@ -197,11 +197,11 @@ describe CreditRelation, type: :model do
     context 'when payment_day is invalid' do
       context 'when payment_day is 29' do
         it_should_behave_like 'saving invalid param', :payment_day do
-          let(:attrs) {
+          let(:attrs) do
             invalid_attrs = @valid_attrs.clone
             invalid_attrs[:payment_day] = 29
             invalid_attrs
-          }
+          end
         end
       end
     end

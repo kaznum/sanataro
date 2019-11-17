@@ -856,12 +856,12 @@ describe Item, type: :model do
 
       describe 'items' do
         subject { @items }
-        specify {
+        specify do
           subject.each do |item|
             expect(item.from_account_id == accounts(:bank1).id || item.to_account_id == accounts(:bank1).id).to be_truthy
             expect(item.action_date).to be_between Date.new(2008, 2, 1), Date.new(2008, 2, 29)
           end
-        }
+        end
       end
     end
   end

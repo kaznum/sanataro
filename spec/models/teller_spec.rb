@@ -14,14 +14,14 @@ describe Teller, type: :model do
       end
 
       describe 'Item.count' do
-        let(:item_count) {
+        let(:item_count) do
           begin
             @action.call
             raise 'DO NOT PASS THROUGH HERE'
           rescue
             return Item.count
           end
-        }
+        end
         subject { item_count }
         it { is_expected.to eq(@initial_count) }
       end
@@ -79,10 +79,10 @@ describe Teller, type: :model do
       end
 
       describe 'created item' do
-        subject {
+        subject do
           id = Item.maximum('id')
           Item.find_by_id(id)
-        }
+        end
 
         describe '#name' do
           subject { super().name }
@@ -129,10 +129,10 @@ describe Teller, type: :model do
       end
 
       describe 'created item' do
-        subject {
+        subject do
           id = Item.maximum('id')
           Item.find_by_id(id)
-        }
+        end
 
         describe '#name' do
           subject { super().name }
@@ -193,10 +193,10 @@ describe Teller, type: :model do
           before do
             @create.call
           end
-          subject {
+          subject do
             id = Item.maximum('id')
             Item.find_by_id(id)
-          }
+          end
 
           describe '#name' do
             subject { super().name }
@@ -512,9 +512,9 @@ describe Teller, type: :model do
           before do
             @create.call
           end
-          subject {
+          subject do
             @item
-          }
+          end
 
           describe '#name' do
             subject { super().name }
@@ -537,13 +537,13 @@ describe Teller, type: :model do
           @create = lambda { @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1), action_date: Date.new(2008, 2, 10), name: 'テスト10', amount: 10_000, from_account_id: accounts(:credit4).id, to_account_id: accounts(:expense3).id) }
         end
 
-        let(:credit_item) {
+        let(:credit_item) do
           Item.where(action_date: Date.new(2008, 2, 10),
                      from_account_id: accounts(:credit4).id,
                      to_account_id: accounts(:expense3).id,
                      amount: 10_000,
                      parent_id: nil).find { |i| i.child_item }
-        }
+        end
 
         it_should_behave_like 'created itself and credit payment item successfully'
 
@@ -653,12 +653,12 @@ describe Teller, type: :model do
           }
         end
 
-        let(:credit_item) {
+        let(:credit_item) do
           Item.where(action_date: Date.new(2008, 2, 25),
                      from_account_id: accounts(:credit4).id,
                      to_account_id: accounts(:expense3).id,
                      amount: 10_000, parent_id: nil).find { |i| i.child_item }
-        }
+        end
 
         it_should_behave_like 'created itself and credit payment item successfully'
 
@@ -777,12 +777,12 @@ describe Teller, type: :model do
 }                    
         end
 
-        let(:credit_item) {
+        let(:credit_item) do
           Item.where(action_date: Date.new(2008, 2, 10),
                      from_account_id: accounts(:credit4).id,
                      to_account_id: accounts(:expense3).id,
                      amount: 10_000, parent_id: nil).find { |i| i.child_item }
-        }
+        end
 
         it_should_behave_like 'created itself and credit payment item successfully'
 

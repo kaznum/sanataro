@@ -19,10 +19,10 @@ module Api
           user = User.find_by_id_and_active(session[:user_id], true)
         elsif GlobalSettings.api_auth.basic
           # for Basic Auth login
-          user = authenticate_with_http_basic { |login, password|
+          user = authenticate_with_http_basic do |login, password|
             challenge_user = User.find_by_login_and_active(login, true)
             challenge_user && challenge_user.password_correct?(password) ? challenge_user : nil
-          }
+          end
         end
 
         if user

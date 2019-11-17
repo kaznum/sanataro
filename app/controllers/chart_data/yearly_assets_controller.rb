@@ -13,13 +13,13 @@ class ChartData::YearlyAssetsController < ApplicationController
   private
 
   def _json_assets(accounts, date_since)
-    results = accounts.reduce({}) { |data, a|
+    results = accounts.reduce({}) do |data, a|
       data["account_#{a.id}"] = {
         'label' => a.name,
         'data' => _json_account_assets(a.id, date_since)
       }
       data
-    }
+    end
 
     results['total'] = {
       label: I18n.t('label.total'),

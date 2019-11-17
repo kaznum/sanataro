@@ -51,11 +51,11 @@ describe Api::EntriesController, type: :controller do
 
         describe '@items' do
           subject { assigns(:items) }
-          specify {
+          specify do
             subject.each do |item|
               expect(item.action_date).to be_between(Date.today.beginning_of_month, Date.today.end_of_month)
             end
-          }
+          end
         end
       end
 
@@ -82,11 +82,11 @@ describe Api::EntriesController, type: :controller do
           it_should_behave_like 'Success in JSON'
           describe '@items' do
             subject { assigns(:items) }
-            specify {
+            specify do
               subject.each do |item|
                 expect(item.action_date).to be_between(Date.new(2008, 2), Date.new(2008, 2).end_of_month)
               end
-            }
+            end
           end
         end
       end
@@ -155,11 +155,11 @@ describe Api::EntriesController, type: :controller do
           it 'has Item.where(confirmation_required: true).count items' do
             expect(subject.size).to eq(Item.where(confirmation_required: true).count)
           end
-          specify {
+          specify do
             subject.each do |item|
               expect(item).to be_confirmation_required
             end
-          }
+          end
         end
       end
 
@@ -206,11 +206,11 @@ describe Api::EntriesController, type: :controller do
 
             describe '@items' do
               subject { assigns(:items) }
-              specify {
+              specify do
                 subject.each do |item|
                   expect([item.from_account_id, item.to_account_id]).to include(accounts(:bank1).id)
                 end
-              }
+              end
             end
 
             describe 'session[:filter_account_id]' do
@@ -836,18 +836,18 @@ describe Api::EntriesController, type: :controller do
             end
 
             describe "taggings' user_id" do
-              subject {
+              subject do
                 uids = Tagging.where(tag_id: tag_ids).pluck(:user_id)
                 uids.all? { |u| u == users(:user1).id }
-              }
+              end
               it { is_expected.to be_truthy }
             end
 
             describe "taggings' taggable_type" do
-              subject {
+              subject do
                 types = Tagging.where(tag_id: tag_ids).pluck(:taggable_type)
                 types.all? { |t| t == 'Item' }
-              }
+              end
               it { is_expected.to be_truthy }
             end
           end
@@ -868,10 +868,10 @@ describe Api::EntriesController, type: :controller do
         end
 
         describe 'created item' do
-          subject {
+          subject do
             id = Item.maximum('id')
             Item.find_by_id(id)
-          }
+          end
 
           describe '#name' do
             subject { super().name }
@@ -907,10 +907,10 @@ describe Api::EntriesController, type: :controller do
         end
 
         describe 'created item' do
-          subject {
+          subject do
             id = Item.maximum('id')
             Item.find_by_id(id)
-          }
+          end
 
           describe '#name' do
             subject { super().name }
@@ -1062,13 +1062,13 @@ describe Api::EntriesController, type: :controller do
                  format: :json)
           end
 
-          let(:credit_item) {
+          let(:credit_item) do
             Item.where(action_date: Date.new(2008, 2, 10),
                        from_account_id: accounts(:credit4).id,
                        to_account_id: accounts(:expense3).id,
                        amount: 10_000,
                        parent_id: nil).find { |i| i.child_item }
-          }
+          end
 
           describe 'response' do
             subject { response }
@@ -1282,7 +1282,7 @@ describe Api::EntriesController, type: :controller do
           context 'input values are valid,' do
             let(:existing_adj) { items(:adjustment2) }
             let(:future_adj) { items(:adjustment4) }
-            let(:action) {
+            let(:action) do
               lambda {
                 date = existing_adj.action_date
                 post(:create,
@@ -1296,7 +1296,7 @@ describe Api::EntriesController, type: :controller do
                      month: 2,
                      format: :json)
               }
-            }
+            end
             describe 'created_adjustment' do
               before { action.call }
               subject { Adjustment.where(action_date: existing_adj.action_date).first }
@@ -1330,7 +1330,7 @@ describe Api::EntriesController, type: :controller do
           context 'input values are invalid,' do
             let(:existing_adj) { items(:adjustment2) }
             let(:future_adj) { items(:adjustment4) }
-            let(:action) {
+            let(:action) do
               lambda {
                 date = existing_adj.action_date
                 post(:create,
@@ -1344,7 +1344,7 @@ describe Api::EntriesController, type: :controller do
                      month: 2,
                      format: :json)
               }
-            }
+            end
 
             describe 'response' do
               before { action.call }
@@ -1379,7 +1379,7 @@ describe Api::EntriesController, type: :controller do
           context 'input action_year/month/day is specified,' do
             let(:existing_adj) { items(:adjustment2) }
             let(:future_adj) { items(:adjustment4) }
-            let(:action) {
+            let(:action) do
               lambda {
                 date = existing_adj.action_date
                 post(:create,
@@ -1395,7 +1395,7 @@ describe Api::EntriesController, type: :controller do
                      month: 2,
                      format: :json)
               }
-            }
+            end
 
             describe 'response' do
               before { action.call }

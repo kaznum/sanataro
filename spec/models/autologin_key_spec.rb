@@ -46,11 +46,11 @@ describe AutologinKey, type: :model do
     end
 
     context 'when user_id is nil,' do
-      let(:invalid_ak) {
+      let(:invalid_ak) do
         ak = AutologinKey.find(old_ak.id)
         ak.user_id = nil
         ak
-      }
+      end
 
       specify { expect(invalid_ak.save).to be_falsey }
       specify { expect(!invalid_ak.save && invalid_ak).to have_at_least(1).errors_on :user_id }

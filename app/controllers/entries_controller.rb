@@ -36,26 +36,26 @@ class EntriesController < ApplicationController
   end
 
   def show
-    _xhr_action('warning') {
+    _xhr_action('warning') do
       super
-    }
+    end
   end
 
   def edit
-    _xhr_action('warning') {
+    _xhr_action('warning') do
       @item = @user.items.find(params[:id])
-    }
+    end
   end
 
   def destroy
-    _xhr_action('warning') {
+    _xhr_action('warning') do
       super
       render 'destroy', locals: { item: @item, deleted_ids: @deleted_item_ids, updated_items: @updated_items }
-    }
+    end
   end
 
   def create
-    _xhr_action('warning') {
+    _xhr_action('warning') do
       super
 
       if params[:only_add]
@@ -65,15 +65,15 @@ class EntriesController < ApplicationController
         template = @item.adjustment? ? 'create_adjustment' : 'create_item'
         render template, locals: { item: @item, items: @items, updated_item_ids: @updated_item_ids }
       end
-    }
+    end
   end
 
   def update
-    _xhr_action("item_warning_#{params[:id]}") {
+    _xhr_action("item_warning_#{params[:id]}") do
       super
       items = get_items(month: displaying_month)
       render 'update', locals: { item: @item, items: items, updated_item_ids: @updated_item_ids }
-    }
+    end
   end
 
   private

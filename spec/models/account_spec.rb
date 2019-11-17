@@ -206,43 +206,43 @@ describe Account, type: :model do
     fixtures :accounts, :items, :monthly_profit_losses
 
     context "when adjustment_id isn't specified" do
-      subject {
+      subject do
         ini_bank1 = accounts(:bank1)
         date = items(:item5).action_date
         user = users(:user1)
         user.accounts.asset(user, ini_bank1.id, date)
-      }
+      end
       it { is_expected.to eq(13_900) }
     end
 
     context 'when specifying adj_id whose action_date is same as that of original adj_id,' do
-      subject {
+      subject do
         user = users(:user1)
         ini_bank1 = accounts(:bank1)
         date = items(:adjustment4).action_date.clone
         user.accounts.asset(user, ini_bank1.id, date, items(:adjustment4).id)
-      }
+      end
       it { is_expected.to eq(15_000) }
     end
 
     context "when specifying id which is same as the account of from_account_id = bank1's id(action_date = adjustment4.action_date + 1day)," do
-      subject {
+      subject do
         user = users(:user1)
         ini_bank1 = accounts(:bank1)
         date = items(:adjustment4).action_date.clone + 1
         user.accounts.asset(user, ini_bank1.id, date, items(:item3).id)
-      }
+      end
       it { is_expected.to eq(19_000) }
     end
 
     context 'when specifying adj_id whose action_date is after that of adj_id,' do
       let(:user) { users(:user1) }
-      subject {
+      subject do
         user.accounts.asset(user,
                             accounts(:bank1).id,
                             items(:adjustment6).action_date + 1,
                             items(:adjustment4).id)
-      }
+      end
       it { is_expected.to eq(13_900) }
     end
   end

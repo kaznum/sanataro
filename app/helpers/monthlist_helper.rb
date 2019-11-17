@@ -6,16 +6,16 @@ module MonthlistHelper
     out += "<div class='year_#{year}' style='display: #{year == selected_year ? 'block;' : 'none;'}'>"
     year.upto(to_year) do |y|
       if y == to_year
-        out += month.upto(to_month).map { |m|
+        out += month.upto(to_month).map do |m|
           css_class = (selected_year == y && selected_month == m) ? 'selected' : 'unselected'
           link_to(m.to_s, { action: current_action, year: y, month: m }, { class: css_class })
-        }.join
+        end.join
         out += '</div></div>'
       else
-        out += month.upto(12).map { |m|
+        out += month.upto(12).map do |m|
           css_class = selected_year == y && selected_month == m ? 'selected' : 'unselected'
           link_to(m.to_s, { action: current_action, year: y, month: m }, { class: css_class })
-        }.join
+        end.join
         month = 1
         out += "</div><div class='year_#{y + 1}' style='display: #{y + 1 == selected_year ? 'block;' : 'none;'}'>"
       end

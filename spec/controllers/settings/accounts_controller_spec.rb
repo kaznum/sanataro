@@ -44,11 +44,11 @@ describe Settings::AccountsController, type: :controller do
           describe '@accounts' do
             subject { assigns(:accounts) }
             it { is_expected.not_to be_empty }
-            specify {
+            specify do
               subject.each do |a|
                 expect(a.type).to eq(type.to_s.capitalize)
               end
-            }
+            end
           end
         end
       end

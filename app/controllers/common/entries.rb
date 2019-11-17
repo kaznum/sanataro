@@ -52,7 +52,7 @@ module Common
         return {} if params[:entry].nil?
 
         prms = {}
-        params[:entry].each { |k, v|
+        params[:entry].each do |k, v|
           attr = k.to_sym
           case attr
           when :amount, :adjustment_amount
@@ -62,7 +62,7 @@ module Common
           else
             prms[attr] = v
           end
-        }
+        end
         prms
       end
 
