@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Admin::UsersController, :type => :controller do
+describe Admin::UsersController, type: :controller do
   def mock_user
     mock_model(User).as_null_object
   end

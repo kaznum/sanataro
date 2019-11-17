@@ -1,7 +1,7 @@
 # coding: utf-8
 require 'spec_helper'
 
-describe Teller, :type => :model do
+describe Teller, type: :model do
   fixtures :all
   describe '#create_entry' do
     context 'when validation errors happen,' do

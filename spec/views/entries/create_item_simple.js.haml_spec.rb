@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe '/entries/create_item_simple', :type => :view do
+describe '/entries/create_item_simple', type: :view do
   fixtures :all
 
   before(:each) do

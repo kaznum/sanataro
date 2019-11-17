@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe ProfitLossesController, :type => :controller do
+describe ProfitLossesController, type: :controller do
   fixtures :users, :items, :accounts, :monthly_profit_losses, :credit_relations
 
   describe '#index' do

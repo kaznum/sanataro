@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe User, :type => :model do
+describe User, type: :model do
   fixtures :users, :items, :accounts, :credit_relations
 
   describe '#create' do

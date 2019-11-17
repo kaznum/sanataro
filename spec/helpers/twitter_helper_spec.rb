@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe TwitterHelper, :type => :helper do
+describe TwitterHelper, type: :helper do
   fixtures :users, :accounts
   context 'when to_account_id is outgoing,' do
     before do

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CreditRelation, :type => :model do
+describe CreditRelation, type: :model do
   fixtures :credit_relations, :accounts, :users
 
   before do

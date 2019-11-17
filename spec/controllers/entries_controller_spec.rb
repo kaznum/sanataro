@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe EntriesController, :type => :controller do
+describe EntriesController, type: :controller do
   fixtures :all
 
   describe '#index' do

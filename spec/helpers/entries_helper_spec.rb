@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe EntriesHelper, :type => :helper do
+describe EntriesHelper, type: :helper do
   describe '#link_to_confirmation_required' do
     fixtures :users, :accounts, :credit_relations
     before do

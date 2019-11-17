@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe MonthlyProfitLoss, :type => :model do
+describe MonthlyProfitLoss, type: :model do
   fixtures :monthly_profit_losses, :users, :accounts
 
   describe 'find_all_by_month' do

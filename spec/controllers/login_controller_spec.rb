@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe LoginController, :type => :controller do
+describe LoginController, type: :controller do
   fixtures :users, :autologin_keys
 
   describe '#login' do

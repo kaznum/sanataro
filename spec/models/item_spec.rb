@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe Item, :type => :model do
+describe Item, type: :model do
   fixtures :items, :users, :accounts, :monthly_profit_losses
   before do
     @valid_attrs = {

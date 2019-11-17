@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe :routes, :type => :routing do
+describe :routes, type: :routing do
 
   describe 'root' do
     describe 'GET /' do

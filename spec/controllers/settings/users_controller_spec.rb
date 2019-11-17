@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Settings::UsersController, :type => :controller do
+describe Settings::UsersController, type: :controller do
   fixtures :users
   describe '#show' do
     context 'before login,' do

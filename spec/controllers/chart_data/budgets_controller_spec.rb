@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe ChartData::BudgetsController, :type => :controller do
+describe ChartData::BudgetsController, type: :controller do
   fixtures :users
 
   describe '#show' do

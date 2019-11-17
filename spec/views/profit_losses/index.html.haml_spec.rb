@@ -6,7 +6,7 @@ class ActionView::Base
   end
 end
 
-describe '/profit_losses/index', :type => :view do
+describe '/profit_losses/index', type: :view do
   fixtures :users, :accounts, :monthly_profit_losses
   context 'when enough params,' do
     before do

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Settings::CreditRelationsHelper, :type => :helper do
+describe Settings::CreditRelationsHelper, type: :helper do
   describe 'this month' do
     subject { helper.localize_relative_month(0) }
     it { is_expected.to eq(I18n.t('settings.credit_relations.same_month')) }

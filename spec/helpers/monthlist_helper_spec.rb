@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MonthlistHelper, :type => :helper do
+describe MonthlistHelper, type: :helper do
   before do
     from_year = 2008
     from_month = 10

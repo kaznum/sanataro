@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe EntryCandidatesController, :type => :controller do
+describe EntryCandidatesController, type: :controller do
   fixtures :items, :users
 
   describe 'index' do

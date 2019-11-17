@@ -6,7 +6,7 @@ class ActionView::Base
   end
 end
 
-describe '/api/entries/create', :type => :view do
+describe '/api/entries/create', type: :view do
   fixtures :all
 
   before(:each) do

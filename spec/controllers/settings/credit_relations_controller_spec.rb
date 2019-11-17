@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe Settings::CreditRelationsController, :type => :controller do
+describe Settings::CreditRelationsController, type: :controller do
   fixtures :users, :credit_relations
 
   describe '#index' do

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe AccountStatusesController, :type => :controller do
+describe AccountStatusesController, type: :controller do
   fixtures :users, :items, :accounts, :monthly_profit_losses
 
   describe '#show' do

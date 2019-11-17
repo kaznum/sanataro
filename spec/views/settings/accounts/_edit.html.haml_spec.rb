@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe '/settings/accounts/_edit', :type => :view do
+describe '/settings/accounts/_edit', type: :view do
   fixtures :users, :accounts
 
   context 'when enough params,' do

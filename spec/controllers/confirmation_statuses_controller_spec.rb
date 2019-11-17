@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ConfirmationStatusesController, :type => :controller do
+describe ConfirmationStatusesController, type: :controller do
   fixtures :all
 
   describe '#show' do

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ApplicationHelper, :type => :helper do
+describe ApplicationHelper, type: :helper do
   describe 'colored_account_name' do
     before do
       mock_user = mock_model(User)

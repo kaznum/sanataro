@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ConfirmationRequiredsController, :type => :controller do
+describe ConfirmationRequiredsController, type: :controller do
   fixtures :items, :accounts, :users
 
   describe '#update' do

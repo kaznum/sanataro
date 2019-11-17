@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe Mailer, :type => :model do
+describe Mailer, type: :model do
   describe 'signup_confirmation' do
     let(:user) { mock_model(User, email: 'foo@example.com', login: 'userhogehoge', confirmation: 'AABBCCDD') }
     let(:mail) { Mailer.signup_confirmation(user) }

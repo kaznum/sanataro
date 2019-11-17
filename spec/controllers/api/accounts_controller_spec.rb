@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe Api::AccountsController, :type => :controller do
+describe Api::AccountsController, type: :controller do
   fixtures :users, :accounts
 
   describe '#index' do

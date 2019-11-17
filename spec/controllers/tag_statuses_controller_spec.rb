@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe TagStatusesController, :type => :controller do
+describe TagStatusesController, type: :controller do
   fixtures :users, :items, :accounts
 
   describe 'show' do

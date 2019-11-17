@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe BalanceSheetsController, :type => :controller do
+describe BalanceSheetsController, type: :controller do
   fixtures :users, :items, :accounts, :credit_relations, :monthly_profit_losses
   describe '#index' do
     context 'when without login,' do

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe AutologinKey, :type => :model do
+describe AutologinKey, type: :model do
   fixtures :autologin_keys, :users
 
   context 'when create' do
