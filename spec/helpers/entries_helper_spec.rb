@@ -237,7 +237,7 @@ describe EntriesHelper, type: :helper do
       end
 
       subject { helper.item_row_name(@item) }
-      it { is_expected.to eq("#{t("label.adjustment")} 5,000円") }
+      it { is_expected.to eq("#{t('label.adjustment')} 5,000円") }
       it { is_expected.to be_html_safe }
     end
 
@@ -339,7 +339,7 @@ describe EntriesHelper, type: :helper do
         end
 
         subject { helper.item_row_from_account(@item) }
-        it { is_expected.to eq("(#{t("label.adjustment")})") }
+        it { is_expected.to eq("(#{t('label.adjustment')})") }
       end
     end
     context 'when item is NOT adjustment, ' do
@@ -374,7 +374,7 @@ describe EntriesHelper, type: :helper do
         end
 
         subject { helper.item_row_to_account(@item) }
-        it { is_expected.to eq("(#{t("label.adjustment")})") }
+        it { is_expected.to eq("(#{t('label.adjustment')})") }
       end
     end
 

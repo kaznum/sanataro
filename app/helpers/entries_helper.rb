@@ -84,9 +84,9 @@ module EntriesHelper
       item_name.html_safe
     elsif item.parent_id
       link_body = "#{l(item.parent_item.action_date, format: :short)} #{item.parent_item.name.decorate}".html_safe
-      item_name = "#{t("entries.item.deposit")} (#{link_to link_body, relative_path(item.id)})".html_safe
+      item_name = "#{t('entries.item.deposit')} (#{link_to link_body, relative_path(item.id)})".html_safe
     elsif item.child_item
-      link_body = "#{l(item.child_item.action_date, format: :short)} #{t("entries.item.deposit")}".html_safe
+      link_body = "#{l(item.child_item.action_date, format: :short)} #{t('entries.item.deposit')}".html_safe
       item_name = "#{item.name.decorate} (#{link_to link_body, relative_path(item.id)})".html_safe
     else
       item_name = item.name.decorate
