@@ -8,4 +8,4 @@ module Sanataro
   end
 end
 
-Date.prepend Sanataro::DateExt
+Date.include Sanataro::DateExt
