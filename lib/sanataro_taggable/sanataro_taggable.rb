@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ActiveRecord
   module Sanataro #:nodoc:
     module Taggable #:nodoc:
@@ -6,7 +8,7 @@ module ActiveRecord
       end
 
       module ClassMethods
-        def sanataro_taggable(options = {})
+        def sanataro_taggable(_options = {})
           has_many :taggings, as: :taggable, dependent: :destroy
           has_many :tags, through: :taggings
           # TODO
@@ -14,7 +16,7 @@ module ActiveRecord
           # because of the restriction where distinct and order clause needs that the columns which is used in them in select clause.
           # scope :tagged_with, lambda { |tag| ids = includes(:tags).where("tags.name = ?", tag).references(:tags) }
           scope :tagged_with, lambda { |tag|
-            ids = includes(:tags).where("tags.name = ?", tag).references(:tags).pluck(:id)
+            ids = includes(:tags).where('tags.name = ?', tag).references(:tags).pluck(:id)
             where(id: ids)
           }
 
@@ -30,16 +32,16 @@ module ActiveRecord
 
       module InstanceMethods
         def tag_list
-          @tag_list ||= tags.map(&:name).map(&:downcase).sort.join(" ")
+          @tag_list ||= tags.map(&:name).map(&:downcase).sort.join(' ')
         end
 
         def tag_list=(str)
-          @tag_list = Tag.parse(str).sort.join(" ")
+          @tag_list = Tag.parse(str).sort.join(' ')
         end
 
         def update_tags
           stored_tags = tags
-          if tag_list != stored_tags.map(&:name).map(&:downcase).sort.join(" ")
+          if tag_list != stored_tags.map(&:name).map(&:downcase).sort.join(' ')
             taggings.where(user_id: user_id).destroy_all
             Tag.parse(@tag_list).each do |name|
               tag = Tag.find_or_create_by(name: name)

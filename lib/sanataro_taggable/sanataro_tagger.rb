@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ActiveRecord
   module Sanataro #:nodoc:
     module Tagger #:nodoc:
@@ -6,7 +8,7 @@ module ActiveRecord
       end
 
       module ClassMethods
-        def sanataro_tagger(options = {})
+        def sanataro_tagger(_options = {})
           has_many :taggings
           has_many :tags, through: :taggings
 
