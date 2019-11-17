@@ -13,15 +13,21 @@ jobs:
       uses: actions/setup-ruby@v1
       with:
         ruby-version: 2.5.x
-    - name: Build and test with Rake
+    - name: Install required packages/gems to build/test
       run: |
         sudo apt-get install -y libqtwebkit-dev libqtwebkit4 libmysqlclient-dev libpq-dev libsqlite3-dev nodejs xvfb
         gem install bundler
         bundle update --bundler
         bundle install --jobs 4 --retry 3 --without production development
+    - name: Prepare DB and Assets
+      run: |
         cp -v config/database.yml.sample config/database.yml
         bundle exec rake db:create db:schema:load assets:precompile
+    - name: Run spec
+      run: |
         bundle exec rake spec
+    - name: Run cucumber
+      run: |
         xvfb-run --auto-servernum bundle exec rake cucumber
     - name: Cleanup xvfb pidx
       uses: bcomnes/cleanup-xvfb@v1
