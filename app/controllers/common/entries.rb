@@ -105,9 +105,7 @@ module Common
       def _get_date_by_specific_year_and_month_or_today(year, month)
         action_date = nil
         begin
-          unless today.beginning_of_month == Date.new(year.to_i, month.to_i).beginning_of_month
-            action_date = Date.new(year.to_i, month.to_i)
-          end
+          action_date = Date.new(year.to_i, month.to_i) unless today.beginning_of_month == Date.new(year.to_i, month.to_i).beginning_of_month
         rescue ArgumentError
           action_date = today
         end

@@ -33,9 +33,7 @@ class ChartData::AssetsController < ApplicationController
     labels_and_data = []
     accounts.each do |a|
       amount = balances_with_accounts[a.id]
-      if type == :asset && amount > 0 || type == :debt && amount < 0
-        labels_and_data << { label: a.name, data: amount.abs }
-      end
+      labels_and_data << { label: a.name, data: amount.abs } if type == :asset && amount > 0 || type == :debt && amount < 0
     end
     labels_and_data
   end

@@ -13,9 +13,7 @@ class ChartData::BudgetsController < ApplicationController
     results = []
     accounts.each do |acc|
       mpl = @user.monthly_profit_losses.where(month: from_date, account_id: acc.id).where.not(amount: 0).first
-      if mpl
-        results << { label: acc.name, data: mpl.amount.abs }
-      end
+      results << { label: acc.name, data: mpl.amount.abs } if mpl
     end
 
     # unkown income/expense

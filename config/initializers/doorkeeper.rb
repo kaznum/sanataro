@@ -24,9 +24,7 @@ Doorkeeper.configure do
   admin_authenticator do |routes|
     def authenticate
       admin_user, admin_password = get_correct_credential
-      if admin_user.nil? || admin_password.nil?
-        return nil
-      end
+      return nil if admin_user.nil? || admin_password.nil?
 
       authenticate_or_request_with_http_basic do |username, password|
         username == admin_user && password == admin_password

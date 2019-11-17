@@ -82,9 +82,7 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = false
   config.order = 'random'
 
-  if defined? Capybara
-    Capybara.javascript_driver = :webkit
-  end
+  Capybara.javascript_driver = :webkit if defined? Capybara
 
   def dummy_login(only_add = false)
     orig_controller = @controller
