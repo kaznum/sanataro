@@ -11,10 +11,10 @@ describe TwitterHelper, :type => :helper do
     end
 
     subject { helper.tweet_button(@item) }
-    it { is_expected.to match /#{URI.escape(@item.name)}/ }
-    it { is_expected.to match /#{URI.escape("[" + Account.find(3).name + "]")}/ }
-    it { is_expected.to match /#{URI.escape("1,500円")}/ }
-    it { is_expected.to match /hashtags=aaa,bbb,sanataro/ }
+    it { is_expected.to match /#{CGI.escape(@item.name)}/ }
+    it { is_expected.to match /#{CGI.escape("[" + Account.find(3).name + "]")}/ }
+    it { is_expected.to match /#{CGI.escape("1,500円")}/ }
+    it { is_expected.to match /hashtags=#{CGI.escape('aaa,bbb,sanataro')}/ }
     it { is_expected.to match /onclick="open_twitter\(this.getAttribute\(&#39;href&#39;\)\);return false;/ }
   end
 
@@ -26,10 +26,10 @@ describe TwitterHelper, :type => :helper do
     end
 
     subject { helper.tweet_button(@item) }
-    it { is_expected.to match /#{URI.escape(@item.name)}/ }
-    it { is_expected.to match /#{URI.escape("[" + Account.find(2).name + "]")}/ }
-    it { is_expected.to match /#{URI.escape("1,500円")}/ }
-    it { is_expected.to match /hashtags=aaa,bbb,sanataro/ }
+    it { is_expected.to match /#{CGI.escape(@item.name)}/ }
+    it { is_expected.to match /#{CGI.escape("[" + Account.find(2).name + "]")}/ }
+    it { is_expected.to match /#{CGI.escape("1,500円")}/ }
+    it { is_expected.to match /hashtags=#{CGI.escape('aaa,bbb,sanataro')}/ }
     it { is_expected.to match /onclick="open_twitter\(this.getAttribute\(&#39;href&#39;\)\);return false;/ }
   end
 
@@ -41,11 +41,11 @@ describe TwitterHelper, :type => :helper do
     end
 
     subject { helper.tweet_button(@item) }
-    it { is_expected.to match /#{URI.escape(@item.name)}/ }
-    it { is_expected.not_to match /#{URI.escape(Account.find(11).name)}/ }
-    it { is_expected.not_to match /#{URI.escape(Account.find(1).name)}/ }
-    it { is_expected.to match /#{URI.escape("1,500円")}/ }
-    it { is_expected.to match /hashtags=aaa,bbb,sanataro/ }
+    it { is_expected.to match /#{CGI.escape(@item.name)}/ }
+    it { is_expected.not_to match /#{CGI.escape(Account.find(11).name)}/ }
+    it { is_expected.not_to match /#{CGI.escape(Account.find(1).name)}/ }
+    it { is_expected.to match /#{CGI.escape("1,500円")}/ }
+    it { is_expected.to match /hashtags=#{CGI.escape('aaa,bbb,sanataro')}/ }
     it { is_expected.to match /onclick="open_twitter\(this.getAttribute\(&#39;href&#39;\)\);return false;/ }
   end
 
@@ -57,10 +57,10 @@ describe TwitterHelper, :type => :helper do
     end
 
     subject { helper.tweet_button(@item) }
-    it { is_expected.to match /#{URI.escape(@item.name)}/ }
-    it { is_expected.not_to match /#{URI.escape(Account.find(1).name)}/ }
-    it { is_expected.to match /#{URI.escape("1,500円")}/ }
-    it { is_expected.to match /hashtags=aaa,bbb,sanataro/ }
+    it { is_expected.to match /#{CGI.escape(@item.name)}/ }
+    it { is_expected.not_to match /#{CGI.escape(Account.find(1).name)}/ }
+    it { is_expected.to match /#{CGI.escape("1,500円")}/ }
+    it { is_expected.to match /hashtags=#{CGI.escape('aaa,bbb,sanataro')}/ }
     it { is_expected.to match /onclick="open_twitter\(this.getAttribute\(&#39;href&#39;\)\);return false;/ }
   end
 end
