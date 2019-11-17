@@ -31,8 +31,8 @@ describe Admin::UsersController, :type => :controller do
     context "with authentication data in server's Settings," do
       context "when user/password is correct," do
         before do
-          expect(Settings).to receive(:admin_user).and_return("admin_setting")
-          expect(Settings).to receive(:admin_password).and_return("password_setting")
+          expect(GlobalSettings).to receive(:admin_user).and_return("admin_setting")
+          expect(GlobalSettings).to receive(:admin_password).and_return("password_setting")
           request.env['HTTP_AUTHORIZATION'] =
             'Basic ' + Base64.encode64("admin_setting:password_setting")
         end
@@ -48,8 +48,8 @@ describe Admin::UsersController, :type => :controller do
 
       context "when user/password is incorrect," do
         before do
-          expect(Settings).to receive(:admin_user).and_return("admin_setting")
-          expect(Settings).to receive(:admin_password).and_return("password_setting")
+          expect(GlobalSettings).to receive(:admin_user).and_return("admin_setting")
+          expect(GlobalSettings).to receive(:admin_password).and_return("password_setting")
           request.env['HTTP_AUTHORIZATION'] =
             'Basic ' + Base64.encode64("admin_setting:password_settin")
         end
@@ -115,8 +115,8 @@ describe Admin::UsersController, :type => :controller do
         before do
           ENV['ADMIN_USER'] = 'admin_env'
           ENV['ADMIN_PASSWORD'] = 'password_env'
-          allow(Settings).to receive(:admin_user).and_return("admin_setting")
-          allow(Settings).to receive(:admin_password).and_return("password_setting")
+          allow(GlobalSettings).to receive(:admin_user).and_return("admin_setting")
+          allow(GlobalSettings).to receive(:admin_password).and_return("password_setting")
 
           request.env['HTTP_AUTHORIZATION'] =
             'Basic ' + Base64.encode64("admin_env:password_env")
@@ -136,8 +136,8 @@ describe Admin::UsersController, :type => :controller do
         before do
           ENV['ADMIN_USER'] = 'admin_env'
           ENV['ADMIN_PASSWORD'] = 'password_env'
-          allow(Settings).to receive(:admin_user).and_return("admin_setting")
-          allow(Settings).to receive(:admin_password).and_return("password_setting")
+          allow(GlobalSettings).to receive(:admin_user).and_return("admin_setting")
+          allow(GlobalSettings).to receive(:admin_password).and_return("password_setting")
 
           request.env['HTTP_AUTHORIZATION'] =
             'Basic ' + Base64.encode64("admin_setting:password_setting")

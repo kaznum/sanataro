@@ -38,8 +38,8 @@ Doorkeeper.configure do
       admin_password = ENV['OAUTH_ADMIN_PASSWORD'].presence
 
       begin
-        admin_user ||= Settings.oauth_admin_user
-        admin_password ||= Settings.oauth_admin_password
+        admin_user ||= GlobalSettings.oauth_admin_user
+        admin_password ||= GlobalSettings.oauth_admin_password
       rescue Settingslogic::MissingSetting
         admin_user = admin_password = nil
       end

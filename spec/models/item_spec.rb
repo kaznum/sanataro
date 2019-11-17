@@ -653,13 +653,13 @@ describe Item, :type => :model do
 
         @from_date = Date.new(2008, 9, 1)
         @to_date = Date.new(2008, 9, 30)
-        allow(Settings).to receive(:item_list_count).and_return(2)
+        allow(GlobalSettings).to receive(:item_list_count).and_return(2)
       end
 
       context "when :remain is not specified" do
         subject { users(:user1).items.partials(@from_date, @to_date) }
-        it 'has Settings.item_list_count entries' do
-          expect(subject.entries.size).to eq(Settings.item_list_count)
+        it 'has GlobalSettings.item_list_count entries' do
+          expect(subject.entries.size).to eq(GlobalSettings.item_list_count)
         end
       end
 
@@ -674,58 +674,58 @@ describe Item, :type => :model do
 
       context "when :remain is specified as true" do
         subject { users(:user1).items.partials(@from_date, @to_date, { remain: true }) }
-        it 'has 6 - Settings.item_list_count entries' do
-          expect(subject.entries.size).to eq(6 - Settings.item_list_count)
+        it 'has 6 - GlobalSettings.item_list_count entries' do
+          expect(subject.entries.size).to eq(6 - GlobalSettings.item_list_count)
         end
       end
 
       context "when :tag is specified" do
         subject { users(:user1).items.partials(nil, nil, { tag: 'abc' }) }
-        it 'has Settings.item_list_count entries' do
-          expect(subject.entries.size).to eq(Settings.item_list_count)
+        it 'has GlobalSettings.item_list_count entries' do
+          expect(subject.entries.size).to eq(GlobalSettings.item_list_count)
         end
       end
 
       context "when :tag and :remain is specified" do
         subject { users(:user1).items.partials(nil, nil, { remain: true, tag: 'abc' }) }
-        it 'has 3 - Settings.item_list_count entries' do
-          expect(subject.entries.size).to eq(3 - Settings.item_list_count)
+        it 'has 3 - GlobalSettings.item_list_count entries' do
+          expect(subject.entries.size).to eq(3 - GlobalSettings.item_list_count)
         end
       end
 
       context "when :keyword is specified" do
         subject { users(:user1).items.partials(nil, nil, { keyword: 'emname' }) }
-        it 'has Settings.item_list_count entries' do
-          expect(subject.entries.size).to eq(Settings.item_list_count)
+        it 'has GlobalSettings.item_list_count entries' do
+          expect(subject.entries.size).to eq(GlobalSettings.item_list_count)
         end
       end
 
       context "when :keyword and :remain is specified" do
         subject { users(:user1).items.partials(nil, nil, { remain: true, keyword: 'emname' }) }
-        it 'has 6 - Settings.item_list_count entries' do
-          expect(subject.entries.size).to eq(6 - Settings.item_list_count)
+        it 'has 6 - GlobalSettings.item_list_count entries' do
+          expect(subject.entries.size).to eq(6 - GlobalSettings.item_list_count)
         end
       end
 
       context "when :filter_account_id is specified" do
         subject { users(:user1).items.partials(@from_date, @to_date, { filter_account_id: accounts(:bank11).id }) }
-        it 'has Settings.item_list_count entries' do
-          expect(subject.entries.size).to eq(Settings.item_list_count)
+        it 'has GlobalSettings.item_list_count entries' do
+          expect(subject.entries.size).to eq(GlobalSettings.item_list_count)
         end
       end
 
       context "when :filter_account_id and :remain is specified" do
         subject { users(:user1).items.partials(@from_date, @to_date, { filter_account_id: accounts(:bank11).id, remain: true }) }
-        it 'has 3 - Settings.item_list_count entries' do
-          expect(subject.entries.size).to eq(3 - Settings.item_list_count)
+        it 'has 3 - GlobalSettings.item_list_count entries' do
+          expect(subject.entries.size).to eq(3 - GlobalSettings.item_list_count)
         end
       end
 
       context "when confirmation required is specified"  do
         context "when remain not specified" do
           subject { users(:user1).items.partials(nil, nil, { mark: 'confirmation_required' }) }
-          it 'has Settings.item_list_count entries' do
-            expect(subject.entries.size).to eq(Settings.item_list_count)
+          it 'has GlobalSettings.item_list_count entries' do
+            expect(subject.entries.size).to eq(GlobalSettings.item_list_count)
           end
         end
 
@@ -735,8 +735,8 @@ describe Item, :type => :model do
           end
 
           subject { users(:user1).items.partials(nil, nil, { mark: 'confirmation_required', remain: true }) }
-          it 'has @cnfmt_rqrd_count - Settings.item_list_count entries' do
-            expect(subject.entries.size).to eq(@cnfmt_rqrd_count - Settings.item_list_count)
+          it 'has @cnfmt_rqrd_count - GlobalSettings.item_list_count entries' do
+            expect(subject.entries.size).to eq(@cnfmt_rqrd_count - GlobalSettings.item_list_count)
           end
         end
       end
@@ -807,7 +807,7 @@ describe Item, :type => :model do
         end
         @from_date = Date.new(2008, 9, 1)
         @to_date = Date.new(2008, 9, 30)
-        allow(Settings).to receive(:item_list_count).and_return(5)
+        allow(GlobalSettings).to receive(:item_list_count).and_return(5)
       end
 
       after do

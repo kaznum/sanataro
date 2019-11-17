@@ -31,11 +31,11 @@ module ApplicationHelper
   end
 
   def highlight(selector)
-    "$('#{selector}').effect('highlight', {color: '#{Settings.effect.highlight.color}'}, #{Settings.effect.highlight.duration});".html_safe
+    "$('#{selector}').effect('highlight', {color: '#{GlobalSettings.effect.highlight.color}'}, #{GlobalSettings.effect.highlight.duration});".html_safe
   end
 
   def fadeout_and_remove(selector)
-    "$('#{selector}').fadeOut(#{Settings.effect.fade.duration}, function() {$('#{selector}').remove();});".html_safe
+    "$('#{selector}').fadeOut(#{GlobalSettings.effect.fade.duration}, function() {$('#{selector}').remove();});".html_safe
   end
 
   def icon_show(enabled = true)

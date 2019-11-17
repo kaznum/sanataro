@@ -11,7 +11,7 @@ describe Mailer, :type => :model do
 
       describe '#subject' do
         subject { super().subject }
-        it { is_expected.to eq("[#{Settings.product_name}] ユーザ登録は完了していません") }
+        it { is_expected.to eq("[#{GlobalSettings.product_name}] ユーザ登録は完了していません") }
       end
 
       describe '#to' do
@@ -21,7 +21,7 @@ describe Mailer, :type => :model do
 
       describe '#from' do
         subject { super().from }
-        it { is_expected.to eq([Settings.system_mail_address]) }
+        it { is_expected.to eq([GlobalSettings.system_mail_address]) }
       end
     end
 
@@ -40,7 +40,7 @@ describe Mailer, :type => :model do
 
       describe '#subject' do
         subject { super().subject }
-        it { is_expected.to eq("[#{Settings.product_name}] ユーザ登録完了") }
+        it { is_expected.to eq("[#{GlobalSettings.product_name}] ユーザ登録完了") }
       end
 
       describe '#to' do
@@ -50,7 +50,7 @@ describe Mailer, :type => :model do
 
       describe '#from' do
         subject { super().from }
-        it { is_expected.to eq([Settings.system_mail_address]) }
+        it { is_expected.to eq([GlobalSettings.system_mail_address]) }
       end
     end
 
