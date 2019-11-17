@@ -57,8 +57,8 @@ module EntriesHelper
   end
 
   def link_to_tags(item)
-    if item.tags.size > 0
-      ('[' + item.tags.sort { |a, b| a.name <=> b.name }.map { |tag| link_to_tag(tag) }.join(' ') + ']').html_safe
+    if item.tags.present?
+      ('[' + item.tags.sort_by(&:name).map { |tag| link_to_tag(tag) }.join(' ') + ']').html_safe
     else
       ''
     end
