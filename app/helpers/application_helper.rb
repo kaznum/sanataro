@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   include MonthlistHelper
@@ -12,7 +13,7 @@ module ApplicationHelper
   end
 
   def calendar_from(user)
-    from_month =  user.monthly_profit_losses.where.not(amount: 0).minimum('month') || Date.today.beginning_of_month
+    from_month = user.monthly_profit_losses.where.not(amount: 0).minimum('month') || Date.today.beginning_of_month
     from_month.months_ago(2).beginning_of_month
   end
 
@@ -30,7 +31,7 @@ module ApplicationHelper
   end
 
   def highlight(selector)
-    "$('#{selector}').effect('highlight', {color: '#{ Settings.effect.highlight.color }'}, #{ Settings.effect.highlight.duration });".html_safe
+    "$('#{selector}').effect('highlight', {color: '#{Settings.effect.highlight.color}'}, #{Settings.effect.highlight.duration});".html_safe
   end
 
   def fadeout_and_remove(selector)
@@ -38,17 +39,17 @@ module ApplicationHelper
   end
 
   def icon_show(enabled = true)
-    additional = enabled ? "" : "disabled"
+    additional = enabled ? '' : 'disabled'
     "<i class=\"icon-share-alt show_icon #{additional}\"></i>".html_safe
   end
 
   def icon_edit(enabled = true)
-    additional = enabled ? "" : "disabled"
+    additional = enabled ? '' : 'disabled'
     "<i class=\"icon-pencil edit_icon #{additional}\"></i>".html_safe
   end
 
   def icon_destroy(enabled = true)
-    additional = enabled ? "" : "disabled"
+    additional = enabled ? '' : 'disabled'
     "<i class=\"icon-trash destroy_icon #{additional}\"></i>".html_safe
   end
 end
