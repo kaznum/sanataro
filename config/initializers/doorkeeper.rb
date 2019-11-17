@@ -24,9 +24,7 @@ Doorkeeper.configure do
   admin_authenticator do |routes|
     def authenticate
       admin_user, admin_password = get_correct_credential
-      if admin_user.nil? || admin_password.nil?
-        return nil
-      end
+      return nil if admin_user.nil? || admin_password.nil?
 
       authenticate_or_request_with_http_basic do |username, password|
         username == admin_user && password == admin_password
@@ -34,19 +32,19 @@ Doorkeeper.configure do
     end
 
     def get_correct_credential
-      admin_user =  ENV['OAUTH_ADMIN_USER'].presence
+      admin_user = ENV['OAUTH_ADMIN_USER'].presence
       admin_password = ENV['OAUTH_ADMIN_PASSWORD'].presence
 
       begin
-        admin_user ||= Settings.oauth_admin_user
-        admin_password ||= Settings.oauth_admin_password
+        admin_user ||= GlobalSettings.oauth_admin_user
+        admin_password ||= GlobalSettings.oauth_admin_password
       rescue Settingslogic::MissingSetting
         admin_user = admin_password = nil
       end
 
       [admin_user, admin_password]
     end
-    authenticate || render(text: "Unauthorized", status: :unauthorized)
+    authenticate || render(text: 'Unauthorized', status: :unauthorized)
   end
 
   # Access token expiration time (default 2 hours).
@@ -66,5 +64,4 @@ Doorkeeper.configure do
   # fallsback to `:client_id` and `:client_secret` from `params` object
   # Check out the wiki for mor information on customization
   # client_credentials :from_basic, :from_params
-
 end

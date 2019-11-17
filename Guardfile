@@ -1,4 +1,4 @@
-guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAILS_ENV' => 'test' }, :test_unit => false do
+guard 'spork', cucumber_env: { 'RAILS_ENV' => 'test' }, rspec_env: { 'RAILS_ENV' => 'test' }, test_unit: false do
   watch('config/application.rb')
   watch('config/environment.rb')
   watch(%r{^config/environments/.+\.rb$})
@@ -6,10 +6,10 @@ guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAIL
   watch('spec/spec_helper.rb')
 end
 
-guard 'rspec', :version => 2, :cli => "--drb --color --format progress" do
-  watch('spec/spec_helper.rb')                       { "spec" }
-  watch('config/routes.rb')                          { "spec/routing" }
-  watch('app/controllers/application_controller.rb') { "spec/controllers" }
+guard 'rspec', version: 2, cli: '--drb --color --format progress' do
+  watch('spec/spec_helper.rb')                       { 'spec' }
+  watch('config/routes.rb')                          { 'spec/routing' }
+  watch('app/controllers/application_controller.rb') { 'spec/controllers' }
   watch(%r{^spec/.+_spec\.rb})
   watch(%r{^app/(.+)\.rb})                           { |m| "spec/#{m[1]}_spec.rb" }
   watch(%r{^app/(.+)_observer\.rb})                  { |m| "spec/#{m[1]}_spec.rb" }
@@ -18,9 +18,8 @@ guard 'rspec', :version => 2, :cli => "--drb --color --format progress" do
 end
 
 # The --drb option doesn't work with attr_protected in model/Item.rb.
-#guard 'cucumber',:cli => "--drb --no-profile --color --format progress --strict" do
+# guard 'cucumber',:cli => "--drb --no-profile --color --format progress --strict" do
 #  watch(%r{^features/.+\.feature$})
 #  watch(%r{^features/support/.+$})                      { 'features' }
 #  watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'features' }
-#end
-
+# end

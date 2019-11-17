@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Filters added to this controller will be run for all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
@@ -24,7 +23,7 @@ class ApplicationController < ActionController::Base
 
   def redirect_js_to(path)
     @path_to_redirect_to = path
-    render "common/redirect"
+    render 'common/redirect'
   end
 
   #

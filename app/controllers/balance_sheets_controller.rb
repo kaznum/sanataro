@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 class BalanceSheetsController < ApplicationController
   include MonthlyReports
 
@@ -7,8 +6,8 @@ class BalanceSheetsController < ApplicationController
 
     @accounts = @user.bankings
 
-    @bs_plus = { }
-    @bs_minus = { }
+    @bs_plus = {}
+    @bs_minus = {}
     @plus = []
     @minus = []
     @total_plus = @total_minus = 0
@@ -38,7 +37,7 @@ class BalanceSheetsController < ApplicationController
   private
 
   def _snapshot_of_month(month)
-    mpls = @user.monthly_profit_losses.where("month <= ?", month)
+    mpls = @user.monthly_profit_losses.where('month <= ?', month)
     bs = {}
     bs.default = 0
     mpls.each do |mpl|

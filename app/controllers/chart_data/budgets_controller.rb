@@ -13,18 +13,16 @@ class ChartData::BudgetsController < ApplicationController
     results = []
     accounts.each do |acc|
       mpl = @user.monthly_profit_losses.where(month: from_date, account_id: acc.id).where.not(amount: 0).first
-      if mpl
-        results << { label: acc.name, data: mpl.amount.abs }
-      end
+      results << { label: acc.name, data: mpl.amount.abs } if mpl
     end
 
     # unkown income/expense
     unknown_mpl = @user.monthly_profit_losses.where(month: from_date, account_id: -1).where.not(amount: 0).first
     if unknown_mpl
       if budget_type == :incomes && unknown_mpl.amount < 0
-        results << { label: t("label.unknown_income"), data: unknown_mpl.amount.abs }
+        results << { label: t('label.unknown_income'), data: unknown_mpl.amount.abs }
       elsif budget_type == :expenses && unknown_mpl.amount > 0
-        results << { label: t("label.unknown_expense"), data: unknown_mpl.amount.abs }
+        results << { label: t('label.unknown_expense'), data: unknown_mpl.amount.abs }
       end
     end
     respond_with results

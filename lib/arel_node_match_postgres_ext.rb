@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ArelExt
   module Visitors
     module PostgreSQL
@@ -8,6 +10,7 @@ module ArelExt
             alias_method_chain :visit_Arel_Nodes_DoesNotMatch, :format_sql92
           end
         end
+
         def visit_Arel_Nodes_Matches_with_format_sql92 o, a
           collector = visit_Arel_Nodes_Matches_without_format_sql92(o, a)
           if o.escape
@@ -35,4 +38,3 @@ end
 ActiveSupport.on_load(:active_record) do
   Arel::Visitors::PostgreSQL.send(:include, ArelExt::Visitors::PostgreSQL::InstanceMethods)
 end
-

@@ -14,8 +14,6 @@ User.all.each do |u|
 
     amount = amount_to - amount_from
 
-    if mpl.amount != amount
-      puts "user: #{u.id}, #{month_from}, Account: #{mpl.account_id}:#{Account.find(mpl.account_id).name}, MPL: #{mpl.amount}, REAL: #{amount}"
-    end
+    puts "user: #{u.id}, #{month_from}, Account: #{mpl.account_id}:#{Account.find(mpl.account_id).name}, MPL: #{mpl.amount}, REAL: #{amount}" if mpl.amount != amount
   end
 end

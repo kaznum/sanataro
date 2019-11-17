@@ -1,4 +1,3 @@
-# coding: utf-8
 class ChartData::YearlyAssetsController < ApplicationController
   include ChartData
   respond_to :json
@@ -14,16 +13,16 @@ class ChartData::YearlyAssetsController < ApplicationController
   private
 
   def _json_assets(accounts, date_since)
-    results = accounts.reduce({}) { |data, a|
+    results = accounts.reduce({}) do |data, a|
       data["account_#{a.id}"] = {
-        "label" => a.name,
-        "data" => _json_account_assets(a.id, date_since)
+        'label' => a.name,
+        'data' => _json_account_assets(a.id, date_since)
       }
       data
-    }
+    end
 
-    results["total"] = {
-      label: I18n.t("label.total"),
+    results['total'] = {
+      label: I18n.t('label.total'),
       data: _json_total_assets(accounts.map(&:id), date_since)
     }
 

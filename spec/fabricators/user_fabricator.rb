@@ -1,7 +1,7 @@
 Fabricator(:user) do
-  password "samplepass"
+  password 'samplepass'
   active true
-  email "xxxx@example.com"
-  confirmation "xxxxxxxxxx"
+  email 'xxxx@example.com'
+  confirmation 'xxxxxxxxxx'
   login 'sample'
 end

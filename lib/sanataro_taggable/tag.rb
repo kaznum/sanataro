@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 class Tag < ActiveRecord::Base
   has_many :taggings
   validates_presence_of :name
 
-  def self.parse(list)
+  def self.parse(tags_str)
     tag_names = []
-    return tag_names if list.blank?
+    return tag_names if tags_str.blank?
 
-    list.gsub!(/\"(.*?)\"\s*/) do
-      tag_names << $1
-      ""
+    tags_str = tags_str.gsub(/\"(.*?)\"\s*/) do
+      tag_names << Regexp.last_match(1)
+      ''
     end
-    tag_names.concat(list.gsub(/,/, " ").split(/\s/)).delete_if { |t| t.empty? }.map(&:downcase).uniq
+    (tag_names | tags_str.gsub(/,/, ' ').split(/\s/)).map(&:presence).compact.map(&:downcase).uniq
   end
 
   def to_s

@@ -12,7 +12,7 @@
   ! $("##{id}").html("#{default_msg}");
 - else
   ! $("##{id}").html("#{errors.to_a.join("<br/>")}");
-! $('##{id}').effect('pulsate', { times:#{Settings.effect.pulsate.times} }, #{Settings.effect.pulsate.duration});
+! $('##{id}').effect('pulsate', { times:#{GlobalSettings.effect.pulsate.times} }, #{GlobalSettings.effect.pulsate.duration});
 
 - if after
   ! #{after}

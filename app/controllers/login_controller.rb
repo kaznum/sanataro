@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 class LoginController < ApplicationController
-  before_action :required_login, except: [:login, :do_login, :create_user, :do_create_user, :do_logout, :confirmation]
+  before_action :required_login, except: %i[login do_login create_user do_create_user do_logout confirmation]
   before_action :_render_login_if_forced!, only: [:login]
   before_action :_autologin_if_required!, only: [:login]
 
@@ -15,7 +14,7 @@ class LoginController < ApplicationController
   def do_login
     _do_login(params[:login], params[:password], params[:autologin], false, params[:only_add])
     unless session[:user_id]
-      render_js_error id: "warning", default_message: t("error.user_or_password_is_invalid")
+      render_js_error id: 'warning', default_message: t('error.user_or_password_is_invalid')
       return
     end
 
@@ -55,7 +54,7 @@ class LoginController < ApplicationController
 
     @user.deliver_signup_confirmation
   rescue ActiveRecord::RecordInvalid
-    render_js_error id: "warning", errors: @user.errors, default_message: ''
+    render_js_error id: 'warning', errors: @user.errors, default_message: ''
   end
 
   def confirmation
@@ -95,7 +94,7 @@ class LoginController < ApplicationController
 
     user = _get_user_by_login_and_autologin_key(al_params[:login], al_params[:autologin_key])
     if user
-      _do_login(user.login, nil, "1", true, al_params[:only_add])
+      _do_login(user.login, nil, '1', true, al_params[:only_add])
       redirect_to(al_params[:only_add] ? simple_input_url : current_entries_url)
       false
     else
@@ -126,7 +125,7 @@ class LoginController < ApplicationController
 
     if is_autologin
       # do nothing
-    elsif set_autologin == "1"
+    elsif set_autologin == '1'
       key = _secret_key
       _store_cookies(user.login, key, is_only_add)
       user.autologin_keys.create!(autologin_key: key)

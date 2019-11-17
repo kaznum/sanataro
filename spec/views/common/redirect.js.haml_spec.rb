@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/common/redirect", :type => :view do
+describe '/common/redirect', type: :view do
   before(:each) do
     @path_to_redirect_to = 'http://www.example.com/'
     render

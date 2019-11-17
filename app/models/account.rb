@@ -1,11 +1,12 @@
-# -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 class Account < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
   extend Memoist
 
   belongs_to :user
-  has_one :payment_relation, foreign_key: :credit_account_id, class_name: "CreditRelation"
-  has_many :credit_relations, foreign_key: :payment_account_id, class_name: "CreditRelation"
+  has_one :payment_relation, foreign_key: :credit_account_id, class_name: 'CreditRelation'
+  has_many :credit_relations, foreign_key: :payment_account_id, class_name: 'CreditRelation'
 
   before_validation :trim_bgcolor_if_needed
   before_destroy :error_if_items_exist
@@ -20,12 +21,10 @@ class Account < ActiveRecord::Base
 
   scope :active, -> { where(active: true) }
 
-  default_scope { order("order_no") }
+  default_scope { order('order_no') }
 
   def trim_bgcolor_if_needed
-    if bgcolor =~ /^#/
-      self.bgcolor = bgcolor.gsub("#", "")
-    end
+    self.bgcolor = bgcolor.gsub('#', '') if bgcolor =~ /^#/
   end
 
   def credit_due_date(action_date)
@@ -51,19 +50,19 @@ class Account < ActiveRecord::Base
       # 前月までのassetを算出
       asset = asset_to_last_month(user, account_id, date, except: my_item)
       # 今月のassetの変化を算出
-      if my_item.nil?
-        asset += asset_beginning_of_month_to_date(user, account_id, date)
-      elsif my_item.action_date == date
-        asset += asset_to_item_of_this_month_except(user, account_id, date, my_id)
-      else
-        asset += asset_to_date_of_this_month_except(user, account_id, date, my_id)
-      end
+      asset += if my_item.nil?
+                 asset_beginning_of_month_to_date(user, account_id, date)
+               elsif my_item.action_date == date
+                 asset_to_item_of_this_month_except(user, account_id, date, my_id)
+               else
+                 asset_to_date_of_this_month_except(user, account_id, date, my_id)
+               end
 
       asset
     end
 
     def asset_of_month(user, account_ids, month)
-      user.monthly_profit_losses.where(account_id: account_ids).where("month <= ?", month.beginning_of_month).sum(:amount)
+      user.monthly_profit_losses.where(account_id: account_ids).where('month <= ?', month.beginning_of_month).sum(:amount)
     end
   end
 
@@ -72,10 +71,7 @@ class Account < ActiveRecord::Base
   def error_if_items_exist
     items_table = Item.arel_table
     item = Item.where(items_table[:from_account_id].eq(id).or(items_table[:to_account_id].eq(id))).first
-    if item
-      errors[:base] << I18n.t('error.already_used_account') +
-        "#{I18n.l(item.action_date)} #{item.name} #{number_to_currency(item.amount)}"
-    end
+    errors[:base] << I18n.t('error.already_used_account') + "#{I18n.l(item.action_date)} #{item.name} #{number_to_currency(item.amount)}" if item
     errors.empty?
   end
 
@@ -86,9 +82,7 @@ class Account < ActiveRecord::Base
   def error_if_credit_relations_exist
     cr_table = CreditRelation.arel_table
     credit_rel = CreditRelation.where(cr_table[:credit_account_id].eq(id).or(cr_table[:payment_account_id].eq(id))).first
-    if credit_rel
-      errors[:base] << I18n.t("error.already_has_relation_to_credit")
-    end
+    errors[:base] << I18n.t('error.already_has_relation_to_credit') if credit_rel
     errors.empty?
   end
 
@@ -117,7 +111,7 @@ class Account < ActiveRecord::Base
     end
 
     def asset_to_item_of_this_month_except(user, account_id, date, item_id)
-      user.items.where("(action_date >= ? and action_date < ? and id <> ?) or (action_date = ? and id < ?)", date.beginning_of_month, date, item_id,  date, item_id).scoping do
+      user.items.where('(action_date >= ? and action_date < ? and id <> ?) or (action_date = ? and id < ?)', date.beginning_of_month, date, item_id, date, item_id).scoping do
         expense = Item.where(from_account_id: account_id).sum(:amount)
         income = Item.where(to_account_id: account_id).sum(:amount)
         income - expense

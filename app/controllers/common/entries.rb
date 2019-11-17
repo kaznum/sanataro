@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 module Common
   module Entries
     def self.included(base)
@@ -36,7 +35,6 @@ module Common
       def update
         id = params[:id].to_i
         @item, @updated_item_ids, @deleted_item_ids = Teller.update_entry(@user, id, arguments_for_saving)
-
       end
 
       def destroy
@@ -54,7 +52,7 @@ module Common
         return {} if params[:entry].nil?
 
         prms = {}
-        params[:entry].each { |k, v|
+        params[:entry].each do |k, v|
           attr = k.to_sym
           case attr
           when :amount, :adjustment_amount
@@ -64,7 +62,7 @@ module Common
           else
             prms[attr] = v
           end
-        }
+        end
         prms
       end
 
@@ -107,9 +105,7 @@ module Common
       def _get_date_by_specific_year_and_month_or_today(year, month)
         action_date = nil
         begin
-          unless today.beginning_of_month == Date.new(year.to_i, month.to_i).beginning_of_month
-            action_date = Date.new(year.to_i, month.to_i)
-          end
+          action_date = Date.new(year.to_i, month.to_i) unless today.beginning_of_month == Date.new(year.to_i, month.to_i).beginning_of_month
         rescue ArgumentError
           action_date = today
         end
@@ -118,7 +114,7 @@ module Common
 
       def _create_entry
         Item.transaction do
-          @item, affected_item_ids = Teller.create_entry(@user,  arguments_for_saving)
+          @item, affected_item_ids = Teller.create_entry(@user, arguments_for_saving)
           affected_item_ids << @item.try(:id)
           @updated_item_ids = affected_item_ids.reject(&:nil?).uniq
         end

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 class ProfitLossesController < ApplicationController
   include MonthlyReports
 
@@ -24,7 +23,7 @@ class ProfitLossesController < ApplicationController
   private
 
   def _find_account_id_and_amount_by_month(month)
-    pls = { }
+    pls = {}
     pls.default = 0
     @user.monthly_profit_losses.where(month: month).each { |pl| pls[pl.account_id] = pl.amount }
     pls
@@ -45,14 +44,14 @@ class ProfitLossesController < ApplicationController
 
     if adjustment_amount < 0
       unknown_account = @user.incomes.build { |a| a.id = -1 }
-      unknown_account.name = I18n.t("label.unknown_income")
+      unknown_account.name = I18n.t('label.unknown_income')
       @account_incomes << unknown_account
       @total_income -= adjustment_amount
     end
 
     if adjustment_amount > 0
       unknown_account = @user.expenses.build { |a| a.id = -1 }
-      unknown_account.name = I18n.t("label.unknown_expense")
+      unknown_account.name = I18n.t('label.unknown_expense')
       @account_expenses << unknown_account
       @total_expense += adjustment_amount
     end

@@ -47,7 +47,7 @@ Sanataro::Application.configure do
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
   # config.log_level = :debug
- 
+
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]
 
@@ -73,7 +73,7 @@ Sanataro::Application.configure do
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
   config.action_mailer.delivery_method = :sendmail
-  config.action_mailer.default_url_options = { host: "sanataro.example.com" }
+  config.action_mailer.default_url_options = { host: 'sanataro.example.com' }
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
@@ -81,5 +81,4 @@ Sanataro::Application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
 end

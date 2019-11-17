@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/account_statuses/show", :type => :view do
+describe '/account_statuses/show', type: :view do
   fixtures :all
 
   before(:each) do
@@ -12,7 +12,7 @@ describe "/account_statuses/show", :type => :view do
     render
   end
 
-  subject {  rendered }
+  subject { rendered }
   it { is_expected.to match(/\$\("#digest_body"\).html\(/) }
   it { is_expected.to match(/\$\("#digest_title"\).html\(/) }
 end

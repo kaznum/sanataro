@@ -20,12 +20,12 @@ class Admin::UsersController < ApplicationController
   end
 
   def get_correct_credential
-    admin_user =  ENV['ADMIN_USER'].presence
+    admin_user = ENV['ADMIN_USER'].presence
     admin_password = ENV['ADMIN_PASSWORD'].presence
 
     begin
-      admin_user ||= Settings.admin_user
-      admin_password ||= Settings.admin_password
+      admin_user ||= GlobalSettings.admin_user
+      admin_password ||= GlobalSettings.admin_password
     rescue Settingslogic::MissingSetting
       admin_user = admin_password = nil
     end

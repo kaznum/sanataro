@@ -2,14 +2,14 @@
 %html{:lang => "ja"}
   %head
     %meta{:charset => "utf-8"}
-    %meta{name: "application-name", content: "#{Settings.product_name}"}
+    %meta{name: "application-name", content: "#{GlobalSettings.product_name}"}
     %meta{name: "author", content: "#{t('label.author')}"}
     %meta{:content => "#{t('headers.keywords')}", :name => "keywords"}
     %meta{:content => "#{t('headers.description')}", :name => "description"}
     = favicon_link_tag asset_path('favicon.ico')
     %meta{:content => "width=device-width", :name => "viewport"}
     = csrf_meta_tags
-    %title= Settings.product_name
+    %title= GlobalSettings.product_name
     /[if IE]
       <script type="text/javascript">
       document.createElement( 'header' );
@@ -21,7 +21,7 @@
       document.createElement( 'time' );
       </script>
     = stylesheet_link_tag "application"
-    - unless Settings.enable_tweet
+    - unless GlobalSettings.enable_tweet
       = stylesheet_link_tag "hide_tweet_button"
     = javascript_include_tag "application"
     = yield :append_head
@@ -30,7 +30,7 @@
       %a{ href: "https://github.com/kaznum/sanataro/" }
         %img{ style: "position: absolute; top: 0; right: 0; border: 0;z-index: 99999", src: "https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png", alt: "Fork me on GitHub" }
     .container
-      = nav_bar inverse: true, fixed: :top, brand: Settings.product_name, responsive: true, brand_link: (@user ? current_entries_url : root_url) do
+      = nav_bar inverse: true, fixed: :top, brand: GlobalSettings.product_name, responsive: true, brand_link: (@user ? current_entries_url : root_url) do
         = menu_group do
           - if @user
             - if params[:year].blank? || params[:month].blank?

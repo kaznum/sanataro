@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 class ChartData::YearlyBudgetsController < ApplicationController
   include ChartData
   respond_to :json
@@ -21,27 +20,27 @@ class ChartData::YearlyBudgetsController < ApplicationController
     if %w(expense income total).include?(params[:budget_type])
       true
     else
-      render status: :not_acceptable, text: "Not Acceptable"
+      render status: :not_acceptable, text: 'Not Acceptable'
       false
     end
   end
 
   def _formatted_income_or_expense_data(budget_type, date_since)
     accounts = @user.send(budget_type.pluralize.to_sym).to_a
-    accounts << Account.new { |a|
+    accounts << Account.new do |a|
       a.id = -1
       a.name = 'Unknown'
-    }
+    end
 
-    results = accounts.reduce({}) { |ret, acc|
-      amounts = (0..11).map { |i|
+    results = accounts.reduce({}) do |ret, acc|
+      amounts = (0..11).map do |i|
         month = date_since.months_since(i)
         amount = _monthly_amount_per_account(month, budget_type, acc.id)
         [month.to_milliseconds, amount.abs]
-      }
+      end
       ret["account_#{acc.id}"] = { label: acc.name, data: amounts }
       ret
-    }
+    end
     results
   end
 
@@ -80,7 +79,7 @@ class ChartData::YearlyBudgetsController < ApplicationController
     expense_ids = @user.expense_ids
     income_ids = @user.income_ids
 
-    (0..11).reduce({ incomes: [], expenses: [], totals: [] }) { |ret, i|
+    (0..11).reduce(incomes: [], expenses: [], totals: []) do |ret, i|
       month = date_since.months_since(i)
       totals = _monthly_total(month, expense_ids, income_ids)
       ret[:incomes] << [month, totals[:income].abs]
@@ -89,7 +88,7 @@ class ChartData::YearlyBudgetsController < ApplicationController
       # don't use int.abs because total_amount could be minus.
       ret[:totals] << [month, (-1) * totals[:total]]
       ret
-    }
+    end
   end
 
   def _monthly_total(month, expense_ids, income_ids)

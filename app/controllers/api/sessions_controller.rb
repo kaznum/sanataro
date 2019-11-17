@@ -14,9 +14,7 @@ class Api::SessionsController < ApplicationController
 
     user = User.find_by_login_and_active(login, true)
 
-    if user && user.password_correct?(password)
-      authenticated = true
-    end
+    authenticated = true if user && user.password_correct?(password)
 
     if authenticated
       session[:user_id] = user.id

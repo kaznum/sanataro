@@ -11,11 +11,11 @@ gem 'rails', '>= 4.2.11.1'
 # gem 'unicorn'
 
 group :development, :test do
-  gem "rspec-rails", ">= 2.13.1"
+  gem 'fabrication'
+  gem 'launchy'
   gem 'rspec-activemodel-mocks'
   gem 'rspec-collection_matchers'
-  gem "launchy"
-  gem "fabrication"
+  gem 'rspec-rails', '>= 2.13.1'
   unless ENV['TRAVIS']
     if RUBY_VERSION >= '2.0.0'
       gem 'byebug'
@@ -24,62 +24,62 @@ group :development, :test do
     end
   end
   gem 'dotenv-rails'
+  gem 'rubocop', require: false
 end
 
-
 group :test do
-  gem "simplecov"
+  gem 'capybara', '>= 2.2.0'
+  gem 'capybara-webkit', '>= 1.0.0'
+  gem 'cucumber-rails', require: false
+  gem 'growl'
+  gem 'rb-fsevent'
+  gem 'simplecov'
   gem 'spork'
-  gem "cucumber-rails", require: false
-  gem "capybara-webkit", '>= 1.0.0'
-  gem "capybara", '>= 2.2.0'
-  gem "growl"
-  gem "rb-fsevent"
-  gem "webrat"
+  gem 'webrat'
 
-  gem "database_cleaner", '>= 1.2.0'
-  gem "guard-rspec"
-  gem "guard-cucumber"
-  gem "guard-spork"
+  gem 'database_cleaner', '>= 1.2.0'
+  gem 'guard-cucumber'
+  gem 'guard-rspec'
+  gem 'guard-spork'
 
-  gem "minitest"
+  gem 'minitest'
 end
 
 group :production do
-  gem "therubyracer", '>= 0.11.4'
   gem 'libv8', '>= 3.11.8.12'
   gem 'redis-rails'
+  gem 'therubyracer', '>= 0.11.4'
   # CVE-2017-1000248
   gem 'redis-store', '>= 1.4.0'
 end
 
 platforms :ruby do
-  gem "mysql2"
-  gem 'sqlite3'
+  gem 'mysql2'
   gem 'pg'
+  gem 'sqlite3'
 end
 
 group :assets do
-  gem 'sass-rails'
   gem 'coffee-rails'
+  gem 'sass-rails'
   gem 'uglifier'
 end
 
-gem "i18n"
+gem 'i18n'
 
-gem "haml", '>= 5.0.0'
+gem 'haml', '>= 5.0.0'
 
 gem 'haml-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails', '>= 5.0.0'
-gem 'settingslogic'
 gem 'memoist'
+gem 'settingslogic'
 
 # currently twitter bootstrap 3 is not supported in Sanataro
 gem 'twitter-bootstrap-rails', '>= 2.2.8', '< 3'
 
-gem 'rails_emoji'
 gem 'jbuilder'
+gem 'rails_emoji'
 gem 'underscore-rails'
 
 gem 'doorkeeper', '>= 0.7.1'

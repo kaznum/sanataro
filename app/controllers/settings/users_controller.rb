@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 class Settings::UsersController < ApplicationController
   before_action :required_login
 
@@ -13,7 +12,7 @@ class Settings::UsersController < ApplicationController
                                        password_confirmation: params[:password_confirmation])
     session[:user_id] = @user.id
   rescue ActiveRecord::RecordInvalid
-    render_js_error id: "warning", errors: @user_to_change.errors, default_message: t('error.input_is_invalid')
+    render_js_error id: 'warning', errors: @user_to_change.errors, default_message: t('error.input_is_invalid')
   end
 
 end

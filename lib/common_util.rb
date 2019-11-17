@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+# frozen_string_literal: true
+
 class CommonUtil
   class << self
     def remove_comma(str)
@@ -31,5 +32,4 @@ class CommonUtil
       [Regexp.last_match(1).to_i, Regexp.last_match(2).to_i]
     end
   end
-
 end
