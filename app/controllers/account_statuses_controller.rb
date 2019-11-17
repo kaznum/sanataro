@@ -15,7 +15,7 @@ class AccountStatusesController < ApplicationController
 
   def known_account_statuses_on(date)
     retval = {}
-    [:bankings, :incomes, :expenses].each do |type|
+    %i[bankings incomes expenses].each do |type|
       retval[type] = @user.send(type).active.map { |a| [a, a.status_of_the_day(date)] }
     end
     retval

@@ -379,7 +379,7 @@ describe EntriesController, type: :controller do
     context 'after login,' do
       before { dummy_login }
 
-      [:item1, :adjustment2, :credit_refill31].each do |item_name|
+      %i[item1 adjustment2 credit_refill31].each do |item_name|
         shared_examples_for "execute edit successfully of #{item_name.to_s}" do
           describe 'resposne' do
             subject { response }

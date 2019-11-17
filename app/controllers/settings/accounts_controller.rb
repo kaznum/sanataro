@@ -1,11 +1,11 @@
 class Settings::AccountsController < ApplicationController
   include ActionView::Helpers::NumberHelper
   before_action :required_login
-  before_action :_retrieve_account_or_redirect!, only: [:edit, :update, :destroy, :show]
+  before_action :_retrieve_account_or_redirect!, only: %i[edit update destroy show]
 
   def index
     @type = (params[:type].presence || 'banking').to_sym
-    unless [:banking, :expense, :income].include?(@type)
+    unless %i[banking expense income].include?(@type)
       redirect_to login_url
       return
     end
