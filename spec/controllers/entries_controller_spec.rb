@@ -755,7 +755,6 @@ describe EntriesController, type: :controller do
           end
 
           describe 'amount of Montly profit loss of from_account' do
-
             subject { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id) }
 
             describe '#amount' do
@@ -800,7 +799,6 @@ describe EntriesController, type: :controller do
           end
 
           describe 'specified item' do
-
             it 'should does not exist' do
               expect { Item.find(@item.id) }.to raise_error(ActiveRecord::RecordNotFound)
             end
@@ -1460,7 +1458,7 @@ describe EntriesController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to render_js_error id: 'warning'}
+          it { is_expected.to render_js_error id: 'warning' }
         end
 
         describe 'count of items' do
@@ -2235,7 +2233,6 @@ describe EntriesController, type: :controller do
 
         context "create adjustment to the same day as another ajustment's one," do
           context 'input values are valid,' do
-
             let(:existing_adj) { items(:adjustment2) }
             let(:future_adj) { items(:adjustment4) }
             let(:action) {
@@ -3366,7 +3363,6 @@ describe EntriesController, type: :controller do
       end
 
       describe 'update item' do
-
         context 'with missing params' do
           before do
             @action = -> { xhr :put, :update, id: items(:item1).id, year: 2008, month: 2 }

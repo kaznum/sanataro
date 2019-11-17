@@ -8,8 +8,8 @@ class BalanceSheetsController < ApplicationController
 
     @accounts = @user.bankings
 
-    @bs_plus = { }
-    @bs_minus = { }
+    @bs_plus = {}
+    @bs_minus = {}
     @plus = []
     @minus = []
     @total_plus = @total_minus = 0

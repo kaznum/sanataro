@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe :routes, type: :routing do
-
   describe 'root' do
     describe 'GET /' do
       subject { get('/') }
@@ -109,17 +108,17 @@ describe :routes, type: :routing do
 
     describe 'named_route' do
       describe 'entries' do
-        subject { { get: current_entries_path }}
+        subject { { get: current_entries_path } }
         it { is_expected.to route_to(controller: 'entries', action: 'index') }
       end
 
       describe 'profit_losses' do
-        subject { { get: current_profit_losses_path }}
+        subject { { get: current_profit_losses_path } }
         it { is_expected.to route_to(controller: 'profit_losses', action: 'index') }
       end
 
       describe 'balance_sheets' do
-        subject { { get: current_balance_sheets_path }}
+        subject { { get: current_balance_sheets_path } }
         it { is_expected.to route_to(controller: 'balance_sheets', action: 'index') }
       end
     end
@@ -127,7 +126,7 @@ describe :routes, type: :routing do
 
   describe 'months/2000/3/..' do
     describe 'GET "entries"' do
-      subject { { get: '/months/2008/3/entries' }}
+      subject { { get: '/months/2008/3/entries' } }
       it { is_expected.to route_to(controller: 'entries', action: 'index', year: '2008', month: '3') }
     end
     describe 'GET "profit_losses"' do
@@ -143,72 +142,72 @@ describe :routes, type: :routing do
 
   describe '/tags/:tag/..' do
     describe 'GET "entries"' do
-      subject { { get: '/tags/hogehoge/entries' }}
+      subject { { get: '/tags/hogehoge/entries' } }
       it { is_expected.to route_to(controller: 'entries', action: 'index', tag: 'hogehoge') }
     end
 
     describe 'named route' do
-      subject { { get: tag_entries_path('hogehoge') }}
+      subject { { get: tag_entries_path('hogehoge') } }
       it { is_expected.to route_to(controller: 'entries', action: 'index', tag: 'hogehoge') }
     end
   end
 
   describe '/tags/:tag/entries/:entry_id/confirmation_required' do
     describe 'PUT "confirmation_required"' do
-      subject { { put: '/tags/hogehoge/entries/10/confirmation_required' }}
+      subject { { put: '/tags/hogehoge/entries/10/confirmation_required' } }
       it { is_expected.to route_to(controller: 'confirmation_requireds', action: 'update', tag: 'hogehoge', entry_id: '10') }
     end
 
     describe 'named route' do
-      subject { { put: tag_entry_confirmation_required_path('hogehoge', 10) }}
+      subject { { put: tag_entry_confirmation_required_path('hogehoge', 10) } }
       it { is_expected.to route_to(controller: 'confirmation_requireds', action: 'update', tag: 'hogehoge', entry_id: '10') }
     end
   end
 
   describe '/marks/:mark/..' do
     describe 'GET "entries"' do
-      subject { { get: '/marks/hogehoge/entries' }}
+      subject { { get: '/marks/hogehoge/entries' } }
       it { is_expected.to route_to(controller: 'entries', action: 'index', mark: 'hogehoge') }
     end
 
     describe 'named route' do
-      subject { { get: mark_entries_path('hogehoge') }}
+      subject { { get: mark_entries_path('hogehoge') } }
       it { is_expected.to route_to(controller: 'entries', action: 'index', mark: 'hogehoge') }
     end
   end
 
   describe '/marks/:mark/entries/:entry_id/confirmation_required' do
     describe 'PUT "confirmation_required"' do
-      subject { { put: '/marks/hogehoge/entries/10/confirmation_required' }}
+      subject { { put: '/marks/hogehoge/entries/10/confirmation_required' } }
       it { is_expected.to route_to(controller: 'confirmation_requireds', action: 'update', mark: 'hogehoge', entry_id: '10') }
     end
 
     describe 'named route' do
-      subject { { put: mark_entry_confirmation_required_path('hogehoge', 10) }}
+      subject { { put: mark_entry_confirmation_required_path('hogehoge', 10) } }
       it { is_expected.to route_to(controller: 'confirmation_requireds', action: 'update', mark: 'hogehoge', entry_id: '10') }
     end
   end
 
   describe '/keywords/:keyword/..' do
     describe 'GET "entries"' do
-      subject { { get: '/keywords/hogehoge/entries' }}
+      subject { { get: '/keywords/hogehoge/entries' } }
       it { is_expected.to route_to(controller: 'entries', action: 'index', keyword: 'hogehoge') }
     end
 
     describe 'named route' do
-      subject { { get: keyword_entries_path('hogehoge') }}
+      subject { { get: keyword_entries_path('hogehoge') } }
       it { is_expected.to route_to(controller: 'entries', action: 'index', keyword: 'hogehoge') }
     end
   end
 
   describe '/keywords/:keyword/entries/:entry_id/confirmation_required' do
     describe 'PUT "confirmation_required"' do
-      subject { { put: '/keywords/hogehoge/entries/10/confirmation_required' }}
+      subject { { put: '/keywords/hogehoge/entries/10/confirmation_required' } }
       it { is_expected.to route_to(controller: 'confirmation_requireds', action: 'update', keyword: 'hogehoge', entry_id: '10') }
     end
 
     describe 'named route' do
-      subject { { put: keyword_entry_confirmation_required_path('hogehoge', 10) }}
+      subject { { put: keyword_entry_confirmation_required_path('hogehoge', 10) } }
       it { is_expected.to route_to(controller: 'confirmation_requireds', action: 'update', keyword: 'hogehoge', entry_id: '10') }
     end
   end
@@ -323,7 +322,6 @@ describe :routes, type: :routing do
   end
 
   describe 'chart_data' do
-
     %w(assets budgets yearly_assets yearly_budgets).each do |controller|
       describe "get chart_data/#{controller}" do
         subject { get("/chart_data/#{controller}") }

@@ -66,5 +66,4 @@ Doorkeeper.configure do
   # fallsback to `:client_id` and `:client_secret` from `params` object
   # Check out the wiki for mor information on customization
   # client_credentials :from_basic, :from_params
-
 end

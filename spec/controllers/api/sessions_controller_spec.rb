@@ -117,7 +117,6 @@ describe Api::SessionsController, type: :controller do
   end
 
   describe '#destroy' do
-
     describe 'when user has not been logged in,' do
       before { delete :destroy }
       describe 'response' do

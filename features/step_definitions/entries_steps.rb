@@ -30,7 +30,7 @@ end
   find('#input_item_area #entry_adjustment_amount')
 end
 
-前提 /^(.+)年(.+)月の残高調整登録ページを表示している$/ do |year,month|
+前提 /^(.+)年(.+)月の残高調整登録ページを表示している$/ do |year, month|
   step %{I am on ログイン}
   step %{I fill in "login" with "user1"}
   step %{I fill in "password" with "123456"}
@@ -40,4 +40,3 @@ end
   step %{I follow "残高調整の登録"}
   find('#input_item_area #entry_adjustment_amount')
 end
-

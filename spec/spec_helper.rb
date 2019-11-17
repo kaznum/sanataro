@@ -99,7 +99,6 @@ RSpec.configure do |config|
     xhr :post, :create, *params
     @controller = orig_controller
   end
-
 end
 
 RSpec::Matchers.define :redirect_by_js_to do |path|

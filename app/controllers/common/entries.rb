@@ -37,7 +37,6 @@ module Common
       def update
         id = params[:id].to_i
         @item, @updated_item_ids, @deleted_item_ids = Teller.update_entry(@user, id, arguments_for_saving)
-
       end
 
       def destroy

@@ -157,4 +157,3 @@ show_me_the_page = lambda { step %{show me the page} }
 
 # backword-compat for old japanese translation.
 ならば /^デバッグ(?:のため)?$/, &show_me_the_page
-

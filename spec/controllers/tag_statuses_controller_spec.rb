@@ -17,9 +17,9 @@ describe TagStatusesController, type: :controller do
       before do
         dummy_login
         # test data
-        create_entry entry: { action_date: '2008/2/3', name: 'テスト1' , amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, tag_list: 'abc def' }, year: 2008, month: 2
-        create_entry entry: { action_date: '2008/2/3',  name: 'テスト2' , amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, tag_list: 'abc ' }, year: 2008, month: 2
-        create_entry entry: { action_date: '2008/2/3',  name: 'テスト3' , amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, tag_list: 'def' }, year: 2008, month: 2
+        create_entry entry: { action_date: '2008/2/3', name: 'テスト1', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, tag_list: 'abc def' }, year: 2008, month: 2
+        create_entry entry: { action_date: '2008/2/3',  name: 'テスト2', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, tag_list: 'abc ' }, year: 2008, month: 2
+        create_entry entry: { action_date: '2008/2/3',  name: 'テスト3', amount: '10,000', from_account_id: accounts(:bank1).id, to_account_id: accounts(:expense3).id, tag_list: 'def' }, year: 2008, month: 2
         xhr :get, :show
       end
 

@@ -88,7 +88,6 @@ describe Settings::AccountsController, type: :controller do
   end
 
   describe '#create' do
-
     context 'before login,' do
       before do
         xhr :post, :create, type: 'banking', account_name: 'hogehoge', order_no: '10'
@@ -168,7 +167,6 @@ describe Settings::AccountsController, type: :controller do
       end
 
       context 'when method is xhr get,' do
-
         context 'with invalid params[:id],' do
           before do
             xhr :get, :edit, id: 4_321_431
@@ -298,7 +296,6 @@ describe Settings::AccountsController, type: :controller do
       end
 
       context 'with xhr put method,' do
-
         context 'with invalid params[:id],' do
           before do
             xhr :put, :update, id: 4_314_321, account_name: 'hogehoge', order_no: '100', bgcolor: 'cccccc', use_bgcolor: '1'
@@ -318,7 +315,6 @@ describe Settings::AccountsController, type: :controller do
               subject { assigns(:user).all_accounts[accounts(:bank1).id] }
               it { is_expected.to eq('hogehoge') }
             end
-
           end
 
           describe 'updated account record' do

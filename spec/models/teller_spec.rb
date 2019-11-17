@@ -418,7 +418,6 @@ describe Teller, type: :model do
             it 'has 1 item' do
               expect(subject.size).to eq(1)
             end
-
           end
 
           describe 'affected item' do
@@ -745,7 +744,6 @@ describe Teller, type: :model do
               it { is_expected.to eq(10_000) }
             end
           end
-
         end
 
         describe 'affected_item_ids' do
@@ -773,11 +771,12 @@ describe Teller, type: :model do
           @cr1.save!
 
           @create = lambda { @item, @affected_item_ids, @is_error =
-            Teller.create_entry(users(:user1),
-                                action_date: Date.new(2008, 2, 10),
-                                name: 'テスト10', amount: 10_000,
-                                from_account_id: accounts(:credit4).id,
-                                to_account_id: accounts(:expense3).id) }
+                               Teller.create_entry(users(:user1),
+                                                   action_date: Date.new(2008, 2, 10),
+                                                   name: 'テスト10', amount: 10_000,
+                                                   from_account_id: accounts(:credit4).id,
+                                                   to_account_id: accounts(:expense3).id)
+}                    
         end
 
         let(:credit_item) {

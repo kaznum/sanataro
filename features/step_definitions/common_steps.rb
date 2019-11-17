@@ -7,7 +7,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'support', 'sel
   path = URI.parse(current_url).path
   begin
     Timeout.timeout(Capybara.default_max_wait_time) do
-      while(path != path_to(page_name)) do
+      while (path != path_to(page_name)) do
         sleep 0.1
         path = URI.parse(current_url).path
       end
@@ -22,4 +22,3 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'support', 'sel
     assert(false, "'#{page_name}'ページにリダイレクトしませんでした。")
   end
 end
-

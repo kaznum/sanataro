@@ -112,4 +112,3 @@ class EntriesController < ApplicationController
     render_js_error(id: warning_selector, errors: ex.record.errors.full_messages, default_message: t('error.input_is_invalid'))
   end
 end
-

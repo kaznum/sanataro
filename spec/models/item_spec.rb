@@ -121,7 +121,6 @@ describe Item, type: :model do
           subject { @is_saved }
           it { is_expected.to be_truthy }
         end
-
       end
 
       context 'when from_account_id is not owned by user,' do
@@ -804,7 +803,6 @@ describe Item, type: :model do
             item.save!
             @created_ids << item.id
           end
-
         end
         @from_date = Date.new(2008, 9, 1)
         @to_date = Date.new(2008, 9, 30)

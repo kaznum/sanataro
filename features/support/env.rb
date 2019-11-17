@@ -5,12 +5,10 @@ Spork.prefork do
   # Loading more in this block will cause your tests to run faster. However,
   # if you change any configuration or code from libraries loaded here, you'll
   # need to restart spork for it take effect.
-
 end
 
 Spork.each_run do
   # This code will be run each time you run your specs.
-
 end
 
 # --- Instructions ---
@@ -89,20 +87,20 @@ end
 #
 
 
-#Before('@no-txn,@selenium,@culerity,@celerity,@javascript') do
+# Before('@no-txn,@selenium,@culerity,@celerity,@javascript') do
 #  DatabaseCleaner.strategy = :truncation, {:except => %w[widgets]}
-#end
+# end
 
-#Before('~@no-txn', '~@selenium', '~@culerity', '~@celerity', '~@javascript') do
+# Before('~@no-txn', '~@selenium', '~@culerity', '~@celerity', '~@javascript') do
 #  DatabaseCleaner.strategy = :transaction
-#end
+# end
 
 Capybara.javascript_driver = :webkit
 
 Before do
   ActiveRecord::FixtureSet::reset_cache
   fixtures_folder = File.join(Rails.root, 'spec', 'fixtures')
-  fixtures = Dir[File.join(fixtures_folder, '*.yml')].map {|f| File.basename(f, '.yml') }
+  fixtures = Dir[File.join(fixtures_folder, '*.yml')].map { |f| File.basename(f, '.yml') }
   ActiveRecord::FixtureSet::create_fixtures(fixtures_folder, fixtures)
 end
 
@@ -132,4 +130,3 @@ module WaitForAjax
   end
 end
 World(WaitForAjax)
-

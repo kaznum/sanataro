@@ -28,7 +28,7 @@ class Settings::AccountsController < ApplicationController
 
   def update
     name = params[:account_name]
-    order_no  = params[:order_no]
+    order_no = params[:order_no]
     bgcolor = params[:use_bgcolor] == '1' ? params[:bgcolor].presence : nil
 
     @account.update_attributes!(name: name, order_no: order_no, bgcolor: bgcolor)

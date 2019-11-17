@@ -1,1 +1,1 @@
-class InvalidDate < Exception ; end
+class InvalidDate < Exception; end

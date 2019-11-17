@@ -1,4 +1,4 @@
-    shared_examples_for 'Unauthenticated Access' do
+shared_examples_for 'Unauthenticated Access' do
       subject { response }
       it { is_expected.to redirect_to login_url }
     end

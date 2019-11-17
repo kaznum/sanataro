@@ -536,7 +536,6 @@ describe Api::EntriesController, type: :controller do
           end
 
           describe 'amount of Montly profit loss of from_account' do
-
             subject { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id) }
 
             describe '#amount' do
@@ -581,7 +580,6 @@ describe Api::EntriesController, type: :controller do
           end
 
           describe 'specified item' do
-
             it 'should does not exist' do
               expect { Item.find(@item.id) }.to raise_error(ActiveRecord::RecordNotFound)
             end
@@ -637,7 +635,7 @@ describe Api::EntriesController, type: :controller do
           end
 
           context 'and payment date is in same months,' do
-            let(:action) { lambda { delete :destroy, id: @item.id, year: 2008, month: 2, format: :json} }
+            let(:action) { lambda { delete :destroy, id: @item.id, year: 2008, month: 2, format: :json } }
             before do
               cr = credit_relations(:cr1)
               cr.update_attributes!(payment_month: 0, payment_day: 25, settlement_day: 11)
@@ -1204,7 +1202,7 @@ describe Api::EntriesController, type: :controller do
 
         context 'with invalid calcuration amount,' do
           let(:date) { items(:adjustment2).action_date - 1 }
-          it { expect { post :create, entry: { entry_type: 'adjustment', action_date: date.strftime('%Y/%m/%d'), to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '3000-(10' }, year: 2008, month: 2, format: :json}.not_to change { Item.count } }
+          it { expect { post :create, entry: { entry_type: 'adjustment', action_date: date.strftime('%Y/%m/%d'), to_account_id: accounts(:bank1).id.to_s, adjustment_amount: '3000-(10' }, year: 2008, month: 2, format: :json }.not_to change { Item.count } }
         end
 
         context 'add adjustment before any of the adjustments,' do
@@ -1284,7 +1282,6 @@ describe Api::EntriesController, type: :controller do
 
         context "create adjustment to the same day as another ajustment's one," do
           context 'input values are valid,' do
-
             let(:existing_adj) { items(:adjustment2) }
             let(:future_adj) { items(:adjustment4) }
             let(:action) {
