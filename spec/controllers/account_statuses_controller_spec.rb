@@ -51,7 +51,7 @@ describe AccountStatusesController, type: :controller do
         describe 'unknown account' do
           it 'does exist and amount is 100' do
             expensees = assigns(:account_statuses)[:expenses]
-            matches = expensees.select { |account, amount| account.name == I18n.t('label.unknown') }
+            matches = expensees.select { |account, _| account.name == I18n.t('label.unknown') }
             expect(matches.entries.size).to eq(1)
             expect(matches[0][1]).to eq(100)
           end
