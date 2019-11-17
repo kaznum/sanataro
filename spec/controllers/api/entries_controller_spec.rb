@@ -1067,7 +1067,7 @@ describe Api::EntriesController, type: :controller do
                        from_account_id: accounts(:credit4).id,
                        to_account_id: accounts(:expense3).id,
                        amount: 10_000,
-                       parent_id: nil).find { |i| i.child_item }
+                       parent_id: nil).find(&:child_item)
           end
 
           describe 'response' do

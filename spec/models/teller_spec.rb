@@ -542,7 +542,7 @@ describe Teller, type: :model do
                      from_account_id: accounts(:credit4).id,
                      to_account_id: accounts(:expense3).id,
                      amount: 10_000,
-                     parent_id: nil).find { |i| i.child_item }
+                     parent_id: nil).find(&:child_item)
         end
 
         it_should_behave_like 'created itself and credit payment item successfully'
@@ -657,7 +657,7 @@ describe Teller, type: :model do
           Item.where(action_date: Date.new(2008, 2, 25),
                      from_account_id: accounts(:credit4).id,
                      to_account_id: accounts(:expense3).id,
-                     amount: 10_000, parent_id: nil).find { |i| i.child_item }
+                     amount: 10_000, parent_id: nil).find(&:child_item)
         end
 
         it_should_behave_like 'created itself and credit payment item successfully'
@@ -781,7 +781,7 @@ describe Teller, type: :model do
           Item.where(action_date: Date.new(2008, 2, 10),
                      from_account_id: accounts(:credit4).id,
                      to_account_id: accounts(:expense3).id,
-                     amount: 10_000, parent_id: nil).find { |i| i.child_item }
+                     amount: 10_000, parent_id: nil).find(&:child_item)
         end
 
         it_should_behave_like 'created itself and credit payment item successfully'
