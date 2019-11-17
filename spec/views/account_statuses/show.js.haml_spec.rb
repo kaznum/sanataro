@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "/account_statuses/show", :type => :view do
+describe '/account_statuses/show', :type => :view do
   fixtures :all
 
   before(:each) do

@@ -29,7 +29,7 @@ module Api
           @user = user
           true
         else
-          render text: "You do not have the permission to access this resource.", status: :unauthorized
+          render text: 'You do not have the permission to access this resource.', status: :unauthorized
           false
         end
       end

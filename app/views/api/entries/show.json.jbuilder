@@ -1,3 +1,3 @@
 json.entry do
-  json.partial! "entry", item: item
+  json.partial! 'entry', item: item
 end

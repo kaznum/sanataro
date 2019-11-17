@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
 
   def redirect_js_to(path)
     @path_to_redirect_to = path
-    render "common/redirect"
+    render 'common/redirect'
   end
 
   #

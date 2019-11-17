@@ -26,7 +26,7 @@ module EntriesHelper
 
   def link_to_edit(item, enabled = true)
     if enabled
-      link_to icon_edit, edit_entry_path(item.action_date.year, item.action_date.month, item.id), remote: true, method: :get, class: "edit_link"
+      link_to icon_edit, edit_entry_path(item.action_date.year, item.action_date.month, item.id), remote: true, method: :get, class: 'edit_link'
     else
       icon_edit(enabled)
     end
@@ -34,7 +34,7 @@ module EntriesHelper
 
   def link_to_destroy(item, enabled = true)
     if enabled
-      link_to icon_destroy, entry_path(item.action_date.year, item.action_date.month, item.id), remote: true, method: :delete, data: { confirm: t("message.delete_really") }
+      link_to icon_destroy, entry_path(item.action_date.year, item.action_date.month, item.id), remote: true, method: :delete, data: { confirm: t('message.delete_really') }
     else
       icon_destroy(enabled)
     end
@@ -42,7 +42,7 @@ module EntriesHelper
 
   def link_to_show(item, enabled = true)
     if enabled
-      link_to icon_show, entries_path(item.action_date.year, item.action_date.month, anchor: "item_#{item.id}"), class: "show_link"
+      link_to icon_show, entries_path(item.action_date.year, item.action_date.month, anchor: "item_#{item.id}"), class: 'show_link'
     else
       icon_show(enabled)
     end
@@ -58,29 +58,29 @@ module EntriesHelper
 
   def link_to_tags(item)
     if item.tags.size > 0
-      ("[" + item.tags.sort { |a, b| a.name <=> b.name }.map { |tag| link_to_tag(tag) }.join(" ") + "]").html_safe
+      ('[' + item.tags.sort { |a, b| a.name <=> b.name }.map { |tag| link_to_tag(tag) }.join(' ') + ']').html_safe
     else
-      ""
+      ''
     end
   end
 
   def item_row_class(item)
-    row_class = ""
+    row_class = ''
     if item.adjustment?
-      row_class = "item_adjustment"
+      row_class = 'item_adjustment'
     elsif item.parent_id
-      row_class = "item_move"
+      row_class = 'item_move'
     elsif @user.income_ids.include?(item.from_account_id)
-      row_class = "item_income"
+      row_class = 'item_income'
     elsif @user.banking_ids.include?(item.from_account_id) && @user.banking_ids.include?(item.to_account_id)
-      row_class = "item_move"
+      row_class = 'item_move'
     end
     row_class
   end
 
   def item_row_name(item)
     if item.adjustment?
-      item_name = t("label.adjustment").decorate + " " + number_to_currency(item.adjustment_amount)
+      item_name = t('label.adjustment').decorate + ' ' + number_to_currency(item.adjustment_amount)
       item_name.html_safe
     elsif item.parent_id
       link_body = "#{l(item.parent_item.action_date, format: :short)} #{item.parent_item.name.decorate}".html_safe
@@ -97,7 +97,7 @@ module EntriesHelper
 
   def item_row_confirmation_required(item, tag, mark, keyword)
     if item.adjustment?
-      confirmation_required = ""
+      confirmation_required = ''
     elsif item.parent_id
       confirmation_required = link_to_confirmation_required(item.id, item.parent_item.confirmation_required?, tag: tag, mark: mark, keyword: keyword)
     else
@@ -109,7 +109,7 @@ module EntriesHelper
 
   def item_row_from_account(item)
     if item.adjustment?
-      from_account = item.amount < 0 ? colored_account_name(item.to_account_id) : '(' + t("label.adjustment") + ')'
+      from_account = item.amount < 0 ? colored_account_name(item.to_account_id) : '(' + t('label.adjustment') + ')'
     else
       from_account = colored_account_name(item.from_account_id)
     end
@@ -119,7 +119,7 @@ module EntriesHelper
   def item_row_to_account(item)
     if item.adjustment?
       to_account = item.amount >= 0 ? colored_account_name(item.to_account_id) :
-        '(' + t("label.adjustment") + ')'
+        '(' + t('label.adjustment') + ')'
     else
       to_account = colored_account_name(item.to_account_id)
     end
@@ -128,7 +128,7 @@ module EntriesHelper
 
   def item_row_twitter_button(item)
     if item.adjustment? || item.parent_id
-      ""
+      ''
     else
       tweet_button(item)
     end

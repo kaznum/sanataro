@@ -16,7 +16,7 @@ class Settings::CreditRelationsController < ApplicationController
 
     @credit_relations = @user.credit_relations.all
   rescue ActiveRecord::RecordInvalid => ex
-    render_js_error id: "warning", errors: ex.record.errors.full_messages, default_message: t('error.input_is_invalid')
+    render_js_error id: 'warning', errors: ex.record.errors.full_messages, default_message: t('error.input_is_invalid')
   end
 
   def destroy
@@ -25,13 +25,13 @@ class Settings::CreditRelationsController < ApplicationController
     render 'destroy'
   rescue ActiveRecord::RecordNotFound
     @credit_relations = @user.credit_relations.all
-    render "no_record"
+    render 'no_record'
   end
 
   def edit
     @cr = @user.credit_relations.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    render_js_error id: "warning", default_errors: t('error.no_data')
+    render_js_error id: 'warning', default_errors: t('error.no_data')
   end
 
   def update
@@ -43,7 +43,7 @@ class Settings::CreditRelationsController < ApplicationController
                            payment_day: params[:payment_day])
   rescue ActiveRecord::RecordNotFound
     @credit_relations = @user.credit_relations.all
-    render "no_record"
+    render 'no_record'
   rescue ActiveRecord::RecordInvalid
     render_js_error id: "edit_warning_#{@cr.id}", errors: @cr.errors, default_message: t('error.input_is_invalid')
   end

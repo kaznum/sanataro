@@ -4,13 +4,13 @@ require 'spec_helper'
 describe Api::SessionsController, :type => :controller do
   fixtures :users
 
-  describe "#create" do
-    context "when params[:session] does not mismatch," do
+  describe '#create' do
+    context 'when params[:session] does not mismatch,' do
       before do
-        @action = -> { post :create, login: users(:user1).login, password: "123456" }
+        @action = -> { post :create, login: users(:user1).login, password: '123456' }
       end
 
-      describe "response" do
+      describe 'response' do
         before { @action.call }
         subject { response }
 
@@ -20,7 +20,7 @@ describe Api::SessionsController, :type => :controller do
         end
       end
 
-      describe "session" do
+      describe 'session' do
         before { @action.call }
         subject { session }
 
@@ -33,10 +33,10 @@ describe Api::SessionsController, :type => :controller do
 
     context "when user doesn't exist," do
       before do
-        @action = -> { post :create, session: { login: "not_exist", password: "not_exist_pass" } }
+        @action = -> { post :create, session: { login: 'not_exist', password: 'not_exist_pass' } }
       end
 
-      describe "response" do
+      describe 'response' do
         before { @action.call }
         subject { response }
 
@@ -46,7 +46,7 @@ describe Api::SessionsController, :type => :controller do
         end
       end
 
-      describe "session" do
+      describe 'session' do
         before { @action.call }
         subject { session }
 
@@ -57,12 +57,12 @@ describe Api::SessionsController, :type => :controller do
       end
     end
 
-    context "when user exists but password mismatches," do
+    context 'when user exists but password mismatches,' do
       before do
-        @action = -> { post :create, session: { login: users(:user1).login, password: "not_match_pass" } }
+        @action = -> { post :create, session: { login: users(:user1).login, password: 'not_match_pass' } }
       end
 
-      describe "response" do
+      describe 'response' do
         before { @action.call }
         subject { response }
 
@@ -72,7 +72,7 @@ describe Api::SessionsController, :type => :controller do
         end
       end
 
-      describe "session" do
+      describe 'session' do
         before { @action.call }
         subject { session }
 
@@ -83,12 +83,12 @@ describe Api::SessionsController, :type => :controller do
       end
     end
 
-    context "when user exists and password matches," do
+    context 'when user exists and password matches,' do
       before do
-        @action = -> { post :create, session: { login: users(:user1).login, password: "123456" }, format: :json }
+        @action = -> { post :create, session: { login: users(:user1).login, password: '123456' }, format: :json }
       end
 
-      describe "response" do
+      describe 'response' do
         before { @action.call }
         subject { response }
 
@@ -103,7 +103,7 @@ describe Api::SessionsController, :type => :controller do
         end
       end
 
-      describe "session" do
+      describe 'session' do
         before { @action.call }
         subject { session }
 
@@ -115,11 +115,11 @@ describe Api::SessionsController, :type => :controller do
     end
   end
 
-  describe "#destroy" do
+  describe '#destroy' do
 
-    describe "when user has not been logged in," do
+    describe 'when user has not been logged in,' do
       before { delete :destroy }
-      describe "response" do
+      describe 'response' do
         subject { response }
 
         describe '#response_code' do
@@ -128,7 +128,7 @@ describe Api::SessionsController, :type => :controller do
         end
       end
 
-      describe "session" do
+      describe 'session' do
         subject { session }
 
         describe '[:user_id]' do
@@ -138,13 +138,13 @@ describe Api::SessionsController, :type => :controller do
       end
     end
 
-    describe "when user has been logged in," do
+    describe 'when user has been logged in,' do
       before do
         session[:user_id] = users(:user1).id
         delete :destroy
       end
 
-      describe "response" do
+      describe 'response' do
         subject { response }
 
         describe '#response_code' do
@@ -153,7 +153,7 @@ describe Api::SessionsController, :type => :controller do
         end
       end
 
-      describe "session" do
+      describe 'session' do
         subject { session }
 
         describe '[:user_id]' do

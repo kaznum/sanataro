@@ -21,7 +21,7 @@ class ChartData::YearlyBudgetsController < ApplicationController
     if %w(expense income total).include?(params[:budget_type])
       true
     else
-      render status: :not_acceptable, text: "Not Acceptable"
+      render status: :not_acceptable, text: 'Not Acceptable'
       false
     end
   end

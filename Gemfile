@@ -11,11 +11,11 @@ gem 'rails', '>= 4.2.11.1'
 # gem 'unicorn'
 
 group :development, :test do
-  gem "rspec-rails", ">= 2.13.1"
+  gem 'rspec-rails', '>= 2.13.1'
   gem 'rspec-activemodel-mocks'
   gem 'rspec-collection_matchers'
-  gem "launchy"
-  gem "fabrication"
+  gem 'launchy'
+  gem 'fabrication'
   unless ENV['TRAVIS']
     if RUBY_VERSION >= '2.0.0'
       gem 'byebug'
@@ -29,25 +29,25 @@ end
 
 
 group :test do
-  gem "simplecov"
+  gem 'simplecov'
   gem 'spork'
-  gem "cucumber-rails", require: false
-  gem "capybara-webkit", '>= 1.0.0'
-  gem "capybara", '>= 2.2.0'
-  gem "growl"
-  gem "rb-fsevent"
-  gem "webrat"
+  gem 'cucumber-rails', require: false
+  gem 'capybara-webkit', '>= 1.0.0'
+  gem 'capybara', '>= 2.2.0'
+  gem 'growl'
+  gem 'rb-fsevent'
+  gem 'webrat'
 
-  gem "database_cleaner", '>= 1.2.0'
-  gem "guard-rspec"
-  gem "guard-cucumber"
-  gem "guard-spork"
+  gem 'database_cleaner', '>= 1.2.0'
+  gem 'guard-rspec'
+  gem 'guard-cucumber'
+  gem 'guard-spork'
 
-  gem "minitest"
+  gem 'minitest'
 end
 
 group :production do
-  gem "therubyracer", '>= 0.11.4'
+  gem 'therubyracer', '>= 0.11.4'
   gem 'libv8', '>= 3.11.8.12'
   gem 'redis-rails'
   # CVE-2017-1000248
@@ -55,7 +55,7 @@ group :production do
 end
 
 platforms :ruby do
-  gem "mysql2"
+  gem 'mysql2'
   gem 'sqlite3'
   gem 'pg'
 end
@@ -66,9 +66,9 @@ group :assets do
   gem 'uglifier'
 end
 
-gem "i18n"
+gem 'i18n'
 
-gem "haml", '>= 5.0.0'
+gem 'haml', '>= 5.0.0'
 
 gem 'haml-rails'
 gem 'jquery-rails'

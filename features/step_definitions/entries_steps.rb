@@ -1,6 +1,6 @@
 # encoding: utf-8
-require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "paths"))
-require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "selectors"))
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'support', 'paths'))
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'support', 'selectors'))
 
 前提 /^収支入力ページを表示している$/ do
   step %{I am on ログイン}

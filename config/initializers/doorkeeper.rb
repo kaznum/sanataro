@@ -46,7 +46,7 @@ Doorkeeper.configure do
 
       [admin_user, admin_password]
     end
-    authenticate || render(text: "Unauthorized", status: :unauthorized)
+    authenticate || render(text: 'Unauthorized', status: :unauthorized)
   end
 
   # Access token expiration time (default 2 hours).

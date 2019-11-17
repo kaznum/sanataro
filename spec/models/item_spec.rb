@@ -17,7 +17,7 @@ describe Item, :type => :model do
     }
   end
 
-  describe "create successfully" do
+  describe 'create successfully' do
     before do
       @item = users(:user1).general_items.create!(@valid_attrs)
       @saved_item = Item.find(@item.id)
@@ -43,24 +43,24 @@ describe Item, :type => :model do
     end
   end
 
-  describe "validation" do
+  describe 'validation' do
     before do
       @item = users(:user1).general_items.new(@valid_attrs)
     end
 
-    describe "name" do
-      context "when name is nil" do
+    describe 'name' do
+      context 'when name is nil' do
         before do
           @item.name = nil
           @is_saved = @item.save
         end
 
-        describe "item was not saved" do
+        describe 'item was not saved' do
           subject { @is_saved }
           it { is_expected.to be_falsey }
         end
 
-        describe "error" do
+        describe 'error' do
           subject { @item }
           it 'has at least 1 errors_on' do
             expect(subject.errors_on(:name).size).to be >= 1
@@ -69,19 +69,19 @@ describe Item, :type => :model do
       end
     end
 
-    describe "amount" do
-      context "when amount is nil" do
+    describe 'amount' do
+      context 'when amount is nil' do
         before do
           @item.amount = nil
           @is_saved = @item.save
         end
 
-        describe "item was not saved" do
+        describe 'item was not saved' do
           subject { @is_saved }
           it { is_expected.to be_falsey }
         end
 
-        describe "error" do
+        describe 'error' do
           subject { @item }
           it 'has at least 1 errors_on' do
             expect(subject.errors_on(:amount).size).to be >= 1
@@ -90,19 +90,19 @@ describe Item, :type => :model do
       end
     end
 
-    describe "account_id" do
-      context "when from_account_id is nil," do
+    describe 'account_id' do
+      context 'when from_account_id is nil,' do
         before do
           @item.from_account_id = nil
           @is_saved = @item.save
         end
 
-        describe "item was not saved" do
+        describe 'item was not saved' do
           subject { @is_saved }
           it { is_expected.to be_falsey }
         end
 
-        describe "error" do
+        describe 'error' do
           subject { @item }
           it 'has at least 1 errors_on' do
             expect(subject.errors_on(:from_account_id).size).to be >= 1
@@ -110,31 +110,31 @@ describe Item, :type => :model do
         end
       end
 
-      context "when from_account_id is -1," do
+      context 'when from_account_id is -1,' do
         before do
           @item.from_account_id = -1
           @is_saved = @item.save
         end
 
-        describe "item was not saved" do
+        describe 'item was not saved' do
           subject { @is_saved }
           it { is_expected.to be_truthy }
         end
 
       end
 
-      context "when from_account_id is not owned by user," do
+      context 'when from_account_id is not owned by user,' do
         before do
           @item.from_account_id = 21_234
           @is_saved = @item.save
         end
 
-        describe "item was not saved" do
+        describe 'item was not saved' do
           subject { @is_saved }
           it { is_expected.to be_falsey }
         end
 
-        describe "error" do
+        describe 'error' do
           subject { @item }
           it 'has at least 1 errors_on' do
             expect(subject.errors_on(:from_account_id).size).to be >= 1
@@ -142,19 +142,19 @@ describe Item, :type => :model do
         end
       end
 
-      context "when from_account_id is expense," do
+      context 'when from_account_id is expense,' do
         before do
           @item.from_account_id = accounts(:expense3).id
           @item.to_account_id = accounts(:expense13).id
           @is_saved = @item.save
         end
 
-        describe "item was not saved" do
+        describe 'item was not saved' do
           subject { @is_saved }
           it { is_expected.to be_falsey }
         end
 
-        describe "error" do
+        describe 'error' do
           subject { @item }
           it 'has at least 1 errors_on' do
             expect(subject.errors_on(:from_account_id).size).to be >= 1
@@ -162,18 +162,18 @@ describe Item, :type => :model do
         end
       end
 
-      context "when to_account_id is nil," do
+      context 'when to_account_id is nil,' do
         before do
           @item.to_account_id = nil
           @is_saved = @item.save
         end
 
-        describe "item was not saved" do
+        describe 'item was not saved' do
           subject { @is_saved }
           it { is_expected.to be_falsey }
         end
 
-        describe "error" do
+        describe 'error' do
           subject { @item }
           it 'has at least 1 errors_on' do
             expect(subject.errors_on(:to_account_id).size).to be >= 1
@@ -181,18 +181,18 @@ describe Item, :type => :model do
         end
       end
 
-      context "when to_account_id is -1," do
+      context 'when to_account_id is -1,' do
         before do
           @item.to_account_id = -1
           @is_saved = @item.save
         end
 
-        describe "item was not saved" do
+        describe 'item was not saved' do
           subject { @is_saved }
           it { is_expected.to be_falsey }
         end
 
-        describe "error" do
+        describe 'error' do
           subject { @item }
           it 'has at least 1 errors_on' do
             expect(subject.errors_on(:to_account_id).size).to be >= 1
@@ -200,19 +200,19 @@ describe Item, :type => :model do
         end
       end
 
-      context "when to_account_id is not owned by user," do
+      context 'when to_account_id is not owned by user,' do
         before do
           @item.from_account_id = -1
           @item.to_account_id = 21_234
           @is_saved = @item.save
         end
 
-        describe "item was not saved" do
+        describe 'item was not saved' do
           subject { @is_saved }
           it { is_expected.to be_falsey }
         end
 
-        describe "error" do
+        describe 'error' do
           subject { @item }
           it 'has at least 1 errors_on' do
             expect(subject.errors_on(:to_account_id).size).to be >= 1
@@ -220,19 +220,19 @@ describe Item, :type => :model do
         end
       end
 
-      context "when to_account_id is income," do
+      context 'when to_account_id is income,' do
         before do
           @item.from_account_id = -1
           @item.to_account_id = accounts(:income2).id
           @is_saved = @item.save
         end
 
-        describe "item was not saved" do
+        describe 'item was not saved' do
           subject { @is_saved }
           it { is_expected.to be_falsey }
         end
 
-        describe "error" do
+        describe 'error' do
           subject { @item }
           it 'has at least 1 errors_on' do
             expect(subject.errors_on(:to_account_id).size).to be >= 1
@@ -240,19 +240,19 @@ describe Item, :type => :model do
         end
       end
 
-      context "when from_account_id and to_account_id are same," do
+      context 'when from_account_id and to_account_id are same,' do
         before do
           @item.from_account_id = 1
           @item.to_account_id = 1
           @is_saved = @item.save
         end
 
-        describe "item was not saved" do
+        describe 'item was not saved' do
           subject { @is_saved }
           it { is_expected.to be_falsey }
         end
 
-        describe "error" do
+        describe 'error' do
           subject { @item }
           it 'has at least 1 errors_on' do
             expect(subject.errors_on(:from_account_id).size).to be >= 1
@@ -261,20 +261,20 @@ describe Item, :type => :model do
       end
     end
 
-    describe "action_date" do
-      context "when action_date is invalid" do
+    describe 'action_date' do
+      context 'when action_date is invalid' do
         before do
           @item.month = 2
           @item.day = 30
           @is_saved = @item.save
         end
 
-        describe "item was not saved" do
+        describe 'item was not saved' do
           subject { @is_saved }
           it { is_expected.to be_falsey }
         end
 
-        describe "error" do
+        describe 'error' do
           subject { @item }
           it 'has at least 1 errors_on' do
             expect(subject.errors_on(:action_date).size).to be >= 1
@@ -282,7 +282,7 @@ describe Item, :type => :model do
         end
       end
 
-      context "when action_date is too past value" do
+      context 'when action_date is too past value' do
         before do
           @item.year = 2005
           @item.month = 2
@@ -290,12 +290,12 @@ describe Item, :type => :model do
           @is_saved = @item.save
         end
 
-        describe "item was not saved" do
+        describe 'item was not saved' do
           subject { @is_saved }
           it { is_expected.to be_falsey }
         end
 
-        describe "error" do
+        describe 'error' do
           subject { @item }
           it 'has at least 1 errors_on' do
             expect(subject.errors_on(:action_date).size).to be >= 1
@@ -303,7 +303,7 @@ describe Item, :type => :model do
         end
       end
 
-      context "when action_date is too future value" do
+      context 'when action_date is too future value' do
         before do
           future = 2.years.since(Time.now)
           @item.year = future.year
@@ -312,12 +312,12 @@ describe Item, :type => :model do
           @is_saved = @item.save
         end
 
-        describe "item was not saved" do
+        describe 'item was not saved' do
           subject { @is_saved }
           it { is_expected.to be_falsey }
         end
 
-        describe "error" do
+        describe 'error' do
           subject { @item }
           it 'has at least 1 errors_on' do
             expect(subject.errors_on(:action_date).size).to be >= 1
@@ -327,12 +327,12 @@ describe Item, :type => :model do
     end
   end
 
-  describe "action_date calcuration" do
+  describe 'action_date calcuration' do
     before do
       @item = Item.find(1)
     end
 
-    describe "getting from DB" do
+    describe 'getting from DB' do
       subject { @item }
 
       describe '#year' do
@@ -351,7 +351,7 @@ describe Item, :type => :model do
       end
     end
 
-    context "when nil is set to year" do
+    context 'when nil is set to year' do
       before do
         @item.year = nil
       end
@@ -378,7 +378,7 @@ describe Item, :type => :model do
       end
     end
 
-    context "when nil is set to month" do
+    context 'when nil is set to month' do
       before do
         @item.month = nil
       end
@@ -405,7 +405,7 @@ describe Item, :type => :model do
       end
     end
 
-    context "when nil is set to day" do
+    context 'when nil is set to day' do
       before do
         @item.day = nil
       end
@@ -432,7 +432,7 @@ describe Item, :type => :model do
       end
     end
 
-    context "when Date object is set to action_date" do
+    context 'when Date object is set to action_date' do
       before do
         @item.action_date = Date.new(2010, 3, 10)
       end
@@ -460,7 +460,7 @@ describe Item, :type => :model do
     end
   end
 
-  describe "adjustment" do
+  describe 'adjustment' do
     #
     # 日付の順番は以下のとおり
     # item1 -> adj2 -> item3 -> adj4
@@ -473,7 +473,7 @@ describe Item, :type => :model do
       @plbank1 = monthly_profit_losses(:bank1200802)
     end
 
-    context "adjustment2のitemとaction_dateが同一のitemを追加した場合" do
+    context 'adjustment2のitemとaction_dateが同一のitemを追加した場合' do
       before do
         item = users(:user1).general_items.create!(name: 'aaaaa',
                                                    action_date: @adj2.action_date,
@@ -486,7 +486,7 @@ describe Item, :type => :model do
         Item.update_future_balance(users(:user1), item.action_date, 3, item.id)
       end
 
-      describe "adj2" do
+      describe 'adj2' do
         subject { Item.find(@adj2.id) }
 
         describe '#amount' do
@@ -500,7 +500,7 @@ describe Item, :type => :model do
         end
       end
 
-      describe "adj4" do
+      describe 'adj4' do
         subject { Item.find(@adj4.id) }
 
         describe '#amount' do
@@ -514,7 +514,7 @@ describe Item, :type => :model do
         end
       end
 
-      describe "monthly profit loss of bank1" do
+      describe 'monthly profit loss of bank1' do
         subject { MonthlyProfitLoss.find(@plbank1.id) }
 
         describe '#amount' do
@@ -524,7 +524,7 @@ describe Item, :type => :model do
       end
     end
 
-    context "item5を変更する(adj6(翌月のadjustment item)に影響がでる。同時にmonthly_profit_lossも翌月に変更が加わる)" do
+    context 'item5を変更する(adj6(翌月のadjustment item)に影響がでる。同時にmonthly_profit_lossも翌月に変更が加わる)' do
       before do
         @adj6 = items(:adjustment6)
         @plbank1_03 = monthly_profit_losses(:bank1200803)
@@ -545,7 +545,7 @@ describe Item, :type => :model do
         Item.update_future_balance(users(:user1), item.action_date, 3, item.id)
       end
 
-      describe "adj2" do
+      describe 'adj2' do
         subject { Item.find(2) }
 
         describe '#amount' do
@@ -559,7 +559,7 @@ describe Item, :type => :model do
         end
       end
 
-      describe "adj4" do
+      describe 'adj4' do
         subject { Item.find(4) }
 
         describe '#amount' do
@@ -573,7 +573,7 @@ describe Item, :type => :model do
         end
       end
 
-      describe "adj6" do
+      describe 'adj6' do
         subject { Item.find(@adj6.id) }
 
         describe '#amount' do
@@ -587,7 +587,7 @@ describe Item, :type => :model do
         end
       end
 
-      describe "MonthlyProfitLoss for bank1 in 2008/2" do
+      describe 'MonthlyProfitLoss for bank1 in 2008/2' do
         subject { MonthlyProfitLoss.find(@plbank1.id) }
 
         describe '#amount' do
@@ -596,7 +596,7 @@ describe Item, :type => :model do
         end
       end
 
-      describe "MonthlyProfitLoss for bank1 in 2008/3" do
+      describe 'MonthlyProfitLoss for bank1 in 2008/3' do
         subject { MonthlyProfitLoss.find(@plbank1_03.id) }
 
         describe '#amount' do
@@ -607,8 +607,8 @@ describe Item, :type => :model do
     end
   end
 
-  describe "partial_items" do
-    context "when entries are so many" do
+  describe 'partial_items' do
+    context 'when entries are so many' do
       before do
         @created_ids = []
         # データの準備
@@ -656,7 +656,7 @@ describe Item, :type => :model do
         allow(GlobalSettings).to receive(:item_list_count).and_return(2)
       end
 
-      context "when :remain is not specified" do
+      context 'when :remain is not specified' do
         subject { users(:user1).items.partials(@from_date, @to_date) }
         it 'has GlobalSettings.item_list_count entries' do
           expect(subject.entries.size).to eq(GlobalSettings.item_list_count)
@@ -665,71 +665,71 @@ describe Item, :type => :model do
 
       context "when the action_date's order is not same as those of ids" do
         before do
-          @item = Fabricate.build(:general_item, from_account_id: 21, to_account_id: 13, name: "itemname_old", action_date: '2008-09-14', tag_list: 'ghi jkl')
+          @item = Fabricate.build(:general_item, from_account_id: 21, to_account_id: 13, name: 'itemname_old', action_date: '2008-09-14', tag_list: 'ghi jkl')
           @item.save!
         end
         subject { users(:user1).items.partials(@from_date, @to_date).first.id }
         it { is_expected.not_to eq(@item.id) }
       end
 
-      context "when :remain is specified as true" do
+      context 'when :remain is specified as true' do
         subject { users(:user1).items.partials(@from_date, @to_date, { remain: true }) }
         it 'has 6 - GlobalSettings.item_list_count entries' do
           expect(subject.entries.size).to eq(6 - GlobalSettings.item_list_count)
         end
       end
 
-      context "when :tag is specified" do
+      context 'when :tag is specified' do
         subject { users(:user1).items.partials(nil, nil, { tag: 'abc' }) }
         it 'has GlobalSettings.item_list_count entries' do
           expect(subject.entries.size).to eq(GlobalSettings.item_list_count)
         end
       end
 
-      context "when :tag and :remain is specified" do
+      context 'when :tag and :remain is specified' do
         subject { users(:user1).items.partials(nil, nil, { remain: true, tag: 'abc' }) }
         it 'has 3 - GlobalSettings.item_list_count entries' do
           expect(subject.entries.size).to eq(3 - GlobalSettings.item_list_count)
         end
       end
 
-      context "when :keyword is specified" do
+      context 'when :keyword is specified' do
         subject { users(:user1).items.partials(nil, nil, { keyword: 'emname' }) }
         it 'has GlobalSettings.item_list_count entries' do
           expect(subject.entries.size).to eq(GlobalSettings.item_list_count)
         end
       end
 
-      context "when :keyword and :remain is specified" do
+      context 'when :keyword and :remain is specified' do
         subject { users(:user1).items.partials(nil, nil, { remain: true, keyword: 'emname' }) }
         it 'has 6 - GlobalSettings.item_list_count entries' do
           expect(subject.entries.size).to eq(6 - GlobalSettings.item_list_count)
         end
       end
 
-      context "when :filter_account_id is specified" do
+      context 'when :filter_account_id is specified' do
         subject { users(:user1).items.partials(@from_date, @to_date, { filter_account_id: accounts(:bank11).id }) }
         it 'has GlobalSettings.item_list_count entries' do
           expect(subject.entries.size).to eq(GlobalSettings.item_list_count)
         end
       end
 
-      context "when :filter_account_id and :remain is specified" do
+      context 'when :filter_account_id and :remain is specified' do
         subject { users(:user1).items.partials(@from_date, @to_date, { filter_account_id: accounts(:bank11).id, remain: true }) }
         it 'has 3 - GlobalSettings.item_list_count entries' do
           expect(subject.entries.size).to eq(3 - GlobalSettings.item_list_count)
         end
       end
 
-      context "when confirmation required is specified"  do
-        context "when remain not specified" do
+      context 'when confirmation required is specified'  do
+        context 'when remain not specified' do
           subject { users(:user1).items.partials(nil, nil, { mark: 'confirmation_required' }) }
           it 'has GlobalSettings.item_list_count entries' do
             expect(subject.entries.size).to eq(GlobalSettings.item_list_count)
           end
         end
 
-        context "when remain not specified" do
+        context 'when remain not specified' do
           before do
             @cnfmt_rqrd_count = Item.where(confirmation_required: true, user_id: users(:user1).id).count
           end
@@ -742,7 +742,7 @@ describe Item, :type => :model do
       end
     end
 
-    context "when entries are not so many" do
+    context 'when entries are not so many' do
       before do
         @created_ids = []
         # データの準備
@@ -816,28 +816,28 @@ describe Item, :type => :model do
         end
       end
 
-      context "when :remain is not specified" do
+      context 'when :remain is not specified' do
         subject { users(:user1).items.partials(@from_date, @to_date) }
         it 'has 4 entries' do
           expect(subject.entries.size).to eq(4)
         end
       end
 
-      context "when :remain is true" do
+      context 'when :remain is true' do
         subject { users(:user1).items.partials(@from_date, @to_date, { 'remain' => true }) }
         it 'has no entries' do
           expect(subject.entries.size).to eq(0)
         end
       end
 
-      context "when :filter_account_id is specified" do
+      context 'when :filter_account_id is specified' do
         subject { users(:user1).items.partials(@from_date, @to_date, { filter_account_id: accounts(:bank11).id }) }
         it 'has 3 entries' do
           expect(subject.entries.size).to eq(3)
         end
       end
 
-      context "when :filter_account_id and :remain is specified" do
+      context 'when :filter_account_id and :remain is specified' do
         subject { users(:user1).items.partials(@from_date, @to_date, { filter_account_id: accounts(:bank11).id, remain: true }) }
         it 'has no entries' do
           expect(subject.entries.size).to eq(0)
@@ -846,18 +846,18 @@ describe Item, :type => :model do
     end
   end
 
-  describe "collect_account_history" do
-    describe "amount" do
+  describe 'collect_account_history' do
+    describe 'amount' do
       before do
         @amount, @items = Item.collect_account_history(users(:user1), accounts(:bank1).id, Date.new(2008, 2, 1), Date.new(2008, 2, 29))
       end
 
-      describe "amount" do
+      describe 'amount' do
         subject { @amount }
         it { is_expected.to eq(8000) }
       end
 
-      describe "items" do
+      describe 'items' do
         subject { @items }
         specify {
           subject.each do |item|
@@ -869,7 +869,7 @@ describe Item, :type => :model do
     end
   end
 
-  describe "user" do
+  describe 'user' do
     subject { Item.find(items(:item1).id) }
 
     describe '#user' do
@@ -879,7 +879,7 @@ describe Item, :type => :model do
     specify { expect(subject.user.id).to eq(subject.user_id) }
   end
 
-  describe "child_item" do
+  describe 'child_item' do
     before do
       p_it = users(:user1).general_items.new(name: 'p hogehoge',
                                              from_account_id: 1,
@@ -900,17 +900,17 @@ describe Item, :type => :model do
       @c_id = c_it.id
     end
 
-    describe "parent_item" do
+    describe 'parent_item' do
       subject { Item.find(@p_id) }
       it { is_expected.not_to be_nil }
     end
 
-    describe "child_item" do
+    describe 'child_item' do
       subject { Item.find(@c_id) }
       it { is_expected.not_to be_nil }
     end
 
-    describe "child_item from parent_item" do
+    describe 'child_item from parent_item' do
       subject { Item.find(@p_id).child_item }
       it { is_expected.not_to be_nil }
 
@@ -939,8 +939,8 @@ describe Item, :type => :model do
     end
   end
 
-  describe "confirmation_required" do
-    context "parent_idのないitemでupdate_confirmation_requiredを呼びだすとき" do
+  describe 'confirmation_required' do
+    context 'parent_idのないitemでupdate_confirmation_requiredを呼びだすとき' do
       before do
         @item = items(:item1)
         @item.update_confirmation_required_of_self_or_parent(false)
@@ -950,25 +950,25 @@ describe Item, :type => :model do
       it { is_expected.not_to be_confirmation_required }
     end
 
-    context "parent_idが存在するitemでupdate_confirmation_requiredを呼びだすとき" do
+    context 'parent_idが存在するitemでupdate_confirmation_requiredを呼びだすとき' do
       before do
         @child_item = items(:credit_refill31)
         @child_item.update_confirmation_required_of_self_or_parent(true)
       end
 
-      describe "child_item(self)" do
+      describe 'child_item(self)' do
         subject { Item.find(@child_item.id) }
         it { is_expected.not_to be_confirmation_required }
       end
 
-      describe "parent_item" do
+      describe 'parent_item' do
         subject { Item.find(@child_item.parent_id) }
         it { is_expected.to be_confirmation_required }
       end
     end
   end
 
-  describe "#to_custom_hash" do
+  describe '#to_custom_hash' do
     before do
       @valid_attrs = {
         name: 'aaaa',
@@ -987,7 +987,7 @@ describe Item, :type => :model do
       @item.reload
     end
 
-    describe "item.to_custom_hash" do
+    describe 'item.to_custom_hash' do
       subject { @item.to_custom_hash }
       it { is_expected.to be_an_instance_of(Hash) }
 
@@ -997,7 +997,7 @@ describe Item, :type => :model do
       end
     end
 
-    describe "item.to_custom_hash[:entry]" do
+    describe 'item.to_custom_hash[:entry]' do
       fixtures :credit_relations
       subject { @item.to_custom_hash[:entry] }
 
@@ -1008,7 +1008,7 @@ describe Item, :type => :model do
 
       describe '[:name]' do
         subject { super()[:name] }
-        it { is_expected.to eq("aaaa") }
+        it { is_expected.to eq('aaaa') }
       end
 
       describe '[:action_date]' do
@@ -1052,7 +1052,7 @@ describe Item, :type => :model do
       end
     end
 
-    describe "child_item.to_custom_hash[:entry]" do
+    describe 'child_item.to_custom_hash[:entry]' do
       fixtures :credit_relations
       subject { @item.child_item.to_custom_hash[:entry] }
 
@@ -1063,7 +1063,7 @@ describe Item, :type => :model do
 
       describe '[:name]' do
         subject { super()[:name] }
-        it { is_expected.to eq("aaaa") }
+        it { is_expected.to eq('aaaa') }
       end
 
       describe '[:action_date]' do
@@ -1108,8 +1108,8 @@ describe Item, :type => :model do
     end
   end
 
-  describe "items.to_custom_hash" do
-    describe "Array#to_custom_hash" do
+  describe 'items.to_custom_hash' do
+    describe 'Array#to_custom_hash' do
       before do
         @items = Item.where(user_id: users(:user1).id).to_a
       end
@@ -1123,8 +1123,8 @@ describe Item, :type => :model do
     end
   end
 
-  describe "#year, #month, #day" do
-    context "when p_year, p_month, p_day is set," do
+  describe '#year, #month, #day' do
+    context 'when p_year, p_month, p_day is set,' do
       before do
         @item = Item.new
         @item.p_year = 2000
@@ -1149,7 +1149,7 @@ describe Item, :type => :model do
       end
     end
 
-    context "when action_date is set," do
+    context 'when action_date is set,' do
       before do
         @item = Item.new
         @item.action_date = Date.today
@@ -1172,7 +1172,7 @@ describe Item, :type => :model do
       end
     end
 
-    context "when neither action_date nor p_* are set," do
+    context 'when neither action_date nor p_* are set,' do
       before do
         @item = Item.new
       end
@@ -1194,7 +1194,7 @@ describe Item, :type => :model do
       end
     end
 
-    context "when both action_date and p_* are set," do
+    context 'when both action_date and p_* are set,' do
       before do
         @item = Item.new
         @item.action_date = Date.today
@@ -1221,19 +1221,19 @@ describe Item, :type => :model do
     end
   end
 
-  describe "#calc_amount" do
-    context "when amount is 1/20*400," do
-      subject { Item.calc_amount("1/20*400") }
+  describe '#calc_amount' do
+    context 'when amount is 1/20*400,' do
+      subject { Item.calc_amount('1/20*400') }
       it { is_expected.to eq(20) }
     end
 
-    context "when amount is 10 * 20," do
-      subject { Item.calc_amount("10 * 20") }
+    context 'when amount is 10 * 20,' do
+      subject { Item.calc_amount('10 * 20') }
       it { is_expected.to eq(200) }
     end
 
-    context "when amount is 10 + 20.5," do
-      subject { Item.calc_amount("10 + 20.5") }
+    context 'when amount is 10 + 20.5,' do
+      subject { Item.calc_amount('10 + 20.5') }
       it { is_expected.to eq(30) }
     end
 

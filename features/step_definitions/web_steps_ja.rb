@@ -20,8 +20,8 @@
 #
 
 
-require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "paths"))
-require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "selectors"))
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'support', 'paths'))
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'support', 'selectors'))
 
 前提 /^"([^"]*)"ページを表示している$/ do |page_name|
   step %{I am on #{page_name}}

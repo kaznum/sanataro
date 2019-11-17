@@ -1,5 +1,5 @@
 Fabricator(:income) do
-  name "Income Name"
+  name 'Income Name'
   active true
   order_no 1
   user_id 1

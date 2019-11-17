@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ChartHelper, :type => :helper do
   before do
-    @returned = helper.toggle_legend_link("#sample")
+    @returned = helper.toggle_legend_link('#sample')
   end
 
   subject { @returned }

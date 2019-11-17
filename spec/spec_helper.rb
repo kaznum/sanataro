@@ -3,7 +3,7 @@ require 'spork'
 
 unless ENV['TRAVIS'] || defined?(JRUBY_VERSION) || RUBY_ENGINE == 'rbx'
   require 'simplecov'
-  SimpleCov.start "rails"
+  SimpleCov.start 'rails'
 end
 
 Spork.prefork do
@@ -50,16 +50,16 @@ end
 ### but 3.2.7 doesn't work because ENV["RAILS_ENV"] is already 'development'
 ### This will be fixed next version.
 ### See https://github.com/rails/rails/issues/7175
-ENV["RAILS_ENV"] ||= 'test'
+ENV['RAILS_ENV'] ||= 'test'
 
-require File.expand_path("../../config/environment", __FILE__)
+require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 
 require File.expand_path(File.join(Rails.root, 'lib', 'sanataro_taggable', 'init'))
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   # == Mock Framework
@@ -80,7 +80,7 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   config.infer_base_class_for_anonymous_controllers = false
-  config.order = "random"
+  config.order = 'random'
 
   if defined? Capybara
     Capybara.javascript_driver = :webkit
@@ -104,7 +104,7 @@ end
 
 RSpec::Matchers.define :redirect_by_js_to do |path|
   match_unless_raises ActiveSupport::TestCase::Assertion do |_|
-    assert_template "common/redirect"
+    assert_template 'common/redirect'
     assert_equal path, assigns[:path_to_redirect_to]
   end
 
@@ -117,13 +117,13 @@ RSpec::Matchers.define :redirect_by_js_to do |path|
   end
 
   description do
-    "js redirect matcher"
+    'js redirect matcher'
   end
 end
 
 RSpec::Matchers.define :render_js_error do |prms|
   match_unless_raises ActiveSupport::TestCase::Assertion do |_|
-    assert_template "common/error"
+    assert_template 'common/error'
     prms.each do |key, value|
       if value.is_a?(Regexp)
         assert_match value, assigns(:error_js_params)[key]
@@ -142,6 +142,6 @@ RSpec::Matchers.define :render_js_error do |prms|
   end
 
   description do
-    "error.js.haml matcher"
+    'error.js.haml matcher'
   end
 end

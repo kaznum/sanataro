@@ -38,7 +38,7 @@ class BalanceSheetsController < ApplicationController
   private
 
   def _snapshot_of_month(month)
-    mpls = @user.monthly_profit_losses.where("month <= ?", month)
+    mpls = @user.monthly_profit_losses.where('month <= ?', month)
     bs = {}
     bs.default = 0
     mpls.each do |mpl|

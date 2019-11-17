@@ -4,15 +4,15 @@ require 'spec_helper'
 describe TagStatusesController, :type => :controller do
   fixtures :users, :items, :accounts
 
-  describe "show" do
-    context "before login" do
+  describe 'show' do
+    context 'before login' do
       before do
         xhr :get, :show
       end
-      it_should_behave_like "Unauthenticated Access by xhr"
+      it_should_behave_like 'Unauthenticated Access by xhr'
     end
 
-    context "after login" do
+    context 'after login' do
       before do
         dummy_login
         # test data
@@ -22,13 +22,13 @@ describe TagStatusesController, :type => :controller do
         xhr :get, :show
       end
 
-      describe "response" do
+      describe 'response' do
         subject { response }
         it { is_expected.to be_success }
-        it { is_expected.to render_template "show" }
+        it { is_expected.to render_template 'show' }
       end
 
-      describe "@tags" do
+      describe '@tags' do
         subject { assigns(:tags) }
         it { is_expected.not_to be_nil }
         it 'has at least 1 tag' do
@@ -36,7 +36,7 @@ describe TagStatusesController, :type => :controller do
         end
       end
 
-      describe "uniqueness" do
+      describe 'uniqueness' do
         subject { assigns(:tags) }
 
         describe '#size' do

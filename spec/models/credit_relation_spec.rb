@@ -13,15 +13,15 @@ describe CreditRelation, :type => :model do
     }
   end
 
-  context "when create is called" do
-    describe "create successfully" do
+  context 'when create is called' do
+    describe 'create successfully' do
       before do
         @init_count = CreditRelation.count
         @cr = users(:user1).credit_relations.new(@valid_attrs)
         @cr.save
       end
 
-      describe "created object" do
+      describe 'created object' do
         subject { @cr }
         it 'has no errors' do
           expect(subject.errors.size).to eq(0)
@@ -29,12 +29,12 @@ describe CreditRelation, :type => :model do
         it { is_expected.not_to be_new_record }
       end
 
-      describe "count of records" do
+      describe 'count of records' do
         subject { CreditRelation.count }
         it { is_expected.to be @init_count + 1 }
       end
 
-      describe "regotten object" do
+      describe 'regotten object' do
         subject { CreditRelation.find(@cr.id) }
 
         describe '#credit_account_id' do
@@ -64,16 +64,16 @@ describe CreditRelation, :type => :model do
       end
     end
 
-    shared_examples "saving invalid param" do |attr|
+    shared_examples 'saving invalid param' do |attr|
       before do
         @cr = users(:user1).credit_relations.new(attrs)
       end
 
-      describe "returned value" do
+      describe 'returned value' do
         subject { @cr.save }
         it { is_expected.to be_falsey }
       end
-      describe "errors" do
+      describe 'errors' do
         before do
           @cr.save
         end
@@ -81,13 +81,13 @@ describe CreditRelation, :type => :model do
         it { is_expected.not_to be_empty }
       end
 
-      describe "count of records" do
+      describe 'count of records' do
         it { expect { @cr.save }.not_to change { CreditRelation.count } }
       end
     end
 
-    context "when create same account" do
-      it_should_behave_like "saving invalid param", :credit_account_id do
+    context 'when create same account' do
+      it_should_behave_like 'saving invalid param', :credit_account_id do
         let(:attrs) {
           invalid_attrs = @valid_attrs.clone
           invalid_attrs[:payment_account_id] = @valid_attrs[:credit_account_id]
@@ -96,8 +96,8 @@ describe CreditRelation, :type => :model do
       end
     end
 
-    context "when create same account" do
-      it_should_behave_like "saving invalid param", :credit_account_id do
+    context 'when create same account' do
+      it_should_behave_like 'saving invalid param', :credit_account_id do
         let(:attrs) {
           invalid_attrs = @valid_attrs.clone
           invalid_attrs[:payment_account_id] = @valid_attrs[:credit_account_id]
@@ -106,8 +106,8 @@ describe CreditRelation, :type => :model do
       end
     end
 
-    context "when creating the credit_relation whose credit_account is used as payment_account," do
-      it_should_behave_like "saving invalid param", :credit_account_id do
+    context 'when creating the credit_relation whose credit_account is used as payment_account,' do
+      it_should_behave_like 'saving invalid param', :credit_account_id do
         let(:attrs) {
           invalid_attrs = @valid_attrs.clone
           invalid_attrs[:credit_account_id] = accounts(:bank1).id
@@ -117,8 +117,8 @@ describe CreditRelation, :type => :model do
       end
     end
 
-    context "when creating the credit_relation whose payment_account is used as credit_account," do
-      it_should_behave_like "saving invalid param", :payment_account_id do
+    context 'when creating the credit_relation whose payment_account is used as credit_account,' do
+      it_should_behave_like 'saving invalid param', :payment_account_id do
         let(:attrs) {
           invalid_attrs = @valid_attrs.clone
           invalid_attrs[:credit_account_id] = accounts(:bank11).id
@@ -128,9 +128,9 @@ describe CreditRelation, :type => :model do
       end
     end
 
-    context "when create as same month" do
-      context "settlement_day is larger than payment_day" do
-        it_should_behave_like "saving invalid param", :settlement_day do
+    context 'when create as same month' do
+      context 'settlement_day is larger than payment_day' do
+        it_should_behave_like 'saving invalid param', :settlement_day do
           let(:attrs) {
             invalid_attrs = @valid_attrs.clone
             invalid_attrs[:payment_month] = 0
@@ -141,7 +141,7 @@ describe CreditRelation, :type => :model do
         end
       end
 
-      context "settlement_day is smaller than payment_day" do
+      context 'settlement_day is smaller than payment_day' do
         before do
           @valid_attrs[:payment_month] = 0
           @valid_attrs[:payment_day] = 20
@@ -149,20 +149,20 @@ describe CreditRelation, :type => :model do
           @cr = users(:user1).credit_relations.new(@valid_attrs)
         end
 
-        describe "returned value" do
+        describe 'returned value' do
           subject { @cr.save }
           it { is_expected.to be_truthy }
         end
 
-        describe "count of records" do
+        describe 'count of records' do
           it { expect { @cr.save }.to change { CreditRelation.count }.by(1) }
         end
       end
     end
 
-    context "when settlement_day is invalid" do
-      context "when settlement_day is 0" do
-        it_should_behave_like "saving invalid param", :settlement_day do
+    context 'when settlement_day is invalid' do
+      context 'when settlement_day is 0' do
+        it_should_behave_like 'saving invalid param', :settlement_day do
           let(:attrs) {
             invalid_attrs = @valid_attrs.clone
             invalid_attrs[:settlement_day] = 0
@@ -171,8 +171,8 @@ describe CreditRelation, :type => :model do
         end
       end
 
-      context "when settlement_day is greater than 28" do
-        it_should_behave_like "saving invalid param", :settlement_day do
+      context 'when settlement_day is greater than 28' do
+        it_should_behave_like 'saving invalid param', :settlement_day do
           let(:attrs) {
             invalid_attrs = @valid_attrs.clone
             invalid_attrs[:settlement_day] = 29
@@ -182,9 +182,9 @@ describe CreditRelation, :type => :model do
       end
     end
 
-    context "when payment_month is invalid" do
-      context "when payment_month is -1" do
-        it_should_behave_like "saving invalid param", :payment_month do
+    context 'when payment_month is invalid' do
+      context 'when payment_month is -1' do
+        it_should_behave_like 'saving invalid param', :payment_month do
           let(:attrs) {
             invalid_attrs = @valid_attrs.clone
             invalid_attrs[:payment_month] = -1
@@ -194,9 +194,9 @@ describe CreditRelation, :type => :model do
       end
     end
 
-    context "when payment_day is invalid" do
-      context "when payment_day is 29" do
-        it_should_behave_like "saving invalid param", :payment_day do
+    context 'when payment_day is invalid' do
+      context 'when payment_day is 29' do
+        it_should_behave_like 'saving invalid param', :payment_day do
           let(:attrs) {
             invalid_attrs = @valid_attrs.clone
             invalid_attrs[:payment_day] = 29
@@ -206,7 +206,7 @@ describe CreditRelation, :type => :model do
       end
     end
 
-    context "when payment_day is 99(the special value which means the final day of month)" do
+    context 'when payment_day is 99(the special value which means the final day of month)' do
       before do
         @init_count = CreditRelation.count
         invalid_attrs = @valid_attrs.clone
@@ -214,12 +214,12 @@ describe CreditRelation, :type => :model do
         @cr = users(:user1).credit_relations.new(invalid_attrs)
       end
 
-      describe "returned value" do
+      describe 'returned value' do
         subject { @cr.save }
         it { is_expected.to be_truthy }
       end
 
-      describe "count of record" do
+      describe 'count of record' do
         it { expect { @cr.save! }.to change { CreditRelation.count }.by(1) }
       end
     end

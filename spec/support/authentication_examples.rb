@@ -1,9 +1,9 @@
-    shared_examples_for "Unauthenticated Access" do
+    shared_examples_for 'Unauthenticated Access' do
       subject { response }
       it { is_expected.to redirect_to login_url }
     end
 
-    shared_examples_for "Unauthenticated Access in API" do
+    shared_examples_for 'Unauthenticated Access in API' do
       subject { response }
 
       describe '#response_code' do
@@ -12,12 +12,12 @@
       end
     end
 
-    shared_examples_for "Unauthenticated Access by xhr" do
+    shared_examples_for 'Unauthenticated Access by xhr' do
       subject { response }
       it { is_expected.to redirect_by_js_to login_url }
     end
 
-    shared_examples_for "Not Acceptable" do
+    shared_examples_for 'Not Acceptable' do
       subject { response }
 
       describe '#status' do

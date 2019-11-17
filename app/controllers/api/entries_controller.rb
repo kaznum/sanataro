@@ -43,10 +43,10 @@ class Api::EntriesController < ApplicationController
   def _json_action(&block)
     block.call
   rescue SyntaxError
-    errors = [t("error.amount_is_invalid")]
+    errors = [t('error.amount_is_invalid')]
     render json: { errors: errors }.to_json, status: :not_acceptable
   rescue InvalidDate # in case the date in params has invalid format
-    errors = [t("error.date_is_invalid")]
+    errors = [t('error.date_is_invalid')]
     render json: { errors: errors }.to_json, status: :not_acceptable
   rescue ActiveRecord::RecordNotFound
     render nothing: true, status: :not_found

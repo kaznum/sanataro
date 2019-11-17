@@ -11,8 +11,8 @@ describe MonthlistHelper, :type => :helper do
     current_action = 'foo'
 
     allow(helper).to receive(:link_to).and_return('month_link')
-    expect(helper).to receive(:link_to).with(2008, "#year_2008", class: "unselected").and_return("year_2008_link")
-    expect(helper).to receive(:link_to).with(2009, "#year_2009", class: "selected").and_return("year_2009_link")
+    expect(helper).to receive(:link_to).with(2008, '#year_2008', class: 'unselected').and_return('year_2008_link')
+    expect(helper).to receive(:link_to).with(2009, '#year_2009', class: 'selected').and_return('year_2009_link')
 
     @returned = helper.monthlist(from_year, from_month, to_year, to_month, selected_year, selected_month, current_action)
   end
