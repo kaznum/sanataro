@@ -27,6 +27,9 @@ Style/NumericPredicate:
 Style/PercentLiteralDelimiters:
   Enabled: false
 
+Style/RegexpLiteral:
+  Enabled: false
+
 Metrics/AbcSize:
   Enabled: false
 
