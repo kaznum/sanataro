@@ -1783,12 +1783,14 @@ describe Api::EntriesController, type: :controller do
               before do
                 @action.call
               end
+
               subject { response }
               it { is_expected.to be_success }
-            describe '#response_code' do
-              subject { super().response_code }
-              it { is_expected.to eq(200) }
-            end
+
+              describe '#response_code' do
+                subject { super().response_code }
+                it { is_expected.to eq(200) }
+              end
             end
 
             describe 'updated item' do
