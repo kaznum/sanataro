@@ -296,7 +296,7 @@ describe Settings::CreditRelationsController, type: :controller do
         context 'with valid params,' do
           before do
             expect(@mock_user).to receive(:credit_relations).at_least(1).and_return(@mock_crs)
-expect(@mock_crs).to receive(:create!).with(credit_account_id: '1', payment_account_id: '2', settlement_day: '99', payment_month: '1', payment_day: '4').and_return(@mock_cr)
+            expect(@mock_crs).to receive(:create!).with(credit_account_id: '1', payment_account_id: '2', settlement_day: '99', payment_month: '1', payment_day: '4').and_return(@mock_cr)
             expect(@mock_crs).to receive(:all).and_return(@mock_crs)
             xhr :post, :create, credit_account_id: 1, payment_account_id: 2, settlement_day: 99, payment_month: 1, payment_day: 4
           end
