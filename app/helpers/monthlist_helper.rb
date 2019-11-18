@@ -7,7 +7,7 @@ module MonthlistHelper
     year.upto(to_year) do |y|
       if y == to_year
         out += month.upto(to_month).map do |m|
-          css_class = (selected_year == y && selected_month == m) ? 'selected' : 'unselected'
+          css_class = selected_year == y && selected_month == m ? 'selected' : 'unselected'
           link_to(m.to_s, { action: current_action, year: y, month: m }, class: css_class)
         end.join
         out += '</div></div>'
