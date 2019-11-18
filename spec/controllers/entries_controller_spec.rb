@@ -2371,7 +2371,8 @@ describe EntriesController, type: :controller do
           let(:date) { items(:adjustment4).action_date - 1 }
           let(:next_adj_date) { items(:adjustment4).action_date }
           let(:action) do
-            lambda { xhr(:post, :create,
+            lambda { 
+              xhr(:post, :create,
                          entry: {
                            entry_type: 'adjustment',
                            action_date: date.strftime('%Y/%m/%d'),
@@ -2545,7 +2546,8 @@ describe EntriesController, type: :controller do
           let(:date) { items(:adjustment6).action_date - 1 }
           let(:next_adj_date) { items(:adjustment6).action_date }
           let(:action) do
-            lambda { xhr(:post, :create,
+            lambda { 
+              xhr(:post, :create,
                          entry: {
                            entry_type: 'adjustment',
                            action_date: date.strftime('%Y/%m/%d'),
@@ -2632,7 +2634,8 @@ describe EntriesController, type: :controller do
         context 'create adjustment after all adjustments,' do
           let(:date) { items(:adjustment6).action_date + 1 }
           let(:action) do
-            lambda { xhr(:post, :create,
+            lambda { 
+              xhr(:post, :create,
                          entry: {
                            entry_type: 'adjustment',
                            action_date: date.strftime('%Y/%m/%d'),
