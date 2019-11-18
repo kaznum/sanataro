@@ -94,7 +94,7 @@ class EntriesController < ApplicationController
       month: today.month,
       day: today.day,
       from_accounts: from_accounts,
-      to_accounts: to_accounts,
+      to_accounts: to_accounts
     }
 
     render 'new_simple', layout: false
