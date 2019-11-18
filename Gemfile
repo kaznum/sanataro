@@ -56,8 +56,10 @@ group :production do
 end
 
 gem 'mysql2'
-gem 'pg'
-gem 'sqlite3'
+# for AR-4.2
+gem 'pg', '~> 0.21'
+# for AR-4.2
+gem 'sqlite3', '~> 1.3.11'
 
 gem 'coffee-rails', '~> 4.1.0'
 gem 'haml', '>= 5.0.0'
