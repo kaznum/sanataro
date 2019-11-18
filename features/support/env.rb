@@ -100,11 +100,7 @@ Before do
   ActiveRecord::FixtureSet::create_fixtures(fixtures_folder, fixtures)
 end
 
-if ENV['TRAVIS']
-  Capybara.default_max_wait_time = 60
-else
-  Capybara.default_max_wait_time = 5
-end
+Capybara.default_max_wait_time = ENV['TRAVIS'] ? 60 : 5
 
 Capybara::Webkit.configure do |config|
   config.allow_url('ghbtns.com')
