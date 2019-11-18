@@ -3355,7 +3355,7 @@ describe EntriesController, type: :controller do
 
           describe 'monthly profit losses' do
             it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
-            it { expect { @action.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by((-1) * @init_adj6.amount) }
+            it { expect { @action.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(-1 * @init_adj6.amount) }
           end
         end
       end
@@ -3951,7 +3951,7 @@ describe EntriesController, type: :controller do
           end
 
           describe 'adjustments' do
-            it { expect { @action.call }.to change { Item.find(@adj4.id).amount }.by((-1) * @item3.amount) }
+            it { expect { @action.call }.to change { Item.find(@adj4.id).amount }.by(-1 * @item3.amount) }
             it { expect { @action.call }.to change { Item.find(@adj6.id).amount }.by(300) }
           end
 
@@ -4027,7 +4027,7 @@ describe EntriesController, type: :controller do
           end
 
           describe 'adjustments' do
-            it { expect { @action.call }.to change { Item.find(@adj4.id).amount }.by((-1) * @item3.amount) }
+            it { expect { @action.call }.to change { Item.find(@adj4.id).amount }.by(-1 * @item3.amount) }
             it { expect { @action.call }.to change { Item.find(@adj6.id).amount }.by(300) }
           end
 
@@ -4103,7 +4103,7 @@ describe EntriesController, type: :controller do
           end
 
           describe 'adjustments' do
-            it { expect { @action.call }.to change { Item.find(@adj2.id).amount }.by((-1) * @item1.amount) }
+            it { expect { @action.call }.to change { Item.find(@adj2.id).amount }.by(-1 * @item1.amount) }
             it { expect { @action.call }.not_to change { Item.find(@adj4.id).amount } }
             it { expect { @action.call }.not_to change { Item.find(@adj6.id).amount } }
           end

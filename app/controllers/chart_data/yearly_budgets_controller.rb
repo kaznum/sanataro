@@ -86,7 +86,7 @@ class ChartData::YearlyBudgetsController < ApplicationController
       ret[:expenses] << [month, totals[:expense].abs]
 
       # don't use int.abs because total_amount could be minus.
-      ret[:totals] << [month, (-1) * totals[:total]]
+      ret[:totals] << [month, -1 * totals[:total]]
       ret
     end
   end
