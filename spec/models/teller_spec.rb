@@ -18,7 +18,7 @@ describe Teller, type: :model do
           begin
             @action.call
             raise 'DO NOT PASS THROUGH HERE'
-          rescue
+          rescue RuntimeError
             return Item.count
           end
         end
@@ -93,7 +93,7 @@ describe Teller, type: :model do
           subject { super().amount }
           it { is_expected.to eq(10_000) }
         end
-          it { is_expected.to be_confirmation_required }
+
         describe '#tag_list' do
           subject { super().tag_list }
           it { is_expected.to eq('fuga hoge') }
@@ -768,13 +768,13 @@ describe Teller, type: :model do
           @cr1.payment_day = 99
           @cr1.save!
 
-          @create = lambda { @item, @affected_item_ids, @is_error =
-                               Teller.create_entry(users(:user1),
-                                                   action_date: Date.new(2008, 2, 10),
-                                                   name: 'テスト10', amount: 10_000,
-                                                   from_account_id: accounts(:credit4).id,
-                                                   to_account_id: accounts(:expense3).id)
-}                    
+          @create = lambda {
+            @item, @affected_item_ids, @is_error = Teller.create_entry(users(:user1),
+                                                                       action_date: Date.new(2008, 2, 10),
+                                                                       name: 'テスト10', amount: 10_000,
+                                                                       from_account_id: accounts(:credit4).id,
+                                                                       to_account_id: accounts(:expense3).id)
+          }
         end
 
         let(:credit_item) do
