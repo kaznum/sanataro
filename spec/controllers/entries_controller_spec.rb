@@ -2371,7 +2371,7 @@ describe EntriesController, type: :controller do
           let(:date) { items(:adjustment4).action_date - 1 }
           let(:next_adj_date) { items(:adjustment4).action_date }
           let(:action) do
-            lambda { 
+            lambda {
               xhr(:post, :create,
                   entry: {
                     entry_type: 'adjustment',
@@ -2546,7 +2546,7 @@ describe EntriesController, type: :controller do
           let(:date) { items(:adjustment6).action_date - 1 }
           let(:next_adj_date) { items(:adjustment6).action_date }
           let(:action) do
-            lambda { 
+            lambda {
               xhr(:post, :create,
                   entry: {
                     entry_type: 'adjustment',
@@ -2634,7 +2634,7 @@ describe EntriesController, type: :controller do
         context 'create adjustment after all adjustments,' do
           let(:date) { items(:adjustment6).action_date + 1 }
           let(:action) do
-            lambda { 
+            lambda {
               xhr(:post, :create,
                   entry: {
                     entry_type: 'adjustment',
@@ -3510,7 +3510,8 @@ describe EntriesController, type: :controller do
                   amount: '(100-20)*1.007',
                   from_account_id: accounts(:bank1).id,
                   to_account_id: accounts(:expense3).id,
-                  confirmation_required: 'true' },
+                  confirmation_required: 'true'
+                },
                 year: 2008,
                 month: 2)
           end
