@@ -18,7 +18,7 @@ describe Teller, type: :model do
           begin
             @action.call
             raise 'DO NOT PASS THROUGH HERE'
-          rescue RuntimeError
+          rescue ActiveRecord::RecordInvalid
             return Item.count
           end
         end
