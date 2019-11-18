@@ -380,7 +380,7 @@ describe EntriesController, type: :controller do
       before { dummy_login }
 
       %i[item1 adjustment2 credit_refill31].each do |item_name|
-        shared_examples_for "execute edit successfully of #{item_name.to_s}" do
+        shared_examples_for "execute edit successfully of #{item_name}" do
           describe 'resposne' do
             subject { response }
             it { is_expected.to be_success }
