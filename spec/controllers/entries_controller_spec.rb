@@ -306,7 +306,7 @@ describe EntriesController, type: :controller do
               mock_items = users(:user1).items
               expect(mock_user).to receive(:items).and_return(mock_items)
               expect(mock_items).to receive(:partials).with(stub_date_from, stub_date_to,
-                                                        hash_including(remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
+                                                            hash_including(remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
               xhr :get, :index, remaining: 1, year: 2008, month: 2
             end
           end
@@ -334,7 +334,7 @@ describe EntriesController, type: :controller do
               mock_items = users(:user1).items
               expect(mock_user).to receive(:items).and_return(mock_items)
               expect(mock_items).to receive(:partials).with(nil, nil,
-                                                        hash_including(tag: 'xxx', remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
+                                                            hash_including(tag: 'xxx', remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
               xhr :get, :index, remaining: true, year: 2008, month: 2, tag: 'xxx'
             end
           end
@@ -2373,14 +2373,14 @@ describe EntriesController, type: :controller do
           let(:action) do
             lambda { 
               xhr(:post, :create,
-                         entry: {
-                           entry_type: 'adjustment',
-                           action_date: date.strftime('%Y/%m/%d'),
-                           to_account_id: accounts(:bank1).id.to_s,
-                           adjustment_amount: '3000'
-                         },
-                         year: '2008',
-                         month: '2')
+                  entry: {
+                    entry_type: 'adjustment',
+                    action_date: date.strftime('%Y/%m/%d'),
+                    to_account_id: accounts(:bank1).id.to_s,
+                    adjustment_amount: '3000'
+                  },
+                  year: '2008',
+                  month: '2')
             }
           end
 
@@ -2548,14 +2548,14 @@ describe EntriesController, type: :controller do
           let(:action) do
             lambda { 
               xhr(:post, :create,
-                         entry: {
-                           entry_type: 'adjustment',
-                           action_date: date.strftime('%Y/%m/%d'),
-                           to_account_id: accounts(:bank1).id.to_s,
-                           adjustment_amount: '3000'
-                         },
-                         year: 2008.to_s,
-                         month: 2.to_s)
+                  entry: {
+                    entry_type: 'adjustment',
+                    action_date: date.strftime('%Y/%m/%d'),
+                    to_account_id: accounts(:bank1).id.to_s,
+                    adjustment_amount: '3000'
+                  },
+                  year: 2008.to_s,
+                  month: 2.to_s)
             }
           end
 
@@ -2636,14 +2636,14 @@ describe EntriesController, type: :controller do
           let(:action) do
             lambda { 
               xhr(:post, :create,
-                         entry: {
-                           entry_type: 'adjustment',
-                           action_date: date.strftime('%Y/%m/%d'),
-                           to_account_id: accounts(:bank1).id.to_s,
-                           adjustment_amount: '3000'
-                         },
-                         year: 2008,
-                         month: 2)
+                  entry: {
+                    entry_type: 'adjustment',
+                    action_date: date.strftime('%Y/%m/%d'),
+                    to_account_id: accounts(:bank1).id.to_s,
+                    adjustment_amount: '3000'
+                  },
+                  year: 2008,
+                  month: 2)
             }
           end
 
