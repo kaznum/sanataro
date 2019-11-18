@@ -25,7 +25,7 @@ addons:
 rvm:
   - 2.6.0
   - 2.5.0
-  - 2.3.0
+  - 2.4.0
   - ruby-head
   - jruby
   - jruby-head
@@ -42,13 +42,13 @@ gemfile:
 
 matrix:
   exclude:
-    - rvm: 2.3.0
+    - rvm: 2.4.0
       gemfile: gemfiles/Gemfile.jruby
       env: DB=mysql
-    - rvm: 2.3.0
+    - rvm: 2.4.0
       gemfile: gemfiles/Gemfile.jruby
       env: DB=postgres
-    - rvm: 2.3.0
+    - rvm: 2.4.0
       gemfile: gemfiles/Gemfile.jruby
       env: DB=sqlite
     - rvm: 2.5.0
