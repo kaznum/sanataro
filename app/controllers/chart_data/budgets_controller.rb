@@ -27,5 +27,4 @@ class ChartData::BudgetsController < ApplicationController
     end
     respond_with results
   end
-
 end
