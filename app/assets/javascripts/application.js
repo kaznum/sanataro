@@ -3,8 +3,8 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require jquery-ui/effect.all
-//= require jquery-ui/datepicker
-//= require jquery-ui/datepicker-ja
+//= require jquery-ui/widgets/datepicker
+//= require jquery-ui/i18n/datepicker-ja
 //= require jquery.delayedObserver
 //= require add_item_input_only
 //= require entries

@@ -59,21 +59,16 @@ platforms :ruby do
   gem 'sqlite3'
 end
 
-group :assets do
-  gem 'coffee-rails'
-  gem 'uglifier'
-end
-
+gem 'coffee-rails', '~> 4.1.0'
 gem 'i18n'
-
 gem 'haml', '>= 5.0.0'
-
 gem 'haml-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails', '>= 5.0.0'
 gem 'memoist'
-gem 'sass-rails'
+gem 'sass-rails', '~> 5.0'
 gem 'settingslogic'
+gem 'uglifier'
 
 # currently twitter bootstrap 3 is not supported in Sanataro
 gem 'twitter-bootstrap-rails', '>= 2.2.8', '< 3'

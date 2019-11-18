@@ -36,10 +36,9 @@ platforms :jruby do
   gem "therubyrhino"
 end
 
-group :assets do
-  gem 'coffee-rails'
-  gem 'uglifier'
-end
+gem 'sass-rails', '~> 5.0'
+gem 'coffee-rails', '~> 4.1.0'
+gem 'uglifier'
 
 gem "i18n"
 
@@ -49,7 +48,6 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails', '>= 5.0.0'
 gem 'settingslogic'
 gem 'memoist'
-gem 'sass-rails'
 
 gem 'twitter-bootstrap-rails', '>= 2.2.8', '< 3'
 gem 'rails_emoji'
