@@ -5,7 +5,7 @@ source 'http://rubygems.org'
 ### Please see gemfiles/Gemfile.jruby for JRuby env
 ###
 
-gem 'rails', '~> 4.2.11.1'
+gem 'rails', '~> 4.2.11'
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -61,7 +61,6 @@ end
 
 group :assets do
   gem 'coffee-rails'
-  gem 'sass-rails'
   gem 'uglifier'
 end
 
@@ -73,6 +72,7 @@ gem 'haml-rails'
 gem 'jquery-rails'
 gem 'jquery-ui-rails', '>= 5.0.0'
 gem 'memoist'
+gem 'sass-rails'
 gem 'settingslogic'
 
 # currently twitter bootstrap 3 is not supported in Sanataro

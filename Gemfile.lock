@@ -368,7 +368,7 @@ DEPENDENCIES
   minitest
   mysql2
   pg
-  rails (~> 4.2.11.1)
+  rails (~> 4.2.11)
   rails-observers
   rails_emoji
   rb-fsevent
