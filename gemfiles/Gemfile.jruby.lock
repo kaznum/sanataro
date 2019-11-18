@@ -260,7 +260,7 @@ DEPENDENCIES
   launchy
   memoist
   minitest
-  rails (>= 4.2.11.1)
+  rails (~> 4.2.11)
   rails-observers
   rails_emoji
   responders

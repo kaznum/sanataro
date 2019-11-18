@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '>= 4.2.11.1'
+gem 'rails', '~> 4.2.11'
 
 group :development, :test do
   gem "minitest"
@@ -37,7 +37,6 @@ platforms :jruby do
 end
 
 group :assets do
-  gem 'sass-rails'
   gem 'coffee-rails'
   gem 'uglifier'
 end
@@ -50,6 +49,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails', '>= 5.0.0'
 gem 'settingslogic'
 gem 'memoist'
+gem 'sass-rails'
 
 gem 'twitter-bootstrap-rails', '>= 2.2.8', '< 3'
 gem 'rails_emoji'
