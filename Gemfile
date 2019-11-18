@@ -5,7 +5,7 @@ source 'http://rubygems.org'
 ### Please see gemfiles/Gemfile.jruby for JRuby env
 ###
 
-gem 'rails', '>= 4.2.11.1'
+gem 'rails', '~> 4.2.11.1'
 
 # Use unicorn as the web server
 # gem 'unicorn'
