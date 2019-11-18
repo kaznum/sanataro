@@ -42,7 +42,7 @@ describe ChartData::BudgetsController, type: :controller do
       end
 
       context 'when id does not mean correct year-month,' do
-        before do 
+        before do
           get :show, id: '200815', format: :json
         end
 
