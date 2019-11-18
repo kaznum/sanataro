@@ -62,3 +62,6 @@ Naming/AsciiIdentifiers:
 
 Naming/MemoizedInstanceVariableName:
   Enabled: false
+
+Naming/VariableNumber:
+  Enabled: false
