@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Settings::CreditRelationsController < ApplicationController
   before_action :required_login
 

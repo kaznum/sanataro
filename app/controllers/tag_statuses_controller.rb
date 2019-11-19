@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class TagStatusesController < ApplicationController
   before_action :required_login
   def show

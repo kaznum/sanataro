@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class LoginController < ApplicationController
   before_action :required_login, except: %i[login do_login create_user do_create_user do_logout confirmation]
   before_action :_render_login_if_forced!, only: [:login]

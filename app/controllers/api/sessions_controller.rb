@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Api::SessionsController < ApplicationController
   include Api::General
 

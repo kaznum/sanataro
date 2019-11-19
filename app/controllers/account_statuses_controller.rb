@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AccountStatusesController < ApplicationController
   before_action :required_login
   def show
