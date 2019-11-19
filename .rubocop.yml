@@ -5,6 +5,7 @@ AllCops:
     - features/**/*
     - db/migrate/**/*
     - lib/arel_node_match_postgres_ext.rb
+  TargetRubyVersion: 2.3
 
 Layout/MultilineOperationIndentation:
   Enabled: false

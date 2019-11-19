@@ -17,11 +17,14 @@ describe Teller, type: :model do
 
       describe 'Item.count' do
         let(:item_count) do
-          @action.call
-          raise 'DO NOT PASS THROUGH HERE'
-        rescue ActiveRecord::RecordInvalid
-          return Item.count
+          begin
+            @action.call
+            raise 'DO NOT PASS THROUGH HERE'
+          rescue ActiveRecord::RecordInvalid
+            return Item.count
+          end
         end
+
         subject { item_count }
         it { is_expected.to eq(@initial_count) }
       end
