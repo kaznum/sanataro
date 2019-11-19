@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module EntriesHelper
   def link_to_confirmation_required(item_id, required, options = {})
     label = required ? icon_confirmation : icon_no_confirmation

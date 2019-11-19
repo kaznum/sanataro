@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Settings::AccountsController < ApplicationController
   include ActionView::Helpers::NumberHelper
   before_action :required_login

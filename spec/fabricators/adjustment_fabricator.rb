@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 Fabricator(:adjustment) do
   name 'ItemName'
   from_account_id(-1)

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Api::EntriesController < ApplicationController
   include Api::Auth
   include Common::Entries

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ChartData::AssetsController < ApplicationController
   include ChartData
   respond_to :json

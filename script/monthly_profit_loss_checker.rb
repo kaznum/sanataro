@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #
 # check the difference between monthly profit losses and items
 #

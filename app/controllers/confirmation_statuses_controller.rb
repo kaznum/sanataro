@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ConfirmationStatusesController < ApplicationController
   before_action :required_login
   def show

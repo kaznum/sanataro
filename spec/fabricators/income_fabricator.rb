@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 Fabricator(:income) do
   name 'Income Name'
   active true

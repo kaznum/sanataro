@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class EntriesController < ApplicationController
   include Common::Entries
   before_action :required_login

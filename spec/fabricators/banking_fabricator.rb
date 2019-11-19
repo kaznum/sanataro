@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 Fabricator(:banking) do
   name 'AccountName'
   active true
