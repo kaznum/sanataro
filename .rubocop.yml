@@ -1,9 +1,9 @@
 AllCops:
   Exclude:
     - db/schema.rb
-    - config/**
-    - features/**
-    - db/migrate/**
+    - config/**/*
+    - features/**/*
+    - db/migrate/**/*
     - lib/arel_node_match_postgres_ext.rb
 
 Layout/MultilineOperationIndentation:
