@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # https://github.com/cucumber/cucumber/issues/423
 # Why: http://groups.google.com/group/cukes/browse_thread/thread/5682d41436e235d7
 
