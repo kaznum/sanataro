@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module MonthlistHelper
-  def monthlist(from_year, from_month, to_year, to_month, selected_year, selected_month, current_action = 'items')
+  def monthlist(from_year, from_month, to_year, to_month, selected_year, selected_month, current_action = 'items') # rubocop:disable Metrics/ParameterLists
     out = "<div class='monthlist'><div class='years'>" + from_year.upto(to_year).map { |y| link_to(y, "#year_#{y}", class: (y == selected_year ? 'selected' : 'unselected')) }.join + '</div>'
     year = from_year
     month = from_month
