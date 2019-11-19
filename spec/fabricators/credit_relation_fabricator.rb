@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Fabricator(:credit_relation) do
   credit_account_id 10
   payment_account_id 20
