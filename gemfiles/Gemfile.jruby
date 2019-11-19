@@ -10,6 +10,7 @@ group :development, :test do
   gem "launchy"
   gem "fabrication"
   gem 'dotenv-rails'
+  gem 'rubocop', require: false
 end
 
 group :test do
