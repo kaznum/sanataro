@@ -16,9 +16,8 @@ class ChartData::AssetsController < ApplicationController
   def balances_with_account_of_month(year, month)
     date = Date.new(year.to_i, month.to_i)
     mpls = @user.monthly_profit_losses.where('month <= ?', date)
-    mpls.reduce(Hash.new(0)) do |a, e|
+    mpls.each_with_object(Hash.new(0)) do |e, a|
       a[e.account_id] += e.amount
-      a
     end
   end
 
