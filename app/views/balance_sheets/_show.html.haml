@@ -1,5 +1,5 @@
 #account_history
-%div{:id => "account_history_#{h @account_id}"}
+%div{id: "account_history_#{h @account_id}"}
   %table.table
     %tr
       %th{:colspan => "5"}
@@ -7,7 +7,7 @@
         = @user.all_accounts[@account_id]
         #{t('label.of_history')} (#{link_to t('link.hide'), '#', onclick: fadeout_and_remove(selector) + "return false;"})
     %tr
-      %th{:colspan => "4"}= "#{t('.brought_forward_from_last_month', month: l(displaying_month - 1, format: :year_month))}"
+      %th{ colspan: "4" }= t('.brought_forward_from_last_month', month: l(displaying_month - 1, format: :year_month))
       %th.money= number_to_currency(@remain_amount)
     %tr
       %th= t('label.date')
@@ -30,5 +30,5 @@
         %td.money= number_to_currency(amount)
         %td.money= number_to_currency(@remain_amount)
     %tr
-      %th{:colspan => "4"}= "#{t('.carried_forward_to_next_month', month: l(displaying_month.end_of_month + 1, format: :year_month))}"
+      %th{:colspan => "4"}= t('.carried_forward_to_next_month', month: l(displaying_month.end_of_month + 1, format: :year_month))
       %th.money= number_to_currency(@remain_amount)
