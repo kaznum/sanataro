@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Item, type: :model do
@@ -976,7 +978,7 @@ describe Item, type: :model do
         to_account_id: 3,
         amount: 10_000,
         confirmation_required: true,
-        tag_list: 'hoge fuga',
+        tag_list: 'hoge fuga'
       }
 
       @item = users(:user1).general_items.create!(@valid_attrs)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EntryCandidatesController < ApplicationController
   before_action :required_login
 
@@ -26,10 +28,10 @@ class EntryCandidatesController < ApplicationController
     # This may be better to be replaced with another way to implement.
     #
     items = @user.general_items
-      .where(items_table[:name].matches("%#{partial_name}%"))
-      .where(parent_id: nil)
-      .group('name, from_account_id, to_account_id, amount')
-      .select('max(id) as max_id, name, from_account_id, to_account_id, amount').order('max_id desc')
+                 .where(items_table[:name].matches("%#{partial_name}%"))
+                 .where(parent_id: nil)
+                 .group('name, from_account_id, to_account_id, amount')
+                 .select('max(id) as max_id, name, from_account_id, to_account_id, amount').order('max_id desc')
     items = ActiveRecord::Base.connection.adapter_name == 'MsSQL' ? items[0..4] : items.limit(5)
     render partial: 'candidate', collection: items
   end

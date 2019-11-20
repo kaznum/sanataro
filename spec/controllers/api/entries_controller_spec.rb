@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Api::EntriesController, type: :controller do
@@ -282,7 +284,7 @@ describe Api::EntriesController, type: :controller do
               mock_items = users(:user1).items
               expect(mock_user).to receive(:items).and_return(mock_items)
               expect(mock_items).to receive(:partials).with(stub_date_from, stub_date_to,
-                                                        hash_including(remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).to_a)
+                                                            hash_including(remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).to_a)
               get :index, remaining: 1, year: 2008, month: 2, format: :json
             end
           end
@@ -310,7 +312,7 @@ describe Api::EntriesController, type: :controller do
               mock_items = users(:user1).items
               expect(mock_user).to receive(:items).and_return(mock_items)
               expect(mock_items).to receive(:partials).with(nil, nil,
-                                                        hash_including(tag: 'xxx', remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).to_a)
+                                                            hash_including(tag: 'xxx', remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).to_a)
               get :index, remaining: true, year: 2008, month: 2, tag: 'xxx', format: :json
             end
           end
@@ -1783,12 +1785,14 @@ describe Api::EntriesController, type: :controller do
               before do
                 @action.call
               end
+
               subject { response }
               it { is_expected.to be_success }
-            describe '#response_code' do
-              subject { super().response_code }
-              it { is_expected.to eq(200) }
-            end
+
+              describe '#response_code' do
+                subject { super().response_code }
+                it { is_expected.to eq(200) }
+              end
             end
 
             describe 'updated item' do

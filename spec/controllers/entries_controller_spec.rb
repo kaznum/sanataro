@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe EntriesController, type: :controller do
@@ -306,7 +308,7 @@ describe EntriesController, type: :controller do
               mock_items = users(:user1).items
               expect(mock_user).to receive(:items).and_return(mock_items)
               expect(mock_items).to receive(:partials).with(stub_date_from, stub_date_to,
-                                                        hash_including(remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
+                                                            hash_including(remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
               xhr :get, :index, remaining: 1, year: 2008, month: 2
             end
           end
@@ -334,7 +336,7 @@ describe EntriesController, type: :controller do
               mock_items = users(:user1).items
               expect(mock_user).to receive(:items).and_return(mock_items)
               expect(mock_items).to receive(:partials).with(nil, nil,
-                                                        hash_including(tag: 'xxx', remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
+                                                            hash_including(tag: 'xxx', remain: true)).and_return(Item.where(action_date: Date.new(2008, 2)..Date.new(2008, 2).end_of_month).load)
               xhr :get, :index, remaining: true, year: 2008, month: 2, tag: 'xxx'
             end
           end
@@ -380,7 +382,7 @@ describe EntriesController, type: :controller do
       before { dummy_login }
 
       %i[item1 adjustment2 credit_refill31].each do |item_name|
-        shared_examples_for "execute edit successfully of #{item_name.to_s}" do
+        shared_examples_for "execute edit successfully of #{item_name}" do
           describe 'resposne' do
             subject { response }
             it { is_expected.to be_success }
@@ -2371,15 +2373,16 @@ describe EntriesController, type: :controller do
           let(:date) { items(:adjustment4).action_date - 1 }
           let(:next_adj_date) { items(:adjustment4).action_date }
           let(:action) do
-            lambda { xhr(:post, :create,
-                         entry: {
-                           entry_type: 'adjustment',
-                           action_date: date.strftime('%Y/%m/%d'),
-                           to_account_id: accounts(:bank1).id.to_s,
-                           adjustment_amount: '3000'
-                         },
-                         year: '2008',
-                         month: '2')
+            lambda {
+              xhr(:post, :create,
+                  entry: {
+                    entry_type: 'adjustment',
+                    action_date: date.strftime('%Y/%m/%d'),
+                    to_account_id: accounts(:bank1).id.to_s,
+                    adjustment_amount: '3000'
+                  },
+                  year: '2008',
+                  month: '2')
             }
           end
 
@@ -2545,15 +2548,16 @@ describe EntriesController, type: :controller do
           let(:date) { items(:adjustment6).action_date - 1 }
           let(:next_adj_date) { items(:adjustment6).action_date }
           let(:action) do
-            lambda { xhr(:post, :create,
-                         entry: {
-                           entry_type: 'adjustment',
-                           action_date: date.strftime('%Y/%m/%d'),
-                           to_account_id: accounts(:bank1).id.to_s,
-                           adjustment_amount: '3000'
-                         },
-                         year: 2008.to_s,
-                         month: 2.to_s)
+            lambda {
+              xhr(:post, :create,
+                  entry: {
+                    entry_type: 'adjustment',
+                    action_date: date.strftime('%Y/%m/%d'),
+                    to_account_id: accounts(:bank1).id.to_s,
+                    adjustment_amount: '3000'
+                  },
+                  year: 2008.to_s,
+                  month: 2.to_s)
             }
           end
 
@@ -2632,15 +2636,16 @@ describe EntriesController, type: :controller do
         context 'create adjustment after all adjustments,' do
           let(:date) { items(:adjustment6).action_date + 1 }
           let(:action) do
-            lambda { xhr(:post, :create,
-                         entry: {
-                           entry_type: 'adjustment',
-                           action_date: date.strftime('%Y/%m/%d'),
-                           to_account_id: accounts(:bank1).id.to_s,
-                           adjustment_amount: '3000'
-                         },
-                         year: 2008,
-                         month: 2)
+            lambda {
+              xhr(:post, :create,
+                  entry: {
+                    entry_type: 'adjustment',
+                    action_date: date.strftime('%Y/%m/%d'),
+                    to_account_id: accounts(:bank1).id.to_s,
+                    adjustment_amount: '3000'
+                  },
+                  year: 2008,
+                  month: 2)
             }
           end
 
@@ -3355,7 +3360,7 @@ describe EntriesController, type: :controller do
 
           describe 'monthly profit losses' do
             it { expect { @action.call }.not_to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200802).id).amount } }
-            it { expect { @action.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by((-1) * @init_adj6.amount) }
+            it { expect { @action.call }.to change { MonthlyProfitLoss.find(monthly_profit_losses(:bank1200803).id).amount }.by(-1 * @init_adj6.amount) }
           end
         end
       end
@@ -3507,7 +3512,8 @@ describe EntriesController, type: :controller do
                   amount: '(100-20)*1.007',
                   from_account_id: accounts(:bank1).id,
                   to_account_id: accounts(:expense3).id,
-                  confirmation_required: 'true' },
+                  confirmation_required: 'true'
+                },
                 year: 2008,
                 month: 2)
           end
@@ -3951,7 +3957,7 @@ describe EntriesController, type: :controller do
           end
 
           describe 'adjustments' do
-            it { expect { @action.call }.to change { Item.find(@adj4.id).amount }.by((-1) * @item3.amount) }
+            it { expect { @action.call }.to change { Item.find(@adj4.id).amount }.by(-1 * @item3.amount) }
             it { expect { @action.call }.to change { Item.find(@adj6.id).amount }.by(300) }
           end
 
@@ -4027,7 +4033,7 @@ describe EntriesController, type: :controller do
           end
 
           describe 'adjustments' do
-            it { expect { @action.call }.to change { Item.find(@adj4.id).amount }.by((-1) * @item3.amount) }
+            it { expect { @action.call }.to change { Item.find(@adj4.id).amount }.by(-1 * @item3.amount) }
             it { expect { @action.call }.to change { Item.find(@adj6.id).amount }.by(300) }
           end
 
@@ -4103,7 +4109,7 @@ describe EntriesController, type: :controller do
           end
 
           describe 'adjustments' do
-            it { expect { @action.call }.to change { Item.find(@adj2.id).amount }.by((-1) * @item1.amount) }
+            it { expect { @action.call }.to change { Item.find(@adj2.id).amount }.by(-1 * @item1.amount) }
             it { expect { @action.call }.not_to change { Item.find(@adj4.id).amount } }
             it { expect { @action.call }.not_to change { Item.find(@adj6.id).amount } }
           end

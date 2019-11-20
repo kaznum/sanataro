@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Filters added to this controller will be run for all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
@@ -15,7 +17,7 @@ class ApplicationController < ActionController::Base
     locale && I18n.available_locales.include?(locale.to_sym) && locale.to_sym != :en
   end
 
-  def default_url_options(options = {})
+  def default_url_options(_options = {})
     { locale: I18n.locale }
   end
 
@@ -37,7 +39,8 @@ class ApplicationController < ActionController::Base
       format.js { redirect_js_to login_url }
       format.json { redirect_to login_url }
     end
-    return false
+
+    false
   end
 
   def render_js_error(args)

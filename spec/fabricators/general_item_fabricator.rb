@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Fabricator(:general_item) do
   name 'ItemName'
   from_account_id 1

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Settings::CreditRelationsController < ApplicationController
   before_action :required_login
 
@@ -14,8 +16,8 @@ class Settings::CreditRelationsController < ApplicationController
                                          payment_day: params[:payment_day])
 
     @credit_relations = @user.credit_relations.all
-  rescue ActiveRecord::RecordInvalid => ex
-    render_js_error id: 'warning', errors: ex.record.errors.full_messages, default_message: t('error.input_is_invalid')
+  rescue ActiveRecord::RecordInvalid => e
+    render_js_error id: 'warning', errors: e.record.errors.full_messages, default_message: t('error.input_is_invalid')
   end
 
   def destroy

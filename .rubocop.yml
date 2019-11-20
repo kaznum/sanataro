@@ -1,10 +1,11 @@
 AllCops:
   Exclude:
     - db/schema.rb
-    - config/**
-    - features/**
-    - db/migrate/**
+    - config/**/*
+    - features/**/*
+    - db/migrate/**/*
     - lib/arel_node_match_postgres_ext.rb
+  TargetRubyVersion: 2.3
 
 Layout/MultilineOperationIndentation:
   Enabled: false
@@ -24,10 +25,16 @@ Style/ClassAndModuleChildren:
 Style/Documentation:
   Enabled: false
 
+Style/EmptyCaseCondition:
+  Enabled: false
+
 Style/NumericPredicate:
   Enabled: false
 
 Style/PercentLiteralDelimiters:
+  Enabled: false
+
+Style/PerlBackrefs:
   Enabled: false
 
 Style/RegexpLiteral:
@@ -51,6 +58,9 @@ Metrics/LineLength:
 Metrics/MethodLength:
   Enabled: false
 
+Metrics/ModuleLength:
+  Enabled: false
+
 Metrics/PerceivedComplexity:
   Enabled: false
 
@@ -58,4 +68,7 @@ Naming/AsciiIdentifiers:
   Enabled: false
 
 Naming/MemoizedInstanceVariableName:
+  Enabled: false
+
+Naming/VariableNumber:
   Enabled: false

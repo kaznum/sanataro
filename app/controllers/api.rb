@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module Auth
     def self.included(base)
@@ -21,7 +23,7 @@ module Api
           # for Basic Auth login
           user = authenticate_with_http_basic do |login, password|
             challenge_user = User.find_by_login_and_active(login, true)
-            challenge_user && challenge_user.password_correct?(password) ? challenge_user : nil
+            challenge_user&.password_correct?(password) ? challenge_user : nil
           end
         end
 

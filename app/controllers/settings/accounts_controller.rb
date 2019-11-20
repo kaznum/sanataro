@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Settings::AccountsController < ApplicationController
   include ActionView::Helpers::NumberHelper
   before_action :required_login
@@ -37,10 +39,9 @@ class Settings::AccountsController < ApplicationController
 
   def destroy
     @account.destroy
-    unless @account.errors.empty?
-      render_js_error id: 'add_warning', errors: @account.errors.full_messages
-      return
-    end
+    return if @account.errors.empty?
+
+    render_js_error id: 'add_warning', errors: @account.errors.full_messages
   end
 
   private
@@ -49,6 +50,5 @@ class Settings::AccountsController < ApplicationController
     @account = @user.accounts.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     redirect_js_to login_url
-    return
   end
 end

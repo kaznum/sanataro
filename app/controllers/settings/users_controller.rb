@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Settings::UsersController < ApplicationController
   before_action :required_login
 
@@ -14,5 +16,4 @@ class Settings::UsersController < ApplicationController
   rescue ActiveRecord::RecordInvalid
     render_js_error id: 'warning', errors: @user_to_change.errors, default_message: t('error.input_is_invalid')
   end
-
 end

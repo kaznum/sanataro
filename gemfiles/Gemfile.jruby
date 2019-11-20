@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '>= 4.2.11.1'
+gem 'rails', '~> 4.2.11'
 
 group :development, :test do
   gem "minitest"
@@ -10,6 +10,7 @@ group :development, :test do
   gem "launchy"
   gem "fabrication"
   gem 'dotenv-rails'
+  gem 'rubocop', require: false
 end
 
 group :test do
@@ -36,11 +37,9 @@ platforms :jruby do
   gem "therubyrhino"
 end
 
-group :assets do
-  gem 'sass-rails'
-  gem 'coffee-rails'
-  gem 'uglifier'
-end
+gem 'sass-rails', '~> 5.0'
+gem 'coffee-rails', '~> 4.1.0'
+gem 'uglifier'
 
 gem "i18n"
 

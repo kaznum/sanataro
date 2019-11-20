@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::SessionsController < ApplicationController
   include Api::General
 
@@ -14,7 +16,7 @@ class Api::SessionsController < ApplicationController
 
     user = User.find_by_login_and_active(login, true)
 
-    authenticated = true if user && user.password_correct?(password)
+    authenticated = true if user&.password_correct?(password)
 
     if authenticated
       session[:user_id] = user.id

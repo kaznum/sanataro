@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe ChartData::BudgetsController, type: :controller do
@@ -42,7 +44,8 @@ describe ChartData::BudgetsController, type: :controller do
       end
 
       context 'when id does not mean correct year-month,' do
-        before do get :show, id: '200815', format: :json
+        before do
+          get :show, id: '200815', format: :json
         end
 
         it_should_behave_like 'Not Acceptable'

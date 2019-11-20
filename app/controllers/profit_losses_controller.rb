@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ProfitLossesController < ApplicationController
   include MonthlyReports
 
@@ -34,7 +36,7 @@ class ProfitLossesController < ApplicationController
     @total_income = @account_incomes.reduce(0) { |a, e| a - m_pls[e.id] }
   end
 
-  def _setup_expenses(m_pls)
+  def _setup_expenses(_m_pls)
     @account_expenses = @user.expenses.to_a
     @total_expense = @account_expenses.reduce(0) { |a, e| a + @m_pls[e.id] }
   end
@@ -49,11 +51,11 @@ class ProfitLossesController < ApplicationController
       @total_income -= adjustment_amount
     end
 
-    if adjustment_amount > 0
-      unknown_account = @user.expenses.build { |a| a.id = -1 }
-      unknown_account.name = I18n.t('label.unknown_expense')
-      @account_expenses << unknown_account
-      @total_expense += adjustment_amount
-    end
+    return if adjustment_amount <= 0
+
+    unknown_account = @user.expenses.build { |a| a.id = -1 }
+    unknown_account.name = I18n.t('label.unknown_expense')
+    @account_expenses << unknown_account
+    @total_expense += adjustment_amount
   end
 end

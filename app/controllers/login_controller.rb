@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LoginController < ApplicationController
   before_action :required_login, except: %i[login do_login create_user do_create_user do_logout confirmation]
   before_action :_render_login_if_forced!, only: [:login]
@@ -110,7 +112,7 @@ class LoginController < ApplicationController
   end
 
   def _get_user_by_login_and_autologin_key(login, autologin_key)
-    user = (login.blank? || autologin_key.blank?) ? nil : User.find_by_login_and_active(login, true)
+    user = login.blank? || autologin_key.blank? ? nil : User.find_by_login_and_active(login, true)
     matched_autologin_key = (user ? AutologinKey.matched_key(user.id, autologin_key) : nil)
     matched_autologin_key ? user : nil
   end

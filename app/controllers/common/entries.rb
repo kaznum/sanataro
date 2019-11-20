@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Common
   module Entries
     def self.included(base)
@@ -54,21 +56,21 @@ module Common
         prms = {}
         params[:entry].each do |k, v|
           attr = k.to_sym
-          case attr
-          when :amount, :adjustment_amount
-            prms[attr] = Item.calc_amount(v)
-          when :action_date
-            prms[attr] = parse_str_to_date(v)
-          else
-            prms[attr] = v
-          end
+          prms[attr] = case attr
+                       when :amount, :adjustment_amount
+                         Item.calc_amount(v)
+                       when :action_date
+                         parse_str_to_date(v)
+                       else
+                         v
+                       end
         end
         prms
       end
 
       def parse_str_to_date(str)
         Date.parse(str)
-      rescue
+      rescue ArgumentError
         raise InvalidDate
       end
 
@@ -144,11 +146,11 @@ module Common
       end
 
       def _index_for_remaining(month, tag = nil, mark = nil, keyword = nil)
-        if tag.present? || mark.present? || keyword.present?
-          month_to_display = nil
-        else
-          month_to_display = month.beginning_of_month
-        end
+        month_to_display = if tag.present? || mark.present? || keyword.present?
+                             nil
+                           else
+                             month.beginning_of_month
+                           end
 
         @items = get_items(month: month_to_display, remain: true, tag: tag, mark: mark, keyword: keyword)
       end

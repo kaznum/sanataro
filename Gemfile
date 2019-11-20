@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'http://rubygems.org'
 
 ###
@@ -5,7 +7,7 @@ source 'http://rubygems.org'
 ### Please see gemfiles/Gemfile.jruby for JRuby env
 ###
 
-gem 'rails', '>= 4.2.11.1'
+gem 'rails', '~> 4.2.11'
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -53,27 +55,23 @@ group :production do
   gem 'redis-store', '>= 1.4.0'
 end
 
-platforms :ruby do
-  gem 'mysql2'
-  gem 'pg'
-  gem 'sqlite3'
-end
+gem 'mysql2'
+# for AR-4.2
+gem 'pg', '~> 0.21'
+# for AR-4.2
+gem 'sqlite3', '~> 1.3.11'
 
-group :assets do
-  gem 'coffee-rails'
-  gem 'sass-rails'
-  gem 'uglifier'
-end
-
-gem 'i18n'
-
+gem 'coffee-rails', '~> 4.1.0'
 gem 'haml', '>= 5.0.0'
-
 gem 'haml-rails'
+gem 'i18n'
 gem 'jquery-rails'
 gem 'jquery-ui-rails', '>= 5.0.0'
 gem 'memoist'
+gem 'puma'
+gem 'sass-rails', '~> 5.0'
 gem 'settingslogic'
+gem 'uglifier'
 
 # currently twitter bootstrap 3 is not supported in Sanataro
 gem 'twitter-bootstrap-rails', '>= 2.2.8', '< 3'

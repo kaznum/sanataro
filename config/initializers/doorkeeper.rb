@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Doorkeeper.configure do
   # This block will be called to check whether the
   # resource owner is authenticated or not
@@ -23,7 +24,7 @@ Doorkeeper.configure do
   # end
   admin_authenticator do |routes|
     def authenticate
-      admin_user, admin_password = get_correct_credential
+      admin_user, admin_password = correct_credential
       return nil if admin_user.nil? || admin_password.nil?
 
       authenticate_or_request_with_http_basic do |username, password|
@@ -31,7 +32,7 @@ Doorkeeper.configure do
       end
     end
 
-    def get_correct_credential
+    def correct_credential
       admin_user = ENV['OAUTH_ADMIN_USER'].presence
       admin_password = ENV['OAUTH_ADMIN_PASSWORD'].presence
 

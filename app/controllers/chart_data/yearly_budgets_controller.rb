@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChartData::YearlyBudgetsController < ApplicationController
   include ChartData
   respond_to :json
@@ -32,14 +34,13 @@ class ChartData::YearlyBudgetsController < ApplicationController
       a.name = 'Unknown'
     end
 
-    results = accounts.reduce({}) do |ret, acc|
+    results = accounts.each_with_object({}) do |acc, ret|
       amounts = (0..11).map do |i|
         month = date_since.months_since(i)
         amount = _monthly_amount_per_account(month, budget_type, acc.id)
         [month.to_milliseconds, amount.abs]
       end
       ret["account_#{acc.id}"] = { label: acc.name, data: amounts }
-      ret
     end
     results
   end
@@ -60,7 +61,8 @@ class ChartData::YearlyBudgetsController < ApplicationController
   def _formatted_total_data(date_since)
     results = _monthly_totals_during_a_year(date_since)
 
-    { expense: {
+    {
+      expense: {
         label: I18n.t('label.expense'),
         data: results[:expenses].map { |a| [a[0].to_milliseconds, a[1]] }
       },
@@ -79,15 +81,14 @@ class ChartData::YearlyBudgetsController < ApplicationController
     expense_ids = @user.expense_ids
     income_ids = @user.income_ids
 
-    (0..11).reduce(incomes: [], expenses: [], totals: []) do |ret, i|
+    (0..11).each_with_object(incomes: [], expenses: [], totals: []) do |i, ret|
       month = date_since.months_since(i)
       totals = _monthly_total(month, expense_ids, income_ids)
       ret[:incomes] << [month, totals[:income].abs]
       ret[:expenses] << [month, totals[:expense].abs]
 
       # don't use int.abs because total_amount could be minus.
-      ret[:totals] << [month, (-1) * totals[:total]]
-      ret
+      ret[:totals] << [month, -1 * totals[:total]]
     end
   end
 

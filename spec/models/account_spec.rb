@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Account, type: :model do
@@ -8,7 +10,7 @@ describe Account, type: :model do
     CreditRelation.destroy_all
     @valid_params = {
       name: 'aaaaa',
-      order_no: 1,
+      order_no: 1
     }
   end
 
@@ -256,13 +258,13 @@ describe Account, type: :model do
 
       @bank_params = {
         name: 'bank',
-        order_no: 10,
+        order_no: 10
       }
 
       @relation_params = {
         settlement_day: 10,
         payment_month: 2,
-        payment_day: 4,
+        payment_day: 4
       }
 
       @credit = users(:user1).bankings.create!(@credit_params)

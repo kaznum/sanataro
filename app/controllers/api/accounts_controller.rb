@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::AccountsController < ApplicationController
   include Api::Auth
   include ActionView::Helpers::NumberHelper

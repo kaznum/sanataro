@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Admin::UsersController < ApplicationController
   before_action :authenticate
   def index
@@ -8,7 +10,7 @@ class Admin::UsersController < ApplicationController
   private
 
   def authenticate
-    admin_user, admin_password = get_correct_credential
+    admin_user, admin_password = correct_credential
     if admin_user.nil? || admin_password.nil?
       render nothing: true, status: :unauthorized
       return
@@ -19,7 +21,7 @@ class Admin::UsersController < ApplicationController
     end
   end
 
-  def get_correct_credential
+  def correct_credential
     admin_user = ENV['ADMIN_USER'].presence
     admin_password = ENV['ADMIN_PASSWORD'].presence
 
