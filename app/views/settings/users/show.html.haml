@@ -5,7 +5,7 @@
       .bind("ajax:complete", -> $('#change_button').attr("disabled", false))
 - if  @user.login != 'demo'
   #input_area
-    = form_tag settings_user_path, :remote => true, :method => :put, :id => "edit_user", :class => "form-horizontal" do
+    = form_tag settings_user_path, remote: true, method: :put, id: 'edit_user', class: 'form-horizontal' do
       %p= t('.explanation')
       .control-group
         %label.control-label{for: 'email'}= t('.email')
@@ -17,7 +17,7 @@
         %label.control-label{for: 'password_plain'}= t('.new_password_confirmation')
         .controls= password_field_tag 'password_confirmation', nil
       %p
-        %span#warning.warning
+        %span.warning#warning
       .control-group
         .controls= submit_tag t('button.save'), id: 'change_button', class: 'btn btn-primary'
 - else

@@ -63,32 +63,32 @@
           .budget_graph
             .chart_title
               %i.icon-th= ' ' + t('label.income')
-              = toggle_legend_link "#income_chart"
+              = toggle_legend_link '#income_chart'
               %span#income_chart_hover
-            #income_chart.graph{style: "height:200px;"}
+            .graph#income_chart{style: "height:200px;"}
             .spacer &nbsp;
             .chart_title
               %i.icon-th= ' ' + t('label.expense')
               = toggle_legend_link '#expense_chart'
               %span#expense_chart_hover
-            #expense_chart.graph{style: 'height: 200px;'}
+            .graph#expense_chart{style: 'height: 200px;'}
             .spacer &nbsp;
             .chart_title
               %i.icon-th= ' ' + t('label.yearly_income')
               = toggle_legend_link '#yearly_income_chart'
             #yearly_income_chart_choices
-            #yearly_income_chart.graph{style: 'height: 200px;'}
+            .graph#yearly_income_chart{style: 'height: 200px;'}
             .spacer &nbsp;
             .chart_title
               %i.icon-th= ' ' + t('label.yearly_expense')
               = toggle_legend_link '#yearly_expense_chart'
             #yearly_expense_chart_choices
-            #yearly_expense_chart.graph{style: "height: 200px"}
+            .graph#yearly_expense_chart{style: "height: 200px"}
             .spacer &nbsp;
             .chart_title
               %i.icon-th= ' ' + t('label.yearly_total_income_and_total_expense')
-              = toggle_legend_link "#yearly_total_chart"
+              = toggle_legend_link '#yearly_total_chart'
             #yearly_total_chart_choices
-            #yearly_total_chart.graph{style: "height: 200px"}
+            .graph#yearly_total_chart{style: 'height: 200px'}
           %br/
           #pl_history

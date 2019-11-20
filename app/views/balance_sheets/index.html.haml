@@ -70,21 +70,21 @@
           .yearly_balance_graph
             .chart_title
               %i.icon-th= ' ' + t('label.change')
-              = toggle_legend_link "#yearly_chart"
+              = toggle_legend_link '#yearly_chart'
               %span#income_chart_hover
             #yearly_chart_choices
-            #yearly_chart.graph{style: 'height: 200px;'}
+            .graph#yearly_chart{style: 'height: 200px;'}
           #account_history
         .span4
           #asset_graph
             .chart_title
               %i.icon-th= ' ' + t('.stock')
-              = toggle_legend_link "#asset_chart"
+              = toggle_legend_link '#asset_chart'
               %span#asset_chart_hover
-            #asset_chart.graph{style: 'height: 200px'}
+            .graph#asset_chart{style: 'height: 200px'}
             .spacer &nbsp;
             .chart_title
               %i.icon-th= ' ' + t('.debt')
               = toggle_legend_link "#debt_chart"
               %span#debt_chart_hover
-            #debt_chart.graph{style: 'height: 200px'}
+            .graph#debt_chart{style: 'height: 200px'}

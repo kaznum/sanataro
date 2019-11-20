@@ -31,18 +31,6 @@ linters:
   LineLength:
     enabled: false
 
-  # Offense count: 15
-  ClassesBeforeIds:
-    exclude:
-      - "app/views/account_statuses/_index.html.haml"
-      - "app/views/balance_sheets/index.html.haml"
-      - "app/views/entries/_remains_link.html.haml"
-      - "app/views/login/login.html.haml"
-      - "app/views/profit_losses/index.html.haml"
-      - "app/views/settings/accounts/_add.html.haml"
-      - "app/views/settings/credit_relations/index.html.haml"
-      - "app/views/settings/users/show.html.haml"
-
   # Offense count: 41
   IdNames:
     exclude:
