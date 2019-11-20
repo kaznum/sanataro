@@ -3,7 +3,7 @@
     $("#edit_user")
       .bind("ajax:before", -> $('#change_button').attr("disabled", true))
       .bind("ajax:complete", -> $('#change_button').attr("disabled", false))
-- if  @user.login != 'demo'
+- if @user.login != 'demo'
   #input_area
     = form_tag settings_user_path, remote: true, method: :put, id: 'edit_user', class: 'form-horizontal' do
       %p= t('.explanation')
