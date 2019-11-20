@@ -1,4 +1,4 @@
-.item{:id => "item_#{item.id}", :class => "row-fluid #{item_row_class(item)}"}
+.item{id: "item_#{item.id}", class: "row-fluid #{item_row_class(item)}"}
   .span2.item_date= l(item.action_date)
   .span3.item_name
     = item_row_confirmation_required(item, @tag, @mark, @keyword)
@@ -6,7 +6,7 @@
     = link_to_tags(item)
   .span2.item_from= item_row_from_account(item)
   .span2.item_to= item_row_to_account(item)
-  .span2.item_amount=number_to_currency(item.amount.abs)
+  .span2.item_amount= number_to_currency(item.amount.abs)
   .span1.item_operation
-    %span{:id => "navi_#{h item.id}"}= item_row_operation(item, @tag || @mark || @keyword)
-    %span{:id => "loading_#{h item.id}", :style => "display: none;"}= image_tag "loading.gif", :alt => "loading..."
+    %span{id: "navi_#{h item.id}"}= item_row_operation(item, @tag || @mark || @keyword)
+    %span{id: "loading_#{h item.id}", style: 'display: none;'}= image_tag 'loading.gif', alt: 'loading...'

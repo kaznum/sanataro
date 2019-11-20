@@ -66,15 +66,6 @@ linters:
   RuboCop:
     enabled: false
 
-  # Offense count: 13
-  SpaceBeforeScript:
-    exclude:
-      - "app/views/account_statuses/_index.html.haml"
-      - "app/views/balance_sheets/index.html.haml"
-      - "app/views/entries/_item.html.haml"
-      - "app/views/profit_losses/_show.html.haml"
-      - "app/views/profit_losses/index.html.haml"
-
   # Offense count: 11
   UnnecessaryStringOutput:
     exclude:

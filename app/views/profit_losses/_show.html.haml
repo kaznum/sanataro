@@ -1,17 +1,17 @@
 #pl_history
-%div{:id => "pl_history_#{h @account_id}"}
+%div{id: "pl_history_#{h @account_id}"}
   %table.table
     %tr
-      %th{:colspan => "5"}
+      %th{colspan: "5"}
         - selector = "#pl_history_#{@account_id}"
         = @user.all_accounts[@account_id]
         #{t('label.of_history')} (#{link_to t('link.hide'), '#',  onclick: fadeout_and_remove(selector) + "return false;"})
     %tr
-      %th=t('label.date')
-      %th=t('label.type')
-      %th=t('label.item')
-      %th.amount=t('label.amount')
-      %th.amount=t('label.cumulative')
+      %th= t('label.date')
+      %th= t('label.type')
+      %th= t('label.item')
+      %th.amount= t('label.amount')
+      %th.amount= t('label.cumulative')
     - total = 0
     - @items.each do |it|
     - amount = it.amount
@@ -24,5 +24,5 @@
         %td.amount= number_to_currency(amount)
         %td.amount= number_to_currency(total)
     %tr
-      %th{:colspan => "4"}= t('label.total')
+      %th{colspan: "4"}= t('label.total')
       %th.amount= number_to_currency(total)
