@@ -15,6 +15,7 @@ jobs:
         ruby-version: 2.5.x
     - name: Install required packages to build/test
       run: |
+        sudo apt-get update
         sudo apt-get install -y libqtwebkit-dev libqtwebkit4 libmysqlclient-dev libpq-dev libsqlite3-dev nodejs xvfb
     - name: Install bundler and install required gems
       run: |
