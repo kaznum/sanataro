@@ -21,31 +21,31 @@
         .span4
           %table.table
             %tr
-              %th{colspan: "3"} "#{l(displaying_month, format: :year_month)}#{t('.income_section')}"
+              %th{colspan: "3"} #{l(displaying_month, format: :year_month)}#{t('.income_section')}
             %tr
               %th= t('label.item')
               %th.amount= t('label.amount')
               %th.amount %
             - @account_incomes.each do |ai|
               %tr
-                %td "#{h ai.name} [#{link_to t('link.revenue'), profit_loss_path(displaying_month.year, displaying_month.month, ai.id), :remote => true, :method => :get}]"
+                %td #{h ai.name} [#{link_to t('link.revenue'), profit_loss_path(displaying_month.year, displaying_month.month, ai.id), remote: true, method: :get}]
                 %td.amount= number_to_currency(-1 * @m_pls[ai.id])
-                %td.amount "#{(@total_income == 0) ? '*' : @m_pls[ai.id] * (-100) / @total_income}%"
+                %td.amount #{(@total_income == 0) ? '*' : @m_pls[ai.id] * (-100) / @total_income}%
             %tr
               %td.total= t('label.total_of_income')
               %td.total.amount= number_to_currency(@total_income)
               %td.amount 100%
             %tr
-              %th{colspan: "3"} "#{l(displaying_month, format: :year_month)}#{t('.expense_section')}"
+              %th{colspan: "3"} #{l(displaying_month, format: :year_month)}#{t('.expense_section')}
             %tr
               %th= t('label.item')
               %th.amount= t('label.amount')
               %th.amount %
             - @account_expenses.each do |og|
               %tr
-                %td "#{h og.name} [#{link_to t('link.revenue'), profit_loss_path(displaying_month.year, displaying_month.month, og.id), :remote => true, :method => :get}]"
+                %td #{h og.name} [#{link_to t('link.revenue'), profit_loss_path(displaying_month.year, displaying_month.month, og.id), remote: true, method: :get}]
                 %td.amount= number_to_currency(@m_pls[og.id])
-                %td.amount "#{(@total_expense == 0) ? '*' : @m_pls[og.id] * 100 / @total_expense}%"
+                %td.amount #{(@total_expense == 0) ? '*' : @m_pls[og.id] * 100 / @total_expense}%
             %tr
               %td.total= t('label.total_of_expense')
               %td.total.amount= number_to_currency(@total_expense)
