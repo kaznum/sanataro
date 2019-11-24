@@ -1,4 +1,4 @@
 :plain
   $("#items").html('');
-  $("#items").append("#{j(render partial: "item", collection: @items)}");
-  $("#items").append("#{j(render "remains_link")}");
+  $("#items").append("#{j render(partial: 'item', collection: @items)}");
+  $("#items").append("#{j render('remains_link')}");
