@@ -60,10 +60,6 @@ linters:
       - "app/views/confirmation_requireds/update.js.haml"
       - "app/views/confirmation_statuses/show.js.haml"
       - "app/views/entry_candidates/_candidate.html.haml"
-      - "app/views/login/_user_created.html.haml"
-      - "app/views/login/create_user.html.haml"
-      - "app/views/login/do_create_user.js.haml"
-      - "app/views/login/login.html.haml"
       - "app/views/profit_losses/_show.html.haml"
       - "app/views/profit_losses/show.js.haml"
 

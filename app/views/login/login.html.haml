@@ -6,25 +6,25 @@
     %table
       %tr
         %th= t('.user')
-        %td= text_field_tag 'login', nil, { tabindex: 1, class: 'input-small' }
+        %td= text_field_tag 'login', nil, tabindex: 1, class: 'input-small'
       %tr
         %th= t('.password')
-        %td= password_field_tag 'password', nil, { tabindex: 2, class: 'input-small' }
+        %td= password_field_tag 'password', nil, tabindex: 2, class: 'input-small'
     %p
       %span.warning#warning
     %p
       %span
-        = check_box_tag 'autologin', 1, false, { tabindex: 3 }
+        = check_box_tag 'autologin', 1, false, tabindex: 3
         = t('.autologin_explanation')
     %p
       %span
-        = check_box_tag 'only_add', 1, false, { tabindex: 4 }
+        = check_box_tag 'only_add', 1, false, tabindex: 4
         = t('.simple_input_explanation')
-    = submit_tag t('.login'), id: 'login_button',  tabindex: 5, class: 'btn btn-primary'
+    = submit_tag t('.login'), id: 'login_button', tabindex: 5, class: 'btn btn-primary'
 %h2= t('.lets_try')
 %p= t('.demo_user_explanation')
 %h2= t('.not_user_explanation')
 %p= link_to t('.new_account_explanation'), action: 'create_user'
-%h2= t(".source_code")
+%h2= t('.source_code')
 %p= link_to(t('.github_url'), t('.github_url'))
 
