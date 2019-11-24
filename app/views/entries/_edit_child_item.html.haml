@@ -9,11 +9,11 @@
       $('#item_operation_loading_#{item.id}').hide()
       $('#item_operation_#{item.id}').show()
     $("#edit_#{item.id}_form .action_date").datepicker()
-.item{:id => "item_#{item.id}"}
-  = form_for item, as: :entry, url: entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :put, html: { :id => "edit_#{item.id}_form", :class => "well"} do |f|
+.item{id: "item_#{item.id}"}
+  = form_for item, as: :entry, url: entry_path(displaying_month.year, displaying_month.month, item.id), remote: true, method: :put, html: { id: "edit_#{item.id}_form", class: 'well' } do |f|
     .row-fluid
-      .alert= t(".edit_credit_item")
-      = f.text_field :action_date, value: l(item.action_date), size: 12, placeholder: "YYYY/MM/DD", id: "action_date_#{item.id}", class: "input-small action_date"
+      .alert= t('.edit_credit_item')
+      = f.text_field :action_date, value: l(item.action_date), size: 12, placeholder: 'YYYY/MM/DD', id: "action_date_#{item.id}", class: %w(input-small action_date)
       = item.name.decorate
       %span
         = @user.all_accounts[item.from_account_id]
@@ -22,9 +22,9 @@
       %span
         = number_to_currency(item.amount)
     .row-fluid
-      %span{:id => "item_operation_#{item.id}"}
-        = f.submit t('button.save'), :id => "edit_button_#{item.id}", class: 'btn btn-primary'
-        = link_to t('link.cancel'), entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :get, :class => "btn"
-      %span{:id => "item_operation_loading_#{item.id}", :style => "display:none;"}= image_tag "loading.gif", :alt => "loading..."
+      %span{id: "item_operation_#{item.id}"}
+        = f.submit t('button.save'), id: "edit_button_#{item.id}", class: %w'btn btn-primary'
+        = link_to t('link.cancel'), entry_path(displaying_month.year, displaying_month.month, item.id), remote: true, method: :get, class: 'btn'
+      %span{id: "item_operation_loading_#{item.id}", style: 'display:none;'}= image_tag 'loading.gif', alt: 'loading...'
     .row-fluid
-      %div{:id => "item_warning_#{item.id}"}
+      %div{id: "item_warning_#{item.id}"}
