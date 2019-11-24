@@ -3,17 +3,17 @@
 - provide :append_head do
   :coffeescript
     this.urls = {
-      asset: "#{chart_data_asset_path(id: sprintf("%04d%02d", cur_year, cur_month), format: :json)}",
-      debt: "#{chart_data_asset_path(id: sprintf("%04d%02d", cur_year, cur_month), asset_type: 'debt', format: :json)}",
-      yearly_asset: "#{chart_data_yearly_asset_path(id: sprintf("%04d%02d", cur_year, cur_month), format: :json)}"
+      asset: "#{chart_data_asset_path(id: format('%<yr>04d%<mo>02d', yr: cur_year, mo: cur_month), format: :json)}",
+      debt: "#{chart_data_asset_path(id: format('%<yr>04d%<mo>02d', yr: cur_year, mo: cur_month), asset_type: 'debt', format: :json)}",
+      yearly_asset: "#{chart_data_yearly_asset_path(id: format('%<yr>04d%<mo>02d', yr: cur_year, mo: cur_month), format: :json)}"
     }
   = render 'common/chart_header'
-  = javascript_include_tag "balance_sheets"
+  = javascript_include_tag 'balance_sheets'
 .row
   .span12
     - calendar_from_date = calendar_from(@user)
     - calendar_to_date = calendar_to(@user)
-    = monthlist(calendar_from_date.year, calendar_from_date.month, calendar_to_date.year, calendar_to_date.month,cur_year, cur_month,'index')
+    = monthlist(calendar_from_date.year, calendar_from_date.month, calendar_to_date.year, calendar_to_date.month, cur_year, cur_month, 'index')
     #bslist
       .row
         .span8
@@ -30,7 +30,7 @@
                   %tr
                     %td.title #{h a.name} [#{link_to t('link.revenue'), balance_sheet_path(displaying_month.year, displaying_month.month, a.id), method: :get, remote: true}]
                     %td.money= number_to_currency(amount)
-                    %td.percent #{(@total_plus == 0) ? '*' : amount * 100 / @total_plus}%
+                    %td.percent #{@total_plus == 0 ? '*' : amount * 100 / @total_plus}%
                 %tr
                   %td.total= t('.stock_total')
                   %td.total.money=  number_to_currency(@total_plus)
@@ -46,11 +46,11 @@
                 - @minus.each do |a, amount|
                   %tr
                     %td.title #{h a.name} [#{link_to t('link.revenue'), url_for(balance_sheet_path(displaying_month.year, displaying_month.month, a.id)), method: :get, remote: true}]
-                    %td.amount= number_to_currency((-1)*amount)
-                    %td.percent #{(@total_minus == 0) ? '*' :amount * 100 / @total_minus}%
+                    %td.amount= number_to_currency(-1 * amount)
+                    %td.percent #{@total_minus == 0 ? '*' : amount * 100 / @total_minus}%
                 %tr
                   %td.total= t('.debt_total')
-                  %td.total.amount= number_to_currency((-1)*@total_minus)
+                  %td.total.amount= number_to_currency(-1 * @total_minus)
                   %td.amount 100%
                 %tr
                   %th.table_header{colspan: '3'} #{l(displaying_month, format: :year_month)} #{t('.net_title')}
@@ -85,6 +85,6 @@
             .spacer &nbsp;
             .chart_title
               %i.icon-th= ' ' + t('.debt')
-              = toggle_legend_link "#debt_chart"
+              = toggle_legend_link '#debt_chart'
               %span#debt_chart_hover
             .graph#debt_chart{style: 'height: 200px'}
