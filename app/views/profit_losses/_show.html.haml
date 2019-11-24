@@ -5,7 +5,7 @@
       %th{ colspan: '5' }
         - selector = "#pl_history_#{@account_id}"
         = @user.all_accounts[@account_id]
-        #{t('label.of_history')} (#{link_to t('link.hide'), '#',  onclick: fadeout_and_remove(selector) + 'return false;'})
+        #{t('label.of_history')} (#{link_to t('link.hide'), '#', onclick: fadeout_and_remove(selector) + 'return false;'})
     %tr
       %th= t('label.date')
       %th= t('label.type')
@@ -20,7 +20,7 @@
       %tr
         %td= l(it.action_date)
         %td= related_account
-        %td= (it.adjustment?) ? t('label.adjustment') + number_to_currency(it.adjustment_amount) : it.name.decorate
+        %td= it.adjustment? ? t('label.adjustment') + number_to_currency(it.adjustment_amount) : it.name.decorate
         %td.amount= number_to_currency(amount)
         %td.amount= number_to_currency(total)
     %tr

@@ -1,4 +1,4 @@
 = candidate.name
 = @user.all_accounts[candidate.from_account_id]
-\=&gt; #{h @user.all_accounts[candidate.to_account_id]} #{number_to_currency(candidate.amount)} [#{link_to t('link.copy'), '#', onclick: "copy_item('#{candidate.name.gsub(/'/, Regexp.escape('\\\''))}', '#{candidate.from_account_id}','#{candidate.to_account_id}','#{number_to_currency(candidate.amount, format: "%n")}');return false;"}]
+\=&gt; #{h @user.all_accounts[candidate.to_account_id]} #{number_to_currency(candidate.amount)} [#{link_to t('link.copy'), '#', onclick: "copy_item('#{candidate.name.gsub(/'/, Regexp.escape('\\\''))}', '#{candidate.from_account_id}','#{candidate.to_account_id}','#{number_to_currency(candidate.amount, format: '%n')}');return false;"}]
 %br/
