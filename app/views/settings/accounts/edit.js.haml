@@ -1,4 +1,4 @@
 :plain
-  $("#account_#{@account.id}").replaceWith("#{j(render 'edit')}");
+  $("#account_#{@account.id}").replaceWith("#{j render('edit')}");
   this.accounts.toggleColorPicker("#{@account.id}");
 
