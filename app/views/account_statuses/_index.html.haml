@@ -8,10 +8,10 @@
     - total += account_status[1]
       %tr
         %td= account_status[0].name
-        %td.amount{ :style => "#{account_status[1] < 0 ? "color: red;" : ""}"}= number_to_currency(account_status[1])
+        %td.amount{ style: account_status[1] < 0 ? 'color: red;' : '' }= number_to_currency(account_status[1])
     %tr
       %td.total= t('label.total')
-      %td.total.amount{ :style => "#{total < 0 ? "color: red" : "" }"}= number_to_currency(total)
+      %td.total.amount{ style: total < 0 ? 'color: red' : '' }= number_to_currency(total)
     %tr
       %td
       %td
@@ -23,10 +23,10 @@
     - total += account_status[1]
       %tr
         %td= account_status[0].name
-        %td.amount{ :style =>  "#{account_status[1] < 0 ? "color: red;" : "" }"}= number_to_currency(account_status[1])
+        %td.amount{ style: account_status[1] < 0 ? 'color: red;' : '' }= number_to_currency(account_status[1])
     %tr
       %td.total= t('label.total')
-      %td.total.amount{style: "#{total < 0 ? "color: red;" : "" }"}= number_to_currency(total)
+      %td.total.amount{style: total < 0 ? 'color: red;' : '' }= number_to_currency(total)
     %tr
       %td
       %td
@@ -38,7 +38,7 @@
     - total += account_status[1]
       %tr
         %td= account_status[0].name
-        %td.amount{:style => "#{account_status[1] < 0 ? "color: red" : ""}"}= number_to_currency(account_status[1])
+        %td.amount{ style: account_status[1] < 0 ? 'color: red' : '' }= number_to_currency(account_status[1])
     %tr
       %td.total= t('label.total')
-      %td.total.amount{ :style => "#{total < 0 ?  "color: red" : ""}"}= number_to_currency(total)
+      %td.total.amount{ style: total < 0 ? 'color: red' : '' }= number_to_currency(total)
