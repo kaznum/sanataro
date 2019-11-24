@@ -1,13 +1,13 @@
 !!!
-%html{:lang => "ja"}
+%html{ lang: 'ja' }
   %head
-    %meta{:charset => "utf-8"}
-    %meta{:content => "#{t('headers.keywords')}", :name => "keywords"}/
-    %meta{:content => "#{t('headers.description')}", :name => "description"}/
+    %meta{ charset: 'utf-8' }
+    %meta{ content: t('headers.keywords'), name: 'keywords' }/
+    %meta{ content: t('headers.description'), name: 'description' }/
     = favicon_link_tag asset_path('favicon.ico')
-    %meta{:content => "text/javascript", "http-equiv" => "Content-Script-type"}
-    %meta{:content => "text/css", "http-equiv" => "Content-Style-type"}
-    %meta{:content => "width=device-width", :name => "viewport"}
+    %meta{ content: 'text/javascript', 'http-equiv': 'Content-Script-type' }
+    %meta{ content: 'text/css', 'http-equiv': 'Content-Style-type' }
+    %meta{ content: 'width=device-width', name: 'viewport' }
     = csrf_meta_tag
     %title= GlobalSettings.product_name
     /[if IE]
