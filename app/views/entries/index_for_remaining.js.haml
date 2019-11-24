@@ -2,5 +2,5 @@
   $("#remains").fadeOut(#{GlobalSettings.effect.fade.duration}, function() {
     $("#remains").remove();
   });
-  $("#items").append("#{j(render partial: "item", collection: @items)}");
+  $("#items").append("#{j render(partial: 'item', collection: @items)}");
 

@@ -1,15 +1,34 @@
-- if params[:year].blank? || params[:month].blank?
-  - e_path = current_entries_path
-  - pl_path = current_profit_losses_path
-  - bs_path = current_balance_sheets_path
-- else
-  - e_path = entries_path(params[:year], params[:month])
-  - pl_path = profit_losses_path(params[:year], params[:month])
-  - bs_path = balance_sheets_path(params[:year], params[:month])
-- items_link = params[:controller] == 'entries' ? link_to(t('.items'), e_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(t('.items'),e_path)
-- pl_link = params[:controller] == 'profit_losses' ? link_to(t(".profit_loss"), pl_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(t(".profit_loss"),pl_path)
-- bs_link = params[:controller] == 'balance_sheets' ? link_to(t('.balance'), bs_path, {:style=>'background: white none repeat-x scroll 0 0;'}) : link_to(t('.balance'), bs_path)
-- simple_input_link = link_to t('.simple_input'), simple_input_path
-- config_link = link_to t('.config'), settings_accounts_path
-- logout_link = link_to t('link.logout'), logout_path, {:confirm=>t("message.logout_really")}
+:ruby
+  if params[:year].blank? || params[:month].blank?
+    e_path = current_entries_path
+    pl_path = current_profit_losses_path
+    bs_path = current_balance_sheets_path
+  else
+    e_path = entries_path(params[:year], params[:month])
+    pl_path = profit_losses_path(params[:year], params[:month])
+    bs_path = balance_sheets_path(params[:year], params[:month])
+  end
+
+  items_link = if params[:controller] == 'entries'
+                 link_to t('.items'), e_path, style: 'background: white none repeat x scroll 0 0;'
+               else
+                 link_to t('.items'), e_path
+               end
+
+  pl_link = if params[:controller] == 'profit_losses'
+              link_to t('.profit_loss'), pl_path, style: 'background: white none repeat x scroll 0 0;'
+            else
+              link_to t('.profit_loss'), pl_path
+            end
+
+  bs_link = if params[:controller] == 'balance_sheets'
+              link_to t('.balance'), bs_path, style: 'background: white none repeat x scroll 0 0;'
+            else
+              link_to t('.balance'), bs_path
+            end
+
+  simple_input_link = link_to t('.simple_input'), simple_input_path
+  config_link = link_to t('.config'), settings_accounts_path
+  logout_link = link_to t('link.logout'), logout_path, confirm: t('message.logout_really')
+
 = items_link + pl_link + bs_link + simple_input_link + config_link + logout_link

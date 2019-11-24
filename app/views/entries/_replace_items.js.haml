@@ -1,3 +1,3 @@
 - items.each do |it|
-  ! $("#item_#{it.id}").replaceWith("#{j(render partial: "item", locals: {item: it})}");
-  ! $("#item_#{it.id} div").effect("highlight", {color: '#{ GlobalSettings.effect.highlight.color }'}, #{ GlobalSettings.effect.highlight.duration });
+  ! $("#item_#{it.id}").replaceWith("#{j render(partial: 'item', locals: { item: it })}");
+  ! $("#item_#{it.id} div").effect("highlight", {color: '#{GlobalSettings.effect.highlight.color}'}, #{GlobalSettings.effect.highlight.duration});

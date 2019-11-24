@@ -13,25 +13,25 @@
       entries.toggleConfirmationRequired("#edit_#{item.id}_form")
     #initialize confirmation required just after rendering initialy
     entries.toggleConfirmationRequired("#edit_#{item.id}_form", _.contains(["1", "true"], $("#edit_#{item.id}_form .confirmation_required_field").val()))
-.item{:id => "item_#{item.id}"}
-  = form_for item, as: :entry, url: entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :put, html: { :id => "edit_#{item.id}_form", :class => "well"} do |f|
+.item{ id: "item_#{item.id}" }
+  = form_for item, as: :entry, url: entry_path(displaying_month.year, displaying_month.month, item.id), remote: true, method: :put, html: { id: "edit_#{item.id}_form", class: 'well' } do |f|
     .row-fluid
-      = f.text_field :action_date, value: l(item.action_date), size: 12, placeholder: "YYYY/MM/DD", id: "action_date_#{item.id}", class: "input-small action_date"
-      = f.text_field :name, placeholder: t('placeholder.item_name'), class: "item_name"
-      = RailsEmoji.render(":smile:", class: "emoji_button").html_safe
-      = f.hidden_field :confirmation_required, class: "confirmation_required_field"
+      = f.text_field :action_date, value: l(item.action_date), size: 12, placeholder: 'YYYY/MM/DD', id: "action_date_#{item.id}", class: %w(input-small action_date)
+      = f.text_field :name, placeholder: t('placeholder.item_name'), class: 'item_name'
+      = RailsEmoji.render(':smile:', class: 'emoji_button').html_safe
+      = f.hidden_field :confirmation_required, class: 'confirmation_required_field'
       %span.item_confirmation_not_required.confirmation_required_label= icon_no_confirmation
     .row-fluid.input-row
-      = f.select 'from_account_id', @user.from_accounts, {}, { class: "input-medium from_account_id" }
+      = f.select 'from_account_id', @user.from_accounts, {}, class: %w'input-medium from_account_id'
       \=&gt;
-      = f.select 'to_account_id', @user.to_accounts , {}, { class: "input-medium to_account_id" }
+      = f.select 'to_account_id', @user.to_accounts, {}, class: %w'input-medium to_account_id'
       %span.input-append
-        = f.text_field 'amount', :style=>"text-align: right;", :placeholder => t('placeholder.amount'), class: "input-small amount"
+        = f.text_field 'amount', style: 'text-align: right;', placeholder: t('placeholder.amount'), class: %w(input-small amount)
         %span.add-on>= t('number.currency.format.unit')
-      = f.text_field 'tag_list', placeholder: t('placeholder.tag'), class: "input-medium tag_list"
-      %span{:id => "item_operation_#{item.id}"}
-        = f.submit t('button.save'), :id => "edit_button_#{item.id}", class: 'btn btn-primary'
-        = link_to t('link.cancel'), entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :get, :class => "btn"
-      %span{:id => "item_operation_loading_#{item.id}", :style => "display:none;"}= image_tag "loading.gif", :alt => "loading..."
+      = f.text_field 'tag_list', placeholder: t('placeholder.tag'), class: %w(input-medium tag_list)
+      %span{ id: "item_operation_#{item.id}" }
+        = f.submit t('button.save'), id: "edit_button_#{item.id}", class: %w'btn btn-primary'
+        = link_to t('link.cancel'), entry_path(displaying_month.year, displaying_month.month, item.id), remote: true, method: :get, class: 'btn'
+      %span{ id: "item_operation_loading_#{item.id}", style: 'display:none;' }= image_tag 'loading.gif', alt: 'loading...'
     .row-fluid
-      %div{:id => "item_warning_#{item.id}"}
+      %div{ id: "item_warning_#{item.id}" }

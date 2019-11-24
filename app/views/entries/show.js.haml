@@ -1,4 +1,4 @@
 :plain
   $("#item_#{@item.id}").hide();
-  $("#item_#{@item.id}").replaceWith("#{j(render partial: 'item', locals: { item: @item })}");
+  $("#item_#{@item.id}").replaceWith("#{j render(partial: 'item', locals: { item: @item })}");
   $("#item_#{@item.id}").fadeIn(#{GlobalSettings.effect.fade.duration});

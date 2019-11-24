@@ -3,13 +3,15 @@
     $('#remaining_link').bind "click", ->
       $('#remains_operation').hide()
       $('#remains_loading').show()
-- if @tag
-  - path = tag_entries_path(:tag => @tag, :remaining => true)
-- elsif @mark
-  - path = mark_entries_path(:mark => @mark, :remaining => true)
-- else
-  - path = entries_path(:year => displaying_month.year, :month => displaying_month.month, :remaining => true)
-#remains.item_remains
+:ruby
+  path = if @tag
+           tag_entries_path(tag: @tag, remaining: true)
+         elsif @mark
+           mark_entries_path(mark: @mark, remaining: true)
+         else
+           entries_path(year: displaying_month.year, month: displaying_month.month, remaining: true)
+         end
+.item_remains#remains
   %span#remains_operation
-    = link_to t("link.show_all"), path, :remote => true, :method => :get, :id => 'remaining_link'
-  %span#remains_loading{:style => "display:none;"}= image_tag "loading.gif", :alt => "loading..."
+    = link_to t('link.show_all'), path, remote: true, method: :get, id: 'remaining_link'
+  %span#remains_loading{ style: 'display:none;' }= image_tag 'loading.gif', alt: 'loading...'

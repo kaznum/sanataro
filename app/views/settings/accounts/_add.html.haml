@@ -3,16 +3,16 @@
     $("#create_form")
       .bind("ajax:before", -> $('#submit_button').attr("disabled", true))
       .bind("ajax:complete", -> $('#submit_button').attr("disabled", false))
-= form_tag settings_accounts_path, :remote => true, :method => :post, :id => "create_form", :class => "form-horizontal well"  do
+= form_tag settings_accounts_path, remote: true, method: :post, id: 'create_form', class: 'form-horizontal well' do
   .control-group
-    %label.control-label{for: "account_name"}= t("settings.accounts.#{@type}_account")
-    .controls= text_field_tag :account_name, nil, class: "input-medium", placeholder: "Wallet, Citi bank, Food"
+    %label.control-label{ for: 'account_name' }= t("settings.accounts.#{@type}_account")
+    .controls= text_field_tag :account_name, nil, class: 'input-medium', placeholder: 'Wallet, Citi bank, Food'
   .control-group
-    %label.control-label{for: "order_no"}= t("label.position")
+    %label.control-label{ for: 'order_no' }= t('label.position')
     .controls
-      = text_field_tag :order_no, nil, class: "input-small", placeholder: "10"
+      = text_field_tag :order_no, nil, class: 'input-small', placeholder: '10'
       = hidden_field_tag :type, @type
   .control-group
     .controls
-      = submit_tag t("button.register"), id: "submit_button", class: 'btn btn-primary'
-#add_warning.warning
+      = submit_tag t('button.register'), id: 'submit_button', class: 'btn btn-primary'
+.warning#add_warning
