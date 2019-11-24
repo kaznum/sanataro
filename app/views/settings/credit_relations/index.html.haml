@@ -9,20 +9,20 @@
       %h3= t('.register_credit_relation')
       = form_tag settings_credit_relations_path, remote: true, method: :post, id: 'add_form', class: 'form-horizontal well' do
         .control-group
-          %label.control-label{for: 'credit_account_id'}= t('settings.credit_relations.credit_card')
+          %label.control-label{ for: 'credit_account_id' }= t('settings.credit_relations.credit_card')
           .controls= select_tag 'credit_account_id', options_for_select(@user.bank_accounts), class: 'input-medium'
         .control-group
-          %label.control-label{for: 'payment_account_id'}= t('settings.credit_relations.account_to_draw')
+          %label.control-label{ for: 'payment_account_id' }= t('settings.credit_relations.account_to_draw')
           .controls= select_tag 'payment_account_id', options_for_select(@user.bank_accounts), class: 'input-medium'
         .control-group
-          %label.control-label{for: 'settlement_day'}= t('settings.credit_relations.closing_date')
+          %label.control-label{ for: 'settlement_day' }= t('settings.credit_relations.closing_date')
           .controls
-            %div{class: 'input-prepend input-append'}
+            .input-prepend.input-append
               %span.add-on>= t('settings.credit_relations.monthly')
               = select_tag 'settlement_day', options_for_select(CreditRelation::SETTLEMENT_DAYS), class: 'input-small'
               %span.add-on>= t('label.day')
         .control-group
-          %label.control-label{for: 'payment_month'}= t('settings.credit_relations.due')
+          %label.control-label{ for: 'payment_month' }= t('settings.credit_relations.due')
           .controls
             = select_tag 'payment_month', options_for_select(CreditRelation::PAYMENT_MONTHS), class: 'input-small'
             .input-append

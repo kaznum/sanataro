@@ -21,7 +21,7 @@
         .span4
           %table.table
             %tr
-              %th{colspan: '3'} #{l(displaying_month, format: :year_month)}#{t('.income_section')}
+              %th{ colspan: '3' } #{l(displaying_month, format: :year_month)}#{t('.income_section')}
             %tr
               %th= t('label.item')
               %th.amount= t('label.amount')
@@ -36,7 +36,7 @@
               %td.total.amount= number_to_currency(@total_income)
               %td.amount 100%
             %tr
-              %th{colspan: '3'} #{l(displaying_month, format: :year_month)}#{t('.expense_section')}
+              %th{ colspan: '3' } #{l(displaying_month, format: :year_month)}#{t('.expense_section')}
             %tr
               %th= t('label.item')
               %th.amount= t('label.amount')
@@ -51,7 +51,7 @@
               %td.total.amount= number_to_currency(@total_expense)
               %td.amount 100%
             %tr
-              %td.space{colspan: '3'}
+              %td.space{ colspan: '3' }
             %tr
               %td.all_total
                 = l(displaying_month, format: :year_month)
@@ -65,30 +65,30 @@
               %i.icon-th= ' ' + t('label.income')
               = toggle_legend_link '#income_chart'
               %span#income_chart_hover
-            .graph#income_chart{style: 'height:200px;'}
+            .graph#income_chart{ style: 'height:200px;' }
             .spacer &nbsp;
             .chart_title
               %i.icon-th= ' ' + t('label.expense')
               = toggle_legend_link '#expense_chart'
               %span#expense_chart_hover
-            .graph#expense_chart{style: 'height: 200px;'}
+            .graph#expense_chart{ style: 'height: 200px;' }
             .spacer &nbsp;
             .chart_title
               %i.icon-th= ' ' + t('label.yearly_income')
               = toggle_legend_link '#yearly_income_chart'
             #yearly_income_chart_choices
-            .graph#yearly_income_chart{style: 'height: 200px;'}
+            .graph#yearly_income_chart{ style: 'height: 200px;' }
             .spacer &nbsp;
             .chart_title
               %i.icon-th= ' ' + t('label.yearly_expense')
               = toggle_legend_link '#yearly_expense_chart'
             #yearly_expense_chart_choices
-            .graph#yearly_expense_chart{style: 'height: 200px'}
+            .graph#yearly_expense_chart{ style: 'height: 200px' }
             .spacer &nbsp;
             .chart_title
               %i.icon-th= ' ' + t('label.yearly_total_income_and_total_expense')
               = toggle_legend_link '#yearly_total_chart'
             #yearly_total_chart_choices
-            .graph#yearly_total_chart{style: 'height: 200px'}
+            .graph#yearly_total_chart{ style: 'height: 200px' }
           %br/
           #pl_history

@@ -25,7 +25,7 @@
                   %th.table_header.amount= t('label.amount')
                   %th.amount %
                 %tr
-                  %th.table_header{colspan: '3'} #{l(displaying_month, format: :year_month)} #{t('.stock_title')}
+                  %th.table_header{ colspan: '3' } #{l(displaying_month, format: :year_month)} #{t('.stock_title')}
                 - @plus.each do |a, amount|
                   %tr
                     %td.title #{h a.name} [#{link_to t('link.revenue'), balance_sheet_path(displaying_month.year, displaying_month.month, a.id), method: :get, remote: true}]
@@ -42,7 +42,7 @@
                   %th.table_header.amount= t('label.amount')
                   %th.amount %
                 %tr
-                  %th.table_header{colspan: '3'} #{l(displaying_month, format: :year_month)}#{t('.debt_title')}
+                  %th.table_header{ colspan: '3' } #{l(displaying_month, format: :year_month)}#{t('.debt_title')}
                 - @minus.each do |a, amount|
                   %tr
                     %td.title #{h a.name} [#{link_to t('link.revenue'), url_for(balance_sheet_path(displaying_month.year, displaying_month.month, a.id)), method: :get, remote: true}]
@@ -53,7 +53,7 @@
                   %td.total.amount= number_to_currency(-1 * @total_minus)
                   %td.amount 100%
                 %tr
-                  %th.table_header{colspan: '3'} #{l(displaying_month, format: :year_month)} #{t('.net_title')}
+                  %th.table_header{ colspan: '3' } #{l(displaying_month, format: :year_month)} #{t('.net_title')}
                 %tr
                   %td.total= t('.net_total')
                   %td.total.amount= number_to_currency(@total_plus + @total_minus)
@@ -73,7 +73,7 @@
               = toggle_legend_link '#yearly_chart'
               %span#income_chart_hover
             #yearly_chart_choices
-            .graph#yearly_chart{style: 'height: 200px;'}
+            .graph#yearly_chart{ style: 'height: 200px;' }
           #account_history
         .span4
           #asset_graph
@@ -81,10 +81,10 @@
               %i.icon-th= ' ' + t('.stock')
               = toggle_legend_link '#asset_chart'
               %span#asset_chart_hover
-            .graph#asset_chart{style: 'height: 200px'}
+            .graph#asset_chart{ style: 'height: 200px' }
             .spacer &nbsp;
             .chart_title
               %i.icon-th= ' ' + t('.debt')
               = toggle_legend_link '#debt_chart'
               %span#debt_chart_hover
-            .graph#debt_chart{style: 'height: 200px'}
+            .graph#debt_chart{ style: 'height: 200px' }

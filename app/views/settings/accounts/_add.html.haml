@@ -5,10 +5,10 @@
       .bind("ajax:complete", -> $('#submit_button').attr("disabled", false))
 = form_tag settings_accounts_path, remote: true, method: :post, id: 'create_form', class: 'form-horizontal well' do
   .control-group
-    %label.control-label{for: 'account_name'}= t("settings.accounts.#{@type}_account")
+    %label.control-label{ for: 'account_name' }= t("settings.accounts.#{@type}_account")
     .controls= text_field_tag :account_name, nil, class: 'input-medium', placeholder: 'Wallet, Citi bank, Food'
   .control-group
-    %label.control-label{for: 'order_no'}= t('label.position')
+    %label.control-label{ for: 'order_no' }= t('label.position')
     .controls
       = text_field_tag :order_no, nil, class: 'input-small', placeholder: '10'
       = hidden_field_tag :type, @type
