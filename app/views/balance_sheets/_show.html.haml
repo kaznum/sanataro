@@ -16,13 +16,16 @@
       %th.money= t('label.gain_loss')
       %th.money= t('label.balance')
     - @items.each do |it|
-    - if it.from_account_id == @account_id
-      - amount = it.amount * -1
-      - related_account = @user.all_accounts[it.to_account_id]
-    - else
-      - amount = it.amount
-      - related_account = @user.all_accounts[it.from_account_id]
-    - @remain_amount += amount
+      :ruby
+        if it.from_account_id == @account_id
+          amount = it.amount * -1
+          related_account = @user.all_accounts[it.to_account_id]
+        else
+          amount = it.amount
+          related_account = @user.all_accounts[it.from_account_id]
+        end
+        @remain_amount += amount
+
       %tr
         %td= l(it.action_date)
         %td= related_account

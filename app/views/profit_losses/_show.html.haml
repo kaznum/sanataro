@@ -14,9 +14,10 @@
       %th.amount= t('label.cumulative')
     - total = 0
     - @items.each do |it|
-    - amount = it.amount
-    - related_account = @user.all_accounts[it.from_account_id]
-    - total += amount
+      :ruby
+        amount = it.amount
+        related_account = @user.all_accounts[it.from_account_id]
+        total += amount
       %tr
         %td= l(it.action_date)
         %td= related_account

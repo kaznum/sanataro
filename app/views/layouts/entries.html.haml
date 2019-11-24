@@ -33,14 +33,16 @@
       = nav_bar inverse: true, fixed: :top, brand: GlobalSettings.product_name, responsive: true, brand_link: (@user ? current_entries_url : root_url) do
         = menu_group do
           - if @user
-            - if params[:year].blank? || params[:month].blank?
-              - e_path = current_entries_path
-              - pl_path = current_profit_losses_path
-              - bs_path = current_balance_sheets_path
-            - else
-              - e_path = entries_path(params[:year], params[:month])
-              - pl_path = profit_losses_path(params[:year], params[:month])
-              - bs_path = balance_sheets_path(params[:year], params[:month])
+            :ruby
+              if params[:year].blank? || params[:month].blank?
+                e_path = current_entries_path
+                pl_path = current_profit_losses_path
+                bs_path = current_balance_sheets_path
+              else
+                e_path = entries_path(params[:year], params[:month])
+                pl_path = profit_losses_path(params[:year], params[:month])
+                bs_path = balance_sheets_path(params[:year], params[:month])
+              end
             = menu_item t('.items'), e_path
             = drop_down t('.addup') do
               = menu_item t('.profit_loss'), pl_path
