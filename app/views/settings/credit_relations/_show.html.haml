@@ -1,15 +1,15 @@
-.cfg_credit_relation.row-fluid{:id => "credit_relation_#{cr.id}"}
+.cfg_credit_relation.row-fluid{id: "credit_relation_#{cr.id}"}
   .cfg_credit_relation_name.span2= colored_account_name(cr.credit_account_id)
   .cfg_payment_relation_name.span2
     %strong.visible-phone= t('settings.credit_relations.account_to_draw')
     = colored_account_name(cr.payment_account_id)
   .cfg_settlement_day.span2
     %strong.visible-phone= t('settings.credit_relations.closing_date')
-    #{t('settings.credit_relations.monthly')} #{h (cr.settlement_day == 99) ? t('settings.credit_relations.final_day') : cr.settlement_day.to_s + t('label.day')}
+    #{t('settings.credit_relations.monthly')} #{h(cr.settlement_day == 99 ? t('settings.credit_relations.final_day') : cr.settlement_day.to_s + t('label.day'))}
   .cfg_payment_date.span2
     %strong.visible-phone= t('settings.credit_relations.due')
     = localize_relative_month(cr.payment_month)
-    = (cr.payment_day < 99) ? cr.payment_day.to_s + t('label.day'): t('settings.credit_relations.final_day')
+    = cr.payment_day < 99 ? cr.payment_day.to_s + t('label.day') : t('settings.credit_relations.final_day')
   .cfg_credit_relation_operation.span1
-    = link_to icon_edit, edit_settings_credit_relation_path(cr.id), :remote => true,  :method => :get
-    = link_to icon_destroy, settings_credit_relation_path(cr.id), :remote => true, :method => :delete, :confirm=> t('message.delete_really')
+    = link_to icon_edit, edit_settings_credit_relation_path(cr.id), remote: true, method: :get
+    = link_to icon_destroy, settings_credit_relation_path(cr.id), remote: true, method: :delete, confirm: t('message.delete_really')

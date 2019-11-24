@@ -9,7 +9,7 @@
       #accounts
         .cfg_account.row-fluid
           .cfg_account_name.cfg_account_header.span2.hidden-phone= t("settings.accounts.#{@type}_account")
-          .cfg_account_order.cfg_account_header.span1.hidden-phone= t("label.position")
+          .cfg_account_order.cfg_account_header.span1.hidden-phone= t('label.position')
           .cfg_account_operation.cfg_account_header.span1.hidden-phone &nbsp;
         - @accounts.each do |account|
-          = render :partial=>'show', :locals => {:account => account}
+          = render partial: 'show', locals: { account: account }
