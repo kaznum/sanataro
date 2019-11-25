@@ -5,10 +5,10 @@
       .bind("ajax:complete", -> $('#create_button').attr("disabled", false))
 #warning
 #inputarea
-  %p= t(".input_user_and_password")
+  %p= t('.input_user_and_password')
   %p= t('.user_password_minimum_letters')
   %p= t('.available_characters')
-  = form_tag url_for(:action => 'do_create_user'), :remote => true, :id => "create_user_form" do
+  = form_tag url_for(action: 'do_create_user'), remote: true, id: 'create_user_form' do
     %table
       %tr
         %th= t('.user')
@@ -23,4 +23,4 @@
         %th= t('.email')
         %td= text_field_tag 'email'
     %br
-    = submit_tag t('button.register'), :id=>'create_button', class: 'btn btn-primary'
+    = submit_tag t('button.register'), id: 'create_button', class: 'btn btn-primary'

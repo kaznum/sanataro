@@ -1,34 +1,34 @@
 :coffeescript
   $ ->
     entries.itemNameObserver("#{entry_candidates_path}")
-    $("#do_add_item")
-      .bind("ajax:before", -> $('#new_add_button').attr('disabled', true))
-      .bind("ajax:complete", -> $('#new_add_button').attr('disabled', false))
-    $("#do_add_item .datepicker").datepicker()
-    $("#do_add_item .confirmation_required_label").bind "click", ->
-      entries.toggleConfirmationRequired("#do_add_item")
-= form_for it, as: :entry, url: entries_path(it.action_date.year, it.action_date.month), :remote => true, :method => :post, html: { :id=>'do_add_item', :class => "well"} do |f|
+    $('#do_add_item')
+      .bind('ajax:before', -> $('#new_add_button').attr('disabled', true))
+      .bind('ajax:complete', -> $('#new_add_button').attr('disabled', false))
+    $('#do_add_item .datepicker').datepicker()
+    $('#do_add_item .confirmation_required_label').bind 'click', ->
+      entries.toggleConfirmationRequired('#do_add_item')
+= form_for it, as: :entry, url: entries_path(it.action_date.year, it.action_date.month), remote: true, method: :post, html: { id: 'do_add_item', class: 'well' } do |f|
   .row-fluid
     %ul.nav.nav-pills
-      %li.active= link_to t('link.register_income_expense'), new_entry_path(:year => it.action_date.year, :month => it.action_date.month), :remote => true, :method => :get
-      %li= link_to t('link.register_adjustment'), new_entry_path(:year => it.action_date.year, :month => it.action_date.month, :entry_type => 'adjustment'), :remote => true, :method => :get
+      %li.active= link_to t('link.register_income_expense'), new_entry_path(year: it.action_date.year, month: it.action_date.month), remote: true, method: :get
+      %li= link_to t('link.register_adjustment'), new_entry_path(year: it.action_date.year, month: it.action_date.month, entry_type: 'adjustment'), remote: true, method: :get
   .row-fluid.input-row
-    = f.text_field :action_date, value: l(it.action_date), class: "input-small datepicker", placeholder: "YYYY/MM/DD"
-    = f.text_field :name, placeholder: t('placeholder.item_name'), class: "item_name"
-    = RailsEmoji.render(":smile:", class: "emoji_button").html_safe
-    = f.hidden_field :confirmation_required, class: "confirmation_required_field"
+    = f.text_field :action_date, value: l(it.action_date), class: 'input-small datepicker', placeholder: 'YYYY/MM/DD'
+    = f.text_field :name, placeholder: t('placeholder.item_name'), class: 'item_name'
+    = RailsEmoji.render(':smile:', class: 'emoji_button').html_safe
+    = f.hidden_field :confirmation_required, class: 'confirmation_required_field'
     %span.confirmation_required_label.item_confirmation_not_required= icon_no_confirmation
     = link_to t('.show_all_confirmation_required', mark: icon_confirmation).html_safe, mark_entries_path(mark: :confirmation_required)
   .row-fluid.input-row
     #candidates
   .row-fluid.input-row
-    = f.select :from_account_id, @user.from_accounts, {}, { class: "input-medium from_account_id" }
+    = f.select :from_account_id, @user.from_accounts, {}, class: %w(input-medium from_account_id)
     \=&gt;
-    = f.select :to_account_id, @user.to_accounts, {}, { class: "input-medium to_account_id"}
+    = f.select :to_account_id, @user.to_accounts, {}, class: %w(input-medium to_account_id)
     %span.input-append
-      = f.text_field 'amount', value: ((it.amount.nil? || it.amount == 0) ? nil : number_to_currency(it.amount, format: "%n")), class: "amount input-small", placeholder: t('placeholder.amount')
+      = f.text_field 'amount', value: (it.amount.nil? || it.amount == 0 ? nil : number_to_currency(it.amount, format: '%n')), class: 'amount input-small', placeholder: t('placeholder.amount')
       %span.add-on>= t('number.currency.format.unit')
-    = f.text_field :tag_list, placeholder: t('placeholder.tag'), class: "input-medium tag_list"
+    = f.text_field :tag_list, placeholder: t('placeholder.tag'), class: 'input-medium tag_list'
     = f.submit t('button.register'), id: 'new_add_button', class: 'btn btn-primary'
-    = link_to t("link.about_emolett"), "http://mayuco.github.com/emolett/", target: "_blank", class: "trivial_link"
-    = link_to t("link.about_emoji"), "http://www.emoji-cheat-sheet.com/", target: "_blank", class: "trivial_link"
+    = link_to t('link.about_emolett'), 'http://mayuco.github.com/emolett/', target: '_blank', class: 'trivial_link'
+    = link_to t('link.about_emoji'), 'http://www.emoji-cheat-sheet.com/', target: '_blank', class: 'trivial_link'

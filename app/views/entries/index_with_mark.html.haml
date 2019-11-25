@@ -1,9 +1,9 @@
 .row
   .span12
-    #warning{:style => "color: red"}
+    #warning{ style: 'color: red' }
     #itemlistarea
       %h3
-        mark: #{h (@mark == 'confirmation_required') ? t("label.confirmation_required", mark: icon_confirmation).html_safe : '(' + t("label.unknown") + ')'}
+        mark: #{h(@mark == 'confirmation_required' ? t('label.confirmation_required', mark: icon_confirmation).html_safe : '(' + t('label.unknown') + ')')}
       = render 'items_header'
       #items
         = render partial: 'item', collection: @items

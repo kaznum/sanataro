@@ -1,3 +1,3 @@
-= render partial: "success_message", locals: { selector: "#warning", message: t('message.register_successfully') + ' ' + l(item.action_date) + ' ' + h(item.name) + ' ' + number_to_currency(item.amount)}
+= render partial: 'success_message', locals: { selector: '#warning', message: t('message.register_successfully') + ' ' + l(item.action_date) + ' ' + h(item.name) + ' ' + number_to_currency(item.amount) }
 ! $('#do_add_item .item_name').val('');
 ! $('#do_add_item .amount').val('');

@@ -5,7 +5,7 @@ services:
   - mysql
   - postgresql
 
-script: "bundle exec rubocop && bundle exec rake -v travis"
+script: "bundle exec rubocop && bundle exec haml-lint . && bundle exec rake -v travis"
 before_script:
   - "cp -v config/travis/database.yml.travis.${TRAVIS_RUBY_VERSION}.${DB} config/database.yml"
   - "bundle exec rake db:create db:migrate"

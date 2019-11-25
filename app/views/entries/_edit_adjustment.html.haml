@@ -9,23 +9,23 @@
         $('#edit_button_#{item.id}').attr 'disabled', false
         $('#item_operation_loading_#{item.id}').hide()
         $('#item_operation_#{item.id}').show())
-.item{:id => "item_#{item.id}"}
-  = form_for item, as: :entry, url: entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :put, html: { :id => "edit_#{item.id}_form", :class => "well"} do |f|
+.item{ id: "item_#{item.id}" }
+  = form_for item, as: :entry, url: entry_path(displaying_month.year, displaying_month.month, item.id), remote: true, method: :put, html: { id: "edit_#{item.id}_form", class: 'well' } do |f|
     = f.hidden_field :action_date, value: l(item.action_date)
     .row-fluid.input-row
       = t('entries.adjustment_explanation')
     .row-fluid.input-row
       = l(item.action_date)
     .row-fluid.input-row
-      = f.select :to_account_id, @user.bank_accounts, {}, { class: "input-medium" }
+      = f.select :to_account_id, @user.bank_accounts, {}, class: 'input-medium'
       %span.input-append
-        = f.text_field :adjustment_amount, :size=>10, :style=>"text-align: right;", :class => "input-small adjustment_amount"
+        = f.text_field :adjustment_amount, size: 10, style: 'text-align: right;', class: %w'input-small adjustment_amount'
         %span.add-on>= t('number.currency.format.unit')
-      = f.text_field :tag_list, placeholder: t('placeholder.tag'), class: "input-medium tag_list"
-      %span{:id => "item_operation_#{h item.id}"}
-        = f.submit t('button.save'), id: "edit_button_#{item.id}", class: 'btn btn-primary'
-        = link_to t('link.cancel'), entry_path(displaying_month.year, displaying_month.month, item.id), :remote => true, :method => :get, :class => "btn"
-      %span{:id => "item_operation_loading_#{h item.id}", :style => "display:none;"}= image_tag "loading.gif", :alt => "loading..."
+      = f.text_field :tag_list, placeholder: t('placeholder.tag'), class: %w'input-medium tag_list'
+      %span{ id: "item_operation_#{h item.id}" }
+        = f.submit t('button.save'), id: "edit_button_#{item.id}", class: %w'btn btn-primary'
+        = link_to t('link.cancel'), entry_path(displaying_month.year, displaying_month.month, item.id), remote: true, method: :get, class: 'btn'
+      %span{ id: "item_operation_loading_#{h item.id}", style: 'display:none;' }= image_tag 'loading.gif', alt: 'loading...'
       = f.hidden_field 'entry_type', value: 'adjustment'
     .row-fluid.input-row
-      %div{:id => "item_warning_#{item.id}"}
+      %div{ id: "item_warning_#{item.id}" }

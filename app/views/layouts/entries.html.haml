@@ -1,13 +1,13 @@
 !!!
-%html{:lang => "ja"}
+%html{ lang: 'ja' }
   %head
-    %meta{:charset => "utf-8"}
-    %meta{name: "application-name", content: "#{GlobalSettings.product_name}"}
-    %meta{name: "author", content: "#{t('label.author')}"}
-    %meta{:content => "#{t('headers.keywords')}", :name => "keywords"}
-    %meta{:content => "#{t('headers.description')}", :name => "description"}
+    %meta{ charset: 'utf-8' }
+    %meta{ name: 'application-name', content: GlobalSettings.product_name }
+    %meta{ name: 'author', content: t('label.author') }
+    %meta{ content: t('headers.keywords'), name: 'keywords' }
+    %meta{ content: t('headers.description'), name: 'description' }
     = favicon_link_tag asset_path('favicon.ico')
-    %meta{:content => "width=device-width", :name => "viewport"}
+    %meta{ content: 'width=device-width', name: 'viewport' }
     = csrf_meta_tags
     %title= GlobalSettings.product_name
     /[if IE]
@@ -20,43 +20,41 @@
       document.createElement( 'article' );
       document.createElement( 'time' );
       </script>
-    = stylesheet_link_tag "application"
+    = stylesheet_link_tag 'application'
     - unless GlobalSettings.enable_tweet
-      = stylesheet_link_tag "hide_tweet_button"
-    = javascript_include_tag "application"
+      = stylesheet_link_tag 'hide_tweet_button'
+    = javascript_include_tag 'application'
     = yield :append_head
   %body
     - unless @user
-      %a{ href: "https://github.com/kaznum/sanataro/" }
-        %img{ style: "position: absolute; top: 0; right: 0; border: 0;z-index: 99999", src: "https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png", alt: "Fork me on GitHub" }
+      %a{ href: 'https://github.com/kaznum/sanataro/' }
+        %img{ style: 'position: absolute; top: 0; right: 0; border: 0;z-index: 99999', src: 'https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png', alt: 'Fork me on GitHub' }
     .container
       = nav_bar inverse: true, fixed: :top, brand: GlobalSettings.product_name, responsive: true, brand_link: (@user ? current_entries_url : root_url) do
         = menu_group do
           - if @user
-            - if params[:year].blank? || params[:month].blank?
-              - e_path = current_entries_path
-              - pl_path = current_profit_losses_path
-              - bs_path = current_balance_sheets_path
-            - else
-              - e_path = entries_path(params[:year], params[:month])
-              - pl_path = profit_losses_path(params[:year], params[:month])
-              - bs_path = balance_sheets_path(params[:year], params[:month])
-            - items_class = params[:controller] == 'entries' ? "active" : ""
-            - config_class = params[:controller] =~ /^settings\// ?  "active" : ""
-            - items_link = link_to t('.items'), e_path
-            - logout_link = menu_item t('link.logout'), logout_path, :data => { :confirm => t("message.logout_really")}
+            :ruby
+              if params[:year].blank? || params[:month].blank?
+                e_path = current_entries_path
+                pl_path = current_profit_losses_path
+                bs_path = current_balance_sheets_path
+              else
+                e_path = entries_path(params[:year], params[:month])
+                pl_path = profit_losses_path(params[:year], params[:month])
+                bs_path = balance_sheets_path(params[:year], params[:month])
+              end
             = menu_item t('.items'), e_path
             = drop_down t('.addup') do
-              = menu_item t(".profit_loss"), pl_path
+              = menu_item t('.profit_loss'), pl_path
               = menu_item t('.balance'), bs_path
             = drop_down t('.digest') do
-              = menu_item t("link.status_of_today", date: today), account_status_path, id: "account_digest", class: "digest_link"
-              = menu_item t("link.confirmation_list", mark: icon_confirmation).html_safe, confirmation_status_path, id: "confirmation_digest", class: "digest_link"
-              = menu_item t("link.tag_list"), tag_status_path, id: "tag_digest", class: "digest_link"
+              = menu_item t('link.status_of_today', date: today), account_status_path, id: 'account_digest', class: 'digest_link'
+              = menu_item t('link.confirmation_list', mark: icon_confirmation).html_safe, confirmation_status_path, id: 'confirmation_digest', class: 'digest_link'
+              = menu_item t('link.tag_list'), tag_status_path, id: 'tag_digest', class: 'digest_link'
             = menu_group pull: :right do
-              = form_tag keyword_entries_path("KEYWORD_PLACEHOLDER"), method: :get, class: "navbar-form pull-left", id: "search-form" do
+              = form_tag keyword_entries_path('KEYWORD_PLACEHOLDER'), method: :get, class: 'navbar-form pull-left', id: 'search-form' do
                 %i.icon-search
-                  = text_field_tag :keyword, @keyword, placeholder: "Search", class: "search-query span2"
+                  = text_field_tag :keyword, @keyword, placeholder: 'Search', class: 'search-query span2'
               = menu_item t('.simple_input'), simple_input_path
               = drop_down t('.config') do
                 = menu_item content_tag(:i, class: 'icon-book') { t('.account') }, settings_accounts_path(type: 'banking')
@@ -64,38 +62,38 @@
                 = menu_item content_tag(:i, class: 'icon-shopping-cart') { t('.expense') }, settings_accounts_path(type: 'expense')
                 = menu_item content_tag(:i, class: 'icon-certificate') { t('.credit_card') }, settings_credit_relations_path
                 = menu_item content_tag(:i, class: 'icon-user') { t('.user_info') }, settings_user_path
-              = menu_item t('link.logout'), logout_path, :data => { :confirm => t("message.logout_really")}
+              = menu_item t('link.logout'), logout_path, data: { confirm: t('message.logout_really') }
       .header
         :coffeescript
-          coo = "cookietest=ok"
-          document.cookie = coo + "\;"
+          coo = 'cookietest=ok'
+          document.cookie = coo + '\;'
           coo = document.cookie
           if( !coo )
-            document.write "<div class=\"warning\">#{t(".no_cookie_explanation")}</div>"
+            document.write "<div class=\"warning\">#{t('.no_cookie_explanation')}</div>"
         %noscript
-          .warning!= t(".no_javascript_explanation")
+          .warning!= t('.no_javascript_explanation')
       .main= yield
       .footer
-        != t("label.copyright")
-        %iframe{ src: "http://ghbtns.com/github-btn.html?user=kaznum&repo=sanataro&type=watch&count=true", allowtransparency: "true", frameborder:"0", scrolling:"0", width:"95px",height:"20px" }
-        %iframe{ src: "http://ghbtns.com/github-btn.html?user=kaznum&repo=sanataro&type=fork&count=true", allowtransparency:"true", frameborder:"0", scrolling:"0", width:"95px",height:"20px" }
-        %iframe{ src: "http://ghbtns.com/github-btn.html?user=kaznum&type=follow&count=true", allowtransparency:"true", frameborder:"0", scrolling:"0", width:"170px", height:"20px" }
+        != t('label.copyright')
+        %iframe{ src: 'http://ghbtns.com/github-btn.html?user=kaznum&repo=sanataro&type=watch&count=true', allowtransparency: 'true', frameborder: '0', scrolling: '0', width: '95px', height: '20px' }
+        %iframe{ src: 'http://ghbtns.com/github-btn.html?user=kaznum&repo=sanataro&type=fork&count=true', allowtransparency: 'true', frameborder: '0', scrolling: '0', width: '95px', height: '20px' }
+        %iframe{ src: 'http://ghbtns.com/github-btn.html?user=kaznum&type=follow&count=true', allowtransparency: 'true', frameborder: '0', scrolling: '0', width: '170px', height: '20px' }
 
-    .modal.hide.fade#digest_modal{:style => "display: none;"}
+    .modal.hide.fade#digest_modal{ style: 'display: none;' }
       .modal-header
-        %button.close{"data-dismiss" => "modal"}= '&times;'.html_safe
-        %h3#digest_title= ""
+        %button.close{ 'data-dismiss': 'modal' }= '&times;'.html_safe
+        %h3#digest_title= ''
       .modal-body#digest_body
       .modal-footer
-        %a.btn{:href => "#", "data-dismiss" => "modal"}= t("button.close")
-    .emojis_path{ style: "display: none" }= emojis_path
-    .modal.hide.fade#emojis_modal{:style => "display: none;"}
+        %a.btn{ href: '#', 'data-dismiss': 'modal' }= t('button.close')
+    .emojis_path{ style: 'display: none' }= emojis_path
+    .modal.hide.fade#emojis_modal{ style: 'display: none;' }
       .modal-header
-        %button.close{"data-dismiss" => "modal"}= '&times;'.html_safe
+        %button.close{ 'data-dismiss': 'modal' }= '&times;'.html_safe
         %h3#emojis_title= t('.emoji')
       .modal-body#emojis_body
         %ul.emoji_list
       .modal-footer
-        %a.btn{:href => "#", "data-dismiss" => "modal"}= t("button.close")
-      %input.current_form{type: "hidden", name: "current_form"}
+        %a.btn{ href: '#', 'data-dismiss': 'modal' }= t('button.close')
+      %input.current_form{ type: 'hidden', name: 'current_form' }
 

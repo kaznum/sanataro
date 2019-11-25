@@ -4,24 +4,24 @@
     $("#edit_form_#{@account.id}")
       .bind("ajax:before", -> $('#edit_button_#{@account.id}').attr('disabled', true))
       .bind("ajax:complete", -> $('#edit_button_#{@account.id}').attr('disabled', false))
-%div{:id => "account_#{@account.id}"}
-  = form_tag settings_account_path(@account.id), :method => :put, :remote => true, :id => "edit_form_#{@account.id}", :class => "form-horizontal well" do
+%div{ id: "account_#{@account.id}" }
+  = form_tag settings_account_path(@account.id), method: :put, remote: true, id: "edit_form_#{@account.id}", class: %w(form-horizontal well) do
     .control-group
-      %label.control-label{for: "account_name"}= t("settings.accounts.#{@account.type.underscore}_account")
-      .controls= text_field_tag :account_name, @account.name, class: "input-medium"
+      %label.control-label{ for: 'account_name' }= t("settings.accounts.#{@account.type.underscore}_account")
+      .controls= text_field_tag :account_name, @account.name, class: 'input-medium'
     .control-group
-      %label.control-label{for: "order_no"}= t("label.position")
-      .controls= text_field_tag :order_no, @account.order_no, class: "input-small"
+      %label.control-label{ for: 'order_no' }= t('label.position')
+      .controls= text_field_tag :order_no, @account.order_no, class: 'input-small'
     .control-group
-      %label.control-label{for: "use_bgcolor"}= t(".use_bgcolor")
+      %label.control-label{ for: 'use_bgcolor' }= t('.use_bgcolor')
       .controls
-        = check_box_tag :use_bgcolor, '1', (@account.bgcolor.present?), :id => "use_bgcolor_#{@account.id}"
-        = hidden_field_tag :bgcolor, @account.bgcolor.nil? ? '#ffffff' : "##{@account.bgcolor}", :id => "colorfield_#{@account.id}"
-        %span{:id => "colorpicker_#{@account.id}"}
+        = check_box_tag :use_bgcolor, '1', @account.bgcolor.present?, id: "use_bgcolor_#{@account.id}"
+        = hidden_field_tag :bgcolor, @account.bgcolor.nil? ? '#ffffff' : "##{@account.bgcolor}", id: "colorfield_#{@account.id}"
+        %span{ id: "colorpicker_#{@account.id}" }
     .control-group
       .controls
-        = submit_tag t('button.save'), id: "edit_button_#{@account.id}", class: 'btn btn-primary'
-        = link_to t('link.cancel'), settings_account_path(@account.id), :remote => true, :method => :get, :class => "btn"
+        = submit_tag t('button.save'), id: "edit_button_#{@account.id}", class: %w'btn btn-primary'
+        = link_to t('link.cancel'), settings_account_path(@account.id), remote: true, method: :get, class: 'btn'
     .row-fluid
-      .warning{:id => "account_#{@account.id}_warning"}
+      .warning{ id: "account_#{@account.id}_warning" }
 

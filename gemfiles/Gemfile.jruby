@@ -4,6 +4,7 @@ gem 'rails', '~> 4.2.11'
 
 group :development, :test do
   gem "minitest"
+  gem 'haml_lint', require: false
   gem "rspec-rails", ">= 2.13.1"
   gem 'rspec-activemodel-mocks'
   gem 'rspec-collection_matchers'

@@ -25,6 +25,9 @@ jobs:
     - name: Rubocop
       run: |
         bundle exec rubocop .
+    - name: haml-lint
+      run: |
+        bundle exec haml-lint .
     - name: Prepare DB and Assets
       run: |
         cp -v config/database.yml.sample config/database.yml

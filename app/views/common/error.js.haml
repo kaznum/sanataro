@@ -1,18 +1,17 @@
-- id = @error_js_params[:id]
-- errors = @error_js_params[:errors]
-- default_msg = @error_js_params[:default_message]
-- before = @error_js_params[:before]
-- after = @error_js_params[:after]
+:ruby
+  id = @error_js_params[:id]
+  errors = @error_js_params[:errors]
+  default_msg = @error_js_params[:default_message]
+  before = @error_js_params[:before]
+  after = @error_js_params[:after]
 
-- if before
-  ! #{before}
+!= before
 
 ! $('##{id}').attr('class', "alert alert-error");
 - if errors.blank?
   ! $("##{id}").html("#{default_msg}");
 - else
-  ! $("##{id}").html("#{errors.to_a.join("<br/>")}");
+  ! $("##{id}").html("#{errors.to_a.join('<br/>')}");
 ! $('##{id}').effect('pulsate', { times:#{GlobalSettings.effect.pulsate.times} }, #{GlobalSettings.effect.pulsate.duration});
 
-- if after
-  ! #{after}
+!= after

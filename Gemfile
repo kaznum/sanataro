@@ -14,6 +14,7 @@ gem 'rails', '~> 4.2.11'
 
 group :development, :test do
   gem 'fabrication'
+  gem 'haml_lint', require: false
   gem 'launchy'
   gem 'rspec-activemodel-mocks'
   gem 'rspec-collection_matchers'

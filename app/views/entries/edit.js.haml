@@ -1,11 +1,13 @@
-- if @item.adjustment?
-  - partial = 'edit_adjustment'
-- elsif @item.parent_id
-  - partial = 'edit_child_item'
-- else
-  - partial = 'edit_item'
+:ruby
+  partial = if @item.adjustment?
+              'edit_adjustment'
+            elsif @item.parent_id
+              'edit_child_item'
+            else
+              'edit_item'
+            end
 :plain
   $("#item_#{@item.id}").hide();
-  $("#item_#{@item.id}").replaceWith("#{j(render partial: partial, locals: {item: @item})}");
+  $("#item_#{@item.id}").replaceWith("#{j render(partial: partial, locals: { item: @item })}");
   $("#item_#{@item.id}").slideDown(#{GlobalSettings.effect.slide.duration});
 
