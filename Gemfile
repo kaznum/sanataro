@@ -57,9 +57,6 @@ group :production do
   gem 'redis-store', '>= 1.4.0'
 end
 
-# gem 'capistrano', '~> 2.0'
-# gem 'rvm-capistrano'
-
 gem 'mysql2'
 # for AR-4.2
 gem 'pg', '~> 0.21'
