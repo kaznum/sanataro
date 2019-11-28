@@ -154,7 +154,7 @@ end
 # This changes are for backward compatibility
 #
 module HttpVerbs
-  %i(get post).each do |verb|
+  %i(get post put patch delete).each do |verb|
     define_method verb do |*args, **options|
       if options.present? && !options.key?(:params)
         super(*args, params: options)
