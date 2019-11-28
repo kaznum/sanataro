@@ -72,7 +72,8 @@ class Account < ActiveRecord::Base
     items_table = Item.arel_table
     item = Item.where(items_table[:from_account_id].eq(id).or(items_table[:to_account_id].eq(id))).first
     errors[:base] << I18n.t('error.already_used_account') + "#{I18n.l(item.action_date)} #{item.name} #{number_to_currency(item.amount)}" if item
-    errors.empty?
+
+    throw :abort unless errors.empty?
   end
 
   def clear_cache
@@ -83,7 +84,8 @@ class Account < ActiveRecord::Base
     cr_table = CreditRelation.arel_table
     credit_rel = CreditRelation.where(cr_table[:credit_account_id].eq(id).or(cr_table[:payment_account_id].eq(id))).first
     errors[:base] << I18n.t('error.already_has_relation_to_credit') if credit_rel
-    errors.empty?
+
+    throw :abort unless errors.empty?
   end
 
   class << self
