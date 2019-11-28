@@ -7,7 +7,7 @@ source 'http://rubygems.org'
 ### Please see gemfiles/Gemfile.jruby for JRuby env
 ###
 
-gem 'rails', '~> 4.2.11'
+gem 'rails', '~> 5.2.1'
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -35,6 +35,7 @@ group :test do
   gem 'capybara-webkit', '>= 1.0.0'
   gem 'cucumber-rails', require: false
   gem 'growl'
+  gem 'rails-controller-testing'
   gem 'rb-fsevent'
   gem 'simplecov'
   gem 'spork'
@@ -56,8 +57,8 @@ group :production do
   gem 'redis-store', '>= 1.4.0'
 end
 
-gem 'capistrano', '~> 2.0'
-gem 'rvm-capistrano'
+# gem 'capistrano', '~> 2.0'
+# gem 'rvm-capistrano'
 
 gem 'mysql2'
 # for AR-4.2
@@ -65,7 +66,8 @@ gem 'pg', '~> 0.21'
 # for AR-4.2
 gem 'sqlite3', '~> 1.3.11'
 
-gem 'coffee-rails', '~> 4.1.0'
+gem 'bootsnap', require: false
+gem 'coffee-rails' #, '~> 4.1.0'
 gem 'haml', '>= 5.0.0'
 gem 'haml-rails'
 gem 'i18n'
