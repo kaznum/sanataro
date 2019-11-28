@@ -34,6 +34,6 @@ class Api::SessionsController < ApplicationController
   private
 
   def render_when_not_login
-    render nothing: true, status: :unauthorized
+    head :unauthorized
   end
 end

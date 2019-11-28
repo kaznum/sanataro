@@ -12,7 +12,7 @@ class Admin::UsersController < ApplicationController
   def authenticate
     admin_user, admin_password = correct_credential
     if admin_user.nil? || admin_password.nil?
-      render nothing: true, status: :unauthorized
+      head :unauthorized
       return
     end
 

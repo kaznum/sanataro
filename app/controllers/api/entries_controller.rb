@@ -9,7 +9,7 @@ class Api::EntriesController < ApplicationController
     super
     render locals: { items: @items }
   rescue ArgumentError
-    render nothing: true, status: :not_acceptable
+    head :not_acceptable
   end
 
   def show
@@ -51,7 +51,7 @@ class Api::EntriesController < ApplicationController
     errors = [t('error.date_is_invalid')]
     render json: { errors: errors }.to_json, status: :not_acceptable
   rescue ActiveRecord::RecordNotFound
-    render nothing: true, status: :not_found
+    head :not_found
   rescue ActiveRecord::RecordInvalid => e
     errors = e.record.errors.full_messages
     render json: { errors: errors }.to_json, status: :not_acceptable
