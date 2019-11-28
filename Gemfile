@@ -64,7 +64,7 @@ gem 'pg', '~> 0.21'
 gem 'sqlite3', '~> 1.3.11'
 
 gem 'bootsnap', require: false
-gem 'coffee-rails' #, '~> 4.1.0'
+gem 'coffee-rails'
 gem 'haml', '>= 5.0.0'
 gem 'haml-rails'
 gem 'i18n'

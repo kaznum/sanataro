@@ -157,9 +157,9 @@ module HttpVerbs
   %i(get post).each do |verb|
     define_method verb do |*args, **options|
       if options.present? && !options.key?(:params)
-        super *args, params: options
+        super(*args, params: options)
       else
-        super *args, **options
+        super(*args, **options)
       end
     end
   end
