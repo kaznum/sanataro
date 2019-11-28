@@ -57,7 +57,7 @@ describe ChartData::BudgetsController, type: :controller do
           get :show, id: '200301', format: :json
         end
         subject { response }
-        it { is_expected.to be_success }
+        it { is_expected.to be_successful }
 
         describe '#body' do
           subject { super().body }
@@ -89,7 +89,7 @@ describe ChartData::BudgetsController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
             specify do
               expect(ActiveSupport::JSON.decode(subject.body)).to eq([{ 'label' => 'その2', 'data' => 900 }, { 'label' => I18n.t('label.unknown_income'), 'data' => 800 }])
             end
@@ -105,7 +105,7 @@ describe ChartData::BudgetsController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
             specify do
               expect(ActiveSupport::JSON.decode(subject.body)).to eq([{ 'label' => 'その4', 'data' => 200 }, { 'label' => I18n.t('label.unknown_expense'), 'data' => 500 }])
             end

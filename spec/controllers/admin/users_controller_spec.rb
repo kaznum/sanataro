@@ -44,7 +44,7 @@ describe Admin::UsersController, type: :controller do
             get :index
           end
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
         end
       end
 
@@ -106,7 +106,7 @@ describe Admin::UsersController, type: :controller do
           end
 
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'index' }
         end
       end
@@ -129,7 +129,7 @@ describe Admin::UsersController, type: :controller do
           end
 
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'index' }
         end
       end
@@ -187,7 +187,7 @@ describe Admin::UsersController, type: :controller do
           end
 
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'index' }
         end
       end

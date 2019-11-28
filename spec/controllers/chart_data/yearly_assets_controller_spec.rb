@@ -36,7 +36,7 @@ describe ChartData::YearlyAssetsController, type: :controller do
           end
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'response.body' do
@@ -80,7 +80,7 @@ describe ChartData::YearlyAssetsController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'response.body' do
