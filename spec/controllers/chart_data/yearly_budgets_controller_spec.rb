@@ -8,7 +8,6 @@ describe ChartData::YearlyBudgetsController, type: :controller do
   describe '#show' do
     context 'before login,' do
       before do
-pp method(:get).source_location
         get :show, id: '200802', budget_type: 'expense', format: :json
       end
 
