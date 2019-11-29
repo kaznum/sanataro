@@ -14,13 +14,13 @@ class LoginController < ApplicationController
   end
 
   def do_login
-    _do_login(params[:login], params[:password], params[:autologin], false, params[:only_add])
+    _do_login(params[:login], params[:password], params[:autologin].presence, false, params[:only_add].presence)
     unless session[:user_id]
       render_js_error id: 'warning', default_message: t('error.user_or_password_is_invalid')
       return
     end
 
-    redirect_js_to params[:only_add] ? simple_input_url : current_entries_url
+    redirect_js_to params[:only_add].present? ? simple_input_url : current_entries_url
   end
 
   def do_logout
