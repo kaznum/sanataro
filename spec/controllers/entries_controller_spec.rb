@@ -34,7 +34,7 @@ describe EntriesController, type: :controller do
       shared_examples_for 'Success' do
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'index' }
         end
       end
@@ -112,7 +112,7 @@ describe EntriesController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'index_with_tag_keyword' }
         end
 
@@ -137,7 +137,7 @@ describe EntriesController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'index_with_mark' }
         end
 
@@ -162,7 +162,7 @@ describe EntriesController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'index_with_tag_keyword' }
         end
 
@@ -184,7 +184,7 @@ describe EntriesController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'index_with_tag_keyword' }
         end
 
@@ -206,7 +206,7 @@ describe EntriesController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'index_with_tag_keyword' }
         end
 
@@ -225,7 +225,7 @@ describe EntriesController, type: :controller do
           shared_examples_for 'filtered index' do
             describe 'response' do
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
             end
 
             describe '@items' do
@@ -295,7 +295,7 @@ describe EntriesController, type: :controller do
         shared_examples_for 'executed correctly' do
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
             it { is_expected.to render_template 'index_for_remaining' }
           end
         end
@@ -385,7 +385,7 @@ describe EntriesController, type: :controller do
         shared_examples_for "execute edit successfully of #{item_name}" do
           describe 'resposne' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
             it { is_expected.to render_template 'edit' }
           end
 
@@ -440,7 +440,7 @@ describe EntriesController, type: :controller do
         end
 
         subject { response }
-        it { is_expected.to be_success }
+        it { is_expected.to be_successful }
         it { is_expected.to render_template 'show' }
       end
     end
@@ -465,7 +465,7 @@ describe EntriesController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'new' }
         end
 
@@ -487,7 +487,7 @@ describe EntriesController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'new' }
         end
 
@@ -506,7 +506,7 @@ describe EntriesController, type: :controller do
         shared_examples_for 'respond successfully' do
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
             it { is_expected.to render_template 'new' }
           end
         end
@@ -582,7 +582,7 @@ describe EntriesController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'new_simple' }
         end
 
@@ -669,7 +669,7 @@ describe EntriesController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
 
             describe '#content_type' do
               subject { super().content_type }
@@ -730,7 +730,7 @@ describe EntriesController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
 
             describe '#content_type' do
               subject { super().content_type }
@@ -786,7 +786,7 @@ describe EntriesController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'amount of from_account' do
@@ -828,7 +828,7 @@ describe EntriesController, type: :controller do
             describe 'response' do
               before { action.call }
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
             end
 
             describe 'specified item' do
@@ -869,7 +869,7 @@ describe EntriesController, type: :controller do
             describe 'response' do
               before { action.call }
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
 
               describe '#content_type' do
                 subject { super().content_type }
@@ -928,7 +928,7 @@ describe EntriesController, type: :controller do
             describe 'response' do
               before { @action.call }
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
             end
 
             describe 'specified item(adjustment2)' do
@@ -969,7 +969,7 @@ describe EntriesController, type: :controller do
 
             describe 'response' do
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
 
               describe '#content_type' do
                 subject { super().content_type }
@@ -1064,7 +1064,7 @@ describe EntriesController, type: :controller do
 
             describe 'response' do
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
 
               describe '#content_type' do
                 subject { super().content_type }
@@ -1157,7 +1157,7 @@ describe EntriesController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_js_error id: 'warning', default_message: I18n.t('error.input_is_invalid') }
         end
 
@@ -1175,7 +1175,7 @@ describe EntriesController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_js_error id: 'warning', default_message: I18n.t('error.input_is_invalid') }
         end
 
@@ -1193,7 +1193,7 @@ describe EntriesController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_js_error id: 'warning', default_message: I18n.t('error.date_is_invalid') }
         end
 
@@ -1206,7 +1206,7 @@ describe EntriesController, type: :controller do
       shared_examples_for 'created successfully' do
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
         end
       end
 
@@ -1217,7 +1217,7 @@ describe EntriesController, type: :controller do
         end
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_js_error id: 'warning', default_message: I18n.t('error.amount_is_invalid') }
         end
 
@@ -1476,7 +1476,7 @@ describe EntriesController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_js_error id: 'warning' }
         end
 
@@ -1818,7 +1818,7 @@ describe EntriesController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
 
             describe '#content_type' do
               subject { super().content_type }
@@ -1911,7 +1911,7 @@ describe EntriesController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
 
             describe '#content_type' do
               subject { super().content_type }
@@ -2023,7 +2023,7 @@ describe EntriesController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
 
             describe '#content_type' do
               subject { super().content_type }
@@ -2135,7 +2135,7 @@ describe EntriesController, type: :controller do
           describe 'response' do
             before { @action.call }
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
 
             describe '#content_type' do
               subject { super().content_type }
@@ -2299,7 +2299,7 @@ describe EntriesController, type: :controller do
             describe 'response' do
               before { action.call }
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
             end
 
             describe 'all adjustments count' do
@@ -2345,7 +2345,7 @@ describe EntriesController, type: :controller do
             describe 'response' do
               before { action.call }
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
             end
 
             describe 'all adjustments count' do
@@ -2396,7 +2396,7 @@ describe EntriesController, type: :controller do
               action.call
             end
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'count of items' do
@@ -2481,7 +2481,7 @@ describe EntriesController, type: :controller do
               action.call
             end
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'count of items' do
@@ -2570,7 +2570,7 @@ describe EntriesController, type: :controller do
               action.call
             end
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'count of items' do
@@ -2658,7 +2658,7 @@ describe EntriesController, type: :controller do
               action.call
             end
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'count of items' do
@@ -2755,7 +2755,7 @@ describe EntriesController, type: :controller do
               @action.call
             end
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'item to update' do
@@ -2787,7 +2787,7 @@ describe EntriesController, type: :controller do
           describe 'response' do
             before { @action.call }
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'item to update' do
@@ -2818,7 +2818,7 @@ describe EntriesController, type: :controller do
           describe 'response' do
             before { @action.call }
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
             it { is_expected.to render_js_error id: "item_warning_#{items(:adjustment2).id}" }
           end
 
@@ -2859,7 +2859,7 @@ describe EntriesController, type: :controller do
               @action.call
             end
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'updated item' do
@@ -2940,7 +2940,7 @@ describe EntriesController, type: :controller do
           describe 'response' do
             before { @action.call }
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'updated item' do
@@ -2986,7 +2986,7 @@ describe EntriesController, type: :controller do
           describe 'response' do
             before { @action.call }
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'updated item' do
@@ -3032,7 +3032,7 @@ describe EntriesController, type: :controller do
               @action.call
             end
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'updated item' do
@@ -3093,7 +3093,7 @@ describe EntriesController, type: :controller do
           describe 'response' do
             before { @action.call }
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'updated adjustment' do
@@ -3179,7 +3179,7 @@ describe EntriesController, type: :controller do
           describe 'response' do
             before { @action.call }
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'updated adjustment' do
@@ -3258,7 +3258,7 @@ describe EntriesController, type: :controller do
             before { @action.call }
             subject { response }
 
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'updated item' do
@@ -3325,7 +3325,7 @@ describe EntriesController, type: :controller do
             before { @action.call }
             subject { response }
 
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'updated item' do
@@ -3398,7 +3398,7 @@ describe EntriesController, type: :controller do
           describe 'response' do
             before { @action.call }
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'item to update' do
@@ -3434,7 +3434,7 @@ describe EntriesController, type: :controller do
           describe 'response' do
             before { @action.call }
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
             it { is_expected.to render_js_error id: "item_warning_#{@old_item1.id}" }
           end
 
@@ -3467,7 +3467,7 @@ describe EntriesController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'updated item' do
@@ -3520,7 +3520,7 @@ describe EntriesController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'updated item' do
@@ -3580,7 +3580,7 @@ describe EntriesController, type: :controller do
                 @action.call
               end
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
             end
 
             describe 'updated item' do
@@ -3745,7 +3745,7 @@ describe EntriesController, type: :controller do
           describe 'response' do
             before { @action.call }
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'updated item' do
@@ -3843,7 +3843,7 @@ describe EntriesController, type: :controller do
           describe 'response' do
             before { @action.call }
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
 
             describe '#content_type' do
               subject { super().content_type }
@@ -3918,7 +3918,7 @@ describe EntriesController, type: :controller do
           describe 'response' do
             before { @action.call }
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
 
             describe '#content_type' do
               subject { super().content_type }
@@ -3994,7 +3994,7 @@ describe EntriesController, type: :controller do
           describe 'response' do
             before { @action.call }
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
 
             describe '#content_type' do
               subject { super().content_type }
@@ -4070,7 +4070,7 @@ describe EntriesController, type: :controller do
           describe 'response' do
             before { @action.call }
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
 
             describe '#content_type' do
               subject { super().content_type }
@@ -4171,7 +4171,7 @@ describe EntriesController, type: :controller do
                 @action.call
               end
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
             end
 
             describe 'the number of items' do
@@ -4247,7 +4247,7 @@ describe EntriesController, type: :controller do
                 @action.call
               end
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
             end
 
             describe 'the number of items' do
@@ -4335,7 +4335,7 @@ describe EntriesController, type: :controller do
                 @action.call
               end
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
             end
 
             describe 'the number of items' do
@@ -4409,7 +4409,7 @@ describe EntriesController, type: :controller do
                 @action.call
               end
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
             end
 
             describe 'the number of items' do
@@ -4477,7 +4477,7 @@ describe EntriesController, type: :controller do
                 @action.call
               end
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
             end
 
             describe 'the number of items' do
@@ -4548,7 +4548,7 @@ describe EntriesController, type: :controller do
                 @action.call
               end
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
             end
 
             describe 'the number of items' do

@@ -13,7 +13,6 @@ describe Admin::UsersController, type: :controller do
       ENV['ADMIN_PASSWORD'] = nil
     end
 
-    let(:user_objects) { [mock_user, mock_user, mock_user] }
     context 'without authentication data in server,' do
       describe 'response' do
         before do
@@ -44,7 +43,7 @@ describe Admin::UsersController, type: :controller do
             get :index
           end
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
         end
       end
 
@@ -106,7 +105,7 @@ describe Admin::UsersController, type: :controller do
           end
 
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'index' }
         end
       end
@@ -129,7 +128,7 @@ describe Admin::UsersController, type: :controller do
           end
 
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'index' }
         end
       end
@@ -159,6 +158,8 @@ describe Admin::UsersController, type: :controller do
 
     context 'when authentication pass,' do
       context 'when user/password is correct,' do
+        let(:user_objects) { [mock_user, mock_user, mock_user] }
+
         before do
           expect(@controller).to receive(:authenticate).and_return(true)
         end
@@ -187,7 +188,7 @@ describe Admin::UsersController, type: :controller do
           end
 
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'index' }
         end
       end

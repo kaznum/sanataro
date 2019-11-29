@@ -22,7 +22,7 @@ describe Api::AccountsController, type: :controller do
 
       describe 'response' do
         subject { response }
-        it { is_expected.to be_success }
+        it { is_expected.to be_successful }
         it { is_expected.to render_template :index }
       end
     end
@@ -57,7 +57,7 @@ describe Api::AccountsController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template :index }
         end
       end
@@ -83,7 +83,7 @@ describe Api::AccountsController, type: :controller do
 
       describe 'response' do
         subject { response }
-        it { is_expected.to be_success }
+        it { is_expected.to be_successful }
         it { is_expected.to render_template :index }
       end
     end

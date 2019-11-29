@@ -20,7 +20,7 @@ class AutologinKey < ActiveRecord::Base
     end
 
     def cleanup
-      AutologinKey.delete_all(['created_at < ?', Time.now - (30 * 24 * 3600)])
+      AutologinKey.where('created_at < ?', Time.now - (30 * 24 * 3600)).delete_all
     end
   end
 

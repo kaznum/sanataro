@@ -13,7 +13,7 @@ describe EntryCandidatesController, type: :controller do
 
       describe 'response' do
         subject { response }
-        it { is_expected.to be_success }
+        it { is_expected.to be_successful }
         it_should_behave_like 'Unauthenticated Access by xhr'
       end
     end
@@ -30,7 +30,7 @@ describe EntryCandidatesController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.not_to render_template '_candidate' }
         end
       end
@@ -41,7 +41,7 @@ describe EntryCandidatesController, type: :controller do
         end
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template '_candidate' }
         end
       end

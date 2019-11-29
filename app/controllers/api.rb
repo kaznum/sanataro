@@ -31,7 +31,7 @@ module Api
           @user = user
           true
         else
-          render text: 'You do not have the permission to access this resource.', status: :unauthorized
+          render plain: 'You do not have the permission to access this resource.', status: :unauthorized
           false
         end
       end
@@ -41,15 +41,14 @@ module Api
   module General
     def self.included(base)
       base.class_eval do
-        include Api::General::InstanceMethods
-        alias_method_chain :verified_request?, :condition
+        prepend Api::General::InstanceMethods
       end
     end
 
     module InstanceMethods
       # override the method which checks CSRF token.
       def verified_request_with_condition?
-        doorkeeper_token || request.authorization.present? || verified_request_without_condition?
+        doorkeeper_token || request.authorization.present? || super
       end
     end
   end

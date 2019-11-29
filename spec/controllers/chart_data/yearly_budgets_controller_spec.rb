@@ -45,7 +45,7 @@ describe ChartData::YearlyBudgetsController, type: :controller do
             end
             describe 'response' do
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
             end
             describe 'response.body' do
               subject { response.body }
@@ -92,7 +92,7 @@ describe ChartData::YearlyBudgetsController, type: :controller do
             end
             describe 'response' do
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
             end
 
             describe 'response.body' do
@@ -130,7 +130,7 @@ describe ChartData::YearlyBudgetsController, type: :controller do
             end
             describe 'response' do
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
             end
             describe 'response.body' do
               subject { response.body }
@@ -175,7 +175,7 @@ describe ChartData::YearlyBudgetsController, type: :controller do
             end
             describe 'response' do
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
             end
             describe 'response.body' do
               subject { response.body }
@@ -211,7 +211,7 @@ describe ChartData::YearlyBudgetsController, type: :controller do
             end
             describe 'response' do
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
             end
             describe 'response' do
               subject { response.body }
@@ -259,7 +259,7 @@ describe ChartData::YearlyBudgetsController, type: :controller do
 
             describe 'response' do
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
             end
             describe 'response' do
               subject { response.body }

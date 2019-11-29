@@ -35,7 +35,7 @@ describe Settings::AccountsController, type: :controller do
       %i[banking expense income].each do |type|
         shared_examples_for "type = '#{type}'" do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template('index') }
 
           describe '@type' do

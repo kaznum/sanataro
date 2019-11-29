@@ -35,7 +35,7 @@ describe Settings::CreditRelationsController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'index' }
         end
       end
@@ -79,7 +79,7 @@ describe Settings::CreditRelationsController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'show' }
         end
       end
@@ -153,7 +153,7 @@ describe Settings::CreditRelationsController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
             it { is_expected.to render_template 'edit' }
           end
 
@@ -197,7 +197,7 @@ describe Settings::CreditRelationsController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'no_record' }
         end
 
@@ -227,7 +227,7 @@ describe Settings::CreditRelationsController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'destroy' }
         end
 

@@ -99,6 +99,10 @@ RSpec.configure do |config|
     xhr :post, :create, *params
     @controller = orig_controller
   end
+
+  def xhr(method, path, **options)
+    send(method, path, params: options, xhr: true)
+  end
 end
 
 RSpec::Matchers.define :redirect_by_js_to do |path|
@@ -144,3 +148,21 @@ RSpec::Matchers.define :render_js_error do |prms|
     'error.js.haml matcher'
   end
 end
+
+#
+# This module changes the behaviors of get/post action
+# This changes are for backward compatibility
+#
+module HttpVerbs
+  %i(get post put patch delete).each do |verb|
+    define_method verb do |*args, **options|
+      if options.present? && !options.key?(:params)
+        super(*args, params: options)
+      else
+        super(*args, **options)
+      end
+    end
+  end
+end
+
+Rails::Controller::Testing::Integration.prepend HttpVerbs

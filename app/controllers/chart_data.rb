@@ -15,7 +15,7 @@ module ChartData
 
     def redirect_if_invalid_year_month!
       unless CommonUtil.valid_combined_year_month?(params[:id])
-        render status: :not_acceptable, text: 'Not Acceptable'
+        render status: :not_acceptable, plain: 'Not Acceptable'
         return
       end
       true

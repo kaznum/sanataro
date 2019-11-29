@@ -43,7 +43,7 @@ describe Api::EntriesController, type: :controller do
       shared_examples_for 'Success in JSON' do
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'index' }
         end
       end
@@ -113,7 +113,7 @@ describe Api::EntriesController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'index' }
         end
 
@@ -148,7 +148,7 @@ describe Api::EntriesController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'index' }
         end
 
@@ -183,7 +183,7 @@ describe Api::EntriesController, type: :controller do
 
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'index' }
         end
 
@@ -202,7 +202,7 @@ describe Api::EntriesController, type: :controller do
           shared_examples_for 'filtered index in JSON' do
             describe 'response' do
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
               it { is_expected.to render_template 'index' }
             end
 
@@ -271,7 +271,7 @@ describe Api::EntriesController, type: :controller do
         shared_examples_for 'executed correctly in JSON' do
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
             it { is_expected.to render_template 'index' }
           end
         end
@@ -369,7 +369,7 @@ describe Api::EntriesController, type: :controller do
         end
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
           it { is_expected.to render_template 'show' }
         end
 
@@ -445,7 +445,7 @@ describe Api::EntriesController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
 
             describe '#content_type' do
               subject { super().content_type }
@@ -511,7 +511,7 @@ describe Api::EntriesController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
 
             describe '#content_type' do
               subject { super().content_type }
@@ -567,7 +567,7 @@ describe Api::EntriesController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'amount of from_account' do
@@ -609,7 +609,7 @@ describe Api::EntriesController, type: :controller do
             describe 'response' do
               before { action.call }
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
             end
 
             describe 'specified item' do
@@ -650,7 +650,7 @@ describe Api::EntriesController, type: :controller do
             describe 'response' do
               before { action.call }
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
 
               describe '#content_type' do
                 subject { super().content_type }
@@ -713,7 +713,7 @@ describe Api::EntriesController, type: :controller do
             describe 'response' do
               before { @action.call }
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
 
               describe '#response_code' do
                 subject { super().response_code }
@@ -802,7 +802,7 @@ describe Api::EntriesController, type: :controller do
       shared_examples_for 'created successfully by JSON' do
         describe 'response' do
           subject { response }
-          it { is_expected.to be_success }
+          it { is_expected.to be_successful }
 
           describe '#response_code' do
             subject { super().response_code }
@@ -1074,7 +1074,7 @@ describe Api::EntriesController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
 
             describe '#content_type' do
               subject { super().content_type }
@@ -1562,7 +1562,7 @@ describe Api::EntriesController, type: :controller do
           describe 'response' do
             before { @action.call }
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
           end
 
           describe 'updated item' do
@@ -1665,7 +1665,7 @@ describe Api::EntriesController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
 
             describe '#response_code' do
               subject { super().response_code }
@@ -1722,7 +1722,7 @@ describe Api::EntriesController, type: :controller do
 
           describe 'response' do
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
 
             describe '#response_code' do
               subject { super().response_code }
@@ -1787,7 +1787,7 @@ describe Api::EntriesController, type: :controller do
               end
 
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
 
               describe '#response_code' do
                 subject { super().response_code }
@@ -1930,7 +1930,7 @@ describe Api::EntriesController, type: :controller do
           describe 'response' do
             before { @action.call }
             subject { response }
-            it { is_expected.to be_success }
+            it { is_expected.to be_successful }
 
             describe '#response_code' do
               subject { super().response_code }
@@ -2088,7 +2088,7 @@ describe Api::EntriesController, type: :controller do
                 @action.call
               end
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
 
               describe '#response_code' do
                 subject { super().response_code }
@@ -2197,7 +2197,7 @@ describe Api::EntriesController, type: :controller do
                 @action.call
               end
               subject { response }
-              it { is_expected.to be_success }
+              it { is_expected.to be_successful }
 
               describe '#response_code' do
                 subject { super().response_code }

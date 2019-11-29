@@ -7,7 +7,7 @@ class EntryCandidatesController < ApplicationController
     partial_name = params[:item_name]
 
     if partial_name.blank?
-      render text: ''
+      render plain: ''
       return
     end
 

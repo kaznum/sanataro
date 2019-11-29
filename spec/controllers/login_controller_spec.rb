@@ -8,7 +8,7 @@ describe LoginController, type: :controller do
   describe '#login' do
     shared_examples_for 'render login' do
       subject { response }
-      it { is_expected.to be_success }
+      it { is_expected.to be_successful }
       it { is_expected.to render_template 'login' }
     end
 
@@ -50,7 +50,7 @@ describe LoginController, type: :controller do
 
       describe 'response' do
         subject { response }
-        it { is_expected.to be_success }
+        it { is_expected.to be_successful }
         it { is_expected.to render_template 'login' }
       end
     end
@@ -359,7 +359,7 @@ describe LoginController, type: :controller do
     end
 
     subject { response }
-    it { is_expected.to be_success }
+    it { is_expected.to be_successful }
     it { is_expected.to render_template 'create_user' }
   end
 
@@ -372,7 +372,7 @@ describe LoginController, type: :controller do
       describe 'response' do
         subject { response }
         it { is_expected.to render_template 'do_create_user' }
-        it { is_expected.to be_success }
+        it { is_expected.to be_successful }
       end
 
       describe 'created user' do
@@ -427,7 +427,7 @@ describe LoginController, type: :controller do
 
       describe 'response' do
         subject { response }
-        it { is_expected.to be_success }
+        it { is_expected.to be_successful }
         it { is_expected.to render_template 'confirmation' }
       end
     end
@@ -448,7 +448,7 @@ describe LoginController, type: :controller do
 
       describe 'response' do
         subject { response }
-        it { is_expected.to be_success }
+        it { is_expected.to be_successful }
         it { is_expected.to render_template 'confirmation_error' }
       end
     end
