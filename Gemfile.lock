@@ -343,7 +343,7 @@ GEM
     therubyracer (0.12.3)
       libv8 (~> 3.16.14.15)
       ref
-    thor (0.20.3)
+    thor (1.0.0)
     thread_safe (0.3.6)
     tilt (2.0.10)
     twitter-bootstrap-rails (2.2.8)
