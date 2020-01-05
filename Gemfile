@@ -28,6 +28,10 @@ group :development, :test do
   end
   gem 'dotenv-rails'
   gem 'rubocop', require: false
+
+  # sometimes rvm-capistrano can not be downloaded
+  # gem 'capistrano', '~> 2.0'
+  # gem 'rvm-capistrano'
 end
 
 group :test do
@@ -55,9 +59,6 @@ group :production do
   # CVE-2017-1000248
   gem 'redis-store', '>= 1.4.0'
 end
-
-gem 'capistrano', '~> 2.0'
-gem 'rvm-capistrano'
 
 gem 'mysql2'
 # for AR-4.2
