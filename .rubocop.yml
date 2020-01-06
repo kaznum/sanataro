@@ -7,6 +7,9 @@ AllCops:
     - lib/arel_node_match_postgres_ext.rb
   TargetRubyVersion: 2.3
 
+Layout/LineLength:
+  Enabled: false
+
 Layout/MultilineOperationIndentation:
   Enabled: false
 
@@ -50,9 +53,6 @@ Metrics/ClassLength:
   Enabled: false
 
 Metrics/CyclomaticComplexity:
-  Enabled: false
-
-Metrics/LineLength:
   Enabled: false
 
 Metrics/MethodLength:
