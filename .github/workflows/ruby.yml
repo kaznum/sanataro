@@ -19,8 +19,7 @@ jobs:
         sudo apt-get install -y libqtwebkit-dev libqtwebkit4 libmysqlclient-dev libpq-dev libsqlite3-dev nodejs xvfb
     - name: Install bundler and install required gems
       run: |
-        gem install bundler
-        bundle update --bundler
+        gem install bundler:1.17.3
         bundle install --jobs 4 --retry 3 --without production development
     - name: Rubocop
       run: |
