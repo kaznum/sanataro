@@ -75,6 +75,7 @@ GEM
     execjs (2.7.0)
     fabrication (2.21.0)
     ffi (1.12.2)
+    ffi (1.12.2-java)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     haml (5.1.2)
