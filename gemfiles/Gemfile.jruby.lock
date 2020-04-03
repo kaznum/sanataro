@@ -73,7 +73,7 @@ GEM
       railties (>= 3.2, < 6.1)
     erubis (2.7.0)
     execjs (2.7.0)
-    fabrication (2.21.0)
+    fabrication (2.21.1)
     ffi (1.12.2)
     ffi (1.12.2-java)
     globalid (0.4.2)
@@ -252,7 +252,7 @@ GEM
       execjs
       rails (>= 3.1)
       railties (>= 3.1)
-    tzinfo (1.2.6)
+    tzinfo (1.2.7)
       thread_safe (~> 0.1)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
