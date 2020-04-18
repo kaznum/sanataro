@@ -41,7 +41,7 @@ GEM
     ast (2.4.0)
     backports (3.17.1)
     builder (3.2.4)
-    byebug (11.1.1)
+    byebug (11.1.2)
     capybara (3.32.1)
       addressable
       mini_mime (>= 0.1.3)
