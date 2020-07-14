@@ -23,9 +23,9 @@ addons:
       - libqtwebkit4
 
 rvm:
+  - 2.7.0
   - 2.6.0
   - 2.5.0
-  - 2.4.0
   - ruby-head
   - jruby
   - jruby-head
@@ -42,15 +42,6 @@ gemfile:
 
 matrix:
   exclude:
-    - rvm: 2.4.0
-      gemfile: gemfiles/Gemfile.jruby
-      env: DB=mysql
-    - rvm: 2.4.0
-      gemfile: gemfiles/Gemfile.jruby
-      env: DB=postgres
-    - rvm: 2.4.0
-      gemfile: gemfiles/Gemfile.jruby
-      env: DB=sqlite
     - rvm: 2.5.0
       gemfile: gemfiles/Gemfile.jruby
       env: DB=mysql
@@ -67,6 +58,15 @@ matrix:
       gemfile: gemfiles/Gemfile.jruby
       env: DB=postgres
     - rvm: 2.6.0
+      gemfile: gemfiles/Gemfile.jruby
+      env: DB=sqlite
+    - rvm: 2.7.0
+      gemfile: gemfiles/Gemfile.jruby
+      env: DB=mysql
+    - rvm: 2.7.0
+      gemfile: gemfiles/Gemfile.jruby
+      env: DB=postgres
+    - rvm: 2.7.0
       gemfile: gemfiles/Gemfile.jruby
       env: DB=sqlite
     - rvm: ruby-head
@@ -110,6 +110,7 @@ matrix:
       env: DB=postgres
   allow_failures:
     - rvm: 2.6.0
+    - rvm: 2.7.0
     - rvm: ruby-head
     - rvm: jruby-head
 
