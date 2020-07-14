@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Rails 4.2 call `initialize` inside `recycle!`. However Ruby 2.6 doesn't allow calling `initialize` twice.
 # See for detail: https://github.com/rails/rails/issues/34790
 if RUBY_VERSION.to_f >= 2.6 && Rails::VERSION::MAJOR == 4
