@@ -3,17 +3,14 @@ development:
   database: sanataro_development
   username: root
   encoding: utf8
-  collation: utf8_general_ci
 test:
   adapter: mysql
   database: sanataro_test
   username: root
   encoding: utf8
-  collation: utf8_general_ci
 production:
   adapter: mysql
   database: sanataro_production
   username: root
   encoding: utf8
-  collation: utf8_general_ci
 
