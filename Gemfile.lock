@@ -252,7 +252,7 @@ GEM
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    redis (4.2.4)
+    redis (4.2.5)
     redis-actionpack (5.1.0)
       actionpack (>= 4.0, < 7)
       redis-rack (>= 1, < 3)
