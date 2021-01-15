@@ -122,7 +122,7 @@ GEM
     krypt-provider-jdk (0.0.2)
     launchy (2.5.0)
       addressable (~> 2.7)
-    loofah (2.8.0)
+    loofah (2.9.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
