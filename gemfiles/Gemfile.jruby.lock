@@ -129,13 +129,8 @@ GEM
       mini_mime (>= 0.1.1)
     memoist (0.16.2)
     mini_mime (1.1.0)
-    mini_portile2 (2.5.2)
-      net-ftp (~> 0.1)
+    mini_portile2 (2.5.3)
     minitest (5.14.4)
-    net-ftp (0.1.2)
-      net-protocol
-      time
-    net-protocol (0.1.0)
     nokogiri (1.11.6)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
@@ -211,13 +206,13 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.10.2)
-    rubocop (1.15.0)
+    rubocop (1.16.0)
       parallel (~> 1.10)
       parser (>= 3.0.0.0)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml
-      rubocop-ast (>= 1.5.0, < 2.0)
+      rubocop-ast (>= 1.7.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.7.0)
@@ -261,7 +256,6 @@ GEM
     thread_safe (0.3.6)
     thread_safe (0.3.6-java)
     tilt (2.0.10)
-    time (0.1.0)
     twitter-bootstrap-rails (2.2.8)
       actionpack (>= 3.1)
       execjs
