@@ -3,14 +3,17 @@ development:
   database: sanataro_development
   username: root
   encoding: utf8
+  host: 127.0.0.1
 test:
   adapter: mysql
   database: sanataro_test
   username: root
   encoding: utf8
+  host: 127.0.0.1
 production:
   adapter: mysql
   database: sanataro_production
   username: root
   encoding: utf8
+  host: 127.0.0.1
 
