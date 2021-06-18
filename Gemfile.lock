@@ -114,7 +114,7 @@ GEM
     execjs (2.8.1)
     fabrication (2.22.0)
     ffi (1.15.3)
-    formatador (0.2.5)
+    formatador (0.3.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     growl (1.0.3)
