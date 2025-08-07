@@ -1,0 +1,60 @@
+# Git files
+.git
+.gitignore
+
+# Documentation
+README.rdoc
+doc/
+
+# Development files
+.env
+.env.local
+
+# Test files
+spec/
+features/
+cucumber.yml
+.rspec
+.haml-lint.yml
+.haml-lint_todo.yml
+.rubocop.yml
+
+# CI/CD files
+.travis.yml
+.github/
+
+# Temporary files
+tmp/
+log/*
+*.log
+
+# Database files
+db/*.sqlite3
+db/*.sqlite3-journal
+
+# Gem files
+vendor/bundle/
+.bundle/
+
+# Node modules
+node_modules/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Coverage files
+coverage/
+
+# Backup files
+*~
+*.backup
+
+# OS files
+.fuse_hidden*

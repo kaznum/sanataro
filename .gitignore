@@ -14,3 +14,6 @@ config/database.yml
 .ruby-gemset
 .rbx/*
 lib/sqljdbc4.jar
+
+# Docker
+.env

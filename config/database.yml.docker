@@ -1,0 +1,26 @@
+# Database configuration for Docker development
+default: &default
+  encoding: utf8
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+  host: <%= ENV['DB_HOST'] %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+
+development:
+  <<: *default
+  adapter: <%= ENV.fetch('DB_ADAPTER', 'sqlite3') %>
+  database: <%= ENV.fetch('DB_NAME', 'db/development.sqlite3') %>
+
+test: &test
+  <<: *default
+  adapter: <%= ENV.fetch('DB_ADAPTER', 'sqlite3') %>
+  database: <%= ENV.fetch('DB_NAME', 'db/test.sqlite3') %>
+
+cucumber:
+  <<: *test
+
+production:
+  <<: *default
+  adapter: <%= ENV.fetch('DB_ADAPTER', 'sqlite3') %>
+  database: <%= ENV.fetch('DB_NAME', 'db/production.sqlite3') %>
